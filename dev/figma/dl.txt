@@ -1,4 +1,0 @@
-home|https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/d60dfece-d0f8-4a35-9886-3899c7c1b1dd
-installations|https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/1412c3ff-9e59-4db1-9cc4-50991c77aaea
-skins|https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/67bba5a7-adae-4e7f-af18-d0bc29d52e6f
-settings|https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/519bd95c-5fe4-4603-9a07-bf93ea00e0e4

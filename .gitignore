@@ -24,6 +24,15 @@ capture-log.txt
 mcp/
 *.log
 
-# ===== 素材（版权/体积，不入库） =====
+# ===== 内部文档 / 截图 / 素材（不进仓库） =====
 参考图/
 axolotl-src/
+assets/
+ui/assets/
+松光启动器*.md
+新界面预览-首页.png
+验收截图-live/
+dev/shots/
+dev/figma/
+dev/figma-2x.png
+dev/cap_*.py
