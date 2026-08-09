@@ -1,0 +1,52 @@
+name: Release
+
+# 打 tag（v1.0.1 格式）时触发：构建单文件 exe + 生成自更新 manifest，发布到 GitHub Releases。
+# 国内可再用对象存储/CDN 中转 manifest 与 exe。
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Publish (win-x64 single file)
+        run: dotnet publish dev/PineglowLauncher/Pineglow.Launcher.csproj -c Release -r win-x64 --self-contained /p:PublishSingleFile=true /p:EnableCompressionInSingleFile=true /p:DebugType=None /p:DebugSymbols=false /p:PublishDir=dist
+
+      - name: Rename exe + generate manifest
+        shell: pwsh
+        run: |
+          $exe = Get-ChildItem dist/*.exe | Select-Object -First 1
+          $final = "dist/Pineglow-Launcher-win-x64-single-file.exe"
+          Move-Item $exe.FullName $final -Force
+          $size = (Get-Item $final).Length
+          $hash = (Get-FileHash $final -Algorithm SHA256).Hash.ToLower()
+          $version = "${{ github.ref_name }}".Substring(1)
+          $dlUrl = "https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/Pineglow-Launcher-win-x64-single-file.exe"
+          $manifest = [ordered]@{
+            version   = $version
+            url       = $dlUrl
+            size      = $size
+            sha256    = $hash
+            notes     = "Pineglow Launcher $version"
+            mandatory = $false
+          }
+          ($manifest | ConvertTo-Json) | Set-Content -Path dist/manifest.json -Encoding utf8
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/Pineglow-Launcher-win-x64-single-file.exe
+            dist/manifest.json

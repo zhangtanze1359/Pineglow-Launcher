@@ -1,0 +1,143 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Pineglow.Launcher.App"
+             RequestedThemeVariant="Dark">
+  <!-- 松光启动器 Design Tokens（设计文档 §5.1-5.4）。双主题同构映射，禁止硬编码色值。 -->
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Dark">
+          <!-- 背景阶梯 -->
+          <SolidColorBrush x:Key="BgBase" Color="#0E1015" />
+          <SolidColorBrush x:Key="BgElevated" Color="#161A22" />
+          <SolidColorBrush x:Key="BgOverlay" Color="#1E242E" />
+          <SolidColorBrush x:Key="BgInset" Color="#0A0C10" />
+          <!-- 文本阶梯 -->
+          <SolidColorBrush x:Key="FgPrimary" Color="#F2F4F8" />
+          <SolidColorBrush x:Key="FgSecondary" Color="#9AA3B2" />
+          <SolidColorBrush x:Key="FgTertiary" Color="#5D6675" />
+          <SolidColorBrush x:Key="FgDisabled" Color="#4A5261" />
+          <!-- 边框/分隔 -->
+          <SolidColorBrush x:Key="Hairline" Color="#14FFFFFF" />
+          <SolidColorBrush x:Key="BorderStrong" Color="#24FFFFFF" />
+          <!-- 强调色系 -->
+          <SolidColorBrush x:Key="Accent" Color="#7C9CFF" />
+          <SolidColorBrush x:Key="AccentAlt" Color="#A78BFA" />
+          <SolidColorBrush x:Key="AccentHover" Color="#8FAEFF" />
+          <SolidColorBrush x:Key="AccentPressed" Color="#6A8CF5" />
+          <SolidColorBrush x:Key="AccentMuted" Opacity="0.35" Color="#7C9CFF" />
+          <SolidColorBrush x:Key="AccentTint" Opacity="0.10" Color="#7C9CFF" />
+          <SolidColorBrush x:Key="OnAccent" Color="#10131B" />
+          <!-- 语义色 -->
+          <SolidColorBrush x:Key="Success" Color="#4ADE80" />
+          <SolidColorBrush x:Key="Warn" Color="#FBBF24" />
+          <SolidColorBrush x:Key="Danger" Color="#F87171" />
+          <SolidColorBrush x:Key="Info" Color="#38BDF8" />
+          <SolidColorBrush x:Key="SuccessTint" Opacity="0.12" Color="#4ADE80" />
+          <SolidColorBrush x:Key="WarnTint" Opacity="0.12" Color="#FBBF24" />
+          <SolidColorBrush x:Key="DangerTint" Opacity="0.12" Color="#F87171" />
+          <SolidColorBrush x:Key="InfoTint" Opacity="0.12" Color="#38BDF8" />
+          <!-- 加载器/版本徽标色 -->
+          <SolidColorBrush x:Key="BadgeFabric" Color="#D4DCE8" />
+          <SolidColorBrush x:Key="BadgeForge" Color="#B8C0CC" />
+          <SolidColorBrush x:Key="BadgeNeoForge" Color="#F0A030" />
+          <SolidColorBrush x:Key="BadgeQuilt" Color="#E85D8A" />
+          <SolidColorBrush x:Key="BadgeOptiFine" Color="#8BC34A" />
+          <SolidColorBrush x:Key="BadgeVanilla" Color="#9AA3B2" />
+          <!-- 品牌渐变（全产品仅限 4 种） -->
+          <LinearGradientBrush x:Key="GradientBrand" StartPoint="0%,0%" EndPoint="100%,100%">
+            <GradientStop Offset="0" Color="#7C9CFF" />
+            <GradientStop Offset="1" Color="#A78BFA" />
+          </LinearGradientBrush>
+          <LinearGradientBrush x:Key="GradientBrandDeep" StartPoint="0%,0%" EndPoint="100%,100%">
+            <GradientStop Offset="0" Color="#5B7CF0" />
+            <GradientStop Offset="1" Color="#8B5CF6" />
+          </LinearGradientBrush>
+          <LinearGradientBrush x:Key="GradientCover" StartPoint="0%,100%" EndPoint="0%,0%">
+            <GradientStop Offset="0" Color="#0E1015" />
+            <GradientStop Offset="0.65" Color="#8C0E1015" />
+            <GradientStop Offset="1" Color="#000E1015" />
+          </LinearGradientBrush>
+          <RadialGradientBrush x:Key="GradientGlow">
+            <RadialGradientBrush.GradientStops>
+              <GradientStop Offset="0" Color="#737C9CFF" />
+              <GradientStop Offset="1" Color="#007C9CFF" />
+            </RadialGradientBrush.GradientStops>
+          </RadialGradientBrush>
+          <!-- 投影 -->
+          <BoxShadow x:Key="ShadowCard">0 8 24 0 #59000000</BoxShadow>
+          <BoxShadow x:Key="ShadowElevated">0 12 32 0 #73000000</BoxShadow>
+          <!-- 圆角 -->
+          <CornerRadius x:Key="RadiusCard">12</CornerRadius>
+          <CornerRadius x:Key="RadiusCardLg">16</CornerRadius>
+          <CornerRadius x:Key="RadiusButton">10</CornerRadius>
+          <CornerRadius x:Key="RadiusPill">999</CornerRadius>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="Light">
+          <SolidColorBrush x:Key="BgBase" Color="#F7F8FA" />
+          <SolidColorBrush x:Key="BgElevated" Color="#FFFFFF" />
+          <SolidColorBrush x:Key="BgOverlay" Color="#EDF0F5" />
+          <SolidColorBrush x:Key="BgInset" Color="#EFF1F5" />
+          <SolidColorBrush x:Key="FgPrimary" Color="#1A1D24" />
+          <SolidColorBrush x:Key="FgSecondary" Color="#5A6472" />
+          <SolidColorBrush x:Key="FgTertiary" Color="#98A1AE" />
+          <SolidColorBrush x:Key="FgDisabled" Color="#B4BBC6" />
+          <SolidColorBrush x:Key="Hairline" Color="#140F141C" />
+          <SolidColorBrush x:Key="BorderStrong" Color="#240F141C" />
+          <SolidColorBrush x:Key="Accent" Color="#4D6FE8" />
+          <SolidColorBrush x:Key="AccentAlt" Color="#7A5CE8" />
+          <SolidColorBrush x:Key="AccentHover" Color="#5B7BEE" />
+          <SolidColorBrush x:Key="AccentPressed" Color="#4062D9" />
+          <SolidColorBrush x:Key="AccentMuted" Opacity="0.35" Color="#4D6FE8" />
+          <SolidColorBrush x:Key="AccentTint" Opacity="0.10" Color="#4D6FE8" />
+          <SolidColorBrush x:Key="OnAccent" Color="#FFFFFF" />
+          <SolidColorBrush x:Key="Success" Color="#16A34A" />
+          <SolidColorBrush x:Key="Warn" Color="#B45309" />
+          <SolidColorBrush x:Key="Danger" Color="#DC2626" />
+          <SolidColorBrush x:Key="Info" Color="#0284C7" />
+          <SolidColorBrush x:Key="SuccessTint" Opacity="0.12" Color="#16A34A" />
+          <SolidColorBrush x:Key="WarnTint" Opacity="0.12" Color="#B45309" />
+          <SolidColorBrush x:Key="DangerTint" Opacity="0.12" Color="#DC2626" />
+          <SolidColorBrush x:Key="InfoTint" Opacity="0.12" Color="#0284C7" />
+          <SolidColorBrush x:Key="BadgeFabric" Color="#5A6472" />
+          <SolidColorBrush x:Key="BadgeForge" Color="#4A5568" />
+          <SolidColorBrush x:Key="BadgeNeoForge" Color="#C2741A" />
+          <SolidColorBrush x:Key="BadgeQuilt" Color="#C24270" />
+          <SolidColorBrush x:Key="BadgeOptiFine" Color="#5D9E2F" />
+          <SolidColorBrush x:Key="BadgeVanilla" Color="#8A93A0" />
+          <LinearGradientBrush x:Key="GradientBrand" StartPoint="0%,0%" EndPoint="100%,100%">
+            <GradientStop Offset="0" Color="#5B74E8" />
+            <GradientStop Offset="1" Color="#7A5CE8" />
+          </LinearGradientBrush>
+          <LinearGradientBrush x:Key="GradientBrandDeep" StartPoint="0%,0%" EndPoint="100%,100%">
+            <GradientStop Offset="0" Color="#4D6FE8" />
+            <GradientStop Offset="1" Color="#6A46E0" />
+          </LinearGradientBrush>
+          <LinearGradientBrush x:Key="GradientCover" StartPoint="0%,100%" EndPoint="0%,0%">
+            <GradientStop Offset="0" Color="#10141B" />
+            <GradientStop Offset="0.65" Color="#8C10141B" />
+            <GradientStop Offset="1" Color="#0010141B" />
+          </LinearGradientBrush>
+          <RadialGradientBrush x:Key="GradientGlow">
+            <RadialGradientBrush.GradientStops>
+              <GradientStop Offset="0" Color="#4D4D6FE8" />
+              <GradientStop Offset="1" Color="#004D6FE8" />
+            </RadialGradientBrush.GradientStops>
+          </RadialGradientBrush>
+          <BoxShadow x:Key="ShadowCard">0 8 24 0 #1A171C28</BoxShadow>
+          <BoxShadow x:Key="ShadowElevated">0 12 32 0 #24171C28</BoxShadow>
+          <CornerRadius x:Key="RadiusCard">12</CornerRadius>
+          <CornerRadius x:Key="RadiusCardLg">16</CornerRadius>
+          <CornerRadius x:Key="RadiusButton">10</CornerRadius>
+          <CornerRadius x:Key="RadiusPill">999</CornerRadius>
+        </ResourceDictionary>
+      </ResourceDictionary.ThemeDictionaries>
+    </ResourceDictionary>
+  </Application.Resources>
+
+  <Application.Styles>
+    <FluentTheme />
+    <StyleInclude Source="avares://Pineglow.Launcher/Themes/ControlStyles.axaml" />
+  </Application.Styles>
+</Application>

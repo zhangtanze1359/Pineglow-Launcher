@@ -1,0 +1,163 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!--
+    松光启动器控件交互态（设计文档 §5.7）
+    所有可交互元素显式定义 hover / pressed / focus / disabled / selected 五态。
+  -->
+
+  <!-- ============ 侧栏导航按钮（48px 图标栏） ============ -->
+  <Style Selector="Button.nav">
+    <Setter Property="Width" Value="40" />
+    <Setter Property="Height" Value="40" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{DynamicResource FgSecondary}" />
+    <Setter Property="CornerRadius" Value="10" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="Cursor" Value="Hand" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <BrushTransition Property="Background" Duration="0:0:0.12" />
+        <BrushTransition Property="Foreground" Duration="0:0:0.12" />
+      </Transitions>
+    </Setter>
+  </Style>
+  <Style Selector="Button.nav:pointerover">
+    <Setter Property="Background" Value="{DynamicResource AccentTint}" />
+    <Setter Property="Foreground" Value="{DynamicResource FgPrimary}" />
+  </Style>
+  <Style Selector="Button.nav:disabled">
+    <Setter Property="Foreground" Value="{DynamicResource FgDisabled}" />
+    <Setter Property="Cursor" Value="Arrow" />
+  </Style>
+  <Style Selector="Button.nav.selected">
+    <Setter Property="Background" Value="{DynamicResource AccentTint}" />
+    <Setter Property="Foreground" Value="{DynamicResource Accent}" />
+  </Style>
+  <Style Selector="Button.nav.selected:pointerover">
+    <Setter Property="Background" Value="{DynamicResource AccentTint}" />
+  </Style>
+  <Style Selector="Button.nav:focus-visible">
+    <Setter Property="BorderThickness" Value="2" />
+    <Setter Property="BorderBrush" Value="{DynamicResource Accent}" />
+  </Style>
+
+  <!-- ============ 主按钮（品牌渐变胶囊，如启动键） ============ -->
+  <Style Selector="Button.primary">
+    <Setter Property="Background" Value="{DynamicResource GradientBrand}" />
+    <Setter Property="Foreground" Value="{DynamicResource OnAccent}" />
+    <Setter Property="CornerRadius" Value="999" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="24,10" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="FontSize" Value="15" />
+    <Setter Property="Cursor" Value="Hand" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <BrushTransition Property="Background" Duration="0:0:0.12" />
+        <BrushTransition Property="Foreground" Duration="0:0:0.12" />
+        <DoubleTransition Property="Opacity" Duration="0:0:0.12" />
+      </Transitions>
+    </Setter>
+  </Style>
+  <Style Selector="Button.primary:pointerover">
+    <Setter Property="Opacity" Value="0.92" />
+  </Style>
+  <Style Selector="Button.primary:pressed">
+    <Setter Property="Opacity" Value="0.85" />
+    <Setter Property="RenderTransform" Value="scale(0.97)" />
+  </Style>
+  <Style Selector="Button.primary:disabled">
+    <Setter Property="Opacity" Value="0.45" />
+    <Setter Property="Cursor" Value="Arrow" />
+  </Style>
+  <Style Selector="Button.primary:focus-visible">
+    <Setter Property="BorderThickness" Value="2" />
+    <Setter Property="BorderBrush" Value="{DynamicResource FgPrimary}" />
+  </Style>
+
+  <!-- ============ 幽灵按钮（次级操作） ============ -->
+  <Style Selector="Button.ghost">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{DynamicResource FgSecondary}" />
+    <Setter Property="CornerRadius" Value="10" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="BorderBrush" Value="{DynamicResource Hairline}" />
+    <Setter Property="Padding" Value="16,8" />
+    <Setter Property="Cursor" Value="Hand" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <BrushTransition Property="Background" Duration="0:0:0.12" />
+        <BrushTransition Property="Foreground" Duration="0:0:0.12" />
+        <BrushTransition Property="BorderBrush" Duration="0:0:0.12" />
+      </Transitions>
+    </Setter>
+  </Style>
+  <Style Selector="Button.ghost:pointerover">
+    <Setter Property="Background" Value="{DynamicResource BgOverlay}" />
+    <Setter Property="Foreground" Value="{DynamicResource FgPrimary}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource BorderStrong}" />
+  </Style>
+  <Style Selector="Button.ghost:pressed">
+    <Setter Property="Background" Value="{DynamicResource BgOverlay}" />
+    <Setter Property="RenderTransform" Value="scale(0.98)" />
+  </Style>
+  <Style Selector="Button.ghost:disabled">
+    <Setter Property="Opacity" Value="0.45" />
+    <Setter Property="Cursor" Value="Arrow" />
+  </Style>
+
+  <!-- ============ 标题栏窗口控制按钮 ============ -->
+  <Style Selector="Button.titlebar">
+    <Setter Property="Width" Value="40" />
+    <Setter Property="Height" Value="32" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{DynamicResource FgSecondary}" />
+    <Setter Property="CornerRadius" Value="8" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="Cursor" Value="Hand" />
+  </Style>
+  <Style Selector="Button.titlebar:pointerover">
+    <Setter Property="Background" Value="{DynamicResource BgOverlay}" />
+    <Setter Property="Foreground" Value="{DynamicResource FgPrimary}" />
+  </Style>
+  <Style Selector="Button.titlebar.close:pointerover">
+    <Setter Property="Background" Value="#E81123" />
+    <Setter Property="Foreground" Value="#FFFFFF" />
+  </Style>
+
+  <!-- ============ 卡片（封面卡片 / 浮层） ============ -->
+  <Style Selector="Border.card">
+    <Setter Property="Background" Value="{DynamicResource BgElevated}" />
+    <Setter Property="CornerRadius" Value="{DynamicResource RadiusCard}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="BorderBrush" Value="{DynamicResource Hairline}" />
+    <Setter Property="BoxShadow" Value="{DynamicResource ShadowCard}" />
+  </Style>
+  <Style Selector="Border.card.hoverable">
+    <Setter Property="Cursor" Value="Hand" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <BrushTransition Property="Background" Duration="0:0:0.18" />
+        <BrushTransition Property="BorderBrush" Duration="0:0:0.18" />
+      </Transitions>
+    </Setter>
+  </Style>
+  <Style Selector="Border.card.hoverable:pointerover">
+    <Setter Property="Background" Value="{DynamicResource BgOverlay}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource BorderStrong}" />
+  </Style>
+
+  <!-- ============ 文本分级（默认即 FgPrimary） ============ -->
+  <Style Selector="TextBlock.secondary">
+    <Setter Property="Foreground" Value="{DynamicResource FgSecondary}" />
+  </Style>
+  <Style Selector="TextBlock.tertiary">
+    <Setter Property="Foreground" Value="{DynamicResource FgTertiary}" />
+  </Style>
+</Styles>

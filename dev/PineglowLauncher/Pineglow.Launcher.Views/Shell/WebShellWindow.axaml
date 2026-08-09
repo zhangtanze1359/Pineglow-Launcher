@@ -1,0 +1,17 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Pineglow.Launcher.Views.Shell.WebShellWindow"
+        Title="松光启动器"
+        Width="1280" Height="800" MinWidth="960" MinHeight="600"
+        WindowStartupLocation="CenterScreen"
+        WindowDecorations="None"
+        Background="#0E1015"
+        FontFamily="Inter, Microsoft YaHei UI, Segoe UI, Arial"
+        FontSize="14">
+  <Grid>
+    <NativeWebView x:Name="Web"
+                   Source="http://127.0.0.1:48123/"
+                   EnvironmentRequested="OnEnvironmentRequested"
+                   WebMessageReceived="OnWebMessageReceived" />
+  </Grid>
+</Window>

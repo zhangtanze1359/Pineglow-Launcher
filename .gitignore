@@ -1,0 +1,29 @@
+# ===== 构建产物 =====
+dev/PineglowLauncher/bin/
+dev/PineglowLauncher/obj/
+dev/PineglowLauncher/*.user
+*.suo
+
+# ===== 发布产物 =====
+*.exe
+!dev/PineglowLauncher/app.ico
+
+# ===== 历史备份（不进仓库） =====
+ui-备份-*/
+UI原型*.html
+UI鍘熷瀷.html
+dev/_删除备份/
+dev/_删除备份-20260809/
+图标概念示例.html
+
+# ===== 本地数据 / 工具 =====
+.workbuddy/
+capture_ui.py
+capture-ui.ps1
+capture-log.txt
+mcp/
+*.log
+
+# ===== 素材（版权/体积，不入库） =====
+参考图/
+axolotl-src/

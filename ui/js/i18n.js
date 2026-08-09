@@ -1,0 +1,494 @@
+/* ================================================================
+   松光启动器 · i18n 多语言模块
+   提供 SG.t(key, vars) 翻译 + SG.setLocale() 切换 + localStorage 持久化
+   默认跟随浏览器语言（zh-* → 中文，其余 → English）
+   ================================================================ */
+(function () {
+'use strict';
+window.SG = window.SG || {};
+
+/* ---------------- 词典 ---------------- */
+const DICT = {
+	zh: {
+		// 侧栏 / 导航
+		'nav.group.game': '游戏',
+		'nav.group.library': '资源库',
+		'nav.home': '开始游戏',
+		'nav.installations': '安装管理',
+		'nav.worlds': '世界',
+		'nav.servers': '服务器',
+		'nav.content': '内容中心',
+		'nav.skins': '皮肤',
+		'nav.downloads': '下载',
+		'nav.settings': '设置',
+		'sidebar.online': '在线',
+		'sidebar.offlineMode': '离线模式',
+		'sidebar.microsoft': '微软账户',
+		'sidebar.authlib': '外置登录',
+		'sidebar.realms': 'Realms 连接稳定',
+		'lang.toggle': 'EN',
+
+		// 视图标题
+		'view.home': '开始游戏',
+		'view.installations': '安装管理',
+		'view.worlds': '世界',
+		'view.servers': '服务器',
+		'view.content': '内容中心',
+		'view.skins': '皮肤',
+		'view.downloads': '下载',
+		'view.settings': '设置',
+
+		// 通用
+		'common.loading': '加载中…',
+		'common.loadFailed': '加载失败：',
+		'common.unknownError': '未知错误',
+		'common.cancel': '取消',
+		'common.confirm': '确定',
+		'common.close': '关闭',
+		'common.done': '完成',
+		'common.unknown': '未知',
+		'common.none': '—',
+
+		// Home / Play
+		'home.badge': '最新更新',
+		'home.bannerTitle': 'Tricky Trials (1.21) 已上线！',
+		'home.bannerDesc': '探索神秘的试炼密室，对抗微风幽灵，打造强力的重锤。',
+		'home.recentNews': '最新资讯',
+		'home.selectedVersion': '当前版本',
+		'home.play': '开始游戏',
+		'home.javaEdition': 'Java 版',
+		'home.instancesAvailable': '{n} 个实例可用',
+		'home.noInstances': '暂无实例',
+		'home.newsOpen': '打开资讯「{title}」（暂无后端资讯源）',
+		'news.community': '社区',
+		'news.update': '更新',
+		'news.merch': '周边',
+		'news.title1': 'Minecraft 大电影预告片发布',
+		'news.title2': '基岩版与 Java 版皮肤互通',
+		'news.title3': '全新周边上架：苦力怕系列',
+
+		// Installations
+		'inst.all': '全部版本',
+		'inst.modded': '模组版',
+		'inst.snapshots': '快照版',
+		'inst.new': '新建实例',
+		'inst.play': '启动',
+		'inst.neverPlayed': '从未游玩',
+		'inst.empty': '还没有实例，点击右上角"新建实例"创建。',
+		'inst.menuTitle': '{name}',
+		'inst.manageMods': '管理 Mod',
+		'inst.delete': '删除实例',
+		'inst.deleteConfirm': '删除实例「{name}」？此操作不可撤销。',
+		'inst.deleted': '实例已删除',
+		'inst.deleteFailed': '删除失败：',
+		'inst.createTitle': '新建实例',
+		'inst.nameLabel': '实例名称',
+		'inst.namePlaceholder': '我的新实例',
+		'inst.versionLabel': 'Minecraft 版本',
+		'inst.create': '创建',
+		'inst.nameRequired': '请填写实例名称',
+		'inst.creating': '正在创建实例「{name}」…',
+		'inst.created': '实例已创建',
+		'inst.createFailed': '创建失败：',
+		'inst.defaultLabel': '实例',
+
+		// Mod 管理
+		'mod.manageTitle': '管理 Mod · {name}',
+		'mod.empty': '该实例还没有安装 Mod。',
+		'mod.toggleHint': 'Mod 启用/禁用切换（写盘接入中）',
+
+		// Skins
+		'skin.currentActive': '当前使用的皮肤',
+		'skin.ofUser': '{name} 的皮肤',
+		'skin.default': '默认皮肤',
+		'skin.classicModel': '经典模型',
+		'skin.upload': '上传皮肤文件',
+		'skin.browse': '浏览资源库',
+		'skin.saved': '已保存皮肤（{n}）',
+		'skin.item': '皮肤',
+		'skin.emptyList': '当前账户没有已保存的皮肤。',
+		'skin.preview': '预览皮肤「{name}」',
+		'skin.fileChosen': '已选择皮肤文件「{name}」（上传接入中）',
+
+		// 账户类型
+		'acc.microsoft': '微软账户',
+		'acc.authlib': '外置登录账户',
+		'acc.offline': '离线账户',
+
+		// Settings
+		'set.javaSection': 'Java / 系统分配',
+		'set.memName': '内存分配',
+		'set.memDesc': '调整分配给 Minecraft 进程的内存上限，推荐默认 4GB。',
+		'set.autoMemName': '自动内存分配',
+		'set.autoMemDesc': '让启动器根据你的系统自动选择合适的内存大小。',
+		'set.javaPathName': 'Java 运行时路径',
+		'set.javaPathDesc': '使用内置 Java 运行环境或指定自定义路径。',
+		'set.javaAuto': '自动（检测到 {n} 个 JDK）',
+		'set.javaBundled': '使用内置 JRE（默认）',
+		'set.behaviorSection': '启动器行为',
+		'set.mirrorName': '使用下载镜像（国内加速）',
+		'set.mirrorDesc': '通过国内 BMCLAPI 镜像加速下载。',
+		'set.logsName': '运行日志',
+		'set.logsDesc': '日志按天落盘到 logs 目录，用于诊断问题。',
+		'set.openLogs': '打开日志目录',
+		'set.logsFailed': '打开日志目录失败：',
+		'set.updateSection': '更新',
+		'set.updateVersion': '当前版本',
+		'set.checkUpdate': '检查更新',
+		'set.upToDate': '已是最新版本',
+		'set.updateAvailable': '发现新版本 v{ver}',
+		'set.downloadUpdate': '下载更新',
+		'set.downloading': '正在下载更新… {pct}%',
+		'set.restartToApply': '立即重启更新',
+		'set.updateNotConfigured': '未配置更新源（config.json 的 updateUrl）',
+		'set.updateCheckFailed': '检查更新失败：',
+		'set.updateDownloaded': '更新包已下载',
+		'set.updateReady': '更新已启动，重启后生效。',
+		'set.accountSection': '账户',
+		'set.notLoggedIn': '未登录',
+		'set.uuidPrefix': 'UUID: ',
+		'set.offlineMode': '离线模式',
+		'set.clickAddAccount': '点击添加账户',
+		'set.addAccount': '添加账户',
+		'set.switch': '切换',
+		'set.jreNotFound': '未检测到已安装的 JDK，将使用内置 JRE',
+		'set.javaSwitched': '已切换 Java: {ver}',
+		'set.switchFailed': '切换失败：',
+		'set.onlyOneAccount': '当前只有一个账户',
+		'set.switchedTo': '已切换到账户「{name}」',
+		'set.addOfflineTitle': '添加离线账户',
+		'set.addOfflineDesc': '添加一个无需登录的离线账户；正版玩家请使用「Microsoft 登录」。',
+		'set.playerNameLabel': '玩家名称',
+		'set.add': '添加',
+		'set.playerNameRequired': '请填写玩家名称',
+		'set.accountAdded': '已添加账户「{name}」',
+		'set.addFailed': '添加失败：',
+		'set.microsoftLogin': 'Microsoft 登录',
+		'set.microsoftLoggingIn': '正在等待浏览器授权…',
+		'set.microsoftBrowserNote': '已打开浏览器，请完成 Microsoft 账户授权',
+		'set.microsoftSuccess': '微软账户登录成功',
+		'set.microsoftFailed': '微软登录失败：',
+
+		// Content
+		'content.mods': '模组',
+		'content.modpacks': '整合包',
+		'content.shaders': '光影',
+		'content.resourcepacks': '资源包',
+		'content.install': '安装',
+		'content.by': '作者：{author}',
+		'content.title': '内容中心',
+		'content.subtitle': '搜索并安装模组、整合包、光影与资源包',
+		'content.searchPlaceholder': '搜索内容…',
+		'content.empty': '没有找到匹配的内容，换个关键词试试。',
+		'content.emptyShort': '没有找到匹配的内容。',
+		'content.queued': '已加入下载队列（内容安装接入中）',
+
+		// Worlds
+		'worlds.title': '世界',
+		'worlds.subtitle': '你所有实例中的单人存档',
+		'worlds.unknownInstance': '未知实例',
+		'worlds.empty': '还没有存档，进入游戏创建一个世界吧。',
+		'worlds.openHint': '存档详情/打开文件夹接入中',
+
+		// Servers
+		'servers.title': '服务器',
+		'servers.subtitle': '你收藏的多人服务器',
+		'servers.add': '添加服务器',
+		'servers.offline': '离线',
+		'servers.empty': '还没有添加服务器，点击右上角添加。',
+		'servers.addTitle': '添加服务器',
+		'servers.nameLabel': '服务器名称',
+		'servers.namePlaceholder': '我的服务器',
+		'servers.hostLabel': '地址',
+		'servers.portLabel': '端口',
+		'servers.nameHostRequired': '请填写名称和地址',
+		'servers.added': '服务器已添加',
+		'servers.addFailed': '添加失败：',
+		'servers.deleteConfirm': '删除该服务器？',
+		'servers.deleted': '已删除',
+		'servers.deleteFailed': '删除失败：',
+		'servers.pinging': '正在 Ping…',
+		'servers.pingFailed': 'Ping 失败',
+
+		// Downloads
+		'dl.title': '下载',
+		'dl.subtitle': '下载 Minecraft 版本并查看进度',
+		'dl.release': '正式版',
+		'dl.snapshot': '快照',
+		'dl.all': '全部',
+		'dl.available': '可用版本',
+		'dl.tasks': '下载任务',
+		'dl.installed': '已安装',
+		'dl.download': '下载',
+		'dl.noVersions': '暂无可下载版本',
+		'dl.noTasks': '暂无下载任务',
+		'dl.queuing': '排队中…',
+		'dl.queued': '已加入下载：{id}',
+		'dl.downloadFailed': '下载失败：',
+
+		// 启动
+		'launch.selectFirst': '请先选择一个实例',
+		'launch.starting': '正在启动「{name}」…',
+		'launch.game': '游戏',
+		'launch.sent': '已发出启动指令',
+		'launch.failed': '启动失败',
+		'launch.failedPrefix': '启动失败：',
+	},
+	en: {
+		'nav.group.game': 'GAME',
+		'nav.group.library': 'LIBRARY',
+		'nav.home': 'Play',
+		'nav.installations': 'Installations',
+		'nav.worlds': 'Worlds',
+		'nav.servers': 'Servers',
+		'nav.content': 'Content',
+		'nav.skins': 'Skins',
+		'nav.downloads': 'Downloads',
+		'nav.settings': 'Settings',
+		'sidebar.online': 'Online',
+		'sidebar.offlineMode': 'Offline',
+		'sidebar.microsoft': 'Microsoft',
+		'sidebar.authlib': 'Authlib',
+		'sidebar.realms': 'Realms Connection Stable',
+		'lang.toggle': '中',
+
+		'view.home': 'Play',
+		'view.installations': 'Installations',
+		'view.worlds': 'Worlds',
+		'view.servers': 'Servers',
+		'view.content': 'Content',
+		'view.skins': 'Skins',
+		'view.downloads': 'Downloads',
+		'view.settings': 'Settings',
+
+		'common.loading': 'Loading…',
+		'common.loadFailed': 'Load failed: ',
+		'common.unknownError': 'Unknown error',
+		'common.cancel': 'Cancel',
+		'common.confirm': 'OK',
+		'common.close': 'Close',
+		'common.done': 'Done',
+		'common.unknown': 'Unknown',
+		'common.none': '—',
+
+		'home.badge': 'LATEST UPDATE',
+		'home.bannerTitle': 'Tricky Trials (1.21) Is Live!',
+		'home.bannerDesc': 'Explore mysterious Trial Chambers, battle the Breeze, and craft powerful maces.',
+		'home.recentNews': 'Recent News',
+		'home.selectedVersion': 'Selected Version',
+		'home.play': 'PLAY',
+		'home.javaEdition': 'Java Edition',
+		'home.instancesAvailable': '{n} instances available',
+		'home.noInstances': 'No instances',
+		'home.newsOpen': 'Open news "{title}" (no backend news source yet)',
+		'news.community': 'Community',
+		'news.update': 'Update',
+		'news.merch': 'Merchandise',
+		'news.title1': 'Minecraft Movie Teaser Released',
+		'news.title2': 'Bedrock & Java Unified Skins',
+		'news.title3': 'New Merch Drop: Creeps & Co',
+
+		'inst.all': 'All Versions',
+		'inst.modded': 'Modded',
+		'inst.snapshots': 'Snapshots',
+		'inst.new': 'New Installation',
+		'inst.play': 'Play',
+		'inst.neverPlayed': 'Never played',
+		'inst.empty': 'No instances yet. Click "New Installation" in the top right to create one.',
+		'inst.menuTitle': '{name}',
+		'inst.manageMods': 'Manage Mods',
+		'inst.delete': 'Delete Instance',
+		'inst.deleteConfirm': 'Delete instance "{name}"? This cannot be undone.',
+		'inst.deleted': 'Instance deleted',
+		'inst.deleteFailed': 'Delete failed: ',
+		'inst.createTitle': 'New Installation',
+		'inst.nameLabel': 'Instance Name',
+		'inst.namePlaceholder': 'My New Instance',
+		'inst.versionLabel': 'Minecraft Version',
+		'inst.create': 'Create',
+		'inst.nameRequired': 'Please enter an instance name',
+		'inst.creating': 'Creating instance "{name}"…',
+		'inst.created': 'Instance created',
+		'inst.createFailed': 'Create failed: ',
+		'inst.defaultLabel': 'Instance',
+
+		'mod.manageTitle': 'Manage Mods · {name}',
+		'mod.empty': 'This instance has no mods installed.',
+		'mod.toggleHint': 'Mod enable/disable toggle (disk write coming soon)',
+
+		'skin.currentActive': 'CURRENT ACTIVE SKIN',
+		'skin.ofUser': "{name}'s Skin",
+		'skin.default': 'Default Skin',
+		'skin.classicModel': 'Classic Model',
+		'skin.upload': 'Upload Skin File',
+		'skin.browse': 'Browse Library',
+		'skin.saved': 'SAVED SKINS ({n})',
+		'skin.item': 'Skin',
+		'skin.emptyList': 'This account has no saved skins.',
+		'skin.preview': 'Preview skin "{name}"',
+		'skin.fileChosen': 'Selected skin file "{name}" (upload coming soon)',
+
+		'acc.microsoft': 'Microsoft Account',
+		'acc.authlib': 'Authlib Account',
+		'acc.offline': 'Offline Account',
+
+		'set.javaSection': 'Java / System Allocation',
+		'set.memName': 'Memory Allocation',
+		'set.memDesc': 'Adjust the RAM limit for your Minecraft process. Default recommended is 4GB.',
+		'set.autoMemName': 'Auto Memory Allocation',
+		'set.autoMemDesc': 'Let the launcher pick a suitable RAM amount based on your system.',
+		'set.javaPathName': 'Java Runtime Path',
+		'set.javaPathDesc': 'Use internal bundled Java runtime environment or provide custom path.',
+		'set.javaAuto': 'Auto ({n} JDKs detected)',
+		'set.javaBundled': 'Use Bundled JRE (Default)',
+		'set.behaviorSection': 'Launcher Behavior',
+		'set.mirrorName': 'Use Download Mirror (China)',
+		'set.mirrorDesc': 'Speed up downloads through domestic BMCLAPI mirrors.',
+		'set.logsName': 'Runtime Logs',
+		'set.logsDesc': 'Logs are written daily to the logs folder for troubleshooting.',
+		'set.openLogs': 'Open Log Folder',
+		'set.logsFailed': 'Failed to open log folder: ',
+		'set.updateSection': 'Updates',
+		'set.updateVersion': 'Current Version',
+		'set.checkUpdate': 'Check for Updates',
+		'set.upToDate': 'Up to date',
+		'set.updateAvailable': 'Update available: v{ver}',
+		'set.downloadUpdate': 'Download Update',
+		'set.downloading': 'Downloading update… {pct}%',
+		'set.restartToApply': 'Restart to Apply',
+		'set.updateNotConfigured': 'Update source not configured (config.json updateUrl)',
+		'set.updateCheckFailed': 'Update check failed: ',
+		'set.updateDownloaded': 'Update downloaded',
+		'set.updateReady': 'Update started, takes effect after restart.',
+		'set.accountSection': 'Account',
+		'set.notLoggedIn': 'Not logged in',
+		'set.uuidPrefix': 'UUID: ',
+		'set.offlineMode': 'Offline mode',
+		'set.clickAddAccount': 'Click to add an account',
+		'set.addAccount': 'Add Account',
+		'set.switch': 'Switch',
+		'set.jreNotFound': 'No installed JDK detected, using bundled JRE',
+		'set.javaSwitched': 'Switched Java: {ver}',
+		'set.switchFailed': 'Switch failed: ',
+		'set.onlyOneAccount': 'Only one account available',
+		'set.switchedTo': 'Switched to account "{name}"',
+		'set.addOfflineTitle': 'Add Offline Account',
+		'set.addOfflineDesc': 'Add an offline account without login; premium players should use "Microsoft Login".',
+		'set.playerNameLabel': 'Player Name',
+		'set.add': 'Add',
+		'set.playerNameRequired': 'Please enter a player name',
+		'set.accountAdded': 'Account "{name}" added',
+		'set.addFailed': 'Add failed: ',
+		'set.microsoftLogin': 'Microsoft Login',
+		'set.microsoftLoggingIn': 'Waiting for browser authorization…',
+		'set.microsoftBrowserNote': 'Browser opened, please complete Microsoft authorization',
+		'set.microsoftSuccess': 'Microsoft account signed in',
+		'set.microsoftFailed': 'Microsoft login failed: ',
+
+		'content.mods': 'Mods',
+		'content.modpacks': 'Modpacks',
+		'content.shaders': 'Shaders',
+		'content.resourcepacks': 'Resource Packs',
+		'content.install': 'Install',
+		'content.by': 'by {author}',
+		'content.title': 'Content Library',
+		'content.subtitle': 'Search and install mods, modpacks, shaders and resource packs',
+		'content.searchPlaceholder': 'Search content…',
+		'content.empty': 'No matching content found. Try a different keyword.',
+		'content.emptyShort': 'No matching content found.',
+		'content.queued': 'Added to download queue (content install coming soon)',
+
+		'worlds.title': 'Worlds',
+		'worlds.subtitle': 'Single-player saves across all your instances',
+		'worlds.unknownInstance': 'Unknown instance',
+		'worlds.empty': 'No saves yet. Enter the game to create a world.',
+		'worlds.openHint': 'Save details / open folder coming soon',
+
+		'servers.title': 'Servers',
+		'servers.subtitle': 'Your favorite multiplayer servers',
+		'servers.add': 'Add Server',
+		'servers.offline': 'Offline',
+		'servers.empty': 'No servers added yet. Click the top right to add one.',
+		'servers.addTitle': 'Add Server',
+		'servers.nameLabel': 'Server Name',
+		'servers.namePlaceholder': 'My Server',
+		'servers.hostLabel': 'Address',
+		'servers.portLabel': 'Port',
+		'servers.nameHostRequired': 'Please enter name and address',
+		'servers.added': 'Server added',
+		'servers.addFailed': 'Add failed: ',
+		'servers.deleteConfirm': 'Delete this server?',
+		'servers.deleted': 'Deleted',
+		'servers.deleteFailed': 'Delete failed: ',
+		'servers.pinging': 'Pinging…',
+		'servers.pingFailed': 'Ping failed',
+
+		'dl.title': 'Downloads',
+		'dl.subtitle': 'Download Minecraft versions and track progress',
+		'dl.release': 'Release',
+		'dl.snapshot': 'Snapshot',
+		'dl.all': 'All',
+		'dl.available': 'Available Versions',
+		'dl.tasks': 'Download Tasks',
+		'dl.installed': 'Installed',
+		'dl.download': 'Download',
+		'dl.noVersions': 'No versions available',
+		'dl.noTasks': 'No download tasks',
+		'dl.queuing': 'Queuing…',
+		'dl.queued': 'Added to downloads: {id}',
+		'dl.downloadFailed': 'Download failed: ',
+
+		'launch.selectFirst': 'Please select an instance first',
+		'launch.starting': 'Launching "{name}"…',
+		'launch.game': 'Game',
+		'launch.sent': 'Launch command sent',
+		'launch.failed': 'Launch failed',
+		'launch.failedPrefix': 'Launch failed: ',
+	},
+};
+
+/* ---------------- 语言状态 ---------------- */
+function detectDefault() {
+	try {
+		const saved = localStorage.getItem('sg.locale');
+		if (saved === 'zh' || saved === 'en') return saved;
+	} catch (e) { /* ignore */ }
+	const nav = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+	return nav.startsWith('zh') ? 'zh' : 'en';
+}
+
+SG.locale = detectDefault();
+
+/* ---------------- 翻译函数 ---------------- */
+function t(key, vars) {
+	const table = DICT[SG.locale] || DICT.en;
+	let str = table[key];
+	if (str == null) str = (DICT.en[key] != null ? DICT.en[key] : key);
+	if (vars) {
+		str = str.replace(/\{(\w+)\}/g, (m, k) => (vars[k] != null ? String(vars[k]) : m));
+	}
+	return str;
+}
+SG.t = t;
+
+/* ---------------- 切换语言 ---------------- */
+SG.setLocale = function (loc) {
+	if (loc !== 'zh' && loc !== 'en') return;
+	SG.locale = loc;
+	try { localStorage.setItem('sg.locale', loc); } catch (e) { /* ignore */ }
+	document.documentElement.setAttribute('lang', loc === 'zh' ? 'zh-CN' : 'en');
+	// 通知监听方重渲染
+	if (typeof SG.onLocaleChange === 'function') SG.onLocaleChange(loc);
+};
+
+/* 填充带 data-i18n 属性的静态元素 */
+SG.applyStaticI18n = function (root) {
+	(root || document).querySelectorAll('[data-i18n]').forEach(el => {
+		el.textContent = t(el.getAttribute('data-i18n'));
+	});
+	(root || document).querySelectorAll('[data-i18n-ph]').forEach(el => {
+		el.setAttribute('placeholder', t(el.getAttribute('data-i18n-ph')));
+	});
+};
+
+})();
