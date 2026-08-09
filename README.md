@@ -33,8 +33,6 @@ Avalonia 壳(WebView2) ──加载──▶ ui/ 前端(HTML/CSS/JS)
         C# 服务层(LauncherService 等 67 个服务,SQLite 存储)
 ```
 
-详细见《松光启动器-纯WebUI架构说明.md》。
-
 ## 📄 许可证
 
 [GPL-3.0](./LICENSE)
