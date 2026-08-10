@@ -30,7 +30,8 @@ jobs:
           echo "version=$ver" >> $env:GITHUB_OUTPUT
 
       - name: Publish (win-x64 single file)
-        run: dotnet publish dev/PineglowLauncher/Pineglow.Launcher.csproj -c Release -r win-x64 --self-contained /p:PublishSingleFile=true /p:EnableCompressionInSingleFile=true /p:DebugType=None /p:DebugSymbols=false /p:PublishDir=dist /p:Version=${{ steps.version.outputs.version }}
+        # PublishDir 相对 csproj 解析；csproj 在 dev/PineglowLauncher/，上跳两级到仓库根
+        run: dotnet publish dev/PineglowLauncher/Pineglow.Launcher.csproj -c Release -r win-x64 --self-contained /p:PublishSingleFile=true /p:EnableCompressionInSingleFile=true /p:DebugType=None /p:DebugSymbols=false /p:PublishDir=../../dist /p:Version=${{ steps.version.outputs.version }}
 
       - name: Rename exe + generate manifest
         id: manifest
