@@ -508,6 +508,13 @@ SG.api = (() => {
 			const a = await this.getAccounts();
 			return { ok: true, account: acc, accounts: a.accounts };
 		},
+		async authlibLogin(serverUrl, userName, password) {
+			const res = await _post('/api/accounts/authlib', { serverUrl, userName, password });
+			if (!res || !res.ok) throw new Error((res && res.message) || '外置登录失败');
+			const acc = mapAccount(res.account, res.account.id);
+			const a = await this.getAccounts();
+			return { ok: true, account: acc, accounts: a.accounts };
+		},
 		async openLogDirectory() {
 			const res = await _post('/api/logs/open', {});
 			return { ok: !!res.ok, path: res.path || '' };
@@ -704,6 +711,13 @@ SG.api = (() => {
 			SG.mock.accounts.forEach(a => a.selected = false);
 			SG.mock.accounts.push(acc);
 			SG.mock.settings.accountMode = 'microsoft';
+			return this._mock({ ok: true, account: acc, accounts: SG.mock.accounts });
+		},
+		async authlibLogin(serverUrl, userName, password) {
+			const acc = { id: 'al-' + Date.now(), userName, type: 'authlib', selected: true, avatarBg: 'linear-gradient(135deg,#6d5ae0,#3b2d8f)', authServerUrl: serverUrl };
+			SG.mock.accounts.forEach(a => a.selected = false);
+			SG.mock.accounts.push(acc);
+			SG.mock.settings.accountMode = 'authlib';
 			return this._mock({ ok: true, account: acc, accounts: SG.mock.accounts });
 		},
 		async openLogDirectory() { return this._mock({ ok: true, path: '[logs 目录]' }); },

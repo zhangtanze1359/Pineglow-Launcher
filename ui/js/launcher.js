@@ -377,6 +377,7 @@ async function renderSettings() {
 					</div>
 					<div style="display:flex;gap:10px">
 						<button class="setting-btn" id="btnMsLogin">${esc(t('set.microsoftLogin'))}</button>
+						<button class="setting-btn" id="btnAuthlibLogin">${esc(t('set.authlibLogin'))}</button>
 						<button class="setting-btn" id="btnAddAccount">${esc(t('set.addAccount'))}</button>
 						<button class="btn-signout" id="btnSignOut">${esc(t('set.switch'))}</button>
 					</div>
@@ -1125,6 +1126,12 @@ function bindSkins(el) {
 }
 
 /* ---------------- Settings 页 ---------------- */
+// 外置登录皮肤站预设（LittleSkin 等，地址为 authlib-injector API 根）
+const AUTH_PRESETS = [
+	{ name: 'LittleSkin', url: 'https://littleskin.cn/api/yggdrasil', desc: '国内最大皮肤站' },
+	{ name: 'Blessing Skin', url: 'https://skin.prinzeugen.net/api/yggdrasil', desc: 'Blessing Skin 演示站' },
+	{ name: '自定地址', url: '', desc: '填写任意 authlib-injector 兼容地址' },
+];
 function sourceLabel(key) {
 	const names = { official: t('set.sourceOfficial'), bmclapi: 'BMCLAPI', mcbbs: t('set.sourceMcbbs') };
 	return names[key] || key || t('set.sourceOfficial');
@@ -1243,6 +1250,56 @@ function bindSettings(el) {
 			const b = document.getElementById('view-settings')?.querySelector('#btnMsLogin');
 			if (b) { b.disabled = false; b.textContent = t('set.microsoftLogin'); }
 		}
+	});
+	// 外置登录（皮肤站预设）
+	el.querySelector('#btnAuthlibLogin')?.addEventListener('click', () => {
+		const presetOptions = AUTH_PRESETS.map((p, i) =>
+			`<button class="auth-preset ${i === 0 ? 'active' : ''}" data-url="${esc(p.url)}" data-desc="${esc(p.desc)}">${esc(p.name)}<span class="auth-preset-desc">${esc(p.desc)}</span></button>`).join('');
+		openModal(`
+			<div class="modal-title">${esc(t('set.authlibTitle'))}</div>
+			<div class="page-sub">${esc(t('set.authlibDesc'))}</div>
+			<div class="auth-presets" id="authPresets">${presetOptions}</div>
+			<div class="modal-field">
+				<span class="modal-label">${esc(t('set.authServerLabel'))}</span>
+				<input class="modal-input" id="mAuthUrl" value="https://littleskin.cn" placeholder="https://example.com">
+			</div>
+			<div class="modal-field">
+				<span class="modal-label">${esc(t('set.authUserLabel'))}</span>
+				<input class="modal-input" id="mAuthUser" placeholder="用户名 / 邮箱">
+			</div>
+			<div class="modal-field">
+				<span class="modal-label">${esc(t('set.authPassLabel'))}</span>
+				<input class="modal-input" id="mAuthPass" type="password" placeholder="••••••••">
+			</div>
+			<div class="modal-actions">
+				<button class="modal-btn ghost" id="mCancel">${esc(t('common.cancel'))}</button>
+				<button class="modal-btn primary" id="mOk">${esc(t('set.add'))}</button>
+			</div>`);
+		document.getElementById('mCancel').onclick = closeModal;
+		const presetWrap = document.getElementById('authPresets');
+		if (presetWrap) {
+			presetWrap.querySelectorAll('.auth-preset').forEach(p => p.addEventListener('click', () => {
+				presetWrap.querySelectorAll('.auth-preset').forEach(x => x.classList.remove('active'));
+				p.classList.add('active');
+				document.getElementById('mAuthUrl').value = p.dataset.url;
+			}));
+		}
+		document.getElementById('mOk').onclick = async () => {
+			const serverUrl = document.getElementById('mAuthUrl').value.trim();
+			const userName = document.getElementById('mAuthUser').value.trim();
+			const password = document.getElementById('mAuthPass').value;
+			if (!serverUrl || !userName || !password) { toast(t('set.authFieldsRequired')); return; }
+			closeModal();
+			try {
+				await SG.api.authlibLogin(serverUrl, userName, password);
+				await loadAccounts(true);
+				invalidate('skins');
+				const v = document.getElementById('view-settings');
+				v.innerHTML = await renderSettings(); bindSettings(v);
+				refreshSidebarAccount();
+				toast(t('set.authlibSuccess', { name: userName }));
+			} catch (e) { toast(t('set.authlibFailed') + (e.message || t('common.unknownError'))); }
+		};
 	});
 	el.querySelector('#btnSignOut')?.addEventListener('click', () => {
 		if (ACCOUNTS.length <= 1) { toast(t('set.onlyOneAccount')); return; }

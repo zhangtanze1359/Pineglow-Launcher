@@ -391,6 +391,12 @@ public static class LocalApiService
 					await HandleMicrosoftLoginAsync(response);
 					return;
 				}
+
+				if (seg[2].Equals("authlib", StringComparison.OrdinalIgnoreCase))
+				{
+					await HandleAuthlibLoginAsync(request, response);
+					return;
+				}
 			}
 
 			if (seg.Length == 3 && seg[1].Equals("accounts", StringComparison.OrdinalIgnoreCase) && seg[2].Equals("skin", StringComparison.OrdinalIgnoreCase) && method == "POST")
@@ -1222,6 +1228,28 @@ public static class LocalApiService
 		{
 			await WriteJsonAsync(response, 500, new { ok = false, message = "微软登录失败：" + ex.Message });
 		}
+	}
+
+	private static async Task HandleAuthlibLoginAsync(HttpListenerRequest request, HttpListenerResponse response)
+	{
+		JsonDocument body = await ReadBodyAsync(request);
+		string serverUrl = JsonUtil.GetString(body.RootElement, "serverUrl")?.Trim() ?? string.Empty;
+		string userName = JsonUtil.GetString(body.RootElement, "userName")?.Trim() ?? string.Empty;
+		string password = JsonUtil.GetString(body.RootElement, "password") ?? string.Empty;
+		if (string.IsNullOrWhiteSpace(serverUrl) || string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(password))
+		{
+			throw new InvalidOperationException("请填写认证服务地址、账号和密码。");
+		}
+
+		using CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+		AuthlibInjectorService authService = new AuthlibInjectorService(ApiHttp);
+		AuthlibAccount authAccount = await authService.LoginAsync(serverUrl, userName, password, cts.Token);
+
+		AppConfig config = LoadConfig();
+		LauncherAccount account = AccountService.UpsertThirdParty(config, authAccount);
+		AccountService.Select(config, account.Id);
+		SaveConfig(config);
+		await WriteJsonAsync(response, 200, new { ok = true, account = BuildAccountSummary(account) });
 	}
 
 	private static void HandleOpenLogDirectory(HttpListenerResponse response)

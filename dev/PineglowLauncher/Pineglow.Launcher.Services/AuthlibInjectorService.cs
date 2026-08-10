@@ -10,7 +10,11 @@ namespace Pineglow.Launcher.Services;
 
 public sealed class AuthlibInjectorService(HttpClient http)
 {
-	private const string AgentDownloadUrl = "https://authlib-injector.yushi.moe/artifact/latest/authlib-injector.jar";
+	private static readonly string[] AgentMirrorUrls = new string[]
+	{
+		"https://authlib-injector.yushi.moe/artifact/53/authlib-injector-1.2.5.jar",
+		"https://bmclapi2.bangbang93.com/mirrors/authlib-injector/artifact/53/authlib-injector-1.2.5.jar",
+	};
 
 	public async Task<AuthlibAccount> LoginAsync(string serverUrl, string userName, string password, CancellationToken ct)
 	{
@@ -62,7 +66,7 @@ public sealed class AuthlibInjectorService(HttpClient http)
 		string temporary = output + ".part";
 		try
 		{
-			byte[] array = await http.GetByteArrayAsync("https://authlib-injector.yushi.moe/artifact/latest/authlib-injector.jar", ct);
+			byte[] array = await DownloadAgentAsync(ct);
 			if (array.Length <= 1024)
 			{
 				throw new InvalidOperationException("Authlib Injector 组件下载内容无效。");
@@ -78,6 +82,27 @@ public sealed class AuthlibInjectorService(HttpClient http)
 				File.Delete(temporary);
 			}
 		}
+	}
+
+	private async Task<byte[]> DownloadAgentAsync(CancellationToken ct)
+	{
+		Exception? lastError = null;
+		foreach (string url in AgentMirrorUrls)
+		{
+			try
+			{
+				byte[] array = await http.GetByteArrayAsync(url, ct);
+				if (array.Length > 1024)
+				{
+					return array;
+				}
+			}
+			catch (Exception ex) when (!(ex is OperationCanceledException))
+			{
+				lastError = ex;
+			}
+		}
+		throw new InvalidOperationException("无法下载 Authlib Injector 组件（所有镜像均失败）。" + (lastError?.Message ?? string.Empty), lastError);
 	}
 
 	private static string NormalizeServerUrl(string value)
