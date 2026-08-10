@@ -445,6 +445,23 @@ SG.api = (() => {
 			await _post('/api/config', { useMirror: enabled });
 			return { ok: true };
 		},
+		async getSources() {
+			const data = await _req('/api/sources');
+			return {
+				selected: data.selected || 'official',
+				sources: (data.sources || []).map(s => ({
+					key: s.key,
+					name: s.name || s.key,
+					baseUrl: s.baseUrl || '',
+					latencyMs: s.latencyMs,
+					available: !!s.available,
+				})),
+			};
+		},
+		async selectSource(key) {
+			const res = await _post('/api/sources/select', { key });
+			return { ok: !!res.ok, selected: res.selected || '', useMirror: !!res.useMirror };
+		},
 		async getRemoteVersions() {
 			const data = await _req('/api/versions');
 			try {
@@ -627,6 +644,22 @@ SG.api = (() => {
 		async setMirror(enabled) {
 			SG.mock.settings.useMirror = enabled;
 			return this._mock({ ok: true });
+		},
+		async getSources() {
+			const lat = { official: 35, bmclapi: 42, mcbbs: 51 };
+			return this._mock({
+				selected: SG.mock.settings.downloadSource || 'official',
+				sources: [
+					{ key: 'official', name: '官方源', baseUrl: 'https://piston-meta.mojang.com', latencyMs: lat.official, available: true },
+					{ key: 'bmclapi', name: 'BMCLAPI', baseUrl: 'https://bmclapi2.bangbang93.com', latencyMs: lat.bmclapi, available: true },
+					{ key: 'mcbbs', name: 'MCBBS 镜像', baseUrl: 'https://download.mcbbs.net', latencyMs: lat.mcbbs, available: true },
+				],
+			});
+		},
+		async selectSource(key) {
+			SG.mock.settings.downloadSource = key;
+			SG.mock.settings.useMirror = key !== 'official';
+			return this._mock({ ok: true, selected: key, useMirror: key !== 'official' });
 		},
 		async getRemoteVersions() {
 			const installed = SG.mock.localVersions || [];

@@ -497,6 +497,18 @@ public static class LocalApiService
 				return;
 			}
 
+			if (seg.Length == 2 && seg[1].Equals("sources", StringComparison.OrdinalIgnoreCase) && method == "GET")
+			{
+				await HandleListSourcesAsync(response);
+				return;
+			}
+
+			if (seg.Length == 3 && seg[1].Equals("sources", StringComparison.OrdinalIgnoreCase) && seg[2].Equals("select", StringComparison.OrdinalIgnoreCase) && method == "POST")
+			{
+				await HandleSelectSourceAsync(request, response);
+				return;
+			}
+
 			if (seg.Length == 2 && seg[1].Equals("servers", StringComparison.OrdinalIgnoreCase))
 			{
 				if (method == "GET")
@@ -548,7 +560,9 @@ public static class LocalApiService
 	{
 		lock (ConfigGate)
 		{
-			return ConfigStore.LoadAsync().GetAwaiter().GetResult();
+			AppConfig config = ConfigStore.LoadAsync().GetAwaiter().GetResult();
+			MirrorHelper.SelectedKey = string.IsNullOrWhiteSpace(config.DownloadSource) ? "official" : config.DownloadSource;
+			return config;
 		}
 	}
 
@@ -556,7 +570,7 @@ public static class LocalApiService
 	{
 		lock (ConfigGate)
 		{
-			MirrorHelper.Enabled = config.UseMirror;
+			MirrorHelper.SelectedKey = string.IsNullOrWhiteSpace(config.DownloadSource) ? "official" : config.DownloadSource;
 			ConfigStore.SaveAsync(config).GetAwaiter().GetResult();
 		}
 	}
@@ -600,6 +614,7 @@ public static class LocalApiService
 				config.ServerHost,
 				config.ServerPort,
 				config.UseMirror,
+				downloadSource = string.IsNullOrWhiteSpace(config.DownloadSource) ? "official" : config.DownloadSource,
 				config.SelectedVersion,
 				curseForgeApiKeyConfigured = !string.IsNullOrEmpty(config.CurseForgeApiKey),
 				config.SelectedInstanceId,
@@ -1963,6 +1978,45 @@ public static class LocalApiService
 			config.JavaPath,
 			installations = installations.Select(j => new { j.JavaPath, j.VersionMajor, j.VersionText, j.Vendor, j.IsValid })
 		});
+	}
+
+	private static async Task HandleListSourcesAsync(HttpListenerResponse response)
+	{
+		AppConfig config = LoadConfig();
+		IReadOnlyList<DownloadSourceInfo> sources = MirrorHelper.ListSources();
+		using CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+		// 并行测速（官方源也测，便于对比）
+		foreach (DownloadSourceInfo s in sources)
+		{
+			s.LatencyMs = await MirrorHelper.MeasureLatencyAsync(ApiHttp, s.BaseUrl, cts.Token);
+		}
+
+		await WriteJsonAsync(response, 200, new
+		{
+			selected = MirrorHelper.SelectedKey,
+			sources = sources.Select(s => new
+			{
+				key = s.Key,
+				name = s.Name,
+				baseUrl = s.BaseUrl,
+				latencyMs = s.LatencyMs,
+				available = s.LatencyMs >= 0,
+			})
+		});
+	}
+
+	private static async Task HandleSelectSourceAsync(HttpListenerRequest request, HttpListenerResponse response)
+	{
+		JsonDocument body = await ReadBodyAsync(request);
+		string key = JsonUtil.GetString(body.RootElement, "key")?.Trim() ?? string.Empty;
+		DownloadSourceInfo source = MirrorHelper.ListSources().FirstOrDefault(s => s.Key.Equals(key, StringComparison.OrdinalIgnoreCase))
+			?? throw new InvalidOperationException("未知下载源：" + key);
+
+		AppConfig config = LoadConfig();
+		config.DownloadSource = source.Key;
+		config.UseMirror = !source.Key.Equals("official", StringComparison.OrdinalIgnoreCase);
+		SaveConfig(config);
+		await WriteJsonAsync(response, 200, new { ok = true, selected = source.Key, useMirror = config.UseMirror });
 	}
 
 	private static async Task HandleListServersAsync(HttpListenerResponse response)

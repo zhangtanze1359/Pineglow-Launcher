@@ -293,6 +293,7 @@ async function renderSettings() {
 	const pct = ((gb - MIN) / (MAX - MIN)) * 100;
 	const autoMem = !!cfg.useAutoMemory;
 	const useMirror = !!cfg.useMirror;
+	const dlSource = cfg.downloadSource || 'official';
 
 	const currentJava = java.find(j => j.path === cfg.javaPath);
 	const javaLabel = cfg.javaPath
@@ -345,10 +346,12 @@ async function renderSettings() {
 			<div class="section-content">
 				<div class="setting-row">
 					<div class="setting-info">
-						<span class="setting-name">${esc(t('set.mirrorName'))}</span>
-						<span class="setting-desc">${esc(t('set.mirrorDesc'))}</span>
+						<span class="setting-name">${esc(t('set.sourceName'))}</span>
+						<span class="setting-desc">${esc(t('set.sourceDesc'))}</span>
 					</div>
-					<button class="toggle ${useMirror ? 'on' : ''}" data-toggle="mirror" role="switch" aria-checked="${useMirror}"></button>
+					<div class="source-select" id="sourceSelect">
+						<button class="setting-btn" id="btnSourceChange">${esc(t('set.sourceCurrent', { name: sourceLabel(dlSource) }))}</button>
+					</div>
 				</div>
 				<div class="setting-divider"></div>
 				<div class="setting-row">
@@ -1109,6 +1112,10 @@ function bindSkins(el) {
 }
 
 /* ---------------- Settings 页 ---------------- */
+function sourceLabel(key) {
+	const names = { official: t('set.sourceOfficial'), bmclapi: 'BMCLAPI', mcbbs: t('set.sourceMcbbs') };
+	return names[key] || key || t('set.sourceOfficial');
+}
 function bindSettings(el) {
 	// 内存滑块（2–16 GB）→ 真实写入 maxMemoryMb
 	const slider = el.querySelector('#memSlider');
@@ -1146,10 +1153,47 @@ function bindSettings(el) {
 				const s = el.querySelector('#memSlider');
 				if (s) { s.style.opacity = on ? '.4' : ''; s.style.pointerEvents = on ? 'none' : ''; }
 				invalidate('home');
-			} else if (key === 'mirror') {
-				SG.api.setMirror(on).catch(() => {});
 			}
 		});
+	});
+	// 下载源选择
+	el.querySelector('#btnSourceChange')?.addEventListener('click', async () => {
+		let sources = [];
+		try { sources = (await SG.api.getSources()).sources || []; } catch (e) { sources = []; }
+		const rows = sources.length ? sources.map(s => {
+			const lat = s.available ? (s.latencyMs >= 0 ? Math.round(s.latencyMs) + ' ms' : '—') : '不可用';
+			return `<button class="source-option" data-source="${esc(s.key)}">
+				<span class="source-name">${esc(sourceLabel(s.key))}</span>
+				<span class="source-lat">${esc(lat)}</span>
+				${s.key === dlSource ? '<span class="source-check">✓</span>' : ''}
+			</button>`;
+		}).join('') : `<div style="padding:12px;color:var(--muted,#8b91a1);font-size:12px">${esc(t('set.sourceLoadFailed'))}</div>`;
+		openModal(`
+			<div class="modal-title">${esc(t('set.sourceName'))}</div>
+			<div class="source-list">${rows}</div>
+			<div class="modal-actions"><button class="modal-btn" id="scClose">${esc(t('common.close'))}</button></div>
+		`);
+		document.getElementById('scClose').onclick = closeModal;
+		const modal = document.querySelector('.modal');
+		const sourceEls = modal ? modal.querySelectorAll('.source-option') : document.querySelectorAll('.source-option');
+		sourceEls.forEach(opt => opt.addEventListener('click', async () => {
+			const key = opt.dataset.source;
+			if (!key) return;
+			try {
+				const res = await SG.api.selectSource(key);
+				if (res.ok) {
+					STATE.config.downloadSource = res.selected;
+					STATE.config.useMirror = !!res.useMirror;
+					toast(t('set.sourceSwitched', { name: sourceLabel(key) }));
+					closeModal();
+					invalidate('settings');
+					const v = document.getElementById('view-settings');
+					v.innerHTML = await renderSettings(); bindSettings(v);
+				}
+			} catch (err) {
+				toast(t('set.sourceSwitchFailed') + (err.message || t('common.unknownError')));
+			}
+		}));
 	});
 	el.querySelector('#btnJrePath')?.addEventListener('click', () => {
 		const java = STATE.java || [];

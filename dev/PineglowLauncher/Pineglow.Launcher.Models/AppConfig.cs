@@ -65,6 +65,9 @@ public sealed class AppConfig
 
 	public bool UseMirror { get; set; }
 
+	/// <summary>下载源：official / bmclapi / mcbbs</summary>
+	public string DownloadSource { get; set; } = "official";
+
 	/// <summary>自更新 manifest 地址；留空表示不检查更新。</summary>
 	public string UpdateUrl { get; set; } = string.Empty;
 }
