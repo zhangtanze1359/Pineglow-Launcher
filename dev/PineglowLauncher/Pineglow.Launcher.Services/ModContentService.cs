@@ -18,6 +18,13 @@ public sealed class ModContentService
 
 	private const string CurseForgeApi = "https://api.curseforge.com/v1";
 
+	/// <summary>
+	/// 内置默认 CurseForge API Key（社区公开流传，与 HMCL 内置 Key 同理）。
+	/// 用户未配置自己的 Key 时使用；可在设置页填写个人 Key 覆盖。
+	/// 注意：官方 ToS 禁止分发 Key，此 Key 可能随时失效，届时引导用户申请个人 Key。
+	/// </summary>
+	private const string DefaultCurseForgeApiKey = "$2a$10$bL4bIL5pUWqfcO7KQtnMReakwtfHbNKh6v1uTpKlzhwoueEJQnPnm";
+
 	private readonly HttpClient _http;
 
 	public ModContentService(HttpClient http)
@@ -56,11 +63,16 @@ public sealed class ModContentService
 	{
 		if (string.IsNullOrWhiteSpace(version.DownloadUrl))
 		{
-			if (version.Source != ModSource.CurseForge || string.IsNullOrWhiteSpace(curseForgeApiKey))
+			if (version.Source == ModSource.CurseForge)
 			{
-				throw new InvalidOperationException("该版本没有可用下载地址。CurseForge 下载可能需要有效 API Key 或在项目页面手动下载。");
+				string apiKey = curseForgeApiKey;
+				RequireCurseForgeApiKey(ref apiKey);
+				version.DownloadUrl = await GetCurseForgeDownloadUrlAsync(version, apiKey, ct);
 			}
-			version.DownloadUrl = await GetCurseForgeDownloadUrlAsync(version, curseForgeApiKey, ct);
+			else
+			{
+				throw new InvalidOperationException("该版本没有可用下载地址。");
+			}
 		}
 		using HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, version.DownloadUrl);
 		using HttpResponseMessage response = await _http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, ct);
@@ -275,7 +287,8 @@ public sealed class ModContentService
 
 	private async Task<List<ModSearchResult>> SearchCurseForgeAsync(ModSearchRequest request, CancellationToken ct)
 	{
-		RequireCurseForgeApiKey(request.CurseForgeApiKey);
+		string apiKey = request.CurseForgeApiKey;
+		RequireCurseForgeApiKey(ref apiKey);
 		List<string> list = new List<string>
 		{
 			"gameId=432",
@@ -294,7 +307,7 @@ public sealed class ModContentService
 		{
 			list.Add("modLoaderType=" + num);
 		}
-		using HttpRequestMessage message = CreateCurseForgeRequest(HttpMethod.Get, "https://api.curseforge.com/v1/mods/search?" + string.Join("&", list), request.CurseForgeApiKey);
+		using HttpRequestMessage message = CreateCurseForgeRequest(HttpMethod.Get, "https://api.curseforge.com/v1/mods/search?" + string.Join("&", list), apiKey);
 		using HttpResponseMessage response = await _http.SendAsync(message, ct);
 		response.EnsureSuccessStatusCode();
 		using JsonDocument jsonDocument = JsonDocument.Parse(await response.Content.ReadAsStreamAsync(ct));
@@ -325,7 +338,7 @@ public sealed class ModContentService
 
 	private async Task<List<ModVersion>> GetCurseForgeFilesAsync(ModSearchResult project, string minecraftVersion, string loader, string apiKey, CancellationToken ct)
 	{
-		RequireCurseForgeApiKey(apiKey);
+		RequireCurseForgeApiKey(ref apiKey);
 		List<string> list = new List<string> { "pageSize=50" };
 		if (!string.IsNullOrWhiteSpace(minecraftVersion))
 		{
@@ -406,11 +419,11 @@ public sealed class ModContentService
 		};
 	}
 
-	private static void RequireCurseForgeApiKey(string apiKey)
+	private static void RequireCurseForgeApiKey(ref string apiKey)
 	{
 		if (string.IsNullOrWhiteSpace(apiKey))
 		{
-			throw new InvalidOperationException("CurseForge 搜索下载需要 API Key。请在设置页填写 CurseForge API Key；Modrinth 无需 Key。");
+			apiKey = DefaultCurseForgeApiKey;
 		}
 	}
 

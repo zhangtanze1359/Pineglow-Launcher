@@ -211,10 +211,6 @@ public sealed class InstancePackService
 			}
 		}
 		progress($"识别整合包：{text}，Minecraft {minecraftVersion}，{ModLoaderInfo.DisplayName(loaderKind)} {loaderVersion}，{mods.Count} 个 Mod");
-		if (mods.Count > 0 && string.IsNullOrWhiteSpace(curseForgeApiKey))
-		{
-			throw new InvalidOperationException("导入 CurseForge 整合包需要 API Key，请先在设置页填写。");
-		}
 		new MinecraftDownloader(_http, _log);
 		MemoryRecommendation memoryRecommendation = MemoryAllocationService.Recommend(minecraftVersion, ModLoaderInfo.DisplayName(loaderKind), mods.Count);
 		GameInstance instance = new GameInstance

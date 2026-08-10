@@ -54,6 +54,7 @@ public static class LocalApiService
 		public string Category;      // mod / modpack / shader / resourcepack
 		public string ProjectId;
 		public string InstanceId;    // 安装目标实例（modpack 创建新实例，忽略此字段）
+		public string Source = "modrinth"; // modrinth / curseforge
 		public string Title = string.Empty;
 		public string Status;        // queued / running / completed / failed
 		public double Progress;
@@ -1650,6 +1651,7 @@ public static class LocalApiService
 		string category = request.QueryString["category"] ?? "mod";
 		string gameVersion = request.QueryString["gameVersion"] ?? string.Empty;
 		string loader = request.QueryString["loader"] ?? string.Empty;
+		string source = request.QueryString["source"] ?? "modrinth";
 		if (string.IsNullOrWhiteSpace(query))
 		{
 			await WriteJsonAsync(response, 200, new { results = new object[0] });
@@ -1657,6 +1659,7 @@ public static class LocalApiService
 		}
 
 		using CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(20));
+		AppConfig config = LoadConfig();
 		try
 		{
 			switch (category.ToLowerInvariant())
@@ -1709,11 +1712,12 @@ public static class LocalApiService
 				{
 					ModSearchRequest req = new ModSearchRequest
 					{
-						Source = ModSource.Modrinth,
+						Source = source.Equals("curseforge", StringComparison.OrdinalIgnoreCase) ? ModSource.CurseForge : ModSource.Modrinth,
 						Query = query,
 						MinecraftVersion = gameVersion,
 						Loader = loader,
-						Limit = 24
+						Limit = 24,
+						CurseForgeApiKey = config?.CurseForgeApiKey ?? string.Empty
 					};
 					List<ModSearchResult> results = await new ModContentService(ApiHttp).SearchAsync(req, cts.Token);
 					await WriteJsonAsync(response, 200, new
@@ -1748,6 +1752,7 @@ public static class LocalApiService
 		string category = (JsonUtil.GetString(body.RootElement, "category") ?? "mod").Trim().ToLowerInvariant();
 		string projectId = JsonUtil.GetString(body.RootElement, "projectId")?.Trim() ?? string.Empty;
 		string instanceId = JsonUtil.GetString(body.RootElement, "instanceId")?.Trim() ?? string.Empty;
+		string source = (JsonUtil.GetString(body.RootElement, "source") ?? "modrinth").Trim().ToLowerInvariant();
 		if (string.IsNullOrWhiteSpace(projectId))
 		{
 			throw new InvalidOperationException("projectId 不能为空");
@@ -1775,6 +1780,7 @@ public static class LocalApiService
 			Category = category,
 			ProjectId = projectId,
 			InstanceId = instanceId,
+			Source = source,
 			Status = "queued",
 			Message = "排队中",
 			StartedAt = DateTimeOffset.Now
@@ -1879,13 +1885,14 @@ public static class LocalApiService
 		GameInstance instance = RequireInstance(config, entry.InstanceId);
 		string gameDir = ResolveGameDirectory(config, instance);
 		ModContentService content = new ModContentService(ApiHttp);
+		ModSource sourceKind = entry.Source.Equals("curseforge", StringComparison.OrdinalIgnoreCase) ? ModSource.CurseForge : ModSource.Modrinth;
 		ModSearchResult project = new ModSearchResult
 		{
-			Source = ModSource.Modrinth,
+			Source = sourceKind,
 			ProjectId = entry.ProjectId
 		};
 		UpdateContentTask(entry, "正在获取版本信息", 0.1);
-		List<ModVersion> versions = await content.GetVersionsAsync(project, instance.MinecraftVersion, instance.LoaderType);
+		List<ModVersion> versions = await content.GetVersionsAsync(project, instance.MinecraftVersion, instance.LoaderType, config.CurseForgeApiKey ?? string.Empty);
 		ModVersion version = versions.FirstOrDefault(v => v.ReleaseType.Equals("release", StringComparison.OrdinalIgnoreCase)) ?? versions.FirstOrDefault();
 		if (version == null)
 		{

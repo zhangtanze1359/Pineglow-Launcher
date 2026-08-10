@@ -369,7 +369,7 @@ SG.api = (() => {
 			// 后端对空 query 返回空列表；首屏用分类默认热词兜底，保证进页即有内容（与 mock 一致）
 			const DEFAULT_QUERY = { mod: 'sodium', modpack: 'fabulously', shader: 'shaders', resourcepack: 'faithful' };
 			const q = (query && query.trim()) ? query.trim() : (DEFAULT_QUERY[cat] || 'sodium');
-			const params = new URLSearchParams({ q, category: cat });
+			const params = new URLSearchParams({ q, category: cat, source: contentSource || 'modrinth' });
 			const data = await _req('/api/content/search?' + params.toString());
 			return (data.results || []).map(mapContent);
 		},
@@ -414,6 +414,7 @@ SG.api = (() => {
 				category: data.category || 'mod',
 				projectId: data.projectId,
 				instanceId: data.instanceId || '',
+				source: data.source || 'modrinth',
 			});
 			return { ok: !!res.ok, id: res.id || '', status: res.status || 'queued' };
 		},
@@ -584,8 +585,7 @@ SG.api = (() => {
 			if (category && category !== 'all') list = list.filter(c => c.category === category);
 			if (query) { const q = query.toLowerCase(); list = list.filter(c => c.title.toLowerCase().includes(q) || c.desc.toLowerCase().includes(q) || c.author.toLowerCase().includes(q)); }
 			return this._mock(list);
-		},
-		async getAccounts() { return this._mock({ accounts: SG.mock.accounts, capes: SG.mock.capes }); },
+		},		async getAccounts() { return this._mock({ accounts: SG.mock.accounts, capes: SG.mock.capes }); },
 		async getJava() { return this._mock(SG.mock.java); },
 		async getVersions() { return this._mock({ local: SG.mock.localVersions, remote: SG.mock.remoteVersions }); },
 		async getMods(instanceId) { return this._mock(SG.mock.mods[instanceId] || []); },

@@ -498,6 +498,7 @@ const CONTENT_CATS = [
 ];
 let contentCat = 'mod';
 let contentQuery = '';
+let contentSource = 'modrinth'; // modrinth / curseforge（仅 mod 类生效）
 
 function contentCardHtml(c) {
 	const iconInner = (c.iconUrl && c.iconUrl.startsWith('http'))
@@ -542,7 +543,13 @@ async function renderContent() {
 				<input type="text" id="contentSearch" placeholder="${esc(t('content.searchPlaceholder'))}" value="${esc(contentQuery)}">
 			</div>
 		</div>
-		<div class="content-tabs">${tabs}</div>
+		<div class="content-tabs">
+			${tabs}
+			<div class="content-source-switch" id="contentSourceSwitch">
+				<button class="filter source-btn ${contentSource === 'modrinth' ? 'active' : ''}" data-source="modrinth">Modrinth</button>
+				<button class="filter source-btn ${contentSource === 'curseforge' ? 'active' : ''}" data-source="curseforge">CurseForge</button>
+			</div>
+		</div>
 		<div class="content-grid" id="contentGrid">${grid}</div>
 	</div>`;
 }
@@ -562,6 +569,12 @@ function bindContent(el) {
 		contentCat = b.dataset.cat;
 		rerenderGrid();
 	}));
+	el.querySelectorAll('[data-source]').forEach(b => b.addEventListener('click', () => {
+		el.querySelectorAll('[data-source]').forEach(x => x.classList.remove('active'));
+		b.classList.add('active');
+		contentSource = b.dataset.source;
+		rerenderGrid();
+	}));
 	const search = el.querySelector('#contentSearch');
 	if (search) {
 		let debTimer;
@@ -579,7 +592,7 @@ function bindContentInstalls(el) {
 		b.disabled = true;
 		b.textContent = t('content.installing');
 		try {
-			const res = await SG.api.installContent({ category, projectId, instanceId: selectedInstanceId });
+			const res = await SG.api.installContent({ category, projectId, instanceId: selectedInstanceId, source: contentSource });
 			toast(t('content.queued', { id: res.id }));
 			// 轮询任务直至完成（live 模式下有真实进度；mock 立即 completed）
 			const poll = async () => {
