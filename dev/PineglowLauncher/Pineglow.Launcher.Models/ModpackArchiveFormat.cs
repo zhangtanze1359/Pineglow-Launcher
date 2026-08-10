@@ -4,5 +4,6 @@ public enum ModpackArchiveFormat
 {
 	Unknown,
 	Modrinth,
-	CurseForge
+	CurseForge,
+	Mcm
 }

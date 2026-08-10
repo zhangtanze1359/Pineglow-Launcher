@@ -266,6 +266,12 @@ public static class LocalApiService
 				return;
 			}
 
+			if (seg.Length == 3 && seg[1].Equals("instances", StringComparison.OrdinalIgnoreCase) && seg[2].Equals("import", StringComparison.OrdinalIgnoreCase) && method == "POST")
+			{
+				await HandleImportInstanceAsync(request, response);
+				return;
+			}
+
 			if (seg.Length >= 4 && seg[1].Equals("instances", StringComparison.OrdinalIgnoreCase))
 			{
 				string instanceId = seg[2];
@@ -279,6 +285,12 @@ public static class LocalApiService
 				if (action.Equals("launch", StringComparison.OrdinalIgnoreCase) && method == "POST")
 				{
 					await HandleLaunchAsync(response, instanceId);
+					return;
+				}
+
+				if (action.Equals("prelaunch-check", StringComparison.OrdinalIgnoreCase) && method == "GET")
+				{
+					await HandlePrelaunchCheckAsync(response, instanceId);
 					return;
 				}
 
@@ -750,6 +762,156 @@ public static class LocalApiService
 
 		SaveConfig(config);
 		await WriteJsonAsync(response, 200, new { ok = true });
+	}
+
+	private static async Task HandleImportInstanceAsync(HttpListenerRequest request, HttpListenerResponse response)
+	{
+		JsonDocument body = await ReadBodyAsync(request);
+		string fileName = JsonUtil.GetString(body.RootElement, "fileName")?.Trim() ?? "pack.zip";
+		string fileBase64 = JsonUtil.GetString(body.RootElement, "fileBase64")?.Trim() ?? string.Empty;
+		if (string.IsNullOrWhiteSpace(fileBase64))
+		{
+			throw new InvalidOperationException("fileBase64 不能为空");
+		}
+
+		byte[] bytes;
+		try
+		{
+			bytes = Convert.FromBase64String(fileBase64);
+		}
+		catch (FormatException)
+		{
+			throw new InvalidOperationException("上传内容不是有效的 base64 数据");
+		}
+
+		string tempDir = Path.Combine(Path.GetTempPath(), "pineglow-import-" + Guid.NewGuid().ToString("N"));
+		Directory.CreateDirectory(tempDir);
+		string zipPath = Path.Combine(tempDir, fileName);
+		try
+		{
+			await File.WriteAllBytesAsync(zipPath, bytes);
+			AppConfig config = LoadConfig();
+			string defaultGameDir = string.IsNullOrWhiteSpace(config.GameDirectory) ? PlatformPaths.GetDefaultMinecraftDirectory() : config.GameDirectory;
+			InstancePackService packService = new InstancePackService(ApiHttp, defaultGameDir, _ => { });
+
+			GameInstance newInstance;
+			switch (InstancePackService.DetectModpackFormat(zipPath))
+			{
+				case ModpackArchiveFormat.Modrinth:
+					newInstance = await packService.ImportModrinthPackAsync(zipPath, _ => { }, CancellationToken.None);
+					break;
+				case ModpackArchiveFormat.CurseForge:
+					newInstance = await packService.ImportCurseForgePackAsync(zipPath, config.CurseForgeApiKey ?? string.Empty, _ => { }, CancellationToken.None);
+					break;
+				case ModpackArchiveFormat.Mcm:
+					newInstance = packService.ImportMcm(zipPath);
+					break;
+				default:
+					throw new InvalidOperationException("无法识别整合包格式：请上传 Modrinth (.mrpack)、CurseForge 或 MCM 格式的压缩包。");
+			}
+
+			AppConfig latest = LoadConfig();
+			latest.Instances.Add(newInstance);
+			latest.SelectedInstanceId = newInstance.Id;
+			SaveConfig(latest);
+			await WriteJsonAsync(response, 200, new { ok = true, instanceId = newInstance.Id, name = newInstance.Name });
+		}
+		finally
+		{
+			if (Directory.Exists(tempDir))
+			{
+				Directory.Delete(tempDir, recursive: true);
+			}
+		}
+	}
+
+	private static async Task HandlePrelaunchCheckAsync(HttpListenerResponse response, string instanceId)
+	{
+		AppConfig config = LoadConfig();
+		GameInstance instance = RequireInstance(config, instanceId);
+		List<string> errors = new List<string>();
+		List<string> warnings = new List<string>();
+
+		if (string.IsNullOrWhiteSpace(instance.MinecraftVersion))
+		{
+			errors.Add("实例未关联游戏版本，请先在设置中安装版本");
+		}
+
+		// Java 检查
+		try
+		{
+			string javaPath = ResolveJavaPath(config, instance, instance.MinecraftVersion ?? string.Empty);
+			if (!File.Exists(javaPath))
+			{
+				errors.Add("Java 运行时不存在：" + javaPath);
+			}
+		}
+		catch (Exception ex)
+		{
+			errors.Add(ex.Message);
+		}
+
+		// 游戏目录存在性
+		string gameDir = ResolveGameDirectory(config, instance);
+		if (!Directory.Exists(gameDir))
+		{
+			warnings.Add("游戏目录不存在（首次启动将自动创建）：" + gameDir);
+		}
+
+		// 磁盘空间
+		try
+		{
+			string root = Path.GetPathRoot(Path.GetFullPath(gameDir));
+			if (!string.IsNullOrWhiteSpace(root) && Directory.Exists(root))
+			{
+				DriveInfo drive = new DriveInfo(root);
+				if (drive.IsReady && drive.AvailableFreeSpace < 512L * 1024 * 1024)
+				{
+					warnings.Add($"磁盘剩余空间不足：{FormatBytes(drive.AvailableFreeSpace)}，建议保留至少 512MB");
+				}
+			}
+		}
+		catch
+		{
+		}
+
+		// 内存检查（TotalAvailableMemoryBytes 为当前进程可用内存预算，跨平台无依赖）
+		int maxMemoryMb = instance.MaxMemoryMb > 0 ? instance.MaxMemoryMb : config.MaxMemoryMb;
+		long availableMb = 0;
+		try
+		{
+			availableMb = GC.GetGCMemoryInfo().TotalAvailableMemoryBytes / (1024 * 1024);
+		}
+		catch
+		{
+		}
+
+		if (availableMb > 0 && maxMemoryMb >= availableMb * 0.9)
+		{
+			warnings.Add($"分配内存 {maxMemoryMb}MB 接近当前可用内存 {availableMb}MB，可能导致卡顿或启动失败");
+		}
+
+		await WriteJsonAsync(response, 200, new
+		{
+			ok = errors.Count == 0,
+			errors,
+			warnings,
+			maxMemoryMb,
+			gameDir
+		});
+	}
+
+	private static string FormatBytes(long bytes)
+	{
+		string[] units = new string[4] { "B", "KB", "MB", "GB" };
+		double value = bytes;
+		int idx = 0;
+		while (value >= 1024.0 && idx < units.Length - 1)
+		{
+			value /= 1024.0;
+			idx++;
+		}
+		return $"{value:0.##} {units[idx]}";
 	}
 
 	private static async Task HandleLaunchAsync(HttpListenerResponse response, string instanceId)

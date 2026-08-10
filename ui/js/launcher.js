@@ -972,8 +972,42 @@ function invalidate(nav) {
 }
 
 /* ---------------- 启动 ---------------- */
-function doLaunch(instanceId, label) {
+async function doLaunch(instanceId, label) {
 	if (!instanceId) { toast(t('launch.selectFirst')); return; }
+	// 启动前环境检查
+	let check;
+	try {
+		check = await SG.api.prelaunchCheck(instanceId);
+	} catch (e) { check = null; }
+	if (check && !check.ok) {
+		const errs = (check.errors || []).map(x => `<div class="check-line err">⚠ ${esc(x)}</div>`).join('');
+		openModal(`
+			<div class="modal-title">${esc(t('launch.checkTitle'))}</div>
+			<div class="prelaunch-issues">${errs}</div>
+			<div class="modal-actions">
+				<button class="modal-btn" id="pcClose">${esc(t('common.close'))}</button>
+			</div>`);
+		document.getElementById('pcClose').onclick = closeModal;
+		toast(t('launch.checkFailed'));
+		return;
+	}
+	if (check && check.warnings && check.warnings.length) {
+		const warns = (check.warnings || []).map(x => `<div class="check-line warn">⚠ ${esc(x)}</div>`).join('');
+		openModal(`
+			<div class="modal-title">${esc(t('launch.checkWarnTitle'))}</div>
+			<div class="prelaunch-issues">${warns}</div>
+			<div class="modal-actions">
+				<button class="modal-btn" id="pcCancel">${esc(t('common.cancel'))}</button>
+				<button class="modal-btn primary" id="pcOk">${esc(t('launch.continue'))}</button>
+			</div>`);
+		document.getElementById('pcCancel').onclick = closeModal;
+		document.getElementById('pcOk').onclick = () => { closeModal(); doLaunchInternal(instanceId, label); };
+		return;
+	}
+	doLaunchInternal(instanceId, label);
+}
+
+function doLaunchInternal(instanceId, label) {
 	toast(t('launch.starting', { name: label || t('launch.game') }));
 	SG.api.launchInstance(instanceId)
 		.then(r => { if (r && r.ok) toast(t('launch.sent')); else toast((r && r.message) || t('launch.failed')); })
@@ -1531,6 +1565,93 @@ async function init() {
 	window.addEventListener('hashchange', () => {
 		const nav = (location.hash || '').replace('#', '');
 		if (VIEWS[nav] && nav !== currentView) goTo(nav);
+	});
+	wireDragImport();
+}
+
+/* ---------------- 拖拽导入整合包 ---------------- */
+function wireDragImport() {
+	let counter = 0;
+	window.addEventListener('dragenter', (e) => {
+		e.preventDefault();
+		counter++;
+		showDropOverlay();
+	});
+	window.addEventListener('dragover', (e) => { e.preventDefault(); });
+	window.addEventListener('dragleave', (e) => {
+		e.preventDefault();
+		if (--counter <= 0) { counter = 0; hideDropOverlay(); }
+	});
+	window.addEventListener('drop', (e) => {
+		e.preventDefault();
+		counter = 0;
+		hideDropOverlay();
+		const files = e.dataTransfer && e.dataTransfer.files;
+		if (!files || !files.length) return;
+		handleImportFiles(files);
+	});
+}
+
+function showDropOverlay() {
+	let el = document.getElementById('dropOverlay');
+	if (!el) {
+		el = document.createElement('div');
+		el.id = 'dropOverlay';
+		el.className = 'drop-overlay';
+		el.innerHTML = `<div class="drop-box"><div class="drop-icon">📦</div><div class="drop-text">${esc(t('import.dropHint'))}</div></div>`;
+		document.body.appendChild(el);
+	}
+	el.classList.add('active');
+}
+
+function hideDropOverlay() {
+	const el = document.getElementById('dropOverlay');
+	if (el) el.classList.remove('active');
+}
+
+async function handleImportFiles(files) {
+	const file = files[0];
+	if (!file) return;
+	const okExt = /\.(zip|mrpack|mcm)$/i;
+	if (!okExt.test(file.name)) {
+		toast(t('import.badType'));
+		return;
+	}
+	openModal(`
+		<div class="modal-title">${esc(t('import.importing', { name: file.name }))}</div>
+		<div class="page-sub">${esc(t('import.importingSub'))}</div>
+		<div class="loading-state" style="padding:16px">${esc(t('common.loading'))}</div>
+		<div class="modal-actions"><button class="modal-btn" id="impClose">${esc(t('common.close'))}</button></div>
+	`);
+	document.getElementById('impClose').onclick = closeModal;
+	try {
+		const b64 = await readFileAsBase64(file);
+		const res = await SG.api.importInstance(file.name, b64);
+		toast(t('import.done', { name: res.name || file.name }));
+		closeModal();
+		await loadState(true);
+		selectedInstanceId = res.instanceId || selectedInstanceId;
+		// 刷新首页与实例页
+		invalidate('home');
+		invalidate('installations');
+		const v = document.getElementById('view-home');
+		if (v) { v.innerHTML = await renderHome(); bindHome(v); }
+	} catch (err) {
+		toast(t('import.failed') + ((err && err.message) || t('common.unknownError')));
+		const st = document.querySelector('.modal .loading-state');
+		if (st) st.textContent = t('import.failed') + ((err && err.message) || t('common.unknownError'));
+	}
+}
+
+function readFileAsBase64(file) {
+	return new Promise((resolve, reject) => {
+		const reader = new FileReader();
+		reader.onload = () => {
+			const str = String(reader.result || '').replace(/^data:[^;]+;base64,/, '');
+			resolve(str);
+		};
+		reader.onerror = () => reject(reader.error || new Error('读取文件失败'));
+		reader.readAsDataURL(file);
 	});
 }
 

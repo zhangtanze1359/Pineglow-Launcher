@@ -44,6 +44,10 @@ public sealed class InstancePackService
 		{
 			return ModpackArchiveFormat.CurseForge;
 		}
+		if (zipArchive.Entries.Any((ZipArchiveEntry entry) => entry.FullName.Equals("instance.json", StringComparison.OrdinalIgnoreCase)))
+		{
+			return ModpackArchiveFormat.Mcm;
+		}
 		return ModpackArchiveFormat.Unknown;
 	}
 

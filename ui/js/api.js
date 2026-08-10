@@ -568,6 +568,21 @@ SG.api = (() => {
 			await _post('/api/instances/' + encodeURIComponent(instanceId) + '/delete', {});
 			return { ok: true };
 		},
+		async importInstance(fileName, fileBase64) {
+			const res = await _post('/api/instances/import', { fileName, fileBase64 });
+			if (!res || !res.ok) throw new Error((res && res.message) || '导入失败');
+			return { ok: true, instanceId: res.instanceId || '', name: res.name || '' };
+		},
+		async prelaunchCheck(instanceId) {
+			const data = await _req('/api/instances/' + encodeURIComponent(instanceId) + '/prelaunch-check');
+			return {
+				ok: !!data.ok,
+				errors: data.errors || [],
+				warnings: data.warnings || [],
+				maxMemoryMb: data.maxMemoryMb || 0,
+				gameDir: data.gameDir || '',
+			};
+		},
 		async deleteServer(serverId) {
 			await _post('/api/servers/' + encodeURIComponent(serverId) + '/delete', {});
 			return { ok: true };
@@ -756,6 +771,14 @@ SG.api = (() => {
 			const idx = SG.mock.instances.findIndex(x => x.id === instanceId);
 			if (idx >= 0) SG.mock.instances.splice(idx, 1);
 			return this._mock({ ok: true });
+		},
+		async importInstance(fileName, fileBase64) {
+			const inst = { id: 'imp-' + Date.now(), name: fileName.replace(/\.(zip|mrpack|mcm)$/i, '') + ' 导入', type: 'vanilla', version: '1.21.4' };
+			SG.mock.instances.push(inst);
+			return this._mock({ ok: true, instanceId: inst.id, name: inst.name });
+		},
+		async prelaunchCheck(instanceId) {
+			return this._mock({ ok: true, errors: [], warnings: [], maxMemoryMb: 4096, gameDir: '[游戏目录]' });
 		},
 		async deleteServer(serverId) {
 			const idx = SG.mock.servers.findIndex(x => x.id === serverId);
