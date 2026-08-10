@@ -69,7 +69,8 @@ jobs:
             Write-Host "GITEE_TOKEN 未配置，跳过 Gitee 镜像"
             exit 0
           }
-          $owner = "${{ github.repository_owner }}"
+          # Gitee 账号与 GitHub 账号不同（ztz1359 vs zhangtanze1359），此处硬编码 Gitee owner
+          $owner = "ztz1359"
           $repo  = "pineglow-launcher"
           $tag   = "${{ github.ref_name }}"
           $ver   = "${{ steps.version.outputs.version }}"
