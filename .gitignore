@@ -2,6 +2,8 @@
 dev/PineglowLauncher/bin/
 dev/PineglowLauncher/obj/
 dev/PineglowLauncher/*.user
+dev/PineglowLauncher.Tests/bin/
+dev/PineglowLauncher.Tests/obj/
 *.suo
 
 # ===== 发布产物 =====
