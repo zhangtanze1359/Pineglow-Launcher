@@ -100,8 +100,22 @@ jobs:
             }
           } catch { Write-Host "清理旧附件跳过: $_" }
 
-          $form = @{ access_token = $token; file = Get-Item $exePath }
-          $uploaded = Invoke-RestMethod -Uri "$api/releases/$($release.id)/attach_files" -Method Post -Form $form -TimeoutSec 300
+          # 用 curl 上传（runner 自带 curl.exe，大文件上传比 Invoke-RestMethod -Form 稳定）
+          # Gitee attach_files API：POST multipart，字段 access_token + file
+          $attempt = 0
+          $uploaded = $null
+          while ($attempt -lt 3 -and $null -eq $uploaded) {
+            $attempt++
+            Write-Host "上传附件尝试 #$attempt ..."
+            $resp = & curl.exe -sS -X POST "$api/releases/$($release.id)/attach_files" -F "access_token=$token" -F "file=@$exePath" --max-time 420
+            if ($LASTEXITCODE -eq 0) {
+              try { $uploaded = $resp | ConvertFrom-Json } catch { Write-Host "响应解析失败，重试" }
+            } else {
+              Write-Host "curl 退出码 $LASTEXITCODE"
+            }
+            if ($null -eq $uploaded -and $attempt -lt 3) { Start-Sleep -Seconds 10 }
+          }
+          if ($null -eq $uploaded) { throw "Gitee 附件上传失败（3 次尝试）" }
           $giteeUrl = $uploaded.browser_download_url
           Write-Host "Gitee 附件: $giteeUrl"
 
