@@ -48,6 +48,23 @@ public static class LocalApiService
 	private static readonly object DownloadGate = new object();
 	private static readonly List<DownloadTaskEntry> DownloadTasks = new List<DownloadTaskEntry>();
 
+	private sealed class ContentTaskEntry
+	{
+		public string Id;
+		public string Category;      // mod / modpack / shader / resourcepack
+		public string ProjectId;
+		public string InstanceId;    // 安装目标实例（modpack 创建新实例，忽略此字段）
+		public string Title = string.Empty;
+		public string Status;        // queued / running / completed / failed
+		public double Progress;
+		public string Message = string.Empty;
+		public string ResultInstanceId = string.Empty;
+		public DateTimeOffset StartedAt;
+	}
+
+	private static readonly object ContentGate = new object();
+	private static readonly List<ContentTaskEntry> ContentTasks = new List<ContentTaskEntry>();
+
 	// 自更新状态（单任务）
 	private static readonly object UpdateGate = new object();
 	private static string UpdateState = "idle"; // idle / downloading / completed / failed / applying
@@ -204,7 +221,7 @@ public static class LocalApiService
 		HttpListenerRequest request = context.Request;
 		HttpListenerResponse response = context.Response;
 		string method = request.HttpMethod.ToUpperInvariant();
-		string[] seg = path.Trim('/').Split('/');
+		string[] seg = path.Trim('/').Split('/').Select(s => Uri.UnescapeDataString(s)).ToArray();
 		// seg = ["api", ...]
 
 		try
@@ -401,7 +418,28 @@ public static class LocalApiService
 
 			if (seg.Length >= 2 && seg[1].Equals("content", StringComparison.OrdinalIgnoreCase) && method == "GET")
 			{
-				await HandleSearchContentAsync(request, response);
+				if (seg.Length == 2)
+				{
+					await HandleSearchContentAsync(request, response);
+					return;
+				}
+
+				if (seg.Length == 3 && seg[2].Equals("search", StringComparison.OrdinalIgnoreCase))
+				{
+					await HandleSearchContentAsync(request, response);
+					return;
+				}
+
+				if (seg.Length == 3 && seg[2].Equals("tasks", StringComparison.OrdinalIgnoreCase))
+				{
+					await HandleListContentTasksAsync(response);
+					return;
+				}
+			}
+
+			if (seg.Length == 3 && seg[1].Equals("content", StringComparison.OrdinalIgnoreCase) && seg[2].Equals("install", StringComparison.OrdinalIgnoreCase) && method == "POST")
+			{
+				await HandleContentInstallAsync(request, response);
 				return;
 			}
 
@@ -1505,6 +1543,233 @@ public static class LocalApiService
 		{
 			Debug.WriteLine($"[LocalApi] content search error: {ex.Message}");
 			await WriteJsonAsync(response, 200, new { results = new object[0], error = ex.Message });
+		}
+	}
+
+	private static async Task HandleContentInstallAsync(HttpListenerRequest request, HttpListenerResponse response)
+	{
+		JsonDocument body = await ReadBodyAsync(request);
+		string category = (JsonUtil.GetString(body.RootElement, "category") ?? "mod").Trim().ToLowerInvariant();
+		string projectId = JsonUtil.GetString(body.RootElement, "projectId")?.Trim() ?? string.Empty;
+		string instanceId = JsonUtil.GetString(body.RootElement, "instanceId")?.Trim() ?? string.Empty;
+		if (string.IsNullOrWhiteSpace(projectId))
+		{
+			throw new InvalidOperationException("projectId 不能为空");
+		}
+
+		AppConfig config = LoadConfig();
+		if (category != "modpack")
+		{
+			if (string.IsNullOrWhiteSpace(instanceId))
+			{
+				instanceId = config.SelectedInstanceId;
+			}
+
+			if (string.IsNullOrWhiteSpace(instanceId))
+			{
+				throw new InvalidOperationException("请先选择一个实例再安装内容");
+			}
+
+			RequireInstance(config, instanceId);
+		}
+
+		ContentTaskEntry entry = new ContentTaskEntry
+		{
+			Id = "ct" + DateTimeOffset.Now.ToUnixTimeMilliseconds(),
+			Category = category,
+			ProjectId = projectId,
+			InstanceId = instanceId,
+			Status = "queued",
+			Message = "排队中",
+			StartedAt = DateTimeOffset.Now
+		};
+		lock (ContentGate)
+		{
+			ContentTasks.Add(entry);
+		}
+
+		_ = Task.Run(() => RunContentInstallTaskAsync(entry));
+		await WriteJsonAsync(response, 200, new { ok = true, id = entry.Id, category, status = "queued" });
+	}
+
+	private static async Task HandleListContentTasksAsync(HttpListenerResponse response)
+	{
+		object[] snapshot;
+		lock (ContentGate)
+		{
+			snapshot = ContentTasks.Select(t => new
+			{
+				t.Id,
+				t.Category,
+				t.ProjectId,
+				t.InstanceId,
+				t.Title,
+				t.Status,
+				t.Progress,
+				t.Message,
+				t.ResultInstanceId,
+				t.StartedAt
+			}).ToArray();
+		}
+
+		await WriteJsonAsync(response, 200, new { tasks = snapshot });
+	}
+
+	private static async Task RunContentInstallTaskAsync(ContentTaskEntry entry)
+	{
+		try
+		{
+			lock (ContentGate)
+			{
+				entry.Status = "running";
+				entry.Message = "正在准备安装";
+			}
+
+			AppConfig config = LoadConfig();
+			switch (entry.Category)
+			{
+				case "modpack":
+					entry.Title = "整合包";
+					await InstallModpackContentAsync(entry, config);
+					break;
+				case "shader":
+				case "resourcepack":
+					entry.Title = entry.Category == "shader" ? "光影" : "资源包";
+					await InstallResourceContentAsync(entry, config);
+					break;
+				default:
+					entry.Title = "Mod";
+					await InstallModContentAsync(entry, config);
+					break;
+			}
+
+			lock (ContentGate)
+			{
+				entry.Status = "completed";
+				entry.Progress = 1.0;
+				entry.Message = "安装完成";
+			}
+		}
+		catch (Exception ex)
+		{
+			lock (ContentGate)
+			{
+				entry.Status = "failed";
+				entry.Message = ex.Message;
+			}
+
+			LauncherLog.Error($"[ContentInstall] {entry.Category} {entry.ProjectId} 失败: {ex.Message}");
+		}
+	}
+
+	private static void UpdateContentTask(ContentTaskEntry entry, string message, double progress = -1)
+	{
+		lock (ContentGate)
+		{
+			if (!string.IsNullOrWhiteSpace(message))
+			{
+				entry.Message = message;
+			}
+
+			if (progress >= 0)
+			{
+				entry.Progress = progress;
+			}
+		}
+	}
+
+	private static async Task InstallModContentAsync(ContentTaskEntry entry, AppConfig config)
+	{
+		GameInstance instance = RequireInstance(config, entry.InstanceId);
+		string gameDir = ResolveGameDirectory(config, instance);
+		ModContentService content = new ModContentService(ApiHttp);
+		ModSearchResult project = new ModSearchResult
+		{
+			Source = ModSource.Modrinth,
+			ProjectId = entry.ProjectId
+		};
+		UpdateContentTask(entry, "正在获取版本信息", 0.1);
+		List<ModVersion> versions = await content.GetVersionsAsync(project, instance.MinecraftVersion, instance.LoaderType);
+		ModVersion version = versions.FirstOrDefault(v => v.ReleaseType.Equals("release", StringComparison.OrdinalIgnoreCase)) ?? versions.FirstOrDefault();
+		if (version == null)
+		{
+			throw new InvalidOperationException("该 Mod 没有找到兼容当前实例的版本");
+		}
+
+		UpdateContentTask(entry, $"正在安装 {version.DisplayName} {version.VersionNumber}", 0.2);
+		ModService modService = new ModService(gameDir);
+		ModInstallResult result = await content.InstallWithDependenciesAsync(instance, version, modService, instance.MinecraftVersion, instance.LoaderType,
+			curseForgeApiKey: config.CurseForgeApiKey ?? string.Empty,
+			progress: new Progress<double>(p => UpdateContentTask(entry, string.Empty, 0.2 + p * 0.7)),
+			status: msg => UpdateContentTask(entry, msg),
+			ct: CancellationToken.None);
+		entry.Title = version.DisplayName;
+	}
+
+	private static async Task InstallResourceContentAsync(ContentTaskEntry entry, AppConfig config)
+	{
+		GameInstance instance = RequireInstance(config, entry.InstanceId);
+		string gameDir = ResolveGameDirectory(config, instance);
+		ResourceContentKind kind = entry.Category.Equals("shader", StringComparison.OrdinalIgnoreCase)
+			? ResourceContentKind.Shader
+			: ResourceContentKind.ResourcePack;
+		ResourceContentService content = new ResourceContentService(ApiHttp);
+		ResourceContentProject project = new ResourceContentProject
+		{
+			ProjectId = entry.ProjectId,
+			Kind = kind
+		};
+		UpdateContentTask(entry, "正在获取版本信息", 0.1);
+		List<ResourceContentVersion> versions = await content.GetVersionsAsync(project, instance.MinecraftVersion);
+		ResourceContentVersion version = versions.FirstOrDefault(v => v.VersionNumber != string.Empty) ?? versions.FirstOrDefault();
+		if (version == null)
+		{
+			throw new InvalidOperationException("该内容没有找到可用版本");
+		}
+
+		UpdateContentTask(entry, $"正在安装 {version.FileName}", 0.2);
+		await content.DownloadAsync(instance, project, version, gameDir,
+			progress: new Progress<double>(p => UpdateContentTask(entry, string.Empty, 0.2 + p * 0.7)),
+			ct: CancellationToken.None);
+		entry.Title = version.FileName;
+	}
+
+	private static async Task InstallModpackContentAsync(ContentTaskEntry entry, AppConfig config)
+	{
+		ModrinthModpackService modrinth = new ModrinthModpackService(ApiHttp);
+		ModpackProject project = new ModpackProject
+		{
+			ProjectId = entry.ProjectId
+		};
+		UpdateContentTask(entry, "正在获取整合包版本", 0.05);
+		List<ModpackVersion> versions = await modrinth.GetVersionsAsync(project);
+		ModpackVersion version = versions.FirstOrDefault(v => v.ReleaseType.Equals("release", StringComparison.OrdinalIgnoreCase)) ?? versions.FirstOrDefault();
+		if (version == null)
+		{
+			throw new InvalidOperationException("该整合包没有可用版本");
+		}
+
+		UpdateContentTask(entry, $"正在下载 {project.Title} {version.VersionNumber}", 0.1);
+		string zipPath = await modrinth.DownloadAsync(project, version);
+		try
+		{
+			string defaultGameDir = string.IsNullOrWhiteSpace(config.GameDirectory) ? PlatformPaths.GetDefaultMinecraftDirectory() : config.GameDirectory;
+			InstancePackService packService = new InstancePackService(ApiHttp, defaultGameDir, msg => UpdateContentTask(entry, msg));
+			UpdateContentTask(entry, "正在创建实例并安装整合包", 0.15);
+			GameInstance newInstance = await packService.ImportModrinthPackAsync(zipPath,
+				msg => UpdateContentTask(entry, msg),
+				CancellationToken.None);
+			AppConfig latest = LoadConfig();
+			latest.Instances.Add(newInstance);
+			latest.SelectedInstanceId = newInstance.Id;
+			SaveConfig(latest);
+			entry.Title = newInstance.Name;
+			entry.ResultInstanceId = newInstance.Id;
+			UpdateContentTask(entry, "整合包实例创建完成", 0.95);
+		}
+		finally
+		{
+			ModrinthModpackService.DeleteDownload(zipPath);
 		}
 	}
 

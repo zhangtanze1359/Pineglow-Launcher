@@ -95,7 +95,10 @@ const DICT = {
 		// Mod 管理
 		'mod.manageTitle': '管理 Mod · {name}',
 		'mod.empty': '该实例还没有安装 Mod。',
-		'mod.toggleHint': 'Mod 启用/禁用切换（写盘接入中）',
+		'mod.enabled': '已启用',
+		'mod.disabled': '已禁用',
+		'mod.toggleFailed': '切换失败：',
+		'mod.toggleHint': 'Mod 启用/禁用切换',
 
 		// Skins
 		'skin.currentActive': '当前使用的皮肤',
@@ -181,7 +184,10 @@ const DICT = {
 		'content.searchPlaceholder': '搜索内容…',
 		'content.empty': '没有找到匹配的内容，换个关键词试试。',
 		'content.emptyShort': '没有找到匹配的内容。',
-		'content.queued': '已加入下载队列（内容安装接入中）',
+		'content.queued': '已加入安装队列（{id}）',
+		'content.installing': '安装中',
+		'content.installed': '已安装',
+		'content.installFailed': '安装失败',
 
 		// Worlds
 		'worlds.title': '世界',
@@ -314,7 +320,10 @@ const DICT = {
 
 		'mod.manageTitle': 'Manage Mods · {name}',
 		'mod.empty': 'This instance has no mods installed.',
-		'mod.toggleHint': 'Mod enable/disable toggle (disk write coming soon)',
+		'mod.enabled': 'Enabled',
+		'mod.disabled': 'Disabled',
+		'mod.toggleFailed': 'Toggle failed: ',
+		'mod.toggleHint': 'Mod enable/disable toggle',
 
 		'skin.currentActive': 'CURRENT ACTIVE SKIN',
 		'skin.ofUser': "{name}'s Skin",
@@ -396,7 +405,10 @@ const DICT = {
 		'content.searchPlaceholder': 'Search content…',
 		'content.empty': 'No matching content found. Try a different keyword.',
 		'content.emptyShort': 'No matching content found.',
-		'content.queued': 'Added to download queue (content install coming soon)',
+		'content.queued': 'Added to install queue ({id})',
+		'content.installing': 'Installing',
+		'content.installed': 'Installed',
+		'content.installFailed': 'Install failed',
 
 		'worlds.title': 'Worlds',
 		'worlds.subtitle': 'Single-player saves across all your instances',

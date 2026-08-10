@@ -462,13 +462,25 @@ async function openModManager(inst) {
 				<span class="mod-row-name">${esc(m.displayName)}</span>
 				<span class="mod-row-sub">${esc(m.version || '')} ${m.loader ? '· ' + esc(m.loader) : ''} · ${esc(m.sizeText || '')}</span>
 			</div>
-			<button class="toggle ${m.enabled ? 'on' : ''}" role="switch" aria-checked="${m.enabled}"></button>
+			<button class="toggle ${m.enabled ? 'on' : ''}" role="switch" aria-checked="${m.enabled}" data-mod="${esc(m.fileName)}"></button>
 		</div>`).join('');
-	listEl.querySelectorAll('.toggle').forEach(t => t.addEventListener('click', () => {
-		const on = t.classList.toggle('on');
-		t.setAttribute('aria-checked', on ? 'true' : 'false');
-		t.closest('.mod-row').classList.toggle('disabled', !on);
-		toast(window.SG.t('mod.toggleHint'));
+	listEl.querySelectorAll('.toggle').forEach(t => t.addEventListener('click', async () => {
+		const fileName = t.dataset.mod;
+		if (!fileName || t.disabled) return;
+		t.disabled = true;
+		const row = t.closest('.mod-row');
+		try {
+			const res = await SG.api.toggleMod(inst.id, fileName);
+			const on = !!res.enabled;
+			t.classList.toggle('on', on);
+			t.setAttribute('aria-checked', on ? 'true' : 'false');
+			if (row) row.classList.toggle('disabled', !on);
+			toast(on ? window.SG.t('mod.enabled', { name: '' }) : window.SG.t('mod.disabled', { name: '' }));
+		} catch (err) {
+			toast(window.SG.t('mod.toggleFailed') + (err.message || window.SG.t('common.unknownError')));
+		} finally {
+			t.disabled = false;
+		}
 	}));
 }
 
@@ -555,7 +567,53 @@ function bindContent(el) {
 	bindContentInstalls(el);
 }
 function bindContentInstalls(el) {
-	el.querySelectorAll('[data-install]').forEach(b => b.addEventListener('click', () => toast(t('content.queued'))));
+	el.querySelectorAll('[data-install]').forEach(b => b.addEventListener('click', async () => {
+		const projectId = b.dataset.install;
+		if (!projectId || b.dataset.busy) return;
+		const card = b.closest('.mod-card');
+		const category = contentCat;
+		b.dataset.busy = '1';
+		b.disabled = true;
+		b.textContent = t('content.installing');
+		try {
+			const res = await SG.api.installContent({ category, projectId, instanceId: selectedInstanceId });
+			toast(t('content.queued', { id: res.id }));
+			// 轮询任务直至完成（live 模式下有真实进度；mock 立即 completed）
+			const poll = async () => {
+				let tasks = [];
+				try { tasks = await SG.api.getContentTasks(); } catch (e) { tasks = []; }
+				const task = tasks.find(x => x.id === res.id);
+				if (!task) {
+					b.textContent = t('content.installed');
+					b.classList.add('installed');
+					toast(t('content.installed'));
+					return;
+				}
+				if (task.status === 'completed' || task.status === 'failed') {
+					b.textContent = task.status === 'completed' ? t('content.installed') : t('content.installFailed');
+					b.classList.add(task.status === 'completed' ? 'installed' : 'failed');
+					if (task.status === 'completed') {
+						toast(t('content.installed'));
+						// modpack 创建了新实例，刷新实例列表
+						if (task.category === 'modpack') await loadState(true);
+					} else {
+						toast(t('content.installFailed') + ': ' + (task.message || t('common.unknownError')));
+					}
+					return;
+				}
+				if (card) card.setAttribute('data-progress', Math.round((task.progress || 0) * 100));
+				b.textContent = t('content.installing') + ' ' + Math.round((task.progress || 0) * 100) + '%';
+				setTimeout(poll, 1200);
+			};
+			poll();
+		} catch (err) {
+			b.textContent = t('content.install');
+			toast(t('content.installFailed') + ': ' + (err.message || t('common.unknownError')));
+		} finally {
+			delete b.dataset.busy;
+			b.disabled = false;
+		}
+	}));
 }
 
 /* ================================================================

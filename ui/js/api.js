@@ -399,6 +399,34 @@ SG.api = (() => {
 				sizeText: m.sizeText || fmtBytes(m.sizeBytes),
 			}));
 		},
+		async toggleMod(instanceId, fileName) {
+			const res = await _post('/api/instances/' + encodeURIComponent(instanceId) + '/mods/' + encodeURIComponent(fileName) + '/toggle', {});
+			return { ok: !!res.ok, fileName: res.fileName, enabled: !!res.isEnabled };
+		},
+		async deleteMod(instanceId, fileName) {
+			const res = await _post('/api/instances/' + encodeURIComponent(instanceId) + '/mods/' + encodeURIComponent(fileName) + '/delete', {});
+			return { ok: !!res.ok };
+		},
+		async installContent(data) {
+			const res = await _post('/api/content/install', {
+				category: data.category || 'mod',
+				projectId: data.projectId,
+				instanceId: data.instanceId || '',
+			});
+			return { ok: !!res.ok, id: res.id || '', status: res.status || 'queued' };
+		},
+		async getContentTasks() {
+			const data = await _req('/api/content/tasks');
+			return (data.tasks || []).map(t => ({
+				id: t.id,
+				category: t.category || 'mod',
+				title: t.title || '',
+				status: t.status || 'queued',
+				progress: t.progress || 0,
+				message: t.message || '',
+				resultInstanceId: t.resultInstanceId || '',
+			}));
+		},
 		async pingServer(serverId) {
 			const data = await _post('/api/servers/' + encodeURIComponent(serverId) + '/ping');
 			return mapServer(data.server);
@@ -513,6 +541,33 @@ SG.api = (() => {
 		async getJava() { return this._mock(SG.mock.java); },
 		async getVersions() { return this._mock({ local: SG.mock.localVersions, remote: SG.mock.remoteVersions }); },
 		async getMods(instanceId) { return this._mock(SG.mock.mods[instanceId] || []); },
+		async toggleMod(instanceId, fileName) {
+			const list = SG.mock.mods[instanceId] || [];
+			const mod = list.find(m => m.fileName === fileName);
+			if (mod) mod.enabled = !mod.enabled;
+			return this._mock({ ok: true, fileName, enabled: !!(mod && mod.enabled) });
+		},
+		async deleteMod(instanceId, fileName) {
+			const list = SG.mock.mods[instanceId] || [];
+			const idx = list.findIndex(m => m.fileName === fileName);
+			if (idx >= 0) list.splice(idx, 1);
+			return this._mock({ ok: true });
+		},
+		async installContent(data) {
+			const task = {
+				id: 'ct' + Date.now(),
+				category: data.category || 'mod',
+				title: '',
+				status: 'completed',
+				progress: 1,
+				message: '安装完成',
+				resultInstanceId: '',
+			};
+			SG.mock.contentTasks = SG.mock.contentTasks || [];
+			SG.mock.contentTasks.push(task);
+			return this._mock({ ok: true, id: task.id, status: 'queued' });
+		},
+		async getContentTasks() { return this._mock((SG.mock.contentTasks || []).map(t => ({ ...t }))); },
 		async pingServer(serverId) {
 			const s = SG.mock.servers.find(x => x.id === serverId);
 			if (!s) return this._mock(null);
