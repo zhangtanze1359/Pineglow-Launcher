@@ -33,7 +33,50 @@ public static class LocalApiService
 	private static string _uiRoot;
 	private static bool _running;
 
-	private static readonly HttpClient ApiHttp = new HttpClient { Timeout = TimeSpan.FromSeconds(45) };
+	// 非 readonly：代理配置变化时可替换底层 handler
+	private static HttpClient ApiHttp = CreateApiHttp(proxyEnabled: false, proxyHost: string.Empty, proxyPort: 0, proxyUser: string.Empty, proxyPass: string.Empty);
+
+	private static HttpClient CreateApiHttp(bool proxyEnabled, string proxyHost, int proxyPort, string proxyUser, string proxyPass)
+	{
+		var handler = new HttpClientHandler();
+		if (proxyEnabled && !string.IsNullOrWhiteSpace(proxyHost) && proxyPort > 0)
+		{
+			try
+			{
+				var proxy = new System.Net.WebProxy($"{proxyHost}:{proxyPort}");
+				if (!string.IsNullOrWhiteSpace(proxyUser))
+				{
+					proxy.Credentials = new System.Net.NetworkCredential(proxyUser, proxyPass);
+				}
+				handler.Proxy = proxy;
+				handler.UseProxy = true;
+			}
+			catch
+			{
+				// 代理地址非法时忽略，保持直连
+			}
+		}
+		else
+		{
+			handler.UseProxy = false;
+		}
+		return new HttpClient(handler) { Timeout = TimeSpan.FromSeconds(45) };
+	}
+
+	/// <summary>按 config 刷新 ApiHttp 代理配置（在 SaveConfig 后调用）。</summary>
+	private static void RefreshApiHttpProxy(AppConfig config)
+	{
+		try
+		{
+			var next = CreateApiHttp(config.ProxyEnabled, config.ProxyHost, config.ProxyPort, config.ProxyUsername, config.ProxyPassword);
+			HttpClient old = ApiHttp;
+			ApiHttp = next;
+			old?.Dispose();
+		}
+		catch
+		{
+		}
+	}
 
 	private sealed class DownloadTaskEntry
 	{
@@ -596,6 +639,7 @@ public static class LocalApiService
 		lock (ConfigGate)
 		{
 			MirrorHelper.SelectedKey = string.IsNullOrWhiteSpace(config.DownloadSource) ? "official" : config.DownloadSource;
+			RefreshApiHttpProxy(config);
 			ConfigStore.SaveAsync(config).GetAwaiter().GetResult();
 		}
 	}
@@ -640,6 +684,13 @@ public static class LocalApiService
 				config.ServerPort,
 				config.UseMirror,
 				downloadSource = string.IsNullOrWhiteSpace(config.DownloadSource) ? "official" : config.DownloadSource,
+				config.ProxyEnabled,
+				config.ProxyHost,
+				config.ProxyPort,
+				config.ProxyUsername,
+				config.ProxyPassword,
+				config.MinimizeOnLaunch,
+				config.AutoCloseOnExit,
 				config.SelectedVersion,
 				curseForgeApiKeyConfigured = !string.IsNullOrEmpty(config.CurseForgeApiKey),
 				config.SelectedInstanceId,
@@ -971,6 +1022,12 @@ public static class LocalApiService
 			customJvmArgs = AppendJvmArgument(customJvmArgs, $" -javaagent:\"{agentPath}\"={account.AuthServerUrl}");
 		}
 
+		// 代理参数传递给游戏进程
+		if (config.ProxyEnabled && !string.IsNullOrWhiteSpace(config.ProxyHost) && config.ProxyPort > 0)
+		{
+			customJvmArgs = AppendJvmArgument(customJvmArgs, $"-Dhttp.proxyHost={config.ProxyHost} -Dhttp.proxyPort={config.ProxyPort} -Dhttps.proxyHost={config.ProxyHost} -Dhttps.proxyPort={config.ProxyPort}");
+		}
+
 		string javaPath = ResolveJavaPath(config, instance, instance.MinecraftVersion);
 		LaunchProfile profile = new LaunchProfile
 		{
@@ -997,7 +1054,9 @@ public static class LocalApiService
 		instance.LastLaunchTime = DateTimeOffset.Now;
 		instance.PlayCount++;
 		SaveConfig(config);
-		// 挂进程退出事件，累加游玩时长（进程退出后写 config）
+		bool minimizeOnLaunch = config.MinimizeOnLaunch;
+		bool autoCloseOnExit = config.AutoCloseOnExit;
+		// 挂进程退出事件：累加游玩时长；若开启"退出后自动关闭"，关闭启动器窗口
 		_ = Task.Run(async () =>
 		{
 			try
@@ -1011,12 +1070,25 @@ public static class LocalApiService
 					target.TotalPlaySeconds += (long)Math.Max(0, (DateTimeOffset.Now - start).TotalSeconds);
 					SaveConfig(latest);
 				}
+				if (autoCloseOnExit)
+				{
+					Avalonia.Threading.Dispatcher.UIThread.Post(() =>
+					{
+						try
+						{
+							Environment.Exit(0);
+						}
+						catch
+						{
+						}
+					});
+				}
 			}
 			catch
 			{
 			}
 		});
-		await WriteJsonAsync(response, 200, new { ok = true, pid = process.Id });
+		await WriteJsonAsync(response, 200, new { ok = true, pid = process.Id, minimizeOnLaunch });
 	}
 
 	private static string ResolveJavaPath(AppConfig config, GameInstance instance, string minecraftVersion)
@@ -1828,6 +1900,49 @@ public static class LocalApiService
 		else if (root.TryGetProperty("useMirror", out mirror) && mirror.ValueKind == JsonValueKind.False)
 		{
 			config.UseMirror = false;
+		}
+
+		// 代理设置
+		string proxyHost = JsonUtil.GetString(root, "proxyHost");
+		if (proxyHost != null) config.ProxyHost = proxyHost;
+
+		string proxyUsername = JsonUtil.GetString(root, "proxyUsername");
+		if (proxyUsername != null) config.ProxyUsername = proxyUsername;
+
+		string proxyPassword = JsonUtil.GetString(root, "proxyPassword");
+		if (proxyPassword != null) config.ProxyPassword = proxyPassword;
+
+		if (root.TryGetProperty("proxyPort", out JsonElement proxyPort) && proxyPort.ValueKind == JsonValueKind.Number)
+		{
+			config.ProxyPort = proxyPort.GetInt32();
+		}
+
+		if (root.TryGetProperty("proxyEnabled", out JsonElement proxyEnabled) && proxyEnabled.ValueKind == JsonValueKind.True)
+		{
+			config.ProxyEnabled = true;
+		}
+		else if (root.TryGetProperty("proxyEnabled", out proxyEnabled) && proxyEnabled.ValueKind == JsonValueKind.False)
+		{
+			config.ProxyEnabled = false;
+		}
+
+		// 快捷操作
+		if (root.TryGetProperty("minimizeOnLaunch", out JsonElement minimizeOnLaunch) && minimizeOnLaunch.ValueKind == JsonValueKind.True)
+		{
+			config.MinimizeOnLaunch = true;
+		}
+		else if (root.TryGetProperty("minimizeOnLaunch", out minimizeOnLaunch) && minimizeOnLaunch.ValueKind == JsonValueKind.False)
+		{
+			config.MinimizeOnLaunch = false;
+		}
+
+		if (root.TryGetProperty("autoCloseOnExit", out JsonElement autoCloseOnExit) && autoCloseOnExit.ValueKind == JsonValueKind.True)
+		{
+			config.AutoCloseOnExit = true;
+		}
+		else if (root.TryGetProperty("autoCloseOnExit", out autoCloseOnExit) && autoCloseOnExit.ValueKind == JsonValueKind.False)
+		{
+			config.AutoCloseOnExit = false;
 		}
 	}
 

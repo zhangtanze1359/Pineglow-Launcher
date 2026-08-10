@@ -369,6 +369,22 @@ async function renderSettings() {
 				<div class="setting-divider"></div>
 				<div class="setting-row">
 					<div class="setting-info">
+						<span class="setting-name">${esc(t('set.proxyName'))}</span>
+						<span class="setting-desc">${esc(t('set.proxyDesc'))}</span>
+					</div>
+					<button class="setting-btn" id="btnProxy">${esc(t('set.proxyConfigure'))}</button>
+				</div>
+				<div class="setting-divider"></div>
+				<div class="setting-row">
+					<div class="setting-info">
+						<span class="setting-name">${esc(t('set.quickName'))}</span>
+						<span class="setting-desc">${esc(t('set.quickDesc'))}</span>
+					</div>
+					<button class="setting-btn" id="btnQuick">${esc(t('set.quickConfigure'))}</button>
+				</div>
+				<div class="setting-divider"></div>
+				<div class="setting-row">
+					<div class="setting-info">
 						<span class="setting-name">${esc(t('set.logsName'))}</span>
 						<span class="setting-desc">${esc(t('set.logsDesc'))}</span>
 					</div>
@@ -1024,7 +1040,17 @@ async function doLaunch(instanceId, label) {
 function doLaunchInternal(instanceId, label) {
 	toast(t('launch.starting', { name: label || t('launch.game') }));
 	SG.api.launchInstance(instanceId)
-		.then(r => { if (r && r.ok) toast(t('launch.sent')); else toast((r && r.message) || t('launch.failed')); })
+		.then(r => {
+			if (r && r.ok) {
+				toast(t('launch.sent'));
+				// 快捷操作：启动后最小化启动器
+				const cfg = STATE.config || {};
+				if (cfg.minimizeOnLaunch) {
+					if (NATIVE_SHELL) sendNative({ type: 'window-control', action: 'minimize' });
+					else { try { if (window.parent && window.parent.minimizeWindow) window.parent.minimizeWindow(); } catch (e) {} }
+				}
+			} else toast((r && r.message) || t('launch.failed'));
+		})
 		.catch(err => toast(t('launch.failedPrefix') + ((err && err.message) || t('common.unknownError'))));
 }
 
@@ -1330,6 +1356,85 @@ function bindSettings(el) {
 				toast(t('set.sourceSwitchFailed') + (err.message || t('common.unknownError')));
 			}
 		}));
+	});
+	// 代理配置
+	el.querySelector('#btnProxy')?.addEventListener('click', () => {
+		const cfg = STATE.config || {};
+		const enabled = !!cfg.proxyEnabled;
+		openModal(`
+			<div class="modal-title">${esc(t('set.proxyName'))}</div>
+			<div class="page-sub">${esc(t('set.proxyDesc'))}</div>
+			<div class="modal-field" style="flex-direction:row;align-items:center;gap:10px">
+				<label style="font-size:13px;color:var(--text,#e8ecf4)">${esc(t('set.proxyEnable'))}</label>
+				<button class="toggle ${enabled ? 'on' : ''}" id="proxyToggle" role="switch" aria-checked="${enabled}"></button>
+			</div>
+			<div class="modal-field"><span class="modal-label">${esc(t('set.proxyHost'))}</span><input class="modal-input" id="pHost" value="${esc(cfg.proxyHost || '')}" placeholder="127.0.0.1"></div>
+			<div class="modal-field"><span class="modal-label">${esc(t('set.proxyPort'))}</span><input class="modal-input" id="pPort" value="${esc(cfg.proxyPort || '')}" placeholder="7890" type="number"></div>
+			<div class="modal-field"><span class="modal-label">${esc(t('set.proxyUser'))}</span><input class="modal-input" id="pUser" value="${esc(cfg.proxyUsername || '')}" placeholder="${esc(t('set.proxyUserOptional'))}"></div>
+			<div class="modal-field"><span class="modal-label">${esc(t('set.proxyPass'))}</span><input class="modal-input" id="pPass" value="${esc(cfg.proxyPassword || '')}" type="password" placeholder="${esc(t('set.proxyPassOptional'))}"></div>
+			<div class="modal-actions">
+				<button class="modal-btn ghost" id="pCancel">${esc(t('common.cancel'))}</button>
+				<button class="modal-btn primary" id="pOk">${esc(t('common.save'))}</button>
+			</div>`);
+		document.getElementById('pCancel').onclick = closeModal;
+		document.getElementById('proxyToggle').onclick = () => {
+			const t = document.getElementById('proxyToggle');
+			t.classList.toggle('on');
+			t.setAttribute('aria-checked', t.classList.contains('on') ? 'true' : 'false');
+		};
+		document.getElementById('pOk').onclick = async () => {
+			const payload = {
+				proxyEnabled: document.getElementById('proxyToggle').classList.contains('on'),
+				proxyHost: document.getElementById('pHost').value.trim(),
+				proxyPort: parseInt(document.getElementById('pPort').value, 10) || 0,
+				proxyUsername: document.getElementById('pUser').value.trim(),
+				proxyPassword: document.getElementById('pPass').value,
+			};
+			closeModal();
+			try {
+				await SG.api.updateConfig(payload);
+				Object.assign(STATE.config, payload);
+				toast(t('set.proxySaved'));
+			} catch (err) { toast(t('set.proxyFailed') + (err.message || t('common.unknownError'))); }
+		};
+	});
+	// 快捷操作
+	el.querySelector('#btnQuick')?.addEventListener('click', () => {
+		const cfg = STATE.config || {};
+		openModal(`
+			<div class="modal-title">${esc(t('set.quickName'))}</div>
+			<div class="page-sub">${esc(t('set.quickDesc'))}</div>
+			<div class="quick-opt">
+				<button class="toggle ${cfg.minimizeOnLaunch ? 'on' : ''}" id="qMin" role="switch" aria-checked="${!!cfg.minimizeOnLaunch}"></button>
+				<span class="quick-label">${esc(t('set.quickMinimize'))}</span>
+			</div>
+			<div class="quick-opt">
+				<button class="toggle ${cfg.autoCloseOnExit ? 'on' : ''}" id="qClose" role="switch" aria-checked="${!!cfg.autoCloseOnExit}"></button>
+				<span class="quick-label">${esc(t('set.quickClose'))}</span>
+			</div>
+			<div class="modal-actions">
+				<button class="modal-btn ghost" id="qCancel">${esc(t('common.cancel'))}</button>
+				<button class="modal-btn primary" id="qOk">${esc(t('common.save'))}</button>
+			</div>`);
+		document.getElementById('qCancel').onclick = closeModal;
+		const bindToggle = (id) => document.getElementById(id).onclick = () => {
+			const t = document.getElementById(id);
+			t.classList.toggle('on');
+			t.setAttribute('aria-checked', t.classList.contains('on') ? 'true' : 'false');
+		};
+		bindToggle('qMin'); bindToggle('qClose');
+		document.getElementById('qOk').onclick = async () => {
+			const payload = {
+				minimizeOnLaunch: document.getElementById('qMin').classList.contains('on'),
+				autoCloseOnExit: document.getElementById('qClose').classList.contains('on'),
+			};
+			closeModal();
+			try {
+				await SG.api.updateConfig(payload);
+				Object.assign(STATE.config, payload);
+				toast(t('set.quickSaved'));
+			} catch (err) { toast(t('set.quickFailed') + (err.message || t('common.unknownError'))); }
+		};
 	});
 	el.querySelector('#btnJrePath')?.addEventListener('click', () => {
 		const java = STATE.java || [];

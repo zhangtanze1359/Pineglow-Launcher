@@ -70,4 +70,25 @@ public sealed class AppConfig
 
 	/// <summary>自更新 manifest 地址；留空表示不检查更新。</summary>
 	public string UpdateUrl { get; set; } = string.Empty;
+
+	/// <summary>HTTP 代理开关</summary>
+	public bool ProxyEnabled { get; set; }
+
+	/// <summary>HTTP 代理地址</summary>
+	public string ProxyHost { get; set; } = string.Empty;
+
+	/// <summary>HTTP 代理端口</summary>
+	public int ProxyPort { get; set; }
+
+	/// <summary>HTTP 代理用户名（可选）</summary>
+	public string ProxyUsername { get; set; } = string.Empty;
+
+	/// <summary>HTTP 代理密码（可选）</summary>
+	public string ProxyPassword { get; set; } = string.Empty;
+
+	/// <summary>游戏启动后自动最小化启动器</summary>
+	public bool MinimizeOnLaunch { get; set; }
+
+	/// <summary>游戏退出后自动关闭启动器</summary>
+	public bool AutoCloseOnExit { get; set; }
 }
