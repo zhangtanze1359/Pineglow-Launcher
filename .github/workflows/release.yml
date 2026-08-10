@@ -59,7 +59,10 @@ jobs:
       # 需在 GitHub 仓库 Secrets 配置 GITEE_TOKEN（Gitee 私人令牌，需 projects 权限）。
       # 未配置 GITEE_TOKEN 时脚本内自动跳过，仅发布 GitHub（manifest.url 保持 GitHub 直链）。
       # 注意：if 条件不能引用 secrets（Actions 限制），故在脚本内判断。
+      # continue-on-error：跨国上传大文件可能超时，Gitee 镜像失败不阻断 GitHub 发布
+      # （GitHub Release 仍会创建，manifest 保持 GitHub 直链可用）。
       - name: Mirror to Gitee (optional)
+        continue-on-error: true
         shell: pwsh
         env:
           GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
@@ -102,20 +105,21 @@ jobs:
 
           # 用 curl 上传（runner 自带 curl.exe，大文件上传比 Invoke-RestMethod -Form 稳定）
           # Gitee attach_files API：POST multipart，字段 access_token + file
+          # 跨国传输慢，120s 快速失败重试 2 次；失败由 continue-on-error 兜底不阻断发布
           $attempt = 0
           $uploaded = $null
-          while ($attempt -lt 3 -and $null -eq $uploaded) {
+          while ($attempt -lt 2 -and $null -eq $uploaded) {
             $attempt++
             Write-Host "上传附件尝试 #$attempt ..."
-            $resp = & curl.exe -sS -X POST "$api/releases/$($release.id)/attach_files" -F "access_token=$token" -F "file=@$exePath" --max-time 420
+            $resp = & curl.exe -sS -X POST "$api/releases/$($release.id)/attach_files" -F "access_token=$token" -F "file=@$exePath" --max-time 120
             if ($LASTEXITCODE -eq 0) {
               try { $uploaded = $resp | ConvertFrom-Json } catch { Write-Host "响应解析失败，重试" }
             } else {
               Write-Host "curl 退出码 $LASTEXITCODE"
             }
-            if ($null -eq $uploaded -and $attempt -lt 3) { Start-Sleep -Seconds 10 }
+            if ($null -eq $uploaded -and $attempt -lt 2) { Start-Sleep -Seconds 10 }
           }
-          if ($null -eq $uploaded) { throw "Gitee 附件上传失败（3 次尝试）" }
+          if ($null -eq $uploaded) { Write-Host "Gitee 附件上传失败，跳过镜像（GitHub 发布不受影响）"; exit 0 }
           $giteeUrl = $uploaded.browser_download_url
           Write-Host "Gitee 附件: $giteeUrl"
 
