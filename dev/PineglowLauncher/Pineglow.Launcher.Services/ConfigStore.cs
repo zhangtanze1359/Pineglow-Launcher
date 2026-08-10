@@ -10,6 +10,12 @@ namespace Pineglow.Launcher.Services;
 
 public static class ConfigStore
 {
+	/// <summary>
+	/// 内置默认自更新源：Gitee 仓库固定 update.json（每次发版由 CI 更新该文件）。
+	/// 用户 config 未显式配置 updateUrl 时使用。
+	/// </summary>
+	public const string DefaultUpdateUrl = "https://gitee.com/ztz1359/pineglow-launcher/raw/master/update.json";
+
 	private static readonly JsonSerializerOptions Options = new JsonSerializerOptions
 	{
 		WriteIndented = true,
@@ -24,7 +30,8 @@ public static class ConfigStore
 			AppConfig obj = new AppConfig
 			{
 				GameDirectory = PlatformPaths.GetDefaultMinecraftDirectory(),
-				UseAutoMemory = true
+				UseAutoMemory = true,
+				UpdateUrl = DefaultUpdateUrl
 			};
 			InstanceService.EnsureDefaultInstance(obj);
 			AccountService.EnsureAccounts(obj);
@@ -111,6 +118,10 @@ public static class ConfigStore
 				config.GameDirectory = PlatformPaths.GetDefaultMinecraftDirectory();
 			}
 			InstanceService.EnsureDefaultInstance(config);
+			if (string.IsNullOrWhiteSpace(config.UpdateUrl))
+			{
+				config.UpdateUrl = DefaultUpdateUrl;
+			}
 			if (flag)
 			{
 				try
@@ -128,7 +139,8 @@ public static class ConfigStore
 			AppConfig obj6 = new AppConfig
 			{
 				GameDirectory = PlatformPaths.GetDefaultMinecraftDirectory(),
-				UseAutoMemory = true
+				UseAutoMemory = true,
+				UpdateUrl = DefaultUpdateUrl
 			};
 			InstanceService.EnsureDefaultInstance(obj6);
 			AccountService.EnsureAccounts(obj6);

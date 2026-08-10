@@ -112,6 +112,24 @@ jobs:
           ($manifest | ConvertTo-Json) | Set-Content -Path dist/manifest.json -Encoding utf8
           Write-Host "manifest 已重写为 Gitee 主源 + GitHub 备用"
 
+          # 4. 更新 Gitee 仓库根 update.json（固定地址，用户 config 默认指向它）
+          #    Gitee contents API：文件不存在用 POST 创建；已存在用 PUT 更新（带 sha）
+          $contentB64 = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes(($manifest | ConvertTo-Json)))
+          $updatePath = "update.json"
+          $fileSha = $null
+          try {
+            $existing = Invoke-RestMethod -Uri "$api/contents/$updatePath" -Method Get -Headers $headers -TimeoutSec 30
+            $fileSha = $existing.sha
+            Write-Host "update.json 已存在 sha=$fileSha"
+          } catch { Write-Host "update.json 尚不存在，将创建" }
+          $updateBody = @{ access_token = $token; content = $contentB64; message = "release: $tag" }
+          $method = "PUT"
+          if ($fileSha) { $updateBody.sha = $fileSha } else { $method = "POST" }
+          try {
+            Invoke-RestMethod -Uri "$api/contents/$updatePath" -Method $method -Headers $headers -Body ($updateBody | ConvertTo-Json) -TimeoutSec 30 | Out-Null
+            Write-Host "update.json 已更新: $api/raw/master/$updatePath"
+          } catch { Write-Host "update.json 更新失败: $_" }
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
