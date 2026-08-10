@@ -9,6 +9,9 @@ public sealed class UpdateManifest
 
 	public string Url { get; set; } = string.Empty;
 
+	/// <summary>备用下载地址（主地址失败时回退），可空。</summary>
+	public string FallbackUrl { get; set; } = string.Empty;
+
 	public long Size { get; set; }
 
 	public string Sha256 { get; set; } = string.Empty;

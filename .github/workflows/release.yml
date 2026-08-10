@@ -21,10 +21,19 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
+      - name: Compute version (from tag)
+        id: version
+        shell: pwsh
+        run: |
+          # tag 形如 v1.2.3 → 去掉 v 前缀，作为单一声明版本（与运行时 LauncherVersion 一致）
+          $ver = "${{ github.ref_name }}".Substring(1)
+          echo "version=$ver" >> $env:GITHUB_OUTPUT
+
       - name: Publish (win-x64 single file)
-        run: dotnet publish dev/PineglowLauncher/Pineglow.Launcher.csproj -c Release -r win-x64 --self-contained /p:PublishSingleFile=true /p:EnableCompressionInSingleFile=true /p:DebugType=None /p:DebugSymbols=false /p:PublishDir=dist
+        run: dotnet publish dev/PineglowLauncher/Pineglow.Launcher.csproj -c Release -r win-x64 --self-contained /p:PublishSingleFile=true /p:EnableCompressionInSingleFile=true /p:DebugType=None /p:DebugSymbols=false /p:PublishDir=dist /p:Version=${{ steps.version.outputs.version }}
 
       - name: Rename exe + generate manifest
+        id: manifest
         shell: pwsh
         run: |
           $exe = Get-ChildItem dist/*.exe | Select-Object -First 1
@@ -32,17 +41,76 @@ jobs:
           Move-Item $exe.FullName $final -Force
           $size = (Get-Item $final).Length
           $hash = (Get-FileHash $final -Algorithm SHA256).Hash.ToLower()
-          $version = "${{ github.ref_name }}".Substring(1)
-          $dlUrl = "https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/Pineglow-Launcher-win-x64-single-file.exe"
+          $version = "${{ steps.version.outputs.version }}"
+          $tag = "${{ github.ref_name }}"
+          $ghUrl = "https://github.com/${{ github.repository }}/releases/download/$tag/Pineglow-Launcher-win-x64-single-file.exe"
           $manifest = [ordered]@{
             version   = $version
-            url       = $dlUrl
+            url       = $ghUrl
             size      = $size
             sha256    = $hash
             notes     = "Pineglow Launcher $version"
             mandatory = $false
           }
           ($manifest | ConvertTo-Json) | Set-Content -Path dist/manifest.json -Encoding utf8
+
+      # 国内中转：将 exe 上传到 Gitee 同名 release，并把 manifest.url 指向 Gitee 直链、fallbackUrl 保留 GitHub。
+      # 需在 GitHub 仓库 Secrets 配置 GITEE_TOKEN（Gitee 私人令牌，需 projects 权限）。
+      # 未配置 GITEE_TOKEN 时自动跳过，仅发布 GitHub（manifest.url 保持 GitHub 直链）。
+      - name: Mirror to Gitee (optional)
+        if: ${{ secrets.GITEE_TOKEN != '' }}
+        shell: pwsh
+        env:
+          GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
+        run: |
+          $token = $env:GITEE_TOKEN
+          $owner = "${{ github.repository_owner }}"
+          $repo  = "pineglow-launcher"
+          $tag   = "${{ github.ref_name }}"
+          $ver   = "${{ steps.version.outputs.version }}"
+          $exePath = "dist/Pineglow-Launcher-win-x64-single-file.exe"
+          $ghUrl = "https://github.com/${{ github.repository }}/releases/download/$tag/Pineglow-Launcher-win-x64-single-file.exe"
+          $api = "https://gitee.com/api/v5/repos/$owner/$repo"
+
+          # 1. 创建或复用 Gitee release
+          $headers = @{ "Content-Type" = "application/json" }
+          $body = @{ access_token = $token; tag_name = $tag; name = $tag; body = "Pineglow Launcher $ver"; target_commitish = "master" } | ConvertTo-Json
+          $release = $null
+          try {
+            $release = Invoke-RestMethod -Uri "$api/releases" -Method Post -Headers $headers -Body $body -TimeoutSec 30
+          } catch {
+            # 已存在（重复发版）则按 tag 查询
+            try { $release = Invoke-RestMethod -Uri "$api/releases/tags/$tag" -Method Get -Headers $headers -TimeoutSec 30 } catch { throw "Gitee release 创建/查询失败: $_" }
+          }
+          Write-Host "Gitee release id: $($release.id)"
+
+          # 2. 上传 exe 附件（先清同名旧附件避免重复）
+          try {
+            $attachments = Invoke-RestMethod -Uri "$api/releases/$($release.id)/attach_files" -Method Get -Headers $headers -TimeoutSec 30
+            foreach ($a in $attachments) {
+              if ($a.name -eq "Pineglow-Launcher-win-x64-single-file.exe") {
+                Invoke-RestMethod -Uri "$api/releases/$($release.id)/attach_files/$($a.id)" -Method Delete -Headers $headers -TimeoutSec 30 | Out-Null
+              }
+            }
+          } catch { Write-Host "清理旧附件跳过: $_" }
+
+          $form = @{ access_token = $token; file = Get-Item $exePath }
+          $uploaded = Invoke-RestMethod -Uri "$api/releases/$($release.id)/attach_files" -Method Post -Form $form -TimeoutSec 300
+          $giteeUrl = $uploaded.browser_download_url
+          Write-Host "Gitee 附件: $giteeUrl"
+
+          # 3. 重写 manifest：主地址 Gitee，备用 GitHub
+          $manifest = @{
+            version   = $ver
+            url       = $giteeUrl
+            fallbackUrl = $ghUrl
+            size      = (Get-Item $exePath).Length
+            sha256    = (Get-FileHash $exePath -Algorithm SHA256).Hash.ToLower()
+            notes     = "Pineglow Launcher $ver"
+            mandatory = $false
+          }
+          ($manifest | ConvertTo-Json) | Set-Content -Path dist/manifest.json -Encoding utf8
+          Write-Host "manifest 已重写为 Gitee 主源 + GitHub 备用"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2

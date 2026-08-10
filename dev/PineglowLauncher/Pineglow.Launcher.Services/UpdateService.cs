@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
@@ -65,10 +66,49 @@ public static class UpdateService
 			return dest;
 		}
 
-		string part = dest + ".part";
-		using HttpResponseMessage response = await http.GetAsync(manifest.Url, HttpCompletionOption.ResponseHeadersRead, ct);
+		// 主地址 + 备用地址依次尝试：主源（Gitee 国内快）失败后回退备用源（GitHub）
+		string[] urls = new string[]
+		{
+			manifest.Url,
+			string.IsNullOrWhiteSpace(manifest.FallbackUrl) ? string.Empty : manifest.FallbackUrl
+		};
+		List<string> errors = new List<string>();
+		foreach (string url in urls)
+		{
+			if (string.IsNullOrWhiteSpace(url))
+			{
+				continue;
+			}
+			try
+			{
+				string part = dest + ".part";
+				bool ok = await TryDownloadFromAsync(http, url, part, manifest.Size, progress, ct);
+				if (ok && Sha256Matches(part, manifest.Sha256))
+				{
+					if (File.Exists(dest))
+					{
+						File.Delete(dest);
+					}
+					File.Move(part, dest);
+					progress?.Report(1.0);
+					return dest;
+				}
+				File.Delete(part);
+				errors.Add("校验失败：" + url);
+			}
+			catch (Exception ex)
+			{
+				errors.Add(url + " - " + ex.Message);
+			}
+		}
+		throw new InvalidOperationException("更新包下载失败：" + string.Join("；", errors));
+	}
+
+	private static async Task<bool> TryDownloadFromAsync(HttpClient http, string url, string part, long expectedSize, IProgress<double>? progress, CancellationToken ct)
+	{
+		using HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, ct);
 		response.EnsureSuccessStatusCode();
-		long total = manifest.Size > 0 ? manifest.Size : (response.Content.Headers.ContentLength ?? 0L);
+		long total = expectedSize > 0 ? expectedSize : (response.Content.Headers.ContentLength ?? 0L);
 		await using FileStream fs = new FileStream(part, FileMode.Create, FileAccess.Write, FileShare.None);
 		await using System.IO.Stream stream = await response.Content.ReadAsStreamAsync(ct);
 		byte[] buffer = new byte[81920];
@@ -82,19 +122,7 @@ public static class UpdateService
 		}
 		await fs.FlushAsync(ct);
 		fs.Close();
-
-		if (!Sha256Matches(part, manifest.Sha256))
-		{
-			File.Delete(part);
-			throw new InvalidOperationException("更新包校验失败（SHA256 不匹配），请重试。");
-		}
-		if (File.Exists(dest))
-		{
-			File.Delete(dest);
-		}
-		File.Move(part, dest);
-		progress?.Report(1.0);
-		return dest;
+		return true;
 	}
 
 	/// <summary>生成替换脚本并启动；脚本等待当前进程退出后替换 exe 并重启。</summary>
