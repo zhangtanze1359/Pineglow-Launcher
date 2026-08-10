@@ -269,6 +269,8 @@ SG.api = (() => {
 	const mapWorld = (w, instances) => {
 		const inst = instances.find(x => x.id === w.instanceId);
 		return {
+			instanceId: w.instanceId || '',
+			folderName: w.folderName || w.displayName || w.name || '',
 			name: w.displayName || w.folderName || '存档',
 			instance: w.instanceName || (inst ? inst.name : '未知实例'),
 			icon: '🌍',
@@ -492,6 +494,35 @@ SG.api = (() => {
 			const res = await _post('/api/logs/open', {});
 			return { ok: !!res.ok, path: res.path || '' };
 		},
+		async uploadSkin(accountId, pngBase64, slim) {
+			const res = await _post('/api/accounts/skin', { accountId: accountId || '', pngBase64, slim: !!slim });
+			return { ok: !!res.ok, account: mapAccount(res.account, res.account && res.account.id) };
+		},
+		async createSaveBackup(instanceId, folderName) {
+			const res = await _post('/api/instances/' + encodeURIComponent(instanceId) + '/saves/' + encodeURIComponent(folderName) + '/backup', {});
+			return { ok: !!res.ok, path: res.path || '', folderName: res.folderName || '' };
+		},
+		async listSaveBackups(instanceId, folderName) {
+			const data = await _req('/api/instances/' + encodeURIComponent(instanceId) + '/saves/' + encodeURIComponent(folderName) + '/backups');
+			return (data.backups || []).map(b => ({
+				fileName: b.fileName,
+				groupName: b.groupName || '',
+				sizeText: b.sizeText || '',
+				createdAt: b.createdAt || '',
+			}));
+		},
+		async restoreSaveBackup(instanceId, folderName, backupName) {
+			const res = await _post('/api/instances/' + encodeURIComponent(instanceId) + '/saves/' + encodeURIComponent(folderName) + '/backups/' + encodeURIComponent(backupName) + '/restore', {});
+			return { ok: !!res.ok, path: res.path || '' };
+		},
+		async deleteSave(instanceId, folderName) {
+			const res = await _post('/api/instances/' + encodeURIComponent(instanceId) + '/saves/' + encodeURIComponent(folderName) + '/delete', {});
+			return { ok: !!res.ok };
+		},
+		async openSaveDirectory(instanceId, folderName) {
+			const res = await _post('/api/instances/' + encodeURIComponent(instanceId) + '/saves/' + encodeURIComponent(folderName) + '/open', {});
+			return { ok: !!res.ok, path: res.path || '' };
+		},
 		async checkUpdate() {
 			return await _req('/api/update/check');
 		},
@@ -643,6 +674,29 @@ SG.api = (() => {
 			return this._mock({ ok: true, account: acc, accounts: SG.mock.accounts });
 		},
 		async openLogDirectory() { return this._mock({ ok: true, path: '[logs 目录]' }); },
+		async uploadSkin(accountId, pngBase64, slim) {
+			const acc = SG.mock.accounts.find(a => a.id === accountId);
+			if (acc) acc.skinCount = (acc.skinCount || 0) + 1;
+			return this._mock({ ok: true, account: acc || SG.mock.accounts[0] });
+		},
+		async createSaveBackup(instanceId, folderName) {
+			return this._mock({ ok: true, path: '[备份] ' + folderName + '.zip', folderName });
+		},
+		async listSaveBackups(instanceId, folderName) {
+			return this._mock([{ fileName: folderName + '-20260810-120000.zip', groupName: '存档', sizeText: '1.2 MB', createdAt: new Date().toISOString() }]);
+		},
+		async restoreSaveBackup(instanceId, folderName, backupName) {
+			return this._mock({ ok: true, path: '[恢复] ' + folderName });
+		},
+		async deleteSave(instanceId, folderName) {
+			const list = SG.mock.worlds;
+			const idx = list.findIndex(w => w.name === folderName);
+			if (idx >= 0) list.splice(idx, 1);
+			return this._mock({ ok: true });
+		},
+		async openSaveDirectory(instanceId, folderName) {
+			return this._mock({ ok: true, path: '[存档目录] ' + folderName });
+		},
 		async checkUpdate() { return this._mock({ enabled: true, currentVersion: '1.0.0', updateAvailable: false, latestVersion: '1.0.0', notes: '', mandatory: false }); },
 		async startUpdateDownload() { return this._mock({ ok: true, state: 'downloading' }); },
 		async getUpdateStatus() { return this._mock({ state: 'completed', progress: 1, version: '1.0.0', path: '', error: '' }); },

@@ -281,10 +281,52 @@ public static class LocalApiService
 					return;
 				}
 
-				if (action.Equals("saves", StringComparison.OrdinalIgnoreCase) && method == "GET")
+				if (seg.Length == 4 && action.Equals("saves", StringComparison.OrdinalIgnoreCase) && method == "GET")
 				{
 					await HandleListSavesAsync(response, instanceId);
 					return;
+				}
+
+				// /api/instances/{id}/saves/{folder}/{backup|delete|open|backups}
+				if (seg.Length == 6 && action.Equals("saves", StringComparison.OrdinalIgnoreCase))
+				{
+					string folderName = seg[4];
+					string saveAction = seg[5];
+					if (saveAction.Equals("backup", StringComparison.OrdinalIgnoreCase) && method == "POST")
+					{
+						await HandleCreateSaveBackupAsync(response, instanceId, folderName);
+						return;
+					}
+
+					if (saveAction.Equals("delete", StringComparison.OrdinalIgnoreCase) && method == "POST")
+					{
+						await HandleDeleteSaveAsync(response, instanceId, folderName);
+						return;
+					}
+
+					if (saveAction.Equals("open", StringComparison.OrdinalIgnoreCase) && method == "POST")
+					{
+						await HandleOpenSaveDirectoryAsync(response, instanceId, folderName);
+						return;
+					}
+
+					if (saveAction.Equals("backups", StringComparison.OrdinalIgnoreCase) && method == "GET")
+					{
+						await HandleListSaveBackupsAsync(response, instanceId, folderName);
+						return;
+					}
+				}
+
+				// /api/instances/{id}/saves/{folder}/backups/{backupName}/restore
+				if (seg.Length == 8 && action.Equals("saves", StringComparison.OrdinalIgnoreCase) && method == "POST")
+				{
+					string folderName3 = seg[4];
+					string backupName = seg[6];
+					if (seg[5].Equals("backups", StringComparison.OrdinalIgnoreCase) && seg[7].Equals("restore", StringComparison.OrdinalIgnoreCase))
+					{
+						await HandleRestoreSaveBackupAsync(response, instanceId, folderName3, backupName);
+						return;
+					}
 				}
 
 				if (action.Equals("mods", StringComparison.OrdinalIgnoreCase) && method == "GET")
@@ -348,6 +390,12 @@ public static class LocalApiService
 					await HandleMicrosoftLoginAsync(response);
 					return;
 				}
+			}
+
+			if (seg.Length == 3 && seg[1].Equals("accounts", StringComparison.OrdinalIgnoreCase) && seg[2].Equals("skin", StringComparison.OrdinalIgnoreCase) && method == "POST")
+			{
+				await HandleUploadSkinAsync(request, response);
+				return;
 			}
 
 			if (seg.Length == 2 && seg[1].Equals("versions", StringComparison.OrdinalIgnoreCase) && method == "GET")
@@ -813,6 +861,139 @@ public static class LocalApiService
 				icon = s.HasIcon && s.IconBytes != null ? "data:image/png;base64," + Convert.ToBase64String(s.IconBytes) : null
 			})
 		});
+	}
+
+	private static SaveInfo RequireSave(AppConfig config, string instanceId, string folderName)
+	{
+		GameInstance instance = RequireInstance(config, instanceId);
+		string gameDir = ResolveGameDirectory(config, instance);
+		return new SaveService(gameDir).GetSaves(instance).FirstOrDefault(x => x.FolderName == folderName)
+			?? throw new InvalidOperationException("存档不存在：" + folderName);
+	}
+
+	private static async Task HandleCreateSaveBackupAsync(HttpListenerResponse response, string instanceId, string folderName)
+	{
+		AppConfig config = LoadConfig();
+		SaveInfo save = RequireSave(config, instanceId, folderName);
+		GameInstance instance = RequireInstance(config, instanceId);
+		string gameDir = ResolveGameDirectory(config, instance);
+		string backupPath = new SaveBackupService(gameDir).CreateBackup(instance, save);
+		await WriteJsonAsync(response, 200, new { ok = true, path = backupPath, folderName });
+	}
+
+	private static async Task HandleListSaveBackupsAsync(HttpListenerResponse response, string instanceId, string folderName)
+	{
+		AppConfig config = LoadConfig();
+		GameInstance instance = RequireInstance(config, instanceId);
+		string gameDir = ResolveGameDirectory(config, instance);
+		List<BackupFileInfo> backups = new SaveBackupService(gameDir).GetBackups(instance);
+		await WriteJsonAsync(response, 200, new { instanceId, folderName, backups });
+	}
+
+	private static async Task HandleRestoreSaveBackupAsync(HttpListenerResponse response, string instanceId, string folderName, string backupName)
+	{
+		AppConfig config = LoadConfig();
+		GameInstance instance = RequireInstance(config, instanceId);
+		string gameDir = ResolveGameDirectory(config, instance);
+		SaveBackupService backupService = new SaveBackupService(gameDir);
+		BackupFileInfo backup = backupService.GetBackups(instance).FirstOrDefault(x => x.FileName == backupName)
+			?? throw new InvalidOperationException("备份不存在：" + backupName);
+		string restoredPath = backupService.RestoreBackup(instance, backup.FullPath);
+		await WriteJsonAsync(response, 200, new { ok = true, path = restoredPath, backupName });
+	}
+
+	private static async Task HandleDeleteSaveAsync(HttpListenerResponse response, string instanceId, string folderName)
+	{
+		AppConfig config = LoadConfig();
+		SaveInfo save = RequireSave(config, instanceId, folderName);
+		string gameDir = ResolveGameDirectory(config, RequireInstance(config, instanceId));
+		new SaveService(gameDir).DeleteSave(save);
+		await WriteJsonAsync(response, 200, new { ok = true, folderName });
+	}
+
+	private static async Task HandleOpenSaveDirectoryAsync(HttpListenerResponse response, string instanceId, string folderName)
+	{
+		AppConfig config = LoadConfig();
+		GameInstance instance = RequireInstance(config, instanceId);
+		string gameDir = ResolveGameDirectory(config, instance);
+		SaveService service = new SaveService(gameDir);
+		SaveInfo save = RequireSave(config, instanceId, folderName);
+		service.OpenSavesDirectory(instance);
+		await WriteJsonAsync(response, 200, new { ok = true, path = save.FullPath });
+	}
+
+	private static async Task HandleUploadSkinAsync(HttpListenerRequest request, HttpListenerResponse response)
+	{
+		JsonDocument body = await ReadBodyAsync(request);
+		string pngBase64 = JsonUtil.GetString(body.RootElement, "pngBase64")?.Trim() ?? string.Empty;
+		bool slim = body.RootElement.TryGetProperty("slim", out JsonElement slimEl) && slimEl.ValueKind == JsonValueKind.True;
+		string accountId = JsonUtil.GetString(body.RootElement, "accountId")?.Trim() ?? string.Empty;
+		if (string.IsNullOrWhiteSpace(pngBase64))
+		{
+			throw new InvalidOperationException("pngBase64 不能为空");
+		}
+
+		AppConfig config = LoadConfig();
+		LauncherAccount account = string.IsNullOrWhiteSpace(accountId)
+			? AccountService.GetSelected(config)
+			: config.Accounts.FirstOrDefault(x => x.Id == accountId);
+		if (account == null)
+		{
+			throw new InvalidOperationException("请先登录一个账号");
+		}
+
+		if (!account.IsMicrosoft)
+		{
+			throw new InvalidOperationException("皮肤上传仅支持 Microsoft 正版账号");
+		}
+
+		string clientId = !string.IsNullOrWhiteSpace(account.ClientId) ? account.ClientId : AuthClientOptions.ResolveMicrosoftClientId();
+		string refreshToken = SecretStore.Load(SecretStore.AccountToken(account.Id));
+		if (string.IsNullOrWhiteSpace(refreshToken))
+		{
+			refreshToken = SecretStore.Load(SecretStore.MicrosoftAccountToken(account.Id));
+		}
+
+		if (string.IsNullOrWhiteSpace(refreshToken))
+		{
+			throw new InvalidOperationException("账号刷新凭据缺失，请重新登录 Microsoft 账号");
+		}
+
+		MicrosoftAuthService authService = new MicrosoftAuthService(ApiHttp);
+		using CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
+		MinecraftAccount mc = await authService.LoginWithRefreshTokenAsync(clientId, refreshToken, cts.Token);
+
+		string tempDir = Path.Combine(Path.GetTempPath(), "pineglow-skin-" + Guid.NewGuid().ToString("N"));
+		Directory.CreateDirectory(tempDir);
+		string pngPath = Path.Combine(tempDir, "skin.png");
+		try
+		{
+			byte[] bytes;
+			try
+			{
+				bytes = Convert.FromBase64String(pngBase64);
+			}
+			catch (FormatException)
+			{
+				throw new InvalidOperationException("皮肤文件不是有效的 base64 数据");
+			}
+
+			await File.WriteAllBytesAsync(pngPath, bytes);
+			MinecraftAppearance appearance = await authService.UploadSkinAsync(mc.AccessToken, pngPath, slim, cts.Token);
+			account.SkinUrl = appearance.SkinUrl;
+			account.SkinCount = appearance.SkinCount;
+			account.CapeCount = appearance.CapeCount;
+			account.Capes = appearance.Capes;
+			SaveConfig(config);
+			await WriteJsonAsync(response, 200, new { ok = true, account = BuildAccountSummary(account) });
+		}
+		finally
+		{
+			if (Directory.Exists(tempDir))
+			{
+				Directory.Delete(tempDir, recursive: true);
+			}
+		}
 	}
 
 	private static async Task HandleListModsAsync(HttpListenerResponse response, string instanceId)

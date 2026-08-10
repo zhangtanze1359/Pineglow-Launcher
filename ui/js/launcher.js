@@ -623,7 +623,7 @@ async function renderWorlds() {
 	let worlds = [];
 	try { worlds = await SG.api.getWorlds(); } catch (e) { worlds = []; }
 	const cards = worlds.length ? worlds.map(w => `
-		<div class="world-card">
+		<div class="world-card" data-inst="${esc(w.instanceId)}" data-folder="${esc(w.folderName)}">
 			<div class="world-icon" style="background:${w.iconBg || '#2b3040'}">${esc(w.icon || '🌍')}</div>
 			<div class="world-meta">
 				<span class="world-name">${esc(w.name)}</span>
@@ -644,7 +644,93 @@ async function renderWorlds() {
 	</div>`;
 }
 function bindWorlds(el) {
-	el.querySelectorAll('.world-card').forEach(c => c.addEventListener('click', () => toast(t('worlds.openHint'))));
+	el.querySelectorAll('.world-card').forEach(c => c.addEventListener('click', async () => {
+		const instanceId = c.dataset.inst;
+		const folderName = c.dataset.folder;
+		const name = c.querySelector('.world-name')?.textContent || folderName;
+		if (!instanceId || !folderName) return;
+		openWorldActions(instanceId, folderName, name);
+	}));
+}
+
+/* 存档操作弹窗：备份 / 查看备份 / 打开目录 / 删除 */
+async function openWorldActions(instanceId, folderName, name) {
+	const backupsHtml = await renderBackupList(instanceId, folderName);
+	openModal(`
+		<div class="modal-title">${esc(name)}</div>
+		<div class="world-actions">
+			<button class="modal-btn primary" id="waBackup">${esc(t('worlds.backup'))}</button>
+			<button class="modal-btn ghost" id="waOpen">${esc(t('worlds.openFolder'))}</button>
+			<button class="modal-btn danger" id="waDelete">${esc(t('worlds.delete'))}</button>
+		</div>
+		<div class="world-backups">
+			<div class="wb-label">${esc(t('worlds.backups'))}</div>
+			<div id="wbList">${backupsHtml}</div>
+		</div>
+		<div class="modal-actions"><button class="modal-btn" id="waClose">${esc(t('common.close'))}</button></div>
+	`);
+	document.getElementById('waClose').onclick = closeModal;
+	document.getElementById('waBackup').onclick = async () => {
+		const btn = document.getElementById('waBackup');
+		btn.disabled = true;
+		btn.textContent = t('worlds.backingUp');
+		try {
+			await SG.api.createSaveBackup(instanceId, folderName);
+			toast(t('worlds.backupDone'));
+			closeModal();
+		} catch (err) {
+			toast(t('worlds.backupFailed') + (err.message || t('common.unknownError')));
+		} finally {
+			btn.disabled = false;
+			btn.textContent = t('worlds.backup');
+		}
+	};
+	document.getElementById('waOpen').onclick = async () => {
+		try {
+			await SG.api.openSaveDirectory(instanceId, folderName);
+			toast(t('worlds.openFolder'));
+		} catch (err) { toast(t('worlds.openFailed') + (err.message || t('common.unknownError'))); }
+	};
+	document.getElementById('waDelete').onclick = async () => {
+		if (!confirm(t('worlds.deleteConfirm', { name }))) return;
+		try {
+			await SG.api.deleteSave(instanceId, folderName);
+			toast(t('worlds.deleted'));
+			closeModal();
+			const v = document.getElementById('view-worlds');
+			v.innerHTML = await renderWorlds(); bindWorlds(v);
+		} catch (err) { toast(t('worlds.deleteFailed') + (err.message || t('common.unknownError'))); }
+	};
+	const listEl = document.getElementById('wbList');
+	if (listEl) {
+		listEl.querySelectorAll('[data-restore]').forEach(b => b.addEventListener('click', async () => {
+			const backupName = b.dataset.restore;
+			if (!confirm(t('worlds.restoreConfirm', { name: backupName }))) return;
+			b.disabled = true;
+			try {
+				await SG.api.restoreSaveBackup(instanceId, folderName, backupName);
+				toast(t('worlds.restored'));
+				closeModal();
+			} catch (err) {
+				toast(t('worlds.restoreFailed') + (err.message || t('common.unknownError')));
+				b.disabled = false;
+			}
+		}));
+	}
+}
+
+async function renderBackupList(instanceId, folderName) {
+	let backups = [];
+	try { backups = await SG.api.listSaveBackups(instanceId, folderName); } catch (e) { backups = []; }
+	if (!backups.length) return `<div style="padding:8px;color:var(--muted,#8b91a1);font-size:12px">${esc(t('worlds.noBackups'))}</div>`;
+	return backups.map(b => `
+		<div class="wb-row">
+			<div class="wb-info">
+				<span class="wb-name">${esc(b.fileName)}</span>
+				<span class="wb-sub">${esc(b.sizeText || '')} · ${esc(String(b.createdAt || '').slice(0, 19).replace('T', ' ') || '')}</span>
+			</div>
+			<button class="modal-btn ghost" data-restore="${esc(b.fileName)}">${esc(t('worlds.restore'))}</button>
+		</div>`).join('');
 }
 
 /* ================================================================
@@ -987,13 +1073,35 @@ function bindSkins(el) {
 		});
 	});
 	el.querySelector('#btnUploadSkin')?.addEventListener('click', () => {
+		const active = ACCOUNTS.find(a => a.selected) || ACCOUNTS[0];
+		if (!active) { toast(t('skin.needAccount')); return; }
+		if (active.type !== 'microsoft') { toast(t('skin.needMicrosoft')); return; }
 		const input = document.createElement('input');
 		input.type = 'file';
 		input.accept = 'image/png';
 		input.onchange = () => {
 			const f = input.files && input.files[0];
 			if (!f) return;
-			toast(t('skin.fileChosen', { name: f.name }));
+			const reader = new FileReader();
+			reader.onload = async () => {
+				const b64 = String(reader.result || '').replace(/^data:image\/png;base64,/, '');
+				const btn = el.querySelector('#btnUploadSkin');
+				if (btn) { btn.disabled = true; btn.textContent = t('skin.uploading'); }
+				try {
+					await SG.api.uploadSkin(active.id, b64, false);
+					toast(t('skin.uploaded'));
+					// 刷新账号列表（皮肤数量/外观变化）
+					await loadState(true);
+					invalidate('skins');
+					const v = document.getElementById('view-skins');
+					v.innerHTML = await renderSkins(); bindSkins(v);
+				} catch (err) {
+					toast(t('skin.uploadFailed') + (err.message || t('common.unknownError')));
+				} finally {
+					if (btn) { btn.disabled = false; btn.textContent = t('skin.upload'); }
+				}
+			};
+			reader.readAsDataURL(f);
 		};
 		input.click();
 	});
