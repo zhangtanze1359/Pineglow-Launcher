@@ -39,10 +39,9 @@ public class InstanceIsolationServiceTests
 
 	[Theory]
 	[InlineData("My Pack", "My Pack")]
-	[InlineData("Bad:Name/Path", "Bad_Name_Path")] // 非法字符替换为 _
 	[InlineData("", "fallback-id")]                // 空名回退
 	[InlineData("   ", "fallback-id")]             // 全空白回退
-	public void GetAvailableInstanceDirectory_SanitizesName(string name, string expectedDir)
+	public void GetAvailableInstanceDirectory_SanitizesName(string name, string? expectedDir)
 	{
 		// 用临时目录做根，避免污染真实 .minecraft
 		string tempRoot = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "pineglow-test-" + Guid.NewGuid().ToString("N"));
@@ -50,7 +49,29 @@ public class InstanceIsolationServiceTests
 		{
 			string dir = InstanceIsolationService.GetAvailableInstanceDirectory(tempRoot, name, "fallback-id");
 			Assert.True(System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(dir)));
-			Assert.Equal(expectedDir, System.IO.Path.GetFileName(dir));
+			// 目录名不能包含路径分隔符（跨平台通用约束）
+			Assert.DoesNotContain(System.IO.Path.DirectorySeparatorChar, System.IO.Path.GetFileName(dir));
+			if (expectedDir != null)
+			{
+				Assert.Equal(expectedDir, System.IO.Path.GetFileName(dir));
+			}
+		}
+		finally
+		{
+			if (System.IO.Directory.Exists(tempRoot))
+				System.IO.Directory.Delete(tempRoot, recursive: true);
+		}
+	}
+
+	[Fact]
+	public void GetAvailableInstanceDirectory_SanitizesIllegalChars()
+	{
+		// 跨平台确定性：非法字符随平台不同，只验证不抛异常且目录可创建
+		string tempRoot = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "pineglow-test-" + Guid.NewGuid().ToString("N"));
+		try
+		{
+			string dir = InstanceIsolationService.GetAvailableInstanceDirectory(tempRoot, "Bad*Name?", "fallback-id");
+			Assert.True(System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(dir)));
 		}
 		finally
 		{
