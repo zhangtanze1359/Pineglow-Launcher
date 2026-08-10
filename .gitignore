@@ -40,3 +40,7 @@ dev/figma-2x.png
 dev/cap_*.py
 dev/joblog.txt
 dev/joblog.txt
+dev/rel*.json
+dev/rel*_log.txt
+dev/rel*.json
+dev/rel*_log.txt
