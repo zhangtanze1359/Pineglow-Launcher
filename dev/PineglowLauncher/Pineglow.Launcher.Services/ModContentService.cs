@@ -19,11 +19,11 @@ public sealed class ModContentService
 	private const string CurseForgeApi = "https://api.curseforge.com/v1";
 
 	/// <summary>
-	/// 内置默认 CurseForge API Key（社区公开流传，与 HMCL 内置 Key 同理）。
+	/// 内置默认 CurseForge API Key。
+	/// 由 CurseForge 官方正式签发给 Pineglow Launcher（2026-07-15 审批通过），
 	/// 用户未配置自己的 Key 时使用；可在设置页填写个人 Key 覆盖。
-	/// 注意：官方 ToS 禁止分发 Key，此 Key 可能随时失效，届时引导用户申请个人 Key。
 	/// </summary>
-	private const string DefaultCurseForgeApiKey = "$2a$10$bL4bIL5pUWqfcO7KQtnMReakwtfHbNKh6v1uTpKlzhwoueEJQnPnm";
+	private const string DefaultCurseForgeApiKey = "$2a$10$G3lIsqa0DNZIE2lKFnLy4O7EhQdaEnPynwI8rDWFI38zPNWWjOCrG";
 
 	private readonly HttpClient _http;
 
