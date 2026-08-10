@@ -4,19 +4,26 @@ namespace Pineglow.Launcher.Tests;
 
 public class InstanceIsolationServiceTests
 {
+	private static string BuildPath(params string[] parts)
+	{
+		// 用临时根目录构造绝对路径，确保各平台 DirectoryInfo.Parent 行为一致
+		return System.IO.Path.Combine(System.IO.Path.GetTempPath(), "pineglow-mcroot-test", System.IO.Path.Combine(parts));
+	}
+
 	[Fact]
 	public void GetMinecraftRoot_FindsInstancesParent()
 	{
-		// Windows 路径：.../.minecraft/instances/my-pack → 根为 .../.minecraft
-		string root = InstanceIsolationService.GetMinecraftRoot(@"C:\games\.minecraft\instances\my-pack");
+		// <temp>/.../.minecraft/instances/my-pack → 根为 <temp>/.../.minecraft
+		string input = BuildPath(".minecraft", "instances", "my-pack");
+		string root = InstanceIsolationService.GetMinecraftRoot(input);
 
-		Assert.Equal(@"C:\games\.minecraft", root);
+		Assert.Equal(System.IO.Path.Combine(System.IO.Path.GetTempPath(), "pineglow-mcroot-test", ".minecraft"), root);
 	}
 
 	[Fact]
 	public void GetMinecraftRoot_NoInstances_ReturnsInput()
 	{
-		string input = @"C:\games\.minecraft";
+		string input = BuildPath(".minecraft");
 		Assert.Equal(input, InstanceIsolationService.GetMinecraftRoot(input));
 	}
 
@@ -24,9 +31,10 @@ public class InstanceIsolationServiceTests
 	public void GetMinecraftRoot_NestedInstances_FindsFirstParent()
 	{
 		// 从更深层实例目录也能找到根
-		string root = InstanceIsolationService.GetMinecraftRoot(@"C:\games\.minecraft\instances\pack\mods");
+		string input = BuildPath(".minecraft", "instances", "pack", "mods");
+		string root = InstanceIsolationService.GetMinecraftRoot(input);
 
-		Assert.Equal(@"C:\games\.minecraft", root);
+		Assert.Equal(System.IO.Path.Combine(System.IO.Path.GetTempPath(), "pineglow-mcroot-test", ".minecraft"), root);
 	}
 
 	[Theory]
