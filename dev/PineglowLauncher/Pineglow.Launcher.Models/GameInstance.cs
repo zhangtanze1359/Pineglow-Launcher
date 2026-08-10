@@ -36,6 +36,12 @@ public sealed class GameInstance
 
 	public DateTimeOffset? LastLaunchTime { get; set; }
 
+	/// <summary>累计游玩时长（秒）</summary>
+	public long TotalPlaySeconds { get; set; }
+
+	/// <summary>游玩次数</summary>
+	public int PlayCount { get; set; }
+
 	public string Notes { get; set; } = string.Empty;
 
 	public string CustomJvmArgs { get; set; } = string.Empty;

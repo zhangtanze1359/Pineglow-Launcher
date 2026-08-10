@@ -516,6 +516,12 @@ public static class LocalApiService
 				return;
 			}
 
+			if (seg.Length == 2 && seg[1].Equals("stats", StringComparison.OrdinalIgnoreCase) && method == "GET")
+			{
+				await HandleGetStatsAsync(response);
+				return;
+			}
+
 			if (seg.Length == 2 && seg[1].Equals("sources", StringComparison.OrdinalIgnoreCase) && method == "GET")
 			{
 				await HandleListSourcesAsync(response);
@@ -710,6 +716,8 @@ public static class LocalApiService
 			instance.LoaderVersion,
 			instance.BaseMinecraftVersion,
 			instance.LastLaunchTime,
+			instance.TotalPlaySeconds,
+			instance.PlayCount,
 			instance.Notes,
 			instance.CustomJvmArgs,
 			instance.CustomGameArgs,
@@ -987,7 +995,27 @@ public static class LocalApiService
 
 		Process process = await new LauncherService(msg => Debug.WriteLine("[launch] " + msg)).LaunchAsync(profile, CancellationToken.None);
 		instance.LastLaunchTime = DateTimeOffset.Now;
+		instance.PlayCount++;
 		SaveConfig(config);
+		// 挂进程退出事件，累加游玩时长（进程退出后写 config）
+		_ = Task.Run(async () =>
+		{
+			try
+			{
+				DateTimeOffset start = DateTimeOffset.Now;
+				await process.WaitForExitAsync();
+				AppConfig latest = LoadConfig();
+				GameInstance? target = latest.Instances.FirstOrDefault(x => x.Id == instanceId);
+				if (target != null)
+				{
+					target.TotalPlaySeconds += (long)Math.Max(0, (DateTimeOffset.Now - start).TotalSeconds);
+					SaveConfig(latest);
+				}
+			}
+			catch
+			{
+			}
+		});
 		await WriteJsonAsync(response, 200, new { ok = true, pid = process.Id });
 	}
 
@@ -2164,6 +2192,28 @@ public static class LocalApiService
 		{
 			ModrinthModpackService.DeleteDownload(zipPath);
 		}
+	}
+
+	private static async Task HandleGetStatsAsync(HttpListenerResponse response)
+	{
+		AppConfig config = LoadConfig();
+		long totalSeconds = config.Instances.Sum(x => x.TotalPlaySeconds);
+		int totalCount = config.Instances.Sum(x => x.PlayCount);
+		var perInstance = config.Instances.Select(x => new
+		{
+			x.Id,
+			x.Name,
+			x.PlayCount,
+			x.TotalPlaySeconds,
+			lastLaunch = x.LastLaunchTime
+		}).ToList();
+		await WriteJsonAsync(response, 200, new
+		{
+			totalPlaySeconds = totalSeconds,
+			totalPlayCount = totalCount,
+			totalInstances = config.Instances.Count,
+			perInstance
+		});
 	}
 
 	private static async Task HandleListJavaAsync(HttpListenerResponse response)

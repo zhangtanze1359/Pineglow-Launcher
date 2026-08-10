@@ -221,6 +221,8 @@ SG.api = (() => {
 		modsCount: i.modsCount || 0,
 		savesCount: i.savesCount || 0,
 		gameDir: i.gameDirectory || '',
+		totalPlaySeconds: i.totalPlaySeconds || 0,
+		playCount: i.playCount || 0,
 		selected: i.id === selectedId,
 	});
 
@@ -459,6 +461,9 @@ SG.api = (() => {
 				})),
 			};
 		},
+		async getStats() {
+			return await _req('/api/stats');
+		},
 		async selectSource(key) {
 			const res = await _post('/api/sources/select', { key });
 			return { ok: !!res.ok, selected: res.selected || '', useMirror: !!res.useMirror };
@@ -677,6 +682,9 @@ SG.api = (() => {
 					{ key: 'mcbbs', name: 'MCBBS 镜像', baseUrl: 'https://download.mcbbs.net', latencyMs: lat.mcbbs, available: true },
 				],
 			});
+		},
+		async getStats() {
+			return this._mock({ totalPlaySeconds: 0, totalPlayCount: 0, totalInstances: SG.mock.instances.length, perInstance: [] });
 		},
 		async selectSource(key) {
 			SG.mock.settings.downloadSource = key;

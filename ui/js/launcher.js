@@ -124,12 +124,12 @@ function faceThumb(scale, skin) {
 }
 
 /* ================================================================
-   静态内容（后端无对应接口：官方新闻）
+   新闻（内置静态源，可扩展为远程）
    ================================================================ */
 const NEWS = [
-	{ catKey: 'news.community', titleKey: 'news.title1', date: 'Sep 5, 2024',  art: 'linear-gradient(135deg,#c8703a,#7a3d1a)' },
-	{ catKey: 'news.update',    titleKey: 'news.title2', date: 'Aug 28, 2024', art: 'linear-gradient(135deg,#4a90d9,#2d5c8f)' },
-	{ catKey: 'news.merch',     titleKey: 'news.title3', date: 'Aug 12, 2024', art: 'linear-gradient(135deg,#3aa06a,#1f5e3e)' },
+	{ catKey: 'news.community', titleKey: 'news.title1', descKey: 'news.desc1', date: '2024-09-05', art: 'linear-gradient(135deg,#c8703a,#7a3d1a)', link: 'https://www.minecraft.net/zh-hans/article/minecraft-live' },
+	{ catKey: 'news.update',    titleKey: 'news.title2', descKey: 'news.desc2', date: '2024-08-28', art: 'linear-gradient(135deg,#4a90d9,#2d5c8f)', link: 'https://www.minecraft.net/zh-hans/article' },
+	{ catKey: 'news.merch',     titleKey: 'news.title3', descKey: 'news.desc3', date: '2024-08-12', art: 'linear-gradient(135deg,#3aa06a,#1f5e3e)', link: 'https://www.minecraft.net/zh-hans/article' },
 ];
 
 /* ================================================================
@@ -139,17 +139,22 @@ async function renderHome() {
 	await loadState();
 	const insts = STATE.instances || [];
 	const sel = insts.find(i => i.id === selectedInstanceId) || insts[0];
+	let totalPlaySeconds = 0, totalPlayCount = 0;
+	try {
+		const st = await SG.api.getStats();
+		if (st) { totalPlaySeconds = st.totalPlaySeconds || 0; totalPlayCount = st.totalPlayCount || 0; }
+	} catch (e) { /* 忽略统计加载失败 */ }
 
 	const options = insts.map(i => `<option value="${esc(i.id)}"${i.id === (sel && sel.id) ? ' selected' : ''}>${esc(i.name)} · ${esc(i.version || '—')}</option>`).join('');
 	const news = NEWS.map(n => {
 		const title = t(n.titleKey);
 		return `
-		<button class="news-card" data-news="${esc(title)}">
+		<button class="news-card" data-news="${esc(title)}" data-link="${esc(n.link || '')}">
 			<div class="news-art" style="background:${n.art}"></div>
 			<div class="news-body">
 				<span class="news-cat">${esc(t(n.catKey))}</span>
 				<span class="news-title">${esc(title)}</span>
-				<span class="news-date">${esc(n.date)}</span>
+				<span class="news-date">${esc(fmtDate(n.date))}</span>
 			</div>
 		</button>`;
 	}).join('');
@@ -162,6 +167,11 @@ async function renderHome() {
 				<span class="banner-badge">${esc(t('home.badge'))}</span>
 				<h1 class="banner-title">${esc(t('home.bannerTitle'))}</h1>
 				<p class="banner-desc">${esc(t('home.bannerDesc'))}</p>
+				<div class="banner-stats">
+					<span class="bs-item"><b>${esc(fmtPlayTime(totalPlaySeconds))}</b>${esc(t('home.statsPlayTime'))}</span>
+					<span class="bs-item"><b>${esc(totalPlayCount)}</b>${esc(t('home.statsPlayCount'))}</span>
+					<span class="bs-item"><b>${esc(insts.length)}</b>${esc(t('home.statsInstances'))}</span>
+				</div>
 			</div>
 		</div>
 
@@ -199,7 +209,10 @@ async function renderInstallations() {
 	const cards = insts.map(i => {
 		const isSel = i.id === selectedInstanceId;
 		const kind = (i.loader && i.loader !== 'Vanilla') ? 'mod' : 'all';
-		const sub = `Minecraft ${esc(i.version || '—')} · ${esc(i.lastPlayed || t('inst.neverPlayed'))}`;
+		const playInfo = (i.totalPlaySeconds > 0 || i.playCount > 0)
+			? ` · ${esc(t('inst.played', { n: i.playCount || 0, t: fmtPlayTime(i.totalPlaySeconds) }))}`
+			: '';
+		const sub = `Minecraft ${esc(i.version || '—')} · ${esc(i.lastPlayed || t('inst.neverPlayed'))}${playInfo}`;
 		return `
 		<div class="inst-card ${isSel ? 'selected' : ''}" data-inst="${esc(i.id)}" data-kind="${kind}">
 			<div class="inst-left">
@@ -937,6 +950,7 @@ const VIEWS = {
 	content:       { titleKey: 'view.content',       render: renderContent,       bind: bindContent },
 	skins:         { titleKey: 'view.skins',         render: renderSkins,         bind: bindSkins },
 	downloads:     { titleKey: 'view.downloads',     render: renderDownloads,     bind: bindDownloads },
+	news:          { titleKey: 'view.news',          render: renderNews,          bind: bindNews },
 	settings:      { titleKey: 'view.settings',      render: renderSettings,      bind: bindSettings },
 };
 let currentView = null;
@@ -1017,7 +1031,15 @@ function doLaunchInternal(instanceId, label) {
 /* ---------------- Play 页 ---------------- */
 function bindHome(el) {
 	el.querySelectorAll('.news-card').forEach(c => {
-		c.addEventListener('click', () => toast(t('home.newsOpen', { title: c.dataset.news })));
+		c.addEventListener('click', () => {
+			// 有链接则打开外部，否则跳转 News 页
+			if (c.dataset.link) {
+				toast(t('home.newsOpen', { title: c.dataset.news }));
+				window.open(c.dataset.link, '_blank', 'noopener');
+			} else {
+				goTo('news');
+			}
+		});
 	});
 	const selEl = el.querySelector('#pfVersionSelect');
 	if (selEl) selEl.addEventListener('change', () => { selectedInstanceId = selEl.value; invalidate('installations'); });
@@ -1026,6 +1048,66 @@ function bindHome(el) {
 		const inst = (STATE.instances || []).find(i => i.id === selectedInstanceId);
 		doLaunch(selectedInstanceId, inst ? inst.name : t('launch.game'));
 	});
+}
+
+/* ================================================================
+   News 新闻
+   ================================================================ */
+function fmtDate(v) {
+	if (!v) return '';
+	const d = new Date(v);
+	if (isNaN(d.getTime())) return String(v);
+	const p = n => String(n).padStart(2, '0');
+	return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+}
+
+function fmtPlayTime(seconds) {
+	seconds = Math.max(0, Math.floor(seconds || 0));
+	if (seconds < 60) return seconds + 's';
+	const m = Math.floor(seconds / 60);
+	if (m < 60) return m + 'm';
+	const h = Math.floor(m / 60);
+	if (h < 24) return h + 'h ' + (m % 60) + 'm';
+	const d = Math.floor(h / 24);
+	return d + 'd ' + (h % 24) + 'h';
+}
+
+function renderNews() {
+	const cards = NEWS.map(n => `
+		<article class="news-full-card" data-idx="${NEWS.indexOf(n)}">
+			<div class="news-full-art" style="background:${n.art}"></div>
+			<div class="news-full-body">
+				<span class="news-cat">${esc(t(n.catKey))}</span>
+				<h3 class="news-full-title">${esc(t(n.titleKey))}</h3>
+				<p class="news-full-desc">${esc(t(n.descKey))}</p>
+				<span class="news-date">${esc(fmtDate(n.date))}</span>
+			</div>
+		</article>`).join('');
+	return `
+	<div class="content-view">
+		<div class="page-head">
+			<div>
+				<div class="page-title">${esc(t('news.title'))}</div>
+				<div class="page-sub">${esc(t('news.subtitle'))}</div>
+			</div>
+		</div>
+		<div class="news-full-list">${cards || `<div class="empty-state"><div class="es-icon">📰</div>${esc(t('news.empty'))}</div>`}</div>
+	</div>`;
+}
+
+function bindNews(el) {
+	el.querySelectorAll('.news-full-card').forEach(c => c.addEventListener('click', () => {
+		const n = NEWS[+c.dataset.idx];
+		if (!n) return;
+		openModal(`
+			<div class="modal-title">${esc(t(n.titleKey))}</div>
+			<div class="page-sub">${esc(t(n.catKey))} · ${esc(fmtDate(n.date))}</div>
+			<p style="margin:12px 0;font-size:13px;line-height:1.7;color:var(--text,#e8ecf4)">${esc(t(n.descKey))}</p>
+			${n.link ? `<a class="modal-btn primary" style="display:inline-flex;text-decoration:none" href="${esc(n.link)}" target="_blank" rel="noopener">${esc(t('news.openArticle'))}</a>` : ''}
+			<div class="modal-actions"><button class="modal-btn" id="newsClose">${esc(t('common.close'))}</button></div>
+		`);
+		document.getElementById('newsClose').onclick = closeModal;
+	}));
 }
 
 /* ---------------- Installations 页 ---------------- */
