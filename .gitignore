@@ -31,6 +31,10 @@ mcp/
 axolotl-src/
 assets/
 ui/assets/
+# Keep historical assets local; the runtime Pineglow cover is source material.
+!ui/assets/
+ui/assets/*
+!ui/assets/pine-forest.svg
 松光启动器*.md
 新界面预览-首页.png
 验收截图-live/
@@ -44,3 +48,9 @@ dev/rel*.json
 dev/rel*_log.txt
 dev/rel*.json
 dev/rel*_log.txt
+
+# ===== 调试 / 验证宿主 =====
+dev/PineglowLauncher/VerifyHost/bin/
+dev/PineglowLauncher/VerifyHost/obj/
+dev/_orig_check.js
+dev/_orig_*.js

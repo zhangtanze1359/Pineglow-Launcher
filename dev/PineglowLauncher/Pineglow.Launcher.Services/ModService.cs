@@ -94,6 +94,11 @@ public sealed class ModService
 		}
 	}
 
+	/// <summary>
+	/// 不可恢复的物理删除（仅保留为基础原语）。
+	/// **用户可见的"删除 Mod"必须走 <see cref="FileRecoveryService"/> 的隔离路径**（MR04）：
+	/// 直接调用本方法会让文件永久消失、无法恢复。
+	/// </summary>
 	public void DeleteMod(ModFile mod)
 	{
 		if (!IsModFilePath(mod.FullPath))

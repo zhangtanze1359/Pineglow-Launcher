@@ -41,7 +41,7 @@ public static class VersionResolver
 			minecraftVersion.MinecraftArguments = JsonUtil.GetString(root, "minecraftArguments") ?? minecraftVersion.MinecraftArguments;
 			if (root.TryGetProperty("arguments", out var value))
 			{
-				minecraftVersion.Arguments = value.Clone();
+				minecraftVersion.Arguments = MergeArguments(minecraftVersion.Arguments, value);
 			}
 			if (root.TryGetProperty("downloads", out var value2))
 			{
@@ -61,6 +61,28 @@ public static class VersionResolver
 			result = minecraftVersion;
 		}
 		return result;
+	}
+
+	private static JsonElement MergeArguments(JsonElement? parent, JsonElement child)
+	{
+		if (!parent.HasValue || parent.Value.ValueKind != JsonValueKind.Object)
+			return child.Clone();
+		if (child.ValueKind != JsonValueKind.Object)
+			return parent.Value.Clone();
+
+		var merged = parent.Value.EnumerateObject().ToDictionary(p => p.Name, p => p.Value.Clone());
+		foreach (var property in child.EnumerateObject())
+		{
+			// Modern loader profiles extend both game and JVM argument arrays.
+			// Keep rule objects intact and preserve parent-before-child ordering.
+			if (merged.TryGetValue(property.Name, out var inherited)
+				&& inherited.ValueKind == JsonValueKind.Array && property.Value.ValueKind == JsonValueKind.Array)
+				merged[property.Name] = JsonSerializer.SerializeToElement(
+					inherited.EnumerateArray().Concat(property.Value.EnumerateArray()));
+			else
+				merged[property.Name] = property.Value.Clone();
+		}
+		return JsonSerializer.SerializeToElement(merged);
 	}
 
 	public static string GetVersionJsonPath(string gameDirectory, string versionId)

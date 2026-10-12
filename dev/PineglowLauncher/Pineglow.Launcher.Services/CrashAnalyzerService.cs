@@ -44,6 +44,13 @@ public static class CrashAnalyzerService
 		return new CrashAnalysis(summary, list, text);
 	}
 
+	/// <summary>读取最新诊断文件（latest.log 或 crash-reports）的尾部，供 AI 诊断等复用。</summary>
+	public static string ReadNewestDiagnosticTail(string gameDirectory)
+	{
+		string text = FindNewestDiagnosticFile(gameDirectory);
+		return (text == null) ? string.Empty : ReadTail(text, 524288);
+	}
+
 	private static string? FindNewestDiagnosticFile(string gameDirectory)
 	{
 		List<string> list = new List<string>();

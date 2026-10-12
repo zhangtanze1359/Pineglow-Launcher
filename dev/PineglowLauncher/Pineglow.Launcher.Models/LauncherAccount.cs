@@ -22,6 +22,8 @@ public sealed class LauncherAccount
 
 	public string SkinUrl { get; set; } = string.Empty;
 
+	public string SkinModel { get; set; } = "classic";
+
 	public int SkinCount { get; set; }
 
 	public int CapeCount { get; set; }

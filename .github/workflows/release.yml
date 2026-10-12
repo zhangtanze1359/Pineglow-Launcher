@@ -11,15 +11,93 @@ permissions:
   contents: write
 
 jobs:
-  release:
+  # R04 门槛：正式发布必须依赖「同一 tag SHA 上的测试先通过」。
+  # 修复前 Release 由 tag 直接触发、完全不跑测试，也无法引用分支构建的绿色状态；
+  # 现在把测试作为 release 的 needs 前置作业，tag 绕不过去。
+  verify:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup .NET 10
+      - name: Setup .NET (from global.json)
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '10.0.x'
+          global-json-file: global.json
+
+      - name: Restore launcher with lock file (non-RID)
+        shell: pwsh
+        run: dotnet restore dev/PineglowLauncher/Pineglow.Launcher.csproj --locked-mode
+
+      - name: Restore tests with lock file (non-RID)
+        shell: pwsh
+        run: dotnet restore dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj --locked-mode
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+
+      # R02 门槛：UI 本地静态资源闭包完整（缺资源即失败）
+      - name: Verify UI resource closure (R02)
+        shell: pwsh
+        run: node scripts/check-ui-resource-closure.cjs --root ui --json ui-resource-closure.json
+
+      # R04 门槛：测试清单双向一致（清单 == 磁盘上的 *.test.cjs）
+      - name: Verify test inventory (R04)
+        shell: pwsh
+        run: node scripts/run-inventory-tests.cjs --check --json test-inventory-report.json
+
+      # R04 门槛：按清单运行全部前端测试
+      - name: Run Node front-end tests (from inventory)
+        shell: pwsh
+        run: node scripts/run-inventory-tests.cjs
+
+      # C# 全套：失败即不放行发布
+      - name: Run C# tests
+        shell: pwsh
+        run: dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --no-restore --logger "console;verbosity=minimal"
+
+      - name: Upload verify evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-verify-evidence
+          path: |
+            ui-resource-closure.json
+            test-inventory-report.json
+          if-no-files-found: warn
+
+  release:
+    needs: verify
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # SDK 版本以仓库根 global.json 为唯一来源（当前 10.0.301, rollForward=latestPatch），
+      # 不用 '10.0.x' 这类浮动写法，避免 runner 预装版本与仓库声明漂移。
+      - name: Setup .NET (from global.json)
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      # 非 RID 路径的锁定还原校验：确认提交的 packages.lock.json 与项目声明一致。
+      # 下方 publish 使用 -r win-x64，属 RID 路径，不能加锁定还原
+      # （实测 NU1004：lock 文件只覆盖 net10.0，且 RID 发布会引入 Microsoft.NET.ILLink.Tasks）。
+      - name: Verify lock file (non-RID)
+        shell: pwsh
+        run: dotnet restore dev/PineglowLauncher/Pineglow.Launcher.csproj --locked-mode
+
+      # MR19 守卫：与 build.yml 同一不变量 —— 提交的 lock 文件必须是「非 RID 形态」。
+      # 理由见 build.yml 的同名步骤与 docs/market-execution/MR19-reproducible-build-rid/。
+      - name: Guard lock file is in non-RID form
+        shell: pwsh
+        run: |
+          foreach ($f in @('dev/PineglowLauncher/packages.lock.json', 'dev/PineglowLauncher.Tests/packages.lock.json')) {
+            $t = Get-Content $f -Raw
+            if ($t -match '"net10\.0/') { throw "$f 含 RID 段：会让非 RID 的 --locked-mode 还原失败（NU1004）" }
+            if ($t -match 'Microsoft\.NET\.ILLink\.Tasks') { throw "$f 引用了 Microsoft.NET.ILLink.Tasks（只由 RID 发布注入）" }
+            Write-Host "OK: $f"
+          }
 
       - name: Compute version (from tag)
         id: version
@@ -31,7 +109,42 @@ jobs:
 
       - name: Publish (win-x64 single file)
         # PublishDir 相对 csproj 解析；csproj 在 dev/PineglowLauncher/，上跳两级到仓库根
+        # 刻意不加锁定还原：RID 发布会改变包图（引入 Microsoft.NET.ILLink.Tasks），
+        # 现有 packages.lock.json 不含 win-x64 RID 段，锁定还原必然 NU1004。
+        # 锁定一致性已由上面的「Verify lock file (non-RID)」步骤把关。
         run: dotnet publish dev/PineglowLauncher/Pineglow.Launcher.csproj -c Release -r win-x64 --self-contained /p:PublishSingleFile=true /p:EnableCompressionInSingleFile=true /p:DebugType=None /p:DebugSymbols=false /p:PublishDir=../../dist /p:Version=${{ steps.version.outputs.version }}
+
+      - name: Verify assembly version matches tag
+        shell: pwsh
+        run: |
+          $expected = "${{ steps.version.outputs.version }}"
+          $dll = "dev/PineglowLauncher/bin/Release/net10.0/win-x64/Pineglow.Launcher.dll"
+          $actual = [Reflection.AssemblyName]::GetAssemblyName((Resolve-Path $dll)).Version.ToString(3)
+          if ($actual -ne $expected) { throw "Assembly version $actual does not match tag version $expected" }
+
+      # R01 门槛：发布目录必须只剩「可独立运行的那个 EXE」。
+      # 修复前这里放着 UI/ 与原生 DLL（libSkiaSharp 等），而下面的附件只上传 EXE，
+      # 于是用户拿到的包必然缺依赖；原生 PDB 也白占 ~100MB。
+      - name: Assert artifact is a self-contained single EXE
+        shell: pwsh
+        run: |
+          $exes = @(Get-ChildItem dist -Filter *.exe -File)
+          if ($exes.Count -ne 1) { throw "dist 下应恰好有 1 个 EXE，实际 $($exes.Count) 个" }
+
+          # 非运行依赖：原生符号文件（DebugSymbols/DebugType 管不住运行时包带来的 PDB）
+          Get-ChildItem dist -Filter *.pdb -File | Remove-Item -Force
+          foreach ($stale in @('UI')) {
+            if (Test-Path (Join-Path dist $stale)) { Remove-Item (Join-Path dist $stale) -Recurse -Force }
+          }
+
+          $leftover = @(Get-ChildItem dist -File | Where-Object { $_.Extension -ne '.exe' })
+          if ($leftover.Count -gt 0) {
+            throw "dist 下除 EXE 外仍有文件：$($leftover.Name -join ', ')（说明发行范围与运行依赖不一致）"
+          }
+          $dirs = @(Get-ChildItem dist -Directory)
+          if ($dirs.Count -gt 0) { throw "dist 下仍有目录：$($dirs.Name -join ', ')" }
+          $exe = $exes[0]
+          Write-Host "OK: 单一可执行附件 $($exe.Name)  $($exe.Length) bytes"
 
       - name: Rename exe + generate manifest
         id: manifest
@@ -55,6 +168,45 @@ jobs:
           }
           ($manifest | ConvertTo-Json) | Set-Content -Path dist/manifest.json -Encoding utf8
 
+      # R01 门槛：把「只复制这一个 EXE 到全新中文/空格目录再启动」变成发布前必过项。
+      # 这正是 R01 原始 RED 的复现动作（当时直接以缺 Skia 原生库崩溃退出）。
+      # runner 是无交互会话，故跳过主窗口标题判定；API/资源/解包/同版校验仍然硬判。
+      - name: Standalone cold start (single-file EXE)
+        shell: pwsh
+        run: |
+          ./scripts/verify-single-file-standalone.ps1 `
+            -ExePath dist/Pineglow-Launcher-win-x64-single-file.exe `
+            -ExpectedUiRoot ui `
+            -JsonPath dist/standalone-cold-start.json `
+            -SkipWindowTitleCheck
+
+      - name: Upload standalone evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: standalone-cold-start
+          path: dist/standalone-cold-start.json
+          if-no-files-found: warn
+
+      # R03 门槛（真实端点）：用刚构建出来的附件跑一次**真实默认更新源链路**，
+      # 断言"要么真的取到清单，要么逐源说明失败原因"。
+      # 为什么放在发布流程里而不是离线快照验证里：它必须联网，放进离线确定性验证会变脆。
+      # 本步骤不打 -AssetUrl：真实 HTTPS 下载与篡改拒绝属于可选深度验收（见脚本注释）。
+      - name: Live update-chain check (default sources)
+        shell: pwsh
+        run: |
+          ./scripts/verify-update-live-download.ps1 `
+            -ExePath dist/Pineglow-Launcher-win-x64-single-file.exe `
+            -JsonPath dist/live-update-stageA.json
+
+      - name: Upload live update evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-update-stageA
+          path: dist/live-update-stageA.json
+          if-no-files-found: warn
+
       # 国内中转：将 exe 上传到 Gitee 同名 release，并把 manifest.url 指向 Gitee 直链、fallbackUrl 保留 GitHub。
       # 需在 GitHub 仓库 Secrets 配置 GITEE_TOKEN（Gitee 私人令牌，需 projects 权限）。
       # 未配置 GITEE_TOKEN 时脚本内自动跳过，仅发布 GitHub（manifest.url 保持 GitHub 直链）。
@@ -67,11 +219,29 @@ jobs:
         env:
           GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
         run: |
+          # R03：镜像/清单写入的结果必须**如实**落盘，不能"跳过了却说更新了"。
+          # 缺 token、上传失败、update.json 写入失败三种情况都要写清楚后果。
+          $status = [ordered]@{
+            tokenPresent       = $false
+            releaseId          = $null
+            attachmentUploaded = $false
+            giteeUrl           = ''
+            updateJsonUpdated  = $false
+            updateJsonUrl      = ''
+            manifestUrlSource  = 'github'
+            note               = ''
+          }
+          function Save-MirrorStatus { ($status | ConvertTo-Json) | Set-Content -Path dist/mirror-status.json -Encoding utf8 }
+
           $token = $env:GITEE_TOKEN
           if ([string]::IsNullOrWhiteSpace($token)) {
-            Write-Host "GITEE_TOKEN 未配置，跳过 Gitee 镜像"
+            $status.note = "GITEE_TOKEN 未配置：未上传 Gitee、未更新固定 update.json。客户端将依赖备用源（GitHub Release manifest.json）。"
+            Save-MirrorStatus
+            Write-Host $status.note
+            Write-Host "::warning::默认更新源（Gitee raw update.json）本轮未更新，客户端检查更新需依赖备用源。"
             exit 0
           }
+          $status.tokenPresent = $true
           # Gitee 账号与 GitHub 账号不同（ztz1359 vs zhangtanze1359），此处硬编码 Gitee owner
           $owner = "ztz1359"
           $repo  = "pineglow-launcher"
@@ -89,7 +259,19 @@ jobs:
             $release = Invoke-RestMethod -Uri "$api/releases" -Method Post -Headers $headers -Body $body -TimeoutSec 30
           } catch {
             # 已存在（重复发版）则按 tag 查询
-            try { $release = Invoke-RestMethod -Uri "$api/releases/tags/$tag" -Method Get -Headers $headers -TimeoutSec 30 } catch { throw "Gitee release 创建/查询失败: $_" }
+            try { $release = Invoke-RestMethod -Uri "$api/releases/tags/$tag" -Method Get -Headers $headers -TimeoutSec 30 }
+            catch {
+              # R03：这条路径原来直接 throw，于是 mirror-status.json **根本不会产生**；
+              # 而下面「Upload mirror status」是 if: always() + if-no-files-found: warn，
+              # 结果就是"镜像失败了却没有任何结构化证据"，只剩一句控制台报错。
+              # 由本地干跑用例 G3（API 不可达故障注入）实测复现。修法：先如实落盘再抛，
+              # 保留"这一步算失败"的可见性（continue-on-error 仍不阻断发布）。
+              $status.note = "Gitee API 不可达或鉴权失败：未上传附件、未改写 manifest、未更新固定 update.json；客户端将依赖备用源。原因：$_"
+              Save-MirrorStatus
+              Write-Host $status.note
+              Write-Host "::warning::$($status.note)"
+              throw "Gitee release 创建/查询失败: $_"
+            }
           }
           Write-Host "Gitee release id: $($release.id)"
 
@@ -119,8 +301,24 @@ jobs:
             }
             if ($null -eq $uploaded -and $attempt -lt 2) { Start-Sleep -Seconds 10 }
           }
-          if ($null -eq $uploaded) { Write-Host "Gitee 附件上传失败，跳过镜像（GitHub 发布不受影响）"; exit 0 }
+          if ($null -eq $uploaded) {
+            $status.note = "Gitee 附件上传失败：未改写 manifest、未更新固定 update.json。manifest 保持 GitHub 直链。"
+            Save-MirrorStatus
+            Write-Host $status.note
+            Write-Host "::warning::$($status.note)"
+            exit 0
+          }
           $giteeUrl = $uploaded.browser_download_url
+          if ([string]::IsNullOrWhiteSpace($giteeUrl) -or $giteeUrl -notmatch '^https://') {
+            $status.note = "Gitee 附件返回的下载地址无效（'$giteeUrl'）：拒绝把它写进 manifest。"
+            Save-MirrorStatus
+            Write-Host $status.note
+            Write-Host "::warning::$($status.note)"
+            exit 0
+          }
+          $status.attachmentUploaded = $true
+          $status.giteeUrl = $giteeUrl
+          $status.releaseId = $release.id
           Write-Host "Gitee 附件: $giteeUrl"
 
           # 3. 重写 manifest：主地址 Gitee，备用 GitHub
@@ -134,6 +332,7 @@ jobs:
             mandatory = $false
           }
           ($manifest | ConvertTo-Json) | Set-Content -Path dist/manifest.json -Encoding utf8
+          $status.manifestUrlSource = 'gitee'
           Write-Host "manifest 已重写为 Gitee 主源 + GitHub 备用"
 
           # 4. 更新 Gitee 仓库根 update.json（固定地址，用户 config 默认指向它）
@@ -151,12 +350,59 @@ jobs:
           if ($fileSha) { $updateBody.sha = $fileSha } else { $method = "POST" }
           try {
             Invoke-RestMethod -Uri "$api/contents/$updatePath" -Method $method -Headers $headers -Body ($updateBody | ConvertTo-Json) -TimeoutSec 30 | Out-Null
-            Write-Host "update.json 已更新: $api/raw/master/$updatePath"
-          } catch { Write-Host "update.json 更新失败: $_" }
+            $status.updateJsonUpdated = $true
+            $status.updateJsonUrl = "$api/raw/master/$updatePath"
+            Write-Host "update.json 已更新: $($status.updateJsonUrl)"
+          } catch {
+            $status.note = "update.json 更新失败（$($_.Exception.Message)）：默认更新源仍是旧内容或缺文件，客户端将依赖备用源。"
+            Write-Host $status.note
+            Write-Host "::warning::$($status.note)"
+          }
+          Save-MirrorStatus
 
+      # R03 门槛：清单必须与**最终附件**一致（版本/URL/size/SHA256），且 URL 指向本次 win-x64 资产。
+      # 放在 Gitee 镜像之后：镜像会把 manifest.url 改写成 Gitee 直链，这里校验改写后的结果仍然自洽。
+      # SHA256 大小写：下面用的 -match **默认大小写不敏感**，于是大写也放行 —— 这与客户端一致
+      # （UpdateService.IsValidSha256 用 Uri.IsHexDigit；Sha256Matches 用 OrdinalIgnoreCase 比较），
+      # 属有意为之；**不要**改成 -cmatch：那会让发布端比客户端更严，拒绝一份客户端本可正常校验的清单。
+      # （此行为由 release 作业本地干跑用例 V5-sha-uppercase-accepted 钉住，见
+      #   docs/release-remediation-evidence-2026-10-05/run-20261006-0110-releasejob-dryrun/。）
+      - name: Validate update manifest against final artifact
+        shell: pwsh
+        run: |
+          $manifestPath = 'dist/manifest.json'
+          $exe = 'dist/Pineglow-Launcher-win-x64-single-file.exe'
+          if (-not (Test-Path $manifestPath)) { throw "缺少 dist/manifest.json，无法证明更新清单与附件一致" }
+          if (-not (Test-Path $exe)) { throw "缺少最终附件 $exe" }
+          $m = Get-Content $manifestPath -Raw | ConvertFrom-Json
+          $expectedVersion = "${{ steps.version.outputs.version }}"
+          if ($m.version -ne $expectedVersion) { throw "manifest.version=$($m.version) 与 tag 版本 $expectedVersion 不一致" }
+          if ($m.url -notmatch '^https://') { throw "manifest.url 必须是 HTTPS 绝对地址：$($m.url)" }
+          if ($m.url -notmatch 'Pineglow-Launcher-win-x64-single-file\.exe$') { throw "manifest.url 指向的不是本次 win-x64 附件：$($m.url)" }
+          if ($m.sha256 -notmatch '^[0-9a-f]{64}$') { throw "manifest.sha256 必须是 64 位十六进制（大小写不敏感，与客户端一致）：$($m.sha256)" }
+          $size = (Get-Item $exe).Length
+          if ([long]$m.size -ne $size) { throw "manifest.size=$($m.size) 与实际附件 $size 不一致" }
+          $actualHash = (Get-FileHash $exe -Algorithm SHA256).Hash.ToLower()
+          if ($m.sha256 -ne $actualHash) { throw "manifest.sha256 与实际附件 SHA256 不一致" }
+          Write-Host "OK: manifest 与最终附件一致（version=$($m.version) size=$size url=$($m.url)）"
+
+      - name: Upload mirror status
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mirror-status
+          path: dist/mirror-status.json
+          if-no-files-found: warn
+
+      # R01 步骤 3「保留许可证与必要资源」：GPL-3.0 要求在向他人交付二进制时随附许可证文本，
+      # 而此前的正式附件只有 EXE + manifest.json —— 仓库里的 LICENSE 从未随 Release 交付。
+      # 第三方许可证不走这条路：ui/vendor/THREE-LICENSE.txt 随 ui/** 一起嵌入程序集，
+      # 目录构建另有 csproj 目标断言它在输出目录中存在。
+      # 注意：这里只多上传一个文件，不改变附件名/manifest.url 指向的资产，R03 的清单校验不受影响。
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
             dist/Pineglow-Launcher-win-x64-single-file.exe
             dist/manifest.json
+            LICENSE

@@ -53,3 +53,55 @@ public class MemoryAllocationServiceTests
 		Assert.Equal(expected, MemoryAllocationService.FormatMemory(mb));
 	}
 }
+public class MemoryAllocationCountTests
+{
+	private static string NewRoot()
+	{
+		return System.IO.Path.Combine(System.IO.Path.GetTempPath(), "pineglow-modcount-" + System.Guid.NewGuid().ToString("N"));
+	}
+
+	[Fact]
+	public void CountEnabledMods_ReturnsJarCount()
+	{
+		string root = NewRoot();
+		try
+		{
+			string mods = System.IO.Path.Combine(root, "mods");
+			System.IO.Directory.CreateDirectory(mods);
+			System.IO.File.WriteAllText(System.IO.Path.Combine(mods, "a.jar"), "x");
+			System.IO.File.WriteAllText(System.IO.Path.Combine(mods, "b.jar"), "x");
+			System.IO.File.WriteAllText(System.IO.Path.Combine(mods, "readme.txt"), "x");
+			System.IO.Directory.CreateDirectory(System.IO.Path.Combine(mods, "sub"));
+			System.IO.File.WriteAllText(System.IO.Path.Combine(mods, "sub", "c.jar"), "x");
+
+			// 只统计 mods 顶层 .jar，忽略其他扩展名与子目录
+			Assert.Equal(2, MemoryAllocationService.CountEnabledMods(root));
+		}
+		finally
+		{
+			if (System.IO.Directory.Exists(root)) System.IO.Directory.Delete(root, recursive: true);
+		}
+	}
+
+	[Fact]
+	public void CountEnabledMods_MissingModsDirectory_ReturnsZero()
+	{
+		string root = NewRoot();
+		try
+		{
+			System.IO.Directory.CreateDirectory(root);
+			Assert.Equal(0, MemoryAllocationService.CountEnabledMods(root));
+		}
+		finally
+		{
+			if (System.IO.Directory.Exists(root)) System.IO.Directory.Delete(root, recursive: true);
+		}
+	}
+
+	[Fact]
+	public void CountEnabledMods_NullOrEmpty_ReturnsZero()
+	{
+		Assert.Equal(0, MemoryAllocationService.CountEnabledMods(null));
+		Assert.Equal(0, MemoryAllocationService.CountEnabledMods(string.Empty));
+	}
+}

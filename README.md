@@ -21,7 +21,18 @@ cd dev/PineglowLauncher
 dotnet publish -c Release -r win-x64 --self-contained /p:PublishSingleFile=true
 ```
 
-产物为单文件自包含 exe（无需安装 .NET 运行时）。Linux / macOS 同理替换 `-r`。
+产物为 Windows x64 单文件自包含 exe（无需安装 .NET 运行时）。
+
+### 运行环境要求（正式附件）
+
+| 项 | 要求 | 说明 |
+| --- | --- | --- |
+| 操作系统 | Windows x64 | 正式附件只发布 `win-x64`；本轮验收环境为 Windows 11 x64 |
+| WebView2 Runtime | **必需** | 界面由 WebView2 承载。Windows 11 与装有新版 Edge 的 Windows 10 通常已具备；缺失时需安装 Evergreen Runtime，否则窗口起不来界面 |
+| .NET 运行时 | 不需要 | 附件是 self-contained 单文件，运行时随 EXE 自带 |
+| 原生图形库 | 已内嵌 | SkiaSharp / HarfBuzz 等原生库随单文件自解包，不需要额外 DLL 或 `UI/` 目录 |
+
+已知限制：CI 会编译 Linux/macOS 产物，但 WebView 与端到端运行目前仅在 Windows 验证，**不能视为正式跨平台发布支持**。
 
 ## 🏗 架构
 
@@ -30,7 +41,7 @@ Avalonia 壳(WebView2) ──加载──▶ ui/ 前端(HTML/CSS/JS)
         │                            │ fetch
         └──── LocalApiService ◀──────┘
                   │
-        C# 服务层(LauncherService 等 67 个服务,SQLite 存储)
+        C# 服务层(LauncherService 等服务,JSON/文件持久化)
 ```
 
 ## 📄 许可证

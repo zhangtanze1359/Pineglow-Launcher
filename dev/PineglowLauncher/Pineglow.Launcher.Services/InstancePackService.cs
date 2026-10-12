@@ -16,7 +16,18 @@ namespace Pineglow.Launcher.Services;
 
 public sealed class InstancePackService
 {
-	private sealed record ModrinthPackFile(string Path, List<string> Downloads, string Sha1, string Sha512);
+	internal sealed record ModrinthPackFile(string Path, List<string> Downloads, string Sha1, string Sha512);
+
+	/// <summary>MR11：modrinth.index.json 的解析结果（已通过规范校验）。</summary>
+	internal sealed class ModrinthPackManifest
+	{
+		public int FormatVersion { get; init; }
+		public string PackName { get; init; } = string.Empty;
+		public string MinecraftVersion { get; init; } = string.Empty;
+		public string LoaderKind { get; init; } = "Vanilla";
+		public string LoaderVersion { get; init; } = string.Empty;
+		public List<ModrinthPackFile> Files { get; init; } = new List<ModrinthPackFile>();
+	}
 
 	private const int MaxConcurrentPackDownloads = 6;
 
@@ -229,6 +240,8 @@ public sealed class InstancePackService
 			UseAutoMemory = true
 		};
 		string javaPath = await ResolveJavaForVersionAsync(minecraftVersion, progress, ct);
+		// MR11：与 Modrinth 路径一致，Java 解析后立刻认一次取消。
+		ct.ThrowIfCancellationRequested();
 		progress("安装 " + ModLoaderInfo.DisplayName(loaderKind) + " 加载器...");
 		InstalledLoaderProfile installedLoaderProfile = await InstallLoaderAsync(loaderKind, instance, minecraftVersion, loaderVersion, javaPath, progress);
 		instance.MinecraftVersion = installedLoaderProfile.VersionId;
@@ -275,72 +288,24 @@ public sealed class InstancePackService
 	{
 		using ZipArchive archive = ZipFile.OpenRead(zipPath);
 		ZipArchiveEntry? obj = archive.GetEntry("modrinth.index.json") ?? throw new InvalidOperationException("不是有效的 Modrinth 整合包（缺少 modrinth.index.json）。");
-		string minecraftVersion = "1.21";
-		string loaderKind = "Vanilla";
-		string loaderVersion = "";
-		string text;
-		List<ModrinthPackFile> files;
+		ModrinthPackManifest manifest;
 		using (StreamReader streamReader = new StreamReader(obj.Open()))
 		{
-			using JsonDocument jsonDocument = JsonDocument.Parse(streamReader.ReadToEnd());
-			JsonElement rootElement = jsonDocument.RootElement;
-			text = ReadString(rootElement, "name") + " 导入";
-			foreach (JsonProperty item in rootElement.GetProperty("dependencies").EnumerateObject())
-			{
-				if (item.NameEquals("minecraft"))
-				{
-					minecraftVersion = item.Value.GetString() ?? "1.21";
-				}
-				else if (item.NameEquals("fabric-loader"))
-				{
-					loaderKind = "Fabric";
-					loaderVersion = item.Value.GetString() ?? "";
-				}
-				else if (item.NameEquals("quilt-loader"))
-				{
-					loaderKind = "Quilt";
-					loaderVersion = item.Value.GetString() ?? "";
-				}
-				else if (item.NameEquals("neoforge"))
-				{
-					loaderKind = "NeoForge";
-					loaderVersion = item.Value.GetString() ?? "";
-				}
-				else if (item.NameEquals("forge"))
-				{
-					loaderKind = "Forge";
-					loaderVersion = item.Value.GetString() ?? "";
-				}
-			}
-			files = new List<ModrinthPackFile>();
-			foreach (JsonElement item2 in rootElement.GetProperty("files").EnumerateArray())
-			{
-				string text2 = ReadString(item2, "path");
-				JsonElement value;
-				List<string> list = ((item2.TryGetProperty("downloads", out value) && value.ValueKind == JsonValueKind.Array) ? (from x in value.EnumerateArray()
-					where x.ValueKind == JsonValueKind.String
-					select x.GetString() ?? string.Empty into x
-					where x.Length > 0
-					select x).ToList() : new List<string>());
-				JsonElement value2;
-				JsonElement element = (item2.TryGetProperty("hashes", out value2) ? value2 : default(JsonElement));
-				string sha = ((element.ValueKind == JsonValueKind.Object) ? ReadString(element, "sha1") : string.Empty);
-				string sha2 = ((element.ValueKind == JsonValueKind.Object) ? ReadString(element, "sha512") : string.Empty);
-				bool flag = true;
-				if (item2.TryGetProperty("env", out var value3) && value3.ValueKind == JsonValueKind.Object)
-				{
-					flag = !ReadString(value3, "client").Equals("unsupported", StringComparison.OrdinalIgnoreCase);
-				}
-				if (flag && !string.IsNullOrWhiteSpace(text2) && list.Count > 0)
-				{
-					files.Add(new ModrinthPackFile(text2, list, sha, sha2));
-				}
-			}
+			// MR11：规范校验集中到 ParseModrinthIndex，便于离线独立验证。
+			manifest = ParseModrinthIndex(streamReader.ReadToEnd());
 		}
+
+		string text = manifest.PackName + " 导入";
+		string minecraftVersion = manifest.MinecraftVersion;
+		string loaderKind = manifest.LoaderKind;
+		string loaderVersion = manifest.LoaderVersion;
+		List<ModrinthPackFile> files = manifest.Files;
 		progress($"识别整合包：{text}，Minecraft {minecraftVersion}，{loaderKind} {loaderVersion}，{files.Count} 个客户端文件");
 		GameInstance instance = null;
 		try
 		{
+			// MR11：开始任何耗时工作之前先认一次取消——用户可能在"点导入"和"服务端受理"之间就取消了。
+			ct.ThrowIfCancellationRequested();
 			MinecraftDownloader downloader = new MinecraftDownloader(_http, _log);
 			MemoryRecommendation memoryRecommendation = MemoryAllocationService.Recommend(minecraftVersion, loaderKind, files.Count);
 			instance = new GameInstance
@@ -355,6 +320,9 @@ public sealed class InstancePackService
 				UseAutoMemory = true
 			};
 			string javaPath = await ResolveJavaForVersionAsync(minecraftVersion, progress, ct);
+			// MR11：Java 解析是导入里最耗时的一段（要扫盘找运行时），取消必须在这里就生效，
+			// 而不是等到下一次网络请求才被发现——否则用户点了取消还要干等。
+			ct.ThrowIfCancellationRequested();
 			if (ModLoaderInfo.TryParse(loaderKind, out var kind))
 			{
 				progress("安装 " + loaderKind + " 加载器...");
@@ -375,10 +343,133 @@ public sealed class InstancePackService
 		{
 			if (instance != null && Directory.Exists(instance.GameDirectory))
 			{
-				Directory.Delete(instance.GameDirectory, recursive: true);
+				// MR11：清理失败不能掩盖原始异常——否则用户看到的是"目录删不掉"而不是真正的导入错误。
+				try
+				{
+					Directory.Delete(instance.GameDirectory, recursive: true);
+				}
+				catch (Exception cleanupError)
+				{
+					_log("导入失败后未能删除半成品目录（需要用户手动清理）：" + instance.GameDirectory + " → " + cleanupError.Message);
+				}
 			}
 			throw;
 		}
+	}
+
+	/// <summary>
+	/// MR11：按 .mrpack 规范解析 modrinth.index.json。
+	///
+	/// 抽成可测方法**不是**重写导入器：导入流程原样保留，只是把"规范字段校验"这一步提出来，
+	/// 好让它能在离线环境被独立验证（真实导入会联网下载 Minecraft，无法在单测里跑）。
+	///
+	/// 校验口径：
+	///   - formatVersion 必须为 1（缺失按 1 处理，兼容早期包）；未知的额外字段一律忽略；
+	///   - dependencies 必须是对象且含 minecraft；
+	///   - files 必须存在且是数组（允许空数组）；
+	///   - env.client == "unsupported" 的文件按规范跳过；缺 downloads 的文件跳过；
+	///   - path 的路径安全检查留给写入时的 GetSafeTargetPath，这里不改写用户给的相对路径。
+	/// </summary>
+	internal static ModrinthPackManifest ParseModrinthIndex(string json)
+	{
+		using JsonDocument document = JsonDocument.Parse(json);
+		JsonElement root = document.RootElement;
+
+		int formatVersion = ReadInt(root, "formatVersion", 1);
+		if (formatVersion != 1)
+		{
+			throw new InvalidOperationException($"不支持的整合包规范版本：formatVersion={formatVersion}，当前只支持 1。");
+		}
+
+		if (!root.TryGetProperty("dependencies", out JsonElement dependencies) || dependencies.ValueKind != JsonValueKind.Object)
+		{
+			throw new InvalidOperationException("整合包缺少 dependencies 对象（规范要求至少包含 minecraft 版本）。");
+		}
+
+		string minecraftVersion = string.Empty;
+		string loaderKind = "Vanilla";
+		string loaderVersion = string.Empty;
+		foreach (JsonProperty item in dependencies.EnumerateObject())
+		{
+			if (item.NameEquals("minecraft"))
+			{
+				minecraftVersion = item.Value.GetString() ?? string.Empty;
+			}
+			else if (item.NameEquals("fabric-loader"))
+			{
+				loaderKind = "Fabric";
+				loaderVersion = item.Value.GetString() ?? string.Empty;
+			}
+			else if (item.NameEquals("quilt-loader"))
+			{
+				loaderKind = "Quilt";
+				loaderVersion = item.Value.GetString() ?? string.Empty;
+			}
+			else if (item.NameEquals("neoforge"))
+			{
+				loaderKind = "NeoForge";
+				loaderVersion = item.Value.GetString() ?? string.Empty;
+			}
+			else if (item.NameEquals("forge"))
+			{
+				loaderKind = "Forge";
+				loaderVersion = item.Value.GetString() ?? string.Empty;
+			}
+		}
+
+		if (string.IsNullOrWhiteSpace(minecraftVersion))
+		{
+			throw new InvalidOperationException("整合包 dependencies 缺少 minecraft 版本。");
+		}
+
+		if (!root.TryGetProperty("files", out JsonElement filesElement) || filesElement.ValueKind != JsonValueKind.Array)
+		{
+			throw new InvalidOperationException("整合包缺少 files 数组（规范要求存在，可以是空数组）。");
+		}
+
+		var files = new List<ModrinthPackFile>();
+		foreach (JsonElement item in filesElement.EnumerateArray())
+		{
+			string path = ReadString(item, "path");
+			List<string> downloads = item.TryGetProperty("downloads", out JsonElement downloadsElement) && downloadsElement.ValueKind == JsonValueKind.Array
+				? (from x in downloadsElement.EnumerateArray()
+					where x.ValueKind == JsonValueKind.String
+					select x.GetString() ?? string.Empty into x
+					where x.Length > 0
+					select x).ToList()
+				: new List<string>();
+			JsonElement hashes = item.TryGetProperty("hashes", out JsonElement hashesElement) ? hashesElement : default(JsonElement);
+			string sha1 = hashes.ValueKind == JsonValueKind.Object ? ReadString(hashes, "sha1") : string.Empty;
+			string sha512 = hashes.ValueKind == JsonValueKind.Object ? ReadString(hashes, "sha512") : string.Empty;
+
+			bool clientSupported = true;
+			if (item.TryGetProperty("env", out JsonElement env) && env.ValueKind == JsonValueKind.Object)
+			{
+				clientSupported = !ReadString(env, "client").Equals("unsupported", StringComparison.OrdinalIgnoreCase);
+			}
+
+			if (clientSupported && !string.IsNullOrWhiteSpace(path) && downloads.Count > 0)
+			{
+				files.Add(new ModrinthPackFile(path, downloads, sha1, sha512));
+			}
+		}
+
+		string packName = ReadString(root, "name");
+		if (string.IsNullOrWhiteSpace(packName))
+		{
+			// 规范里 name 是必需的；真缺了就退到一个安全名字，避免生成奇怪的游戏目录名。
+			packName = "Modrinth 整合包";
+		}
+
+		return new ModrinthPackManifest
+		{
+			FormatVersion = formatVersion,
+			PackName = packName,
+			MinecraftVersion = minecraftVersion,
+			LoaderKind = loaderKind,
+			LoaderVersion = loaderVersion,
+			Files = files
+		};
 	}
 
 	private async Task<InstalledLoaderProfile> InstallLoaderAsync(ModLoaderKind kind, GameInstance instance, string mcVersion, string loaderVersion, string javaPath, Action<string> progress)
@@ -415,16 +506,25 @@ public sealed class InstancePackService
 		};
 	}
 
-	private async Task DownloadModrinthPackFileAsync(string gameDirectory, ModrinthPackFile file, CancellationToken ct)
+	/// <summary>
+	/// MR11：下载一个整合包文件。
+	/// 修复点：**哈希校验不通过时换下一个镜像继续试**，而不是直接让整次导入失败——
+	/// downloads 里给了多个地址正是为了这种"某个镜像内容不对/被篡改"的情况。
+	/// 取消不再被当成可重试的网络错误。
+	/// </summary>
+	internal async Task DownloadModrinthPackFileAsync(string gameDirectory, ModrinthPackFile file, CancellationToken ct)
 	{
 		string target = GetSafeTargetPath(gameDirectory, file.Path);
 		Directory.CreateDirectory(Path.GetDirectoryName(target));
 		string temp = target + ".download";
+		Exception lastError = null;
+		bool completed = false;
 		try
 		{
-			Exception lastError = null;
 			foreach (string url in file.Downloads)
 			{
+				lastError = null;
+				TryDelete(temp);
 				for (int attempt = 1; attempt <= 2; attempt++)
 				{
 					try
@@ -436,13 +536,10 @@ public sealed class InstancePackService
 						await input.CopyToAsync(output, ct);
 						lastError = null;
 					}
-					catch (Exception ex) when (((ex is HttpRequestException || ex is IOException || ex is TaskCanceledException) ? 1 : 0) != 0)
+					catch (Exception ex) when ((ex is HttpRequestException || ex is IOException || ex is TaskCanceledException) && !ct.IsCancellationRequested)
 					{
 						lastError = ex;
-						if (File.Exists(temp))
-						{
-							File.Delete(temp);
-						}
+						TryDelete(temp);
 						if (attempt < 2)
 						{
 							await Task.Delay(TimeSpan.FromSeconds(attempt), ct);
@@ -451,31 +548,54 @@ public sealed class InstancePackService
 					}
 					break;
 				}
-				if (lastError == null && File.Exists(temp))
+
+				if (lastError != null || !File.Exists(temp))
 				{
-					break;
+					continue;
 				}
+
+				if (!string.IsNullOrWhiteSpace(file.Sha512) && !HashMatches(temp, file.Sha512, SHA512.Create()))
+				{
+					lastError = new InvalidDataException("SHA512 校验失败：" + file.Path + "（来源 " + url + "）");
+					TryDelete(temp);
+					continue;
+				}
+
+				if (!string.IsNullOrWhiteSpace(file.Sha1) && !HashMatches(temp, file.Sha1, SHA1.Create()))
+				{
+					lastError = new InvalidDataException("SHA1 校验失败：" + file.Path + "（来源 " + url + "）");
+					TryDelete(temp);
+					continue;
+				}
+
+				File.Move(temp, target, overwrite: true);
+				completed = true;
+				break;
 			}
-			if (lastError != null || !File.Exists(temp))
+
+			if (!completed)
 			{
-				throw new InvalidOperationException("所有下载地址均失败：" + file.Path, lastError);
+				throw new InvalidOperationException("所有下载地址均失败或哈希校验不通过：" + file.Path, lastError);
 			}
-			if (!string.IsNullOrWhiteSpace(file.Sha512) && !HashMatches(temp, file.Sha512, SHA512.Create()))
-			{
-				throw new InvalidDataException("SHA512 校验失败：" + file.Path);
-			}
-			if (!string.IsNullOrWhiteSpace(file.Sha1) && !HashMatches(temp, file.Sha1, SHA1.Create()))
-			{
-				throw new InvalidDataException("SHA1 校验失败：" + file.Path);
-			}
-			File.Move(temp, target, overwrite: true);
 		}
 		finally
 		{
-			if (File.Exists(temp))
+			TryDelete(temp);
+		}
+	}
+
+	private static void TryDelete(string path)
+	{
+		try
+		{
+			if (File.Exists(path))
 			{
-				File.Delete(temp);
+				File.Delete(path);
 			}
+		}
+		catch
+		{
+			// 清理失败不应掩盖真正的错误；临时文件留在原地，下一次下载会覆盖。
 		}
 	}
 
@@ -553,7 +673,7 @@ public sealed class InstancePackService
 		return (Kind: kind, Version: item);
 	}
 
-	private static string GetSafeTargetPath(string targetDirectory, string relativePath)
+	internal static string GetSafeTargetPath(string targetDirectory, string relativePath)
 	{
 		string fullPath = Path.GetFullPath(targetDirectory);
 		string fullPath2 = Path.GetFullPath(Path.Combine(fullPath, relativePath.Replace('/', Path.DirectorySeparatorChar)));

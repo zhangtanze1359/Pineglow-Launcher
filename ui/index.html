@@ -3,17 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Minecraft Launcher</title>
+<title>Pineglow · 松光启动器</title>
 <link rel="stylesheet" href="css/figma.css">
+<link rel="stylesheet" href="css/pineglow.css">
 </head>
 <body>
+<!-- MR17：键盘用户可跳过标题栏直达主内容（WCAG 2.4.1）；平时隐藏，获得焦点时出现。
+     文案走 data-i18n（applyStaticI18n 会在 init 与语言切换时填充），静态文字仅作 JS 之前的兜底。 -->
+<a class="skip-link" href="#view-home" data-i18n="a11y.skipToContent">跳到主内容</a>
 <div class="win">
 	<!-- ============ 标题栏 ============ -->
 	<header class="title-bar" id="titleBar">
 		<div class="brand">
 			<span class="brand-pixel"></span>
-			<span class="brand-name">MINECRAFT</span>
-			<span class="brand-sub">LAUNCHER v2.44</span>
+			<span class="brand-name">PINEGLOW</span>
+			<span class="brand-sub" data-i18n="brand.subtitle">松光启动器</span>
 		</div>
 		<div class="window-controls">
 			<button class="wc wc-min" id="btnMinimize" aria-label="最小化"><svg viewBox="0 0 12 12"><path d="M2 6h8"/></svg></button>
@@ -91,7 +95,7 @@
 		<!-- 内容面板 -->
 		<section class="content-panel" id="contentPanel">
 			<!-- Play -->
-			<div class="view" id="view-home"></div>
+			<div class="view" id="view-home" tabindex="-1"></div>
 			<!-- Installations -->
 			<div class="view" id="view-installations" hidden></div>
 			<!-- Worlds -->
@@ -112,9 +116,16 @@
 	</div>
 </div>
 
-<div class="toast" id="toast"></div>
+<!-- MR17：异步状态必须能被屏幕阅读器感知（WCAG 4.1.3）。
+     toast 是"完成/失败/已取消"等异步结果的唯一出口，加上 live region 后无需移动焦点即可被宣读。 -->
+<div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 <div class="modal-host" id="modalHost" hidden></div>
 
+<meta name="pineglow-session-token" content="__PINEGLOW_SESSION_TOKEN__">
+
+<script src="vendor/three.min.js"></script>
+<script src="js/skin3d-core.js"></script>
+<script src="js/skin3d.js"></script>
 <script src="js/i18n.js"></script>
 <script src="js/api.js"></script>
 <script src="js/launcher.js"></script>

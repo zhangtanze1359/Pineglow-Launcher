@@ -70,6 +70,8 @@ public sealed class MicrosoftAuthService
 		public string State { get; set; } = string.Empty;
 
 		public string Alias { get; set; } = string.Empty;
+
+		public string Variant { get; set; } = string.Empty;
 	}
 
 	private const string Scope = "XboxLive.signin offline_access";
@@ -146,6 +148,36 @@ public sealed class MicrosoftAuthService
 		throw new InvalidOperationException("设备登录码已过期，请重新点击正版登录。");
 	}
 
+	/// <summary>单次轮询设备码：成功返回 token；未完成抛 OperationCanceledException；其它错误抛 InvalidOperationException。</summary>
+	public async Task<MicrosoftOAuthToken> PollDeviceCodeOnceAsync(string clientId, DeviceCodeInfo deviceCode, CancellationToken ct)
+	{
+		EnsureClientId(clientId);
+		using HttpResponseMessage response = await PostFormAsync("https://login.microsoftonline.com/consumers/oauth2/v2.0/token", new Dictionary<string, string>
+		{
+			["grant_type"] = "urn:ietf:params:oauth:grant-type:device_code",
+			["client_id"] = clientId.Trim(),
+			["device_code"] = deviceCode.DeviceCode
+		}, ct);
+		string text = await response.Content.ReadAsStringAsync(ct);
+		if (response.IsSuccessStatusCode)
+		{
+			return JsonSerializer.Deserialize<MicrosoftOAuthToken>(text, _json) ?? throw new InvalidOperationException("Microsoft Token 响应为空。");
+		}
+		switch (TryReadOAuthError(text))
+		{
+		case "authorization_pending":
+			throw new OperationCanceledException("authorization_pending");
+		case "slow_down":
+			throw new OperationCanceledException("slow_down");
+		case "authorization_declined":
+			throw new InvalidOperationException("你取消了 Microsoft 登录授权。");
+		case "expired_token":
+			throw new InvalidOperationException("设备登录码已过期，请重新点击正版登录。");
+		default:
+			throw new InvalidOperationException("Microsoft 登录失败：" + CompactError(text));
+		}
+	}
+
 	public async Task<MicrosoftOAuthToken> RefreshMicrosoftTokenAsync(string clientId, string refreshToken, CancellationToken ct)
 	{
 		EnsureClientId(clientId);
@@ -198,6 +230,7 @@ public sealed class MicrosoftAuthService
 			Xuid = (xsts.DisplayClaims.Xui.FirstOrDefault()?.Xid ?? xbl.DisplayClaims.Xui.FirstOrDefault()?.Xid ?? string.Empty),
 			RefreshToken = (string.IsNullOrWhiteSpace(oauth.RefreshToken) ? string.Empty : oauth.RefreshToken),
 			SkinUrl = minecraftAppearance.SkinUrl,
+			IsSlim = minecraftAppearance.IsSlim,
 			SkinCount = minecraftAppearance.SkinCount,
 			CapeCount = minecraftAppearance.CapeCount,
 			Capes = minecraftAppearance.Capes
@@ -227,6 +260,7 @@ public sealed class MicrosoftAuthService
 			Xuid = minecraftAccount.Xuid,
 			RefreshToken = refreshToken,
 			SkinUrl = minecraftAccount.SkinUrl,
+			IsSlim = minecraftAccount.IsSlim,
 			SkinCount = minecraftAccount.SkinCount,
 			CapeCount = minecraftAccount.CapeCount,
 			Capes = minecraftAccount.Capes
@@ -474,6 +508,7 @@ public sealed class MicrosoftAuthService
 		return new MinecraftAppearance
 		{
 			SkinUrl = (profile.Skins.FirstOrDefault((MinecraftProfileTexture skin) => skin.State.Equals("ACTIVE", StringComparison.OrdinalIgnoreCase))?.Url ?? profile.Skins.FirstOrDefault()?.Url ?? string.Empty),
+			IsSlim = profile.Skins.Any((MinecraftProfileTexture skin) => skin.Variant.Equals("SLIM", StringComparison.OrdinalIgnoreCase)),
 			SkinCount = profile.Skins.Count,
 			CapeCount = profile.Capes.Count,
 			Capes = MapCapes(profile.Capes)

@@ -1,0 +1,41 @@
+# test-inventory.txt —— 正式测试清单（R04 的唯一权威来源）
+#
+# 为什么需要这份清单：
+#   发布检查发现 build.yml 硬编码了 11 个前端测试文件，而候选源码里实际有 21 个 *.test.cjs；
+#   漏掉的 10 个（a11y-keyboard / a13-doubles-and-taborder / a6-bisect-safety-guidance /
+#   bisect-recovery / diagnostic-history / file-recovery / goal-core-flow / import-cancel /
+#   instance-removal / update-recovery）在 CI 里从未执行过。
+#   固定清单会随源码漂移，所以清单外置，并由 scripts/run-inventory-tests.cjs 的 check 模式
+#   做**双向**断言：清单里写了的必须存在；磁盘上存在的 *.test.cjs 必须都在清单里。
+#   少列、多出、或文件被删，都会非零失败——不允许「悄悄少跑几个文件」。
+#
+# 格式：# 注释与空行忽略；其余每行 "<runner> <repo-relative-path>"
+#   node    <path>   由 node --test 运行单个 *.test.cjs
+#   project <path>   由 dotnet test 运行整个 C# 测试项目
+#
+# 这些前端测试文件当前尚未全部 tracked：候选提交必须按 scripts/source-snapshot-inputs.txt
+# 精确纳入（类别 F/J），CI 才能在干净检出上真正跑到它们。
+node scripts/tests/goal-validation.test.cjs
+node scripts/tests/ui-resource-closure.test.cjs
+node ui/tests/a11y-keyboard.test.cjs
+node ui/tests/a13-doubles-and-taborder.test.cjs
+node ui/tests/a6-bisect-safety-guidance.test.cjs
+node ui/tests/ai-diagnose.test.cjs
+node ui/tests/api-contract.test.cjs
+node ui/tests/bisect-recovery.test.cjs
+node ui/tests/content-icon.test.cjs
+node ui/tests/diagnostic-history.test.cjs
+node ui/tests/file-recovery.test.cjs
+node ui/tests/goal-core-flow.test.cjs
+node ui/tests/import-cancel.test.cjs
+node ui/tests/instance-removal.test.cjs
+node ui/tests/launcher-behavior.test.cjs
+node ui/tests/launcher-content.test.cjs
+node ui/tests/launcher-v3.test.cjs
+node ui/tests/launcher-v4.test.cjs
+node ui/tests/launcher-v5.test.cjs
+node ui/tests/news-behavior.test.cjs
+node ui/tests/news-link.test.cjs
+node ui/tests/skin3d-core.test.cjs
+node ui/tests/update-recovery.test.cjs
+project dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj

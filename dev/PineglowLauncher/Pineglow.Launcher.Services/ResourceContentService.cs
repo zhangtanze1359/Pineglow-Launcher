@@ -58,7 +58,8 @@ public sealed class ResourceContentService
 				Author = ReadString(hit, "author"),
 				Downloads = ReadLong(hit, "downloads"),
 				WebsiteUrl = "https://modrinth.com/" + projectType + "/" + text,
-				Kind = kind
+				Kind = kind,
+				IconUrl = ReadString(hit, "icon_url")
 			};
 		})
 			.ToList();
