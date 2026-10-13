@@ -4,6 +4,11 @@
     在系统临时目录构建「候选源码快照」并做可复现性验证。
 
 .DESCRIPTION
+    本轮修复（2026-10-13，CV-01）：快照文件数量改为按「tracked ∪ 白名单」的**唯一规范相对路径
+    集合**计数——旧实现把 trackedCopied + whitelistCopied 直接相加，两者重叠时必然误判 FAIL。
+    缺失、泄漏、哈希、锁定、测试与退出码门槛全部保留，并新增「预期集合逐项存在于快照内」的
+    显式断言，因此去重不会让缺文件假通过。
+
     解决的问题：当前工作区可构建，但「正式源码输入」不明确。
 
     前提修正（重要，不要再误述）：clean HEAD 自身可能是自洽的。
@@ -15,7 +20,8 @@
       2. 复制「全部 tracked 文件的工作区版本」——即当前磁盘内容，含 32 个 M 的修改后内容。
       3. 额外复制白名单 scripts/source-snapshot-inputs.txt 逐项列出的未跟踪文件（当前类别 A–L）。
          -SkipCategories 可排除某些类别以制造 RED。
-      4. 校验：文件数量、白名单逐项存在且 SHA256 与源一致、
+      4. 校验：文件数量（按「tracked ∪ 白名单」的唯一规范相对路径集合计，重叠只算一次）、
+         白名单逐项存在且 SHA256 与源一致、预期集合逐项存在于快照内、
          「tracked 与白名单之外的文件数为 0」的通用泄漏检测、构建前无 bin/obj。
       5. 执行：Node 正式测试 -> 非 RID 锁定还原 -> Release build -> C# Release 全套
          -> VerifyHost build -> win-x64 单文件 publish。
@@ -57,7 +63,7 @@
 
 .EXAMPLE
     ./scripts/verify-source-snapshot.ps1
-    GREEN：tracked + 全部白名单项，锁定还原为硬失败。
+    GREEN：tracked ∪ 全部白名单项（重叠按唯一路径只算一次），锁定还原为硬失败。
 
 .EXAMPLE
     ./scripts/verify-source-snapshot.ps1 -SkipCategories A
@@ -168,9 +174,12 @@ $Summary = [ordered]@{
     trackedCopied       = 0
     whitelistTotal      = 0
     whitelistCopied     = 0
+    uniqueExpectedFiles = 0
+    overlapWithTracked  = 0
     whitelistSkipped    = @()
     whitelistMissing    = @()
     hashMismatches      = @()
+    expectedMissing     = @()
     unexpectedFiles     = @()
     closureRootsChecked = @()
     closureMissing      = @()
@@ -256,11 +265,31 @@ $tracked = @(& git -C $RepoRoot ls-files)
 if ($LASTEXITCODE -ne 0) { throw 'git ls-files 失败' }
 $Summary.repoHead = (& git -C $RepoRoot rev-parse HEAD).Trim()
 $tracked = @($tracked | Where-Object { $_ -ne '' })
-foreach ($f in $tracked) { Copy-RelativeFile -Rel $f -Dest $SnapshotDir }
-$Summary.trackedCopied = $tracked.Count
-Write-Ok "tracked 工作区版本已复制: $($tracked.Count) 个文件"
+
+# CV-01（本轮修复）：tracked 与白名单是**重叠**的两个来源，不是互斥的两批文件。
+# 旧实现把 trackedCopied + whitelistCopied 直接相加（本轮 302 + 163 = 465），
+# 而磁盘上真实存在的唯一文件只有 302 个，GREEN 因此在步骤 2 被误判为 FAIL。
+# 现在统一按「实际纳入的唯一规范相对路径集合」计数：$expectedSet 既作数量门槛，
+# 也作逐项缺失断言（缺失、泄漏、哈希、锁定门槛一条都没有取消，白名单也没有删）。
+$expectedSet = @{}
+$trackedCopiedCount = 0
+foreach ($f in $tracked) {
+    $rel = $f -replace '\\', '/'
+    if (-not (Test-Path -LiteralPath (Join-Path $RepoRoot $rel))) {
+        # 结构化失败，而不是让 Copy-Item 抛异常把整条验证打断（那样连汇总都写不出来）
+        Write-Bad "tracked 文件在工作区不存在: $rel"
+        $script:Failures.Add("tracked 文件在工作区不存在，无法复制工作区版本: $rel")
+        continue
+    }
+    $expectedSet[$rel] = $true
+    Copy-RelativeFile -Rel $rel -Dest $SnapshotDir
+    $trackedCopiedCount++
+}
+$Summary.trackedCopied = $trackedCopiedCount
+Write-Ok "tracked 工作区版本已复制: $trackedCopiedCount 个文件"
 
 $copied = 0
+$overlap = 0
 foreach ($k in $cats.Keys) {
     if ($skipSet -contains $k) {
         foreach ($p in $cats[$k]) { $Summary.whitelistSkipped = @($Summary.whitelistSkipped) + $p }
@@ -272,11 +301,15 @@ foreach ($k in $cats.Keys) {
             Write-Bad "白名单项缺失: $p"
             continue
         }
+        # 已在 tracked 集合里的白名单项只记重叠数，不再把期望文件数抬高一次
+        if ($expectedSet.ContainsKey($p)) { $overlap++ } else { $expectedSet[$p] = $true }
         Copy-RelativeFile -Rel $p -Dest $SnapshotDir
         $copied++
     }
 }
 $Summary.whitelistCopied = $copied
+$Summary.uniqueExpectedFiles = $expectedSet.Count
+$Summary.overlapWithTracked = $overlap
 if (@($Summary.whitelistSkipped).Count -gt 0) {
     Write-Note "-SkipCategories 排除 $(@($Summary.whitelistSkipped).Count) 项（RED 模式）"
 }
@@ -290,10 +323,28 @@ Write-Section '步骤 2/7：快照完整性校验'
 
 $files = @(Get-ChildItem -LiteralPath $SnapshotDir -Recurse -File | Where-Object { $_.Name -ne '.snapshot-owner' })
 $Summary.snapshotFileCount = $files.Count
-$expectedCount = $Summary.trackedCopied + $Summary.whitelistCopied
+# CV-01：期望数是「唯一规范相对路径集合」的大小（tracked ∪ 白名单，重叠只算一次），
+# 不是 trackedCopied + whitelistCopied。旧口径在两者重叠时必然误报数量不符。
+$expectedCount = $expectedSet.Count
 Write-Host ("  文件数量: 期望 {0} / 实际 {1}" -f $expectedCount, $Summary.snapshotFileCount) -ForegroundColor Cyan
-if ($files.Count -ne $expectedCount) { $script:Failures.Add("快照文件数量不符: 期望 $expectedCount 实际 $($files.Count)") }
-else { Write-Ok '文件数量一致' }
+Write-Host ("            口径: tracked {0} + 白名单 {1}，重叠 {2} -> 唯一路径 {3}" -f $Summary.trackedCopied, $Summary.whitelistCopied, $Summary.overlapWithTracked, $expectedCount) -ForegroundColor DarkGray
+if ($files.Count -ne $expectedCount) { $script:Failures.Add("快照文件数量不符: 期望 $expectedCount（唯一路径集合）实际 $($files.Count)") }
+else { Write-Ok '文件数量一致（按唯一规范相对路径集合计，重叠只算一次）' }
+
+# 去重计数不得掩盖缺失：预期集合里逐项断言真实存在，缺哪一项就报哪一项。
+# （数量相等 + 泄漏为 0 已能推出「无缺失」，这里把它变成可独立复验的显式断言与可读证据。）
+$expectedMissing = @()
+foreach ($rel in @($expectedSet.Keys | Sort-Object)) {
+    if (-not (Test-Path -LiteralPath (Join-Path $SnapshotDir $rel))) { $expectedMissing += $rel }
+}
+$Summary.expectedMissing = $expectedMissing
+if ($expectedMissing.Count -gt 0) {
+    Write-Bad "快照内缺失预期文件 $($expectedMissing.Count) 个:"
+    foreach ($m in ($expectedMissing | Select-Object -First 20)) { Write-Host "       $m" -ForegroundColor Red }
+    $script:Failures.Add("快照内缺失预期文件 $($expectedMissing.Count) 个: $($expectedMissing -join ', ')")
+} else {
+    Write-Ok ("预期集合逐项存在于快照内（{0} 项，缺失 0）" -f $expectedSet.Count)
+}
 
 # 通用泄漏检测：快照内每个文件必须是 tracked 或白名单之一（额外文件必须为 0）
 $trackedSet = @{}
@@ -820,6 +871,7 @@ Write-Host ("  模式          : {0}" -f $Summary.mode) -ForegroundColor Cyan
 Write-Host ("  repo HEAD     : {0}" -f $Summary.repoHead) -ForegroundColor Cyan
 Write-Host ("  tracked 复制  : {0}" -f $Summary.trackedCopied) -ForegroundColor Cyan
 Write-Host ("  白名单复制    : {0} / 共 {1}（跳过 {2}，缺失 {3}）" -f $Summary.whitelistCopied, $Summary.whitelistTotal, @($Summary.whitelistSkipped).Count, @($Summary.whitelistMissing).Count) -ForegroundColor Cyan
+Write-Host ("  唯一期望文件数: {0}（tracked {1} ∪ 白名单 {2}，重叠 {3}；快照内缺失 {4}）" -f $Summary.uniqueExpectedFiles, $Summary.trackedCopied, $Summary.whitelistCopied, $Summary.overlapWithTracked, @($Summary.expectedMissing).Count) -ForegroundColor Cyan
 Write-Host ("  快照文件数    : {0}" -f $Summary.snapshotFileCount) -ForegroundColor Cyan
 Write-Host ("  额外/泄漏文件 : {0}" -f @($Summary.unexpectedFiles).Count) -ForegroundColor Cyan
 Write-Host ("  bin/obj       : {0}" -f $Summary.binObjFound) -ForegroundColor Cyan

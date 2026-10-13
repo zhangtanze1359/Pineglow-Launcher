@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading;
 using System.Threading.Tasks;
 using Pineglow.Launcher.Models;
@@ -153,7 +154,15 @@ public class InstancePackTests
 	[Fact]
 	public void ParseModrinthIndex_DefaultsMissingFormatVersionToOne()
 	{
-		string json = MinimalIndex.Replace("  \"formatVersion\": 1,\n", string.Empty);
+		// CV-03（本轮修复）：C# 原始字符串字面量**原样保留源文件换行**。本文件被 core.autocrlf=true
+		// 检出后夹具里是 CRLF，旧写法 Replace("  \"formatVersion\": 1,\n", "") 匹配不到，
+		// 字段根本没被删掉，失败发生在**调用产品解析器之前**（是夹具构造问题，不是产品行为问题）。
+		// 现改为按 JSON 结构删除属性：与源码换行无关，且「字段确实缺失」有显式断言守住。
+		JsonObject root = JsonNode.Parse(MinimalIndex)?.AsObject()
+			?? throw new InvalidOperationException("夹具 JSON 无法解析为对象。");
+		Assert.True(root.Remove("formatVersion"), "夹具必须含 formatVersion，否则本用例无法证明「缺字段取默认值」。");
+
+		string json = root.ToJsonString();
 		Assert.DoesNotContain("formatVersion", json);
 		InstancePackService.ModrinthPackManifest manifest = InstancePackService.ParseModrinthIndex(json);
 		Assert.Equal(1, manifest.FormatVersion);

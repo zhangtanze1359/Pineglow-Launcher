@@ -91,6 +91,8 @@ const DICT = {
 		'news.stale': '缓存/离线数据',
 		'news.oldSource': '源内容较旧',
 		'news.unknownTime': '未知时间',
+		'news.unverified': '尚未验证',
+		'news.cachedBannerNoTime': '离线缓存内容 · 验证时间未知，当前无法连接官方源',
 		'news.loading': '新闻加载中…',
 		'news.stateLive': '已同步官方最新',
 		'news.stateRevalidated': '已验证（内容未变）',
@@ -496,6 +498,10 @@ const DICT = {
 		'content.installMissingCategory': '无法安装：项目类别信息缺失',
 		'content.unfiltered': '未按实例过滤',
 		'content.stateLoadFailed': '实例状态加载失败，请稍后重试',
+		// CV-06：内容中心错误块（通俗主说明；技术错误进 details，正文不放主机与 /api 路径）
+		'content.errorTitle': '内容加载失败',
+		'content.errorDesc': '没能从内容源取回数据。这通常是网络或内容源暂时不可用，稍后重试即可。',
+		'content.techDetails': '技术详情',
 
 		// Worlds
 		'worlds.title': '世界',
@@ -554,6 +560,14 @@ const DICT = {
 		'dl.queuing': '排队中…',
 		'dl.queued': '已加入下载：{id}',
 		'dl.downloadFailed': '下载失败：',
+		// CV-04：版本源失败 ≠ 成功空态；任务接口失败 ≠ 没有任务
+		'dl.retry': '重试',
+		'dl.sourceErrorTitle': '无法获取可下载版本',
+		'dl.sourceErrorDesc': '版本列表没有取回来。已有下载任务不受影响，稍后重试即可。',
+		'dl.tasksErrorTitle': '无法获取下载任务',
+		'dl.tasksErrorDesc': '任务列表没有取回来，这不代表没有任务。稍后重试即可。',
+		'dl.techDetails': '技术详情',
+		'dl.noVersionsForFilter': '当前筛选下没有版本，换个筛选条件看看。',
 
 		// 启动
 		'launch.selectFirst': '请先选择一个实例',
@@ -563,6 +577,8 @@ const DICT = {
 		'launch.failed': '启动失败',
 		'launch.failedPrefix': '启动失败：',
 		'launch.checkTitle': '启动前检查未通过',
+		'launch.checkIncompleteTitle': '启动前检查未完成',
+		'launch.checkIncompleteDesc': '尚未启动游戏。请重试检查，确认环境可用后再启动。',
 		'launch.checkWarnTitle': '启动前检查有警告',
 		'launch.checkFailed': '存在阻止启动的问题',
 		'launch.continue': '仍然启动',
@@ -658,6 +674,8 @@ const DICT = {
 		'news.stale': 'Cached / offline data',
 		'news.oldSource': 'Source content is old',
 		'news.unknownTime': 'Unknown time',
+		'news.unverified': 'Not verified yet',
+		'news.cachedBannerNoTime': 'Offline cache · verification time unknown; official source unreachable',
 		'news.loading': 'Loading news…',
 		'news.stateLive': 'Up to date with official source',
 		'news.stateRevalidated': 'Verified (content unchanged)',
@@ -1057,6 +1075,10 @@ const DICT = {
 		'content.installMissingCategory': 'Cannot install: project category missing',
 		'content.unfiltered': 'Not filtered by instance',
 		'content.stateLoadFailed': 'Failed to load instance state, please retry',
+		// CV-06: content-center error block (plain-language summary; raw error goes into <details>)
+		'content.errorTitle': 'Could not load content',
+		'content.errorDesc': 'The content source did not return data. This is usually a temporary network or source problem — try again in a moment.',
+		'content.techDetails': 'Technical details',
 
 		'worlds.title': 'Worlds',
 		'worlds.subtitle': 'Single-player saves across all your instances',
@@ -1112,6 +1134,14 @@ const DICT = {
 		'dl.queuing': 'Queuing…',
 		'dl.queued': 'Added to downloads: {id}',
 		'dl.downloadFailed': 'Download failed: ',
+		// CV-04: version-source failure is NOT a successful empty state; a task-API failure is NOT "no tasks"
+		'dl.retry': 'Retry',
+		'dl.sourceErrorTitle': 'Could not load the version list',
+		'dl.sourceErrorDesc': 'The version list could not be fetched. Existing download tasks are unaffected; try again in a moment.',
+		'dl.tasksErrorTitle': 'Could not load download tasks',
+		'dl.tasksErrorDesc': 'The task list could not be fetched — this does not mean there are no tasks. Try again in a moment.',
+		'dl.techDetails': 'Technical details',
+		'dl.noVersionsForFilter': 'No versions match this filter — try another filter.',
 
 		'launch.selectFirst': 'Please select an instance first',
 		'launch.starting': 'Launching "{name}"…',
@@ -1120,6 +1150,8 @@ const DICT = {
 		'launch.failed': 'Launch failed',
 		'launch.failedPrefix': 'Launch failed: ',
 		'launch.checkTitle': 'Pre-launch check failed',
+		'launch.checkIncompleteTitle': 'Pre-launch check incomplete',
+		'launch.checkIncompleteDesc': 'The game has not started. Retry the check before launching.',
 		'launch.checkWarnTitle': 'Pre-launch check warnings',
 		'launch.checkFailed': 'Issues are blocking launch',
 		'launch.continue': 'Launch anyway',

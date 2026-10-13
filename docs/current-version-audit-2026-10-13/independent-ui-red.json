@@ -1,0 +1,18 @@
+{
+  "sourceRoot": "D:\\松光启动器",
+  "checks": [
+    {
+      "id": "CV-04",
+      "expected": "request failure distinguished from successful empty list",
+      "failedAsEmpty": true,
+      "retainedTask": true,
+      "status": "FAIL"
+    },
+    {
+      "id": "CV-05",
+      "expected": "unset validation timestamp displayed as unknown",
+      "actual": "1-01-01",
+      "status": "FAIL"
+    }
+  ]
+}

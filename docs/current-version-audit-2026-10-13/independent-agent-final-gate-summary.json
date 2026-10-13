@@ -1,0 +1,63 @@
+{
+  "time": "2026-10-13T16:51:56.9445090+08:00",
+  "snapshot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-2ec099278e72404596b71170e800de8b",
+  "publishedExe": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-2ec099278e72404596b71170e800de8b\\dev\\PineglowLauncher\\bin\\Release\\net10.0\\win-x64\\publish\\Pineglow.Launcher.exe",
+  "sha256": "aa1f65471e9f9c2bbeb20c5a86d593bffaac2b4f823620fbb0ef0f2248259a1d",
+  "coldCheckCount": 19,
+  "coldFailed": 0,
+  "uiVerdict": "FAIL",
+  "uiProblems": [],
+  "uiStates": [
+    {
+      "view": "home",
+      "state": "content",
+      "ok": true
+    },
+    {
+      "view": "installations",
+      "state": "content",
+      "ok": true
+    },
+    {
+      "view": "worlds",
+      "state": "empty",
+      "ok": true
+    },
+    {
+      "view": "servers",
+      "state": "empty",
+      "ok": true
+    },
+    {
+      "view": "content",
+      "state": "error",
+      "ok": false
+    },
+    {
+      "view": "skins",
+      "state": "content",
+      "ok": true
+    },
+    {
+      "view": "downloads",
+      "state": "error",
+      "ok": false
+    },
+    {
+      "view": "news",
+      "state": "error",
+      "ok": false
+    },
+    {
+      "view": "settings",
+      "state": "content",
+      "ok": true
+    }
+  ],
+  "sourceInputCount": 305,
+  "sourceDrift": 0,
+  "postBuildSnapshotMutation": {
+    "path": "dev/PineglowLauncher/packages.lock.json",
+    "reason": "Ordinary RID publish intentionally rewrites only isolated snapshot lock into RID shape; original source non-RID lock hash remains FBBC9AE67B8E8CF2E3AA63C48242BC08AC713BE47830D337914CC39C85EE0672"
+  }
+}

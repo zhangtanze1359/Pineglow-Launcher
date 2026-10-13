@@ -16,6 +16,7 @@
 # 这些前端测试文件当前尚未全部 tracked：候选提交必须按 scripts/source-snapshot-inputs.txt
 # 精确纳入（类别 F/J），CI 才能在干净检出上真正跑到它们。
 node scripts/tests/goal-validation.test.cjs
+node scripts/tests/ui-live-cdp.test.cjs
 node scripts/tests/ui-resource-closure.test.cjs
 node ui/tests/a11y-keyboard.test.cjs
 node ui/tests/a13-doubles-and-taborder.test.cjs
@@ -24,6 +25,7 @@ node ui/tests/ai-diagnose.test.cjs
 node ui/tests/api-contract.test.cjs
 node ui/tests/bisect-recovery.test.cjs
 node ui/tests/content-icon.test.cjs
+node ui/tests/current-version-errors.test.cjs
 node ui/tests/diagnostic-history.test.cjs
 node ui/tests/file-recovery.test.cjs
 node ui/tests/goal-core-flow.test.cjs

@@ -1,0 +1,5 @@
+{
+  "crlfSequences": 386,
+  "normalizedSame": true,
+  "scope": "Retained earlier isolated CRLF source byte content matches final InstancePackTests after newline normalization; independently reran prebuilt corresponding test one case"
+}

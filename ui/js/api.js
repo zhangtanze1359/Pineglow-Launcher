@@ -633,13 +633,19 @@ SG.api = (() => {
 			const res = await _post('/api/sources/select', { key });
 			return { ok: !!res.ok, selected: res.selected || '', useMirror: !!res.useMirror };
 		},
-		async getRemoteVersions() {
+		async getRemoteVersions(options) {
 			const data = await _req('/api/versions');
 			try {
 				const r = await _req('/api/versions/remote');
 				return (r.versions || []).map(v => mapVersion(v, data.local));
 			} catch (e) {
-				return (data.local || []).map(id => ({ id, type: 'release', releaseTime: '', sizeText: '已安装', installed: true }));
+				const localVersions = (data.local || []).map(id => ({ id, type: 'release', releaseTime: '', sizeText: '已安装', installed: true }));
+				if (options && options.throwOnRemoteError) {
+					const error = new Error((e && e.message) || String(e));
+					error.localVersions = localVersions;
+					throw error;
+				}
+				return localVersions;
 			}
 		},
 		async downloadVersion(versionId) {

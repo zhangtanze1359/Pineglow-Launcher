@@ -1,0 +1,73 @@
+{
+  "scope": "Real native WebView and real frontend API adapter; controlled local HTTP responses, no real external installation or account success",
+  "exe": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-2ec099278e72404596b71170e800de8b\\dev\\PineglowLauncher\\bin\\Release\\net10.0\\win-x64\\publish\\Pineglow.Launcher.exe",
+  "work": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-ui-accept-7gbMUe",
+  "apiPort": 54344,
+  "debugPort": 54345,
+  "checks": [
+    {
+      "id": "CV-04-real-api-error-and-retained-tasks",
+      "status": "PASS",
+      "metrics": {
+        "scroll": 718,
+        "client": 718
+      }
+    },
+    {
+      "id": "CV-04-double-click-deduplicated-and-retry-still-fails",
+      "status": "PASS"
+    },
+    {
+      "id": "CV-04-recovery-preserves-filter",
+      "status": "PASS"
+    },
+    {
+      "id": "CV-04-real-api-successful-empty-distinguished",
+      "status": "PASS"
+    },
+    {
+      "id": "CV-06-keyboard-details-escaping-and-width",
+      "status": "PASS",
+      "metrics": {
+        "scroll": 718,
+        "client": 718
+      }
+    },
+    {
+      "id": "CV-06-recovery-retains-query",
+      "status": "PASS"
+    },
+    {
+      "id": "CV-05-real-api-minvalue-hidden",
+      "status": "PASS"
+    },
+    {
+      "id": "CV-05-real-api-valid-date-preserved",
+      "status": "PASS"
+    },
+    {
+      "id": "CV-08-check-error-blocks-launch",
+      "status": "PASS"
+    },
+    {
+      "id": "CV-08-retry-still-fails-blocks-launch",
+      "status": "PASS"
+    },
+    {
+      "id": "CV-08-successful-retry-reaches-intercepted-launch-once",
+      "status": "PASS"
+    },
+    {
+      "id": "CV-08-warning-confirmation-required-and-deduplicated",
+      "status": "PASS"
+    },
+    {
+      "id": "CV-08-explicit-check-errors-still-block",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "status": "PASS",
+  "versionCalls": 5,
+  "launchCalls": 2
+}

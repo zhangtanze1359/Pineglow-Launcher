@@ -260,9 +260,34 @@ function newsErrorText() {
 	return key ? t(key) : t('news.errInternal');
 }
 
+/* CV-05（本次修复）：验证时间的「未验证」判定。
+ * 原始缺陷（RED 证据 docs/current-version-audit-2026-10-13/independent-ui-red.json CV-05）：
+ *   后端首次失败时 meta.validatedAt 是 Go 零值 time.Time（0001-01-01T00:00:00Z），
+ *   旧实现 `if (!validatedAt) return 未知时间` 认为该字符串为真值，直接交给 fmtDate，
+ *   界面于是把「零值」渲染成日期 "1-01-01" —— 既不是错误也不是未验证，属于伪造信息。
+ * 判定口径（保持 meta.validatedAt 契约不变，只改前端呈现）：
+ *   null / undefined / 空串 / 无法解析的原串 / 0001-01-01（含任意时区偏移）一律 = 未验证。
+ *   零值在任意偏移下都落在 UTC 0000-12-31 ~ 0001-01-01 之间，故统一按 UTC 年份 <= 1 判定，
+ *   这样 +08:00（退到 0000-12-31）与 -08:00（仍是 0001-01-01）两种变体都能覆盖。 */
+function parseValidatedAt(v) {
+	if (v == null) return null;
+	if (typeof v === 'number') {
+		const n = new Date(v);
+		return (isNaN(n.getTime()) || n.getUTCFullYear() <= 1) ? null : n;
+	}
+	const s = String(v).trim();
+	if (!s) return null;
+	const d = new Date(s);
+	if (isNaN(d.getTime())) return null;        // 无效原串绝不进入日期字段
+	if (d.getUTCFullYear() <= 1) return null;   // Go 零值 time（含时区变体）
+	return d;
+}
+
+function newsValidatedDate() { return parseValidatedAt(NEWS_META && NEWS_META.validatedAt); }
+
 function newsValidatedText() {
-	if (!NEWS_META || !NEWS_META.validatedAt) return t('news.unknownTime');
-	return fmtDate(NEWS_META.validatedAt);
+	const d = newsValidatedDate();
+	return d ? fmtDate(d) : t('news.unknownTime');
 }
 
 function newsList() { return LIVE_NEWS || []; }   // 生产路径无静态 fallback
@@ -360,12 +385,21 @@ function newsStatusHtml() {
 		return `<div class="news-meta" data-news-meta="loading">${esc(t('news.loading'))}</div>`;
 	}
 	const stateAttr = esc(NEWS_META.state);
-	let line = `${esc(newsStateText())} · ${esc(t('news.lastValidated', { time: newsValidatedText() }))}`;
+	// CV-05：未验证（null/空/无效/0001-01-01）时不显示任何日期，只显示"尚未验证"；
+	// 有效验证时间才写进日期字段。data-news-verified 供验收脚本与测试区分两种终态。
+	const validatedDate = newsValidatedDate();
+	const verified = validatedDate !== null;
+	const timeText = verified ? newsValidatedText() : '';
 	if (NEWS_META.state === 'cached') {
-		line = `${esc(t('news.cachedBanner', { time: newsValidatedText() }))}`;
-		return `<div class="news-banner news-banner-warn" data-news-banner="cached" data-news-state="cached">${line}</div>`;
+		const line = verified
+			? esc(t('news.cachedBanner', { time: timeText }))
+			: esc(t('news.cachedBannerNoTime'));
+		return `<div class="news-banner news-banner-warn" data-news-banner="cached" data-news-state="cached" data-news-verified="${verified ? '1' : '0'}">${line}</div>`;
 	}
-	return `<div class="news-meta" data-news-state="${stateAttr}">${line}</div>`;
+	const line = verified
+		? `${esc(newsStateText())} · ${esc(t('news.lastValidated', { time: timeText }))}`
+		: `${esc(newsStateText())} · ${esc(t('news.unverified'))}`;
+	return `<div class="news-meta" data-news-state="${stateAttr}" data-news-verified="${verified ? '1' : '0'}">${line}</div>`;
 }
 
 function newsEmptyOrErrorHtml() {
@@ -399,7 +433,12 @@ function homeNewsInnerHtml() {
 			</button>`;
 		}).join('');
 		if (NEWS_META && (NEWS_META.state === 'cached')) {
-			return `${cards}<div class="news-banner news-banner-warn" data-news-banner="cached">${esc(t('news.cachedBanner', { time: newsValidatedText() }))}</div>`;
+			// CV-05：缓存态同样遵循"验证时间无效就不显示日期"的口径。
+			const cachedDate = newsValidatedDate();
+			const cachedLine = cachedDate
+				? esc(t('news.cachedBanner', { time: fmtDate(cachedDate) }))
+				: esc(t('news.cachedBannerNoTime'));
+			return `${cards}<div class="news-banner news-banner-warn" data-news-banner="cached" data-news-verified="${cachedDate ? '1' : '0'}">${cachedLine}</div>`;
 		}
 		return cards;
 	}
@@ -2074,6 +2113,29 @@ function contentCardHtml(c) {
 	</div>`;
 }
 
+/* CV-06（本次修复）：内容中心错误块 / 重试按钮。
+ * 设计来源：docs/opendesign-ui-artifact-2026-10-13/pineglow-state-components.css 的
+ *   `.content-error` / `.content-retry-btn` 状态组件 + `.tech-details`/`.tech-body` 技术详情
+ *   （integration-notes.md §4 第 3 条：主说明通俗，原始主机与 /api 路径移入可展开技术详情）。
+ * 关键不变量：
+ *   1. 正文只放通俗文案（content.errorTitle / content.errorDesc），不把主机名、/api 路径、状态码摆在正文；
+ *   2. 原始错误经 esc() 转义后放进原生 <details><pre>，默认**不展开**（不写 open 属性），长文本靠 CSS 换行；
+ *   3. 保留 data-error="1" 与 [data-retry-btn]（既有 bindContent 委托监听依赖它们，失败后再次重试仍可用）；
+ *   4. 动态文本全部 esc()；不新增原型里的模拟按钮（只有生产已有的"重试"）。
+ * 失败后再次重试：每次重试都会用本函数重新生成错误块，新按钮落在同一委托监听范围内。 */
+function contentErrorBlockHtml(errText) {
+	const tech = String(errText == null ? '' : errText);
+	return `<div class="content-error" data-error="1" role="alert">
+		<div class="state-icon state-icon--danger" aria-hidden="true">!</div>
+		<div class="state-main">
+			<div class="state-title">${esc(t('content.errorTitle'))}</div>
+			<p class="state-desc">${esc(t('content.errorDesc'))}</p>
+			<div class="state-actions"><button class="content-retry-btn" type="button" data-retry-btn="1">${esc(t('content.retry'))}</button></div>
+			${tech ? `<details class="tech-details"><summary>${esc(t('content.techDetails'))}</summary><pre class="tech-body">${esc(tech)}</pre></details>` : ''}
+		</div>
+	</div>`;
+}
+
 async function renderContent() {
 	const token = ++contentSearchToken;
 	contentLoadError = null;
@@ -2107,9 +2169,7 @@ async function renderContent() {
 	// 关键：错误块必须放在 content-grid 内部。
 	// rerenderGrid 走 grid.innerHTML 重置时，会连同错误块与重试按钮一起被替换，
 	// 避免"列表已恢复但错误块与按钮仍残留"的双重状态。
-	const errorBlock = contentLoadError
-		? `<div class="content-error" data-error="1"><div class="es-icon">!</div>${esc(contentLoadError)} <button class="content-retry-btn" data-retry-btn="1">${esc(t('content.retry'))}</button></div>`
-		: '';
+	const errorBlock = contentLoadError ? contentErrorBlockHtml(contentLoadError) : '';
 	const gridInner = results.length
 		? results.map(contentCardHtml).join('')
 		: (contentLoadError
@@ -2189,9 +2249,7 @@ async function contentRerenderGrid(el) {
 	if (token !== contentSearchToken) return;
 	// 关键：成功路径也要校验 pageGen。
 	if (contentPageGen === -1) return;
-	const errorBlock = contentLoadError
-		? `<div class="content-error" data-error="1"><div class="es-icon">!</div>${esc(contentLoadError)} <button class="content-retry-btn" data-retry-btn="1">${esc(t('content.retry'))}</button></div>`
-		: '';
+	const errorBlock = contentLoadError ? contentErrorBlockHtml(contentLoadError) : '';
 	const gridInner = results.length
 		? results.map(contentCardHtml).join('')
 		: (contentLoadError ? '' : `<div class="empty-state"><div class="es-icon">🔍</div>${esc(t('content.emptyShort'))}</div>`);
@@ -2692,6 +2750,25 @@ function bindServers(el) {
 let dlVersionFilter = 'release';
 let dlPollTimer = null;
 
+/* CV-04（本次修复）：下载中心的「版本源」与「下载任务」是**两个互相独立的状态**。
+ * 原始缺陷（RED 证据 docs/current-version-audit-2026-10-13/independent-ui-red.json CV-04）：
+ *   `catch (e) { versions = []; }` 把"请求失败"降级成"成功空列表"，外部源不可用时界面显示
+ *   "暂无可下载版本" —— 把失败伪造成事实，用户既看不到错误也没有真实重试入口。
+ * 口径（与 Cloud 状态矩阵 normal/loading/error/empty 一致）：
+ *   versions.status: 'loading' | 'ready' | 'error'
+ *     ready + 数据        → 版本列表
+ *     ready + []          → 真正的**成功空态**（dl.noVersions）
+ *     ready + 过滤后为空  → dl.noVersionsForFilter（有数据，只是当前筛选没命中）
+ *     error               → .download-source-error 错误块 + 真实重试（绝不显示空态）
+ *   tasks.status: 'loading' | 'ready' | 'error'
+ *     error → 显式任务错误块，**不能**假装"暂无下载任务"。
+ *   两者互不影响：版本源失败时，已有任务来自独立数据源，照常显示。
+ *   dlReqGen 请求代际：迟到的旧响应（成功或失败）都不得覆盖较新的状态或已切走的页面。 */
+let dlVersions = { status: 'loading', error: null, items: [] };
+let dlTasks = { status: 'loading', error: null, items: [] };
+let dlReqGen = 0;
+let dlReloadInFlight = false;   // 重试防连发：按钮 disabled + 逻辑门双保险
+
 function versionRowHtml(v) {
 	const installed = v.installed;
 	return `
@@ -2717,13 +2794,90 @@ function dlTaskHtml(t) {
 		</div>
 	</div>`;
 }
+
+/* CV-04 / CV-06：版本源错误块。通俗主说明 + 可展开技术详情 + 真实重试。
+ * 设计来源：pineglow-state-components.css 的 `.download-source-error` / `.download-retry-btn` /
+ * `.tech-details` / `.tech-body`（integration-notes.md §4 第 1 条）。 */
+function dlSourceErrorHtml(errText) {
+	const tech = String(errText == null ? '' : errText);
+	return `<div class="download-source-error" data-error="1" role="alert">
+		<div class="state-icon state-icon--danger" aria-hidden="true">!</div>
+		<div class="state-main">
+			<div class="state-title">${esc(t('dl.sourceErrorTitle'))}</div>
+			<p class="state-desc">${esc(t('dl.sourceErrorDesc'))}</p>
+			<div class="state-actions"><button class="download-retry-btn" type="button" data-dl-retry="1">${esc(t('dl.retry'))}</button></div>
+			${tech ? `<details class="tech-details"><summary>${esc(t('dl.techDetails'))}</summary><pre class="tech-body">${esc(tech)}</pre></details>` : ''}
+		</div>
+	</div>`;
+}
+
+/* CV-04：下载任务错误块。任务接口失败必须显式报错，绝不回落成"暂无下载任务"。 */
+function dlTasksErrorHtml(errText) {
+	const tech = String(errText == null ? '' : errText);
+	return `<div class="download-source-error download-tasks-error" data-tasks-error="1" role="alert">
+		<div class="state-icon state-icon--danger" aria-hidden="true">!</div>
+		<div class="state-main">
+			<div class="state-title">${esc(t('dl.tasksErrorTitle'))}</div>
+			<p class="state-desc">${esc(t('dl.tasksErrorDesc'))}</p>
+			<div class="state-actions"><button class="download-retry-btn" type="button" data-dl-tasks-retry="1">${esc(t('dl.retry'))}</button></div>
+			${tech ? `<details class="tech-details"><summary>${esc(t('dl.techDetails'))}</summary><pre class="tech-body">${esc(tech)}</pre></details>` : ''}
+		</div>
+	</div>`;
+}
+
 async function renderDownloads() {
-	let versions = [], tasks = [];
-	try { versions = await SG.api.getRemoteVersions(); } catch (e) { versions = []; }
-	try { tasks = await SG.api.getDownloads(); } catch (e) { tasks = []; }
+	const gen = ++dlReqGen;
+	// 两个请求并发且彼此独立：任一失败都不影响另一个的结果落地（版本失败仍保留任务）。
+	const versionsPromise = Promise.resolve()
+		.then(() => SG.api.getRemoteVersions({ throwOnRemoteError: true }))
+		.then(items => ({ ok: true, items: Array.isArray(items) ? items : [] }))
+		.catch(e => ({ ok: false, error: (e && e.message) ? e.message : String(e), items: e && Array.isArray(e.localVersions) ? e.localVersions : [] }));
+	const tasksPromise = Promise.resolve()
+		.then(() => SG.api.getDownloads())
+		.then(items => ({ ok: true, items: Array.isArray(items) ? items : [] }))
+		.catch(e => ({ ok: false, error: (e && e.message) ? e.message : String(e) }));
+	const results = await Promise.all([versionsPromise, tasksPromise]);
+	// 关键：代际校验。迟到的旧请求（无论成功还是失败）都不得覆盖较新的状态。
+	if (gen !== dlReqGen) return '';
+	const vRes = results[0], tRes = results[1];
+	dlVersions = vRes.ok
+		? { status: 'ready', error: null, items: vRes.items }
+		: { status: 'error', error: vRes.error, items: vRes.items };
+	dlTasks = tRes.ok
+		? { status: 'ready', error: null, items: tRes.items }
+		: { status: 'error', error: tRes.error, items: [] };
+	return downloadsPageHtml();
+}
+
+/* 纯呈现层：只读 dlVersions / dlTasks / dlVersionFilter，不发请求。
+ * 这样"失败"与"成功空态"是同一次状态判定的两个分支，不可能再退化成一个。 */
+function downloadsPageHtml() {
+	const versions = dlVersions.items;
+	const tasks = dlTasks.items;
 	const filtered = versions.filter(v => dlVersionFilter === 'all' ? true : v.type === dlVersionFilter);
-	const vlist = filtered.length ? filtered.slice(0, 60).map(versionRowHtml).join('') : `<div class="empty-state">${esc(t('dl.noVersions'))}</div>`;
-	const tlist = tasks.length ? tasks.map(dlTaskHtml).join('') : `<div class="empty-state" style="padding:32px"><div class="es-icon">📥</div>${esc(t('dl.noTasks'))}</div>`;
+	let vlist;
+	if (dlVersions.status === 'error') {
+		vlist = dlSourceErrorHtml(dlVersions.error) + filtered.slice(0, 60).map(versionRowHtml).join('');
+	} else if (dlVersions.status === 'loading') {
+		vlist = `<div class="loading-state">${esc(t('common.loading'))}</div>`;
+	} else if (filtered.length) {
+		vlist = filtered.slice(0, 60).map(versionRowHtml).join('');
+	} else {
+		// 成功空态：区分"源里一个都没有"与"当前筛选没命中"。
+		vlist = versions.length
+			? `<div class="empty-state" data-empty="filter">${esc(t('dl.noVersionsForFilter'))}</div>`
+			: `<div class="empty-state" data-empty="source">${esc(t('dl.noVersions'))}</div>`;
+	}
+	let tlist;
+	if (dlTasks.status === 'error') {
+		tlist = dlTasksErrorHtml(dlTasks.error);
+	} else if (dlTasks.status === 'loading') {
+		tlist = `<div class="loading-state">${esc(t('common.loading'))}</div>`;
+	} else if (tasks.length) {
+		tlist = tasks.map(dlTaskHtml).join('');
+	} else {
+		tlist = `<div class="empty-state" style="padding:32px" data-empty="tasks"><div class="es-icon">📥</div>${esc(t('dl.noTasks'))}</div>`;
+	}
 	return `
 	<div class="content-view">
 		<div class="page-head">
@@ -2746,16 +2900,43 @@ async function renderDownloads() {
 			</div>
 			<div>
 				<div class="dl-section-title"><span>${esc(t('dl.tasks'))}</span></div>
-				<div class="list-grid" id="dlTasks">${tlist}</div>
+				<div class="list-grid download-tasks" id="dlTasks">${tlist}</div>
 			</div>
 		</div>
 	</div>`;
 }
+
+/* CV-04：重载下载页（筛选切换 / 下载排队 / 重试都走这里）。
+ * - 防连发：dlReloadInFlight 逻辑门 + 触发按钮 disabled，进行中的重复点击不产生并发请求；
+ * - 页面已切走（currentView !== 'downloads'）时不写 DOM，旧请求结束不会覆盖较新状态；
+ * - 重渲染后错误块自然消失（恢复），dlVersionFilter 是模块级状态 → 版本筛选被保留。 */
+async function reloadDownloadsView(el, triggerBtn) {
+	if (dlReloadInFlight) return false;
+	dlReloadInFlight = true;
+	if (triggerBtn && typeof triggerBtn === 'object') triggerBtn.disabled = true;
+	let rendered = false;
+	try {
+		const html = await renderDownloads();
+		if (!html) return false;                        // 代际已过期：更新的请求已接管
+		if (currentView !== 'downloads') return false;  // 页面已切走：绝不写 DOM
+		const view = document.getElementById('view-downloads') || el;
+		if (!view) return false;
+		view.innerHTML = html;
+		bindDownloads(view);
+		rendered = true;
+		return true;
+	} finally {
+		dlReloadInFlight = false;
+		// 没有重渲染（页面已切走 / 代际过期）时把按钮恢复可用。
+		// 否则用户切走再回来会看到一个永远禁用的重试按钮（DOM 没被替换，disabled 就留在原地）。
+		if (!rendered && triggerBtn && typeof triggerBtn === 'object') triggerBtn.disabled = false;
+	}
+}
+
 function bindDownloads(el) {
 	el.querySelectorAll('[data-vfilter]').forEach(b => b.addEventListener('click', async () => {
-		dlVersionFilter = b.dataset.vfilter;
-		const v = document.getElementById('view-downloads');
-		v.innerHTML = await renderDownloads(); bindDownloads(v);
+		dlVersionFilter = b.dataset.vfilter;   // 筛选是模块级状态：重试/重渲染后保持
+		await reloadDownloadsView(el);
 	}));
 	el.querySelectorAll('[data-dlver]').forEach(b => b.addEventListener('click', async () => {
 		const id = b.dataset.dlver;
@@ -2763,10 +2944,12 @@ function bindDownloads(el) {
 		try {
 			await SG.api.downloadVersion(id);
 			toast(t('dl.queued', { id }));
-			const v = document.getElementById('view-downloads');
-			v.innerHTML = await renderDownloads(); bindDownloads(v);
+			await reloadDownloadsView(el);
 		} catch (e) { toast(t('dl.downloadFailed') + (e.message || t('common.unknownError'))); }
 	}));
+	// CV-04：真实的"重试"入口（版本源与下载任务各自独立）。
+	el.querySelectorAll('[data-dl-retry]').forEach(b => b.addEventListener('click', () => { reloadDownloadsView(el, b); }));
+	el.querySelectorAll('[data-dl-tasks-retry]').forEach(b => b.addEventListener('click', () => { reloadDownloadsView(el, b); }));
 }
 
 /* ================================================================
@@ -2880,13 +3063,28 @@ function invalidate(nav) {
 }
 
 /* ---------------- 启动 ---------------- */
+let launchInFlight = false;
 async function doLaunch(instanceId, label) {
 	if (!instanceId) { toast(t('launch.selectFirst')); return; }
+	if (launchInFlight) return;
+	launchInFlight = true;
+	try {
 	// 启动前环境检查
 	let check;
 	try {
 		check = await SG.api.prelaunchCheck(instanceId);
 	} catch (e) { check = null; }
+	if (!check || typeof check.ok !== 'boolean') {
+		openModal(`<div class="modal-title">${esc(t('launch.checkIncompleteTitle'))}</div>
+			<p>${esc(t('launch.checkIncompleteDesc'))}</p>
+			<div class="modal-actions">
+				<button class="modal-btn" id="pcClose">${esc(t('common.close'))}</button>
+				<button class="modal-btn primary" id="pcRetry">${esc(t('dl.retry'))}</button>
+			</div>`);
+		document.getElementById('pcClose').onclick = closeModal;
+		document.getElementById('pcRetry').onclick = () => { closeModal(); return doLaunch(instanceId, label); };
+		return;
+	}
 	if (check && !check.ok) {
 		const errs = (check.errors || []).map(x => `<div class="check-line err">⚠ ${esc(x)}</div>`).join('');
 		openModal(`
@@ -2909,15 +3107,21 @@ async function doLaunch(instanceId, label) {
 				<button class="modal-btn primary" id="pcOk">${esc(t('launch.continue'))}</button>
 			</div>`);
 		document.getElementById('pcCancel').onclick = closeModal;
-		document.getElementById('pcOk').onclick = () => { closeModal(); doLaunchInternal(instanceId, label); };
+		document.getElementById('pcOk').onclick = async () => {
+			if (launchInFlight) return;
+			launchInFlight = true;
+			try { closeModal(); await doLaunchInternal(instanceId, label); }
+			finally { launchInFlight = false; }
+		};
 		return;
 	}
-	doLaunchInternal(instanceId, label);
+	await doLaunchInternal(instanceId, label);
+	} finally { launchInFlight = false; }
 }
 
 function doLaunchInternal(instanceId, label) {
 	toast(t('launch.starting', { name: label || t('launch.game') }));
-	SG.api.launchInstance(instanceId)
+	return SG.api.launchInstance(instanceId)
 		.then(r => {
 			if (r && r.ok) {
 				toast(t('launch.sent'));
@@ -2955,7 +3159,10 @@ function bindHome(el) {
 function fmtDate(v) {
 	if (!v) return '';
 	const d = new Date(v);
-	if (isNaN(d.getTime())) return String(v);
+	// CV-05：无效日期与零值一律返回空串，绝不把原始字符串塞进日期字段
+	// （旧实现 `return String(v)` 会把主机名/解析错误当成"日期"显示出来）。
+	if (isNaN(d.getTime())) return '';
+	if (d.getUTCFullYear() <= 1) return '';
 	const p = n => String(n).padStart(2, '0');
 	return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
 }
@@ -4098,6 +4305,17 @@ SG.__test__ = {
 	contentCardHtml,
 	searchContentOptions,
 	loadState,
+	// CV-04：下载中心（版本源 / 下载任务两套独立状态，行为测试需要生产入口）
+	renderDownloads,
+	bindDownloads,
+	getDownloadsState() {
+		return {
+			versions: { status: dlVersions.status, error: dlVersions.error },
+			tasks: { status: dlTasks.status, error: dlTasks.error },
+		};
+	},
+	// CV-05：验证时间判定（"未验证"口径），测试用渲染路径为主，这里供边界断言
+	newsValidatedDate,
 	// R2-02：设置页（fake-ip 兼容开关测试需要）
 	renderSettings,
 	bindSettings,

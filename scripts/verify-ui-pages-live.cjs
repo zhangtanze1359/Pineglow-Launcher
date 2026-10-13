@@ -17,6 +17,22 @@
  *
  * 退出码：0 = 通过；1 = 失败；2 = 用法/环境错误。
  *
+ * 本轮修复（2026-10-13，CV-07）：
+ *   1. CDP 客户端：每个 pending 请求保存自己的 method；错误响应按 method 正确 reject。
+ *      旧实现里 `rej(new Error(... (${method || ''})))` 引用了**不存在**的 method，
+ *      在 message 回调里同步抛 ReferenceError —— 该请求已从 pending 删除却又从未 settle，
+ *      于是一次 CDP 错误会让验收**永久挂起**（RED 证据 docs/current-version-audit-2026-10-13/
+ *      cdp-error-red.log：`CDP_ERROR_THROW=ReferenceError:method is not defined`）。
+ *      现在：未知 id / 重复响应安全忽略，连接关闭时把未完成请求全部 reject，回调内异常兜底。
+ *   2. 终态判定：明确区分「正常有内容 / 成功空态 / 已落地错误状态 / 仍在加载」。
+ *      旧实现只看最小字符数，短页面一律记成 external-pending —— 空态与错误态天然就短，
+ *      于是"已落地的终态"被误报成"还在加载"。
+ *   3. 失败分类：不再把所有 502/503/504 当"代理超时"放行。只有**响应正文**明确写出
+ *      上游网络错误证据（DNS/连接/超时/TLS 等）时才可归为外部依赖；未知的本机 5xx
+ *      （含 500）继续 fail-closed 记为产品问题。读正文时先用**完整正文**判断，再截断展示。
+ *   4. 报告脱敏：写 JSON 之前对整份报告递归脱敏 token / Cookie / Bearer / 查询串敏感参数；
+ *      URL 自身带敏感值时**不重发**该请求，只记录脱敏后的形状；并自检会话令牌不出现在归档里。
+ *
  * 用法：
  *   node scripts/verify-ui-pages-live.cjs --app <单文件EXE> [--out <截图目录>] [--json <报告>] [--keep]
  */
@@ -32,10 +48,13 @@ const { spawn } = require('child_process');
 const VIEWS = ['home', 'installations', 'worlds', 'servers', 'content', 'skins', 'downloads', 'news', 'settings'];
 
 /*
- * 每页"渲染完成"的最小内容量（字符数）。
+ * 每页"正常有内容"的最小内容量（字符数）。
  * 为什么不能只判"非空/非占位"：本轮实测 news 曾停在 80 字的中间态（标题+副标题+正在加载），
- * 80 > 20 会被误判为完成。这里按页面实际结构给出下限；达不到就记为 external-pending
- * （外部依赖未落地，比如新闻/版本列表取不回来），而不是当成"界面坏了"，也不是通过。
+ * 80 > 20 会被误判为完成。这里按页面实际结构给出下限。
+ *
+ * 关键（CV-07）：这个下限**只**用来判定"正常有内容"，不能拿它一概判定"仍在加载"。
+ * 页面可能已经落到别的**终态**（成功空态 / 已落地错误状态），它们天然比正常内容短，
+ * 由 classifyViewState 先看页面里的终态标记再决定 —— 短 ≠ 加载。
  */
 const VIEW_MIN_TEXT = {
   home: 60,
@@ -48,6 +67,41 @@ const VIEW_MIN_TEXT = {
   news: 400,
   settings: 200
 };
+
+/* 页面内用来判定**终态**的 DOM 标记（在生产 launcher.js 里一一对应）：
+ *   loading → .loading-state / .news-skeleton / [data-news-skeleton="1"] / 骨架行
+ *   empty   → .empty-state / [data-news-state="empty"]
+ *   error   → .content-error / [data-error="1"] / [data-tasks-error="1"] /
+ *             [data-news-state="error"] / .news-error-state / [data-state="failed"]
+ * 这些标记与"重试入口"标记共同证明：这一页已经落地，而不是还在等数据。 */
+const LOADING_MARKERS = ['.loading-state', '.news-skeleton', '[data-news-skeleton="1"]', '.skeleton-row', '.skeleton-stack'];
+const EMPTY_MARKERS = ['.empty-state', '[data-news-state="empty"]'];
+const ERROR_MARKERS = ['.content-error', '[data-error="1"]', '[data-tasks-error="1"]', '[data-news-state="error"]', '.news-error-state', '[data-state="failed"]'];
+const ACTION_MARKERS = ['[data-retry-btn]', '[data-news-retry]', '[data-dl-retry]', '[data-dl-tasks-retry]', '[data-state-retry-btn]'];
+
+/*
+ * 终态判定：一页只有落到下面四种终态之一才算"有结论"，其余一律按"仍在加载"处理。
+ *   1. content  正常有内容（文本量达到该页下限）
+ *   2. empty    成功空态（请求成功但列表为空）—— 是**终态**，不是加载中
+ *   3. error    已落地的错误状态（页面自己画出了错误块与重试入口）—— 也是终态
+ *   4. loading  仍在加载（骨架/占位，或内容量不足且没有任何终态标记）
+ * 另有 missing：容器根本不存在（页面结构坏了，与"加载中"是两回事）。
+ */
+function classifyViewState(probe, minText) {
+  if (!probe || probe.exists !== true) return 'missing';
+  const len = Number(probe.textLen) || 0;
+  if (len <= 0) return 'loading';
+  if (probe.loading) return 'loading';
+  if (probe.error) return 'error';
+  if (probe.empty) return 'empty';
+  const floor = Number(minText) || 20;
+  return len >= floor ? 'content' : 'loading';
+}
+
+/* 终态集合：落到其中之一就不必再等（等待预算只该花在"还在加载"上）。 */
+function isTerminalState(state) {
+  return state === 'content' || state === 'empty' || state === 'error';
+}
 
 function parseArgs(argv) {
   const out = { app: null, out: null, json: null, keep: false, timeoutSec: 90, settleSec: 75, fakeIpCompat: false, config: null, allowMissingImages: false };
@@ -68,30 +122,74 @@ function parseArgs(argv) {
   return out;
 }
 
-/*
- * "视图还在加载"的判定：内容只有加载占位符。
- * 为什么要单独判它：部分视图（downloads / content / news）要先向**外部服务**取数据；
- * 本机外部网络受限时，它们会一直等到服务端 45s 超时才落地空状态。
- * 那属于外部依赖，不是产品缺陷 —— 但也不能因此把"没渲染出来"记成通过。
- * 规则：在预算内落地真实内容才算 OK；超预算仍只有占位符则记为 EXTERNAL_PENDING（非通过、非产品失败）。
- */
-function looksLoading(text) {
-  const t = (text || '').trim();
-  if (t.length === 0) return true;
-  return t.length <= 12;
+/* ---------------------------------------------------------------- 失败分类 */
+
+/* 「上游网络错误」的**正文证据**（大小写不敏感）。
+ * 关键（CV-07）：只有响应正文明确写出下列证据时，才允许把一次本机 API 失败归为"外部依赖"。
+ * 只看状态码是不够的：502/503/504 既可能是代理连不上上游，也可能是本机网关自己坏了；
+ * 未知的本机 5xx（含 500）一律 fail-closed 记为产品问题。 */
+const UPSTREAM_NETWORK_EVIDENCE = [
+  /dns_private/i,
+  /dns (?:resolution|lookup|error|failure|timeout)/i,
+  /getaddrinfo/i,
+  /\bENOTFOUND\b/,
+  /\bEAI_AGAIN\b/,
+  /\bECONNREFUSED\b/,
+  /\bECONNRESET\b/,
+  /\bETIMEDOUT\b/,
+  /\bEPIPE\b/,
+  /socket hang ?up/i,
+  /network is unreachable/i,
+  /no such host/i,
+  /name or service not known/i,
+  /(?:certificate|handshake|tls) (?:verify|verification|error|failed|failure)/i,
+  /upstream (?:connect|connection|request|timeout|error|unavailable|failed)/i,
+  /不知道这样的主机|无法解析(?:主机|域名)|域名解析失败/,
+  /无法连接 Minecraft 版本下载源|无法连接(?:到)?(?:下载源|上游)|连接(?:超时|被拒绝|被重置)/
+];
+
+function hasUpstreamNetworkEvidence(bodyText) {
+  const s = String(bodyText == null ? '' : bodyText);
+  if (!s) return false;
+  return UPSTREAM_NETWORK_EVIDENCE.some((re) => re.test(s));
+}
+
+const FAILURE_BODY_DISPLAY_LIMIT = 200;
+
+/* 先用**完整正文**判断，再截断成展示片段。
+ * 顺序不能反：证据可能出现在第 200 字节之后，先截断就会把真实的 DNS/连接错误
+ * 误判成"未知本机失败"，从而把一个外部依赖问题记成产品缺陷（或反之）。 */
+function evaluateFailureBody(fullBody) {
+  const full = String(fullBody == null ? '' : fullBody);
+  let evidence = full;
+  try {
+    const parsed = JSON.parse(full);
+    // Only error fields are evidence. A note describing DNS must not excuse
+    // an unrelated internal error; JSON.parse also decodes .NET Unicode escapes.
+    const message = value => typeof value === 'string' ? value
+      : value && typeof value.message === 'string' ? value.message : '';
+    evidence = parsed && typeof parsed === 'object'
+      ? [message(parsed.error), message(parsed.message)].filter(Boolean).join('\n')
+      : typeof parsed === 'string' ? parsed : '';
+  } catch (_) { /* Non-JSON responses may contain a plain network error. */ }
+  return {
+    upstreamNetwork: hasUpstreamNetworkEvidence(evidence),
+    fullLength: full.length,
+    display: full.slice(0, FAILURE_BODY_DISPLAY_LIMIT)
+  };
 }
 
 /* 本机失败分类：只有 UI 自己的资源失败才算产品问题。
- * 依据（本轮实测）：
+ * 依据（延续上一轮实测结论）：
  *   - /api/news-image 400 dns_private 是 fail-closed 策略在 fake-ip(TUN) 环境下的正确行为
  *     （外部域名解析到 198.18.0.x 广播测试段）；打开 newsFakeIpCompat 后实测 4/4 成功。
  *   - /api/content/icon 404 是上游确实没有该图标；账号 skin-image 404 是当前没有账号皮肤。
  *   - favicon.ico 404 属外观级。
- * 这些都会被**逐条记录在报告里**，不作为通过/失败依据；未知的本机 API 失败仍然算产品问题（fail closed）。
- */
+ * 本函数只做"不需要正文就能确定"的分类；其余本机 API 失败统一落到 productLocal（fail-closed），
+ * 再由 evaluateFailureBody 用完整正文决定能否改判为 upstreamNetwork（外部依赖）。
+ * 这些都会被**逐条记录在报告里**；未知的本机 5xx 仍然算产品问题（fail closed）。 */
 function classifyFailure(entry, apiBase) {
-  const url = entry.url || '';
-  const status = (/(\d{3})/.exec(entry.text || '') || [])[1] || '';
+  const url = (entry && entry.url) ? entry.url : '';
   if (url.indexOf(apiBase) !== 0) return 'external';
   const p = url.slice(apiBase.length);
   if (/^\/(css|js|vendor|assets)\//.test(p) || p === '/' || p === '/index.html') return 'uiAsset';
@@ -99,8 +197,65 @@ function classifyFailure(entry, apiBase) {
   if (p.indexOf('/api/news-image') === 0) return 'newsImageProxy';
   if (p.indexOf('/api/content/icon') === 0) return 'contentIconUpstream';
   if (p.indexOf('/api/accounts/') === 0 && p.indexOf('/skin-image') > 0) return 'skinImageNoAccount';
-  if (status === '502' || status === '503' || status === '504') return 'proxyTimeout';
   return 'productLocal';
+}
+
+/* ---------------------------------------------------------------- 报告脱敏 */
+
+const REDACTED = '<REDACTED>';
+const SENSITIVE_REPORT_KEY = /^(?:token|authorization|proxy-authorization|cookie|set-cookie|x-pineglow-token|pineglow-session-token|(?:session|access|refresh|id)[-_]?token|api[-_]?key|apikey|secret|password|passwd|pwd|signature|session[-_]?id)$/i;
+
+/* 归档前统一脱敏：token / Cookie / Authorization: Bearer / 查询串里的敏感参数。
+ * 对**整份报告**递归应用，保证任何嵌套字段（URL、日志文本、响应体）都不会把会话令牌
+ * 带进证据文件。 */
+function redactSensitive(value) {
+  let s = String(value == null ? '' : value);
+  // Structured bodies: redact values by key, including nested credentials.
+  try {
+    const parsed = JSON.parse(s);
+    if (parsed && typeof parsed === 'object') return JSON.stringify(redactReport(parsed));
+  } catch (_) { /* Text/header/URL redaction below. */ }
+  // A Cookie header can contain multiple semicolon-separated credentials.
+  s = s.replace(/(\b(?:set-cookie|cookie|authorization|proxy-authorization)\s*:\s*)[^\r\n]*/gi, `$1${REDACTED}`);
+  // 认证头形态：Authorization: Bearer <token>
+  s = s.replace(/\b(Bearer|Basic|Negotiate)\s+[A-Za-z0-9._~+/=-]{6,}/gi, `$1 ${REDACTED}`);
+  // 名值形态：请求头 / HTML meta content / JSON 字段（token / cookie / authorization / session …）
+  s = s.replace(
+    /(["']?(?:token|authorization|proxy-authorization|cookie|set-cookie|x-pineglow-token|pineglow-session-token|session[-_]?token|access[-_]?token|refresh[-_]?token|id[-_]?token|api[-_]?key|apikey|secret|password|passwd|pwd|signature|session[-_]?id)["']?\s*[:=]\s*)("?)[^\s;&"'<>]{1,}/gi,
+    `$1$2${REDACTED}`
+  );
+  // HTML 形态：<meta name="pineglow-session-token" content="<令牌>">
+  s = s.replace(
+    /((?:name|property)\s*=\s*["']?(?:pineglow-session-token|session[-_]?token|token|csrf[-_]?token|xsrf[-_]?token)["']?[^>]*?\scontent\s*=\s*["']?)[^"'\s>]+/gi,
+    `$1${REDACTED}`
+  );
+  // URL 查询串里的敏感参数（含未在上面列出的 *token* / *auth* / *code* 变体）
+  s = s.replace(
+    /([?&][A-Za-z0-9_.-]*(?:token|secret|signature|password|passwd|pwd|apikey|api[-_]key|session[-_]?id|auth|code)[A-Za-z0-9_.-]*=)[^&#\s"'<>]*/gi,
+    `$1${REDACTED}`
+  );
+  return s;
+}
+
+function redactReport(node) {
+  if (typeof node === 'string') return redactSensitive(node);
+  if (Array.isArray(node)) return node.map(redactReport);
+  if (node && typeof node === 'object') {
+    const out = {};
+    for (const k of Object.keys(node)) out[k] = SENSITIVE_REPORT_KEY.test(k) ? REDACTED : redactReport(node[k]);
+    return out;
+  }
+  return node;
+}
+
+/* 失败 URL 的复采计划：URL 自身带敏感值时**不重发**（重发等于把 token 再送一次），
+ * 只记录脱敏后的形状 —— 避免"重新发送 URL 里的 token 再把它写进归档"。 */
+function planApiFailureProbe(url) {
+  const raw = String(url == null ? '' : url);
+  if (!raw) return { refetch: false, url: '', reason: 'empty-url' };
+  const safe = redactSensitive(raw);
+  if (safe !== raw) return { refetch: false, url: safe, reason: 'url-carries-secret' };
+  return { refetch: true, url: raw, reason: '' };
 }
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -141,6 +296,17 @@ function connectCdp(wsUrl) {
 
     const timer = setTimeout(() => { if (!opened) { try { ws.close(); } catch { } reject(new Error('CDP WebSocket 连接超时')); } }, 15000);
 
+    /* 连接结束（关闭/出错）时，必须把仍在等待的请求全部 reject。
+     * 否则调用方 await 一个永远不会 settle 的 promise —— 整轮验收静默挂死，
+     * 既没有失败结论也没有超时结论。 */
+    const rejectAllPending = (reason) => {
+      const entries = Array.from(pending.entries());
+      pending.clear();
+      for (const [id, entry] of entries) {
+        try { entry.rej(new Error(`${reason}: ${entry.method || 'unknown'} (id=${id})`)); } catch { /* reject 回调本身抛错也不能影响其它请求 */ }
+      }
+    };
+
     ws.addEventListener('open', () => {
       opened = true;
       clearTimeout(timer);
@@ -148,25 +314,45 @@ function connectCdp(wsUrl) {
         send(method, params = {}) {
           const id = ++seq;
           return new Promise((res, rej) => {
-            pending.set(id, { res, rej });
-            ws.send(JSON.stringify({ id, method, params }));
+            // 关键（CV-07）：每个 pending 请求保存自己的 method。
+            // 错误响应里要能报出"是哪条 CDP 命令失败"；旧实现引用了作用域里不存在的
+            // `method`，在 message 回调里同步抛 ReferenceError → 请求永不 settle。
+            pending.set(id, { res, rej, method });
+            try {
+              ws.send(JSON.stringify({ id, method, params }));
+            } catch (e) {
+              pending.delete(id);
+              rej(new Error(`CDP 发送失败: ${method} (${(e && e.message) ? e.message : e})`));
+            }
           });
         },
         notifications,
         close() { try { ws.close(); } catch { } }
       });
     });
-    ws.addEventListener('error', () => { if (!opened) { clearTimeout(timer); reject(new Error('CDP WebSocket 连接失败')); } });
+    ws.addEventListener('error', () => { if (!opened) { clearTimeout(timer); rejectAllPending('CDP WebSocket 连接失败'); reject(new Error('CDP WebSocket 连接失败')); } });
+    ws.addEventListener('close', () => {
+      clearTimeout(timer);
+      rejectAllPending('CDP 连接已关闭，请求未完成');
+      if (!opened) reject(new Error('CDP WebSocket 在建立前关闭'));
+    });
     ws.addEventListener('message', (ev) => {
       let msg;
       try { msg = JSON.parse(ev.data); } catch { return; }
-      if (msg.id && pending.has(msg.id)) {
-        const { res, rej } = pending.get(msg.id);
-        pending.delete(msg.id);
-        if (msg.error) rej(new Error(`${msg.error.message || 'CDP error'} (${method || ''})`));
-        else res(msg.result);
-      } else if (msg.method) {
-        notifications.push(msg);
+      // 整个回调都必须安全：这里的异常会变成未捕获异常并让请求永久挂起（旧缺陷正是如此）。
+      try {
+        if (msg && msg.id !== undefined && msg.id !== null) {
+          const entry = pending.get(msg.id);
+          // 未知 id 或重复响应（entry 已被删除）→ 安全忽略，不影响其它请求。
+          if (!entry) return;
+          pending.delete(msg.id);
+          if (msg.error) entry.rej(new Error(`${msg.error.message || 'CDP error'} (${entry.method || ''})`));
+          else entry.res(msg.result);
+          return;
+        }
+        if (msg && msg.method) notifications.push(msg);
+      } catch (e) {
+        try { console.warn('[ui-pages] CDP 消息处理失败: ' + ((e && e.message) ? e.message : e)); } catch { }
       }
     });
   });
@@ -235,6 +421,8 @@ async function main() {
     exceptions: [],
     consoleErrors: [],
     externalPending: [],
+    landedErrorStates: [],
+    landedEmptyStates: [],
     imagesPending: [],
     productLocalFailures: [],
     uiAssetFailures: [],
@@ -242,7 +430,7 @@ async function main() {
     contentIconFailures: [],
     skinImageFailures: [],
     cosmeticFailures: [],
-    proxyTimeoutFailures: [],
+    upstreamNetworkFailures: [],
     externalNetworkFailures: [],
     apiFailureBodies: [],
     problems: [],
@@ -262,6 +450,8 @@ async function main() {
     const tokenMatch = /name="pineglow-session-token"\s+content="([0-9A-Fa-f]+)"/.exec(html);
     if (!tokenMatch) throw new Error('界面里找不到会话令牌（页面可能不是真实 UI）');
     report.sessionTokenPresent = true;
+    // 会话令牌只留在内存里用于请求头，绝不写进 report（写报告前还会再自检一次）。
+    cdpSessionToken = tokenMatch[1];
 
     const target = await waitFor(async () => {
       const res = await fetch(`http://127.0.0.1:${debugPort}/json/list`);
@@ -297,24 +487,38 @@ async function main() {
         continue;
       }
 
-      // 等这一页真正落地：导航激活态切过去 **且** 内容不再是加载占位符。
+      // 等这一页真正落地（**终态判定**，CV-07）。
       // 预算给足（默认 75s）：依赖外部服务的页面在本机外部网络受限时，
-      // 要等服务端 45s 超时之后才会渲染空状态。
+      // 要等服务端 45s 超时之后才会渲染空状态/错误状态。
+      // 一旦落到终态就立刻停等 —— content / empty / error 都是有结论的状态，
+      // 不该把整段预算耗在"已经知道结果"的页面上。
       const probeExpr = `(() => {
         const el = document.getElementById('view-${view}');
         const text = el ? (el.innerText || '').replace(/\\s+/g, ' ').trim() : '';
-        return { exists: !!el, textLen: text.length, text: text.slice(0, 400), sample: text.slice(0, 120) };
+        const has = (sels) => !!el && sels.some((s) => !!el.querySelector(s));
+        return {
+          exists: !!el,
+          textLen: text.length,
+          text: text.slice(0, 400),
+          sample: text.slice(0, 120),
+          loading: has(${JSON.stringify(LOADING_MARKERS)}),
+          empty: has(${JSON.stringify(EMPTY_MARKERS)}),
+          error: has(${JSON.stringify(ERROR_MARKERS)}),
+          hasAction: has(${JSON.stringify(ACTION_MARKERS)})
+        };
       })()`;
       const activeExpr = `(document.querySelector('.nav-item.active') && document.querySelector('.nav-item.active').dataset) ? document.querySelector('.nav-item.active').dataset.nav : null`;
 
       let active = null;
       let probe = null;
+      let state = 'loading';
       const settleDeadline = Date.now() + args.settleSec * 1000;
       const minText = VIEW_MIN_TEXT[view] || 20;
       while (true) {
         active = await evaluate(activeExpr);
         probe = await evaluate(probeExpr);
-        const settled = active === view && probe && probe.exists === true && !looksLoading(probe.text) && probe.textLen >= minText;
+        state = classifyViewState(probe, minText);
+        const settled = active === view && isTerminalState(state);
         if (settled || Date.now() >= settleDeadline) break;
         await sleep(400);
       }
@@ -354,15 +558,20 @@ async function main() {
         report.problems.push(`视图 ${view}: 截图失败 ${e.message}`);
       }
 
-      const ok = active === view && probe && probe.exists === true && probe.textLen >= minText && shotBytes > 5000;
-      // 三分类，避免把"外部依赖没回来"和"界面坏了"混为一谈
+      // 四分类终态：正常有内容 / 成功空态 / 已落地错误状态 / 仍在加载（+ 结构缺失）。
+      // 前两类是"界面按预期渲染"，第三类是"界面行为正确但外部依赖失败"，
+      // 第四类才是"没渲染出来"；把三者混成一个"加载中"正是本轮要修的误报。
+      const ok = active === view && (state === 'content' || state === 'empty') && shotBytes > 5000;
       const outcome = ok
-        ? 'ok'
-        : (probe && probe.exists === true && active === view && probe.textLen > 0 ? 'external-pending' : 'broken');
+        ? (state === 'empty' ? 'empty' : 'ok')
+        : (state === 'error' && active === view ? 'external-error'
+          : ((state === 'loading' && active === view && probe && probe.exists === true) ? 'external-pending' : 'broken'));
       const imagesPending = imgStats && ((imgStats.pendingSlots > 0) || (imgStats.total > 0 && imgStats.loaded < imgStats.total));
       report.views[view] = {
         ok,
         outcome,
+        state,
+        hasRetryAction: !!(probe && probe.hasAction),
         settleMs,
         imagesMs,
         imagesTotal: imgStats ? imgStats.total : 0,
@@ -376,11 +585,17 @@ async function main() {
         screenshot: shotPath,
         screenshotBytes: shotBytes
       };
-      console.log(`[ui-pages] ${ok ? 'OK  ' : (outcome === 'external-pending' ? 'WAIT' : 'FAIL')} ${view.padEnd(14)} active=${active} textLen=${probe ? probe.textLen : 0} settle=${settleMs}ms img=${imgStats ? imgStats.loaded + '/' + imgStats.total : '-'} slots=${imgStats ? imgStats.slots : 0}(pending=${imgStats ? imgStats.pendingSlots : 0},${imagesMs}ms) shot=${shotBytes}B`);
-      if (outcome === 'external-pending') {
+      const tag = ok ? (state === 'empty' ? 'EMPTY' : 'OK  ')
+        : (outcome === 'external-error' ? 'ERR ' : (outcome === 'external-pending' ? 'WAIT' : 'FAIL'));
+      console.log(`[ui-pages] ${tag} ${view.padEnd(14)} state=${state} active=${active} textLen=${probe ? probe.textLen : 0} settle=${settleMs}ms img=${imgStats ? imgStats.loaded + '/' + imgStats.total : '-'} slots=${imgStats ? imgStats.slots : 0}(pending=${imgStats ? imgStats.pendingSlots : 0},${imagesMs}ms) shot=${shotBytes}B`);
+      if (state === 'error' && active === view) {
+        report.landedErrorStates.push({ view, settleMs, sample: probe ? probe.sample : '' });
+      } else if (state === 'empty' && active === view) {
+        report.landedEmptyStates.push({ view, settleMs, sample: probe ? probe.sample : '' });
+      } else if (outcome === 'external-pending') {
         report.externalPending.push({ view, settleMs, sample: probe ? probe.sample : '' });
       } else if (!ok) {
-        report.problems.push(`视图 ${view}: active=${active} exists=${probe && probe.exists} textLen=${probe && probe.textLen} shot=${shotBytes}`);
+        report.problems.push(`视图 ${view}: state=${state} active=${active} exists=${probe && probe.exists} textLen=${probe && probe.textLen} shot=${shotBytes}`);
       }
       if (imagesPending) {
         const item = { view, total: imgStats.total, loaded: imgStats.loaded, slots: imgStats.slots, pendingSlots: imgStats.pendingSlots, waitedMs: imagesMs };
@@ -394,7 +609,7 @@ async function main() {
     // 记录外部依赖的真实耗时（downloads 页依赖它；本机外部网络受限时以此解释 WAIT）
     try {
       const probeStart = Date.now();
-      const res = await fetch(`${apiBase}/api/versions/remote`, { headers: { 'X-Pineglow-Token': tokenMatch[1] } });
+      const res = await fetch(`${apiBase}/api/versions/remote`, { headers: { 'X-Pineglow-Token': cdpSessionToken } });
       report.remoteVersionsProbe = { status: res.status, ms: Date.now() - probeStart };
       console.log(`[ui-pages] /api/versions/remote -> ${res.status} (${report.remoteVersionsProbe.ms}ms)`);
     } catch (e) {
@@ -413,39 +628,66 @@ async function main() {
         const e = n.params.entry || {};
         if (e.level === 'error') {
           const item = { text: e.text || '', url: e.url || '' };
+          // 第一阶段：只看 URL 形状能确定的分类。剩余的一律先按 productLocal（fail-closed）落桶，
+          // 再由下一段的**完整响应正文**决定能否改判为外部依赖。
+          // 注意：这里刻意不再用状态码把 502/503/504 直接当"代理超时"放行。
           const kind = classifyFailure(item, apiBase);
           if (kind === 'uiAsset') report.uiAssetFailures.push(item);
           else if (kind === 'newsImageProxy') report.newsImageProxyFailures.push(item);
           else if (kind === 'contentIconUpstream') report.contentIconFailures.push(item);
           else if (kind === 'skinImageNoAccount') report.skinImageFailures.push(item);
           else if (kind === 'cosmetic') report.cosmeticFailures.push(item);
-          else if (kind === 'proxyTimeout') report.proxyTimeoutFailures.push(item);
           else if (kind === 'productLocal') report.productLocalFailures.push(item);
           else report.externalNetworkFailures.push(item);
         }
       }
     }
 
-    // 把"只看到状态码"的 API 失败补上响应体里的原因（例如 400 dns_private / 404 unknown_image）
+    // 把"只看到状态码"的本机 API 失败补上**完整响应正文**里的原因，并据此二次分类：
+    //   正文明确证明上游网络错误 → 记为外部依赖（upstreamNetworkFailures，非产品问题）；
+    //   否则（含未知的 500/502/503/504）→ 留在 productLocalFailures，继续阻断。
     const apiFailures = [...report.newsImageProxyFailures, ...report.contentIconFailures, ...report.skinImageFailures, ...report.productLocalFailures];
     const seen = new Set();
     for (const item of apiFailures) {
       if (report.apiFailureBodies.length >= 6) break;
       if (seen.has(item.url)) continue;
       seen.add(item.url);
+      const plan = planApiFailureProbe(item.url);
+      if (!plan.refetch) {
+        // URL 自带敏感值：绝不重发（重发等于把 token 再送一次），只留脱敏后的形状。
+        report.apiFailureBodies.push({ url: plan.url, skipped: plan.reason });
+        continue;
+      }
       try {
-        const r = await fetch(item.url, { headers: { 'X-Pineglow-Token': tokenMatch[1] } });
-        const body = (await r.text()).slice(0, 200);
-        report.apiFailureBodies.push({ url: item.url, status: r.status, body });
+        const r = await fetch(plan.url, { headers: { 'X-Pineglow-Token': cdpSessionToken } });
+        const full = await r.text();
+        // 先用完整正文判断，再截断展示（证据可能在 200 字节之后）。
+        const verdict = evaluateFailureBody(full);
+        report.apiFailureBodies.push({
+          url: plan.url,
+          status: r.status,
+          decision: verdict.upstreamNetwork ? 'upstreamNetwork' : 'productLocal',
+          bodyLength: verdict.fullLength,
+          body: verdict.display
+        });
+        if (verdict.upstreamNetwork) {
+          // 正文证明是上游网络问题：从原来的桶里移出，改记到"外部依赖"桶，
+          // 避免同一条失败同时出现在两个桶里（那会让汇总数字互相矛盾）。
+          for (const bucket of [report.newsImageProxyFailures, report.contentIconFailures, report.skinImageFailures, report.productLocalFailures]) {
+            const i = bucket.indexOf(item);
+            if (i >= 0) bucket.splice(i, 1);
+          }
+          report.upstreamNetworkFailures.push({ url: item.url, text: item.text, evidence: 'response-body' });
+        }
       } catch (e) {
-        report.apiFailureBodies.push({ url: item.url, error: e.message });
+        report.apiFailureBodies.push({ url: plan.url, error: redactSensitive(e.message) });
       }
     }
 
     if (report.exceptions.length > 0) report.problems.push(`未捕获 JS 异常 ${report.exceptions.length} 个`);
     if (report.consoleErrors.length > 0) report.problems.push(`console.error ${report.consoleErrors.length} 条`);
     if (report.uiAssetFailures.length > 0) report.problems.push(`界面自身资源加载失败 ${report.uiAssetFailures.length} 个（这是产品问题）`);
-    if (report.productLocalFailures.length > 0) report.problems.push(`无法归类的本机接口失败 ${report.productLocalFailures.length} 个（按 fail-closed 记为产品问题）`);
+    if (report.productLocalFailures.length > 0) report.problems.push(`无法归类的本机接口失败 ${report.productLocalFailures.length} 个（含未知 5xx，按 fail-closed 记为产品问题）`);
   } catch (e) {
     report.problems.push('执行失败: ' + e.message);
   } finally {
@@ -470,6 +712,8 @@ async function main() {
     views: VIEWS.length,
     okViews,
     externalPending: report.externalPending.length,
+    landedEmptyStates: report.landedEmptyStates.length,
+    landedErrorStates: report.landedErrorStates.length,
     exceptions: report.exceptions.length,
     consoleErrors: report.consoleErrors.length,
     uiAssetFailures: report.uiAssetFailures.length,
@@ -477,32 +721,81 @@ async function main() {
     newsImageProxyFailures: report.newsImageProxyFailures.length,
     contentIconFailures: report.contentIconFailures.length,
     skinImageFailures: report.skinImageFailures.length,
-    proxyTimeoutFailures: report.proxyTimeoutFailures.length,
+    upstreamNetworkFailures: report.upstreamNetworkFailures.length,
     cosmeticFailures: report.cosmeticFailures.length,
     externalNetworkFailures: report.externalNetworkFailures.length
   };
+  report.viewsSeen = viewCount;
+
+  // 写盘前对**整份报告**递归脱敏，并自检会话令牌没有混进归档。
+  const safeReport = redactReport(report);
+  const serialized = JSON.stringify(safeReport, null, 2);
+  if (cdpSessionToken && serialized.indexOf(cdpSessionToken) !== -1) {
+    console.error('[ui-pages] 脱敏自检失败：报告里出现会话令牌，拒绝写出 JSON');
+    process.exit(2);
+  }
 
   if (args.json) {
     fs.mkdirSync(path.dirname(path.resolve(args.json)), { recursive: true });
-    fs.writeFileSync(path.resolve(args.json), JSON.stringify(report, null, 2), 'utf8');
+    fs.writeFileSync(path.resolve(args.json), serialized, 'utf8');
   }
 
   console.log('');
-  console.log(`UI-PAGES RESULT=${report.verdict} views=${okViews}/${VIEWS.length} externalPending=${report.externalPending.length} exceptions=${report.exceptions.length} consoleErrors=${report.consoleErrors.length} uiAssetFailures=${report.uiAssetFailures.length} productLocalFailures=${report.productLocalFailures.length}`);
-  console.log(`  （非致命，逐条记录）newsImageProxy=${report.newsImageProxyFailures.length} contentIcon=${report.contentIconFailures.length} skinImage=${report.skinImageFailures.length} proxyTimeout=${report.proxyTimeoutFailures.length} cosmetic=${report.cosmeticFailures.length} external=${report.externalNetworkFailures.length}`);
-  if (report.apiFailureBodies.length > 0) {
-    console.log('  API 失败响应体（用于区分策略拒绝 / 上游缺失 / 环境 DNS）:');
-    for (const b of report.apiFailureBodies) console.log(`    ${b.status || 'ERR'} ${b.body || b.error}  <- ${b.url.slice(0, 80)}…`);
+  console.log(`UI-PAGES RESULT=${safeReport.verdict} views=${okViews}/${VIEWS.length} externalPending=${safeReport.externalPending.length} empty=${safeReport.landedEmptyStates.length} errorStates=${safeReport.landedErrorStates.length} exceptions=${safeReport.exceptions.length} consoleErrors=${safeReport.consoleErrors.length} uiAssetFailures=${safeReport.uiAssetFailures.length} productLocalFailures=${safeReport.productLocalFailures.length}`);
+  console.log(`  （非致命，逐条记录）newsImageProxy=${safeReport.newsImageProxyFailures.length} contentIcon=${safeReport.contentIconFailures.length} skinImage=${safeReport.skinImageFailures.length} upstreamNetwork=${safeReport.upstreamNetworkFailures.length} cosmetic=${safeReport.cosmeticFailures.length} external=${safeReport.externalNetworkFailures.length}`);
+  if (safeReport.apiFailureBodies.length > 0) {
+    console.log('  API 失败响应体（用于区分策略拒绝 / 上游缺失 / 环境 DNS；判断用完整正文，展示已截断）:');
+    for (const b of safeReport.apiFailureBodies) {
+      const head = b.status ? String(b.status) : (b.skipped ? `SKIP(${b.skipped})` : 'ERR');
+      console.log(`    ${head} [${b.decision || '-'}] ${b.body || b.error || ''}  <- ${String(b.url || '').slice(0, 80)}…`);
+    }
   }
-  if (report.externalPending.length > 0) {
-    console.log('外部依赖未在预算内落地（非产品失败，需在联网环境复验）:');
-    for (const p of report.externalPending) console.log(`  - ${p.view} 等了 ${p.settleMs}ms，内容仍是占位`);
+  if (safeReport.externalPending.length > 0) {
+    console.log('仍在加载：外部依赖未在预算内落地（非产品失败，需在联网环境复验）:');
+    for (const p of safeReport.externalPending) console.log(`  - ${p.view} 等了 ${p.settleMs}ms，内容仍是占位`);
   }
-  if (report.problems.length > 0) {
+  if (safeReport.landedErrorStates.length > 0) {
+    console.log('已落地错误状态（界面行为正确，数据来自外部依赖；不算通过）:');
+    for (const p of safeReport.landedErrorStates) console.log(`  - ${p.view} 等了 ${p.settleMs}ms，页面已显示错误与重试入口`);
+  }
+  if (safeReport.landedEmptyStates.length > 0) {
+    console.log('成功空态（请求成功且列表为空，属于终态，计为通过）:');
+    for (const p of safeReport.landedEmptyStates) console.log(`  - ${p.view} 等了 ${p.settleMs}ms`);
+  }
+  if (safeReport.problems.length > 0) {
     console.log('问题:');
-    for (const p of report.problems) console.log('  - ' + p);
+    for (const p of safeReport.problems) console.log('  - ' + p);
   }
-  process.exit(report.verdict === 'PASS' ? 0 : 1);
+  process.exit(safeReport.verdict === 'PASS' ? 0 : 1);
 }
 
-main().catch((e) => { console.error('[ui-pages] 致命错误: ' + (e && e.stack ? e.stack : e)); process.exit(2); });
+/* 只有被当作脚本直接运行时才执行验收主流程。
+ * 被 node:test 以 require() 引入时只导出纯函数，便于聚焦回归测试（不启动真实 EXE、不联网）。 */
+const isMainModule = require.main === module;
+
+/* 会话令牌只在内存中用于请求头；模块级保存一份，供写报告前的脱敏自检使用。
+ * 任何情况下都不写进 report。 */
+let cdpSessionToken = '';
+
+if (isMainModule) {
+  main().catch((e) => { console.error('[ui-pages] 致命错误: ' + (e && e.stack ? e.stack : e)); process.exit(2); });
+}
+
+module.exports = {
+  VIEWS,
+  VIEW_MIN_TEXT,
+  LOADING_MARKERS,
+  EMPTY_MARKERS,
+  ERROR_MARKERS,
+  ACTION_MARKERS,
+  classifyViewState,
+  isTerminalState,
+  classifyFailure,
+  hasUpstreamNetworkEvidence,
+  evaluateFailureBody,
+  redactSensitive,
+  redactReport,
+  planApiFailureProbe,
+  connectCdp,
+  FAILURE_BODY_DISPLAY_LIMIT
+};

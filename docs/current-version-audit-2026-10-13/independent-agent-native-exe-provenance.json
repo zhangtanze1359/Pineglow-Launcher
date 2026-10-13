@@ -1,0 +1,18 @@
+{
+  "sourceExe": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-2ec099278e72404596b71170e800de8b\\dev\\PineglowLauncher\\bin\\Release\\net10.0\\win-x64\\publish\\Pineglow.Launcher.exe",
+  "expected": "aa1f65471e9f9c2bbeb20c5a86d593bffaac2b4f823620fbb0ef0f2248259a1d",
+  "checks": [
+    {
+      "id": "controlled-native",
+      "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-ui-accept-7gbMUe\\Pineglow.Launcher.exe",
+      "hash": "AA1F65471E9F9C2BBEB20C5A86D593BFFAAC2B4F823620FBB0EF0F2248259A1D",
+      "match": true
+    },
+    {
+      "id": "default-nine-page",
+      "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\松光 界面九页 iFwm1R\\Pineglow.Launcher.exe",
+      "hash": "AA1F65471E9F9C2BBEB20C5A86D593BFFAAC2B4F823620FBB0EF0F2248259A1D",
+      "match": true
+    }
+  ]
+}

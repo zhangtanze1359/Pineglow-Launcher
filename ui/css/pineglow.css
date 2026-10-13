@@ -240,6 +240,156 @@ select option { background: var(--card); color: var(--text); }
   .nav-group-label { margin-top: 4px; }
   .sidebar-footer { padding-top: 8px; gap: 6px; }
 }
+/* ================================================================
+   CV-04 / CV-05 / CV-06 状态组件（2026-10-13）
+   ----------------------------------------------------------------
+   设计来源：docs/opendesign-ui-artifact-2026-10-13/pineglow-state-components.css
+   的「状态块 / 重试按钮 / 空态 / 技术详情」局部组件（integration-notes.md §2、§4、§5）。
+   只做局部补齐，不拷贝原型壳：
+     - 只沿用本文件 :root 的既有 token（--danger/--warn/--green/--card/--card-2/--border/
+       --border-hover/--muted/--text/--ink/--r-card/--r-btn/--font-head/--font-data）；
+       不新增色板，也不引入原型里的 --surface-2/--surface-3/--hairline 与 color-mix 派生变量
+       （本仓库现有 CSS 完全没有用 color-mix，保持同一渲染口径，避免旧 WebView 差异）。
+     - 只补齐生产实际渲染的类名：.content-error / .content-retry-btn / .download-source-error /
+       .download-tasks-error / .download-retry-btn / .download-tasks / .tech-details / .tech-body。
+       原型里的 .state-block / .state-notice--ok / .news-statusbar 在本壳没有对应节点，故意不写，
+       避免留死样式。
+     - 长文本只换行不溢出（overflow-wrap:anywhere + min-width:0），960px 窗口下无横向滚动。
+     - 焦点可见：沿用 figma.css 末尾的全局 :focus-visible 焦点环；这里额外把重试按钮与
+       <summary> 纳入同一外观（2px --green，offset 2px）。
+   ================================================================ */
+
+/* ---- 错误块：内容中心 / 下载源 / 下载任务 共用版式 ---- */
+.content-error,
+.download-source-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 20px;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--danger);
+  border-radius: var(--r-card);
+  background: var(--card);
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.content-error .state-main,
+.download-source-error .state-main { flex: 1 1 auto; min-width: 0; }
+
+.state-icon {
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.state-icon--danger { color: var(--danger); background: var(--card-2); }
+
+.state-title { font-family: var(--font-head); font-size: 14px; font-weight: 650; color: var(--text); margin-bottom: 4px; }
+.state-desc { margin: 0; color: var(--muted); overflow-wrap: anywhere; }
+.state-actions { display: flex; align-items: center; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+
+/* ---- 重试按钮：每屏唯一主操作；进行中禁用（防连发） ---- */
+.content-retry-btn,
+.download-retry-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 38px;
+  padding: 0 16px;
+  border: 1px solid var(--green);
+  border-radius: var(--r-btn);
+  background: var(--green);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.content-retry-btn:hover:not(:disabled),
+.download-retry-btn:hover:not(:disabled) { background: var(--border-hover); border-color: var(--green); }
+
+.content-retry-btn:disabled,
+.download-retry-btn:disabled { opacity: .62; cursor: not-allowed; }
+
+.content-retry-btn:focus-visible,
+.download-retry-btn:focus-visible,
+.tech-details > summary:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+
+/* ---- 技术详情：原生 details，默认折叠；长文本换行不溢出 ---- */
+.tech-details {
+  margin-top: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-btn);
+  background: var(--base);
+  min-width: 0;
+  max-width: 100%;
+}
+
+.tech-details > summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 9px 12px;
+  font-size: 12px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tech-details > summary::-webkit-details-marker { display: none; }
+.tech-details > summary::before { content: "›"; font-size: 15px; line-height: 1; transform: translateY(-1px); }
+.tech-details > summary:hover { color: var(--text); }
+.tech-details[open] > summary { color: var(--text); border-bottom: 1px solid var(--border); }
+.tech-details[open] > summary::before { transform: rotate(90deg) translateX(-1px); }
+
+.tech-body {
+  margin: 0;
+  padding: 12px;
+  font-family: var(--font-data);
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--muted);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  max-height: 190px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+/* ---- 下载任务区：独立于版本源，任何版本源状态下都保留 ---- */
+.download-tasks {
+  border: 1px solid var(--border);
+  border-radius: var(--r-card);
+  background: var(--card);
+  padding: 4px;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.download-tasks .empty-state,
+.download-tasks .loading-state { border: 0; background: transparent; }
+.dl-task { min-width: 0; }
+.dl-task-top { flex-wrap: wrap; gap: 6px; }
+
+/* ---- 窄窗口（含 960px）：错误块与详情块不产生横向溢出 ---- */
+@media (max-width: 1000px) {
+  .content-error,
+  .download-source-error { padding: 14px; gap: 10px; }
+  .state-icon { flex-basis: 28px; width: 28px; height: 28px; font-size: 14px; }
+  .tech-body { max-height: 160px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
   .play-btn:hover, .skin-card:hover, .mod-card:hover, .news-card:hover, .account-card:hover { transform: none; }

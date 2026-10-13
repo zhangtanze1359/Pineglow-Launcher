@@ -246,3 +246,17 @@ dev/PineglowLauncher.Tests/MicrosoftAuthServiceTests.cs
 dev/PineglowLauncher.Tests/ModBisectServiceTests.cs
 # R02 修复件的聚焦回归测试（本身也是未跟踪输入）
 dev/PineglowLauncher.Tests/UiSourceSelectionTests.cs
+
+# ---- 类别 P：CV-04–CV-07 UI 与验证工具修复本轮新增输入（2026-10-13，只追加）----
+# 背景：CV-04（下载源失败被当成成功空列表）/ CV-05（Go 零值 time 被渲染成 1-01-01）/
+#       CV-06（.content-error 与 .content-retry-btn 无样式、原始错误直接铺在正文）/
+#       CV-07（verify-ui-pages-live.cjs 的 CDP 错误分支引用未定义 method → 永久挂起；
+#              只按最小字符数判"加载中"；502/503/504 一律当外部依赖放行；报告可能带令牌）。
+# 口径与既有类别一致：逐项精确路径，不用目录通配，不纳入 docs 证据。
+# .gitattributes（根目录）：CV-02 引入的换行约束规则，必须随快照复制，
+#       否则隔离检出/CI 上的冻结案例哈希门槛会因检出换行不同而误报。
+.gitattributes
+# CV-04/05/06 的聚焦回归（launcher.js 单文件；沿用既有 vm + DOM 桩夹具）。
+ui/tests/current-version-errors.test.cjs
+# CV-07 的聚焦回归（verify-ui-pages-live.cjs 单文件；纯函数 + 受控 WebSocket 替身，不联网不开窗口）。
+scripts/tests/ui-live-cdp.test.cjs

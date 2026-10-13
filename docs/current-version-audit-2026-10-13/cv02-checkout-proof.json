@@ -1,0 +1,7 @@
+{
+  "method": "isolated checkout-index with core.autocrlf=true",
+  "tempRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-eol-proof-4d5ac3b53c5643be8c7bbe2fddfb12b8",
+  "expected": "D9F55189FA05845BAC0403A058AA63912A725AFF61555BDF25A6865DD5AB45AF",
+  "actual": "D9F55189FA05845BAC0403A058AA63912A725AFF61555BDF25A6865DD5AB45AF",
+  "status": "PASS"
+}

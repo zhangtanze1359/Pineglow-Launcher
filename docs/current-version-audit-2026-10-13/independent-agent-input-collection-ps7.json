@@ -1,0 +1,52 @@
+{
+  "scope": "Exact production collection block with mocked filesystem existence and copy operations; no files deleted",
+  "source": "D:\\松光启动器\\scripts\\verify-source-snapshot.ps1",
+  "sourceSha256": "FB029ABA02DF1FBF5685DC746A341050C2BDD5BD2C6C9622BF7C32F5557243F3",
+  "checks": [
+    {
+      "id": "overlap-union",
+      "uniqueCount": 3,
+      "failures": 0,
+      "copied": [
+        "tracked.txt",
+        "shared.txt",
+        "shared.txt",
+        "white.txt"
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "tracked-missing",
+      "uniqueCount": 2,
+      "failures": 1,
+      "copied": [
+        "shared.txt",
+        "shared.txt",
+        "white.txt"
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "whitelist-missing",
+      "uniqueCount": 2,
+      "failures": 1,
+      "copied": [
+        "tracked.txt",
+        "shared.txt",
+        "shared.txt"
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "shared-input-missing",
+      "uniqueCount": 2,
+      "failures": 2,
+      "copied": [
+        "tracked.txt",
+        "white.txt"
+      ],
+      "status": "PASS"
+    }
+  ],
+  "status": "PASS"
+}

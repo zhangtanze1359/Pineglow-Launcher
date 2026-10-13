@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>松光启动器 · 局部错误状态修复原型 / PineGlow Launcher · Error-state prototype</title>
+<link rel="stylesheet" href="pineglow-state-components.css" />
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3.6 11.2 12 3.8l8.4 7.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.2 10.2v9.2h11.6v-9.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-install" viewBox="0 0 24 24"><path d="M12 3.4 19.4 7.5v9L12 20.6 4.6 16.5v-9z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4.6 7.5 12 11.6l7.4-4.1M12 11.6v9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="i-worlds" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.6 12h16.8M12 3.6c2.7 2.5 2.7 14.3 0 16.8M12 3.6c-2.7 2.5-2.7 14.3 0 16.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="i-servers" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="5.2" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="4" y="13.8" width="16" height="5.2" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.6" cy="7.6" r=".9" fill="currentColor"/><circle cx="7.6" cy="16.4" r=".9" fill="currentColor"/></symbol>
+  <symbol id="i-content" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="4" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="4" y="13" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="13" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+  <symbol id="i-skins" viewBox="0 0 24 24"><circle cx="12" cy="8.2" r="3.3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5.4 20c0-3.6 2.95-6.1 6.6-6.1S18.6 16.4 18.6 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="i-downloads" viewBox="0 0 24 24"><path d="M12 3.6v10.2M7.9 9.8 12 13.9l4.1-4.1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.6 17.4v2.2h14.8v-2.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-news" viewBox="0 0 24 24"><rect x="4" y="4.6" width="16" height="14.8" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7.6 8.6h6.4M7.6 12h8.8M7.6 15.4h8.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><path d="M3.8 7.2h9M17.4 7.2h2.8M3.8 12h2.6M11.2 12h9M3.8 16.8h6.4M15.8 16.8h4.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="15.2" cy="7.2" r="1.9" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="12" r="1.9" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="13.6" cy="16.8" r="1.9" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+</svg>
+
+<div class="pg-app">
+  <aside class="pg-sidebar">
+    <div class="pg-brand" data-od-id="brand">
+      <svg class="pg-brand-mark" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+        <path d="M12 2.4 16.3 8.4H7.7z" fill="currentColor"/>
+        <path d="M12 6.6 17 12.9H7z" fill="currentColor"/>
+        <path d="M12 10.9 18.1 18.4H5.9z" fill="currentColor"/>
+        <rect x="11" y="18.2" width="2" height="3.4" rx="0.7" fill="currentColor"/>
+      </svg>
+      <span class="pg-brand-text">
+        <span class="pg-brand-name" data-i18n="brand.name">PINEGLOW</span>
+        <span class="pg-brand-sub" data-i18n="brand.sub">启动器 / LAUNCHER</span>
+      </span>
+    </div>
+    <nav class="pg-nav" id="nav" aria-label="主导航"></nav>
+    <div class="pg-sidebar-foot">
+      <span data-i18n="sidebar.version">v1.4.2 · 原型</span>
+      <span data-i18n="sidebar.scope">局部状态</span>
+    </div>
+  </aside>
+
+  <div class="pg-main">
+    <header class="pg-topbar">
+      <div class="pg-crumb">
+        <span class="pg-crumb-title" id="crumbTitle">首页</span>
+        <span class="pg-crumb-sub" id="crumbSub">总览</span>
+      </div>
+      <div class="pg-topbar-right">
+        <div class="pg-account">
+          <span class="pg-account-dot" aria-hidden="true"></span>
+          <span data-i18n="account.signedout">未登录</span>
+        </div>
+        <div class="pg-lang" role="group" aria-label="Language">
+          <button type="button" data-action="lang" data-lang="zh">中文</button>
+          <button type="button" data-action="lang" data-lang="en">EN</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="pg-content" id="content">
+      <div class="pg-inner">
+
+        <section class="pg-view" data-view="home" aria-label="首页">
+          <div class="home-hero">
+            <h2 data-i18n="home.title">欢迎回来</h2>
+            <p data-i18n="home.desc">在启动前确认运行环境，并查看下载与内容状态。本页为局部状态修复的交互原型。</p>
+            <div class="home-actions">
+              <button class="pg-btn pg-btn--primary" data-action="open-prelaunch" data-od-id="cta-prelaunch">
+                <svg width="18" height="18" aria-hidden="true"><use href="#i-install"/></svg>
+                <span data-i18n="home.launch">启动游戏</span>
+              </button>
+              <span class="home-note" data-i18n="home.launchNote">交互原型：不会真实启动游戏，也不会读写任何安装目录。</span>
+            </div>
+          </div>
+          <div class="pg-section">
+            <div class="home-grid">
+              <div class="stat-card"><div class="stat-label" data-i18n="home.stat.current">当前版本</div><div class="stat-value">1.20.6</div></div>
+              <div class="stat-card"><div class="stat-label" data-i18n="home.stat.checked">最近检查</div><div class="stat-value">2026-10-13 14:32</div></div>
+              <div class="stat-card"><div class="stat-label" data-i18n="home.stat.tasks">下载任务</div><div class="stat-value" data-i18n="home.stat.tasksValue">2 进行中</div></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="pg-view" data-view="downloads" aria-label="下载">
+          <div class="pg-section">
+            <div class="pg-section-head">
+              <h2 class="pg-section-title" data-i18n="dl.versionsTitle">可用版本</h2>
+              <span class="pg-chip pg-chip--muted" data-i18n="common.protoData">原型数据</span>
+            </div>
+            <div id="dlVersions" data-od-id="download-versions"></div>
+          </div>
+          <div class="pg-section">
+            <div class="pg-section-head">
+              <h2 class="pg-section-title" data-i18n="dl.tasksTitle">下载任务</h2>
+              <span class="pg-section-meta" id="dlTasksMeta"></span>
+            </div>
+            <div id="dlTasks" data-od-id="download-tasks"></div>
+          </div>
+        </section>
+
+        <section class="pg-view" data-view="content" aria-label="内容中心">
+          <div class="pg-section">
+            <div class="pg-section-head">
+              <h2 class="pg-section-title" data-i18n="content.title">内容中心</h2>
+              <span class="pg-chip pg-chip--muted" data-i18n="common.protoData">原型数据</span>
+            </div>
+            <div id="contentBody" data-od-id="content-body"></div>
+          </div>
+        </section>
+
+        <section class="pg-view" data-view="news" aria-label="新闻">
+          <div class="pg-section">
+            <div class="pg-section-head">
+              <h2 class="pg-section-title" data-i18n="news.title">新闻</h2>
+              <span class="pg-chip pg-chip--muted" data-i18n="common.protoData">原型数据</span>
+            </div>
+            <div id="newsBody" data-od-id="news-body"></div>
+          </div>
+        </section>
+
+        <section class="pg-view" data-view="other" aria-label="范围说明">
+          <div class="pg-scope-note">
+            <h2 data-i18n="scope.title">此页面不在本次修复范围</h2>
+            <p data-i18n="scope.desc">本次交付聚焦启动前检查、下载、内容中心与新闻的局部错误状态。左侧其余导航沿用现有壳的样式，仅作占位，不做整体重设计。</p>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="pg-overlay" id="prelaunchOverlay">
+  <div class="pg-modal" role="dialog" aria-modal="true" aria-labelledby="prelaunchTitle" data-od-id="prelaunch-check">
+    <div class="pg-modal-head">
+      <h2 id="prelaunchTitle" data-i18n="prelaunch.title">启动前检查</h2>
+      <p data-i18n="prelaunch.subtitle">处理可修复的问题后继续；通过的项目无需操作。</p>
+    </div>
+    <div id="prelaunchBody"></div>
+    <div id="prelaunchNotice"></div>
+    <div class="pg-modal-foot">
+      <span class="home-note" id="prelaunchHint"></span>
+      <div class="foot-actions">
+        <button class="pg-btn" data-action="close-prelaunch" data-od-id="prelaunch-back" data-i18n="prelaunch.back">返回</button>
+        <button class="pg-btn pg-btn--primary" data-action="prelaunch-continue" data-od-id="prelaunch-continue" data-i18n="prelaunch.continue">继续</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="proto-toggle" id="protoToggle" data-action="proto-toggle" data-od-id="prototype-toggle" hidden>
+  <span class="proto-badge">原型</span>
+  <span data-i18n="proto.open">状态控制</span>
+</button>
+
+<aside class="proto-panel" id="protoPanel" aria-label="原型状态控制" data-od-id="prototype-panel">
+  <div class="proto-head">
+    <span class="proto-badge">原型</span>
+    <span class="proto-head-title" data-i18n="proto.title">状态控制</span>
+    <button class="pg-btn pg-btn--ghost pg-btn--sm" data-action="proto-toggle" data-i18n="proto.collapse">收起</button>
+  </div>
+  <div class="proto-body">
+    <p class="proto-hint" data-i18n="proto.hint">切换状态以复现本地错误处理。状态只影响当前页面。</p>
+    <div class="proto-label" data-i18n="proto.currentScreen">当前页面</div>
+    <div class="proto-seg" id="protoScreen"><span class="proto-seg-label" id="protoScreenName">下载</span></div>
+    <div class="proto-label" data-i18n="proto.retryOutcome">重试结果</div>
+    <div class="proto-seg" id="protoOutcome"></div>
+    <div class="proto-label" data-i18n="proto.newsCache">新闻缓存</div>
+    <div class="proto-seg" id="protoCache"></div>
+    <div class="proto-label" data-i18n="proto.state">数据状态</div>
+    <div class="proto-states" id="protoStates"></div>
+  </div>
+</aside>
+
+<div class="pg-toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  var I18N = {
+    zh: {
+      "brand.name": "PINEGLOW",
+      "brand.sub": "启动器 / LAUNCHER",
+      "sidebar.version": "v1.4.2 · 原型",
+      "sidebar.scope": "局部状态",
+      "account.signedout": "未登录",
+      "nav.home": "首页", "nav.install": "安装管理", "nav.worlds": "世界", "nav.servers": "服务器",
+      "nav.content": "内容中心", "nav.skins": "皮肤", "nav.downloads": "下载", "nav.news": "新闻", "nav.settings": "设置",
+      "crumb.home": "首页", "crumb.home.sub": "总览",
+      "crumb.downloads": "下载", "crumb.downloads.sub": "版本与任务",
+      "crumb.content": "内容中心", "crumb.content.sub": "模组 · 材质 · 光影",
+      "crumb.news": "新闻", "crumb.news.sub": "公告与更新",
+      "crumb.other.sub": "不在本次修复范围",
+      "home.title": "欢迎回来",
+      "home.desc": "在启动前确认运行环境，并查看下载与内容状态。本页为局部状态修复的交互原型。",
+      "home.launch": "启动游戏",
+      "home.launchNote": "交互原型：不会真实启动游戏，也不会读写任何安装目录。",
+      "home.stat.current": "当前版本", "home.stat.checked": "最近检查", "home.stat.tasks": "下载任务",
+      "home.stat.tasksValue": "2 进行中",
+      "scope.title": "此页面不在本次修复范围",
+      "scope.desc": "本次交付聚焦启动前检查、下载、内容中心与新闻的局部错误状态。左侧其余导航沿用现有壳的样式，仅作占位，不做整体重设计。",
+      "common.protoData": "原型数据",
+      "common.loading": "加载中…",
+      "state.retry": "重试", "state.retrying": "重试中…",
+      "state.techToggle": "查看技术详情",
+      "state.stillFailing": "本次重试仍未成功，请稍后再试或检查网络。",
+      "state.retryOk": "重试成功，内容已更新。",
+      "dl.versionsTitle": "可用版本", "dl.tasksTitle": "下载任务",
+      "dl.release": "正式版", "dl.snapshot": "快照", "dl.install": "安装",
+      "dl.loading": "正在获取可用版本…",
+      "dl.errorTitle": "无法获取可用版本",
+      "dl.errorDesc": "下载源请求失败，暂时无法获取版本列表。请检查网络连接后重试。",
+      "dl.errorExtra": "已有下载任务不受影响，会在下方继续保留。",
+      "dl.emptyTitle": "暂无可下载版本",
+      "dl.emptyDesc": "请求已成功，但下载源没有返回任何版本。",
+      "dl.refresh": "刷新",
+      "dl.tasksCount": "{n} 个任务",
+      "dl.tasksIndependent": "此区域独立于版本列表：版本请求失败时，已存在的下载任务仍会保留。",
+      "dl.status.downloading": "下载中", "dl.status.done": "已完成", "dl.status.paused": "已暂停",
+      "content.title": "内容中心",
+      "content.filters.all": "全部", "content.filters.mods": "模组",
+      "content.filters.resourcepacks": "材质包", "content.filters.shaders": "光影",
+      "content.loading": "正在加载内容…",
+      "content.errorTitle": "内容中心暂时无法加载",
+      "content.errorDesc": "无法连接到内容服务。请检查网络连接，然后重试。",
+      "content.emptyTitle": "暂无内容",
+      "content.emptyDesc": "请求已成功，但内容服务没有返回任何项目。",
+      "content.downloads": "下载", "content.install": "安装",
+      "news.title": "新闻",
+      "news.verified": "已验证", "news.unverified": "尚未验证",
+      "news.verifiedAt": "最后验证：", "news.unverifiedHint": "尚无有效的验证时间，日期已隐藏。",
+      "news.cached": "缓存",
+      "news.loading": "正在加载新闻…",
+      "news.errorTitle": "无法刷新新闻",
+      "news.errorDesc": "新闻源请求失败，正在显示缓存内容（如可用）。",
+      "news.errorNoCache": "此设备尚无缓存，且新闻尚未验证，因此没有内容可显示。",
+      "news.emptyTitle": "暂无新闻",
+      "news.emptyDesc": "请求已成功，但新闻源没有返回任何内容。",
+      "prelaunch.title": "启动前检查",
+      "prelaunch.subtitle": "处理可修复的问题后继续；通过的项目无需操作。",
+      "prelaunch.checkingItem": "检查中…",
+      "prelaunch.files": "游戏文件完整性", "prelaunch.files.detail": "已校验 384 个文件，全部完整",
+      "prelaunch.runtime": "运行库依赖", "prelaunch.runtime.detail": "缺少 Microsoft Visual C++ 2015–2022 运行库",
+      "prelaunch.disk": "磁盘可用空间", "prelaunch.disk.detail": "剩余 42.6 GB（需要 8 GB）",
+      "prelaunch.account": "登录状态", "prelaunch.account.detail": "未登录，将以离线模式继续",
+      "prelaunch.network": "网络连接", "prelaunch.network.detail": "连接正常，延迟 38 ms",
+      "prelaunch.action.install": "安装", "prelaunch.action.signin": "前往登录",
+      "prelaunch.back": "返回", "prelaunch.continue": "继续",
+      "prelaunch.hint": "继续不会真实启动游戏。此原型仅演示状态。",
+      "prelaunch.continueNotice": "这是交互原型，不会真实启动游戏，也不会安装运行库或登录账号。",
+      "proto.title": "状态控制", "proto.open": "状态控制", "proto.collapse": "收起",
+      "proto.hint": "切换状态以复现本地错误处理。状态只影响当前页面。",
+      "proto.currentScreen": "当前页面", "proto.retryOutcome": "重试结果", "proto.newsCache": "新闻缓存", "proto.state": "数据状态",
+      "proto.outcome.success": "成功", "proto.outcome.fail": "仍失败",
+      "proto.cache.none": "无缓存", "proto.cache.has": "有缓存",
+      "proto.notApplicable": "此页面没有数据状态",
+      "state.normal": "正常（有数据）", "state.loading": "加载中", "state.error": "请求失败",
+      "state.retrying": "重试进行中", "state.retrySuccess": "重试成功", "state.retryError": "重试仍失败", "state.empty": "成功空态",
+      "toast.noop": "原型：不会执行真实操作（安装 / 登录 / 启动）。"
+    },
+    en: {
+      "brand.name": "PINEGLOW",
+      "brand.sub": "LAUNCHER",
+      "sidebar.version": "v1.4.2 · prototype",
+      "sidebar.scope": "local states",
+      "account.signedout": "Not signed in",
+      "nav.home": "Home", "nav.install": "Installations", "nav.worlds": "Worlds", "nav.servers": "Servers",
+      "nav.content": "Content", "nav.skins": "Skins", "nav.downloads": "Downloads", "nav.news": "News", "nav.settings": "Settings",
+      "crumb.home": "Home", "crumb.home.sub": "Overview",
+      "crumb.downloads": "Downloads", "crumb.downloads.sub": "Versions & tasks",
+      "crumb.content": "Content", "crumb.content.sub": "Mods · packs · shaders",
+      "crumb.news": "News", "crumb.news.sub": "Announcements & updates",
+      "crumb.other.sub": "Outside this fix's scope",
+      "home.title": "Welcome back",
+      "home.desc": "Check the runtime before launch, and review download and content status. This page is the interactive prototype for the local error-state fix.",
+      "home.launch": "Launch game",
+      "home.launchNote": "Interactive prototype: it will not launch the game or read/write any install directory.",
+      "home.stat.current": "Current version", "home.stat.checked": "Last checked", "home.stat.tasks": "Download tasks",
+      "home.stat.tasksValue": "2 active",
+      "scope.title": "This screen is outside this fix's scope",
+      "scope.desc": "This delivery focuses on the local error states of the pre-launch check, downloads, content and news. The remaining nav items keep the existing shell styling as placeholders; there is no full redesign.",
+      "common.protoData": "Prototype data",
+      "common.loading": "Loading…",
+      "state.retry": "Retry", "state.retrying": "Retrying…",
+      "state.techToggle": "View technical details",
+      "state.stillFailing": "The retry did not succeed this time. Try again shortly or check your network.",
+      "state.retryOk": "Retried successfully. Content updated.",
+      "dl.versionsTitle": "Available versions", "dl.tasksTitle": "Download tasks",
+      "dl.release": "Release", "dl.snapshot": "Snapshot", "dl.install": "Install",
+      "dl.loading": "Fetching available versions…",
+      "dl.errorTitle": "Couldn't fetch available versions",
+      "dl.errorDesc": "The download source request failed, so the version list is unavailable. Check your connection and try again.",
+      "dl.errorExtra": "Existing download tasks are not affected and stay visible below.",
+      "dl.emptyTitle": "No versions available",
+      "dl.emptyDesc": "The request succeeded, but the source returned no versions.",
+      "dl.refresh": "Refresh",
+      "dl.tasksCount": "{n} tasks",
+      "dl.tasksIndependent": "This section is independent of the version list: existing download tasks stay visible even if the version request fails.",
+      "dl.status.downloading": "Downloading", "dl.status.done": "Completed", "dl.status.paused": "Paused",
+      "content.title": "Content",
+      "content.filters.all": "All", "content.filters.mods": "Mods",
+      "content.filters.resourcepacks": "Resource packs", "content.filters.shaders": "Shaders",
+      "content.loading": "Loading content…",
+      "content.errorTitle": "Content is temporarily unavailable",
+      "content.errorDesc": "Couldn't reach the content service. Check your connection, then retry.",
+      "content.emptyTitle": "No content yet",
+      "content.emptyDesc": "The request succeeded, but the content service returned no items.",
+      "content.downloads": "downloads", "content.install": "Install",
+      "news.title": "News",
+      "news.verified": "Verified", "news.unverified": "Not yet verified",
+      "news.verifiedAt": "Last verified: ", "news.unverifiedHint": "No valid verification time yet; the date is hidden.",
+      "news.cached": "Cached",
+      "news.loading": "Loading news…",
+      "news.errorTitle": "Couldn't refresh news",
+      "news.errorDesc": "The news source request failed; showing cached content where available.",
+      "news.errorNoCache": "There is no cache on this device, and news is not verified yet, so there is nothing to show.",
+      "news.emptyTitle": "No news",
+      "news.emptyDesc": "The request succeeded, but the news source returned nothing.",
+      "prelaunch.title": "Pre-launch check",
+      "prelaunch.subtitle": "Resolve fixable issues, then continue. Passed items need no action.",
+      "prelaunch.checkingItem": "Checking…",
+      "prelaunch.files": "Game files integrity", "prelaunch.files.detail": "384 files verified, all intact",
+      "prelaunch.runtime": "Runtime dependencies", "prelaunch.runtime.detail": "Missing Microsoft Visual C++ 2015–2022 runtime",
+      "prelaunch.disk": "Free disk space", "prelaunch.disk.detail": "42.6 GB free (8 GB required)",
+      "prelaunch.account": "Sign-in status", "prelaunch.account.detail": "Not signed in; will continue in offline mode",
+      "prelaunch.network": "Network connection", "prelaunch.network.detail": "Connection OK, 38 ms",
+      "prelaunch.action.install": "Install", "prelaunch.action.signin": "Sign in",
+      "prelaunch.back": "Back", "prelaunch.continue": "Continue",
+      "prelaunch.hint": "Continue will not actually launch the game. This prototype only demonstrates states.",
+      "prelaunch.continueNotice": "This is an interactive prototype: it will not launch the game, install runtimes, or sign in to an account.",
+      "proto.title": "State control", "proto.open": "State control", "proto.collapse": "Collapse",
+      "proto.hint": "Switch states to reproduce local error handling. States only affect the current screen.",
+      "proto.currentScreen": "Current screen", "proto.retryOutcome": "Retry outcome", "proto.newsCache": "News cache", "proto.state": "Data state",
+      "proto.outcome.success": "Success", "proto.outcome.fail": "Still failing",
+      "proto.cache.none": "No cache", "proto.cache.has": "Has cache",
+      "proto.notApplicable": "This screen has no data states",
+      "state.normal": "Normal (data)", "state.loading": "Loading", "state.error": "Request failed",
+      "state.retrying": "Retry in progress", "state.retrySuccess": "Retry succeeded", "state.retryError": "Retry failed again", "state.empty": "Success (empty)",
+      "toast.noop": "Prototype: no real action is performed (install / sign-in / launch)."
+    }
+  };
+
+  var NAV = [
+    ["home", "nav.home", "i-home"], ["install", "nav.install", "i-install"],
+    ["worlds", "nav.worlds", "i-worlds"], ["servers", "nav.servers", "i-servers"],
+    ["content", "nav.content", "i-content"], ["skins", "nav.skins", "i-skins"],
+    ["downloads", "nav.downloads", "i-downloads"], ["news", "nav.news", "i-news"],
+    ["settings", "nav.settings", "i-settings"]
+  ];
+  var IMPLEMENTED = { home: 1, downloads: 1, content: 1, news: 1 };
+  var DATA_SCREENS = { downloads: 1, content: 1, news: 1 };
+
+  var STATES = ["normal", "loading", "error", "retrying", "retrySuccess", "retryError", "empty"];
+
+  var VERSIONS = [
+    { v: "1.21.4", type: "release", date: "2024-12-03", size: "268 MB" },
+    { v: "1.21.1", type: "release", date: "2024-08-08", size: "264 MB" },
+    { v: "1.20.6", type: "release", date: "2024-04-29", size: "252 MB" },
+    { v: "24w45a", type: "snapshot", date: "2024-11-06", size: "271 MB" }
+  ];
+
+  var TASKS = [
+    { name: "松光光影包 Dawn v2.1", status: "downloading", pct: 68, fig: "68% · 3.4 MB/s" },
+    { name: "松光优化模组 v1.0.6", status: "done", pct: 100, fig: "2.4 MB" },
+    { name: "松光材质包 苔原 256x", status: "paused", pct: 34, fig: "34% · 126 MB" }
+  ];
+
+  var CONTENT = [
+    { name: "松林优化 PineOptimize", cat: "mods", author: "松光社区", downloads: "1.2M", size: "2.4 MB" },
+    { name: "晨曦光影 Dawn Shaders", cat: "shaders", author: "Aurora", downloads: "860K", size: "12.8 MB" },
+    { name: "苔原材质 Tundra 128x", cat: "resourcepacks", author: "Lichen", downloads: "340K", size: "18.6 MB" },
+    { name: "工具腰带 Toolbelt", cat: "mods", author: "松光社区", downloads: "620K", size: "1.1 MB" },
+    { name: "深林光影 Deepwood", cat: "shaders", author: "Aurora", downloads: "410K", size: "9.4 MB" },
+    { name: "松针 UI Pack", cat: "resourcepacks", author: "Lichen", downloads: "210K", size: "6.2 MB" }
+  ];
+
+  var NEWS = [
+    { tag: "更新", title: "松光启动器 1.4.2：下载与内容中心体验改进", date: "2026-10-08",
+      body: "本次更新修复了下载源请求失败时的提示问题，并改进了内容中心的错误恢复与重试流程。" },
+    { tag: "社区", title: "社区创造者计划开放申请", date: "2026-10-03",
+      body: "面向模组、材质与光影作者的扶持计划现已开放，首期招募 200 名创作者。" },
+    { tag: "公告", title: "服务器节点维护公告", date: "2026-09-27",
+      body: "10 月 2 日凌晨 02:00–04:00 将对华东节点进行例行维护，期间可能出现短暂中断。" }
+  ];
+
+  var NEWS_VERIFIED_AT = "2026-10-13 14:32";
+  var NEWS_RETRY_AT = "2026-10-13 14:36";
+
+  var TECH = {
+    downloads:
+      "GET /v1/versions?channel=release\n" +
+      "Host: api.pineglow.example\n" +
+      "HTTP 503 Service Unavailable\n" +
+      "error: SourceTimeout\n" +
+      "previous-state: <[]>, mapped from a caught error -> must stay distinct from an empty list\n" +
+      "time: 2026-10-13T14:32:08+08:00",
+    content:
+      "GET /v1/content/catalog?page=1&lang=zh-CN\n" +
+      "Host: api.pineglow.example\n" +
+      "HTTP 502 Bad Gateway\n" +
+      "error: UpstreamUnavailable\n" +
+      "request-id: 6f1c2b7a-4d55-4b0e-9c1a-2f7e8d0b3a44\n" +
+      "time: 2026-10-13T14:32:08+08:00",
+    news:
+      "GET /v1/news?lang=zh-CN\n" +
+      "Host: api.pineglow.example\n" +
+      "HTTP 000 (no response)\n" +
+      "error: NetworkUnreachable\n" +
+      "response verified-at: 0001-01-01T00:00:00Z  (zero value -> treated as unverified)\n" +
+      "cache: none\n" +
+      "time: 2026-10-13T14:32:08+08:00"
+  };
+
+  var CHECKS = [
+    { id: "files", key: "prelaunch.files", detail: "prelaunch.files.detail", result: "pass" },
+    { id: "runtime", key: "prelaunch.runtime", detail: "prelaunch.runtime.detail", result: "warn", action: "prelaunch.action.install" },
+    { id: "disk", key: "prelaunch.disk", detail: "prelaunch.disk.detail", result: "pass" },
+    { id: "account", key: "prelaunch.account", detail: "prelaunch.account.detail", result: "warn", action: "prelaunch.action.signin" },
+    { id: "network", key: "prelaunch.network", detail: "prelaunch.network.detail", result: "pass" }
+  ];
+
+  var app = {
+    lang: "zh",
+    screen: "home",
+    state: "normal",
+    retryOutcome: "success",
+    newsCache: false,
+    contentFilter: "all",
+    prelaunch: { open: false, phase: "checking", continued: false }
+  };
+
+  var lastFocus = null;
+  var checkTimer = null;
+  var retryTimer = null;
+
+  function t(key, vars) {
+    var s = (I18N[app.lang] && I18N[app.lang][key]) || (I18N.zh[key] || key);
+    if (vars) {
+      for (var k in vars) { if (Object.prototype.hasOwnProperty.call(vars, k)) s = s.split("{" + k + "}").join(vars[k]); }
+    }
+    return s;
+  }
+
+  function esc(v) {
+    return String(v).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  function stateLabel(s) { return t("state." + s); }
+
+  function techDetails(text) {
+    return '<details class="tech-details"><summary>' + esc(t("state.techToggle")) + '</summary>' +
+      '<pre class="tech-body">' + esc(text) + '</pre></details>';
+  }
+
+  function retryButton(cls, retrying) {
+    if (retrying) {
+      return '<button class="pg-btn pg-btn--primary ' + cls + '" disabled>' +
+        '<span class="spinner" aria-hidden="true"></span>' + esc(t("state.retrying")) + '</button>';
+    }
+    return '<button class="pg-btn pg-btn--primary ' + cls + '" data-action="retry">' + esc(t("state.retry")) + '</button>';
+  }
+
+  function refreshButton() {
+    return '<button class="pg-btn pg-btn--primary" data-action="retry">' + esc(t("dl.refresh")) + '</button>';
+  }
+
+  function errorBlock(o) {
+    var again = o.again ? '<p class="state-extra">' + esc(t("state.stillFailing")) + '</p>' : "";
+    var extra = o.extra ? '<p class="state-extra">' + esc(o.extra) + '</p>' : "";
+    return '<div class="state-block state-block--error ' + o.cls + '">' +
+      '<div class="state-icon state-icon--danger" aria-hidden="true">!</div>' +
+      '<div class="state-main">' +
+        '<h3 class="state-title">' + esc(o.title) + '</h3>' +
+        '<p class="state-desc">' + esc(o.desc) + '</p>' +
+        extra + again +
+        '<div class="state-actions">' + retryButton(o.btnCls, o.retrying) + '</div>' +
+        techDetails(o.tech) +
+      '</div></div>';
+  }
+
+  function emptyBlock(o) {
+    return '<div class="state-block state-block--empty">' +
+      '<div class="state-icon state-icon--muted" aria-hidden="true">—</div>' +
+      '<div class="state-main">' +
+        '<h3 class="state-title">' + esc(o.title) + '</h3>' +
+        '<p class="state-desc">' + esc(o.desc) + '</p>' +
+        '<div class="state-actions">' + refreshButton() + '</div>' +
+      '</div></div>';
+  }
+
+  function successNotice() {
+    return '<div class="state-notice state-notice--ok" role="status"><span class="dot-ok" aria-hidden="true"></span>' + esc(t("state.retryOk")) + '</div>';
+  }
+
+  function skeletonRows(n, tall) {
+    var out = '<div class="skeleton-stack" role="status" aria-label="' + esc(t("common.loading")) + '">';
+    for (var i = 0; i < n; i++) {
+      out += '<div class="skeleton-row"><span class="skeleton" style="width:' + (86 + i * 7) + 'px;height:16px"></span>' +
+        '<span class="skeleton" style="flex:1;height:12px;max-width:240px"></span>' +
+        '<span class="skeleton" style="width:72px;height:' + (tall ? 34 : 30) + 'px"></span></div>';
+    }
+    return out + '</div>';
+  }
+
+  function versionRows() {
+    var rows = VERSIONS.map(function (v) {
+      return '<div class="version-row" data-od-id="version-' + esc(v.v) + '">' +
+        '<span class="version-id">' + esc(v.v) + '</span>' +
+        '<span class="version-facts"><span>' + esc(v.type === "release" ? t("dl.release") : t("dl.snapshot")) + '</span>' +
+        '<span>' + esc(v.date) + '</span><span>' + esc(v.size) + '</span></span>' +
+        '<button class="pg-btn pg-btn--sm" data-action="noop">' + esc(t("dl.install")) + '</button></div>';
+    }).join("");
+    return '<div class="version-list">' + rows + '</div>';
+  }
+
+  function taskRows() {
+    var rows = TASKS.map(function (task) {
+      var bar = task.status === "paused" ? "progress progress--warn" : (task.status === "done" ? "progress progress--done" : "progress");
+      return '<div class="task-row" data-od-id="task-' + esc(task.status) + '">' +
+        '<span class="task-name">' + esc(task.name) +
+        '<span class="task-sub">' + esc(t("dl.status." + task.status)) + '</span></span>' +
+        '<span style="display:flex;align-items:center;gap:12px">' +
+        '<span class="' + bar + '"><span style="width:' + task.pct + '%"></span></span>' +
+        '<span class="task-figures">' + esc(task.fig) + '</span></span></div>';
+    }).join("");
+    return '<div class="download-tasks">' + rows + '</div>';
+  }
+
+  function contentCards() {
+    var list = CONTENT.filter(function (c) { return app.contentFilter === "all" || c.cat === app.contentFilter; });
+    if (!list.length) { return emptyBlock({ title: t("content.emptyTitle"), desc: t("content.emptyDesc") }); }
+    var cards = list.map(function (c, i) {
+      return '<article class="content-card" data-od-id="content-card-' + esc(c.cat) + '-' + (i + 1) + '">' +
+        '<div class="content-card-name">' + esc(c.name) + '</div>' +
+        '<div class="content-card-author">' + esc(c.author) + ' · ' + esc(t("content.filters." + c.cat)) + '</div>' +
+        '<div class="content-card-foot"><span class="content-card-stat">' + esc(c.downloads) + ' ' + esc(t("content.downloads")) + ' · ' + esc(c.size) + '</span>' +
+        '<button class="pg-btn pg-btn--sm" data-action="noop">' + esc(t("content.install")) + '</button></div></article>';
+    }).join("");
+    return '<div class="content-grid">' + cards + '</div>';
+  }
+
+  function contentFilters() {
+    return '<div class="content-filters" role="group" aria-label="' + esc(t("content.title")) + '">' +
+      ["all", "mods", "resourcepacks", "shaders"].map(function (c) {
+        return '<button class="filter-chip' + (app.contentFilter === c ? " is-active" : "") + '" data-action="filter" data-cat="' + c + '">' +
+          esc(t("content.filters." + c)) + '</button>';
+      }).join("") + '</div>';
+  }
+
+  function newsItems(cached) {
+    return '<div class="news-list">' + NEWS.map(function (n) {
+      return '<article class="news-item" data-od-id="news-item-' + esc(n.date) + '">' +
+        '<div class="news-item-head"><span class="pg-chip pg-chip--muted">' + esc(n.tag) + '</span>' +
+        (cached ? '<span class="pg-chip pg-chip--outline">' + esc(t("news.cached")) + '</span>' : '') +
+        '<span class="news-item-date">' + esc(n.date) + '</span></div>' +
+        '<h3 class="news-item-title">' + esc(n.title) + '</h3>' +
+        '<p class="news-item-body">' + esc(n.body) + '</p></article>';
+    }).join("") + '</div>';
+  }
+
+  function newsStatusBar(o) {
+    var status = o.verified
+      ? '<span class="pg-chip pg-chip--ok">' + esc(t("news.verified")) + '</span>' +
+        '<span class="news-verified-at">' + esc(t("news.verifiedAt")) + esc(o.time) + '</span>'
+      : '<span class="pg-chip pg-chip--warn">' + esc(t("news.unverified")) + '</span>' +
+        '<span class="news-verified-at">' + esc(t("news.unverifiedHint")) + '</span>';
+    var cached = o.cached ? '<span class="pg-chip pg-chip--outline">' + esc(t("news.cached")) + '</span>' : '';
+    return '<div class="news-statusbar">' + status + cached + '</div>';
+  }
+
+  function renderDownloads() {
+    var v = document.getElementById("dlVersions");
+    var s = app.state;
+    if (s === "loading") {
+      v.innerHTML = skeletonRows(4, true);
+    } else if (s === "error" || s === "retrying" || s === "retryError") {
+      v.innerHTML = errorBlock({
+        cls: "download-source-error", btnCls: "download-retry-btn",
+        title: t("dl.errorTitle"), desc: t("dl.errorDesc"), extra: t("dl.errorExtra"),
+        retrying: s === "retrying", again: s === "retryError", tech: TECH.downloads
+      });
+    } else if (s === "empty") {
+      v.innerHTML = emptyBlock({ title: t("dl.emptyTitle"), desc: t("dl.emptyDesc") });
+    } else if (s === "retrySuccess") {
+      v.innerHTML = successNotice() + versionRows();
+    } else {
+      v.innerHTML = versionRows();
+    }
+    document.getElementById("dlTasksMeta").textContent = t("dl.tasksCount", { n: TASKS.length });
+    document.getElementById("dlTasks").innerHTML = taskRows() +
+      '<p class="state-extra" style="margin-top:10px">' + esc(t("dl.tasksIndependent")) + '</p>';
+  }
+
+  function renderContent() {
+    var el = document.getElementById("contentBody");
+    var s = app.state;
+    if (s === "loading") {
+      el.innerHTML = contentFilters() + skeletonRows(3, false);
+    } else if (s === "error" || s === "retrying" || s === "retryError") {
+      el.innerHTML = errorBlock({
+        cls: "content-error", btnCls: "content-retry-btn",
+        title: t("content.errorTitle"), desc: t("content.errorDesc"),
+        retrying: s === "retrying", again: s === "retryError", tech: TECH.content
+      });
+    } else if (s === "empty") {
+      el.innerHTML = emptyBlock({ title: t("content.emptyTitle"), desc: t("content.emptyDesc") });
+    } else if (s === "retrySuccess") {
+      el.innerHTML = successNotice() + contentFilters() + contentCards();
+    } else {
+      el.innerHTML = contentFilters() + contentCards();
+    }
+  }
+
+  function renderNews() {
+    var el = document.getElementById("newsBody");
+    var s = app.state;
+    if (s === "loading") {
+      el.innerHTML = newsStatusBar({ verified: true, time: NEWS_VERIFIED_AT, cached: false }) + skeletonRows(2, false);
+      return;
+    }
+    if (s === "normal") {
+      el.innerHTML = newsStatusBar({ verified: true, time: NEWS_VERIFIED_AT, cached: false }) + newsItems(false);
+      return;
+    }
+    if (s === "retrySuccess") {
+      el.innerHTML = successNotice() + newsStatusBar({ verified: true, time: NEWS_RETRY_AT, cached: false }) + newsItems(false);
+      return;
+    }
+    if (s === "empty") {
+      el.innerHTML = newsStatusBar({ verified: true, time: NEWS_VERIFIED_AT, cached: false }) +
+        emptyBlock({ title: t("news.emptyTitle"), desc: t("news.emptyDesc") });
+      return;
+    }
+    var cached = app.newsCache;
+    var bar = newsStatusBar(cached
+      ? { verified: true, time: NEWS_VERIFIED_AT, cached: true }
+      : { verified: false, time: NEWS_VERIFIED_AT, cached: false });
+    var err = errorBlock({
+      cls: "news-error", btnCls: "news-retry-btn",
+      title: t("news.errorTitle"),
+      desc: cached ? t("news.errorDesc") : t("news.errorDesc") + " " + t("news.errorNoCache"),
+      retrying: s === "retrying", again: s === "retryError", tech: TECH.news
+    });
+    el.innerHTML = bar + err + (cached ? newsItems(true) : "");
+  }
+
+  function renderScreen() {
+    var active = IMPLEMENTED[app.screen] ? app.screen : "other";
+    Array.prototype.forEach.call(document.querySelectorAll(".pg-view"), function (view) {
+      view.classList.toggle("is-active", view.getAttribute("data-view") === active);
+    });
+    if (DATA_SCREENS[app.screen]) {
+      if (app.screen === "downloads") renderDownloads();
+      if (app.screen === "content") renderContent();
+      if (app.screen === "news") renderNews();
+    }
+    updateCrumb();
+  }
+
+  function renderNav() {
+    var nav = document.getElementById("nav");
+    nav.innerHTML = NAV.map(function (item) {
+      var isActive = item[0] === app.screen;
+      return '<button class="pg-nav-item' + (isActive ? " is-active" : "") + '" data-action="nav" data-screen="' + item[0] + '"' +
+        (isActive ? ' aria-current="page"' : "") + '>' +
+        '<svg width="19" height="19" aria-hidden="true"><use href="#' + item[2] + '"/></svg>' +
+        '<span>' + esc(t(item[1])) + '</span></button>';
+    }).join("");
+  }
+
+  function updateCrumb() {
+    var implemented = !!IMPLEMENTED[app.screen];
+    document.getElementById("crumbTitle").textContent = implemented ? t("crumb." + app.screen) : t("nav." + app.screen);
+    document.getElementById("crumbSub").textContent = implemented ? t("crumb." + app.screen + ".sub") : t("crumb.other.sub");
+  }
+
+  function applyStatic() {
+    Array.prototype.forEach.call(document.querySelectorAll("[data-i18n]"), function (el) {
+      el.textContent = t(el.getAttribute("data-i18n"));
+    });
+    document.documentElement.lang = app.lang === "zh" ? "zh-CN" : "en";
+    Array.prototype.forEach.call(document.querySelectorAll("[data-action='lang']"), function (b) {
+      b.classList.toggle("is-active", b.getAttribute("data-lang") === app.lang);
+    });
+  }
+
+  function renderProto() {
+    var screenName = IMPLEMENTED[app.screen] ? t("nav." + app.screen) : t("nav.home");
+    document.getElementById("protoScreenName").textContent = screenName;
+    var applicable = !!DATA_SCREENS[app.screen];
+
+    var statesEl = document.getElementById("protoStates");
+    statesEl.innerHTML = STATES.map(function (s) {
+      return '<button class="proto-state-btn' + (app.state === s ? " is-active" : "") + '" data-action="proto-state" data-state="' + s + '"' +
+        (applicable ? "" : " disabled") + '>' + esc(stateLabel(s)) + '</button>';
+    }).join("");
+
+    document.getElementById("protoOutcome").innerHTML =
+      '<button class="' + (app.retryOutcome === "success" ? "is-active" : "") + '" data-action="proto-outcome" data-value="success">' + esc(t("proto.outcome.success")) + '</button>' +
+      '<button class="' + (app.retryOutcome === "fail" ? "is-active" : "") + '" data-action="proto-outcome" data-value="fail">' + esc(t("proto.outcome.fail")) + '</button>';
+
+    document.getElementById("protoCache").innerHTML =
+      '<button class="' + (!app.newsCache ? "is-active" : "") + '" data-action="proto-cache" data-value="none">' + esc(t("proto.cache.none")) + '</button>' +
+      '<button class="' + (app.newsCache ? "is-active" : "") + '" data-action="proto-cache" data-value="has">' + esc(t("proto.cache.has")) + '</button>';
+
+    var na = document.getElementById("protoNA");
+    if (na) na.parentNode.removeChild(na);
+    if (!applicable) {
+      statesEl.insertAdjacentHTML("afterend", '<p class="proto-hint" id="protoNA" style="margin-top:8px">' + esc(t("proto.notApplicable")) + '</p>');
+    }
+  }
+
+  function renderAll() {
+    applyStatic();
+    renderNav();
+    renderScreen();
+    renderProto();
+    if (app.prelaunch.open) renderPrelaunch();
+  }
+
+  function setState(s) {
+    if (!DATA_SCREENS[app.screen]) return;
+    if (retryTimer) { clearTimeout(retryTimer); retryTimer = null; }
+    app.state = s;
+    renderScreen();
+    renderProto();
+  }
+
+  function startRetry() {
+    if (retryTimer) { clearTimeout(retryTimer); retryTimer = null; }
+    app.state = "retrying";
+    renderScreen();
+    renderProto();
+    retryTimer = setTimeout(function () {
+      retryTimer = null;
+      app.state = app.retryOutcome === "success" ? "retrySuccess" : "retryError";
+      renderScreen();
+      renderProto();
+    }, 1400);
+  }
+
+  function openPrelaunch() {
+    lastFocus = document.activeElement;
+    app.prelaunch = { open: true, phase: "checking", continued: false };
+    document.getElementById("prelaunchOverlay").classList.add("is-open");
+    renderPrelaunch();
+    if (checkTimer) { clearTimeout(checkTimer); }
+    checkTimer = setTimeout(function () {
+      checkTimer = null;
+      if (app.prelaunch.open && app.prelaunch.phase === "checking") {
+        app.prelaunch.phase = "results";
+        renderPrelaunch();
+      }
+    }, 1150);
+    var first = document.getElementById("prelaunchBack") || document.querySelector("[data-action='close-prelaunch']");
+    if (first) first.focus();
+  }
+
+  function closePrelaunch() {
+    app.prelaunch.open = false;
+    if (checkTimer) { clearTimeout(checkTimer); checkTimer = null; }
+    document.getElementById("prelaunchOverlay").classList.remove("is-open");
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  function renderPrelaunch() {
+    var body = document.getElementById("prelaunchBody");
+    var checking = app.prelaunch.phase === "checking";
+    body.innerHTML = CHECKS.map(function (c) {
+      var mark, cls;
+      if (checking) { mark = "…"; cls = "check-mark--pending"; }
+      else if (c.result === "pass") { mark = "✓"; cls = "check-mark--pass"; }
+      else { mark = "!"; cls = "check-mark--warn"; }
+      var detail = checking ? t("prelaunch.checkingItem") : t(c.detail);
+      var action = (!checking && c.action)
+        ? '<button class="pg-btn pg-btn--sm check-action" data-action="noop">' + esc(t(c.action)) + '</button>'
+        : "";
+      return '<div class="check-row" data-od-id="check-' + c.id + '">' +
+        '<span class="check-mark ' + cls + '" aria-hidden="true">' + mark + '</span>' +
+        '<div class="check-body"><div class="check-name">' + esc(t(c.key)) + '</div>' +
+        '<div class="check-detail">' + esc(detail) + '</div></div>' + action + '</div>';
+    }).join("");
+
+    var continueBtn = document.querySelector("[data-action='prelaunch-continue']");
+    if (continueBtn) continueBtn.disabled = checking;
+    document.getElementById("prelaunchHint").textContent = t("prelaunch.hint");
+
+    var notice = document.getElementById("prelaunchNotice");
+    if (app.prelaunch.continued) {
+      notice.innerHTML = '<p class="modal-notice" role="status">' + esc(t("prelaunch.continueNotice")) + '</p>';
+    } else {
+      notice.innerHTML = "";
+    }
+  }
+
+  function showToast(msg) {
+    var el = document.getElementById("toast");
+    el.textContent = msg;
+    el.classList.add("is-open");
+    clearTimeout(showToast._id);
+    showToast._id = setTimeout(function () { el.classList.remove("is-open"); }, 2600);
+  }
+
+  function trapFocus(e) {
+    if (e.key !== "Tab" || !app.prelaunch.open) return;
+    var modal = document.querySelector("#prelaunchOverlay .pg-modal");
+    var nodes = modal.querySelectorAll("button, [href], summary, input, select, textarea, [tabindex]:not([tabindex='-1'])");
+    var list = Array.prototype.filter.call(nodes, function (n) { return !n.disabled && n.offsetParent !== null; });
+    if (!list.length) return;
+    var first = list[0], last = list[list.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+
+  document.addEventListener("click", function (e) {
+    var el = e.target.closest("[data-action]");
+    if (!el) return;
+    var action = el.getAttribute("data-action");
+
+    if (action === "nav") {
+      app.screen = el.getAttribute("data-screen");
+      if (retryTimer) { clearTimeout(retryTimer); retryTimer = null; }
+      app.state = "normal";
+      renderAll();
+    } else if (action === "lang") {
+      app.lang = el.getAttribute("data-lang");
+      renderAll();
+    } else if (action === "retry") {
+      startRetry();
+    } else if (action === "proto-state") {
+      setState(el.getAttribute("data-state"));
+    } else if (action === "proto-outcome") {
+      app.retryOutcome = el.getAttribute("data-value");
+      renderProto();
+    } else if (action === "proto-cache") {
+      app.newsCache = el.getAttribute("data-value") === "has";
+      renderProto();
+      if (app.screen === "news") renderNews();
+    } else if (action === "proto-toggle") {
+      var panel = document.getElementById("protoPanel");
+      var toggle = document.getElementById("protoToggle");
+      var showPanel = panel.hasAttribute("hidden");
+      if (showPanel) { panel.removeAttribute("hidden"); toggle.setAttribute("hidden", ""); }
+      else { panel.setAttribute("hidden", ""); toggle.removeAttribute("hidden"); }
+    } else if (action === "open-prelaunch") {
+      openPrelaunch();
+    } else if (action === "close-prelaunch") {
+      closePrelaunch();
+    } else if (action === "prelaunch-continue") {
+      app.prelaunch.continued = true;
+      renderPrelaunch();
+      showToast(t("toast.noop"));
+    } else if (action === "filter") {
+      app.contentFilter = el.getAttribute("data-cat");
+      renderContent();
+    } else if (action === "noop") {
+      showToast(t("toast.noop"));
+    }
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && app.prelaunch.open) { closePrelaunch(); return; }
+    trapFocus(e);
+  });
+
+  document.getElementById("prelaunchOverlay").addEventListener("mousedown", function (e) {
+    if (e.target === this) closePrelaunch();
+  });
+
+  renderAll();
+})();
+</script>
+</body>
+</html>
+

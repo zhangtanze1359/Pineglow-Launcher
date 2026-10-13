@@ -1,0 +1,176 @@
+﻿{
+    "generatedUtc":  "2026-10-13T08:44:40Z",
+    "exePath":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-2ec099278e72404596b71170e800de8b\\dev\\PineglowLauncher\\bin\\Release\\net10.0\\win-x64\\publish\\Pineglow.Launcher.exe",
+    "exeSizeBytes":  53060914,
+    "exeSha256":  "aa1f65471e9f9c2bbeb20c5a86d593bffaac2b4f823620fbb0ef0f2248259a1d",
+    "coldDir":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\中文 冷启动 3e724b8ffbe542dfa02f1a5f1887af0c",
+    "port":  48320,
+    "expectedUiRoot":  "ui",
+    "alive":  true,
+    "mainWindowTitle":  "松光启动器",
+    "health":  "{\"ok\":true,\"pid\":36580,\"port\":48320}",
+    "stderr":  "",
+    "checks":  [
+                   {
+                       "name":  "冷启动目录无外置 UI/ 目录",
+                       "ok":  true,
+                       "detail":  "dirs="
+                   },
+                   {
+                       "name":  "冷启动目录无外置原生 DLL",
+                       "ok":  true,
+                       "detail":  "dlls="
+                   },
+                   {
+                       "name":  "冷启动不继承开发旋钮（PINEGLOW_UI_DIR 等已清除）",
+                       "ok":  true,
+                       "detail":  "scrubbed=PINEGLOW_WEBVIEW_DEBUG=9222"
+                   },
+                   {
+                       "name":  "进程在冷启动后仍然存活（R01 原始 RED 是直接退出）",
+                       "ok":  true,
+                       "detail":  "stderr="
+                   },
+                   {
+                       "name":  "/api/health 就绪",
+                       "ok":  true,
+                       "detail":  "health={\"ok\":true,\"pid\":36580,\"port\":48320}"
+                   },
+                   {
+                       "name":  "出现真实主窗口（GUI 真的起来了）",
+                       "ok":  true,
+                       "detail":  "title=\u0027松光启动器\u0027"
+                   },
+                   {
+                       "name":  "资源 /",
+                       "ok":  true,
+                       "detail":  "bytes=7259 type=text/html; charset=utf-8"
+                   },
+                   {
+                       "name":  "资源 /css/figma.css",
+                       "ok":  true,
+                       "detail":  "bytes=50949 type=text/css; charset=utf-8"
+                   },
+                   {
+                       "name":  "资源 /css/pineglow.css",
+                       "ok":  true,
+                       "detail":  "bytes=19989 type=text/css; charset=utf-8"
+                   },
+                   {
+                       "name":  "资源 /assets/pine-forest.svg",
+                       "ok":  true,
+                       "detail":  "bytes=1879 type=image/svg+xml"
+                   },
+                   {
+                       "name":  "资源 /js/api.js",
+                       "ok":  true,
+                       "detail":  "bytes=66813 type=application/javascript; charset=utf-8"
+                   },
+                   {
+                       "name":  "资源 /js/launcher.js",
+                       "ok":  true,
+                       "detail":  "bytes=216193 type=application/javascript; charset=utf-8"
+                   },
+                   {
+                       "name":  "资源 /js/i18n.js",
+                       "ok":  true,
+                       "detail":  "bytes=63246 type=application/javascript; charset=utf-8"
+                   },
+                   {
+                       "name":  "资源 /js/skin3d.js",
+                       "ok":  true,
+                       "detail":  "bytes=10589 type=application/javascript; charset=utf-8"
+                   },
+                   {
+                       "name":  "资源 /js/skin3d-core.js",
+                       "ok":  true,
+                       "detail":  "bytes=2262 type=application/javascript; charset=utf-8"
+                   },
+                   {
+                       "name":  "资源 /vendor/three.min.js",
+                       "ok":  true,
+                       "detail":  "bytes=669884 type=application/javascript; charset=utf-8"
+                   },
+                   {
+                       "name":  "程序集内嵌 UI 已解包到 data/UI/\u003c版本-指纹\u003e",
+                       "ok":  true,
+                       "detail":  "dirs=1.0.0-7e0ecdddf3b6"
+                   },
+                   {
+                       "name":  "解包目录含 index.html",
+                       "ok":  true,
+                       "detail":  ""
+                   },
+                   {
+                       "name":  "解包界面与候选源码逐字节一致（防「新服务配旧界面」）",
+                       "ok":  true,
+                       "detail":  ""
+                   }
+               ],
+    "failures":  [
+
+                 ],
+    "servedAssets":  {
+                         "/":  {
+                                   "bytes":  7259,
+                                   "contentType":  "text/html; charset=utf-8",
+                                   "sha256":  "16defe0cd92ec3efa2fd9da5c7a4a1b4de27945c8699b005cb6d6cb761bb13cc",
+                                   "file":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\中文 冷启动 3e724b8ffbe542dfa02f1a5f1887af0c\\served\\index.html"
+                               },
+                         "/css/figma.css":  {
+                                                "bytes":  50949,
+                                                "contentType":  "text/css; charset=utf-8",
+                                                "sha256":  "7dd6b77dce06920a58b89ce57db7fca6a33c0e64404b6117a7c78cdddea62f2e",
+                                                "file":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\中文 冷启动 3e724b8ffbe542dfa02f1a5f1887af0c\\served\\css_figma.css"
+                                            },
+                         "/css/pineglow.css":  {
+                                                   "bytes":  19989,
+                                                   "contentType":  "text/css; charset=utf-8",
+                                                   "sha256":  "002d76a630bac963ad1d7f9a0b8589a4444f06fb2d2556b814d534987a19b73d",
+                                                   "file":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\中文 冷启动 3e724b8ffbe542dfa02f1a5f1887af0c\\served\\css_pineglow.css"
+                                               },
+                         "/assets/pine-forest.svg":  {
+                                                         "bytes":  1879,
+                                                         "contentType":  "image/svg+xml",
+                                                         "sha256":  "23fd38619008d5291661f941ffe1262b726ad51bc128394fd5fb02778f206c46",
+                                                         "file":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\中文 冷启动 3e724b8ffbe542dfa02f1a5f1887af0c\\served\\assets_pine-forest.svg"
+                                                     },
+                         "/js/api.js":  {
+                                            "bytes":  66813,
+                                            "contentType":  "application/javascript; charset=utf-8",
+                                            "sha256":  "6303604f1150be72b6590071bad0ae69c7d58e9366741d9581a6da56f9ef90e6",
+                                            "file":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\中文 冷启动 3e724b8ffbe542dfa02f1a5f1887af0c\\served\\js_api.js"
+                                        },
+                         "/js/launcher.js":  {
+                                                 "bytes":  216193,
+                                                 "contentType":  "application/javascript; charset=utf-8",
+                                                 "sha256":  "88b4688524fbb93de6796502590fedf94741f80bf36c71c3d8b03e2f0f77e313",
+                                                 "file":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\中文 冷启动 3e724b8ffbe542dfa02f1a5f1887af0c\\served\\js_launcher.js"
+                                             },
+                         "/js/i18n.js":  {
+                                             "bytes":  63246,
+                                             "contentType":  "application/javascript; charset=utf-8",
+                                             "sha256":  "c22558915c9769b0205e5d23d7794d4bf79e380aa524e99a11ec9c8bebc8e3d2",
+                                             "file":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\中文 冷启动 3e724b8ffbe542dfa02f1a5f1887af0c\\served\\js_i18n.js"
+                                         },
+                         "/js/skin3d.js":  {
+                                               "bytes":  10589,
+                                               "contentType":  "application/javascript; charset=utf-8",
+                                               "sha256":  "7daeb486489ffe731d44aeedd41a204a8a816cbe4c6aea2030a257e16e0d7ed1",
+                                               "file":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\中文 冷启动 3e724b8ffbe542dfa02f1a5f1887af0c\\served\\js_skin3d.js"
+                                           },
+                         "/js/skin3d-core.js":  {
+                                                    "bytes":  2262,
+                                                    "contentType":  "application/javascript; charset=utf-8",
+                                                    "sha256":  "3852f56dfc9c178bcbcfa98f453e07a1767f254875917836d64f45f5eb287fe9",
+                                                    "file":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\中文 冷启动 3e724b8ffbe542dfa02f1a5f1887af0c\\served\\js_skin3d-core.js"
+                                                },
+                         "/vendor/three.min.js":  {
+                                                      "bytes":  669884,
+                                                      "contentType":  "application/javascript; charset=utf-8",
+                                                      "sha256":  "170c6789f43217c96b3170f4b42fafe135de7f7cd48497a4218f9757ee1d49fa",
+                                                      "file":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\中文 冷启动 3e724b8ffbe542dfa02f1a5f1887af0c\\served\\vendor_three.min.js"
+                                                  }
+                     },
+    "verdict":  "PASS"
+}

@@ -1,0 +1,23 @@
+{
+  "scope": "actual production classifier with serializer-shaped bodies",
+  "checks": [
+    {
+      "id": "dotnet-escaped-chinese-network-error",
+      "expected": true,
+      "actual": false,
+      "status": "FAIL"
+    },
+    {
+      "id": "windows-localized-dns-error",
+      "expected": true,
+      "actual": false,
+      "status": "FAIL"
+    },
+    {
+      "id": "unknown-internal-error",
+      "expected": false,
+      "actual": false,
+      "status": "PASS"
+    }
+  ]
+}
