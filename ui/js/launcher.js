@@ -4006,6 +4006,56 @@ function bindSettings(el) {
 }
 
 /* ---------------- Settings 更新区 ---------------- */
+let updateMonitor = null;
+let latestUpdateInfo = null;
+
+function renderUpdateNotice(result) {
+	if (!result || result.error) return;
+	latestUpdateInfo = result.enabled && result.updateAvailable ? result : null;
+	let banner = document.getElementById('updateNotice');
+	if (!latestUpdateInfo) { if (banner) banner.remove(); return; }
+	if (!banner) {
+		const main = document.querySelector('.workspace-main');
+		if (!main) return;
+		banner = document.createElement('button');
+		banner.type = 'button';
+		banner.id = 'updateNotice';
+		banner.className = 'update-notice';
+		banner.addEventListener('click', () => showUpdateAnnouncement(latestUpdateInfo));
+		main.insertBefore(banner, document.getElementById('contentPanel'));
+	}
+	banner.textContent = t('set.updateNotice', { ver: result.latestVersion });
+}
+
+function showUpdateAnnouncement(result) {
+	const host = document.getElementById('modalHost');
+	if (!result || !host || !host.hidden || document.hidden) return false;
+	openModal(`<div class="modal-title">${esc(t('set.updateAvailable', { ver: result.latestVersion }))}</div>
+		<p class="page-sub">${esc(t('set.updateFromVersion', { ver: result.currentVersion }))}</p>
+		<div class="update-release-label">${esc(t('set.releaseNotes'))}</div>
+		<div class="update-release-notes">${esc(result.notes || t('set.noReleaseNotes'))}</div>
+		<div class="modal-actions"><button class="modal-btn ghost" id="updateLater">${esc(t('set.updateLater'))}</button>
+		<button class="modal-btn primary" id="updateOpenSettings">${esc(t('set.updateOpenSettings'))}</button></div>`);
+	document.getElementById('updateLater').onclick = closeModal;
+	document.getElementById('updateOpenSettings').onclick = async () => {
+		closeModal();
+		await goTo('settings');
+		document.getElementById('btnCheckUpdate')?.click();
+	};
+	return true;
+}
+
+function startUpdateMonitor() {
+	if (updateMonitor || SG.apiMode !== 'live' || !SG.createUpdateMonitor) return;
+	updateMonitor = SG.createUpdateMonitor({
+		check: () => SG.api.checkUpdate(),
+		onResult: renderUpdateNotice,
+		notify: showUpdateAnnouncement,
+	});
+	updateMonitor.start();
+	window.addEventListener('pagehide', () => updateMonitor.stop(), { once: true });
+}
+
 function addUpdateBindings(el) {
 	initUpdateSection(el);
 	el.querySelector('#btnCheckUpdate')?.addEventListener('click', async () => {
@@ -4017,7 +4067,8 @@ function addUpdateBindings(el) {
 		const oldText = btn.textContent;
 		btn.textContent = '…';
 		try {
-			const r = await SG.api.checkUpdate();
+			const r = await (updateMonitor ? updateMonitor.check({ notify: false }) : SG.api.checkUpdate());
+			renderUpdateNotice(r);
 			if (verEl && r.currentVersion) verEl.textContent = r.currentVersion;
 			if (!r.enabled) { if (statusEl) statusEl.textContent = t('set.updateNotConfigured'); return; }
 			if (r.error) { if (statusEl) statusEl.textContent = '❌ ' + r.error; return; }
@@ -4028,7 +4079,8 @@ function addUpdateBindings(el) {
 				statusEl.innerHTML = `
 					<div class="update-available">
 						<span class="update-title">${esc(t('set.updateAvailable', { ver: r.latestVersion }))}</span>
-						${r.notes ? `<div class="update-notes">${esc(r.notes)}</div>` : ''}
+						<div class="update-release-label">${esc(t('set.releaseNotes'))}</div>
+						<div class="update-notes">${esc(r.notes || t('set.noReleaseNotes'))}</div>
 						<button class="setting-btn" id="btnDownloadUpdate">${esc(t('set.downloadUpdate'))}</button>
 					</div>`;
 				el.querySelector('#btnDownloadUpdate')?.addEventListener('click', async () => {
@@ -4207,6 +4259,7 @@ function wireLangToggle() {
 SG.onLocaleChange = () => {
 	if (SG.applyStaticI18n) SG.applyStaticI18n(document);
 	refreshSidebarAccount();
+	if (latestUpdateInfo) renderUpdateNotice(latestUpdateInfo);
 	Object.keys(VIEWS).forEach(invalidate);
 	if (currentView) {
 		const nav = currentView;
@@ -4220,6 +4273,7 @@ async function init() {
 	wireRedesignedShell();
 	wireNav();
 	wireLangToggle();
+	startUpdateMonitor();
 	document.documentElement.setAttribute('lang', SG.locale === 'zh' ? 'zh-CN' : 'en');
 	if (SG.applyStaticI18n) SG.applyStaticI18n(document);
 	// 预取账户用于侧栏

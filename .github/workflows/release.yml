@@ -156,6 +156,8 @@ jobs:
           $size = (Get-Item $final).Length
           $hash = (Get-FileHash $final -Algorithm SHA256).Hash.ToLower()
           $version = "${{ steps.version.outputs.version }}"
+          $notes = & ./scripts/get-release-notes.ps1 -Version $version
+          [IO.File]::WriteAllText((Join-Path $PWD 'dist/release-notes.md'), $notes, [Text.UTF8Encoding]::new($false))
           $tag = "${{ github.ref_name }}"
           $ghUrl = "https://github.com/${{ github.repository }}/releases/download/$tag/Pineglow-Launcher-win-x64-single-file.exe"
           $manifest = [ordered]@{
@@ -163,7 +165,7 @@ jobs:
             url       = $ghUrl
             size      = $size
             sha256    = $hash
-            notes     = "Pineglow Launcher $version"
+            notes     = $notes
             mandatory = $false
           }
           ($manifest | ConvertTo-Json) | Set-Content -Path dist/manifest.json -Encoding utf8
@@ -322,13 +324,14 @@ jobs:
           Write-Host "Gitee 附件: $giteeUrl"
 
           # 3. 重写 manifest：主地址 Gitee，备用 GitHub
+          $releaseNotes = (Get-Content -LiteralPath dist/manifest.json -Raw | ConvertFrom-Json).notes
           $manifest = @{
             version   = $ver
             url       = $giteeUrl
             fallbackUrl = $ghUrl
             size      = (Get-Item $exePath).Length
             sha256    = (Get-FileHash $exePath -Algorithm SHA256).Hash.ToLower()
-            notes     = "Pineglow Launcher $ver"
+            notes     = $releaseNotes
             mandatory = $false
           }
           ($manifest | ConvertTo-Json) | Set-Content -Path dist/manifest.json -Encoding utf8
@@ -377,6 +380,7 @@ jobs:
           $m = Get-Content $manifestPath -Raw | ConvertFrom-Json
           $expectedVersion = "${{ steps.version.outputs.version }}"
           if ($m.version -ne $expectedVersion) { throw "manifest.version=$($m.version) 与 tag 版本 $expectedVersion 不一致" }
+          if ([string]::IsNullOrWhiteSpace($m.notes)) { throw "manifest.notes 缺少新版本介绍" }
           if ($m.url -notmatch '^https://') { throw "manifest.url 必须是 HTTPS 绝对地址：$($m.url)" }
           if ($m.url -notmatch 'Pineglow-Launcher-win-x64-single-file\.exe$') { throw "manifest.url 指向的不是本次 win-x64 附件：$($m.url)" }
           if ($m.sha256 -notmatch '^[0-9a-f]{64}$') { throw "manifest.sha256 必须是 64 位十六进制（大小写不敏感，与客户端一致）：$($m.sha256)" }
@@ -402,6 +406,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          body_path: dist/release-notes.md
           files: |
             dist/Pineglow-Launcher-win-x64-single-file.exe
             dist/manifest.json

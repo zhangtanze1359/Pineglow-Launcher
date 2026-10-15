@@ -44,6 +44,146 @@ public class UpdateManifestFallbackTests
 
 	private const string ValidAssetUrl = "https://example.com/Pineglow-Launcher-win-x64-single-file.exe";
 
+	private sealed class ManifestHandler : HttpMessageHandler
+	{
+		public readonly List<string> Requests = new();
+		public Func<HttpRequestMessage, CancellationToken, Task<HttpResponseMessage>> Respond = (_, _) =>
+			Task.FromResult(new HttpResponseMessage(HttpStatusCode.NotFound));
+		protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken ct)
+		{
+			lock (Requests) Requests.Add(request.RequestUri!.AbsolutePath);
+			return Respond(request, ct);
+		}
+	}
+
+	[Fact]
+	public async Task StalePrimary_NewerMirrorWinsWithItsReleaseNotes()
+	{
+		using ManifestHandler handler = new();
+		handler.Respond = (r, _) => Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
+		{
+			Content = new StringContent(ValidManifestJson(r.RequestUri!.AbsolutePath == "/old" ? "1.0.0" : "9.0.0")
+				.Replace("test", "新版介绍\\n修复更新提醒"))
+		});
+		using HttpClient http = new(handler);
+		var result = await UpdateService.FetchManifestChainAsync(http,
+			new[] { "https://example.com/old", "https://example.com/new" }, CancellationToken.None);
+		Assert.Equal("9.0.0", result.Manifest!.Version);
+		Assert.Equal("新版介绍\n修复更新提醒", result.Manifest.Notes);
+		Assert.Equal("https://example.com/new", result.SourceUrl);
+		Assert.True(result.UsedFallback);
+	}
+
+	[Theory]
+	[InlineData("2.0.0", "1.0.0")]
+	[InlineData("2.0.0", "2.0.0")]
+	public async Task ManifestSelection_PrimaryNewerOrEqualKeepsPriority(string primary, string mirror)
+	{
+		using ManifestHandler handler = new();
+		handler.Respond = (r, _) => Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
+		{ Content = new StringContent(ValidManifestJson(r.RequestUri!.AbsolutePath == "/primary" ? primary : mirror)) });
+		using HttpClient http = new(handler);
+		var result = await UpdateService.FetchManifestChainAsync(http,
+			new[] { "https://example.com/primary", "https://example.com/mirror" }, CancellationToken.None);
+		Assert.Equal("https://example.com/primary", result.SourceUrl);
+		Assert.False(result.UsedFallback);
+		Assert.Equal(2, result.Attempts.Count);
+	}
+
+	[Theory]
+	[InlineData(404, "")]
+	[InlineData(200, "not-json")]
+	[InlineData(200, "{}")]
+	public async Task ManifestSelection_BrokenPrimaryDoesNotDiscardMirror(int status, string body)
+	{
+		using ManifestHandler handler = new();
+		handler.Respond = (r, _) => Task.FromResult(r.RequestUri!.AbsolutePath == "/primary"
+			? new HttpResponseMessage((HttpStatusCode)status) { Content = new StringContent(body) }
+			: new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(ValidManifestJson("3.0.0")) });
+		using HttpClient http = new(handler);
+		var result = await UpdateService.FetchManifestChainAsync(http,
+			new[] { "https://example.com/primary", "https://example.com/mirror" }, CancellationToken.None);
+		Assert.Equal("3.0.0", result.Manifest!.Version);
+		Assert.False(result.Attempts[0].Ok);
+		Assert.True(result.Attempts[1].Ok);
+	}
+
+	[Fact]
+	public async Task ManifestSelection_SourcesRunConcurrentlyAndTimeoutIndependently()
+	{
+		using ManifestHandler handler = new();
+		var mirrorStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+		handler.Respond = async (r, ct) =>
+		{
+			if (r.RequestUri!.AbsolutePath == "/primary")
+			{
+				await mirrorStarted.Task.WaitAsync(ct);
+				await Task.Delay(Timeout.Infinite, ct);
+			}
+			mirrorStarted.TrySetResult();
+			return new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(ValidManifestJson("3.0.0")) };
+		};
+		using HttpClient http = new(handler);
+		var result = await UpdateService.FetchManifestChainAsync(http,
+			new[] { "https://example.com/primary", "https://example.com/mirror" }, CancellationToken.None, TimeSpan.FromMilliseconds(150));
+		Assert.True(mirrorStarted.Task.IsCompletedSuccessfully);
+		Assert.Equal("3.0.0", result.Manifest!.Version);
+		Assert.Contains("超时", result.Attempts[0].Reason);
+	}
+
+	[Fact]
+	public async Task ManifestSelection_AllFailReportsBothAndCancellationPropagates()
+	{
+		using ManifestHandler handler = new();
+		using HttpClient http = new(handler);
+		string[] chain = { "https://example.com/primary", "https://example.com/mirror" };
+		var result = await UpdateService.FetchManifestChainAsync(http, chain, CancellationToken.None);
+		Assert.False(result.Ok);
+		Assert.Equal(2, result.Attempts.Count);
+		Assert.Contains("404", result.FailureSummary);
+		using var cts = new CancellationTokenSource();
+		cts.Cancel();
+		await Assert.ThrowsAnyAsync<OperationCanceledException>(() => UpdateService.FetchManifestChainAsync(http, chain, cts.Token));
+	}
+
+	[Theory]
+	[InlineData("v2.0.0", "新增功能\n修复问题", "新增功能\n修复问题")]
+	[InlineData("v1.0.0", "其他版本说明", "manifest notes")]
+	[InlineData("v2.0.0", "", "manifest notes")]
+	public async Task ReleaseNotes_OnlyMatchingTagBodyOverridesManifest(string tag, string body, string expected)
+	{
+		using ManifestHandler handler = new();
+		handler.Respond = (r, _) =>
+		{
+			Assert.Equal("api.github.com", r.RequestUri!.Host);
+			Assert.EndsWith("/releases/tags/v2.0.0", r.RequestUri.AbsolutePath);
+			Assert.NotEmpty(r.Headers.UserAgent);
+			return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
+			{ Content = new StringContent(JsonSerializer.Serialize(new { tag_name = tag, body })) });
+		};
+		using HttpClient http = new(handler);
+		var manifest = new UpdateManifest { Version = "2.0.0", Notes = "manifest notes",
+			Url = "https://gitee.com/example.exe",
+			FallbackUrl = "https://github.com/zhangtanze1359/Pineglow-Launcher/releases/download/v2.0.0/Pineglow-Launcher-win-x64-single-file.exe" };
+		await UpdateService.EnrichReleaseNotesAsync(http, manifest, CancellationToken.None);
+		Assert.Equal(expected, manifest.Notes);
+	}
+
+	[Fact]
+	public async Task ReleaseNotes_OfflineKeepsPackagedNotesAndOtherRepositoriesAreIgnored()
+	{
+		using ManifestHandler handler = new();
+		using HttpClient http = new(handler);
+		var manifest = new UpdateManifest { Version = "2.0.0", Notes = "离线可读介绍",
+			Url = "https://github.com/zhangtanze1359/Pineglow-Launcher/releases/download/v2.0.0/Pineglow-Launcher-win-x64-single-file.exe" };
+		await UpdateService.EnrichReleaseNotesAsync(http, manifest, CancellationToken.None);
+		Assert.Equal("离线可读介绍", manifest.Notes);
+		Assert.Single(handler.Requests);
+		manifest.Url = manifest.Url.Replace("zhangtanze1359", "other");
+		await UpdateService.EnrichReleaseNotesAsync(http, manifest, CancellationToken.None);
+		Assert.Single(handler.Requests);
+	}
+
 	private static string ValidManifestJson(string version = "1.2.3")
 	{
 		return JsonSerializer.Serialize(new
@@ -167,10 +307,11 @@ public class UpdateManifestFallbackTests
 	/* ===================== ① 主源成功 ===================== */
 
 	[Fact]
-	public async Task PrimaryOk_DoesNotFallBack()
+	public async Task PrimaryNewer_RemainsSelectedAfterCheckingMirror()
 	{
 		using FakeServer server = new FakeServer();
 		server.MapJson("/primary.json", ValidManifestJson("2.0.0"));
+		server.MapJson("/mirror.json", ValidManifestJson("1.0.0"));
 		using HttpClient http = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
 
 		UpdateService.ManifestFetchResult result = await UpdateService.FetchManifestChainAsync(
@@ -179,7 +320,7 @@ public class UpdateManifestFallbackTests
 		Assert.True(result.Ok);
 		Assert.False(result.UsedFallback);
 		Assert.Equal("2.0.0", result.Manifest!.Version);
-		Assert.Single(result.Attempts);
+		Assert.Equal(2, result.Attempts.Count);
 		Assert.Equal(server.Url("/primary.json"), result.SourceUrl);
 	}
 
@@ -496,6 +637,34 @@ public class UpdateManifestApiTests
 		string dir = Path.Combine(Path.GetTempPath(), "pineglow-update-api-" + Guid.NewGuid().ToString("N"));
 		Directory.CreateDirectory(dir);
 		return dir;
+	}
+
+	[Fact]
+	public async Task CheckUpdate_StalePrimary_UsesNewerMirrorAndNotes()
+	{
+		using TinyServer server = new TinyServer();
+		server.Map("/primary.json", 200, ValidManifestJson("1.0.0"));
+		server.Map("/mirror.json", 200, ValidManifestJson("9.9.9").Replace("api-test", "新增自动提醒\\n修复更新发现"));
+		string gameDir = UpdateUrlTempDir();
+		var original = LocalApiService.UpdateUrlChainOverrideForTest;
+		try
+		{
+			LocalApiService.UpdateUrlChainOverrideForTest = _ => new[] { server.Url("/primary.json"), server.Url("/mirror.json") };
+			await using LocalApiTestHarness h = await LocalApiTestHarness.StartAsync(new AppConfig { GameDirectory = gameDir });
+			var (status, body) = await h.SendAsync(HttpMethod.Get, "/api/update/check");
+			_out.WriteLine(body);
+			Assert.Equal(200, status);
+			using JsonDocument doc = JsonDocument.Parse(body);
+			Assert.True(doc.RootElement.GetProperty("updateAvailable").GetBoolean());
+			Assert.Equal("9.9.9", doc.RootElement.GetProperty("latestVersion").GetString());
+			Assert.Equal("新增自动提醒\n修复更新发现", doc.RootElement.GetProperty("notes").GetString());
+			Assert.Equal(server.Url("/mirror.json"), doc.RootElement.GetProperty("manifestSource").GetString());
+		}
+		finally
+		{
+			LocalApiService.UpdateUrlChainOverrideForTest = original;
+			try { Directory.Delete(gameDir, true); } catch { }
+		}
 	}
 
 	[Fact]

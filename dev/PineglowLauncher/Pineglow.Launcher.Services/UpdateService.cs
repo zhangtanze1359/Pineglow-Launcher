@@ -132,8 +132,8 @@ public static class UpdateService
 	}
 
 	/// <summary>
-	/// 按地址链依次尝试取清单：主源失败（404 / 超时 / 坏 JSON / 字段不合法）时降级到备用源。
-	/// 调用方自身的取消令牌被触发时**不**继续降级（那是用户主动取消，不是源故障）。
+	/// 并行检查所有清单并选择最高版本，避免有效的旧主源遮蔽新版；同版保留地址链优先级。
+	/// 每个源独立超时，任一源失败不丢弃其他源的有效结果。
 	/// </summary>
 	public static Task<ManifestFetchResult> FetchManifestWithFallbackAsync(
 		HttpClient http,
@@ -153,6 +153,66 @@ public static class UpdateService
 		IReadOnlyList<string> chain,
 		CancellationToken ct,
 		TimeSpan? perAttemptTimeout = null)
+	{
+		ManifestFetchResult[] results = await Task.WhenAll(chain.Select(url =>
+			FetchSingleManifestAsync(http, new[] { url }, ct, perAttemptTimeout))).ConfigureAwait(false);
+		ct.ThrowIfCancellationRequested();
+		var attempts = results.SelectMany(r => r.Attempts).ToArray();
+		int selected = -1;
+		for (int i = 0; i < results.Length; i++)
+		{
+			if (results[i].Ok && (selected < 0 || IsNewerVersion(results[i].Manifest!.Version, results[selected].Manifest!.Version)))
+				selected = i;
+		}
+		if (selected < 0) return new ManifestFetchResult(null, string.Empty, attempts.Length > 1, attempts);
+		UpdateManifest manifest = results[selected].Manifest!;
+		await EnrichReleaseNotesAsync(http, manifest, ct).ConfigureAwait(false);
+		return new ManifestFetchResult(manifest, results[selected].SourceUrl, selected > 0, attempts);
+	}
+
+	/// <summary>匹配官方资产的 tag 后读取该 Release 正文；网络失败时保留清单自带说明。</summary>
+	internal static async Task EnrichReleaseNotesAsync(HttpClient http, UpdateManifest manifest, CancellationToken ct)
+	{
+		string? tag = null;
+		foreach (string asset in new[] { manifest.Url, manifest.FallbackUrl })
+		{
+			if (!Uri.TryCreate(asset, UriKind.Absolute, out Uri? uri) || uri.Scheme != "https" ||
+				!string.Equals(uri.Host, "github.com", StringComparison.OrdinalIgnoreCase)) continue;
+			string[] parts = uri.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+			if (parts.Length != 6 || !string.Equals(parts[0], "zhangtanze1359", StringComparison.OrdinalIgnoreCase) ||
+				!string.Equals(parts[1], "Pineglow-Launcher", StringComparison.OrdinalIgnoreCase) ||
+				parts[2] != "releases" || parts[3] != "download") continue;
+			string candidate = Uri.UnescapeDataString(parts[4]);
+			if (string.Equals(candidate.TrimStart('v', 'V'), manifest.Version, StringComparison.Ordinal)) tag = candidate;
+		}
+		if (tag == null) return;
+		using var timeout = CancellationTokenSource.CreateLinkedTokenSource(ct);
+		timeout.CancelAfter(TimeSpan.FromSeconds(4));
+		try
+		{
+			using var request = new HttpRequestMessage(HttpMethod.Get,
+				"https://api.github.com/repos/zhangtanze1359/Pineglow-Launcher/releases/tags/" + Uri.EscapeDataString(tag));
+			request.Headers.UserAgent.ParseAdd("PineglowLauncher/" + LauncherService.LauncherVersion);
+			using var response = await http.SendAsync(request, timeout.Token).ConfigureAwait(false);
+			response.EnsureSuccessStatusCode();
+			using var json = JsonDocument.Parse(await response.Content.ReadAsStringAsync(timeout.Token).ConfigureAwait(false));
+			var root = json.RootElement;
+			if (root.TryGetProperty("tag_name", out var actualTag) && actualTag.GetString() == tag &&
+				root.TryGetProperty("body", out var body) && body.ValueKind == JsonValueKind.String &&
+				!string.IsNullOrWhiteSpace(body.GetString())) manifest.Notes = body.GetString()!;
+		}
+		catch (OperationCanceledException) when (ct.IsCancellationRequested) { throw; }
+		catch (Exception ex)
+		{
+			LauncherLog.Info("[update] Release 介绍暂不可用，使用清单介绍: " + ex.GetType().Name);
+		}
+	}
+
+	private static async Task<ManifestFetchResult> FetchSingleManifestAsync(
+		HttpClient http,
+		IReadOnlyList<string> chain,
+		CancellationToken ct,
+		TimeSpan? perAttemptTimeout)
 	{
 		List<ManifestAttempt> attempts = new List<ManifestAttempt>();
 		TimeSpan timeout = perAttemptTimeout ?? DefaultManifestAttemptTimeout;

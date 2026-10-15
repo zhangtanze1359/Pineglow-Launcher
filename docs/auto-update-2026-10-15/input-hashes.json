@@ -1,0 +1,67 @@
+{
+  "head": "39e03f2b673ed342647821ae37d5e6291c028495",
+  "time": "2026-10-15T22:57:34.5374936+08:00",
+  "sourceRoot": "D:\\松光启动器",
+  "files": [
+    {
+      "path": "D:\\松光启动器\\.github\\workflows\\release.yml",
+      "sha256": "D27E6F528C797126C38A21919900D808F2641B4813BA69E570B08CA1315716BF",
+      "size": 22448
+    },
+    {
+      "path": "D:\\松光启动器\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\UpdateService.cs",
+      "sha256": "42CCF14D91B6C58690F4EDDBB1CF650360B7144CC2A5D7533C1A68ED2AC386B9",
+      "size": 26679
+    },
+    {
+      "path": "D:\\松光启动器\\dev\\PineglowLauncher.Tests\\UpdateManifestFallbackTests.cs",
+      "sha256": "3024C6F510CB232223480BCA0389A19CF52D486C1EBDAF51B2EA99E09C32D953",
+      "size": 28408
+    },
+    {
+      "path": "D:\\松光启动器\\ui\\index.html",
+      "sha256": "76EA9F3964E76DAB105E71541ACB2BCEFF3C642666ADDCFDA3ED22666B64527E",
+      "size": 8811
+    },
+    {
+      "path": "D:\\松光启动器\\ui\\js\\update-monitor.js",
+      "sha256": "607488A99443131492CAAD00D8CE379D537ADE2DA3A0560518AD3ABC791592A9",
+      "size": 2683
+    },
+    {
+      "path": "D:\\松光启动器\\ui\\js\\launcher.js",
+      "sha256": "14362357C8611A427BCBDA49490B2E73CA084A6C732881B62AA5676E1D003F99",
+      "size": 242844
+    },
+    {
+      "path": "D:\\松光启动器\\ui\\js\\i18n.js",
+      "sha256": "CE10898D425B7B0E673125B93FDA3D5B023F763E3B626C5287CF4D9B5E3FF5B4",
+      "size": 71700
+    },
+    {
+      "path": "D:\\松光启动器\\ui\\css\\figma.css",
+      "sha256": "2311065D52E6D23D241CB55F8AAE912E5E1756E33D9A68037E758300E4868B61",
+      "size": 51614
+    },
+    {
+      "path": "D:\\松光启动器\\ui\\tests\\update-monitor.test.cjs",
+      "sha256": "75A8349388017B64D5F4F58FA09B2510A81BADB5CB55F706171C339916FA6A82",
+      "size": 5325
+    },
+    {
+      "path": "D:\\松光启动器\\scripts\\get-release-notes.ps1",
+      "sha256": "B12FDA24472E3D2DE2467CBEF66CAF080E89B057D8440B98C6264094592AC670",
+      "size": 646
+    },
+    {
+      "path": "D:\\松光启动器\\release-notes\\v1.0.1.md",
+      "sha256": "976F05C2DE5D93A8325E8C99125CA72CC0A0DCECFCA85A5909D9D5D211EB4C64",
+      "size": 557
+    },
+    {
+      "path": "D:\\松光启动器\\dev\\PineglowLauncher\\bin\\Release\\net10.0\\Pineglow.Launcher.dll",
+      "sha256": "9B27B8087A66E70C8277D3EA60A76A7796D95B1174F1ED0AF0B0661444A343D9",
+      "size": 4856832
+    }
+  ]
+}

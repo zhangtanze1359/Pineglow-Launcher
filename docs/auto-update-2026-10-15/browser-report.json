@@ -1,0 +1,43 @@
+{
+  "layer": "Chromium + built UI + intercepted local API fixtures",
+  "checks": [
+    {
+      "name": "StartupUsesLiveCheckAndShowsEscapedVersionIntroduction",
+      "status": "PASS"
+    },
+    {
+      "name": "LaterKeepsBannerAndPeriodicChecksDoNotRepeatSameVersion",
+      "status": "PASS"
+    },
+    {
+      "name": "NewVersionDefersUntilBusinessDialogCloses",
+      "status": "PASS"
+    },
+    {
+      "name": "LongIntroductionFits960ViewportAndScrolls",
+      "status": "PASS"
+    },
+    {
+      "name": "IntroductionToSettingsToDownloadToExplicitRestartContract",
+      "status": "PASS"
+    },
+    {
+      "name": "EnglishBannerAndIntroductionLabels",
+      "status": "PASS"
+    },
+    {
+      "name": "ForegroundCheckIsThrottled",
+      "status": "PASS"
+    },
+    {
+      "name": "AutomaticFailureIsQuietAndNextCheckRecovers",
+      "status": "PASS"
+    },
+    {
+      "name": "NoUncaughtJavaScriptErrors",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "status": "PASS"
+}
