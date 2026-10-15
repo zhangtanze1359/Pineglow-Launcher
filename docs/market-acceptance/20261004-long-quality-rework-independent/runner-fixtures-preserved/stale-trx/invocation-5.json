@@ -1,0 +1,92 @@
+{
+  "args": [
+    "-NoProfile",
+    "-ExecutionPolicy",
+    "Bypass",
+    "-File",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-acceptance-ap4aublk\\scripts\\run-goal-validation.ps1",
+    "-InputManifest",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\stale-trx\\input.json",
+    "-RunDir",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\stale-trx\\run",
+    "-StagesFile",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\stale-trx\\stages.json",
+    "-ExecutionRoot",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\stale-trx"
+  ],
+  "exitCode": 1,
+  "stdout": "[unit] FAILED exit=0 TRX_MISSING,ARTIFACT_MISSING\nrunner verdict: FAIL (stages 1, failed 1, partial False)\n",
+  "stderr": "",
+  "verdict": {
+    "schemaVersion": 2,
+    "runner": "run-goal-validation.ps1",
+    "runId": "fixed-id",
+    "inputManifest": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\stale-trx\\input.json",
+    "inputManifestSha256": "0FBB8FF8E97BCCA83EDAA6DFB0E9A6A6B1061A5619E5DE7F78D888280D174C71",
+    "verifiedInputSetSha256": "8B61E22B98906A58BCCF598A8597273C39E974CA49E3A725FCEE986A121651DB",
+    "verifiedInputCount": 2,
+    "verifiedInputRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\stale-trx",
+    "stagesFile": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\stale-trx\\stages.json",
+    "stagesFileSha256": "C358551BBA3733A84546E9718A3A1DD905711CEB957BEA3C16C32E1DFA242D5C",
+    "generatedUtc": "2026-10-04T10:38:43Z",
+    "resume": false,
+    "only": "",
+    "partial": false,
+    "requiredStages": [
+      "unit"
+    ],
+    "requiredNotCompleted": [
+      "unit"
+    ],
+    "partialNotRun": {},
+    "stageCount": 1,
+    "failedCount": 1,
+    "stages": [
+      {
+        "schemaVersion": 2,
+        "id": "unit",
+        "runId": "fixed-id",
+        "attemptDir": "attempts/unit/1",
+        "fingerprint": "4A9A57172024045B9D6430FC17C4D2867ECD6A326D78715580B0DB6DD718A4FB",
+        "inputManifestSha256": "0FBB8FF8E97BCCA83EDAA6DFB0E9A6A6B1061A5619E5DE7F78D888280D174C71",
+        "inputSetSha256": "8B61E22B98906A58BCCF598A8597273C39E974CA49E3A725FCEE986A121651DB",
+        "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\stale-trx\\child.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\stale-trx\\run\\attempts\\unit\\1/unit.trx noop",
+        "workingDirectory": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\stale-trx",
+        "startUtc": "2026-10-04T10:38:43Z",
+        "endUtc": "2026-10-04T10:38:43Z",
+        "exitCode": 0,
+        "timedOut": false,
+        "stillRunning": false,
+        "counters": null,
+        "trx": "unit.trx",
+        "artifacts": [
+          {
+            "path": "unit.trx",
+            "sha256": null,
+            "sizeBytes": null,
+            "missing": true
+          }
+        ],
+        "rawEvidence": [
+          {
+            "path": "unit.stdout.log",
+            "sha256": "A5535F67A81F90334A838E0935772E949A2156297D7A62EEAF7578F46460BD5D",
+            "sizeBytes": 40
+          },
+          {
+            "path": "unit.stderr.log",
+            "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+            "sizeBytes": 0
+          }
+        ],
+        "reasons": [
+          "TRX_MISSING",
+          "ARTIFACT_MISSING"
+        ],
+        "status": "FAILED",
+        "reused": false
+      }
+    ],
+    "verdict": "FAIL"
+  }
+}

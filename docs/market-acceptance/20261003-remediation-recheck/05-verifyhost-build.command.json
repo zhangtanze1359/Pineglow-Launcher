@@ -1,0 +1,14 @@
+{
+  "label": "05-verifyhost-build",
+  "command": [
+    "dotnet",
+    "build",
+    "dev/PineglowLauncher/VerifyHost/VerifyHost.csproj",
+    "-c",
+    "Release"
+  ],
+  "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d",
+  "startUTC": "2026-10-03T06:58:10.122109+00:00",
+  "endUTC": "2026-10-03T06:58:12.677620+00:00",
+  "exitCode": 0
+}

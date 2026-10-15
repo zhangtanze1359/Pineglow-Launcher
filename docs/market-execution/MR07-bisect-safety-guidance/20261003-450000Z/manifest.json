@@ -1,0 +1,100 @@
+﻿{
+    "runId":  "20261003-450000Z",
+    "task":  "MR07 补测：二分定位的临时测试世界/实例副本安全引导（A6）",
+    "sourceRoot":  "D:\\松光启动器",
+    "closes":  "gap-register A6 (the temporary-test-world / instance-copy guidance required by the plan was never implemented)",
+    "implementation":  "A permanent safety block was added at the TOP of the bisect modal (title, sub-line, then #bisectSafety), and it is filled unconditionally - not inside any branch - so the guidance is also visible in the pending and needs-recovery states where it matters most. i18n adds bisec.safetyTitle and bisec.safety in both zh and en.",
+    "wording":  "The copy deliberately states three things the plan asked for: use a temporary test world or an instance copy; back up the original save yourself; and the launcher does NOT back up or copy saves automatically (so users do not assume they are covered).",
+    "tests":  {
+                  "one":  "the modal contains the bisectSafety container and openModBisect (its function body) fills it using both keys",
+                  "two":  "both keys appear exactly twice in i18n.js (zh + en) and are non-empty",
+                  "three":  "the zh copy contains 临时测试世界 / 实例副本 / 备份 and explicitly says it does not auto-back-up",
+                  "four":  "the en copy covers temporary test world / instance copy / back up / does NOT back up",
+                  "nature":  "These are source-level assertions because the Node environment has a minimal fake DOM with no real rendering; the same approach as the A13 static inventory."
+              },
+    "redBaselines":  {
+                         "invalid":  "changing the fill to if (false \u0026\u0026 safety) produced 0 failures - the assertions are source-level, so a runtime-only change does not falsify them. Recorded honestly.",
+                         "valid":  "deleting the bisec.safetyTitle usage from the source produced 1 failure (A6-1)",
+                         "lesson":  "A RED must break at the same level as the assertion: source-level assertions need a source-level break."
+                     },
+    "verification":  {
+                         "a6Tests":  "4 passed / 0 failed",
+                         "nodeFull":  "238 passed / 0 failed (20 files, was 19)",
+                         "csharpFull":  "823 passed / 0 failed / 0 skipped",
+                         "syntax":  "node --check passes for launcher.js and i18n.js",
+                         "restoreVerified":  "launcher.js byte-identical to green/launcher.js.fixed",
+                         "productionCodeChanged":  true
+                     },
+    "stillNotCovered":  [
+                            "real GUI rendering not verified (no desktop session)",
+                            "no actual save backup/copy action was implemented - the plan only asked for guidance, and the launcher still does not touch save paths",
+                            "the do-not-enter-the-real-world / no-world-save-disabling promises remain unimplemented (no world logic was touched)",
+                            "a real Minecraft test copy was not started"
+                        ],
+    "remainingGaps":  "A15 remainder (.bak/.prev rotation, needs a SecretStore test seam decision)",
+    "currentDriftNumbers":  "mg0: 271/1/133/0 ; mg1: 88/0/103/0 ; mg2: 271/1/132/0 ; mg3: 88/0/103/0 ; all exit 0 ; ledger audit exit 0",
+    "generatedUtc":  "2026-10-03T03:53:51Z",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "3936CA36E071338CAD59E460EF9FD028591778C3AE3CE5628C1733EE1C6C9411",
+                      "sizeBytes":  5730
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "AD50086092974C05CD02281FCB5907F73ECDF9E080FC963EEBDA589CC27D2CBC",
+                      "sizeBytes":  20102
+                  },
+                  {
+                      "path":  "green/01-a6.log",
+                      "sha256":  "DD53238963FB09ED94604CE94AEF1DCBE29F203924E705975E59CD110357C053",
+                      "sizeBytes":  520
+                  },
+                  {
+                      "path":  "green/02-node-full.log",
+                      "sha256":  "FE2AA68D03EDDAFBF804A6F9C976429DF37152C28152F0ED236F15659CAF556F",
+                      "sizeBytes":  37642
+                  },
+                  {
+                      "path":  "green/03-csharp-full.log",
+                      "sha256":  "59BAE73527FD06EE2843DF172BC61A9F96E28405B0527A9304CBF050E7093459",
+                      "sizeBytes":  978
+                  },
+                  {
+                      "path":  "green/a6-bisect-safety-guidance.test.cjs.fixed",
+                      "sha256":  "4B3146E14C0EEF68DDC82B761D9662DB1F930A9C82169AEA298DE858993EA5A7",
+                      "sizeBytes":  4122
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "8C8702F76C2EC717B4E8F6F959EEAFB89501CA208482D7011DA0050B1BB51ADF",
+                      "sizeBytes":  382
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "0163DE56C82961C7D857738DF196246876AC5A9788FBDFDF32FEECBE3938E31F",
+                      "sizeBytes":  116349
+                  },
+                  {
+                      "path":  "green/i18n.js.fixed",
+                      "sha256":  "6E0CEC1BDF39B123A6DB03F210AF6A43B7BFF1EFDBD5394B5663F9CDEBE3D69C",
+                      "sizeBytes":  58190
+                  },
+                  {
+                      "path":  "green/launcher.js.fixed",
+                      "sha256":  "8FC5DB668A8A202F83D6669739E785475231FBFEC6553DCB9F3947D07927A417",
+                      "sizeBytes":  199993
+                  },
+                  {
+                      "path":  "red/01-red-no-guidance.log",
+                      "sha256":  "A235FE6584857289D13C2BA05EFDAD245B1580608311F555FB58010D9F21A8D7",
+                      "sizeBytes":  451
+                  },
+                  {
+                      "path":  "red/02-red-key-usage-removed.log",
+                      "sha256":  "99DCF5051A2DFD60F1B6401AF1DF7EFCD46CC29C75023AD46000255A56C5E742",
+                      "sizeBytes":  1235
+                  }
+              ]
+}

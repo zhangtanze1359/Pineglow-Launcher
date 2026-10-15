@@ -1,0 +1,397 @@
+﻿{
+    "generatedUtc":  "2026-10-09T18:15:33Z",
+    "generatedLocal":  "2026-10-10 02:15:33 +08:00",
+    "powerShellVersion":  "5.1.26100.9549",
+    "platform":  "Windows",
+    "mode":  "GREEN",
+    "repoRoot":  "D:\\松光启动器",
+    "repoHead":  "c8aa286f65ad13433129fe0a9e86e2d3b0e9020b",
+    "snapshotDir":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-ca702cae5bef4dedb66966a22794d39c",
+    "evidenceDir":  "D:\\松光启动器\\docs\\release-closure-evidence-2026-10-10\\run-2026-10-10_015215-578dbafb\\green-snapshot",
+    "skipCategories":  "",
+    "trackedCopied":  139,
+    "whitelistTotal":  163,
+    "whitelistCopied":  163,
+    "whitelistSkipped":  [
+
+                         ],
+    "whitelistMissing":  [
+
+                         ],
+    "hashMismatches":  [
+
+                       ],
+    "unexpectedFiles":  [
+
+                        ],
+    "closureRootsChecked":  [
+                                "dev",
+                                "ui",
+                                "scripts",
+                                ".github"
+                            ],
+    "closureMissing":  [
+
+                       ],
+    "snapshotFileCount":  302,
+    "binObjFound":  0,
+    "steps":  [
+                  {
+                      "name":  "步骤运行器自证（R05，17 项）",
+                      "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/tests/step-runner.test.ps1",
+                      "cwd":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-ca702cae5bef4dedb66966a22794d39c",
+                      "exitCode":  0,
+                      "status":  "PASS",
+                      "timedOut":  false,
+                      "durationSec":  6.9,
+                      "startUtc":  "2026-10-09T18:15:34Z",
+                      "endUtc":  "2026-10-09T18:15:41Z",
+                      "logFile":  "D:\\松光启动器\\docs\\release-closure-evidence-2026-10-10\\run-2026-10-10_015215-578dbafb\\green-snapshot\\step0-step-runner-selftest.log",
+                      "logExists":  true,
+                      "logBytes":  724,
+                      "gateOk":  true,
+                      "gateReasons":  [
+
+                                      ],
+                      "keyOutput":  {
+
+                                    }
+                  },
+                  {
+                      "name":  "UI 本地资源闭包检查（R02）",
+                      "command":  "node scripts/check-ui-resource-closure.cjs --root ui --json ui-resource-closure.json",
+                      "cwd":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-ca702cae5bef4dedb66966a22794d39c",
+                      "exitCode":  0,
+                      "status":  "PASS",
+                      "timedOut":  false,
+                      "durationSec":  0.1,
+                      "startUtc":  "2026-10-09T18:15:41Z",
+                      "endUtc":  "2026-10-09T18:15:41Z",
+                      "logFile":  "D:\\松光启动器\\docs\\release-closure-evidence-2026-10-10\\run-2026-10-10_015215-578dbafb\\green-snapshot\\step1a-ui-resource-closure.log",
+                      "logExists":  true,
+                      "logBytes":  336,
+                      "gateOk":  true,
+                      "gateReasons":  [
+
+                                      ],
+                      "keyOutput":  {
+
+                                    }
+                  },
+                  {
+                      "name":  "R02 门槛自证（node --test 闭包用例 7 项）",
+                      "command":  "node --test --test-reporter=spec scripts/tests/ui-resource-closure.test.cjs",
+                      "cwd":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-ca702cae5bef4dedb66966a22794d39c",
+                      "exitCode":  0,
+                      "status":  "PASS",
+                      "timedOut":  false,
+                      "durationSec":  0.8,
+                      "startUtc":  "2026-10-09T18:15:41Z",
+                      "endUtc":  "2026-10-09T18:15:42Z",
+                      "logFile":  "D:\\松光启动器\\docs\\release-closure-evidence-2026-10-10\\run-2026-10-10_015215-578dbafb\\green-snapshot\\step1b-ui-closure-selftest.log",
+                      "logExists":  true,
+                      "logBytes":  600,
+                      "gateOk":  true,
+                      "gateReasons":  [
+
+                                      ],
+                      "keyOutput":  {
+
+                                    }
+                  },
+                  {
+                      "name":  "测试清单校验（R04，双向一致）",
+                      "command":  "node scripts/run-inventory-tests.cjs --check --json test-inventory-report.json",
+                      "cwd":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-ca702cae5bef4dedb66966a22794d39c",
+                      "exitCode":  0,
+                      "status":  "PASS",
+                      "timedOut":  false,
+                      "durationSec":  0.1,
+                      "startUtc":  "2026-10-09T18:15:42Z",
+                      "endUtc":  "2026-10-09T18:15:42Z",
+                      "logFile":  "D:\\松光启动器\\docs\\release-closure-evidence-2026-10-10\\run-2026-10-10_015215-578dbafb\\green-snapshot\\step1c-test-inventory.log",
+                      "logExists":  true,
+                      "logBytes":  98,
+                      "gateOk":  true,
+                      "gateReasons":  [
+
+                                      ],
+                      "keyOutput":  {
+
+                                    }
+                  },
+                  {
+                      "name":  "Node 正式测试（按 scripts/test-inventory.txt 运行）",
+                      "command":  "node scripts/run-inventory-tests.cjs",
+                      "cwd":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-ca702cae5bef4dedb66966a22794d39c",
+                      "exitCode":  0,
+                      "status":  "PASS",
+                      "timedOut":  false,
+                      "durationSec":  39.9,
+                      "startUtc":  "2026-10-09T18:15:42Z",
+                      "endUtc":  "2026-10-09T18:16:22Z",
+                      "logFile":  "D:\\松光启动器\\docs\\release-closure-evidence-2026-10-10\\run-2026-10-10_015215-578dbafb\\green-snapshot\\step1-node-tests.log",
+                      "logExists":  true,
+                      "logBytes":  29672,
+                      "gateOk":  true,
+                      "gateReasons":  [
+
+                                      ],
+                      "keyOutput":  {
+                                        "tests \\d+":  "tests 305",
+                                        "suites \\d+":  "suites 0",
+                                        "pass \\d+":  "pass 305",
+                                        "fail \\d+":  "fail 0",
+                                        "cancelled \\d+":  "cancelled 0",
+                                        "skipped \\d+":  "skipped 0",
+                                        "duration_ms [\\d.]+":  "duration_ms 39736.8014",
+                                        "清单校验通过":  "清单校验通过"
+                                    }
+                  },
+                  {
+                      "name":  "restore launcher (--locked-mode)",
+                      "command":  "dotnet restore dev/PineglowLauncher/Pineglow.Launcher.csproj --locked-mode",
+                      "cwd":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-ca702cae5bef4dedb66966a22794d39c",
+                      "exitCode":  0,
+                      "status":  "PASS",
+                      "timedOut":  false,
+                      "durationSec":  1.6,
+                      "startUtc":  "2026-10-09T18:16:22Z",
+                      "endUtc":  "2026-10-09T18:16:24Z",
+                      "logFile":  "D:\\松光启动器\\docs\\release-closure-evidence-2026-10-10\\run-2026-10-10_015215-578dbafb\\green-snapshot\\step2-restore-launcher-locked.log",
+                      "logExists":  true,
+                      "logBytes":  212,
+                      "gateOk":  true,
+                      "gateReasons":  [
+
+                                      ],
+                      "keyOutput":  {
+                                        "NU1004":  "",
+                                        "NU1604":  "",
+                                        "error [A-Z]+\\d+":  ""
+                                    }
+                  },
+                  {
+                      "name":  "restore tests (--locked-mode)",
+                      "command":  "dotnet restore dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj --locked-mode",
+                      "cwd":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-ca702cae5bef4dedb66966a22794d39c",
+                      "exitCode":  0,
+                      "status":  "PASS",
+                      "timedOut":  false,
+                      "durationSec":  1.6,
+                      "startUtc":  "2026-10-09T18:16:24Z",
+                      "endUtc":  "2026-10-09T18:16:25Z",
+                      "logFile":  "D:\\松光启动器\\docs\\release-closure-evidence-2026-10-10\\run-2026-10-10_015215-578dbafb\\green-snapshot\\step3-restore-tests-locked.log",
+                      "logExists":  true,
+                      "logBytes":  280,
+                      "gateOk":  true,
+                      "gateReasons":  [
+
+                                      ],
+                      "keyOutput":  {
+                                        "NU1004":  "",
+                                        "NU1604":  "",
+                                        "error [A-Z]+\\d+":  ""
+                                    }
+                  },
+                  {
+                      "name":  "build launcher (-c Release)",
+                      "command":  "dotnet build dev/PineglowLauncher/Pineglow.Launcher.csproj -c Release --no-restore",
+                      "cwd":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-ca702cae5bef4dedb66966a22794d39c",
+                      "exitCode":  0,
+                      "status":  "PASS",
+                      "timedOut":  false,
+                      "durationSec":  4.2,
+                      "startUtc":  "2026-10-09T18:16:25Z",
+                      "endUtc":  "2026-10-09T18:16:29Z",
+                      "logFile":  "D:\\松光启动器\\docs\\release-closure-evidence-2026-10-10\\run-2026-10-10_015215-578dbafb\\green-snapshot\\step6-build-launcher-release.log",
+                      "logExists":  true,
+                      "logBytes":  264,
+                      "gateOk":  true,
+                      "gateReasons":  [
+
+                                      ],
+                      "keyOutput":  {
+                                        "Build succeeded":  "",
+                                        "已成功生成":  "已成功生成",
+                                        "\\d+ Error\\(s\\)":  "",
+                                        "\\d+ 个错误":  "0 个错误",
+                                        "\\d+ Warning\\(s\\)":  "",
+                                        "\\d+ 个警告":  "0 个警告",
+                                        "Missing Three\\.js[^\"]*":  "",
+                                        "Missing skin3d[^\"]*":  "",
+                                        "error [A-Z]+\\d+":  ""
+                                    }
+                  },
+                  {
+                      "name":  "C# 测试全套 (-c Release)",
+                      "command":  "dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --no-restore --logger \"console;verbosity=minimal\"",
+                      "cwd":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-ca702cae5bef4dedb66966a22794d39c",
+                      "exitCode":  0,
+                      "status":  "PASS",
+                      "timedOut":  false,
+                      "durationSec":  85.7,
+                      "startUtc":  "2026-10-09T18:16:29Z",
+                      "endUtc":  "2026-10-09T18:17:55Z",
+                      "logFile":  "D:\\松光启动器\\docs\\release-closure-evidence-2026-10-10\\run-2026-10-10_015215-578dbafb\\green-snapshot\\step7-dotnet-test-release.log",
+                      "logExists":  true,
+                      "logBytes":  9635,
+                      "gateOk":  true,
+                      "gateReasons":  [
+
+                                      ],
+                      "keyOutput":  {
+                                        "Passed!.*":  "",
+                                        "已通过!.*":  "已通过! - 失败:     0，通过:   939，已跳过:     0，总计:   939，持续时间: 1 m 21 s - Pineglow.Launcher.Tests.dll (net10.0)",
+                                        "Failed!.*":  "",
+                                        "(?:Failed|失败): *\\d+":  "失败:     0",
+                                        "(?:Passed|通过): *\\d+":  "通过:   939",
+                                        "(?:Skipped|已跳过): *\\d+":  "已跳过:     0",
+                                        "(?:Total|总计): *\\d+":  "总计:   939",
+                                        "error [A-Z]+\\d+":  ""
+                                    }
+                  },
+                  {
+                      "name":  "build VerifyHost (-c Release)",
+                      "command":  "dotnet build dev/PineglowLauncher/VerifyHost/VerifyHost.csproj -c Release",
+                      "cwd":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-ca702cae5bef4dedb66966a22794d39c",
+                      "exitCode":  0,
+                      "status":  "PASS",
+                      "timedOut":  false,
+                      "durationSec":  3.4,
+                      "startUtc":  "2026-10-09T18:17:55Z",
+                      "endUtc":  "2026-10-09T18:17:59Z",
+                      "logFile":  "D:\\松光启动器\\docs\\release-closure-evidence-2026-10-10\\run-2026-10-10_015215-578dbafb\\green-snapshot\\step8-build-verifyhost.log",
+                      "logExists":  true,
+                      "logBytes":  4945,
+                      "gateOk":  true,
+                      "gateReasons":  [
+
+                                      ],
+                      "keyOutput":  {
+                                        "Build succeeded":  "",
+                                        "已成功生成":  "已成功生成",
+                                        "\\d+ Error\\(s\\)":  "",
+                                        "\\d+ 个错误":  "0 个错误",
+                                        "\\d+ Warning\\(s\\)":  "",
+                                        "\\d+ 个警告":  "5 个警告",
+                                        "error [A-Z]+\\d+":  ""
+                                    }
+                  },
+                  {
+                      "name":  "VerifyHost --bisect-smoke（含凭据后端隔离断言）",
+                      "command":  "dev\\PineglowLauncher\\VerifyHost\\bin\\Release\\net10.0\\VerifyHost.exe --bisect-smoke --port 48411",
+                      "cwd":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-ca702cae5bef4dedb66966a22794d39c",
+                      "exitCode":  0,
+                      "status":  "PASS",
+                      "timedOut":  false,
+                      "durationSec":  0.7,
+                      "startUtc":  "2026-10-09T18:17:59Z",
+                      "endUtc":  "2026-10-09T18:17:59Z",
+                      "logFile":  "D:\\松光启动器\\docs\\release-closure-evidence-2026-10-10\\run-2026-10-10_015215-578dbafb\\green-snapshot\\step8b-verifyhost-bisect-smoke.log",
+                      "logExists":  true,
+                      "logBytes":  1903,
+                      "gateOk":  true,
+                      "gateReasons":  [
+
+                                      ],
+                      "keyOutput":  {
+                                        "\\[PASS\\] \\d+":  "",
+                                        "\\[FAIL\\]":  "",
+                                        "\\[BisectSmoke\\] (PASS|FAIL)":  "[BisectSmoke] PASS",
+                                        "隔离凭据后端操作 \\d+ 次":  "隔离凭据后端操作 34 次"
+                                    }
+                  },
+                  {
+                      "name":  "publish win-x64 (锁定还原探测)",
+                      "command":  "dotnet publish dev/PineglowLauncher/Pineglow.Launcher.csproj -c Release -r win-x64 --self-contained /p:PublishSingleFile=true /p:EnableCompressionInSingleFile=true /p:DebugType=None /p:DebugSymbols=false -p:RestoreLockedMode=true",
+                      "cwd":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-ca702cae5bef4dedb66966a22794d39c",
+                      "exitCode":  1,
+                      "status":  "KNOWN-UNLOCKED",
+                      "timedOut":  false,
+                      "durationSec":  1.7,
+                      "startUtc":  "2026-10-09T18:17:59Z",
+                      "endUtc":  "2026-10-09T18:18:01Z",
+                      "logFile":  "D:\\松光启动器\\docs\\release-closure-evidence-2026-10-10\\run-2026-10-10_015215-578dbafb\\green-snapshot\\step9-publish-locked-probe.log",
+                      "logExists":  true,
+                      "logBytes":  1345,
+                      "gateOk":  true,
+                      "gateReasons":  [
+
+                                      ],
+                      "keyOutput":  {
+                                        "NU1004":  "NU1004 | NU1004",
+                                        "NU1604":  "",
+                                        "error [A-Z]+\\d+":  "error NU1004 | error NU1004"
+                                    }
+                  },
+                  {
+                      "name":  "publish win-x64 单文件 (正式发布构建验证)",
+                      "command":  "dotnet publish dev/PineglowLauncher/Pineglow.Launcher.csproj -c Release -r win-x64 --self-contained /p:PublishSingleFile=true /p:EnableCompressionInSingleFile=true /p:DebugType=None /p:DebugSymbols=false",
+                      "cwd":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-ca702cae5bef4dedb66966a22794d39c",
+                      "exitCode":  0,
+                      "status":  "PASS",
+                      "timedOut":  false,
+                      "durationSec":  13.5,
+                      "startUtc":  "2026-10-09T18:18:01Z",
+                      "endUtc":  "2026-10-09T18:18:14Z",
+                      "logFile":  "D:\\松光启动器\\docs\\release-closure-evidence-2026-10-10\\run-2026-10-10_015215-578dbafb\\green-snapshot\\step10-publish.log",
+                      "logExists":  true,
+                      "logBytes":  653,
+                      "gateOk":  true,
+                      "gateReasons":  [
+
+                                      ],
+                      "keyOutput":  {
+                                        "NU1004":  "",
+                                        "error [A-Z]+\\d+":  ""
+                                    }
+                  },
+                  {
+                      "name":  "独立冷启动（单文件 EXE，中文+空格新目录）",
+                      "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify-single-file-standalone.ps1 -ExePath dev/PineglowLauncher/bin/Release/net10.0/win-x64/publish/Pineglow.Launcher.exe -ExpectedUiRoot ui -JsonPath standalone-cold-start.json",
+                      "cwd":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-ca702cae5bef4dedb66966a22794d39c",
+                      "exitCode":  0,
+                      "status":  "PASS",
+                      "timedOut":  false,
+                      "durationSec":  5.5,
+                      "startUtc":  "2026-10-09T18:18:15Z",
+                      "endUtc":  "2026-10-09T18:18:20Z",
+                      "logFile":  "D:\\松光启动器\\docs\\release-closure-evidence-2026-10-10\\run-2026-10-10_015215-578dbafb\\green-snapshot\\step11-standalone-cold-start.log",
+                      "logExists":  true,
+                      "logBytes":  1962,
+                      "gateOk":  true,
+                      "gateReasons":  [
+
+                                      ],
+                      "keyOutput":  {
+
+                                    }
+                  }
+              ],
+    "buildOutputApphost":  {
+                               "path":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-ca702cae5bef4dedb66966a22794d39c\\dev\\PineglowLauncher\\bin\\Release\\net10.0\\win-x64\\Pineglow.Launcher.exe",
+                               "sizeBytes":  335872,
+                               "sha256":  "102b398a8067a637ebddea9a35b37f82fc322cddf389bdd21b8a5e0b28b4d52f"
+                           },
+    "publishedExe":  {
+                         "path":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-ca702cae5bef4dedb66966a22794d39c\\dev\\PineglowLauncher\\bin\\Release\\net10.0\\win-x64\\publish\\Pineglow.Launcher.exe",
+                         "kind":  "PublishSingleFile (self-contained, win-x64)",
+                         "sizeBytes":  53052722,
+                         "sha256":  "ca8f94c1a6173f23f38f3d2a3c949affc16d5ab67752b662c7806831f350d93e",
+                         "publishDir":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-ca702cae5bef4dedb66966a22794d39c\\dev\\PineglowLauncher\\bin\\Release\\net10.0\\win-x64\\publish"
+                     },
+    "knownUnlockedBoundaries":  [
+                                    {
+                                        "step":  "publish win-x64 (锁定还原探测)",
+                                        "command":  "dotnet publish dev/PineglowLauncher/Pineglow.Launcher.csproj -c Release -r win-x64 --self-contained /p:PublishSingleFile=true /p:EnableCompressionInSingleFile=true /p:DebugType=None /p:DebugSymbols=false -p:RestoreLockedMode=true",
+                                        "exitCode":  1,
+                                        "reason":  "packages.lock.json 未覆盖 win-x64 RID 且缺 ILLink 任务包；已实测 NU1004。RID 发布为已知未锁定边界。"
+                                    }
+                                ],
+    "notes":  [
+                  "[已知边界·未通过] publish win-x64 (锁定还原探测) : packages.lock.json 未覆盖 win-x64 RID 且缺 ILLink 任务包；已实测 NU1004。RID 发布为已知未锁定边界。"
+              ],
+    "finalVerdict":  "PASS",
+    "snapshotCleaned":  false
+}

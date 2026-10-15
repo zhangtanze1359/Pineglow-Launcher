@@ -1,0 +1,23 @@
+[
+  {
+    "sha256": "7F4FEADBA9AA06AAE26F27E539E1D4969A87A3E096FAF103FA0C5BAE419E180D",
+    "bytes": 7277,
+    "file": "D:\\松光启动器\\docs\\harness-independent-acceptance-review-2026-10-07.md",
+    "fences": 0,
+    "utf8Valid": true
+  },
+  {
+    "sha256": "0517CB2F5BC61072D2F6BA811E22EE867351AF3FACC5BDB7D217D1A744A51BEB",
+    "bytes": 5310,
+    "file": "D:\\松光启动器\\docs\\harness-independent-acceptance-remediation-workflow-2026-10-07.md",
+    "fences": 0,
+    "utf8Valid": true
+  },
+  {
+    "sha256": "5884EA732FCEC9CF4B7D5E1B5EAE524A9BEA207FEA6627EB3FD3618078F0C6E0",
+    "bytes": 3219,
+    "file": "D:\\松光启动器\\docs\\minimax-harness-independent-acceptance-rework-prompt-2026-10-07.md",
+    "fences": 2,
+    "utf8Valid": true
+  }
+]

@@ -1,0 +1,61 @@
+﻿{
+    "probe":  "served-assets-are-same-version-as-exe",
+    "fixtureRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-uiprobe-assets-ab440b0c1077494ba996f17f4a4f22ba",
+    "artifactSha256":  "CA8F94C1A6173F23F38F3D2A3C949AFFC16D5AB67752B662C7806831F350D93E",
+    "staleExternalUi":  true,
+    "apiPort":  57134,
+    "healthReady":  true,
+    "assets":  [
+                   {
+                       "asset":  "index.html",
+                       "httpStatus":  200,
+                       "servedSha256":  "00A37D6A0C13801F2A628727F57C770AA8FEF69590AA7FA99EEB62347915D5FB",
+                       "sourceSha256":  "39933134AD98FAFD51B2D22106B5E692371106610BEB62302A68B6938C72D02F",
+                       "matches":  true,
+                       "note":  "index.html normalised for the by-design session token before comparison"
+                   },
+                   {
+                       "asset":  "js/api.js",
+                       "httpStatus":  200,
+                       "servedSha256":  "73A822E6994E1247FC4EEB81CD174249352A534E5F16B9162873A86776979B4D",
+                       "sourceSha256":  "73A822E6994E1247FC4EEB81CD174249352A534E5F16B9162873A86776979B4D",
+                       "matches":  true,
+                       "note":  ""
+                   },
+                   {
+                       "asset":  "js/i18n.js",
+                       "httpStatus":  200,
+                       "servedSha256":  "C70FA2560DF7459BE82933653FEE188EFD5E3122E7DC142D1082154FDEB88B90",
+                       "sourceSha256":  "C70FA2560DF7459BE82933653FEE188EFD5E3122E7DC142D1082154FDEB88B90",
+                       "matches":  true,
+                       "note":  ""
+                   },
+                   {
+                       "asset":  "js/launcher.js",
+                       "httpStatus":  200,
+                       "servedSha256":  "087F569B5E6A6924DA675D6C24FB403AFD9C4AF67EBAD69D61B920F2B2E9B152",
+                       "sourceSha256":  "087F569B5E6A6924DA675D6C24FB403AFD9C4AF67EBAD69D61B920F2B2E9B152",
+                       "matches":  true,
+                       "note":  ""
+                   },
+                   {
+                       "asset":  "css/pineglow.css",
+                       "httpStatus":  200,
+                       "servedSha256":  "C22AA1C8A37DE4B49E1A362B49E035DA3486F2797BBF12365EEE03744515C4EC",
+                       "sourceSha256":  "C22AA1C8A37DE4B49E1A362B49E035DA3486F2797BBF12365EEE03744515C4EC",
+                       "matches":  true,
+                       "note":  ""
+                   },
+                   {
+                       "asset":  "css/figma.css",
+                       "httpStatus":  200,
+                       "servedSha256":  "7DD6B77DCE06920A58B89CE57DB7FCA6A33C0E64404B6117A7C78CDDDEA62F2E",
+                       "sourceSha256":  "7DD6B77DCE06920A58B89CE57DB7FCA6A33C0E64404B6117A7C78CDDDEA62F2E",
+                       "matches":  true,
+                       "note":  ""
+                   }
+               ],
+    "allAssetsMatchSource":  true,
+    "ownedProcessStopped":  true,
+    "timeHK":  "2026-10-10T02:26:41.0515728"
+}

@@ -1,0 +1,161 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text.Json;
+using System.Threading.Tasks;
+using Pineglow.Launcher.Services;
+using Xunit;
+using Xunit.Abstractions;
+
+namespace Pineglow.Launcher.Tests;
+
+/// <summary>
+/// MR20 补测（缺口登记表 A15）：**旧配置/凭据不被重置**。
+///
+/// 这一半可以安全地测：<see cref="ConfigStore.LoadAsync"/> 对凭据只**读**不写
+/// （所有 <c>SecretStore.Save</c> 都在 <c>SaveCore</c> 里），
+/// 加上本轮新增的 <see cref="ConfigStore.ConfigPathOverrideForTest"/>，就能对**真实的 LoadAsync 归一化**
+/// 做验证，而完全不碰真实 <c>%APPDATA%</c>。
+///
+/// **刻意不做的事**：
+///   * **不调用 `SaveAsync`** —— 它会写 <c>SecretStore</c>（真实凭据存储）；
+///   * **不断言凭据字段**（`CurseForgeApiKey` / 账号 token）—— 那些值来自真实凭据存储，
+///     断言它们会让用例依赖**本机凭据**；
+///   * 因此"**主备切换留证**"（config.json 的 `.bak`/`.prev` 轮转）**本包未测**：它必须经 `SaveAsync`，
+///     而那会写真实凭据。见本包 deliverable §四。
+/// </summary>
+public class ConfigPreservationTests : IDisposable
+{
+	private readonly ITestOutputHelper _out;
+	private readonly string _root;
+
+	public ConfigPreservationTests(ITestOutputHelper output)
+	{
+		_out = output;
+		_root = Path.Combine(Path.GetTempPath(), "pineglow-a15-" + Guid.NewGuid().ToString("N"));
+		Directory.CreateDirectory(_root);
+	}
+
+	public void Dispose()
+	{
+		ConfigStore.ConfigPathOverrideForTest = null;
+		try { if (Directory.Exists(_root)) Directory.Delete(_root, true); } catch { }
+	}
+
+	private string ConfigPath => Path.Combine(_root, "config.json");
+
+	private void WriteConfig(string json)
+	{
+		File.WriteAllText(ConfigPath, json);
+		ConfigStore.ConfigPathOverrideForTest = ConfigPath;
+	}
+
+	/* ===================== ① 既有非凭据字段必须原样保留 ===================== */
+
+	[Fact]
+	public async Task LoadAsync_PreservesEveryNonSecretField_FromAnExistingConfig()
+	{
+		WriteConfig("""
+		{
+		  "gameDirectory": "D:\\synthetic\\game",
+		  "updateUrl": "https://example.invalid/custom-update.json",
+		  "downloadSource": "bmclapi",
+		  "playerName": "PreservedPlayer",
+		  "javaPath": "D:\\synthetic\\java\\bin\\javaw.exe",
+		  "maxMemoryMb": 6144,
+		  "windowWidth": 1600,
+		  "windowHeight": 900,
+		  "selectedInstanceId": "inst-keep-2",
+		  "instances": [
+		    { "id": "inst-keep-1", "name": "one", "gameDirectory": "D:\\synthetic\\game", "minecraftVersion": "1.20.4" },
+		    { "id": "inst-keep-2", "name": "two", "gameDirectory": "D:\\synthetic\\game", "minecraftVersion": "1.21" }
+		  ]
+		}
+		""");
+
+		Pineglow.Launcher.Models.AppConfig config = await ConfigStore.LoadAsync();
+
+		_out.WriteLine($"[A15] updateUrl={config.UpdateUrl}  downloadSource={config.DownloadSource}  player={config.PlayerName}");
+		Assert.Equal(@"D:\synthetic\game", config.GameDirectory);
+		Assert.Equal("https://example.invalid/custom-update.json", config.UpdateUrl);
+		Assert.Equal("bmclapi", config.DownloadSource);
+		Assert.Equal("PreservedPlayer", config.PlayerName);
+		Assert.Equal(@"D:\synthetic\java\bin\javaw.exe", config.JavaPath);
+		Assert.Equal(6144, config.MaxMemoryMb);
+		Assert.Equal(1600, config.WindowWidth);
+		Assert.Equal(900, config.WindowHeight);
+		Assert.Equal("inst-keep-2", config.SelectedInstanceId);
+		Assert.Equal(2, config.Instances.Count);
+		Assert.Contains(config.Instances, x => x.Id == "inst-keep-1");
+		Assert.Contains(config.Instances, x => x.Id == "inst-keep-2");
+	}
+
+	/* ===================== ② 只有"空 updateUrl"才会被补默认值 ===================== */
+
+	[Fact]
+	public async Task LoadAsync_FillsUpdateUrl_OnlyWhenItIsBlank()
+	{
+		WriteConfig("""
+		{
+		  "gameDirectory": "D:\\synthetic\\game",
+		  "updateUrl": "",
+		  "instances": [ { "id": "a", "name": "a", "gameDirectory": "D:\\synthetic\\game", "minecraftVersion": "1.20.4" } ]
+		}
+		""");
+
+		Pineglow.Launcher.Models.AppConfig config = await ConfigStore.LoadAsync();
+
+		Assert.Equal(ConfigStore.DefaultUpdateUrl, config.UpdateUrl);
+		_out.WriteLine("[A15] 空 updateUrl 被补为默认值（这是**唯一**被允许的覆盖之一）");
+	}
+
+	/* ===================== ③ 已有实例时不得再注入默认实例 ===================== */
+
+	[Fact]
+	public async Task LoadAsync_DoesNotInjectADefaultInstance_WhenInstancesExist()
+	{
+		WriteConfig("""
+		{
+		  "gameDirectory": "D:\\synthetic\\game",
+		  "selectedInstanceId": "only-one",
+		  "instances": [ { "id": "only-one", "name": "only", "gameDirectory": "D:\\synthetic\\game", "minecraftVersion": "1.20.4" } ]
+		}
+		""");
+
+		Pineglow.Launcher.Models.AppConfig config = await ConfigStore.LoadAsync();
+
+		Assert.Single(config.Instances);
+		Assert.Equal("only-one", config.Instances[0].Id);
+		Assert.Equal("only-one", config.SelectedInstanceId);
+	}
+
+	/* ===================== ④ 无迁移时**不得回写**（这同时证明没碰真实凭据） ===================== */
+
+	[Fact]
+	public async Task LoadAsync_WithoutMigration_DoesNotRewriteTheFile()
+	{
+		WriteConfig("""
+		{
+		  "gameDirectory": "D:\\synthetic\\game",
+		  "updateUrl": "https://example.invalid/keep.json",
+		  "instances": [ { "id": "a", "name": "a", "gameDirectory": "D:\\synthetic\\game", "minecraftVersion": "1.20.4" } ]
+		}
+		""");
+
+		byte[] before = File.ReadAllBytes(ConfigPath);
+		string shaBefore = Convert.ToHexString(SHA256.HashData(before));
+		DateTime beforeWrite = File.GetLastWriteTimeUtc(ConfigPath);
+
+		await ConfigStore.LoadAsync();
+
+		byte[] after = File.ReadAllBytes(ConfigPath);
+		string shaAfter = Convert.ToHexString(SHA256.HashData(after));
+		_out.WriteLine($"[A15] 读取前后 SHA：{shaBefore[..12]}… → {shaAfter[..12]}…");
+
+		// 没有迁移（无旧版凭据字段）→ 不应触发回写；这也说明**没有走到 SecretStore.Save**
+		Assert.Equal(shaBefore, shaAfter);
+		Assert.Equal(beforeWrite, File.GetLastWriteTimeUtc(ConfigPath));
+		Assert.False(File.Exists(ConfigPath + ".tmp"), "不应留下 .tmp 临时文件");
+	}
+}

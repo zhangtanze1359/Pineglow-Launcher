@@ -1,0 +1,98 @@
+{
+  "args": [
+    "-NoProfile",
+    "-ExecutionPolicy",
+    "Bypass",
+    "-File",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-acceptance-ap4aublk\\scripts\\run-goal-validation.ps1",
+    "-InputManifest",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\produces-changed\\input.json",
+    "-RunDir",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\produces-changed\\run",
+    "-StagesFile",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\produces-changed\\stages.json",
+    "-ExecutionRoot",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\produces-changed",
+    "-Resume"
+  ],
+  "exitCode": 2,
+  "stdout": "incompatible resume: stagesFileSha256: 0659F44D9A956CE521D39193ACAB25E719E9130689D01F1941EA0FFCA080DFEC -> 759CAA8947E6D77391EE073FBADF99869F31C228040F200F9F82BC2F82B886E8\nthis run directory keeps its existing records; use a new -RunId and a new -RunDir\nrunner REFUSED: INCOMPATIBLE_RESUME_SAME_RUN_DIR -> C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\produces-changed\\run\\refusal-20261004-103845Z.json\n",
+  "stderr": "",
+  "verdict": {
+    "schemaVersion": 2,
+    "runner": "run-goal-validation.ps1",
+    "runId": "fixed-id",
+    "inputManifest": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\produces-changed\\input.json",
+    "inputManifestSha256": "064F9262DDED835333CC02BA0F85C644CC6B1CE5991001A6D8F5C8CAD6BED24C",
+    "verifiedInputSetSha256": "8B61E22B98906A58BCCF598A8597273C39E974CA49E3A725FCEE986A121651DB",
+    "verifiedInputCount": 2,
+    "verifiedInputRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\produces-changed",
+    "stagesFile": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\produces-changed\\stages.json",
+    "stagesFileSha256": "0659F44D9A956CE521D39193ACAB25E719E9130689D01F1941EA0FFCA080DFEC",
+    "generatedUtc": "2026-10-04T10:38:45Z",
+    "resume": false,
+    "only": "",
+    "partial": false,
+    "requiredStages": [
+      "unit"
+    ],
+    "requiredNotCompleted": [],
+    "partialNotRun": {},
+    "stageCount": 1,
+    "failedCount": 0,
+    "stages": [
+      {
+        "schemaVersion": 2,
+        "id": "unit",
+        "runId": "fixed-id",
+        "attemptDir": "attempts/unit/1",
+        "fingerprint": "32A4CF89A43B65AA3BC1FE3C86E8DAD62F52939462DD90929B613019C0682CF3",
+        "inputManifestSha256": "064F9262DDED835333CC02BA0F85C644CC6B1CE5991001A6D8F5C8CAD6BED24C",
+        "inputSetSha256": "8B61E22B98906A58BCCF598A8597273C39E974CA49E3A725FCEE986A121651DB",
+        "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\produces-changed\\child.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\produces-changed\\run\\attempts\\unit\\1/unit.trx write",
+        "workingDirectory": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\produces-changed",
+        "startUtc": "2026-10-04T10:38:45Z",
+        "endUtc": "2026-10-04T10:38:45Z",
+        "exitCode": 0,
+        "timedOut": false,
+        "stillRunning": false,
+        "counters": {
+          "total": 3,
+          "executed": 3,
+          "passed": 3,
+          "failed": 0,
+          "notExecuted": 0,
+          "resultRows": 3,
+          "passedRows": 3,
+          "failedRows": 0,
+          "notExecutedRows": 0,
+          "otherRows": 0
+        },
+        "trx": "unit.trx",
+        "artifacts": [
+          {
+            "path": "unit.trx",
+            "sha256": "0B1A0EA65E62258B46DACE75043AEE88A27ED36416C855216C963BB230F4ED0D",
+            "sizeBytes": 243
+          }
+        ],
+        "rawEvidence": [
+          {
+            "path": "unit.stdout.log",
+            "sha256": "A5535F67A81F90334A838E0935772E949A2156297D7A62EEAF7578F46460BD5D",
+            "sizeBytes": 40
+          },
+          {
+            "path": "unit.stderr.log",
+            "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+            "sizeBytes": 0
+          }
+        ],
+        "reasons": [],
+        "status": "COMPLETED",
+        "reused": false
+      }
+    ],
+    "verdict": "PASS"
+  }
+}

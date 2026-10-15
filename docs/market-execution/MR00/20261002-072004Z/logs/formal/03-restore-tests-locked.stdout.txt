@@ -1,0 +1,3 @@
+  正在确定要还原的项目…
+  已还原 C:\Users\Administrator\AppData\Local\Temp\pineglow-snapshot-810a28bd0d3d456c9e28201fb6fdf158\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj (用时 213 毫秒)。
+  1 个项目(共 2 个)是最新的，无法还原。

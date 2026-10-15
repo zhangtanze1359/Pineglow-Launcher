@@ -1,0 +1,92 @@
+﻿{
+    "runId":  "20261002-190000Z",
+    "task":  "MR03 实例\"从列表移除\"的准确语义",
+    "generatedUtc":  "2026-10-02T19:25:25Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "result":  {
+                   "csharp":  "7 passed / 0 failed (before implementation: 6 failed / 1 passed)",
+                   "node":  "7 passed / 0 failed",
+                   "csharpFull":  "635 passed / 0 failed",
+                   "nodeFull":  "191 passed / 0 failed (12 files)",
+                   "gitStatus":  "1290 -\u003e 1292 (+2 new test files)"
+               },
+    "contract":  {
+                     "deleteKeepsFiles":  true,
+                     "bisectActiveRejected":  true,
+                     "registerRouteAdded":  "/api/instances/register",
+                     "zeroFileWritesProvenBy":  "per-file SHA256 snapshot before/after"
+                 },
+    "knownGaps":  [
+                      "服务端不存在\"实例运行中\"状态，运行态守卫未实现（计划允许\"明确要求先结束\"，属 MR06/MR07 回填项）",
+                      "真实 GUI / WebView2 confirm() 呈现未验证",
+                      "InstanceService.EnsureDefaultInstance 在实例数为 0 时补建默认实例的行为未在真实 GUI 验证",
+                      "本轮 ui/js/{i18n,api,launcher}.js 未保存改前副本，回退需按 deliverable §七 手工反向删除"
+                  ],
+    "finalArtifact":  {
+                          "LocalApiService_cs_sha256":  "C080A6F633970D4BA45642AC8257865EB66DB64806B846C7EAD0F7D4A5220ABA",
+                          "bomPreserved":  true
+                      },
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "14C42E28F2942992E9F021DAA0969BB6620DB7EE9F1319FC67E991F3F75D511B",
+                      "sizeBytes":  12371
+                  },
+                  {
+                      "path":  "green/02-instance-removal-after.log",
+                      "sha256":  "FB63F8A1134B5A9F75729559D912DEF5982C3EA676954480A9DE09F1609180B4",
+                      "sizeBytes":  14488
+                  },
+                  {
+                      "path":  "green/03-debug-fail1.log",
+                      "sha256":  "A102B6FA760A8F59C74B4E1F7040F58F0B0E2A026CD4D290336282A5A0EF935A",
+                      "sizeBytes":  4122
+                  },
+                  {
+                      "path":  "green/04-node-instance-removal.log",
+                      "sha256":  "6F16AF201E56D67EF86402C8F2AEB716B62B4AA2F26A528C0BFC849887DEB1AF",
+                      "sizeBytes":  1192
+                  },
+                  {
+                      "path":  "green/05-csharp-full.log",
+                      "sha256":  "D6F7D61D572CE1EF05C78F81C51D8B418E5395B6EAC572A4214E3333B11C6E51",
+                      "sizeBytes":  4457
+                  },
+                  {
+                      "path":  "green/06-node-full.log",
+                      "sha256":  "DAC362F3B70E59C4E94CCFE8264C3BC0792D20DCCA6E41A3DE0DC7669A593673",
+                      "sizeBytes":  20256
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "FA905D8461B63DB25D9033DF8425594716FDEB2D082E4C00F163F8D75CCB74E0",
+                      "sizeBytes":  794
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "C9B8871459DFB83DF5493AF48CAC8D772F4CCDAADDF739E43A88607316A0F34E",
+                      "sizeBytes":  112872
+                  },
+                  {
+                      "path":  "green/LocalApiService.cs.final.sha256.txt",
+                      "sha256":  "6664303BF8BDB63590CBAE0C6AA2994235EF5A6E4A0D51FD90E525878C7BE5A2",
+                      "sizeBytes":  69
+                  },
+                  {
+                      "path":  "green/LocalApiService.cs.mr03",
+                      "sha256":  "81E8C2532E6E09954CD92F5BF64BFCE6843D9416254C3AE9F48EA841FD9C10DA",
+                      "sizeBytes":  140839
+                  },
+                  {
+                      "path":  "green/LocalApiService.cs.mr03.sha256.txt",
+                      "sha256":  "306FF9F93BB6E1601B79041F62E7E239A336FC0B913B94BA724CF7CF84DCC2EC",
+                      "sizeBytes":  69
+                  },
+                  {
+                      "path":  "red/01-instance-removal-before.log",
+                      "sha256":  "EA9CB0F31FBAAF7AE0AF011F99AB1BC22D9B6CE0D9DE3B79E1DF9C96B58D8098",
+                      "sizeBytes":  29982
+                  }
+              ]
+}

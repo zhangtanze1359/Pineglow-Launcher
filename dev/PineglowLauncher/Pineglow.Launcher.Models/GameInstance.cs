@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Pineglow.Launcher.Models;
 
@@ -42,6 +43,19 @@ public sealed class GameInstance
 	/// <summary>游玩次数</summary>
 	public int PlayCount { get; set; }
 
+	/// <summary>真实完成的游玩记录。旧累计时长不回填为虚构会话。</summary>
+	public List<GamePlaySession> PlaySessions { get; set; } = new List<GamePlaySession>();
+
+	public void RecordPlaySession(DateTimeOffset startedAt, DateTimeOffset endedAt)
+	{
+		if (endedAt <= startedAt) return;
+		long seconds = (long)(endedAt - startedAt).TotalSeconds;
+		if (seconds <= 0) return;
+		PlaySessions ??= new List<GamePlaySession>();
+		PlaySessions.Add(new GamePlaySession { StartedAt = startedAt, EndedAt = endedAt });
+		TotalPlaySeconds += seconds;
+	}
+
 	public string Notes { get; set; } = string.Empty;
 
 	public string CustomJvmArgs { get; set; } = string.Empty;
@@ -49,4 +63,10 @@ public sealed class GameInstance
 	public string CustomGameArgs { get; set; } = string.Empty;
 
 	public ModpackInstallation? Modpack { get; set; }
+}
+
+public sealed class GamePlaySession
+{
+	public DateTimeOffset StartedAt { get; set; }
+	public DateTimeOffset EndedAt { get; set; }
 }

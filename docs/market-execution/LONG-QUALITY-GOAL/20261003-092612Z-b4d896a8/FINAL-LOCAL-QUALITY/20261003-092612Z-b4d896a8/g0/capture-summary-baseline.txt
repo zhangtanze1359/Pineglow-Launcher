@@ -1,0 +1,8 @@
+stage=baseline
+generatedLocal=2026-10-03T17:28:28+08:00
+head=f145d14eb26b0b7459a28491e764ac8c573085d3 branch=main
+inputs=286 tracked=161 whitelist=125 goalTooling=0 missing=0
+totalBytes=5907176
+gitStatusLines=1366 -> C:\Users\Administrator\.codex\worktrees\34ca\松光启动器\docs\market-execution\LONG-QUALITY-GOAL\20261003-092612Z-b4d896a8\g0\source-status-baseline.txt
+manifest=C:\Users\Administrator\.codex\worktrees\34ca\松光启动器\docs\market-execution\LONG-QUALITY-GOAL\20261003-092612Z-b4d896a8\g0\input-manifest.json
+materializedExecutionRoot=C:\Users\Administrator\AppData\Local\Temp\pineglow-goal-e47a42e7b21846b89be8d4e0e0766704 copied=286

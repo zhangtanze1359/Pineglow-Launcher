@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="a64c614c-37cd-4e21-bde4-b225299c6758" name="Administrator@PC-20260705RBJQ 2026-10-03 14:08:44" runUser="PC-20260705RBJQ\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-03T14:08:44.0709244+08:00" queuing="2026-10-03T14:08:44.0709248+08:00" start="2026-10-03T14:08:43.2626577+08:00" finish="2026-10-03T14:08:44.7010724+08:00" />
+  <TestSettings name="default" id="b5901318-94a6-41dc-9d26-f77efcd1d905">
+    <Deployment runDeploymentRoot="Administrator_PC-20260705RBJQ_2026-10-03_14_08_44" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="75680534-e8ba-4263-b097-dcff1462e6be" testId="57e1456a-2e7f-a77d-94f2-da08450089e4" testName="Pineglow.Launcher.Tests.IndependentRouteProbes.EncodedUnicodeFilenameTogglePreservesBytes" computerName="PC-20260705RBJQ" duration="00:00:00.0175558" startTime="2026-10-03T14:08:43.9726370+08:00" endTime="2026-10-03T14:08:43.9903807+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="75680534-e8ba-4263-b097-dcff1462e6be" />
+    <UnitTestResult executionId="f4089fce-8030-4e2a-9c3e-0cc7ce07f3e3" testId="5d95e499-9d90-261b-1377-4a5030c2cf8f" testName="Pineglow.Launcher.Tests.IndependentRouteProbes.InvalidShapeOrMethodCannotMutate(suffix: &quot;/saves/worldA/delete/extra&quot;, method: &quot;POST&quot;)" computerName="PC-20260705RBJQ" duration="00:00:00.0070350" startTime="2026-10-03T14:08:44.0463426+08:00" endTime="2026-10-03T14:08:44.0463737+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f4089fce-8030-4e2a-9c3e-0cc7ce07f3e3">
+      <Output>
+        <StdOut>POST /saves/worldA/delete/extra: 404 {"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/acceptance-a954647de2d8433c848a156258373b88/saves/worldA/delete/extra"}</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="45be4504-d7e0-488a-8144-3da78870e006" testId="f161ba2e-0c12-02de-50e0-52b034975101" testName="Pineglow.Launcher.Tests.IndependentRouteProbes.InvalidShapeOrMethodCannotMutate(suffix: &quot;/launch/extra&quot;, method: &quot;POST&quot;)" computerName="PC-20260705RBJQ" duration="00:00:00.0071186" startTime="2026-10-03T14:08:44.0064993+08:00" endTime="2026-10-03T14:08:44.0138134+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="45be4504-d7e0-488a-8144-3da78870e006">
+      <Output>
+        <StdOut>POST /launch/extra: 404 {"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/acceptance-615516d85c534ee6bf4774521eff1d09/launch/extra"}</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="304ab588-bba2-47ce-9efb-ef76cc4faf27" testId="5bbedaed-e22e-83ca-1f7f-88cf0f722e12" testName="Pineglow.Launcher.Tests.IndependentRouteProbes.MissingOrInvalidTokenCannotDelete(token: &quot;incorrect-token&quot;)" computerName="PC-20260705RBJQ" duration="00:00:00.0116635" startTime="2026-10-03T14:08:43.9079981+08:00" endTime="2026-10-03T14:08:43.9130767+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="304ab588-bba2-47ce-9efb-ef76cc4faf27" />
+    <UnitTestResult executionId="25888f29-8a51-49d2-91ad-93e2687b6268" testId="b4966e14-cdbb-db11-a1fe-af69017c7f63" testName="Pineglow.Launcher.Tests.IndependentRouteProbes.MissingOrInvalidTokenCannotDelete(token: null)" computerName="PC-20260705RBJQ" duration="00:00:00.0936764" startTime="2026-10-03T14:08:43.7993594+08:00" endTime="2026-10-03T14:08:43.9006208+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="25888f29-8a51-49d2-91ad-93e2687b6268" />
+    <UnitTestResult executionId="1ec8395c-da28-4c8d-95de-bab5acb37c4a" testId="8979767e-a832-7a0e-d4b6-28cb4965ebdd" testName="Pineglow.Launcher.Tests.IndependentRouteProbes.InvalidShapeOrMethodCannotMutate(suffix: &quot;/mods/a.jar/toggle&quot;, method: &quot;DELETE&quot;)" computerName="PC-20260705RBJQ" duration="00:00:00.0087151" startTime="2026-10-03T14:08:43.9905201+08:00" endTime="2026-10-03T14:08:43.9993728+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1ec8395c-da28-4c8d-95de-bab5acb37c4a">
+      <Output>
+        <StdOut>DELETE /mods/a.jar/toggle: 404 {"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1ADELETE /api/instances/acceptance-a042315e984f4d93a710b357c5b8a350/mods/a.jar/toggle"}</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="f97e3e6d-630e-46ca-86b6-3541cd41e359" testId="6cc6cadb-8173-0301-aad7-29a15eb41878" testName="Pineglow.Launcher.Tests.FinalAcceptanceProbes.RollbackFailureMustNotClaimOldVersionWasRestored" computerName="PC-20260705RBJQ" duration="00:00:00.0176737" startTime="2026-10-03T14:08:44.6130177+08:00" endTime="2026-10-03T14:08:44.6291703+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f97e3e6d-630e-46ca-86b6-3541cd41e359">
+      <Output>
+        <StdOut>status=commit_failed, error=写入新版本失败，**未能完全回滚**，旧版本仍需人工恢复。恢复记录 20261003-060844-31126e80，回滚状态 failed，未恢复文件：a.jar → Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-final-probe-1cbd39c0fe3c4dcb9321ace954b33ba0\game\mods\a.jar' is denied.；原因：未能恢复的文件：a.jar → Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-final-probe-1cbd39c0fe3c4dcb9321ace954b33ba0\game\mods\a.jar' is denied.；原始失败：injected commit failure, targetBytes=foreign-readonly, recoveryStatus=failed</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="7b926fbe-c6b7-4409-9e4b-ab33cf41a21d" testId="675e1d51-d042-2c38-7d92-ae509683e2b3" testName="Pineglow.Launcher.Tests.IndependentRouteProbes.InvalidShapeOrMethodCannotMutate(suffix: &quot;/mods/a.jar/delete/extra&quot;, method: &quot;POST&quot;)" computerName="PC-20260705RBJQ" duration="00:00:00.0072875" startTime="2026-10-03T14:08:44.0460961+08:00" endTime="2026-10-03T14:08:44.0461563+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7b926fbe-c6b7-4409-9e4b-ab33cf41a21d">
+      <Output>
+        <StdOut>POST /mods/a.jar/delete/extra: 404 {"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/acceptance-e2a8c06fb2b342f3b6288790df843411/mods/a.jar/delete/extra"}</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="b8613bd1-e944-4ead-90d1-7ac87a000a6d" testId="ab39eb5e-bfa7-c029-ae16-609c1a3f2164" testName="Pineglow.Launcher.Tests.FinalAcceptanceProbes.ApiRecoveryMustNotWriteOutsideGameViaJunction" computerName="PC-20260705RBJQ" duration="00:00:00.2155690" startTime="2026-10-03T14:08:44.3826207+08:00" endTime="2026-10-03T14:08:44.5982203+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b8613bd1-e944-4ead-90d1-7ac87a000a6d">
+      <Output>
+        <StdOut>API restore =&gt; 200: {"ok":false,"operationId":"20261003-060844-da88980f","status":"failed","overwrite":false,"conflicts":0,"files":[{"relativePath":"mods\\a.jar","state":"failed","sha256":"DD7A346236273D4FD019C7BF806B00A7EEA9D992583B6AED9ED2231CF345F4B7","error":"\u6062\u590D\u76EE\u6807\u8DEF\u5F84\u4E0D\u53EF\u4FE1\uFF0C\u62D2\u7EDD\u5199\u5165\uFF1A\u8DEF\u5F84\u4E0A\u5B58\u5728\u7B26\u53F7\u94FE\u63A5/\u91CD\u89E3\u6790\u70B9\uFF08junction\uFF09\uFF1AC:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-final-probe-49370bf425c044c88a16b02c6462f61e\\game\\mods"}]}; outsideFileExists=False</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="c5535e7e-3081-41c1-b39c-7e80551d17e9" testId="5789a7ec-90ba-bc9e-fd26-f16e8d42a6fa" testName="Pineglow.Launcher.Tests.IndependentRouteProbes.RestoreProducesOriginalBytesAndDeleteRemovesOnlyRequestedWorld" computerName="PC-20260705RBJQ" duration="00:00:00.0408949" startTime="2026-10-03T14:08:43.9145001+08:00" endTime="2026-10-03T14:08:43.9553592+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c5535e7e-3081-41c1-b39c-7e80551d17e9">
+      <Output>
+        <StdOut>restore target=C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-probe-4c895e12eae4496e822f253a412e43db\saves\worldA (1)</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="64780cdb-0782-4eba-8580-dfe59d287558" testId="f50d342e-bfbf-40c8-e3ff-603aae32c5f8" testName="Pineglow.Launcher.Tests.IndependentRouteProbes.InvalidShapeOrMethodCannotMutate(suffix: &quot;/mods/a.jar/delete&quot;, method: &quot;GET&quot;)" computerName="PC-20260705RBJQ" duration="00:00:00.0073167" startTime="2026-10-03T14:08:44.0464677+08:00" endTime="2026-10-03T14:08:44.0533731+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="64780cdb-0782-4eba-8580-dfe59d287558">
+      <Output>
+        <StdOut>GET /mods/a.jar/delete: 404 {"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1AGET /api/instances/acceptance-82a62203e33c4c90b122c6c30f7a6b08/mods/a.jar/delete"}</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="7ba12c48-a7b4-4bab-813d-4c1a39eaf9da" testId="1d266d9b-59f2-4a8d-c38f-11936df7ffea" testName="Pineglow.Launcher.Tests.FinalAcceptanceProbes.ReadOnlyModsListingAvailableWhileGameIsRunning" computerName="PC-20260705RBJQ" duration="00:00:00.0153959" startTime="2026-10-03T14:08:44.6293279+08:00" endTime="2026-10-03T14:08:44.6449269+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7ba12c48-a7b4-4bab-813d-4c1a39eaf9da">
+      <Output>
+        <StdOut>running instance GET mods =&gt; 200: {"instanceId":"final-c4d0c180f9d14fe1a98bd7b3e2701d28","mods":[{"fileName":"a.jar","fullPath":"C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-final-probe-07651efd454c4e5da3396b2414044aa1\\game\\mods\\a.jar","sizeBytes":5,"sizeText":"5 B","isEnabled":true,"lastModifiedTime":"2026-10-03T14:08:44.6296959+08:00","displayName":"","modId":"","version":"","loaderHint":"","summary":"","onlineSource":"","projectId":"","versionId":"","onlineVersionNumber":"","hasOnlineMetadata":false,"dependencies":[]},{"fileName":"b.jar","fullPath":"C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-final-probe-07651efd454c4e5da3396b2414044aa1\\game\\mods\\b.jar","sizeBytes":5,"sizeText":"5 B","isEnabled":true,"lastModifiedTime":"2026-10-03T14:08:44.6296959+08:00","displayName":"","modId":"","version":"","loaderHint":"","summary":"","onlineSource":"","projectId":"","versionId":"","onlineVersionNumber":"","hasOnlineMetadata":false,"dependencies":[]}]}</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="2619f24d-314f-46a8-b0a2-d901cd7ec545" testId="afc9695a-42f8-f6ab-b884-8eb55a9ae03f" testName="Pineglow.Launcher.Tests.FinalAcceptanceProbes.DeletedWorldBackupRestoresChineseSpaceHyphenNameAndBytes" computerName="PC-20260705RBJQ" duration="00:00:00.0126261" startTime="2026-10-03T14:08:44.5983828+08:00" endTime="2026-10-03T14:08:44.6111804+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2619f24d-314f-46a8-b0a2-d901cd7ec545">
+      <Output>
+        <StdOut>deleted world restore =&gt; 200: {"ok":true,"path":"C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-final-probe-d122a2e18f874432b7a94d76df1aa22f\\game\\saves\\\u4E16\u754C A-\u6D4B\u8BD5","backupName":"\u4E16\u754C A-\u6D4B\u8BD5-20261003-140844.zip"}</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="f9a241e7-7ec3-4091-9631-b17743d66595" testId="ef28b198-99e4-5ac6-e2c3-bb7eaa8ff134" testName="Pineglow.Launcher.Tests.IndependentRouteProbes.BackupsListIsScopedToRequestedWorld" computerName="PC-20260705RBJQ" duration="00:00:00.0168080" startTime="2026-10-03T14:08:43.9557976+08:00" endTime="2026-10-03T14:08:43.9725022+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f9a241e7-7ec3-4091-9631-b17743d66595">
+      <Output>
+        <StdOut>worldB backup list={"instanceId":"acceptance-5eff33ff31d84d29b9fdfb8878953e2a","folderName":"worldB","backups":[]}</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="66222f03-6667-43e9-b7a7-9102418c8667" testId="ac2f1bbe-5c96-9900-4269-f4541a7aec5d" testName="Pineglow.Launcher.Tests.IndependentRouteProbes.RestoreRejectsBackupFromDifferentWorld" computerName="PC-20260705RBJQ" duration="00:00:00.0100731" startTime="2026-10-03T14:08:44.0953146+08:00" endTime="2026-10-03T14:08:44.1055990+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="66222f03-6667-43e9-b7a7-9102418c8667">
+      <Output>
+        <StdOut>worldB request with worldA backup =&gt; 400: {"error":"\u8BE5\u5907\u4EFD\u5C5E\u4E8E\u300CworldA\u300D\uFF0C\u4E0D\u80FD\u6062\u590D\u5230\u300CworldB\u300D\u3002"}</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="b42ed883-6f81-4858-9ca4-4b9b4f6dd7cb" testId="e7e21306-fc57-acf3-4cd9-14dcfa080c66" testName="Pineglow.Launcher.Tests.IndependentRouteProbes.InvalidShapeOrMethodCannotMutate(suffix: &quot;/saves/worldA/delete&quot;, method: &quot;GET&quot;)" computerName="PC-20260705RBJQ" duration="00:00:00.0097252" startTime="2026-10-03T14:08:44.0464117+08:00" endTime="2026-10-03T14:08:44.0464373+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b42ed883-6f81-4858-9ca4-4b9b4f6dd7cb">
+      <Output>
+        <StdOut>GET /saves/worldA/delete: 404 {"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1AGET /api/instances/acceptance-273bb8fb4e65450e9cd64392a94605a7/saves/worldA/delete"}</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ba91a326-c3af-43b7-8b81-5bf295e188d4" testId="f2335706-c48a-b809-5bfb-05ba179f232f" testName="Pineglow.Launcher.Tests.FinalAcceptanceProbes.RestoreRejectsReparseAncestorOutsideGameRoot" computerName="PC-20260705RBJQ" duration="00:00:00.2747970" startTime="2026-10-03T14:08:44.1073174+08:00" endTime="2026-10-03T14:08:44.3823461+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ba91a326-c3af-43b7-8b81-5bf295e188d4">
+      <Output>
+        <StdOut>state=failed, outsideFileExists=False, storedExists=True</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ea8ac640-a982-4a6b-8473-c959d18f2884" testId="fa455e91-648c-5cc2-85cc-2d0f99f22979" testName="Pineglow.Launcher.Tests.IndependentRouteProbes.InvalidShapeOrMethodCannotMutate(suffix: &quot;/bisect/start&quot;, method: &quot;GET&quot;)" computerName="PC-20260705RBJQ" duration="00:00:00.0067148" startTime="2026-10-03T14:08:44.0139394+08:00" endTime="2026-10-03T14:08:44.0208547+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ea8ac640-a982-4a6b-8473-c959d18f2884">
+      <Output>
+        <StdOut>GET /bisect/start: 404 {"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1AGET /api/instances/acceptance-182012515e5041deb9bcbf10eb65d2f3/bisect/start"}</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="cf65e062-6305-4e83-879c-c0c7b4cee05e" testId="051642ad-4af5-6630-83bd-2f4675a2ae6c" testName="Pineglow.Launcher.Tests.IndependentRouteProbes.BisectGiveupPreservesPreviouslyDisabledModAndOriginalContents" computerName="PC-20260705RBJQ" duration="00:00:00.0415327" startTime="2026-10-03T14:08:44.0535156+08:00" endTime="2026-10-03T14:08:44.0951737+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cf65e062-6305-4e83-879c-c0c7b4cee05e" />
+    <UnitTestResult executionId="12c8c94b-3d62-4c16-8618-aa5a7ddb64cf" testId="75ab650c-b929-b980-9d10-57cce4766365" testName="Pineglow.Launcher.Tests.IndependentRouteProbes.InvalidShapeOrMethodCannotMutate(suffix: &quot;/delete/extra&quot;, method: &quot;POST&quot;)" computerName="PC-20260705RBJQ" duration="00:00:00.0067496" startTime="2026-10-03T14:08:43.9994957+08:00" endTime="2026-10-03T14:08:44.0063846+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="12c8c94b-3d62-4c16-8618-aa5a7ddb64cf">
+      <Output>
+        <StdOut>POST /delete/extra: 404 {"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/acceptance-4f4a160a33d448fab29a528e93803d46/delete/extra"}</StdOut>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Pineglow.Launcher.Tests.IndependentRouteProbes.InvalidShapeOrMethodCannotMutate(suffix: &quot;/saves/worldA/delete&quot;, method: &quot;GET&quot;)" storage="c:\users\administrator\appdata\local\temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="e7e21306-fc57-acf3-4cd9-14dcfa080c66">
+      <Execution id="b42ed883-6f81-4858-9ca4-4b9b4f6dd7cb" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.IndependentRouteProbes" name="InvalidShapeOrMethodCannotMutate" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.FinalAcceptanceProbes.ApiRecoveryMustNotWriteOutsideGameViaJunction" storage="c:\users\administrator\appdata\local\temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="ab39eb5e-bfa7-c029-ae16-609c1a3f2164">
+      <Execution id="b8613bd1-e944-4ead-90d1-7ac87a000a6d" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.FinalAcceptanceProbes" name="ApiRecoveryMustNotWriteOutsideGameViaJunction" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.IndependentRouteProbes.InvalidShapeOrMethodCannotMutate(suffix: &quot;/mods/a.jar/delete/extra&quot;, method: &quot;POST&quot;)" storage="c:\users\administrator\appdata\local\temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="675e1d51-d042-2c38-7d92-ae509683e2b3">
+      <Execution id="7b926fbe-c6b7-4409-9e4b-ab33cf41a21d" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.IndependentRouteProbes" name="InvalidShapeOrMethodCannotMutate" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.IndependentRouteProbes.RestoreRejectsBackupFromDifferentWorld" storage="c:\users\administrator\appdata\local\temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="ac2f1bbe-5c96-9900-4269-f4541a7aec5d">
+      <Execution id="66222f03-6667-43e9-b7a7-9102418c8667" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.IndependentRouteProbes" name="RestoreRejectsBackupFromDifferentWorld" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.IndependentRouteProbes.BisectGiveupPreservesPreviouslyDisabledModAndOriginalContents" storage="c:\users\administrator\appdata\local\temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="051642ad-4af5-6630-83bd-2f4675a2ae6c">
+      <Execution id="cf65e062-6305-4e83-879c-c0c7b4cee05e" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.IndependentRouteProbes" name="BisectGiveupPreservesPreviouslyDisabledModAndOriginalContents" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.IndependentRouteProbes.MissingOrInvalidTokenCannotDelete(token: &quot;incorrect-token&quot;)" storage="c:\users\administrator\appdata\local\temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="5bbedaed-e22e-83ca-1f7f-88cf0f722e12">
+      <Execution id="304ab588-bba2-47ce-9efb-ef76cc4faf27" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.IndependentRouteProbes" name="MissingOrInvalidTokenCannotDelete" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.IndependentRouteProbes.InvalidShapeOrMethodCannotMutate(suffix: &quot;/saves/worldA/delete/extra&quot;, method: &quot;POST&quot;)" storage="c:\users\administrator\appdata\local\temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="5d95e499-9d90-261b-1377-4a5030c2cf8f">
+      <Execution id="f4089fce-8030-4e2a-9c3e-0cc7ce07f3e3" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.IndependentRouteProbes" name="InvalidShapeOrMethodCannotMutate" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.IndependentRouteProbes.BackupsListIsScopedToRequestedWorld" storage="c:\users\administrator\appdata\local\temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="ef28b198-99e4-5ac6-e2c3-bb7eaa8ff134">
+      <Execution id="f9a241e7-7ec3-4091-9631-b17743d66595" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.IndependentRouteProbes" name="BackupsListIsScopedToRequestedWorld" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.IndependentRouteProbes.InvalidShapeOrMethodCannotMutate(suffix: &quot;/mods/a.jar/delete&quot;, method: &quot;GET&quot;)" storage="c:\users\administrator\appdata\local\temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="f50d342e-bfbf-40c8-e3ff-603aae32c5f8">
+      <Execution id="64780cdb-0782-4eba-8580-dfe59d287558" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.IndependentRouteProbes" name="InvalidShapeOrMethodCannotMutate" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.IndependentRouteProbes.InvalidShapeOrMethodCannotMutate(suffix: &quot;/launch/extra&quot;, method: &quot;POST&quot;)" storage="c:\users\administrator\appdata\local\temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="f161ba2e-0c12-02de-50e0-52b034975101">
+      <Execution id="45be4504-d7e0-488a-8144-3da78870e006" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.IndependentRouteProbes" name="InvalidShapeOrMethodCannotMutate" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.FinalAcceptanceProbes.ReadOnlyModsListingAvailableWhileGameIsRunning" storage="c:\users\administrator\appdata\local\temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="1d266d9b-59f2-4a8d-c38f-11936df7ffea">
+      <Execution id="7ba12c48-a7b4-4bab-813d-4c1a39eaf9da" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.FinalAcceptanceProbes" name="ReadOnlyModsListingAvailableWhileGameIsRunning" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.FinalAcceptanceProbes.RollbackFailureMustNotClaimOldVersionWasRestored" storage="c:\users\administrator\appdata\local\temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="6cc6cadb-8173-0301-aad7-29a15eb41878">
+      <Execution id="f97e3e6d-630e-46ca-86b6-3541cd41e359" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.FinalAcceptanceProbes" name="RollbackFailureMustNotClaimOldVersionWasRestored" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.FinalAcceptanceProbes.RestoreRejectsReparseAncestorOutsideGameRoot" storage="c:\users\administrator\appdata\local\temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="f2335706-c48a-b809-5bfb-05ba179f232f">
+      <Execution id="ba91a326-c3af-43b7-8b81-5bf295e188d4" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.FinalAcceptanceProbes" name="RestoreRejectsReparseAncestorOutsideGameRoot" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.IndependentRouteProbes.InvalidShapeOrMethodCannotMutate(suffix: &quot;/delete/extra&quot;, method: &quot;POST&quot;)" storage="c:\users\administrator\appdata\local\temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="75ab650c-b929-b980-9d10-57cce4766365">
+      <Execution id="12c8c94b-3d62-4c16-8618-aa5a7ddb64cf" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.IndependentRouteProbes" name="InvalidShapeOrMethodCannotMutate" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.IndependentRouteProbes.InvalidShapeOrMethodCannotMutate(suffix: &quot;/mods/a.jar/toggle&quot;, method: &quot;DELETE&quot;)" storage="c:\users\administrator\appdata\local\temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="8979767e-a832-7a0e-d4b6-28cb4965ebdd">
+      <Execution id="1ec8395c-da28-4c8d-95de-bab5acb37c4a" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.IndependentRouteProbes" name="InvalidShapeOrMethodCannotMutate" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.IndependentRouteProbes.RestoreProducesOriginalBytesAndDeleteRemovesOnlyRequestedWorld" storage="c:\users\administrator\appdata\local\temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="5789a7ec-90ba-bc9e-fd26-f16e8d42a6fa">
+      <Execution id="c5535e7e-3081-41c1-b39c-7e80551d17e9" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.IndependentRouteProbes" name="RestoreProducesOriginalBytesAndDeleteRemovesOnlyRequestedWorld" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.IndependentRouteProbes.MissingOrInvalidTokenCannotDelete(token: null)" storage="c:\users\administrator\appdata\local\temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="b4966e14-cdbb-db11-a1fe-af69017c7f63">
+      <Execution id="25888f29-8a51-49d2-91ad-93e2687b6268" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.IndependentRouteProbes" name="MissingOrInvalidTokenCannotDelete" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.FinalAcceptanceProbes.DeletedWorldBackupRestoresChineseSpaceHyphenNameAndBytes" storage="c:\users\administrator\appdata\local\temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="afc9695a-42f8-f6ab-b884-8eb55a9ae03f">
+      <Execution id="2619f24d-314f-46a8-b0a2-d901cd7ec545" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.FinalAcceptanceProbes" name="DeletedWorldBackupRestoresChineseSpaceHyphenNameAndBytes" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.IndependentRouteProbes.InvalidShapeOrMethodCannotMutate(suffix: &quot;/bisect/start&quot;, method: &quot;GET&quot;)" storage="c:\users\administrator\appdata\local\temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="fa455e91-648c-5cc2-85cc-2d0f99f22979">
+      <Execution id="ea8ac640-a982-4a6b-8473-c959d18f2884" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.IndependentRouteProbes" name="InvalidShapeOrMethodCannotMutate" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.IndependentRouteProbes.EncodedUnicodeFilenameTogglePreservesBytes" storage="c:\users\administrator\appdata\local\temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="57e1456a-2e7f-a77d-94f2-da08450089e4">
+      <Execution id="75680534-e8ba-4263-b097-dcff1462e6be" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-far-green-4c8e21b7d0a94f6e8b3d5c7a91e2f0bd\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.IndependentRouteProbes" name="EncodedUnicodeFilenameTogglePreservesBytes" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="57e1456a-2e7f-a77d-94f2-da08450089e4" executionId="75680534-e8ba-4263-b097-dcff1462e6be" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5d95e499-9d90-261b-1377-4a5030c2cf8f" executionId="f4089fce-8030-4e2a-9c3e-0cc7ce07f3e3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f161ba2e-0c12-02de-50e0-52b034975101" executionId="45be4504-d7e0-488a-8144-3da78870e006" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5bbedaed-e22e-83ca-1f7f-88cf0f722e12" executionId="304ab588-bba2-47ce-9efb-ef76cc4faf27" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b4966e14-cdbb-db11-a1fe-af69017c7f63" executionId="25888f29-8a51-49d2-91ad-93e2687b6268" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8979767e-a832-7a0e-d4b6-28cb4965ebdd" executionId="1ec8395c-da28-4c8d-95de-bab5acb37c4a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6cc6cadb-8173-0301-aad7-29a15eb41878" executionId="f97e3e6d-630e-46ca-86b6-3541cd41e359" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="675e1d51-d042-2c38-7d92-ae509683e2b3" executionId="7b926fbe-c6b7-4409-9e4b-ab33cf41a21d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ab39eb5e-bfa7-c029-ae16-609c1a3f2164" executionId="b8613bd1-e944-4ead-90d1-7ac87a000a6d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5789a7ec-90ba-bc9e-fd26-f16e8d42a6fa" executionId="c5535e7e-3081-41c1-b39c-7e80551d17e9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f50d342e-bfbf-40c8-e3ff-603aae32c5f8" executionId="64780cdb-0782-4eba-8580-dfe59d287558" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1d266d9b-59f2-4a8d-c38f-11936df7ffea" executionId="7ba12c48-a7b4-4bab-813d-4c1a39eaf9da" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="afc9695a-42f8-f6ab-b884-8eb55a9ae03f" executionId="2619f24d-314f-46a8-b0a2-d901cd7ec545" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ef28b198-99e4-5ac6-e2c3-bb7eaa8ff134" executionId="f9a241e7-7ec3-4091-9631-b17743d66595" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ac2f1bbe-5c96-9900-4269-f4541a7aec5d" executionId="66222f03-6667-43e9-b7a7-9102418c8667" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e7e21306-fc57-acf3-4cd9-14dcfa080c66" executionId="b42ed883-6f81-4858-9ca4-4b9b4f6dd7cb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f2335706-c48a-b809-5bfb-05ba179f232f" executionId="ba91a326-c3af-43b7-8b81-5bf295e188d4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fa455e91-648c-5cc2-85cc-2d0f99f22979" executionId="ea8ac640-a982-4a6b-8473-c959d18f2884" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="051642ad-4af5-6630-83bd-2f4675a2ae6c" executionId="cf65e062-6305-4e83-879c-c0c7b4cee05e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="75ab650c-b929-b980-9d10-57cce4766365" executionId="12c8c94b-3d62-4c16-8618-aa5a7ddb64cf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="20" executed="20" passed="20" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.9)&#xD;
+[xUnit.net 00:00:00.08]   Discovering: Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.17]   Discovered:  Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.19]   Starting:    Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:01.05]   Finished:    Pineglow.Launcher.Tests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

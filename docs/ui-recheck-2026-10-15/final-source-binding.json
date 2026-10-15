@@ -1,0 +1,38 @@
+[
+  {
+    "path": "ui/index.html",
+    "before": "632e9a0102c957b614f940d5aaf70b782f988e7e4ce8b1eecdc96cc8e94fac3f",
+    "after": "632e9a0102c957b614f940d5aaf70b782f988e7e4ce8b1eecdc96cc8e94fac3f",
+    "unchanged": true
+  },
+  {
+    "path": "ui/css/redesign.css",
+    "before": "df8fcd53dab4796c2d918f7ddf98553bac29ca967d4bed8b93522cae945ae75b",
+    "after": "df8fcd53dab4796c2d918f7ddf98553bac29ca967d4bed8b93522cae945ae75b",
+    "unchanged": true
+  },
+  {
+    "path": "ui/js/launcher.js",
+    "before": "4a2ca780d48672bbd0746b60898b56087e9d6e552f79d951f75b40832e6b6e16",
+    "after": "4a2ca780d48672bbd0746b60898b56087e9d6e552f79d951f75b40832e6b6e16",
+    "unchanged": true
+  },
+  {
+    "path": "ui/js/playtime.js",
+    "before": "01fc1f7a51eabf51b403f8880488537f2a8aa61ad21fc5e0f6d1d09f4cacae0f",
+    "after": "01fc1f7a51eabf51b403f8880488537f2a8aa61ad21fc5e0f6d1d09f4cacae0f",
+    "unchanged": true
+  },
+  {
+    "path": "ui/js/i18n.js",
+    "before": "4ab439bd47f97ad5e829ace645ddb9f2d9750512b04b127777eeaa9d7e6efafb",
+    "after": "4ab439bd47f97ad5e829ace645ddb9f2d9750512b04b127777eeaa9d7e6efafb",
+    "unchanged": true
+  },
+  {
+    "path": "ui/js/api.js",
+    "before": "d367558d0c837e21673c77ba446e2e3fd0fae99f33dd7073235d4a43516d149a",
+    "after": "d367558d0c837e21673c77ba446e2e3fd0fae99f33dd7073235d4a43516d149a",
+    "unchanged": true
+  }
+]

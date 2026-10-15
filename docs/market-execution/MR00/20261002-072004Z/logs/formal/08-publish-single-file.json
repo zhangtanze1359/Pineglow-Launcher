@@ -1,0 +1,27 @@
+﻿{
+    "name":  "08-publish-single-file",
+    "command":  "dotnet publish dev/PineglowLauncher/Pineglow.Launcher.csproj -c Release -r win-x64 --self-contained /p:PublishSingleFile=true /p:EnableCompressionInSingleFile=true /p:DebugType=None /p:DebugSymbols=false",
+    "cwd":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-810a28bd0d3d456c9e28201fb6fdf158",
+    "startUtc":  "2026-10-02T07:30:55Z",
+    "endUtc":  "2026-10-02T07:31:02Z",
+    "durationSec":  7,
+    "exitCode":  0,
+    "status":  "PASS",
+    "logProduced":  true,
+    "verifierDefect":  false,
+    "logBytes":  575,
+    "decodeMode":  "utf-8",
+    "stdoutPath":  "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR00\\20261002-072004Z\\logs\\formal\\08-publish-single-file.stdout.txt",
+    "nodeTests":  null,
+    "nodePass":  null,
+    "nodeFail":  null,
+    "nodeSkipped":  null,
+    "csPassed":  null,
+    "csFailed":  null,
+    "csSkipped":  null,
+    "csTotal":  null,
+    "buildErrors":  null,
+    "expectHits":  [
+
+                   ]
+}

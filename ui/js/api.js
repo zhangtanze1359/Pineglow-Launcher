@@ -4,7 +4,10 @@ window.SG = window.SG || {};
 SG.pages = {};
 SG.registerPage = (name, def) => { SG.pages[name] = def; };
 
-SG.apiMode = typeof location !== 'undefined' && location.protocol === 'http:' ? 'live' : 'mock';
+// The shipped UI must never display sample accounts or simulated successes after API startup fails.
+// Standalone test/demo contexts without the product marker retain their explicit mock seam.
+const productUi = document.documentElement && document.documentElement.getAttribute && document.documentElement.getAttribute('data-pineglow-product') === 'true';
+SG.apiMode = productUi || (typeof location !== 'undefined' && location.protocol === 'http:') ? 'live' : 'mock';
 SG.apiToken = (document.querySelector('meta[name="pineglow-session-token"]') || {}).content || '';
 
 /* ================= mock 数据（验收 / 降级兜底） ================= */
@@ -372,7 +375,7 @@ SG.api = (() => {
 		icon: '⛏️',
 		iconBg: 'linear-gradient(135deg,#5eead4,#0f766e)',
 		size: '—',
-		progress: t.progress || 0,
+		progress: Math.round(Math.min(1, Math.max(0, Number(t.progress) || 0)) * 100),
 		status: t.status || 'queued',
 		statusLabel: t.status === 'completed' ? '已完成' : t.status === 'failed' ? '失败' : t.status === 'downloading' ? '下载中' : '排队中',
 		message: t.message || '',

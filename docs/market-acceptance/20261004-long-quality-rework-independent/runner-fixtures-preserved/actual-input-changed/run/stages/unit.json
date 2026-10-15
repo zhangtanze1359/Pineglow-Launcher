@@ -1,0 +1,53 @@
+{
+    "schemaVersion":  2,
+    "id":  "unit",
+    "runId":  "fixed-id",
+    "attemptDir":  "attempts/unit/1",
+    "fingerprint":  "8455E3D7EE8F936BA9EE3E57DB6E2B563C3F833F18F4B4BBCA8533D6000F4687",
+    "inputManifestSha256":  "6CAA82B9DBE8B8DB918134401D09CF023A12C0B64B493F75D59815172F6D8FF8",
+    "inputSetSha256":  "8B61E22B98906A58BCCF598A8597273C39E974CA49E3A725FCEE986A121651DB",
+    "command":  "C:\\Program Files\\nodejs\\node.exe C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\actual-input-changed\\child.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\actual-input-changed\\run\\attempts\\unit\\1/unit.trx write",
+    "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\actual-input-changed",
+    "startUtc":  "2026-10-04T10:38:42Z",
+    "endUtc":  "2026-10-04T10:38:42Z",
+    "exitCode":  0,
+    "timedOut":  false,
+    "stillRunning":  false,
+    "counters":  {
+                     "total":  3,
+                     "executed":  3,
+                     "passed":  3,
+                     "failed":  0,
+                     "notExecuted":  0,
+                     "resultRows":  3,
+                     "passedRows":  3,
+                     "failedRows":  0,
+                     "notExecutedRows":  0,
+                     "otherRows":  0
+                 },
+    "trx":  "unit.trx",
+    "artifacts":  [
+                      {
+                          "path":  "unit.trx",
+                          "sha256":  "0B1A0EA65E62258B46DACE75043AEE88A27ED36416C855216C963BB230F4ED0D",
+                          "sizeBytes":  243
+                      }
+                  ],
+    "rawEvidence":  [
+                        {
+                            "path":  "unit.stdout.log",
+                            "sha256":  "A5535F67A81F90334A838E0935772E949A2156297D7A62EEAF7578F46460BD5D",
+                            "sizeBytes":  40
+                        },
+                        {
+                            "path":  "unit.stderr.log",
+                            "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                            "sizeBytes":  0
+                        }
+                    ],
+    "reasons":  [
+
+                ],
+    "status":  "COMPLETED",
+    "reused":  false
+}

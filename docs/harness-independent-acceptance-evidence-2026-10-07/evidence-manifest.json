@@ -1,0 +1,326 @@
+{
+  "files": [
+    {
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "path": "app-stderr.log",
+      "bytes": 0
+    },
+    {
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "path": "app-stdout.log",
+      "bytes": 0
+    },
+    {
+      "sha256": "353370BD87E40AF2E6D5DEB1C2FEC85666FA69A986EF64EA400CBA4520802ED0",
+      "path": "boundary-inputs.json",
+      "bytes": 391
+    },
+    {
+      "sha256": "92315F6B39449EB41D410CAFD68A99245F71BFBB7990D69A98E9C5D1280CDC75",
+      "path": "boundary-results.json",
+      "bytes": 1286
+    },
+    {
+      "sha256": "5D7CB79ED982A145F3E57C2507AE92186CA75B3EB0D2E1BAE74F1B64D9D5E115",
+      "path": "boundary.log",
+      "bytes": 1288
+    },
+    {
+      "sha256": "D7A495D43F809234CAED7FE20BCE0FE52C2E9A258A98253FB53D74DD9D414B5B",
+      "path": "BoundaryProbe.cs",
+      "bytes": 2857
+    },
+    {
+      "sha256": "35B8D13F2E00D1CF8C317861D266A4D07D085B9AEF393758B6AFCFC975D7E606",
+      "path": "delivery-validation.json",
+      "bytes": 784
+    },
+    {
+      "sha256": "6C975584E61766D83BD539FE3962E8151BEC03348DE8941D616D81FC4D88B6C3",
+      "path": "executor-report.md",
+      "bytes": 6713
+    },
+    {
+      "sha256": "9B83E40640C621D5376892F527542A9BD1B8E5FA2B4267DA3C5A47B34FF3D180",
+      "path": "extra-jar-content.json",
+      "bytes": 321
+    },
+    {
+      "sha256": "A3102ECACD8BB4E3833E77CD6F247A7EF3A6F6ABF3BEBB5027CCB4868D16DEA1",
+      "path": "Fabric-1.18.2-cmdline.txt",
+      "bytes": 10792
+    },
+    {
+      "sha256": "50BD7F108BE8ABA6F863C46E5DE9CD46353575DE41211BF651C1237ABA844AB2",
+      "path": "Fabric-1.18.2-game.log",
+      "bytes": 158786
+    },
+    {
+      "sha256": "93F18AEA72D677C88351F0E28F057785FE98A68EDA8AE80677C6F6B6DC7F9340",
+      "path": "Fabric-1.21.1-cmdline.txt",
+      "bytes": 19547
+    },
+    {
+      "sha256": "CEB14FBC2D3D8511B71305709EFE766AE9B9AE4AE2548B36F735482C280DD95F",
+      "path": "Fabric-1.21.1-game.log",
+      "bytes": 31881
+    },
+    {
+      "sha256": "44652AD705C91CCD41B4F2A3E3E0394A145B296A2FBB99B9531393755AA3907F",
+      "path": "fixture-copy.log",
+      "bytes": 1222
+    },
+    {
+      "sha256": "1557D03B24E57985F8F4E1365FF6FD7D9FD1A64B7D1FAA77579F54BAF8797A74",
+      "path": "focused.log",
+      "bytes": 558
+    },
+    {
+      "sha256": "4B72B32DF15A0EDFE7658130072C4DC5365B9233D82AC6D8F082A47F352B2769",
+      "path": "Forge-1.20.1-cmdline.txt",
+      "bytes": 24786
+    },
+    {
+      "sha256": "50515BEBFE1219D3ACDBE85536E241CEDF60289F306149795E9FD652A237BB4F",
+      "path": "Forge-1.20.1-game.log",
+      "bytes": 35617
+    },
+    {
+      "sha256": "3D3F1402723BA9067DF42EBA842CF2E645E53FE641B760DEAD7F2BCECA3CFCF4",
+      "path": "gate-console.log",
+      "bytes": 13118
+    },
+    {
+      "sha256": "51CDBA3FCCE448028800A2E8EB893285E8D6F94453BFA9E8DE8E766880B7678C",
+      "path": "git-status-before.txt",
+      "bytes": 184242
+    },
+    {
+      "sha256": "0517CB2F5BC61072D2F6BA811E22EE867351AF3FACC5BDB7D217D1A744A51BEB",
+      "path": "harness-independent-acceptance-remediation-workflow-2026-10-07.md",
+      "bytes": 5310
+    },
+    {
+      "sha256": "7F4FEADBA9AA06AAE26F27E539E1D4969A87A3E096FAF103FA0C5BAE419E180D",
+      "path": "harness-independent-acceptance-review-2026-10-07.md",
+      "bytes": 7277
+    },
+    {
+      "sha256": "2DA21694CA406AC029E839930F482E7A519FF1F5DD1B7A0128AAF39649648B6D",
+      "path": "launch-wrapper-limitations.md",
+      "bytes": 1489
+    },
+    {
+      "sha256": "5884EA732FCEC9CF4B7D5E1B5EAE524A9BEA207FEA6627EB3FD3618078F0C6E0",
+      "path": "minimax-harness-independent-acceptance-rework-prompt-2026-10-07.md",
+      "bytes": 3219
+    },
+    {
+      "sha256": "5294FE89DFE59ABABC37C238E5D9E2DB5804F0C4E34B8153E89AAB94C76CF210",
+      "path": "NeoForge-1.21.1-cmdline.txt",
+      "bytes": 27513
+    },
+    {
+      "sha256": "5B8A64F9CB9F19D6D91CD3A9E11A04F7ED000943AA4284F4215546D2D3D1B7CB",
+      "path": "NeoForge-1.21.1-game.log",
+      "bytes": 60559
+    },
+    {
+      "sha256": "62C2686D9255BD7A61C4E13A6AF2AE9C20D06DF66F4D02DE54E6A48599E99DB0",
+      "path": "owned-fixture.json",
+      "bytes": 204
+    },
+    {
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "path": "owned-launches-console.log",
+      "bytes": 0
+    },
+    {
+      "sha256": "F1C73B9F3D05F1C5D860EBB2044DD8FD104A75B3A316059D826CA25215AC2C2A",
+      "path": "owned-launches.json",
+      "bytes": 3602
+    },
+    {
+      "sha256": "9238FD763EE71ACA5B840BDC020A9CCFB9843E308E98781C4FFC0A4518210910",
+      "path": "owned-launches.log",
+      "bytes": 2719
+    },
+    {
+      "sha256": "16FB2EB00CD61B726F67A6DF41EAA62692B1D0BFDCD1C0B1D2FF02C32C0A4354",
+      "path": "process-cleanup-final.json",
+      "bytes": 271
+    },
+    {
+      "sha256": "D77D616D6D66817BBB917E4EE34AA0F3F434B42929CE314D24BC7039099277B9",
+      "path": "process-cleanup.json",
+      "bytes": 755
+    },
+    {
+      "sha256": "45A4433399D3533AE5D80A831E80B994AF0C500D8A4291C808C83900793B2F20",
+      "path": "Quilt-1.20.1-cmdline.txt",
+      "bytes": 18768
+    },
+    {
+      "sha256": "099E1F48DADB15C71A0E849D9E1954CDFB6337647AE24E42AE2094EB38307D55",
+      "path": "Quilt-1.20.1-game.log",
+      "bytes": 142791
+    },
+    {
+      "sha256": "4B297752BC70CD139C092C3A54BAA04B2E058BB2403B66BEBF23BCD7DA4BC54E",
+      "path": "rebuilt-exe.json",
+      "bytes": 307
+    },
+    {
+      "sha256": "18E32D2651EEBB146178AE163A2499FF5212327B976541084B22287AD7CA8C09",
+      "path": "retained-launch-validation.log",
+      "bytes": 192
+    },
+    {
+      "sha256": "D2C8357D45CDC7C81C4175250BBCA84BF13903AF12359AC0CE65C9785DD930A3",
+      "path": "scope-diff.json",
+      "bytes": 874
+    },
+    {
+      "sha256": "5097CAC93A99BF7A00BD486062B62CE46636B7A9F9073E0110603A11D8724613",
+      "path": "self-evaluation.md",
+      "bytes": 1320
+    },
+    {
+      "sha256": "D6F26D6CF072B887B04F14F141AE409975ED29F7B8F8D5BA1E8E6C29E5AA70A1",
+      "path": "source-inputs.json",
+      "bytes": 53487
+    },
+    {
+      "sha256": "ADE716CEFE3AEECF25B67C4AF52F9A68712897DB3423993B1F04F66BCC5B12A1",
+      "path": "source-integrity-after.json",
+      "bytes": 146
+    },
+    {
+      "sha256": "F299DF7046C72945E53E37E2EE8FCD82CCE80934D2FF8FD367A43DFBE321E6C1",
+      "path": "Vanilla-1.18.2-cmdline.txt",
+      "bytes": 7443
+    },
+    {
+      "sha256": "AEB6B4AE548C1F231EF3548E1D688AA15952DA303D44F1CBE00E7AA6BF7B746F",
+      "path": "Vanilla-1.18.2-game.log",
+      "bytes": 3157
+    },
+    {
+      "sha256": "D4D240949B73ABB0F40528EFB1B72E4FCB1F020B962FEA86FC950E12E215C3FA",
+      "path": "verify-owned-launches.ps1",
+      "bytes": 5560
+    },
+    {
+      "sha256": "BE704A35B0315BF47AC6CEA9D74373A1455AD511E29DED3B8BC942B7687BFE51",
+      "path": "verify-retained-launch-results.ps1",
+      "bytes": 1953
+    },
+    {
+      "sha256": "E2551C87BA48C594B7C37483F817F72BE4609A348CE9E2419068E5EBE6521A4E",
+      "path": "focused/focused.trx",
+      "bytes": 15785
+    },
+    {
+      "sha256": "32A72DCBB3A4832E4E55728FD20EEDF3328762B7DE8310BE26D22978A8644056",
+      "path": "gate/snapshot-manifest.sha256.txt",
+      "bytes": 17460
+    },
+    {
+      "sha256": "F0FFBE11371BDAA99104639FD5B47FA4C5057B364F745B768BA92FB889A11A43",
+      "path": "gate/standalone-cold-start.json",
+      "bytes": 10827
+    },
+    {
+      "sha256": "316144A9463AFF2BB15A9E794B633C39F96E402480364A06DD3B99F280F9D680",
+      "path": "gate/step0-step-runner-selftest.log",
+      "bytes": 724
+    },
+    {
+      "sha256": "B7FE2ECEF6A50436EC4357EF9B9B07071BF56A4C915C1E5F52978585D5D8DB35",
+      "path": "gate/step1-node-tests.log",
+      "bytes": 29671
+    },
+    {
+      "sha256": "85483F77C194361229CF8BC5005BD13C6AA73A3386C1DE456B0389B052E36B67",
+      "path": "gate/step10-publish.log",
+      "bytes": 653
+    },
+    {
+      "sha256": "C1231BA5CEA0E347494E7C83D764EA40F95FB645F42F27CEF6DB4B9D962817DE",
+      "path": "gate/step11-standalone-cold-start.log",
+      "bytes": 1962
+    },
+    {
+      "sha256": "A617A342E1C88ED1DB4CCA162C86C105827C4788B817FCDE38D46535EFF1F867",
+      "path": "gate/step1a-ui-resource-closure.log",
+      "bytes": 336
+    },
+    {
+      "sha256": "948BF6EDBB88FA533CEFDEE69ABDA62B35EDA82BCDDB836075B36FA898E7B854",
+      "path": "gate/step1b-ui-closure-selftest.log",
+      "bytes": 599
+    },
+    {
+      "sha256": "8788ECD2A24E8032F89A71C08A206AF34358C50CB336991D26DFA7E557D894D8",
+      "path": "gate/step1c-test-inventory.log",
+      "bytes": 98
+    },
+    {
+      "sha256": "7C34AD9C24EF05ACED607CF67C62325832E9220E9528A781852F8878BDBF68D7",
+      "path": "gate/step2-restore-launcher-locked.log",
+      "bytes": 210
+    },
+    {
+      "sha256": "81918845B2AD97F4F08312D0F8D58EAB931F15C4B3A6564DBFADD2ED1730D0C6",
+      "path": "gate/step3-restore-tests-locked.log",
+      "bytes": 280
+    },
+    {
+      "sha256": "DF73B828CD59D2549B86494F18C90749E5B9D8FE9219E2A364CC90EF0EEE4BBC",
+      "path": "gate/step6-build-launcher-release.log",
+      "bytes": 264
+    },
+    {
+      "sha256": "52C801C6119B3E19CD3728A6AE71F78E04FD7A48F5469C808A71F9EE65FBD73C",
+      "path": "gate/step7-dotnet-test-release.log",
+      "bytes": 9634
+    },
+    {
+      "sha256": "4ABF4D88A30059AC47E304F4967CF0B9DC5B42112517239576CDCDDF556EBA31",
+      "path": "gate/step8-build-verifyhost.log",
+      "bytes": 4945
+    },
+    {
+      "sha256": "379531559EE7DE55829F639D150127B3A7E02B05BE03A1C349CD5CA1CE8EDE6E",
+      "path": "gate/step8b-verifyhost-bisect-smoke.log",
+      "bytes": 1903
+    },
+    {
+      "sha256": "295976BC0A1FE836DF859C34DB2491CC3160127A4F8D493834B6C55822183470",
+      "path": "gate/step9-publish-locked-probe.log",
+      "bytes": 1345
+    },
+    {
+      "sha256": "949E111C96A587C4B56B45B719CCE82774937E22AB3263BB84CC3414B01759E0",
+      "path": "gate/test-inventory-report.json",
+      "bytes": 1303
+    },
+    {
+      "sha256": "BBA7380AAEF2B7EC1BCEFE323E884465131D514A924AF148C3A2C94B870B302A",
+      "path": "gate/ui-resource-closure.json",
+      "bytes": 285
+    },
+    {
+      "sha256": "96C87F7ABBE28F7E1AAECB82B2D4710E15894780F163DA7842CA62227377A939",
+      "path": "gate/verify-summary.json",
+      "bytes": 15974
+    }
+  ],
+  "scope": "Independent gate, focused tests, two public BuildCommand counterexamples, six retained 35-second launch observations; original launch wrapper exit 1 disclosed",
+  "acceptance": "NOT_PASSED",
+  "count": 63,
+  "releaseApproval": "NOT_GRANTED",
+  "source": "D:\\松光启动器",
+  "formalPhaseApproval": "NOT_GRANTED",
+  "createdAt": "2026-10-07T17:15:58.9064054+08:00"
+}

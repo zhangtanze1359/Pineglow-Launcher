@@ -1,0 +1,46 @@
+{
+    "schemaVersion":  1,
+    "id":  "demo-fail",
+    "runId":  "demo-pass1",
+    "fingerprint":  "B0D06E72D8EFFEC087D4CBDEAFBA6B257A80C45A3E7E2FA0E1728C25ACE1D60B",
+    "inputManifestSha256":  "0999050FB2E0DADB89E14C02707B33CB0D8225F3BCF56EA2941D8EE6E1C73089",
+    "command":  "C:\\Program Files\\nodejs\\node.exe C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\g4\\demo\\synth-stage.cjs results/demo-fail.trx 2 2 1 0 0",
+    "workingDirectory":  "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\g4\\demo\\run",
+    "startUtc":  "2026-10-03T10:25:50Z",
+    "endUtc":  "2026-10-03T10:25:50Z",
+    "exitCode":  2,
+    "timedOut":  false,
+    "stillRunning":  false,
+    "counters":  {
+                     "total":  2,
+                     "executed":  2,
+                     "passed":  1,
+                     "failed":  0,
+                     "notExecuted":  0
+                 },
+    "trx":  "results/demo-fail.trx",
+    "artifacts":  [
+                      {
+                          "path":  "results/demo-fail.trx",
+                          "sha256":  "E33ED4A8CF9F941F55B7F57A126619B04BF502692444C0E52E116648ECD2F92B",
+                          "sizeBytes":  226
+                      }
+                  ],
+    "rawEvidence":  [
+                        {
+                            "path":  "demo-fail.stdout.log",
+                            "sha256":  "7430A1CD3061D06B76D525C2831B3B47752D8E0933FC5267AE766758B4643410",
+                            "sizeBytes":  37
+                        },
+                        {
+                            "path":  "demo-fail.stderr.log",
+                            "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                            "sizeBytes":  0
+                        }
+                    ],
+    "reasons":  [
+                    "EXIT_NONZERO"
+                ],
+    "status":  "FAILED",
+    "reused":  false
+}

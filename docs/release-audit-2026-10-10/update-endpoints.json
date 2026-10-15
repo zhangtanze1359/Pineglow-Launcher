@@ -1,0 +1,21 @@
+{
+  "scope": "read-only HTTP checks; no upload or update",
+  "results": [
+    {
+      "url": "https://gitee.com/ztz1359/pineglow-launcher/raw/master/update.json",
+      "status": 404,
+      "error": "Response status code does not indicate success: 404 (Not Found)."
+    },
+    {
+      "url": "https://github.com/zhangtanze1359/Pineglow-Launcher/releases/latest/download/manifest.json",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "bytes": 324,
+      "manifestVersion": null,
+      "assetUrl": null,
+      "sha256": null,
+      "error": null
+    }
+  ],
+  "timeHK": "2026-10-10T01:37:46.4477014"
+}

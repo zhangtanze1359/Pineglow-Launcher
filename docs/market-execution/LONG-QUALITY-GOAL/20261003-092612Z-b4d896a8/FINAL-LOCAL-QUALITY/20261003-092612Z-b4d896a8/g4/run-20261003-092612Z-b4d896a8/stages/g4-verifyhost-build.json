@@ -1,0 +1,36 @@
+{
+    "schemaVersion":  1,
+    "id":  "g4-verifyhost-build",
+    "runId":  "20261003-092612Z-b4d896a8",
+    "fingerprint":  "02BAA020C173EFAC780656B24B892E3416DC8BB5B3179B8F1404F487B1FD57CC",
+    "inputManifestSha256":  "7F1A71FCD47541C2055E58DC2BC840FDE0670B013DC1ED923E2263BB1D1A0FF0",
+    "command":  "dotnet build dev/PineglowLauncher/VerifyHost/VerifyHost.csproj -c Release",
+    "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-seal-39dfd2b90cbb4689b7fbad1c8ab10ba9",
+    "startUtc":  "2026-10-03T10:37:24Z",
+    "endUtc":  "2026-10-03T10:37:29Z",
+    "exitCode":  0,
+    "timedOut":  false,
+    "stillRunning":  false,
+    "counters":  null,
+    "trx":  "",
+    "artifacts":  [
+
+                  ],
+    "rawEvidence":  [
+                        {
+                            "path":  "g4-verifyhost-build.stdout.log",
+                            "sha256":  "E9C0EBEA02E06A6A26E1FFD4296397DBF40DE8B02AD77B287E31D9B50A6B542B",
+                            "sizeBytes":  4965
+                        },
+                        {
+                            "path":  "g4-verifyhost-build.stderr.log",
+                            "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                            "sizeBytes":  0
+                        }
+                    ],
+    "reasons":  [
+
+                ],
+    "status":  "COMPLETED",
+    "reused":  false
+}

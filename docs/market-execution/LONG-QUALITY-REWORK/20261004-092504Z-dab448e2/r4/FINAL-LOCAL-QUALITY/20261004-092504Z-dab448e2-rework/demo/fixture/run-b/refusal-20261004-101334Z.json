@@ -1,0 +1,13 @@
+{
+    "schemaVersion":  2,
+    "runner":  "run-goal-validation.ps1",
+    "runDir":  "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\demo\\fixture\\run-b",
+    "stageFilter":  "",
+    "generatedUtc":  "2026-10-04T10:13:34Z",
+    "refused":  true,
+    "reasons":  [
+                    "INPUT_SHA_MISMATCH",
+                    "INPUT_SET_FAILED"
+                ],
+    "verdict":  "REFUSED"
+}

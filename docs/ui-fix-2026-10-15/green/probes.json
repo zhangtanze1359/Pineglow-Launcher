@@ -1,0 +1,265 @@
+{
+  "stats": {
+    "before": "本月 · 总时长\n8 小时\n游玩次数\n8\n活跃天数\n2\n单次最长\n1 小时",
+    "after": "自定义 · 总时长\n4 小时\n游玩次数\n4\n活跃天数\n1\n单次最长\n1 小时",
+    "cells": 4,
+    "range": "2026-10-15",
+    "expectedRangeSeconds": 14400,
+    "expectedRangeCount": 4
+  },
+  "slider": {
+    "before": {
+      "html": "<input type=\"range\" class=\"memory-range\" id=\"memSlider\" min=\"2048\" max=\"16384\" step=\"512\" value=\"4096\" aria-label=\"内存分配\" disabled=\"\" style=\"\">",
+      "value": "4.0 GB"
+    },
+    "after": {
+      "html": "<input type=\"range\" class=\"memory-range\" id=\"memSlider\" min=\"2048\" max=\"16384\" step=\"512\" value=\"4096\" aria-label=\"内存分配\" disabled=\"\" style=\"\">",
+      "value": "4.0 GB"
+    },
+    "enabled": {
+      "active": "memSlider",
+      "role": null,
+      "tabindex": null,
+      "value": "4.5 GB"
+    }
+  },
+  "skip": {
+    "hash": "#contentPanel",
+    "active": "contentPanel",
+    "targetVisible": true,
+    "current": "settings"
+  },
+  "mods": {
+    "modList": "管理 Mod · 生电整合 · 1.21.5\n\n1.21.5 · Fabric · 12 Mod · 恢复区 0\n\n模组列表 (12)\n恢复区 (0)\n全部 12\n已启用 9\n已禁用 3\nfabric-api-0.119.2+1.21.5.jar\nFabric API 0.119.2 · 2.1 MB\n×\nsodium-fabric-0.6.13+mc1.21.5.jar\nSodium 0.6.13 · 1.1 MB\n×\nlithium-fabric-0.15.1+mc1.21.5.jar\nLithium 0.15.1 · 780 KB\n×\niris-fabric-1.8.8+mc1.21.5.jar\nIris Shaders 1.8.8 · 3.4 MB\n×\njei-1.21.5-fabric-19.8.0.215.jar\nJust Enough Items 19.8.0.215 · 1.3 MB\n×\nxaeros_minimap_25.1.0_Fabric_1.21.jar\nXaero's Minimap 25.1.0 · 1.6 MB\n×\nmodmenu-11.0.3.jar\nMod Menu 11.0.3 · 210 KB\n×\ncloth-config-17.0.144-fabric.jar\nCloth Config API 17.0.144 · 1.0 MB\n×\nentityculling-fabric-1.7.3-mc1.21.5.jar\nEntityCulling 1.7.3 · 96 KB\n×\nferritecore-7.0.2-fabric.jar.disabled\nFerriteCore 7.0.2 · 120 KB\n已禁用\n×\nlitematica-fabric-1.21.5-0.21.4.jar.disabled\nLitematica 0.21.4 · 890 KB\n已禁用\n×\nreplaymod-1.21.5-2.6.21.jar.disabled\nReplay Mod 2.6.21 · 5.2 MB\n已禁用\n×",
+    "recoveryBefore": {
+      "drawer": "true",
+      "text": "管理 Mod · 生电整合 · 1.21.5\n\n1.21.5 · Fabric · 12 Mod · 恢复区 0\n\n模组列表 (12)\n恢复区 (0)\n读取恢复区失败，无法判断有哪些文件可以恢复：Controlled audit recovery failure (/api/instances/fabric-1215/recovery)\n重新读取恢复区",
+      "rect": {
+        "x": 720,
+        "y": 0,
+        "width": 560,
+        "height": 800,
+        "top": 0,
+        "right": 1280,
+        "bottom": 800,
+        "left": 720
+      }
+    },
+    "recoveryAfter": {
+      "drawer": "true",
+      "text": "管理 Mod · 生电整合 · 1.21.5\n\n1.21.5 · Fabric · 12 Mod · 恢复区 0\n\n模组列表 (12)\n恢复区 (0)\n这里保存被移除的文件，默认保留 30 天。恢复不会覆盖原位置的同名文件。\n恢复区为空",
+      "rect": {
+        "x": 720,
+        "y": 0,
+        "width": 560,
+        "height": 800,
+        "top": 0,
+        "right": 1280,
+        "bottom": 800,
+        "left": 720
+      }
+    }
+  },
+  "rawReference": {
+    "text": "树状图渲染失败\n\nCannot read properties of undefined (reading 'sessions')",
+    "cells": 0
+  },
+  "errors": [],
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/api/accounts",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/news",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/state",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/stats",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/downloads",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/worlds",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/instances",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/servers",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/stats",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/content/search",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/accounts",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/versions",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/downloads",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/versions/remote",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/accounts",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/update",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/stats",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/stats",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/stats",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "path": "/api/config",
+      "body": "{\"useAutoMemory\":false}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/state",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "path": "/api/config",
+      "body": "{\"maxMemoryMb\":4608,\"useAutoMemory\":false}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/state",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/instances/fabric-1215/mods",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/instances/fabric-1215/recovery",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/instances/fabric-1215/recovery",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/instances/fabric-1215/recovery",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/instances/fabric-1215/recovery",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "path": "/api/instances/fabric-1215/mods/sodium-fabric-0.6.13%2Bmc1.21.5.jar/toggle",
+      "body": "{}"
+    },
+    {
+      "method": "POST",
+      "path": "/api/instances/fabric-1215/mods/sodium-fabric-0.6.13%2Bmc1.21.5.jar.disabled/toggle",
+      "body": "{}"
+    },
+    {
+      "method": "POST",
+      "path": "/api/instances/fabric-1215/mods/sodium-fabric-0.6.13%2Bmc1.21.5.jar/delete",
+      "body": "{}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/instances/fabric-1215/recovery",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/instances/fabric-1215/recovery",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "path": "/api/instances/fabric-1215/recovery/audit-recovery/restore",
+      "body": "{\"overwrite\":false}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/instances/fabric-1215/mods",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/instances/fabric-1215/recovery",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/instances/vanilla-1215/saves/%E6%96%B0%E4%B8%96%E7%95%8C/backups",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/accounts",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/accounts",
+      "body": null
+    }
+  ]
+}

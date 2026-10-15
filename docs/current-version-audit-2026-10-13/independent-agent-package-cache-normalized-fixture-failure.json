@@ -1,0 +1,7 @@
+{
+  "count": 0,
+  "failures": 0,
+  "scope": "NuGet SDK PackageArchiveReader.GetContentHash compares signature-normalized content hash to source lock; ValidateIntegrityAsync validates archive vs signed hash; SignedCms.CheckSignature(true) verifies cryptographic signature without live revocation or certificate trust check; raw archive hash compared only with .nupkg.sha512",
+  "nugetSource": "https://github.com/NuGet/NuGet.Client/blob/dev/src/NuGet.Core/NuGet.Packaging/PackageArchiveReader.cs",
+  "checks": []
+}

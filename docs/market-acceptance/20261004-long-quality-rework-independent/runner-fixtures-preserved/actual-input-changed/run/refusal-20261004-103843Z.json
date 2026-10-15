@@ -1,0 +1,13 @@
+{
+    "schemaVersion":  2,
+    "runner":  "run-goal-validation.ps1",
+    "runDir":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\actual-input-changed\\run",
+    "stageFilter":  "",
+    "generatedUtc":  "2026-10-04T10:38:42Z",
+    "refused":  true,
+    "reasons":  [
+                    "INPUT_SHA_MISMATCH",
+                    "INPUT_SET_FAILED"
+                ],
+    "verdict":  "REFUSED"
+}

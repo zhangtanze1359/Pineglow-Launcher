@@ -1,0 +1,27 @@
+﻿{
+    "name":  "01-node-tests",
+    "command":  "node --test --test-reporter=spec ui/tests/ai-diagnose.test.cjs ui/tests/api-contract.test.cjs ui/tests/content-icon.test.cjs ui/tests/launcher-behavior.test.cjs ui/tests/launcher-content.test.cjs ui/tests/launcher-v3.test.cjs ui/tests/launcher-v4.test.cjs ui/tests/launcher-v5.test.cjs ui/tests/news-behavior.test.cjs ui/tests/news-link.test.cjs ui/tests/skin3d-core.test.cjs",
+    "cwd":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-810a28bd0d3d456c9e28201fb6fdf158",
+    "startUtc":  "2026-10-02T07:29:37Z",
+    "endUtc":  "2026-10-02T07:29:41Z",
+    "durationSec":  3,
+    "exitCode":  0,
+    "status":  "PASS",
+    "logProduced":  true,
+    "verifierDefect":  false,
+    "logBytes":  19270,
+    "decodeMode":  "utf-8",
+    "stdoutPath":  "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR00\\20261002-072004Z\\logs\\formal\\01-node-tests.stdout.txt",
+    "nodeTests":  "184",
+    "nodePass":  "184",
+    "nodeFail":  "0",
+    "nodeSkipped":  "0",
+    "csPassed":  null,
+    "csFailed":  null,
+    "csSkipped":  null,
+    "csTotal":  null,
+    "buildErrors":  null,
+    "expectHits":  [
+
+                   ]
+}

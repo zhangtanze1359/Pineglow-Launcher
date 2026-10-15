@@ -1,0 +1,13 @@
+{
+  "checkedHongKong": "2026-10-13T01:41:06.6445080+08:00",
+  "dns": {
+    "api.modrinth.com": "TIMEOUT",
+    "launchercontent.mojang.com": "TIMEOUT",
+    "opencode.ai": "TIMEOUT",
+    "github.com": "TIMEOUT"
+  },
+  "systemProxy": "127.0.0.1:2080",
+  "proxyListener": "ThroneCore PID 19488",
+  "explicitProxyHttp": "opencode.ai HTTP request exceeded 12 seconds",
+  "settingsChanged": false
+}

@@ -1,0 +1,154 @@
+﻿{
+    "runId":  "20261003-100000Z",
+    "task":  "MR17 核心流程键盘、焦点与缩放（无障碍）",
+    "generatedUtc":  "2026-10-02T22:54:30Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "result":  {
+                   "a11yContractTests":  "9 passed / 0 failed (RED baseline: 9 failed / 0 passed)",
+                   "csharpFull":  "752 passed / 0 failed",
+                   "nodeFull":  "230 passed / 0 failed (18 files)",
+                   "gitStatus":  1329,
+                   "realKeyboardVerified":  false,
+                   "screenReaderVerified":  false,
+                   "zoomVerified":  false
+               },
+    "auditFindings":  [
+                          "CSS had outline:none with NO global :focus-visible (only two scoped rules) -\u003e keyboard focus was invisible (WCAG 2.4.7 AA)",
+                          "modals had no Escape, no focus trap, no focus return",
+                          "role=button elements were focusable but could not be activated by keyboard",
+                          "#toast had no live region (WCAG 4.1.3)",
+                          ".account-card-del was ~19px tall, below the 24x24 minimum (WCAG 2.5.8 AA 2.2)",
+                          "no skip link (WCAG 2.4.1)"
+                      ],
+    "fixed":  {
+                  "focusVisible":  "global :focus-visible added (appended block, existing rules untouched)",
+                  "modalKeyboard":  "Escape + Tab trap + focus return + role=dialog/aria-modal",
+                  "dangerousConfirm":  "focus prefers safe (cancel/close) buttons; never defaults to the destructive one",
+                  "roleButton":  "Enter/Space delegated activation, native \u003cbutton\u003e excluded to avoid double-trigger",
+                  "liveRegion":  "#toast role=status aria-live=polite aria-atomic",
+                  "smallWindow":  "sticky .modal-actions + scroll-margin so confirm/cancel stay reachable",
+                  "targetSize":  ".account-card-del and .mod-del raised to \u003e=24x24",
+                  "skipLink":  "added, i18n-driven (zh/en), target #view-home made programmatically focusable",
+                  "colorNotAlone":  "danger/warn text gets a leading \"!\" marker"
+              },
+    "keyFinding":  {
+                       "statement":  "The accessibility change broke 48 of 230 existing Node tests",
+                       "cause":  "NOT a product defect: the existing tests use minimal fake DOM elements (makeEl) that lack standard members (contains/removeAttribute/addEventListener(keydown)/removeEventListener/focus/hasAttribute). The modal keyboard contract calls standard DOM APIs, so the fakes threw TypeError.",
+                       "exposure":  "Those \"DOM simulations\" were too far from a real DOM - any product change using standard APIs would fail spuriously",
+                       "resolution":  "Completed the test doubles in 6 files (test-only change; no special-casing added to product code)",
+                       "productSideCompat":  "two semantically equivalent tweaks: hasAttribute -\u003e getAttribute(...) == null, and the composite :not() selector -\u003e several simple selectors merged",
+                       "selfInflicted":  "while patching news-link.test.cjs I wrote document_.activeElement where the file variable is named document -\u003e ReferenceError; fixed"
+                   },
+    "knownGaps":  [
+                      "真实键盘操作未做（卡片要求与 DOM 模拟独立）",
+                      "屏幕阅读器（NVDA/JAWS/VoiceOver）未实读：aria/live region 只做结构性声明",
+                      "125%/150%/200% 缩放与 800x600 未实测（需真实 WebView2 与桌面会话）",
+                      "中英文文字裁切未实测",
+                      "焦点指示色 var(--green) 与各背景的对比度未取样验证（WCAG 1.4.11 要求 \u003e=3:1）",
+                      "未逐屏记录 Tab 顺序（卡片要求走六类界面）",
+                      "launcher-v3/v4/v5.test.cjs 的同类替身未补齐（当前不失败）"
+                  ],
+    "files":  [
+                  {
+                      "path":  "changed-files.sha256.txt",
+                      "sha256":  "233FCD891D24B78DDBE899B2A8F066EFFC67A4A830DDBCFD500FD2903BEF4042",
+                      "sizeBytes":  826
+                  },
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "6DA8366BA8F9C6A83C1147EBD576A232D9B31D39991E08454C8AD55C1CAE2270",
+                      "sizeBytes":  9790
+                  },
+                  {
+                      "path":  "green/01-a11y-first.log",
+                      "sha256":  "FE0F6B9C9A3A497AD4F17F29195ED1EFBF5D1FA195E425BEEDACD68CDB904A3E",
+                      "sizeBytes":  1134
+                  },
+                  {
+                      "path":  "green/02-a11y-after.log",
+                      "sha256":  "6BD32488257BB3A27FE4EB15780C9DA3621DB7C1B649A332C921427324C316DC",
+                      "sizeBytes":  1136
+                  },
+                  {
+                      "path":  "green/03-csharp-full.log",
+                      "sha256":  "9E94CBE662F783DFB29B4BA28976B8DEF9655BB43FD59F697AE44A88D2C53921",
+                      "sizeBytes":  652
+                  },
+                  {
+                      "path":  "green/04-node-full.log",
+                      "sha256":  "EF25BA5809EC9B0F7706922F6A2D740CE94E682909EE536ECA4DBEAD5D570B20",
+                      "sizeBytes":  65480
+                  },
+                  {
+                      "path":  "green/05-node-full-after-stub.log",
+                      "sha256":  "E35370D49E43BE7BDCB55BCB0EEBA1871D2DC219057136787854EEAE0BA0F498",
+                      "sizeBytes":  32932
+                  },
+                  {
+                      "path":  "green/06-node-full-final.log",
+                      "sha256":  "581C5C14414065B24F0C845AC6EE6DD31A06B94B1B54AD485CFDB8F9EDE7EEB0",
+                      "sizeBytes":  26809
+                  },
+                  {
+                      "path":  "green/07-node-full-final.log",
+                      "sha256":  "A25CCEC563B6F81C1FB91E7497F39CD145BE34E7DDA48250CBCE648E78A5E954",
+                      "sizeBytes":  25249
+                  },
+                  {
+                      "path":  "green/08-node-full-final.log",
+                      "sha256":  "BC0A737394C06E6EE29EAB22D600162F42DBCAD9BEA36CE190AE385CADD1AAF5",
+                      "sizeBytes":  25406
+                  },
+                  {
+                      "path":  "green/09-node-full-final.log",
+                      "sha256":  "9863A229712AFF959D76F80C1F9B3CB9DDC713CE20A969A674856294368DF4F0",
+                      "sizeBytes":  25404
+                  },
+                  {
+                      "path":  "green/10-node-full-final.log",
+                      "sha256":  "1FF38980507C1047D8DE90DA0EE9453DA494DE9E05A0FB0AB448F835A36E6177",
+                      "sizeBytes":  23791
+                  },
+                  {
+                      "path":  "green/11-csharp-full-final.log",
+                      "sha256":  "9E94CBE662F783DFB29B4BA28976B8DEF9655BB43FD59F697AE44A88D2C53921",
+                      "sizeBytes":  652
+                  },
+                  {
+                      "path":  "green/12-node-full-final.log",
+                      "sha256":  "2E0C8B4400F47ABCF8CD65B16BB81A0BCB449D543B1098B354BB6A99726C847F",
+                      "sizeBytes":  23794
+                  },
+                  {
+                      "path":  "green/figma.css.mr17",
+                      "sha256":  "A21AFC607959315D230FAF9F169B533BAB23D5A4E74974648AD0241856257D97",
+                      "sizeBytes":  50459
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "3CFBDDB559428D4E3B1C71D116E71F01079E4A5AFDEB5D613B0638698BC5F9E8",
+                      "sizeBytes":  114986
+                  },
+                  {
+                      "path":  "green/i18n.js.mr17",
+                      "sha256":  "A838B52490D4996F5E72329F2B768C5C317895CC78FA4BA3686B546D5CF6F167",
+                      "sizeBytes":  57357
+                  },
+                  {
+                      "path":  "green/index.html.mr17",
+                      "sha256":  "BBC0A6196EAC6919C3364BBA3D721193ADA30C9420C4C8AE280DBA63FE07B22C",
+                      "sizeBytes":  7136
+                  },
+                  {
+                      "path":  "green/launcher.js.mr17",
+                      "sha256":  "C08B336529A99A3056B46441238BECB7494394FC381AC7E0271D85D906587548",
+                      "sizeBytes":  198582
+                  },
+                  {
+                      "path":  "red/01-a11y-before.log",
+                      "sha256":  "C717734EF232C13A0E562BF0BECCB874893E893F14D9B30A45D210AC1ACD4A25",
+                      "sizeBytes":  15070
+                  }
+              ]
+}

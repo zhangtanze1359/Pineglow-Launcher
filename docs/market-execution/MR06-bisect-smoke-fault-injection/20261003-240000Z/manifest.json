@@ -1,0 +1,108 @@
+﻿{
+    "runId":  "20261003-240000Z",
+    "task":  "MR06 补测：--bisect-smoke 故障注入（A5）",
+    "generatedUtc":  "2026-10-03T00:31:48Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "gap-register A5 - the plan asked for fault injection to supplement the existing 8-4-2-1 smoke; MR06 only confirmed the smoke still exited 0",
+    "result":  {
+                   "smokeChecks":  "10 -\u003e 19 (9 new contract assertions)",
+                   "smokeResult":  "exit 0, 19 PASS / 0 FAIL",
+                   "csharpFull":  "769 passed / 0 failed / 0 skipped",
+                   "nodeFull":  "230 passed / 0 failed (18 files)",
+                   "mg1VerificationWithSmoke":  "exit 0 (scripts/verify-mg1.ps1 run WITHOUT -SkipTests, so the smoke really ran inside the milestone verification)",
+                   "productCodeNetChanges":  false,
+                   "verifyHostFileTracked":  "yes - dev/PineglowLauncher/VerifyHost/BisectSmoke.cs is tracked, so it enters the snapshot via git ls-files and does NOT need a whitelist entry",
+                   "currentDriftNumbers":  "mg0: 258/1/89/0 ; mg1: 66/0/68/0 ; mg2: 258/1/88/0 ; mg3: 66/0/68/0 ; ledger audit exit 0"
+               },
+    "injectionDesign":  {
+                            "method":  "pre-create a DIRECTORY at every \".jar.disabled\" target name so the rename genuinely fails",
+                            "whyNotDelete":  "deleting a file also changes the candidate list (which is computed from files), confounding the failure cause",
+                            "whyNotLock":  "MEASURED: on this Windows machine, File.Move of a file held open with FileShare.None SUCCEEDS, so a lock does not make the rename fail",
+                            "orderIndependence":  "all 8 targets are blocked, so whichever half gets disabled the injection fires; the disabled half in this phase was mod01-04 while the normal path uses mod05-08 - hard-coding names would have produced a false pass"
+                        },
+    "redBaseline":  "neutralizing RecordStepResults failure branch (if (failed.Count \u003e 0) -\u003e if (false)) makes start return 200 with an EMPTY recoveryError despite the file operations failing -\u003e 7 injection assertions fail",
+    "windowsBehaviourFinding":  "A file opened with FileShare.None CAN still be renamed on Windows. This matches round 33 finding for A16 (QuarantineAsync failed at the HASH step, not the move). So \"file is in use\" does not imply \"rename will fail\" - important for test design.",
+    "stillNotCovered":  [
+                            "restore-stage failure was not injected: note its failure branch does NOT clear WaitingForReport (only sets needsRecovery/RecoveryError) - that is a behaviour question, recorded but not changed",
+                            "only one failure shape was injected (rename target occupied); disk-full and permission-denied are not covered",
+                            "real GUI and real Minecraft remain unverified"
+                        ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "E0AE3730B2E1D0BC3E7B65EDA653ABC9E43E9EF368E2D3F4FF67148B20984657",
+                      "sizeBytes":  7747
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "C36720D919B2DE8212A65A4E8510C232945117197019FF66CFFC2C14B1E0B46A",
+                      "sizeBytes":  10510
+                  },
+                  {
+                      "path":  "green/01-smoke-with-injection.log",
+                      "sha256":  "E35015B5D6BADF3F4609B9AF53088382A3C1BD537885801AF2041AAC64C40B74",
+                      "sizeBytes":  909
+                  },
+                  {
+                      "path":  "green/02-smoke-with-injection.log",
+                      "sha256":  "E9FEE32A3D11A81A7636FA82ADA0648E3A0128F56A437C796268EE531FB099A2",
+                      "sizeBytes":  1582
+                  },
+                  {
+                      "path":  "green/03-smoke-injection.log",
+                      "sha256":  "CC7960040A384CA593AA34DA075BAD509A479334DFEA478A134238D10F6149AA",
+                      "sizeBytes":  1575
+                  },
+                  {
+                      "path":  "green/04-smoke-final.log",
+                      "sha256":  "CC7960040A384CA593AA34DA075BAD509A479334DFEA478A134238D10F6149AA",
+                      "sizeBytes":  1575
+                  },
+                  {
+                      "path":  "green/05-csharp-full.log",
+                      "sha256":  "3193D613997F5E87C866FE5531BD503C899D356821DA53A9EEEDAF64D72B83CE",
+                      "sizeBytes":  4710
+                  },
+                  {
+                      "path":  "green/06-node-full.log",
+                      "sha256":  "367004938CB47C7AA46DA172EDC4AA88CEAEF11AA7BE1C5FA46AB084539A9BBB",
+                      "sizeBytes":  23805
+                  },
+                  {
+                      "path":  "green/07-mg1-recheck.log",
+                      "sha256":  "E3A369678370DA38327C3ED0FB2E2AF914AF25BDF2ED788A3938773F815E22AC",
+                      "sizeBytes":  4568
+                  },
+                  {
+                      "path":  "green/08-mg1-full-with-smoke.log",
+                      "sha256":  "B408BCD5EEFB4FABDBD40025BF51E8F0D7D3D20752926298A8E6124911334F99",
+                      "sizeBytes":  45124
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "8696E9F6466E9B44D76925F70BA95E900B5E3137608634235B1FFC1FE9DB4918",
+                      "sizeBytes":  117
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "48AF415ED57FE99CE0E57A1EEED05E4A2E434C1666336ED425CEDF9F70AACE5E",
+                      "sizeBytes":  115498
+                  },
+                  {
+                      "path":  "red/01-smoke-red.log",
+                      "sha256":  "2AC6B153A0947FECA9DFF3BE56952D9C2F6E6797F53DED9A562A8B1F7E8C1359",
+                      "sizeBytes":  1312
+                  },
+                  {
+                      "path":  "red/BisectSmoke.cs.before",
+                      "sha256":  "5A9755B1348F988D088A3177A40EDA6CF8DD62397033EB0D0647892CCA9892F2",
+                      "sizeBytes":  9193
+                  },
+                  {
+                      "path":  "red/ModBisectService.cs.before",
+                      "sha256":  "B8E0D7F73CABC337162FAB374ED65348BBF5FE65EAD5AFEF20CE037B14513E4E",
+                      "sizeBytes":  10119
+                  }
+              ]
+}

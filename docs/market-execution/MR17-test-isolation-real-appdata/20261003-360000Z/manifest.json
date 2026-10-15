@@ -1,0 +1,70 @@
+﻿{
+    "runId":  "20261003-360000Z",
+    "task":  "测试隔离缺陷修复：诊断报告写进真实 %APPDATA%（A20）",
+    "generatedUtc":  "2026-10-03T02:22:58Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "gap-register A20 (a test writing into the real %APPDATA%)",
+    "rootCause":  "dev/PineglowLauncher.Tests/AiCancelAndRedirectTests.cs contains two test classes sharing one hand-rolled TestHarness. That harness redirected the CONFIG store (OverrideConfigStoreForTest) and guarded the real config (RealConfigSnapshot) but never redirected the DIAGNOSTIC store root, even though LocalApiService.OverrideDiagnosticStoreRootForTest already existed and LocalApiTestHarness uses it. Every diagnostic report therefore landed in the real %APPDATA%\\MCMiniLauncher\\diagnostics.",
+    "evidence":  "locale-test-*.json comes from AiCancelAndRedirectTests.cs:1138 (\"locale-test-\" + Guid); step3-op-*/phase3c2-op-*.json from its step3 cases; timestamps span 04:45 to 10:13, i.e. every full-suite run today.",
+    "fix":  "Test-only: create a temp diagnostics root and call OverrideDiagnosticStoreRootForTest in StartAsync (releasing it on the failure paths), dispose it and delete the temp dir in DisposeAsync, and ADD A REAL-DIRECTORY GUARD that fails the test when the real diagnostics file count changes (mirroring the existing config guard).",
+    "verification":  {
+                         "classAfterFix":  "31 passed / 0 failed",
+                         "realDirAfterClass":  "259 -\u003e 259 files (no new files)",
+                         "csharpFull":  "817 passed / 0 failed / 0 skipped",
+                         "realDirAfterFullSuite":  "259 -\u003e 259 files (NO new files) - before the fix every full run added files",
+                         "nodeFull":  "230 passed / 0 failed (18 files)",
+                         "productionCodeChanged":  false
+                     },
+    "leftoverGarbage":  {
+                            "totalFiles":  259,
+                            "byShape":  "locale-test-*: 248 ; step3-op-*/phase3c2-op-*: 11",
+                            "span":  "10-03 04:45 -\u003e 10:13",
+                            "action":  "NOT deleted: removing content from the user real data directory needs explicit consent. A WhatIf cleanup command is proposed in the deliverable section 4."
+                        },
+    "lesson":  "A green suite is not a clean suite: this leak ran from 04:45 onward while every full run reported 817/0, because the tests only WROTE to the real directory and never ASSERTED about it. The new guard addresses this fixture; A21 records that other hand-rolled fixtures have not been audited.",
+    "newGap":  "A21 - audit every hand-rolled test fixture for redirection of the four roots (config / recovery / bisect / diagnostic) and add a shared \"real %APPDATA% must not change\" guard.",
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "F4D33192785EEED9B97C476CC4F40197F688BD5378892E9A85E46A2822E0332F",
+                      "sizeBytes":  5581
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "6FAE2C0C9B5728029C7E5108ED2960B149AA910E919058E19DC46541E9260E6A",
+                      "sizeBytes":  16693
+                  },
+                  {
+                      "path":  "green/01-ai-tests-after-fix.log",
+                      "sha256":  "9B73ED4E8D4F295CEFD5082FBA2D44BF023AD42BCD82CB5AECDCFE1F25346339",
+                      "sizeBytes":  11580
+                  },
+                  {
+                      "path":  "green/02-csharp-full.log",
+                      "sha256":  "35AB1E8382E72A9B4E667C9960ABA95233C1111A739FE057FB9E419503A5406E",
+                      "sizeBytes":  490
+                  },
+                  {
+                      "path":  "green/03-node-full.log",
+                      "sha256":  "D3D4C101B2150DE053EEF11E83269F259B345D1954341D0C23D72A6338F0F362",
+                      "sizeBytes":  23791
+                  },
+                  {
+                      "path":  "green/AiCancelAndRedirectTests.cs.fixed",
+                      "sha256":  "6E05D7CD5C608907FBBA7702A73D515F10D5165230D3BC65D47377D40177749B",
+                      "sizeBytes":  54119
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "1F406FBE35308BD69D3BE8C23B374257BA68505C35B104C6DB4CF32D31F2C857",
+                      "sizeBytes":  125
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "BDED79C4D295998716AA44346384F075BCEE9CEF3151947E0631B13867BEAF14",
+                      "sizeBytes":  116072
+                  }
+              ],
+    "currentDriftNumbers":  "mg0: 266/1/109/0 ; mg1: 78/0/84/0 ; mg2: 266/1/108/0 ; mg3: 78/0/84/0 ; all exit 0 ; ledger audit exit 0"
+}

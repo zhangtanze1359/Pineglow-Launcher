@@ -1,0 +1,164 @@
+{
+    "runId":  "20261002-182304Z",
+    "scope":  "W1 路由可达性修复 + W2 HTTP 层路由契约测试 + W3 文档同步",
+    "generatedUtc":  "2026-10-02T18:47:23Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "deliveryRoot":  "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "env":  {
+                "dotnetSdk":  "10.0.301",
+                "node":  "v24.19.0",
+                "platform":  "Windows",
+                "powershell":  "5.1.26100.9549"
+            },
+    "finalArtifact":  {
+                          "LocalApiService_cs_sha256":  "F9F662A85922C08AFF7715B1F3C0179729FD1FC46401474D2EC816108DD3FF77",
+                          "bomPreserved":  true
+                      },
+    "result":  {
+                   "w1":  "fixed: 10 routes hoisted out of the seg.Length == 4 block",
+                   "w2":  "16 passed / 0 failed (before fix: 15 failed / 1 passed)",
+                   "bisectSmoke":  "exit=0, 10/10 PASS (before fix: exit=1, 404)",
+                   "csharpFull":  "628 passed / 0 failed (final bytes)",
+                   "nodeFull":  "184 passed / 0 failed (final bytes)",
+                   "gitStatus":  "before 1287 -> after 1290 (+3: 2 new test files, docs/api-reference.md newly modified)"
+               },
+    "knownLimits":  [
+                        "真实 GUI / WebView2 / 真实游戏未验证",
+                        "saves/{folder}/open 的真实打开行为未验证（测试刻意走不存在的存档以规避弹窗）",
+                        "GitHub Actions 实际运行未验证",
+                        "RID 发布锁定 NU1004 未处理（属 MR19）"
+                    ],
+    "selfInflictedIncidents":  [
+                                   "搬移脚本类型转换失败导致文件被写成 5 行空内容 → 用基线副本回退，SHA 与改前一致",
+                                   "UTF-8 BOM 两次丢失 → 已恢复并在最终字节上完整重跑",
+                                   "静态扫描器按行锚定漏掉 :531、token 未含 \"if (\" 导致注释被误判 → 均已在测试代码内修正"
+                               ],
+    "files":  [
+                  {
+                      "path":  "baseline/git-status-before.txt",
+                      "sha256":  "2569D34A5C4FBCE1A760D3CDA45B78FB8904DA64270D935EF71EB81D45452F56",
+                      "sizeBytes":  112641
+                  },
+                  {
+                      "path":  "baseline/LocalApiService.cs.orig",
+                      "sha256":  "1EEF455D57897DCED28AFAEBC6F064B23EAF96D90692CC0050F6A9AA8BB03A5E",
+                      "sizeBytes":  136050
+                  },
+                  {
+                      "path":  "baseline/LocalApiService.cs.sha256.txt",
+                      "sha256":  "3473BD4F081BC7484F2A24169D4D90A031225F819627367530AE7478984B6DAC",
+                      "sizeBytes":  69
+                  },
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "96D599213288DE029DC63514F27B06140E1F9ABBE00247A3399BE929BC6A56F0",
+                      "sizeBytes":  18077
+                  },
+                  {
+                      "path":  "docs/api-reference.md.diff",
+                      "sha256":  "44E53FBEEFF43EB2408EAD4A10BC299246CE0BF89335FF9BE5C8EF7F8F0C4399",
+                      "sizeBytes":  1635
+                  },
+                  {
+                      "path":  "docs/roadmap.md.diff",
+                      "sha256":  "F68F4EAE0C0F2FC2C2AF99B5F7B1C30069C343AF576163285B2584D360585915",
+                      "sizeBytes":  11630
+                  },
+                  {
+                      "path":  "green/05-route-tests-after.log",
+                      "sha256":  "6E373F7A73A9B7664883DDA1461C09C8DD14B8B13F83FC8DB99AC2B66F2D7390",
+                      "sizeBytes":  25574
+                  },
+                  {
+                      "path":  "green/06-route-tests-after.log",
+                      "sha256":  "C8BC4057F9E97DC481D332C5E953E151B3AF275A04DD72C8A796299CC84909D4",
+                      "sizeBytes":  20446
+                  },
+                  {
+                      "path":  "green/07-build-verifyhost.log",
+                      "sha256":  "A78BDF25F28A842F3A77280469033CEA81639F234B54E6B051A7FC8BFCBCE928",
+                      "sizeBytes":  1312
+                  },
+                  {
+                      "path":  "green/08-bisect-smoke-after.log",
+                      "sha256":  "174F4F3A8A25912D4FEE6AFD40939EE3944B150D327BF09F6E5E069A01E0C77A",
+                      "sizeBytes":  1282
+                  },
+                  {
+                      "path":  "green/09-csharp-full.log",
+                      "sha256":  "571DCF59B282E7477E974F5FF9B48773851C361AA7A4A9F7EF58D228912D8176",
+                      "sizeBytes":  182426
+                  },
+                  {
+                      "path":  "green/10-node-test-list.txt",
+                      "sha256":  "80820BA010502E7F53FE6653E22AB732FCFB52F174F6650FC9E6DDD2FA5CF9F6",
+                      "sizeBytes":  258
+                  },
+                  {
+                      "path":  "green/11-node-tests.log",
+                      "sha256":  "61CE80937C126FBE1ED26D03D0BB7E26B7BA399857033796BDF29129117F4FEF",
+                      "sizeBytes":  31264
+                  },
+                  {
+                      "path":  "green/12-build-verifyhost-final.log",
+                      "sha256":  "58182FD35274E96B50D76091D02798804866F51F8EA50939B3230B596720468C",
+                      "sizeBytes":  876
+                  },
+                  {
+                      "path":  "green/13-bisect-smoke-final.log",
+                      "sha256":  "174F4F3A8A25912D4FEE6AFD40939EE3944B150D327BF09F6E5E069A01E0C77A",
+                      "sizeBytes":  1282
+                  },
+                  {
+                      "path":  "green/14-route-tests-final.log",
+                      "sha256":  "5DDA34E14166DA92F9D0A377AD1D71749D8EA925262B3F7EDBB009AF63E14CB0",
+                      "sizeBytes":  4459
+                  },
+                  {
+                      "path":  "green/15-csharp-full-final.log",
+                      "sha256":  "F207410D355C71ADD4BD2B15CB3E34D30250444CF0CDBA899DF5B1C88ECE6C65",
+                      "sizeBytes":  652
+                  },
+                  {
+                      "path":  "green/16-node-tests-final.log",
+                      "sha256":  "2A58434B507A616DDBBA6E9E0372DBD61430EF5B6FBA39731A35800618A8A9EA",
+                      "sizeBytes":  19533
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "84E5F0303D3919A03B5C377C2DB173C52E9DB24360F0EF3F8F091D3106AE3295",
+                      "sizeBytes":  751
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "6B8244FFEE0576A95E5543D8C509B689B5B8E20099219C24C9D44435AB263099",
+                      "sizeBytes":  112778
+                  },
+                  {
+                      "path":  "green/W1-LocalApiService.patch",
+                      "sha256":  "7A7984220C45DE61059E9CC6B74BE04A4DE086CD37263B61836783138C1F65D7",
+                      "sizeBytes":  5664
+                  },
+                  {
+                      "path":  "red/01-build-verifyhost.log",
+                      "sha256":  "E6F1B65213A3057B23772AAE259CF66141F6D6464C38DC8675A7CA3CDF226611",
+                      "sizeBytes":  360
+                  },
+                  {
+                      "path":  "red/02-bisect-smoke-before.log",
+                      "sha256":  "31677119CDA7613E7C8A8B55CDF41418D5F2027498AD7F94E3A3E96ABF0A586B",
+                      "sizeBytes":  470
+                  },
+                  {
+                      "path":  "red/03-route-tests-before.log",
+                      "sha256":  "D8BDD7D9ECF35FFDD7EDCFBDE509780CA7B8AFB26BDC109C017092B6D642A6A3",
+                      "sizeBytes":  70412
+                  },
+                  {
+                      "path":  "red/04-static-guard-before.log",
+                      "sha256":  "4D8EC782A3693D5728E0B3281A6AC4CE5501DB986B209CBC344C3F7D6198C863",
+                      "sizeBytes":  13914
+                  }
+              ]
+}

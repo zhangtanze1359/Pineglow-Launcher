@@ -1,0 +1,13 @@
+{
+    "schemaVersion":  1,
+    "runId":  "fixed-id",
+    "inputManifest":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\unchanged-positive-and-resume\\input.json",
+    "inputManifestSha256":  "8ACF635AD9F565DA4C5EACC7C4695B442ECA752662D66D03A673C1E2986EDEB5",
+    "verifiedInputSetSha256":  "8B61E22B98906A58BCCF598A8597273C39E974CA49E3A725FCEE986A121651DB",
+    "verifiedInputCount":  2,
+    "verifiedInputRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\unchanged-positive-and-resume",
+    "stagesFile":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\unchanged-positive-and-resume\\stages.json",
+    "stagesFileSha256":  "FC4DEBF9E481408E6A4DEF3086EDA2C4CF0358C8C9CF4F5611E97AC16C7B2F09",
+    "executionRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\unchanged-positive-and-resume",
+    "evidenceRoot":  ""
+}

@@ -1,0 +1,98 @@
+{
+  "evidenceRoot": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-acceptance\\20261003-W1-W3",
+  "entries": [
+    {
+      "logCreatedUtc": "2026-10-02T18:55:44.4981832Z",
+      "passed": 16,
+      "total": 16,
+      "log": "01-focused.log",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-independent-4b2ee15c82e349518501c1ffb40104f1",
+      "failed": 0,
+      "command": "dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --filter FullyQualifiedName~RouteReachabilityTests --logger \"trx;LogFileName=route-original.trx\" --results-directory <EvidenceRoot>/test-results",
+      "exitCode": 0,
+      "timingNote": "filesystem logging bounds, not separately instrumented process duration; exact C# test timing in test-summary.json",
+      "logLastWriteUtc": "2026-10-02T18:55:54.9162624Z"
+    },
+    {
+      "logCreatedUtc": "2026-10-02T18:57:30.7712429Z",
+      "passed": 628,
+      "total": 628,
+      "log": "02-full.log",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-independent-4b2ee15c82e349518501c1ffb40104f1",
+      "failed": 0,
+      "command": "dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --no-build --no-restore --logger \"trx;LogFileName=full-original.trx\" --results-directory <EvidenceRoot>/test-results",
+      "exitCode": 0,
+      "timingNote": "filesystem logging bounds, not separately instrumented process duration; exact C# test timing in test-summary.json",
+      "logLastWriteUtc": "2026-10-02T18:58:28.3870562Z"
+    },
+    {
+      "logCreatedUtc": "2026-10-02T18:57:40.9906341Z",
+      "passed": 184,
+      "total": 184,
+      "log": "03-node.log",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-independent-4b2ee15c82e349518501c1ffb40104f1",
+      "failed": 0,
+      "command": "node --test <11 explicit paths enumerated in node-inputs.txt>",
+      "exitCode": 0,
+      "timingNote": "filesystem logging bounds, not separately instrumented process duration; exact C# test timing in test-summary.json",
+      "logLastWriteUtc": "2026-10-02T18:57:43.9983009Z"
+    },
+    {
+      "log": "04-verifyhost-build.log",
+      "logLastWriteUtc": "2026-10-02T18:58:05.7079778Z",
+      "timingNote": "filesystem logging bounds, not separately instrumented process duration; exact C# test timing in test-summary.json",
+      "command": "dotnet build dev/PineglowLauncher/VerifyHost/VerifyHost.csproj -c Release",
+      "exitCode": 0,
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-independent-4b2ee15c82e349518501c1ffb40104f1",
+      "logCreatedUtc": "2026-10-02T18:58:00.1611410Z"
+    },
+    {
+      "logCreatedUtc": "2026-10-02T18:58:05.7372854Z",
+      "checks": 10,
+      "passed": 10,
+      "log": "05-bisect-smoke.log",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-independent-4b2ee15c82e349518501c1ffb40104f1",
+      "command": "dotnet dev/PineglowLauncher/VerifyHost/bin/Release/net10.0/VerifyHost.dll --bisect-smoke --port 49137",
+      "exitCode": 0,
+      "timingNote": "filesystem logging bounds, not separately instrumented process duration; exact C# test timing in test-summary.json",
+      "logLastWriteUtc": "2026-10-02T18:58:05.9999458Z"
+    },
+    {
+      "logCreatedUtc": "2026-10-02T18:59:18.2487472Z",
+      "passed": 13,
+      "total": 15,
+      "log": "06-independent-probes.log",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-independent-4b2ee15c82e349518501c1ffb40104f1",
+      "failed": 2,
+      "command": "dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --no-restore --filter FullyQualifiedName~IndependentRouteProbes --logger \"trx;LogFileName=independent-probes.trx\" --results-directory <EvidenceRoot>/test-results",
+      "exitCode": 1,
+      "timingNote": "filesystem logging bounds, not separately instrumented process duration; exact C# test timing in test-summary.json",
+      "logLastWriteUtc": "2026-10-02T18:59:20.5134489Z"
+    },
+    {
+      "logCreatedUtc": "2026-10-02T19:02:31.3547274Z",
+      "expectedNonzero": true,
+      "passed": 1,
+      "total": 16,
+      "log": "07-independent-red.log",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24",
+      "failed": 15,
+      "command": "dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --filter FullyQualifiedName~RouteReachabilityTests --logger \"trx;LogFileName=independent-red.trx\" --results-directory <EvidenceRoot>/test-results",
+      "exitCode": 1,
+      "timingNote": "filesystem logging bounds, not separately instrumented process duration; exact C# test timing in test-summary.json",
+      "logLastWriteUtc": "2026-10-02T19:02:36.4118183Z"
+    },
+    {
+      "logCreatedUtc": "2026-10-02T19:02:37.3870487Z",
+      "passed": 0,
+      "total": 2,
+      "log": "08-failures-repeat.log",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-independent-4b2ee15c82e349518501c1ffb40104f1",
+      "failed": 2,
+      "command": "dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --no-build --no-restore --filter \"FullyQualifiedName~RestoreRejectsBackupFromDifferentWorld|FullyQualifiedName~BackupsListIsScopedToRequestedWorld\" --logger \"trx;LogFileName=independent-failures-repeat.trx\" --results-directory <EvidenceRoot>/test-results",
+      "exitCode": 1,
+      "timingNote": "filesystem logging bounds, not separately instrumented process duration; exact C# test timing in test-summary.json",
+      "logLastWriteUtc": "2026-10-02T19:02:38.8430538Z"
+    }
+  ]
+}

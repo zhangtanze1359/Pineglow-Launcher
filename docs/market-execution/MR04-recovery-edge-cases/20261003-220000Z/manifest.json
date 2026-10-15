@@ -1,0 +1,118 @@
+﻿{
+    "runId":  "20261003-220000Z",
+    "task":  "MR04 补测：恢复区边界情形（A2/A3）+ 实测缺陷",
+    "generatedUtc":  "2026-10-03T00:16:36Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "gap-register A2/A3 (reparse-point refusal, locked file, retention policy)",
+    "result":  {
+                   "testsAdded":  5,
+                   "green":  "4 passed / 0 failed / 1 skipped (the skipped one encodes the TARGET behaviour)",
+                   "csharpFull":  "769 passed / 0 failed / 1 skipped",
+                   "nodeFull":  "230 passed / 0 failed (18 files)",
+                   "implementationFileRestored":  "FileRecoveryService.cs byte-identical to the pre-RED backup after all three REDs",
+                   "productCodeNetChanges":  false,
+                   "currentDriftNumbers":  "mg0: 258/1/86/0 ; mg1: 65/0/66/0 ; mg2: 258/1/85/0 ; mg3: 65/0/66/0 ; ledger audit exit 0"
+               },
+    "keyFindings":  {
+                        "reparseVerifiable":  "MR04 said symlink refusal could not be verified locally because symlinks need privileges. A DIRECTORY JUNCTION (mklink /J) needs no privileges and covers the ancestor check - both the junction and the symlink cases were verified on this machine.",
+                        "realDefect":  "A file locked with FileShare.None makes QuarantineAsync THROW from HashFile (line 136/399) instead of recording a per-item error. MR04 documented a fallback that reports per item - that only covers the MOVE stage (line 146). Registered as A16; product code NOT changed (it alters error semantics).",
+                        "safetyInvariantsHold":  "even when it throws: the source file is intact, and the operation record was already persisted (write-record-first design), so the operation is never lost",
+                        "redFalsePass":  "RED-1 first reported 4 passed / 0 failed because dotnet test did NOT rebuild the assembly. Fixed by explicit dotnet build plus dotnet test --no-build; RED-1 then showed 2 failures with State=quarantined. The misleading log is kept as evidence."
+                    },
+    "redBaselines":  {
+                         "red1":  "reparse check neutralized -\u003e 2 failed (junction + symlink cases, State=quarantined)",
+                         "red2a":  "retention constant 30d -\u003e 0d -\u003e 1 failed (constant assertion)",
+                         "red2b":  "silent cleanup injected into ListAsync -\u003e 1 failed (proves the test would catch a FUTURE silent-cleanup regression)",
+                         "red3":  "removed write-record-first -\u003e 1 failed (the record-persisted safety invariant)",
+                         "transitionalNote":  "the locked-file test asserts the CURRENT behaviour and must be updated when A16 is fixed (the skipped test becomes the real guard)"
+                     },
+    "stillNotCovered":  [
+                            "disk-full: still no real case (cannot reliably create a full disk); the locked-file case exercises the same fallback branch but is NOT disk-full",
+                            "CopyThenRemove failing halfway under disk-full",
+                            "real GUI delete/restore panel (needs a desktop session)",
+                            "the symlink case is environment-dependent: on a machine without Developer Mode it reports not-verified instead of failing"
+                        ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "B6D166545F2A04D5DDB7A2BF37F8E04E5A8E58535778669FF9BA9CA22F2AC79D",
+                      "sizeBytes":  8192
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "EFDA3155354FD4AE8551F3E2F1BD2FEA6D646EB421F6E5A5607807DC7BA88C33",
+                      "sizeBytes":  10225
+                  },
+                  {
+                      "path":  "green/01-edge-first.log",
+                      "sha256":  "ED023150BAC0DEA5F1188617E51927498C91940C034A225D005844B6B14E215F",
+                      "sizeBytes":  20002
+                  },
+                  {
+                      "path":  "green/02-edge-second.log",
+                      "sha256":  "98F7CE043B24D6705C29B0717C68E9874D2267683E0BBAA6115AC6E12A45F0BA",
+                      "sizeBytes":  12344
+                  },
+                  {
+                      "path":  "green/03-edge-final.log",
+                      "sha256":  "3BBF480178A04F62B06165FB383E5CED7ADECE2906BE453F41C2ABC9968B5F68",
+                      "sizeBytes":  12344
+                  },
+                  {
+                      "path":  "green/04-csharp-full.log",
+                      "sha256":  "8C748ECAE02FF791E79817703F4A97B127A2DA370DC0E783F964DA12FA1CD711",
+                      "sizeBytes":  951
+                  },
+                  {
+                      "path":  "green/05-node-full.log",
+                      "sha256":  "FA1048292386EB82AC86A81F9DD70A5628A2AB052D7EA8477CE93A3C0282BA33",
+                      "sizeBytes":  23805
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "F801758FBD51473A53E96A3187BD7DF0B5FD3567955A091E4EB7471F2AF15857",
+                      "sizeBytes":  228
+                  },
+                  {
+                      "path":  "green/FileRecoveryService.cs.mr04a",
+                      "sha256":  "6926200706E0CD97DDCFC2CC7C577310B82E66309E65547F159E987FEA3ACDD3",
+                      "sizeBytes":  13956
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "48AF415ED57FE99CE0E57A1EEED05E4A2E434C1666336ED425CEDF9F70AACE5E",
+                      "sizeBytes":  115498
+                  },
+                  {
+                      "path":  "red/01-red-reparse.log",
+                      "sha256":  "7BFA7B6375B610F369D308A842DEDA1A36DD18E49EA97C058778E6497D8F20A6",
+                      "sizeBytes":  7140
+                  },
+                  {
+                      "path":  "red/02-red-retention.log",
+                      "sha256":  "E14772E5971B6A79E8EEF6E6346546481BFEA23E762B4C85EA09DB7B072191DD",
+                      "sizeBytes":  9505
+                  },
+                  {
+                      "path":  "red/03-red-reparse-debug.log",
+                      "sha256":  "DB00E975DDE4C64C46B8EF6E790818B0EBAD37DC04D2CF4060F9FD3A383FB5C1",
+                      "sizeBytes":  7436
+                  },
+                  {
+                      "path":  "red/04-red-retention-constant.log",
+                      "sha256":  "4FC7A19B51F3654957A480623F515AB141A6A0A476CBBE33F0313243DE589338",
+                      "sizeBytes":  3685
+                  },
+                  {
+                      "path":  "red/05-red-silent-cleanup.log",
+                      "sha256":  "507E80FFEBE547AB3BD5D56E6DDD497ABAD66E270A69B39688D75B3DECCEAA89",
+                      "sizeBytes":  4054
+                  },
+                  {
+                      "path":  "red/06-red-record-first.log",
+                      "sha256":  "DD8E4F51085232437638778482F741FFAC565A21FE62390CCDE7DCC2A7BD54E4",
+                      "sizeBytes":  4238
+                  }
+              ]
+}

@@ -1,0 +1,12 @@
+{
+  "baselineCount": 281,
+  "unchanged": 275,
+  "changed": [
+    "dev/PineglowLauncher.Tests/ConfigPreservationTests.cs",
+    "dev/PineglowLauncher/Pineglow.Launcher.Services/FileRecoveryService.cs",
+    "dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.cs",
+    "dev/PineglowLauncher/Pineglow.Launcher.Services/ModReplacementService.cs",
+    "dev/PineglowLauncher/Pineglow.Launcher.Services/SecretStore.cs",
+    "scripts/source-snapshot-inputs.txt"
+  ]
+}

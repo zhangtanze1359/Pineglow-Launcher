@@ -1,0 +1,108 @@
+﻿{
+    "runId":  "20261003-270000Z",
+    "task":  "MR12 补测：出站出口审计与\"不得绕过策略\"守卫（A8）",
+    "generatedUtc":  "2026-10-03T00:56:03Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "gap-register A8 (the icon/update-path rate-limit audit that MR12 left undone)",
+    "result":  {
+                   "guardTests":  6,
+                   "green":  "6 passed / 0 failed",
+                   "csharpFull":  "792 passed / 0 failed / 0 skipped (786 + 6)",
+                   "nodeFull":  "230 passed / 0 failed (18 files)",
+                   "productionCodeNetChanges":  false,
+                   "currentDriftNumbers":  "mg0: 261/1/93/0 ; mg1: 69/0/72/0 ; mg2: 261/1/92/0 ; mg3: 69/0/72/0 ; ledger audit exit 0"
+               },
+    "auditConclusions":  {
+                             "curseForge":  "all 3 CF API request sites are inside CurseForgeRequestPolicy.SendAsync (lines 339/380/430 each preceded by the policy call); the policy still enforces a SemaphoreSlim concurrency cap and Retry-After",
+                             "icons":  "ContentIconService contains NO CF/Modrinth API literal. Icons fetch media URLs from a server-built trusted URL map (LocalApiService only accepts a (source, category, projectId) triple and never a client-supplied URL), so the icon path CANNOT bypass the CF API policy - structurally impossible. It still has connect/total timeouts.",
+                             "news":  "feed/image/link each gated by NewsEndpointPolicy",
+                             "ai":  "endpoints whitelisted by AiEndpointPolicy",
+                             "newFinding":  "A18: the Modrinth side has NO rate-limit/concurrency policy at all, while 7 egress points exist (ModContentService 3, ModrinthModpackService 2, ResourceContentService 2). CurseForge has a policy; Modrinth does not - the same class of operation is protected on one source and not the other."
+                         },
+    "redBaselines":  {
+                         "red1":  "insert a CF API request that bypasses the policy -\u003e EveryCurseForgeApiRequest_IsWrappedByTheRequestPolicy fails",
+                         "red2":  "give ContentIconService a Modrinth API literal -\u003e ContentIconService_MustNotCallTheModApis fails",
+                         "bothRestored":  "production files byte-identical afterwards"
+                     },
+    "selfFoundIssue":  "First run: 5 passed / 1 failed. The Modrinth counter reported 9 while I had recorded 10, because my \"exclude const declarations\" rule only recognised the name ModrinthApi - the other two files call their constant Api, so 2 declarations were miscounted as egress points. The true number of egress points is 7. Fixed by excluding ANY line containing \"const string\" and recording 7.",
+    "notDoneInA8":  [
+                        "request coalescing / result caching (feature, not an audit item)",
+                        "a dedicated retry button",
+                        "search pagination cursor",
+                        "the A18 fix itself (extracting a shared HttpRequestPolicy is a design change)"
+                    ],
+    "stillNotCovered":  [
+                            "real CurseForge rate limiting was not reproduced (MR12 used synthetic responses)",
+                            "real Modrinth rate limiting untested (the other side of A18)",
+                            "metadata endpoints (Fabric/Quilt/Forge/Adoptium/Mojang) were LISTED but no policy was designed for them",
+                            "this class is a STATIC source check; it does not verify runtime adherence to the concurrency cap (MR12 tests cover that)"
+                        ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "FB0518BB8528E2C236D3A0486F02848C6DB43107226BE206FE43CF56AF938FBF",
+                      "sizeBytes":  7966
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "8904BC2C8DACCA08967A6BD6B5BDDA44A10793F4FF4BE78BCB92A2DFDEC14468",
+                      "sizeBytes":  12588
+                  },
+                  {
+                      "path":  "green/01-outbound-first.log",
+                      "sha256":  "C463088B82C6CCE70C7CC50CD3B279996FF44FB8C9753D97329DC038B76C8E46",
+                      "sizeBytes":  4975
+                  },
+                  {
+                      "path":  "green/02-outbound-fixed.log",
+                      "sha256":  "C37F4210BC0E9B7BA02510D6C93AFFDB84B8DE25FA6EF9F520107440ABE46C7E",
+                      "sizeBytes":  2171
+                  },
+                  {
+                      "path":  "green/03-outbound-final.log",
+                      "sha256":  "35D3FCE9C5B47A31349DCBA82587E631BC8AC04E6684FC8C3775CDEC274731A3",
+                      "sizeBytes":  2169
+                  },
+                  {
+                      "path":  "green/04-csharp-full.log",
+                      "sha256":  "99131E27A55623AD0E6E73970C83C0202B3C39933B48198BEC6E11CFC19EF903",
+                      "sizeBytes":  490
+                  },
+                  {
+                      "path":  "green/05-node-full.log",
+                      "sha256":  "AC5FA1B4B3E381B86219D2DBD9EED303D23592EBD98DD59E0A4CCCC780080C7D",
+                      "sizeBytes":  23805
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "93197D90C6D3278348075AF641D3C01F728CBB9E596FA40F1FD18BC0DC463786",
+                      "sizeBytes":  230
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "FA94B55976EFE0C374C94CC9719FC9A3E14E55C562C8219DEDB5899CFBF2179F",
+                      "sizeBytes":  115688
+                  },
+                  {
+                      "path":  "red/01-red-cf-bypass.log",
+                      "sha256":  "E36B11598E87F0AA6A17FFBCCC247F16B4D36049FB7A41337EDA8272F3E47053",
+                      "sizeBytes":  8516
+                  },
+                  {
+                      "path":  "red/02-red-icon-api.log",
+                      "sha256":  "D608AD2428F48571F5F08236E3E52FF763953597AEAF5D35C58EC0A3B3CD550B",
+                      "sizeBytes":  8139
+                  },
+                  {
+                      "path":  "red/ContentIconService.cs.before",
+                      "sha256":  "8D723D0447C6F83D139FB1502B657C6FAC0EA2C3C365993283A40C979F94CCCB",
+                      "sizeBytes":  63218
+                  },
+                  {
+                      "path":  "red/ModContentService.cs.before",
+                      "sha256":  "D39A5A2102049795940602D2071DAFFBF4C8A1F3DE3317705201ADC860FB55CC",
+                      "sizeBytes":  23291
+                  }
+              ]
+}

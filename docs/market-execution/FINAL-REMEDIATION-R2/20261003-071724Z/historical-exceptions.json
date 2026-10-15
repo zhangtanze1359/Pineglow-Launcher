@@ -1,0 +1,25 @@
+{
+  "utc": "2026-10-03T07:30:00Z",
+  "note": "RA-04/F-05: 两份历史文件与旧 manifest 不符。旧 manifest 与旧 log 一律只读、原样保留；本文件把例外**精确绑定到字节**：manifest 记录的旧值、已登记的当前值、以及文件此刻的实际值三者必须同时吻合，任何再漂移都判失败。",
+  "historicalExceptionsRetained": true,
+  "exceptions": [
+    {
+      "manifest": "MG0-verification-package-20261003/manifest.json",
+      "path": "drift-notes.md",
+      "recordedSha256": "1F7197B34E86025D32C0B8DDB6DE0A136F1CB3489FD4927AEEDAA97698F0BE88",
+      "recordedSize": 3114,
+      "currentSha256": "C55CE93981D8D078CD66450D91AAF5571145731049B024433301EB955277CF6B",
+      "currentSize": 4088,
+      "reason": "清单封存后文件字节被改写（3114 → 4088 字节）。旧清单保留为历史，未重算；本轮只登记差异。"
+    },
+    {
+      "manifest": "MG2-verification-package-20261003/manifest.json",
+      "path": "verify-mg2-full.log",
+      "recordedSha256": "B99A6D92BA9E6791B9DE5C8579254AD233AEB35AC539B7CC5BF05748F0813C31",
+      "recordedSize": 41770,
+      "currentSha256": "BE2E432EADE77D436B39A1706248B9C90D9280CA98DFF8C57EEE4A5C5F5E2F95",
+      "currentSize": 41770,
+      "reason": "大小相同、字节不同：日志被重新生成过。旧清单与旧日志保留为历史，未重算。"
+    }
+  ]
+}

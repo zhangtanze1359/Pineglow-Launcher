@@ -1,0 +1,24 @@
+﻿{
+    "probe":  "range-resume-proof",
+    "fixture":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-resume-ae6617c18e7f4b1880305f18be85aa1d\\install",
+    "version":  "1.21.11",
+    "jarPath":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-resume-ae6617c18e7f4b1880305f18be85aa1d\\install\\data\\.minecraft\\versions\\1.21.11\\1.21.11.jar",
+    "tempPath":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-resume-ae6617c18e7f4b1880305f18be85aa1d\\install\\data\\.minecraft\\versions\\1.21.11\\1.21.11.jar.download",
+    "originalJarSha1":  "ba2df812c2d12e0219c489c4cd9a5e1f0760f5bd",
+    "tempBytesWritten":  1048576,
+    "logLineCountBefore":  8,
+    "messagesSeen":  [
+                         "正在获取 Minecraft 1.21.11 元数据...",
+                         "无法连接 Minecraft 版本下载源，已自动尝试官方和镜像地址。请检查网络后重试。"
+                     ],
+    "resumeLogLines":  [
+
+                       ],
+    "finalJarSha1":  "",
+    "jarMatchesOriginal":  false,
+    "downloadStatus":  "failed",
+    "seconds":  7,
+    "leftoverTemp":  true,
+    "ownedProcessesStopped":  true,
+    "timeHK":  "2026-10-11T14:16:08.0789226"
+}

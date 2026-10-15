@@ -1,0 +1,16 @@
+{
+  "remainingOwnedProcesses": [
+    {
+      "ProcessId": 19060,
+      "Name": "java.exe",
+      "ExecutablePath": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-acceptance-723c2f6f391548c784959bb299ad5370\\data\\runtimes\\java-17-windows-x64\\jdk-17.0.20.1+1-jre\\bin\\java.exe"
+    },
+    {
+      "ProcessId": 18404,
+      "Name": "java.exe",
+      "ExecutablePath": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-acceptance-723c2f6f391548c784959bb299ad5370\\data\\runtimes\\java-21-windows-x64\\jdk-21.0.12.1+1-jre\\bin\\java.exe"
+    }
+  ],
+  "ownedRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-acceptance-723c2f6f391548c784959bb299ad5370",
+  "checkedAt": "2026-10-07T17:12:09.2609474+08:00"
+}

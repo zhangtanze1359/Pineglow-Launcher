@@ -1,0 +1,42 @@
+﻿[
+    {
+        "label":  "generate packages.win-x64.lock.json",
+        "file":  "dev/PineglowLauncher/packages.win-x64.lock.json",
+        "ok":  true
+    },
+    {
+        "label":  "generate packages.linux-x64.lock.json",
+        "file":  "dev/PineglowLauncher/packages.linux-x64.lock.json",
+        "ok":  true
+    },
+    {
+        "label":  "generate packages.osx-x64.lock.json",
+        "file":  "dev/PineglowLauncher/packages.osx-x64.lock.json",
+        "ok":  true
+    },
+    {
+        "label":  "release.yml: RID publish now locked against packages.win-x64.lock.json",
+        "file":  ".github\\workflows\\release.yml",
+        "ok":  true
+    },
+    {
+        "label":  "build.yml: matrix publish now locked against packages.\u003crid\u003e.lock.json",
+        "file":  ".github\\workflows\\build.yml",
+        "ok":  true
+    },
+    {
+        "label":  "build.yml: guard asserts each RID lock exists and carries its own section",
+        "file":  ".github\\workflows\\build.yml",
+        "ok":  true
+    },
+    {
+        "label":  "WorkflowInvariantTests: invariant 4 rewritten (RID publish must be locked on its own lock)",
+        "file":  "dev\\PineglowLauncher.Tests\\WorkflowInvariantTests.cs",
+        "ok":  true
+    },
+    {
+        "label":  "WorkflowInvariantTests: invariant 5 rewritten (referenced RID lock must exist)",
+        "file":  "dev\\PineglowLauncher.Tests\\WorkflowInvariantTests.cs",
+        "ok":  true
+    }
+]

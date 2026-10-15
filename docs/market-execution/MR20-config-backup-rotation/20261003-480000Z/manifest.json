@@ -1,0 +1,92 @@
+{
+    "runId":  "20261003-480000Z",
+    "task":  "MR20 补测：配置备份的主备轮转留证（A15 剩余项）",
+    "generatedUtc":  "2026-10-03T04:26:44Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "gap-register A15 remainder - the .bak/.prev rotation was untestable because it lives inside SaveAsync, which writes real credentials",
+    "keyInsight":  "The rotation itself is a PURE FILE OPERATION. Instead of adding a SecretStore seam (which would touch credential code), I added a narrow test seam that exposes only the rotation: ConfigStore.RotateBackupBeforeWriteForTest. This is a much smaller change and touches no credential code, so no authorization was needed.",
+    "semantics":  "1) if .bak exists, copy .bak to .prev; 2) if config.json exists, copy config.json to .bak; 3) any failure is swallowed so the main write is unaffected.",
+    "tests":  "5 cases: first rotation creates .bak only; second keeps both generations; third keeps only the two most recent (gen1 evicted) and does not modify the current config; no config file means no backups; an unusable .bak target does not throw and is left intact.",
+    "redBaseline":  "removing the .prev generation produced 2 failures",
+    "verification":  [
+                         "5 passed / 0 failed",
+                         "C# full: 828 passed / 0 failed / 0 skipped (823 + 5)",
+                         "Node full: 238 passed / 0 failed",
+                         "restore byte-identical to green/ConfigStore.cs.fixed"
+                     ],
+    "stillNotCovered":  [
+                            "the credential-writing path of SaveAsync is STILL untested (A19 remains)",
+                            "no end-to-end test of three real SaveAsync calls",
+                            "cross-process concurrent writes",
+                            "there is no restore-from-.bak entry point (a feature gap, not a defect)"
+                        ],
+    "productionBehaviourChanged":  "false - only an internal test seam was added",
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "53DDDC927385DD03D4DE61F9570F83821993E2BCAA09784822285E2D2270D77B",
+                      "sizeBytes":  4792
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "9C8025F3BD2A8EACBD39AD6095C297A9438E38BAD2402CDEBBFA1FB83AF5D284",
+                      "sizeBytes":  20300
+                  },
+                  {
+                      "path":  "green/02-rotation.log",
+                      "sha256":  "F2CD0E65A78A4EDC261C4A9BC82D6710D29798F0F689AFED7C4B102A982599C5",
+                      "sizeBytes":  1717
+                  },
+                  {
+                      "path":  "green/03-csharp-full.log",
+                      "sha256":  "66A7B49D5A8FC3F71D291D0CE6F93B60739722B7BA19F9B9184667CC843E4091",
+                      "sizeBytes":  490
+                  },
+                  {
+                      "path":  "green/04-node-full.log",
+                      "sha256":  "B90970380AAD4497E0B52AC4A8E35066E5446EA6AFBD21E6A3D03A54FC65A6E5",
+                      "sizeBytes":  37650
+                  },
+                  {
+                      "path":  "green/audit-claimed-tests.log",
+                      "sha256":  "E2EB8848644AB21057CD203037B3D45692CBC34FBBF1F76C075CAF64E9985D53",
+                      "sizeBytes":  377
+                  },
+                  {
+                      "path":  "green/audit-evidence-tree.log",
+                      "sha256":  "7C2094B3553E40E1A7A0CEE5705D5A1E89EA270A937276F6D0D53E2190A5C293",
+                      "sizeBytes":  582
+                  },
+                  {
+                      "path":  "green/audit-plan-ledger.log",
+                      "sha256":  "569EFE1D80C75942876F6A260CD9983164DE2F446C5FE7D3A644327083FFA8F5",
+                      "sizeBytes":  538
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "6983BA6F1F065BF5E50912540FCF4C48973DFDF62B70D2DAB1D741D551F4A4B1",
+                      "sizeBytes":  358
+                  },
+                  {
+                      "path":  "green/ConfigBackupRotationTests.cs.fixed",
+                      "sha256":  "3C93B7BBCF7E6AEBB6286247EED69B76484D3B33A836595D84CEC3CEFDC36CA8",
+                      "sizeBytes":  4900
+                  },
+                  {
+                      "path":  "green/ConfigStore.cs.fixed",
+                      "sha256":  "635D9EBC818532B669D3FC8BFB6C32624E35CE00A4DD6163403679B902A7135C",
+                      "sizeBytes":  9769
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "06A937E69E4758A9721FF3D80DCE91BC1C49B38E780D6C3E502E00C4370E096E",
+                      "sizeBytes":  116523
+                  },
+                  {
+                      "path":  "red/01-red-no-prev-generation.log",
+                      "sha256":  "2C3D40F86A0E5FAA1D3660CB9B19054DD13C22D4CA0E082D6C2322DC67959179",
+                      "sizeBytes":  4132
+                  }
+              ]
+}

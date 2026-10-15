@@ -1,0 +1,6 @@
+{
+  "exitCode": 0,
+  "testFile": "ui/tests/goal-core-flow.test.cjs",
+  "testFileSha256": "59B8FC0F43CDAC6BCFBBD1F7BA98CD5556D6C791644199961A4A6741F61F3B50",
+  "log": "node-goal-core-flow.log"
+}

@@ -1,0 +1,22 @@
+{
+  "checked": 4,
+  "mismatches": 0,
+  "checks": [
+    {
+      "path": "baseline-ui-sanitized.json",
+      "match": true
+    },
+    {
+      "path": "baseline-ui-sanitized.log",
+      "match": true
+    },
+    {
+      "path": "independent-ui-red.json",
+      "match": true
+    },
+    {
+      "path": "cdp-error-red.log",
+      "match": true
+    }
+  ]
+}

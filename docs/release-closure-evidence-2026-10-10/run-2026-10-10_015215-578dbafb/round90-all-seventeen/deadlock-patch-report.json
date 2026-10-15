@@ -1,0 +1,17 @@
+﻿[
+    {
+        "label":  "P-DEADLOCK 1/3 LoadAsync reads the config off-context",
+        "file":  "dev\\PineglowLauncher\\Pineglow.Launcher.Services\\ConfigStore.cs",
+        "ok":  true
+    },
+    {
+        "label":  "P-DEADLOCK 2/3 LoadAsync migration save",
+        "file":  "dev\\PineglowLauncher\\Pineglow.Launcher.Services\\ConfigStore.cs",
+        "ok":  true
+    },
+    {
+        "label":  "P-DEADLOCK 3/3 SaveAsync placeholder await",
+        "file":  "dev\\PineglowLauncher\\Pineglow.Launcher.Services\\ConfigStore.cs",
+        "ok":  true
+    }
+]

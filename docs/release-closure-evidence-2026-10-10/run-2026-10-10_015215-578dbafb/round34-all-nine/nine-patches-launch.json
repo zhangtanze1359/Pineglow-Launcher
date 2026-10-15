@@ -1,0 +1,10 @@
+﻿{
+    "gamePid":  15444,
+    "loader":  "Fabric",
+    "probe":  "nine-patches-launch",
+    "instance":  "d7-fabric 导入",
+    "exe":  "C98064664DC53B55BAC8C010014EDFC58EA3250A78B5DC70D3C29CA420EC4C81",
+    "reachedTitle":  true,
+    "launchOk":  true,
+    "prelaunchOk":  true
+}

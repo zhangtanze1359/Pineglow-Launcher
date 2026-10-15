@@ -1,0 +1,9 @@
+{
+  "remainingOwnedProcesses": [],
+  "ownedRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-acceptance-723c2f6f391548c784959bb299ad5370",
+  "stoppedOwnedChildPids": [
+    19060,
+    18404
+  ],
+  "checkedAt": "2026-10-07T17:12:24.6278439+08:00"
+}

@@ -1,0 +1,262 @@
+{
+  "schemaVersion": 1,
+  "generatedUtc": "2026-10-04T10:17:09.543Z",
+  "runId": "20261004-r3rework-dab448e2",
+  "runnerVerdict": "PASS",
+  "runnerExitIsZero": true,
+  "verifiedInputs": 292,
+  "verifiedInputSetSha256": "D10CBC26126EA17EC0837F3E2AA95C6D12D075F3986DBA5DC4E8833151282661",
+  "inputManifestSha256": "812D385A09538183215747737C9F7817A26CEE1DE05B2F2B34E78FC2235F8C22",
+  "stagesFileSha256": "13968D613DD7E00C6D0F9D3B94AECF48B24FA284234BD18D95B03344AB7B33CD",
+  "csharp": {
+    "selected": 73,
+    "total": 73,
+    "passed": 73,
+    "requiredSkipped": 0,
+    "perStage": [
+      {
+        "id": "g4-secrets",
+        "total": 13,
+        "executed": 13,
+        "passed": 13,
+        "failed": 0,
+        "notExecuted": 0,
+        "resultRows": 13
+      },
+      {
+        "id": "g4-ordinary-r2",
+        "total": 5,
+        "executed": 5,
+        "passed": 5,
+        "failed": 0,
+        "notExecuted": 0,
+        "resultRows": 5
+      },
+      {
+        "id": "g4-recovery-normal",
+        "total": 6,
+        "executed": 6,
+        "passed": 6,
+        "failed": 0,
+        "notExecuted": 0,
+        "resultRows": 6
+      },
+      {
+        "id": "g4-flows",
+        "total": 49,
+        "executed": 49,
+        "passed": 49,
+        "failed": 0,
+        "notExecuted": 0,
+        "resultRows": 49
+      }
+    ]
+  },
+  "node": {
+    "measuredPass": 269,
+    "minimum": 269,
+    "note": "266 original + 3 INDEPENDENT import-terminal cases"
+  },
+  "runnerContract": {
+    "measuredPass": 28,
+    "minimum": 28,
+    "note": "10 original + 18 added by this rework"
+  },
+  "auditor": {
+    "measuredOk": 26,
+    "expected": 26,
+    "realAudit": {
+      "roots": 3,
+      "packages": 62,
+      "manifestEntries": 1022,
+      "filesVerified": 1022,
+      "failures": 0,
+      "knownDrift": 3,
+      "notes": 0
+    }
+  },
+  "bisect": {
+    "measuredPass": 19,
+    "minimum": 19
+  },
+  "scenarioMatrix": {
+    "scenarios": 28,
+    "passed": 28,
+    "failed": 0,
+    "testFileSha256": "59B8FC0F43CDAC6BCFBBD1F7BA98CD5556D6C791644199961A4A6741F61F3B50",
+    "rawLogSha256": "8F7F78DCAAAAE0440F3AC7106B2E1D23B848E4C3E8025128B13379D72228D581"
+  },
+  "independentRunnerDisproof": {
+    "cases": 7,
+    "falsePassInR0": 7,
+    "falsePassAfterFix": 0,
+    "allRejectedAfterFix": true
+  },
+  "independentImportDisproof": {
+    "tests": 3,
+    "passed": 3,
+    "note": "r0 RED was 1 control pass / 2 defect failures; after the fix 3/3"
+  },
+  "recoveryDemo": {
+    "verdict": "DEMO_PASS",
+    "attempt1EvidenceUnchanged": true,
+    "archivedRecordByteIdentical": true
+  },
+  "stages": {
+    "g4-build-tests": {
+      "status": "REUSED",
+      "attemptDir": "attempts/g4-build-tests/1",
+      "counters": null,
+      "reasons": [],
+      "artifacts": [
+        {
+          "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c/dev/PineglowLauncher.Tests/bin/Release/net10.0/Pineglow.Launcher.Tests.dll",
+          "sha256": "03C7D64C303D66C1CD9EC54C3D8E95EAA9F72D743879867F2C4C452055F843D2",
+          "sizeBytes": 1047040
+        }
+      ]
+    },
+    "g4-secrets": {
+      "status": "REUSED",
+      "attemptDir": "attempts/g4-secrets/1",
+      "counters": {
+        "total": 13,
+        "executed": 13,
+        "passed": 13,
+        "failed": 0,
+        "notExecuted": 0,
+        "resultRows": 13,
+        "passedRows": 13,
+        "failedRows": 0,
+        "notExecutedRows": 0,
+        "otherRows": 0
+      },
+      "reasons": [],
+      "artifacts": [
+        {
+          "path": "results/secrets.trx",
+          "sha256": "F21D80035BBCFE3FDB1DD642FC24F8B06DBEC4CB197CD235DC821A4A7897D334",
+          "sizeBytes": 22402
+        }
+      ]
+    },
+    "g4-ordinary-r2": {
+      "status": "REUSED",
+      "attemptDir": "attempts/g4-ordinary-r2/1",
+      "counters": {
+        "total": 5,
+        "executed": 5,
+        "passed": 5,
+        "failed": 0,
+        "notExecuted": 0,
+        "resultRows": 5,
+        "passedRows": 5,
+        "failedRows": 0,
+        "notExecutedRows": 0,
+        "otherRows": 0
+      },
+      "reasons": [],
+      "artifacts": [
+        {
+          "path": "results/ordinary-r2.trx",
+          "sha256": "303926A6F5C1CC2DDC84474E575E46157FEBC99B45DA6490FE07DA718EA4E767",
+          "sizeBytes": 11672
+        }
+      ]
+    },
+    "g4-recovery-normal": {
+      "status": "REUSED",
+      "attemptDir": "attempts/g4-recovery-normal/1",
+      "counters": {
+        "total": 6,
+        "executed": 6,
+        "passed": 6,
+        "failed": 0,
+        "notExecuted": 0,
+        "resultRows": 6,
+        "passedRows": 6,
+        "failedRows": 0,
+        "notExecutedRows": 0,
+        "otherRows": 0
+      },
+      "reasons": [],
+      "artifacts": [
+        {
+          "path": "results/recovery-normal.trx",
+          "sha256": "FF6B921678F9B31FD9A1A40819746CE2A783D14AF10BC9CC49008E7F0B8B1798",
+          "sizeBytes": 13195
+        }
+      ]
+    },
+    "g4-flows": {
+      "status": "REUSED",
+      "attemptDir": "attempts/g4-flows/1",
+      "counters": {
+        "total": 49,
+        "executed": 49,
+        "passed": 49,
+        "failed": 0,
+        "notExecuted": 0,
+        "resultRows": 49,
+        "passedRows": 49,
+        "failedRows": 0,
+        "notExecutedRows": 0,
+        "otherRows": 0
+      },
+      "reasons": [],
+      "artifacts": [
+        {
+          "path": "results/flows.trx",
+          "sha256": "CC25A35E599ECB4FA2A961E683C415CF45BA5AFD78F645863402972BF8813175",
+          "sizeBytes": 86113
+        }
+      ]
+    },
+    "g4-node-all": {
+      "status": "REUSED",
+      "attemptDir": "attempts/g4-node-all/1",
+      "counters": null,
+      "reasons": [],
+      "artifacts": []
+    },
+    "g4-runner-tests": {
+      "status": "REUSED",
+      "attemptDir": "attempts/g4-runner-tests/1",
+      "counters": null,
+      "reasons": [],
+      "artifacts": []
+    },
+    "g4-auditor-tests": {
+      "status": "REUSED",
+      "attemptDir": "attempts/g4-auditor-tests/1",
+      "counters": null,
+      "reasons": [],
+      "artifacts": []
+    },
+    "g4-verifyhost-build": {
+      "status": "REUSED",
+      "attemptDir": "attempts/g4-verifyhost-build/1",
+      "counters": null,
+      "reasons": [],
+      "artifacts": [
+        {
+          "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c/dev/PineglowLauncher/VerifyHost/bin/Release/net10.0/VerifyHost.exe",
+          "sha256": "57CEA40B10006E4AD08AFAF044E1F50CD8432D0CC97445F838BC81D2622D6690",
+          "sizeBytes": 162304
+        },
+        {
+          "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c/dev/PineglowLauncher/VerifyHost/bin/Release/net10.0/VerifyHost.dll",
+          "sha256": "2E0D73F6231756792E03439A3700A33F73DFBC44B6EE4A167DC99D68C401D316",
+          "sizeBytes": 1103872
+        }
+      ]
+    },
+    "g4-bisect-smoke": {
+      "status": "REUSED",
+      "attemptDir": "attempts/g4-bisect-smoke/1",
+      "counters": null,
+      "reasons": [],
+      "artifacts": []
+    }
+  }
+}

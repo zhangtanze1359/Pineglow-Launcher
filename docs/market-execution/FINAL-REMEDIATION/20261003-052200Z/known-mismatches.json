@@ -1,0 +1,24 @@
+{
+  "utc": "2026-10-03T05:56:00Z",
+  "note": "Two manifest/file mismatches were found by the independent acceptance (F-05). The old manifests and the old files are preserved read-only; nothing was silently recomputed. Values below are the ones measured by this round.",
+  "mismatches": [
+    {
+      "manifest": "MG0-verification-package-20261003/manifest.json",
+      "path": "drift-notes.md",
+      "reason": "F-05 (known): bytes changed after the manifest was sealed - actual 4088 bytes / C55CE93981D8D078CD66450D91AAF5571145731049B024433301EB955277CF6B, recorded 3114 bytes / 1F7197B34E86025D32C0B8DDB6DE0A136F1CB3489FD4927AEEDAA97698F0BE88. Old manifest kept read-only; see evidence-corrections.md.",
+      "actualSize": 4088,
+      "actualSha256": "C55CE93981D8D078CD66450D91AAF5571145731049B024433301EB955277CF6B",
+      "recordedSize": 3114,
+      "recordedSha256": "1F7197B34E86025D32C0B8DDB6DE0A136F1CB3489FD4927AEEDAA97698F0BE88"
+    },
+    {
+      "manifest": "MG2-verification-package-20261003/manifest.json",
+      "path": "verify-mg2-full.log",
+      "reason": "F-05 (known): same size, different bytes - actual 41770 bytes / BE2E432EADE77D436B39A1706248B9C90D9280CA98DFF8C57EEE4A5C5F5E2F95, recorded 41770 bytes / B99A6D92BA9E6791B9DE5C8579254AD233AEB35AC539B7CC5BF05748F0813C31. Old manifest and log kept read-only; see evidence-corrections.md.",
+      "actualSize": 41770,
+      "actualSha256": "BE2E432EADE77D436B39A1706248B9C90D9280CA98DFF8C57EEE4A5C5F5E2F95",
+      "recordedSize": 41770,
+      "recordedSha256": "B99A6D92BA9E6791B9DE5C8579254AD233AEB35AC539B7CC5BF05748F0813C31"
+    }
+  ]
+}

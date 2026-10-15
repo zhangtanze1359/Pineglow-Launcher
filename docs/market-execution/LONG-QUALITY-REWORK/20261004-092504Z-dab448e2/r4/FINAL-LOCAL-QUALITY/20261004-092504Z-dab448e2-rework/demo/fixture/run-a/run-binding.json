@@ -1,0 +1,13 @@
+{
+    "schemaVersion":  1,
+    "runId":  "demo-run-1",
+    "inputManifest":  "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\demo\\fixture\\input.json",
+    "inputManifestSha256":  "C2A5F3FDF1F6B187479855B6FDBD49B32F4FCE91C67EF5305F6AB8DF9B299952",
+    "verifiedInputSetSha256":  "CA2B2C1D77DB387520C39E7A3991BC17974DA62FFE215AD2304A1488FA7C68CE",
+    "verifiedInputCount":  1,
+    "verifiedInputRoot":  "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\demo\\fixture",
+    "stagesFile":  "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\demo\\fixture\\stages.json",
+    "stagesFileSha256":  "83A2838FDF83D87F6002C84DC1475E66C1ADA4683E7D0270A5647AB0890C41BD",
+    "executionRoot":  "",
+    "evidenceRoot":  ""
+}

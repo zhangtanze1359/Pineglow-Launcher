@@ -1,0 +1,14 @@
+{
+  "time": "2026-10-13T17:01:26.0534173+08:00",
+  "sourceRoot": "D:\\松光启动器",
+  "commit": "ea6d1cbf145bd4ae479d9f4774dba468351a91a8",
+  "reviewedCommittedPaths": 50,
+  "checkedProductInputs": 305,
+  "sourceDrift": [],
+  "trackedChanges": 0,
+  "stagedChanges": 0,
+  "gitIdentity": "Existing project history identity; command-local only",
+  "initialSimplifiedManifestCheck": "166 whitelist entries checked unchanged; incorrect expected305 assertion corrected with complete independent input list",
+  "pushed": false,
+  "published": false
+}

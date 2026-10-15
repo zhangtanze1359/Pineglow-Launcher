@@ -1,0 +1,122 @@
+using System;
+using System.Collections.Concurrent;
+using System.Diagnostics;
+
+namespace Pineglow.Launcher.Services;
+
+/// <summary>
+/// MR03 收尾：服务端"实例正在运行"的注册表。
+///
+/// 为什么需要它：MR03 的验收要求"运行中的实例不得从列表移除"，但当时全仓**不存在**任何运行态记录 ——
+/// <c>HandleLaunchAsync</c> 派发进程后不保留状态，因此那一轮只实现了 Bisect 活动守卫，
+/// 并在报告里如实记为未达成项。本类补上这一块。
+///
+/// 设计要点：
+///   - **自愈**：进程已经退出时顺手清掉条目。否则一次异常的退出监听就会留下陈旧条目，
+///     永久挡住"从列表移除"——那是比"漏挡"更糟的失败模式；
+///   - 不持有 <see cref="Process"/> 的强生命周期依赖：没有进程对象时按 PID 复查；
+///   - 无法判定时**保守地认为仍在运行**（宁可多挡一次，也不要在游戏运行时把实例移走）。
+/// </summary>
+public static class RunningInstanceRegistry
+{
+	private sealed record Entry(int Pid, DateTimeOffset StartedAt, Process? Process);
+
+	private static readonly ConcurrentDictionary<string, Entry> Running =
+		new ConcurrentDictionary<string, Entry>(StringComparer.OrdinalIgnoreCase);
+
+	/// <summary>当前登记在册的运行中实例数（不触发自愈清理）。</summary>
+	public static int Count => Running.Count;
+
+	/// <summary>启动成功后登记。重复登记同一实例以最后一次为准。</summary>
+	public static void MarkRunning(string instanceId, Process process)
+	{
+		if (string.IsNullOrWhiteSpace(instanceId) || process == null)
+		{
+			return;
+		}
+
+		Running[instanceId] = new Entry(process.Id, DateTimeOffset.Now, process);
+	}
+
+	/// <summary>按 PID 登记（用于没有进程对象的路径与测试）。</summary>
+	public static void MarkRunningPid(string instanceId, int pid)
+	{
+		if (string.IsNullOrWhiteSpace(instanceId) || pid <= 0)
+		{
+			return;
+		}
+
+		Running[instanceId] = new Entry(pid, DateTimeOffset.Now, null);
+	}
+
+	/// <summary>退出监听里调用：清掉条目。</summary>
+	public static void MarkExited(string instanceId)
+	{
+		if (string.IsNullOrWhiteSpace(instanceId))
+		{
+			return;
+		}
+
+		Running.TryRemove(instanceId, out _);
+	}
+
+	/// <summary>
+	/// 该实例是否正在运行。<paramref name="pid"/> 返回登记到的进程号（0 表示没有）。
+	/// 进程已消失时会顺手清理条目（自愈）。
+	/// </summary>
+	public static bool IsRunning(string instanceId, out int pid)
+	{
+		pid = 0;
+		if (string.IsNullOrWhiteSpace(instanceId))
+		{
+			return false;
+		}
+
+		if (!Running.TryGetValue(instanceId, out Entry? entry))
+		{
+			return false;
+		}
+
+		try
+		{
+			if (entry.Process != null)
+			{
+				if (entry.Process.HasExited)
+				{
+					Running.TryRemove(instanceId, out _);
+					return false;
+				}
+			}
+			else
+			{
+				using Process probe = Process.GetProcessById(entry.Pid);
+				if (probe.HasExited)
+				{
+					Running.TryRemove(instanceId, out _);
+					return false;
+				}
+			}
+		}
+		catch (ArgumentException)
+		{
+			// 进程不存在（PID 已回收或从未存在）→ 自愈
+			Running.TryRemove(instanceId, out _);
+			return false;
+		}
+		catch
+		{
+			// 无法判定（权限等）→ 保守地认为仍在运行，不放开守卫
+		}
+
+		pid = entry.Pid;
+		return true;
+	}
+
+	public static bool IsRunning(string instanceId) => IsRunning(instanceId, out _);
+
+	/// <summary>测试缝：直接登记一个 PID（通常用测试进程自己的 PID，保证"活着"）。</summary>
+	internal static void MarkRunningForTest(string instanceId, int pid) => MarkRunningPid(instanceId, pid);
+
+	/// <summary>测试缝：清空注册表。</summary>
+	internal static void ResetForTest() => Running.Clear();
+}

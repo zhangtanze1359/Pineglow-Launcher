@@ -1,0 +1,20 @@
+{
+    "generatedUtc":  "2026-10-04T10:24:21Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "note":  "post-delivery check: the sealed terminal capture is compared with a fresh capture taken after sealing",
+    "inputCount":  {
+                       "sealedTerminal":  292,
+                       "recheck":  292,
+                       "r3Baseline":  292
+                   },
+    "driftVsSealedTerminal":  [
+
+                              ],
+    "driftVsR3Baseline":  [
+
+                          ],
+    "gitStatusIdentical":  true,
+    "headIdentical":  true,
+    "head":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "result":  "PASS"
+}

@@ -1,0 +1,36 @@
+{
+    "schemaVersion":  1,
+    "id":  "g4-audit-strict",
+    "runId":  "20261003-092612Z-b4d896a8-seal",
+    "fingerprint":  "289D03A8DA5A374C2123C70A0D6D0D1135BE74337AD2647F95DCC78C22DC85E8",
+    "inputManifestSha256":  "38ECBCAEFC772AF54A1E804994E05F97357BD53FAD37C9D1A63C218C5CE9C4A6",
+    "command":  "python -X utf8 scripts/audit-goal-evidence.py --expected C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8/g0/expected-evidence-final.json --out C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8/final-audit-outside-package.json",
+    "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-seal-39dfd2b90cbb4689b7fbad1c8ab10ba9",
+    "startUtc":  "2026-10-03T11:32:59Z",
+    "endUtc":  "2026-10-03T11:33:00Z",
+    "exitCode":  0,
+    "timedOut":  false,
+    "stillRunning":  false,
+    "counters":  null,
+    "trx":  "",
+    "artifacts":  [
+
+                  ],
+    "rawEvidence":  [
+                        {
+                            "path":  "g4-audit-strict.stdout.log",
+                            "sha256":  "1060A66C6A8C683100CE06EC205348CC36BB27C1556F30238AEC7477AB03F9BB",
+                            "sizeBytes":  377
+                        },
+                        {
+                            "path":  "g4-audit-strict.stderr.log",
+                            "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                            "sizeBytes":  0
+                        }
+                    ],
+    "reasons":  [
+
+                ],
+    "status":  "COMPLETED",
+    "reused":  false
+}

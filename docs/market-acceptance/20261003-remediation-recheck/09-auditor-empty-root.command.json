@@ -1,0 +1,13 @@
+{
+  "command": [
+    "python",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\FINAL-REMEDIATION\\20261003-052200Z\\audit-all-manifests.py",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\0f45\\松光启动器\\docs\\market-acceptance\\20261003-remediation-recheck\\auditor-fixtures\\empty-root",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\0f45\\松光启动器\\docs\\market-acceptance\\20261003-remediation-recheck\\auditor-empty-result.json",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\FINAL-REMEDIATION\\20261003-052200Z\\known-mismatches.json"
+  ],
+  "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\0f45\\松光启动器\\docs\\market-acceptance\\20261003-remediation-recheck",
+  "startUTC": "2026-10-03T07:00:45.741480+00:00",
+  "endUTC": "2026-10-03T07:00:45.796050+00:00",
+  "exitCode": 0
+}

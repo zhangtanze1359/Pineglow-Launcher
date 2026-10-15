@@ -1,0 +1,5 @@
+{
+  "exitCode": 1,
+  "command": "pwsh -NoProfile -File scripts/verify-source-snapshot.ps1 -RepoRoot D:\\松光启动器 -EvidenceDir docs/release-audit-2026-10-10/existing-snapshot",
+  "timeHK": "2026-10-10T01:33:46.1018959"
+}

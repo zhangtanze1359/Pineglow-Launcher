@@ -1,0 +1,99 @@
+﻿{
+    "runId":  "20261003-350000Z",
+    "task":  "MR20 补测：旧配置/凭据不被重置（A15）",
+    "generatedUtc":  "2026-10-03T02:16:34Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "gap-register A15 first half (old config must not be reset); the .bak/.prev rotation half remains untested",
+    "result":  {
+                   "testsAdded":  5,
+                   "green":  "5 passed / 0 failed",
+                   "csharpFull":  "817 passed / 0 failed / 0 skipped (812 + 5)",
+                   "nodeFull":  "230 passed / 0 failed (18 files)",
+                   "redBaseline":  "making UpdateUrl unconditionally overwritten -\u003e 2 failed; ConfigStore.cs restored byte-identically afterwards",
+                   "productionBehaviourUnchanged":  "only a test seam (ConfigPathOverrideForTest + ResolveConfigPath) was added; null in production",
+                   "realCredentialsUntouched":  "verified: %APPDATA%\\MCMiniLauncher\\secrets.json does not exist; config.json still 09-07 00:33"
+               },
+    "newFindings":  {
+                        "A19":  "LoadAsync CAN write back (AccountService.EnsureAccounts adds a default account when there are none -\u003e migration flag true -\u003e await SaveAsync -\u003e SaveCore -\u003e SecretStore.Save on the REAL %APPDATA% credential store, which has no test seam). No damage occurred here ONLY because every secret value happened to be empty (secrets.json was never created). Any test config with a NON-EMPTY credential would write real user credentials. Suggested fix: give SecretStore a path seam so SaveAsync (and the .bak/.prev rotation) can be tested safely - this touches credential code, so it needs your confirmation.",
+                        "A20":  "A test writes into the real %APPDATA%: %APPDATA%\\MCMiniLauncher\\diagnostics\\inst-A\\step3-op-*.json and phase3c2-op-*.json (8+ files, 09:55-09:56, from a full-suite run). At least one diagnostic-store test does not redirect its store root even though LocalApiTestHarness offers OverrideDiagnosticStoreRootForTest. Reported, not fixed."
+                    },
+    "incidentalFinding":  "ConfigStore.SaveAsync writes PascalCase (Options has WriteIndented + PropertyNameCaseInsensitive but NO CamelCase policy) while reading is case-insensitive. My test 4 initially failed on GetProperty(\"updateUrl\") because of this.",
+    "selfFoundIssues":  [
+                            "I used straight double quotes around Chinese text inside a double-quoted PowerShell string for the THIRD time this session; the whole block failed to parse. Rule already written down: always use corner brackets in code.",
+                            "My ledger pointer was appended AFTER the row closing pipe, making the row 10 columns: the auditor then read my text as the status word AND stopped recognising the row as a package row, so BOTH MR20 evidence dirs were reported as orphans. Fixed by putting the pointer inside the last column (row back to 9 columns); audit is exit 0 with no orphans."
+                        ],
+    "stillNotCovered":  [
+                            "the .bak/.prev rotation (the \"primary/backup leaves evidence\" half of A15) is NOT tested - it requires SaveAsync, which writes real credentials (A19)",
+                            "credential fields are deliberately not asserted (that would depend on machine credentials)",
+                            "A20 not located or fixed",
+                            "real GUI config migration not verified"
+                        ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "50CCF091A4EF2AF45C074225C89B229030B32A9C256D338D6F90B4932E807A14",
+                      "sizeBytes":  7529
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "024D3950FAB6B6E193163085B2F703E4449C39C0E0EB1313858415EF2B240A90",
+                      "sizeBytes":  16162
+                  },
+                  {
+                      "path":  "green/01-preservation.log",
+                      "sha256":  "86F9F886B3A65A51FEA2D94781E6F73D640AE2745B130321D99FC198AEBD298A",
+                      "sizeBytes":  3018
+                  },
+                  {
+                      "path":  "green/02-preservation-fixed.log",
+                      "sha256":  "9EFEE811EE57194502A521B0FEC1F4B46A2F519BC86C63E0D5F11AB0EF64B8A9",
+                      "sizeBytes":  2925
+                  },
+                  {
+                      "path":  "green/03-preservation-final.log",
+                      "sha256":  "BAC1C6F6AFE608CF0E16F629BEA98D9E7EDE8342D741E653E6621AF4550E394A",
+                      "sizeBytes":  1847
+                  },
+                  {
+                      "path":  "green/04-preservation-restored.log",
+                      "sha256":  "AE26D2D76CD896D2275EF723BE990E5A85E8B4BEF30B9D7B7C7E98719FAA33F6",
+                      "sizeBytes":  337
+                  },
+                  {
+                      "path":  "green/05-csharp-full.log",
+                      "sha256":  "35AB1E8382E72A9B4E667C9960ABA95233C1111A739FE057FB9E419503A5406E",
+                      "sizeBytes":  490
+                  },
+                  {
+                      "path":  "green/06-node-full.log",
+                      "sha256":  "1E4AB249A7AA3E877E9301CA4D1043549628ECE077EC74B85919A3B5EB5448B7",
+                      "sizeBytes":  23803
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "7D43FCB2EDC1028B829A2AB7C92632AF7A1DBC368B938BEFB0E7F67926F69C38",
+                      "sizeBytes":  356
+                  },
+                  {
+                      "path":  "green/ConfigPreservationTests.cs.fixed",
+                      "sha256":  "5A912228DC075AC88765002A65F8ECE62114B19CC0AED6DDBF1DD85D080DCB43",
+                      "sizeBytes":  6115
+                  },
+                  {
+                      "path":  "green/ConfigStore.cs.fixed",
+                      "sha256":  "A76F90265D45023A02E3AA5C03D37F246C82246CB85A7FB43E7A7B99DE77C14D",
+                      "sizeBytes":  9134
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "BDED79C4D295998716AA44346384F075BCEE9CEF3151947E0631B13867BEAF14",
+                      "sizeBytes":  116072
+                  },
+                  {
+                      "path":  "red/01-red-updateurl-overwritten.log",
+                      "sha256":  "CE90ED805D897798AE91A7C0CA121E14D3D754711422F46701735D7941EE84EA",
+                      "sizeBytes":  4713
+                  }
+              ]
+}

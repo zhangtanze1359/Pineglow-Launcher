@@ -1,0 +1,7 @@
+{
+  "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-r2-79578cd926db4451a6c4f85bdc37e515",
+  "command": "node --test (all ui/tests/*.test.cjs)",
+  "entryCount": 20,
+  "exitCode": 0,
+  "timeHK": "2026-10-03T16:59:13.5838188+08:00"
+}

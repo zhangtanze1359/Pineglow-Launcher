@@ -1,0 +1,256 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Pineglow.Launcher.Services;
+
+/// <summary>MR06：一次文件操作的逐项结果。失败不是异常，而是带原因的状态。</summary>
+public sealed class ModBisectFileResult
+{
+	public string FileName { get; set; } = string.Empty;
+
+	/// <summary>applied | unchanged | failed</summary>
+	public string State { get; set; } = string.Empty;
+
+	public string? Error { get; set; }
+}
+
+/// <summary>Mod 二分定位会话（纯逻辑状态机，文件操作由调用方按指令执行）。</summary>
+public sealed class ModBisectSession
+{
+	/// <summary>开始时启用的 Mod 文件名（不含 .jar.disabled）。</summary>
+	public IReadOnlyList<string> EnabledAtStart { get; private set; } = Array.Empty<string>();
+
+	/// <summary>会话所属实例 Id（供文件操作定位 mods 目录）。</summary>
+	public string TargetInstance { get; private set; } = string.Empty;
+
+	/// <summary>当前仍是嫌疑的 Mod 文件名。</summary>
+	public IReadOnlyList<string> Candidates { get; private set; } = Array.Empty<string>();
+
+	/// <summary>当前已执行的二分轮次。</summary>
+	public int Step { get; private set; }
+
+	/// <summary>是否正处于“等待用户测试反馈”状态（已禁用一半候选）。</summary>
+	public bool WaitingForReport { get; private set; }
+
+	/// <summary>最近一次测试中禁用的半区文件名。</summary>
+	public IReadOnlyList<string> DisabledHalf { get; private set; } = Array.Empty<string>();
+
+	/// <summary>定位到的元凶文件名（Finished 且存在时）。</summary>
+	public string? Culprit { get; private set; }
+
+	/// <summary>是否已结束（定位成功或放弃）。</summary>
+	public bool Finished { get; private set; }
+
+	/// <summary>结束原因（放弃/无嫌疑等）。</summary>
+	public string? FinishReason { get; private set; }
+
+	/// <summary>
+	/// MR06：上一次文件操作的逐项结果。API 用它向客户端解释"哪些落盘了、哪些失败了"。
+	/// </summary>
+	public IReadOnlyList<ModBisectFileResult> LastResults { get; private set; } = Array.Empty<ModBisectFileResult>();
+
+	/// <summary>
+	/// MR06：文件操作部分失败、状态与磁盘不一致时为 true。
+	/// 此时**禁止继续收窄候选**，也不允许把会话当作"本轮已就绪"。
+	/// </summary>
+	public bool NeedsRecovery { get; private set; }
+
+	public string? RecoveryError { get; private set; }
+
+	/// <summary>状态版本号：每推进一次自增，便于识别"同一轮的重复结果"。</summary>
+	public int Version { get; private set; }
+
+	private ModBisectSession()
+	{
+	}
+
+	/// <summary>记录一轮禁用半区的结果；有任何失败就进入"需要恢复"并冻结推进。</summary>
+	public void RecordStepResults(IReadOnlyList<ModBisectFileResult> results)
+	{
+		LastResults = results ?? Array.Empty<ModBisectFileResult>();
+		Version++;
+		List<ModBisectFileResult> failed = LastResults.Where(r => r.State == "failed").ToList();
+		if (failed.Count > 0)
+		{
+			NeedsRecovery = true;
+			RecoveryError = string.Join("；", failed.Select(r => r.FileName + " → " + (r.Error ?? "操作失败")));
+			// 关键：候选不能继续收窄，也不能声称"本轮已就绪、等待反馈"。
+			WaitingForReport = false;
+			DisabledHalf = Array.Empty<string>();
+		}
+	}
+
+	/// <summary>记录一次恢复尝试的结果；全部成功才解除"需要恢复"。</summary>
+	public void RecordRestoreResults(IReadOnlyList<ModBisectFileResult> results)
+	{
+		LastResults = results ?? Array.Empty<ModBisectFileResult>();
+		Version++;
+		List<ModBisectFileResult> failed = LastResults.Where(r => r.State == "failed").ToList();
+		if (failed.Count > 0)
+		{
+			NeedsRecovery = true;
+			RecoveryError = string.Join("；", failed.Select(r => r.FileName + " → " + (r.Error ?? "恢复失败")));
+		}
+		else
+		{
+			NeedsRecovery = false;
+			RecoveryError = null;
+		}
+	}
+
+	/// <summary>
+	/// MR06：受理一次测试反馈。只有"确实在等待反馈"时才推进，
+	/// 否则明确拒绝（同一轮的重复结果不会推进两轮）。
+	/// </summary>
+	public bool TryReportTest(bool crashed, out string? rejected)
+	{
+		if (NeedsRecovery)
+		{
+			rejected = "上一轮文件操作未完成，请先「放弃」并确认恢复，再继续定位。";
+			return false;
+		}
+
+		if (Finished)
+		{
+			rejected = "二分定位已经结束。";
+			return false;
+		}
+
+		if (!WaitingForReport)
+		{
+			rejected = "当前没有等待中的测试结果（该轮可能已经推进）。";
+			return false;
+		}
+
+		rejected = null;
+		ReportTest(crashed);
+		Version++;
+		return true;
+	}
+
+	/// <summary>从当前启用的 Mod 列表创建会话。</summary>
+	public static ModBisectSession Start(string instanceId, IEnumerable<string> enabledModFiles)
+	{
+		List<string> enabled = enabledModFiles
+			.Where(f => !string.IsNullOrWhiteSpace(f))
+			.Distinct(StringComparer.OrdinalIgnoreCase)
+			.ToList();
+		return new ModBisectSession
+		{
+			TargetInstance = instanceId,
+			EnabledAtStart = enabled,
+			Candidates = enabled,
+			Step = 0,
+			WaitingForReport = false,
+			DisabledHalf = Array.Empty<string>()
+		};
+	}
+
+	/// <summary>
+	/// 进入下一轮测试：返回本轮要禁用的半区文件名。
+	/// 若候选只剩 1 个，则直接结束并返回空集合。
+	/// </summary>
+	public IReadOnlyList<string> DisableHalfForNextTest()
+	{
+		if (Finished)
+		{
+			return Array.Empty<string>();
+		}
+		if (WaitingForReport)
+		{
+			return DisabledHalf;
+		}
+		if (Candidates.Count == 0)
+		{
+			Finish(null, "未发现任何启用的 Mod");
+			return Array.Empty<string>();
+		}
+		if (Candidates.Count == 1)
+		{
+			Finish(Candidates[0], null);
+			return Array.Empty<string>();
+		}
+		int half = Candidates.Count / 2;
+		IReadOnlyList<string> left = Candidates.Take(half).ToList();
+		IReadOnlyList<string> right = Candidates.Skip(half).ToList();
+		DisabledHalf = left;
+		WaitingForReport = true;
+		Step++;
+		return DisabledHalf;
+	}
+
+	/// <summary>
+	/// 用户报告最近一次测试的结果：
+	/// crashed=true 表示禁用半区后崩溃仍出现 → 嫌疑在未被禁用的另一半；
+	/// crashed=false 表示禁用半区后崩溃消失 → 嫌疑就在被禁用的半区。
+	/// </summary>
+	public void ReportTest(bool crashed)
+	{
+		if (Finished || !WaitingForReport)
+		{
+			return;
+		}
+		if (crashed)
+		{
+			// 禁掉 DisabledHalf 后仍崩 → 半区无罪，收窄到另一半
+			Candidates = Candidates.Except(DisabledHalf, StringComparer.OrdinalIgnoreCase).ToList();
+		}
+		else
+		{
+			// 禁用后不崩 → 嫌疑锁定在半区
+			Candidates = DisabledHalf;
+		}
+		WaitingForReport = false;
+		DisabledHalf = Array.Empty<string>();
+
+		if (Candidates.Count == 1)
+		{
+			Finish(Candidates[0], null);
+		}
+	}
+
+	/// <summary>放弃定位并结束会话。</summary>
+	public void GiveUp()
+	{
+		if (Finished)
+		{
+			return;
+		}
+		Finish(null, "用户放弃");
+	}
+
+	private void Finish(string? culprit, string? reason)
+	{
+		Finished = true;
+		Culprit = culprit;
+		FinishReason = reason;
+		WaitingForReport = false;
+		DisabledHalf = Array.Empty<string>();
+	}
+}
+
+/// <summary>Mod 二分定位服务：管理实例级会话。</summary>
+public static class ModBisectService
+{
+	private static readonly System.Collections.Concurrent.ConcurrentDictionary<string, ModBisectSession> Sessions =
+		new System.Collections.Concurrent.ConcurrentDictionary<string, ModBisectSession>(StringComparer.OrdinalIgnoreCase);
+
+	public static ModBisectSession GetOrStart(string instanceId, IEnumerable<string> enabledModFiles)
+	{
+		Sessions.TryRemove(instanceId, out _);
+		ModBisectSession session = ModBisectSession.Start(instanceId, enabledModFiles);
+		Sessions[instanceId] = session;
+		return session;
+	}
+
+	public static ModBisectSession Get(string instanceId)
+	{
+		return Sessions.TryGetValue(instanceId, out ModBisectSession? session) ? session : null!;
+	}
+
+	public static void Remove(string instanceId)
+	{
+		Sessions.TryRemove(instanceId, out _);
+	}
+}

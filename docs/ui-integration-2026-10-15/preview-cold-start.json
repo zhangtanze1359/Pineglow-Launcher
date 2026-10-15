@@ -1,0 +1,14 @@
+{
+  "runtime": "10.0.0",
+  "cssHasNewUi": true,
+  "pid": 18272,
+  "time": "2026-10-15T16:42:05.8772178+08:00",
+  "uiRoot": "Built output UI",
+  "isolated": true,
+  "health": {
+    "ok": true,
+    "pid": 18272,
+    "port": 53834
+  },
+  "cssStatus": 200
+}

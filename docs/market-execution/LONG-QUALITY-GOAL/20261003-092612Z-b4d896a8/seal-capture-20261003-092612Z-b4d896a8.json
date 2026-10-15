@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "runId": "20261003-092612Z-b4d896a8",
+  "evidenceFiles": 139,
+  "terminalCapture": {
+    "exitCode": 0,
+    "outputDir": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\\u677e\u5149\u542f\u52a8\u5668\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\FINAL-LOCAL-QUALITY\\20261003-092612Z-b4d896a8\\seal",
+    "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\\u677e\u5149\u542f\u52a8\u5668\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\FINAL-LOCAL-QUALITY\\20261003-092612Z-b4d896a8\\seal\\source-after-manifest.json",
+    "statusFile": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\\u677e\u5149\u542f\u52a8\u5668\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\FINAL-LOCAL-QUALITY\\20261003-092612Z-b4d896a8\\seal\\source-status-terminal.txt"
+  }
+}

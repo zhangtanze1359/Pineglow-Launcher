@@ -1,0 +1,27 @@
+﻿{
+    "name":  "04-build-launcher-release",
+    "command":  "dotnet build dev/PineglowLauncher/Pineglow.Launcher.csproj -c Release --no-restore",
+    "cwd":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-810a28bd0d3d456c9e28201fb6fdf158",
+    "startUtc":  "2026-10-02T07:29:48Z",
+    "endUtc":  "2026-10-02T07:29:51Z",
+    "durationSec":  2.8,
+    "exitCode":  0,
+    "status":  "PASS",
+    "logProduced":  true,
+    "verifierDefect":  false,
+    "logBytes":  264,
+    "decodeMode":  "utf-8",
+    "stdoutPath":  "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR00\\20261002-072004Z\\logs\\formal\\04-build-launcher-release.stdout.txt",
+    "nodeTests":  null,
+    "nodePass":  null,
+    "nodeFail":  null,
+    "nodeSkipped":  null,
+    "csPassed":  null,
+    "csFailed":  null,
+    "csSkipped":  null,
+    "csTotal":  null,
+    "buildErrors":  null,
+    "expectHits":  [
+
+                   ]
+}

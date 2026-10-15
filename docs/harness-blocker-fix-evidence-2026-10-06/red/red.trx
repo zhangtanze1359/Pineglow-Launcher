@@ -1,0 +1,398 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="287e6c4b-aa27-40cd-81cc-5311ec81df89" name="Administrator@PC-20260705RBJQ 2026-10-06 13:39:53" runUser="PC-20260705RBJQ\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-06T13:39:53.1370192+08:00" queuing="2026-10-06T13:39:53.1370203+08:00" start="2026-10-06T13:39:52.4839995+08:00" finish="2026-10-06T13:39:53.1618465+08:00" />
+  <TestSettings name="default" id="234ee3f3-4c2e-4255-abf3-19fac15cbb09">
+    <Deployment runDeploymentRoot="Administrator_PC-20260705RBJQ_2026-10-06_13_39_53" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="e78a34dd-9837-42fe-b02f-7f12a471e8bd" testId="f2cccd5c-8a2e-2308-09b8-104582f2dfb0" testName="Pineglow.Launcher.Tests.LoaderInstallerContractTests.GetLoaderVersionEntriesAsync_OfficialMavenLayout_DoesNotDuplicateArtifact(neo: False, mc: &quot;1.20.1&quot;, version: &quot;1.20.1-47.4.0&quot;, expected: &quot;https://maven.minecraftforge.net/net/minecraftforg&quot;···)" computerName="PC-20260705RBJQ" duration="00:00:00.0154719" startTime="2026-10-06T13:39:53.0876124+08:00" endTime="2026-10-06T13:39:53.0902193+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e78a34dd-9837-42fe-b02f-7f12a471e8bd">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Strings differ&#xD;
+                                  ↓ (pos 58)&#xD;
+Expected: ···"inecraftforge/forge/1.20.1-47.4.0/forge-1"···&#xD;
+Actual:   ···"inecraftforge/forge/forge/1.20.1-47.4.0/f"···&#xD;
+                                  ↑ (pos 58)</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.LoaderInstallerContractTests.GetLoaderVersionEntriesAsync_OfficialMavenLayout_DoesNotDuplicateArtifact(Boolean neo, String mc, String version, String expected) in D:\松光启动器\dev\PineglowLauncher.Tests\LoaderInstallerContractTests.cs:line 25&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="7f80cf53-ea98-42f3-ae45-83cbd6c08980" testId="ad38cc70-1709-f287-8570-ca6cf07abe78" testName="Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(loader: &quot;forge&quot;)" computerName="PC-20260705RBJQ" duration="00:00:00.0038452" startTime="2026-10-06T13:39:53.0576454+08:00" endTime="2026-10-06T13:39:53.0801461+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7f80cf53-ea98-42f3-ae45-83cbd6c08980">
+      <Output>
+        <ErrorInfo>
+          <Message>System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-inherit-0e146815c6b243b7982795ba51d46780\versions\base' is denied.</Message>
+          <StackTrace>   at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+   at System.IO.Directory.CreateDirectory(String path)&#xD;
+   at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.Write(String id, String json) in D:\松光启动器\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs:line 13&#xD;
+   at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(String loader) in D:\松光启动器\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs:line 24&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="cd5c1a6c-aacd-4e4c-8a66-9d247fbfa565" testId="2f33b9a3-7324-bb08-f733-e7fab5fec0d5" testName="Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(loader: &quot;fabric&quot;)" computerName="PC-20260705RBJQ" duration="00:00:00.0005955" startTime="2026-10-06T13:39:53.0858521+08:00" endTime="2026-10-06T13:39:53.0865650+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cd5c1a6c-aacd-4e4c-8a66-9d247fbfa565">
+      <Output>
+        <ErrorInfo>
+          <Message>System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-inherit-0b4ebbf64b3a4ae68288ea7e47144b7f\versions\base' is denied.</Message>
+          <StackTrace>   at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+   at System.IO.Directory.CreateDirectory(String path)&#xD;
+   at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.Write(String id, String json) in D:\松光启动器\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs:line 13&#xD;
+   at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(String loader) in D:\松光启动器\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs:line 24&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="0d57b68a-93a2-46b2-9b5b-627e72379df5" testId="7bb07e3e-15eb-18bf-f978-f96af3181f3a" testName="Pineglow.Launcher.Tests.LoaderInstallerContractTests.RunInstallerAsync_PreparesMissingProfileAndPreservesExistingBytes(existing: True)" computerName="PC-20260705RBJQ" duration="00:00:00.0036687" startTime="2026-10-06T13:39:53.0565464+08:00" endTime="2026-10-06T13:39:53.0731635+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0d57b68a-93a2-46b2-9b5b-627e72379df5">
+      <Output>
+        <ErrorInfo>
+          <Message>System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-installer-1f37af5d4c3744b4b86f96fb3a7ef7ef' is denied.</Message>
+          <StackTrace>   at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+   at System.IO.Directory.CreateDirectory(String path)&#xD;
+   at Pineglow.Launcher.Tests.LoaderInstallerContractTests.RunInstallerAsync_PreparesMissingProfileAndPreservesExistingBytes(Boolean existing) in D:\松光启动器\dev\PineglowLauncher.Tests\LoaderInstallerContractTests.cs:line 33&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="313752eb-0d2e-4926-a053-679e38d92a0f" testId="34783197-acf3-1c06-d6bb-795c2be4426e" testName="Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_MultipleLevelsAndGameOnlyChild_KeepsAllAncestorJvmArguments" computerName="PC-20260705RBJQ" duration="00:00:00.0007882" startTime="2026-10-06T13:39:53.0883572+08:00" endTime="2026-10-06T13:39:53.0883905+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="313752eb-0d2e-4926-a053-679e38d92a0f">
+      <Output>
+        <ErrorInfo>
+          <Message>System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-inherit-17c4b0af1043462fa46479c36e8fd7cb\versions\base' is denied.</Message>
+          <StackTrace>   at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+   at System.IO.Directory.CreateDirectory(String path)&#xD;
+   at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.Write(String id, String json) in D:\松光启动器\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs:line 13&#xD;
+   at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_MultipleLevelsAndGameOnlyChild_KeepsAllAncestorJvmArguments() in D:\松光启动器\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs:line 41&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="08dbea25-46aa-44e6-a686-28d34e193d18" testId="f9864526-6429-adc4-f54d-c69146154e42" testName="Pineglow.Launcher.Tests.LoaderInstallerContractTests.RunInstallerAsync_PreparesMissingProfileAndPreservesExistingBytes(existing: False)" computerName="PC-20260705RBJQ" duration="00:00:00.0005144" startTime="2026-10-06T13:39:53.0858369+08:00" endTime="2026-10-06T13:39:53.0859262+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="08dbea25-46aa-44e6-a686-28d34e193d18">
+      <Output>
+        <ErrorInfo>
+          <Message>System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-installer-9f443716592b4b6490b96b49929179f3' is denied.</Message>
+          <StackTrace>   at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+   at System.IO.Directory.CreateDirectory(String path)&#xD;
+   at Pineglow.Launcher.Tests.LoaderInstallerContractTests.RunInstallerAsync_PreparesMissingProfileAndPreservesExistingBytes(Boolean existing) in D:\松光启动器\dev\PineglowLauncher.Tests\LoaderInstallerContractTests.cs:line 33&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="0b4e512a-2eee-4fd0-9c6f-a54239f817b2" testId="7e3ff40c-7a8a-44b9-93ff-fae1970c5a30" testName="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_FirstRun_PersistsStableInstanceAndAccountIds" computerName="PC-20260705RBJQ" duration="00:00:00.0010000" startTime="2026-10-06T13:39:53.1143887+08:00" endTime="2026-10-06T13:39:53.1144157+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0b4e512a-2eee-4fd0-9c6f-a54239f817b2">
+      <Output>
+        <ErrorInfo>
+          <Message>System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-default-9cfebfad07fc41d8a852f02b6a59adeb' is denied.</Message>
+          <StackTrace>   at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+   at System.IO.Directory.CreateDirectory(String path)&#xD;
+   at Pineglow.Launcher.Tests.ConfigDefaultIdentityTests..ctor() in D:\松光启动器\dev\PineglowLauncher.Tests\ConfigDefaultIdentityTests.cs:line 16&#xD;
+   at System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean wrapExceptions)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="eb6d626d-bb3c-4653-b9b9-05980a71b36c" testId="a6d87aab-2f97-6736-409e-d8005fd5cb95" testName="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_UnwritableInitialPath_ReportsFailureInsteadOfTransientIdentity" computerName="PC-20260705RBJQ" duration="00:00:00.0010000" startTime="2026-10-06T13:39:53.1147217+08:00" endTime="2026-10-06T13:39:53.1147457+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="eb6d626d-bb3c-4653-b9b9-05980a71b36c">
+      <Output>
+        <ErrorInfo>
+          <Message>System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-default-540e0cc6debb469fb6b052e1fa0add88' is denied.</Message>
+          <StackTrace>   at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+   at System.IO.Directory.CreateDirectory(String path)&#xD;
+   at Pineglow.Launcher.Tests.ConfigDefaultIdentityTests..ctor() in D:\松光启动器\dev\PineglowLauncher.Tests\ConfigDefaultIdentityTests.cs:line 16&#xD;
+   at System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean wrapExceptions)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="cd129c66-8869-45b3-951c-e5f7b1f5cec1" testId="50148cb2-e9ff-571f-f66b-db645fd1fbab" testName="Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(loader: &quot;quilt&quot;)" computerName="PC-20260705RBJQ" duration="00:00:00.0002040" startTime="2026-10-06T13:39:53.0879981+08:00" endTime="2026-10-06T13:39:53.0880332+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cd129c66-8869-45b3-951c-e5f7b1f5cec1">
+      <Output>
+        <ErrorInfo>
+          <Message>System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-inherit-9cf993857fd14f20b665ee7239935593\versions\base' is denied.</Message>
+          <StackTrace>   at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+   at System.IO.Directory.CreateDirectory(String path)&#xD;
+   at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.Write(String id, String json) in D:\松光启动器\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs:line 13&#xD;
+   at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(String loader) in D:\松光启动器\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs:line 24&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="cbf5a733-2c36-4799-ac9c-b285c6aa7762" testId="881cce3a-6442-c88a-ae28-03f06a0a1fe7" testName="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_ExistingConfigWithoutInstance_PersistsGeneratedId" computerName="PC-20260705RBJQ" duration="00:00:00.0010000" startTime="2026-10-06T13:39:53.1140395+08:00" endTime="2026-10-06T13:39:53.1140672+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cbf5a733-2c36-4799-ac9c-b285c6aa7762">
+      <Output>
+        <ErrorInfo>
+          <Message>System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-default-c4128937219642038b97a1e628c97210' is denied.</Message>
+          <StackTrace>   at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+   at System.IO.Directory.CreateDirectory(String path)&#xD;
+   at Pineglow.Launcher.Tests.ConfigDefaultIdentityTests..ctor() in D:\松光启动器\dev\PineglowLauncher.Tests\ConfigDefaultIdentityTests.cs:line 16&#xD;
+   at System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean wrapExceptions)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="1fea5f02-2557-408a-b9f1-b413d0e296ae" testId="e8dc8fb6-cad7-6027-356f-f455c0f1a9c7" testName="Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(loader: &quot;neoforge&quot;)" computerName="PC-20260705RBJQ" duration="00:00:00.0002282" startTime="2026-10-06T13:39:53.0868935+08:00" endTime="2026-10-06T13:39:53.0876560+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1fea5f02-2557-408a-b9f1-b413d0e296ae">
+      <Output>
+        <ErrorInfo>
+          <Message>System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-inherit-917fd8a2173848efb1c2ff5162c3589f\versions\base' is denied.</Message>
+          <StackTrace>   at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+   at System.IO.Directory.CreateDirectory(String path)&#xD;
+   at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.Write(String id, String json) in D:\松光启动器\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs:line 13&#xD;
+   at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(String loader) in D:\松光启动器\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs:line 24&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="9e033dd2-5dba-4849-8726-c4b17423d01b" testId="4a58f076-3fa4-469f-a5db-11d50f28dc57" testName="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_ConcurrentFirstRun_ReturnsOneIdentity" computerName="PC-20260705RBJQ" duration="00:00:00.0010000" startTime="2026-10-06T13:39:53.1150313+08:00" endTime="2026-10-06T13:39:53.1150551+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9e033dd2-5dba-4849-8726-c4b17423d01b">
+      <Output>
+        <ErrorInfo>
+          <Message>System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-default-cb7f7c483ce44333991b1009e65407a9' is denied.</Message>
+          <StackTrace>   at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+   at System.IO.Directory.CreateDirectory(String path)&#xD;
+   at Pineglow.Launcher.Tests.ConfigDefaultIdentityTests..ctor() in D:\松光启动器\dev\PineglowLauncher.Tests\ConfigDefaultIdentityTests.cs:line 16&#xD;
+   at System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean wrapExceptions)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="c3672d91-324b-4e65-b62f-e6a56733f5ab" testId="6b13b58a-47f2-2ee2-3463-b5fb175a5b37" testName="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_FirstRun_DoesNotWriteOrDeleteExistingCredentials" computerName="PC-20260705RBJQ" duration="00:00:00.0010000" startTime="2026-10-06T13:39:53.1134921+08:00" endTime="2026-10-06T13:39:53.1135439+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c3672d91-324b-4e65-b62f-e6a56733f5ab">
+      <Output>
+        <ErrorInfo>
+          <Message>System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-default-c4419e362abb4cc49109a7cfe317a82f' is denied.</Message>
+          <StackTrace>   at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+   at System.IO.Directory.CreateDirectory(String path)&#xD;
+   at Pineglow.Launcher.Tests.ConfigDefaultIdentityTests..ctor() in D:\松光启动器\dev\PineglowLauncher.Tests\ConfigDefaultIdentityTests.cs:line 16&#xD;
+   at System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean wrapExceptions)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="9b19db86-0cd7-46f4-b0f1-39300b6b95cc" testId="b30ede0f-fddf-ab0d-9c85-82634e86d4df" testName="Pineglow.Launcher.Tests.LoaderInstallerContractTests.GetLoaderVersionEntriesAsync_OfficialMavenLayout_DoesNotDuplicateArtifact(neo: True, mc: &quot;1.21.1&quot;, version: &quot;21.1.219&quot;, expected: &quot;https://maven.neoforged.net/releases/net/neoforged&quot;···)" computerName="PC-20260705RBJQ" duration="00:00:00.0015425" startTime="2026-10-06T13:39:53.0906046+08:00" endTime="2026-10-06T13:39:53.0919941+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9b19db86-0cd7-46f4-b0f1-39300b6b95cc">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Strings differ&#xD;
+                                  ↓ (pos 60)&#xD;
+Expected: ···"/neoforged/neoforge/21.1.219/neoforge-21."···&#xD;
+Actual:   ···"/neoforged/neoforge/neoforge/21.1.219/neo"···&#xD;
+                                  ↑ (pos 60)</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.LoaderInstallerContractTests.GetLoaderVersionEntriesAsync_OfficialMavenLayout_DoesNotDuplicateArtifact(Boolean neo, String mc, String version, String expected) in D:\松光启动器\dev\PineglowLauncher.Tests\LoaderInstallerContractTests.cs:line 25&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Pineglow.Launcher.Tests.LoaderInstallerContractTests.GetLoaderVersionEntriesAsync_OfficialMavenLayout_DoesNotDuplicateArtifact(neo: True, mc: &quot;1.21.1&quot;, version: &quot;21.1.219&quot;, expected: &quot;https://maven.neoforged.net/releases/net/neoforged&quot;···)" storage="d:\松光启动器\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="b30ede0f-fddf-ab0d-9c85-82634e86d4df">
+      <Execution id="9b19db86-0cd7-46f4-b0f1-39300b6b95cc" />
+      <TestMethod codeBase="D:\松光启动器\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.LoaderInstallerContractTests" name="GetLoaderVersionEntriesAsync_OfficialMavenLayout_DoesNotDuplicateArtifact" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.LoaderInstallerContractTests.RunInstallerAsync_PreparesMissingProfileAndPreservesExistingBytes(existing: True)" storage="d:\松光启动器\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="7bb07e3e-15eb-18bf-f978-f96af3181f3a">
+      <Execution id="0d57b68a-93a2-46b2-9b5b-627e72379df5" />
+      <TestMethod codeBase="D:\松光启动器\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.LoaderInstallerContractTests" name="RunInstallerAsync_PreparesMissingProfileAndPreservesExistingBytes" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_FirstRun_PersistsStableInstanceAndAccountIds" storage="d:\松光启动器\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="7e3ff40c-7a8a-44b9-93ff-fae1970c5a30">
+      <Execution id="0b4e512a-2eee-4fd0-9c6f-a54239f817b2" />
+      <TestMethod codeBase="D:\松光启动器\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests" name="LoadAsync_FirstRun_PersistsStableInstanceAndAccountIds" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_FirstRun_DoesNotWriteOrDeleteExistingCredentials" storage="d:\松光启动器\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="6b13b58a-47f2-2ee2-3463-b5fb175a5b37">
+      <Execution id="c3672d91-324b-4e65-b62f-e6a56733f5ab" />
+      <TestMethod codeBase="D:\松光启动器\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests" name="LoadAsync_FirstRun_DoesNotWriteOrDeleteExistingCredentials" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_UnwritableInitialPath_ReportsFailureInsteadOfTransientIdentity" storage="d:\松光启动器\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="a6d87aab-2f97-6736-409e-d8005fd5cb95">
+      <Execution id="eb6d626d-bb3c-4653-b9b9-05980a71b36c" />
+      <TestMethod codeBase="D:\松光启动器\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests" name="LoadAsync_UnwritableInitialPath_ReportsFailureInsteadOfTransientIdentity" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(loader: &quot;neoforge&quot;)" storage="d:\松光启动器\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="e8dc8fb6-cad7-6027-356f-f455c0f1a9c7">
+      <Execution id="1fea5f02-2557-408a-b9f1-b413d0e296ae" />
+      <TestMethod codeBase="D:\松光启动器\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.VersionResolverInheritanceTests" name="ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(loader: &quot;quilt&quot;)" storage="d:\松光启动器\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="50148cb2-e9ff-571f-f66b-db645fd1fbab">
+      <Execution id="cd129c66-8869-45b3-951c-e5f7b1f5cec1" />
+      <TestMethod codeBase="D:\松光启动器\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.VersionResolverInheritanceTests" name="ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(loader: &quot;forge&quot;)" storage="d:\松光启动器\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="ad38cc70-1709-f287-8570-ca6cf07abe78">
+      <Execution id="7f80cf53-ea98-42f3-ae45-83cbd6c08980" />
+      <TestMethod codeBase="D:\松光启动器\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.VersionResolverInheritanceTests" name="ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_MultipleLevelsAndGameOnlyChild_KeepsAllAncestorJvmArguments" storage="d:\松光启动器\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="34783197-acf3-1c06-d6bb-795c2be4426e">
+      <Execution id="313752eb-0d2e-4926-a053-679e38d92a0f" />
+      <TestMethod codeBase="D:\松光启动器\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.VersionResolverInheritanceTests" name="ResolveAsync_MultipleLevelsAndGameOnlyChild_KeepsAllAncestorJvmArguments" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.LoaderInstallerContractTests.GetLoaderVersionEntriesAsync_OfficialMavenLayout_DoesNotDuplicateArtifact(neo: False, mc: &quot;1.20.1&quot;, version: &quot;1.20.1-47.4.0&quot;, expected: &quot;https://maven.minecraftforge.net/net/minecraftforg&quot;···)" storage="d:\松光启动器\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="f2cccd5c-8a2e-2308-09b8-104582f2dfb0">
+      <Execution id="e78a34dd-9837-42fe-b02f-7f12a471e8bd" />
+      <TestMethod codeBase="D:\松光启动器\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.LoaderInstallerContractTests" name="GetLoaderVersionEntriesAsync_OfficialMavenLayout_DoesNotDuplicateArtifact" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(loader: &quot;fabric&quot;)" storage="d:\松光启动器\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="2f33b9a3-7324-bb08-f733-e7fab5fec0d5">
+      <Execution id="cd5c1a6c-aacd-4e4c-8a66-9d247fbfa565" />
+      <TestMethod codeBase="D:\松光启动器\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.VersionResolverInheritanceTests" name="ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_ExistingConfigWithoutInstance_PersistsGeneratedId" storage="d:\松光启动器\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="881cce3a-6442-c88a-ae28-03f06a0a1fe7">
+      <Execution id="cbf5a733-2c36-4799-ac9c-b285c6aa7762" />
+      <TestMethod codeBase="D:\松光启动器\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests" name="LoadAsync_ExistingConfigWithoutInstance_PersistsGeneratedId" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.LoaderInstallerContractTests.RunInstallerAsync_PreparesMissingProfileAndPreservesExistingBytes(existing: False)" storage="d:\松光启动器\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="f9864526-6429-adc4-f54d-c69146154e42">
+      <Execution id="08dbea25-46aa-44e6-a686-28d34e193d18" />
+      <TestMethod codeBase="D:\松光启动器\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.LoaderInstallerContractTests" name="RunInstallerAsync_PreparesMissingProfileAndPreservesExistingBytes" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_ConcurrentFirstRun_ReturnsOneIdentity" storage="d:\松光启动器\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="4a58f076-3fa4-469f-a5db-11d50f28dc57">
+      <Execution id="9e033dd2-5dba-4849-8726-c4b17423d01b" />
+      <TestMethod codeBase="D:\松光启动器\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests" name="LoadAsync_ConcurrentFirstRun_ReturnsOneIdentity" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="f2cccd5c-8a2e-2308-09b8-104582f2dfb0" executionId="e78a34dd-9837-42fe-b02f-7f12a471e8bd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ad38cc70-1709-f287-8570-ca6cf07abe78" executionId="7f80cf53-ea98-42f3-ae45-83cbd6c08980" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2f33b9a3-7324-bb08-f733-e7fab5fec0d5" executionId="cd5c1a6c-aacd-4e4c-8a66-9d247fbfa565" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7bb07e3e-15eb-18bf-f978-f96af3181f3a" executionId="0d57b68a-93a2-46b2-9b5b-627e72379df5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="34783197-acf3-1c06-d6bb-795c2be4426e" executionId="313752eb-0d2e-4926-a053-679e38d92a0f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f9864526-6429-adc4-f54d-c69146154e42" executionId="08dbea25-46aa-44e6-a686-28d34e193d18" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7e3ff40c-7a8a-44b9-93ff-fae1970c5a30" executionId="0b4e512a-2eee-4fd0-9c6f-a54239f817b2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a6d87aab-2f97-6736-409e-d8005fd5cb95" executionId="eb6d626d-bb3c-4653-b9b9-05980a71b36c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="50148cb2-e9ff-571f-f66b-db645fd1fbab" executionId="cd129c66-8869-45b3-951c-e5f7b1f5cec1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="881cce3a-6442-c88a-ae28-03f06a0a1fe7" executionId="cbf5a733-2c36-4799-ac9c-b285c6aa7762" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e8dc8fb6-cad7-6027-356f-f455c0f1a9c7" executionId="1fea5f02-2557-408a-b9f1-b413d0e296ae" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4a58f076-3fa4-469f-a5db-11d50f28dc57" executionId="9e033dd2-5dba-4849-8726-c4b17423d01b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6b13b58a-47f2-2ee2-3463-b5fb175a5b37" executionId="c3672d91-324b-4e65-b62f-e6a56733f5ab" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b30ede0f-fddf-ab0d-9c85-82634e86d4df" executionId="9b19db86-0cd7-46f4-b0f1-39300b6b95cc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="14" executed="14" passed="0" failed="14" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.9)&#xD;
+[xUnit.net 00:00:00.08]   Discovering: Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.17]   Discovered:  Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.19]   Starting:    Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.23]       System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-installer-1f37af5d4c3744b4b86f96fb3a7ef7ef' is denied.&#xD;
+[xUnit.net 00:00:00.23]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.23]            at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+[xUnit.net 00:00:00.23]            at System.IO.Directory.CreateDirectory(String path)&#xD;
+[xUnit.net 00:00:00.23]         D:\松光启动器\dev\PineglowLauncher.Tests\LoaderInstallerContractTests.cs(33,0): at Pineglow.Launcher.Tests.LoaderInstallerContractTests.RunInstallerAsync_PreparesMissingProfileAndPreservesExistingBytes(Boolean existing)&#xD;
+[xUnit.net 00:00:00.23]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.24]       System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-inherit-0e146815c6b243b7982795ba51d46780\versions\base' is denied.&#xD;
+[xUnit.net 00:00:00.24]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.24]            at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+[xUnit.net 00:00:00.24]            at System.IO.Directory.CreateDirectory(String path)&#xD;
+[xUnit.net 00:00:00.24]         D:\松光启动器\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs(13,0): at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.Write(String id, String json)&#xD;
+[xUnit.net 00:00:00.24]         D:\松光启动器\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs(24,0): at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(String loader)&#xD;
+[xUnit.net 00:00:00.24]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.24]       System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-installer-9f443716592b4b6490b96b49929179f3' is denied.&#xD;
+[xUnit.net 00:00:00.24]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.24]            at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+[xUnit.net 00:00:00.24]            at System.IO.Directory.CreateDirectory(String path)&#xD;
+[xUnit.net 00:00:00.24]         D:\松光启动器\dev\PineglowLauncher.Tests\LoaderInstallerContractTests.cs(33,0): at Pineglow.Launcher.Tests.LoaderInstallerContractTests.RunInstallerAsync_PreparesMissingProfileAndPreservesExistingBytes(Boolean existing)&#xD;
+[xUnit.net 00:00:00.24]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.24]       System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-inherit-0b4ebbf64b3a4ae68288ea7e47144b7f\versions\base' is denied.&#xD;
+[xUnit.net 00:00:00.24]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.24]            at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+[xUnit.net 00:00:00.24]            at System.IO.Directory.CreateDirectory(String path)&#xD;
+[xUnit.net 00:00:00.24]         D:\松光启动器\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs(13,0): at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.Write(String id, String json)&#xD;
+[xUnit.net 00:00:00.24]         D:\松光启动器\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs(24,0): at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(String loader)&#xD;
+[xUnit.net 00:00:00.24]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.24]       System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-inherit-917fd8a2173848efb1c2ff5162c3589f\versions\base' is denied.&#xD;
+[xUnit.net 00:00:00.24]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.24]            at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+[xUnit.net 00:00:00.24]            at System.IO.Directory.CreateDirectory(String path)&#xD;
+[xUnit.net 00:00:00.24]         D:\松光启动器\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs(13,0): at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.Write(String id, String json)&#xD;
+[xUnit.net 00:00:00.24]         D:\松光启动器\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs(24,0): at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(String loader)&#xD;
+[xUnit.net 00:00:00.24]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.24]       System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-inherit-9cf993857fd14f20b665ee7239935593\versions\base' is denied.&#xD;
+[xUnit.net 00:00:00.24]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.24]            at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+[xUnit.net 00:00:00.24]            at System.IO.Directory.CreateDirectory(String path)&#xD;
+[xUnit.net 00:00:00.24]         D:\松光启动器\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs(13,0): at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.Write(String id, String json)&#xD;
+[xUnit.net 00:00:00.24]         D:\松光启动器\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs(24,0): at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(String loader)&#xD;
+[xUnit.net 00:00:00.24]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.24]       System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-inherit-17c4b0af1043462fa46479c36e8fd7cb\versions\base' is denied.&#xD;
+[xUnit.net 00:00:00.24]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.24]            at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+[xUnit.net 00:00:00.24]            at System.IO.Directory.CreateDirectory(String path)&#xD;
+[xUnit.net 00:00:00.24]         D:\松光启动器\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs(13,0): at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.Write(String id, String json)&#xD;
+[xUnit.net 00:00:00.24]         D:\松光启动器\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs(41,0): at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_MultipleLevelsAndGameOnlyChild_KeepsAllAncestorJvmArguments()&#xD;
+[xUnit.net 00:00:00.24]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.25]       Assert.Equal() Failure: Strings differ&#xD;
+[xUnit.net 00:00:00.25]                                         ↓ (pos 58)&#xD;
+[xUnit.net 00:00:00.25]       Expected: ···"inecraftforge/forge/1.20.1-47.4.0/forge-1"···&#xD;
+[xUnit.net 00:00:00.25]       Actual:   ···"inecraftforge/forge/forge/1.20.1-47.4.0/f"···&#xD;
+[xUnit.net 00:00:00.25]                                         ↑ (pos 58)&#xD;
+[xUnit.net 00:00:00.25]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.25]         D:\松光启动器\dev\PineglowLauncher.Tests\LoaderInstallerContractTests.cs(25,0): at Pineglow.Launcher.Tests.LoaderInstallerContractTests.GetLoaderVersionEntriesAsync_OfficialMavenLayout_DoesNotDuplicateArtifact(Boolean neo, String mc, String version, String expected)&#xD;
+[xUnit.net 00:00:00.25]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.25]       Assert.Equal() Failure: Strings differ&#xD;
+[xUnit.net 00:00:00.25]                                         ↓ (pos 60)&#xD;
+[xUnit.net 00:00:00.25]       Expected: ···"/neoforged/neoforge/21.1.219/neoforge-21."···&#xD;
+[xUnit.net 00:00:00.25]       Actual:   ···"/neoforged/neoforge/neoforge/21.1.219/neo"···&#xD;
+[xUnit.net 00:00:00.25]                                         ↑ (pos 60)&#xD;
+[xUnit.net 00:00:00.25]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.25]         D:\松光启动器\dev\PineglowLauncher.Tests\LoaderInstallerContractTests.cs(25,0): at Pineglow.Launcher.Tests.LoaderInstallerContractTests.GetLoaderVersionEntriesAsync_OfficialMavenLayout_DoesNotDuplicateArtifact(Boolean neo, String mc, String version, String expected)&#xD;
+[xUnit.net 00:00:00.25]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.27]       System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-default-c4419e362abb4cc49109a7cfe317a82f' is denied.&#xD;
+[xUnit.net 00:00:00.27]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.27]            at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+[xUnit.net 00:00:00.27]            at System.IO.Directory.CreateDirectory(String path)&#xD;
+[xUnit.net 00:00:00.27]         D:\松光启动器\dev\PineglowLauncher.Tests\ConfigDefaultIdentityTests.cs(16,0): at Pineglow.Launcher.Tests.ConfigDefaultIdentityTests..ctor()&#xD;
+[xUnit.net 00:00:00.27]            at System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean wrapExceptions)&#xD;
+[xUnit.net 00:00:00.27]       System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-default-c4128937219642038b97a1e628c97210' is denied.&#xD;
+[xUnit.net 00:00:00.27]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.27]            at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+[xUnit.net 00:00:00.27]            at System.IO.Directory.CreateDirectory(String path)&#xD;
+[xUnit.net 00:00:00.27]         D:\松光启动器\dev\PineglowLauncher.Tests\ConfigDefaultIdentityTests.cs(16,0): at Pineglow.Launcher.Tests.ConfigDefaultIdentityTests..ctor()&#xD;
+[xUnit.net 00:00:00.27]            at System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean wrapExceptions)&#xD;
+[xUnit.net 00:00:00.27]       System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-default-9cfebfad07fc41d8a852f02b6a59adeb' is denied.&#xD;
+[xUnit.net 00:00:00.27]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.27]            at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+[xUnit.net 00:00:00.27]            at System.IO.Directory.CreateDirectory(String path)&#xD;
+[xUnit.net 00:00:00.27]         D:\松光启动器\dev\PineglowLauncher.Tests\ConfigDefaultIdentityTests.cs(16,0): at Pineglow.Launcher.Tests.ConfigDefaultIdentityTests..ctor()&#xD;
+[xUnit.net 00:00:00.27]            at System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean wrapExceptions)&#xD;
+[xUnit.net 00:00:00.27]       System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-default-540e0cc6debb469fb6b052e1fa0add88' is denied.&#xD;
+[xUnit.net 00:00:00.27]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.27]            at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+[xUnit.net 00:00:00.27]            at System.IO.Directory.CreateDirectory(String path)&#xD;
+[xUnit.net 00:00:00.27]         D:\松光启动器\dev\PineglowLauncher.Tests\ConfigDefaultIdentityTests.cs(16,0): at Pineglow.Launcher.Tests.ConfigDefaultIdentityTests..ctor()&#xD;
+[xUnit.net 00:00:00.27]            at System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean wrapExceptions)&#xD;
+[xUnit.net 00:00:00.27]       System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-default-cb7f7c483ce44333991b1009e65407a9' is denied.&#xD;
+[xUnit.net 00:00:00.27]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.27]            at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+[xUnit.net 00:00:00.27]            at System.IO.Directory.CreateDirectory(String path)&#xD;
+[xUnit.net 00:00:00.27]         D:\松光启动器\dev\PineglowLauncher.Tests\ConfigDefaultIdentityTests.cs(16,0): at Pineglow.Launcher.Tests.ConfigDefaultIdentityTests..ctor()&#xD;
+[xUnit.net 00:00:00.27]            at System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean wrapExceptions)&#xD;
+[xUnit.net 00:00:00.27]   Finished:    Pineglow.Launcher.Tests&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:39:53.0754939+08:00">
+        <Text>[xUnit.net 00:00:00.23]     Pineglow.Launcher.Tests.LoaderInstallerContractTests.RunInstallerAsync_PreparesMissingProfileAndPreservesExistingBytes(existing: True) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:39:53.0805686+08:00">
+        <Text>[xUnit.net 00:00:00.23]     Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(loader: "forge") [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:39:53.0863060+08:00">
+        <Text>[xUnit.net 00:00:00.24]     Pineglow.Launcher.Tests.LoaderInstallerContractTests.RunInstallerAsync_PreparesMissingProfileAndPreservesExistingBytes(existing: False) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:39:53.0866992+08:00">
+        <Text>[xUnit.net 00:00:00.24]     Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(loader: "fabric") [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:39:53.0877684+08:00">
+        <Text>[xUnit.net 00:00:00.24]     Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(loader: "neoforge") [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:39:53.0881070+08:00">
+        <Text>[xUnit.net 00:00:00.24]     Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(loader: "quilt") [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:39:53.0884639+08:00">
+        <Text>[xUnit.net 00:00:00.24]     Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_MultipleLevelsAndGameOnlyChild_KeepsAllAncestorJvmArguments [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:39:53.0903828+08:00">
+        <Text>[xUnit.net 00:00:00.25]     Pineglow.Launcher.Tests.LoaderInstallerContractTests.GetLoaderVersionEntriesAsync_OfficialMavenLayout_DoesNotDuplicateArtifact(neo: False, mc: "1.20.1", version: "1.20.1-47.4.0", expected: "https://maven.minecraftforge.net/net/minecraftforg"···) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:39:53.0923632+08:00">
+        <Text>[xUnit.net 00:00:00.25]     Pineglow.Launcher.Tests.LoaderInstallerContractTests.GetLoaderVersionEntriesAsync_OfficialMavenLayout_DoesNotDuplicateArtifact(neo: True, mc: "1.21.1", version: "21.1.219", expected: "https://maven.neoforged.net/releases/net/neoforged"···) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:39:53.1430296+08:00">
+        <Text>[xUnit.net 00:00:00.27]     Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_FirstRun_DoesNotWriteOrDeleteExistingCredentials [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:39:53.1430582+08:00">
+        <Text>[xUnit.net 00:00:00.27]     Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_ExistingConfigWithoutInstance_PersistsGeneratedId [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:39:53.1430755+08:00">
+        <Text>[xUnit.net 00:00:00.27]     Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_FirstRun_PersistsStableInstanceAndAccountIds [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:39:53.1430933+08:00">
+        <Text>[xUnit.net 00:00:00.27]     Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_UnwritableInitialPath_ReportsFailureInsteadOfTransientIdentity [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:39:53.1431153+08:00">
+        <Text>[xUnit.net 00:00:00.27]     Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_ConcurrentFirstRun_ReturnsOneIdentity [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

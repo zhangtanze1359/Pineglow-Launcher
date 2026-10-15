@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "auditor": "audit-goal-evidence.py",
+  "auditorSha256": "F4121D33933F22C3A32BB556F36FF8F7E83A622C6CAEFF594533A2BE2673099E",
+  "generatedUtc": "2026-10-04T10:36:30Z",
+  "expected": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-acceptance\\20261004-long-quality-rework-independent\\expected-rework-strict.json",
+  "expectedSha256": "E8256FC96CB2A8AFB4D83AB49E90BDC1851D24167043D0C2CA4578EE9EE85E8F",
+  "roots": [
+    {
+      "id": "rework-final",
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r4\\FINAL-LOCAL-QUALITY",
+      "policy": "strict-new",
+      "required": true,
+      "exists": true,
+      "manifestsFound": 1,
+      "packagesDeclared": 1,
+      "packagesChecked": 1
+    }
+  ],
+  "totals": {
+    "roots": 1,
+    "packages": 1,
+    "manifestEntries": 121,
+    "filesVerified": 121,
+    "failures": 1,
+    "knownDrift": 0,
+    "notes": 0
+  },
+  "failures": [
+    {
+      "code": "MISSING_DETACHED",
+      "root": "rework-final",
+      "package": "20261004-092504Z-dab448e2-rework",
+      "path": "manifest.sha256",
+      "detail": "strict-new package must carry manifest.sha256"
+    }
+  ],
+  "knownDrift": [],
+  "notes": [],
+  "exitCode": 1
+}

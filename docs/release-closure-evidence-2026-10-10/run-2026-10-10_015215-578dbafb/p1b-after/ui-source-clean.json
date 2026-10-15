@@ -1,0 +1,17 @@
+﻿{
+    "mode":  "clean",
+    "fixtureRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-uiprobe-clean-c1b0bb435f2f4ecf8e60d800e0486b93",
+    "artifactSha256":  "FA367D8DAF71ED633A9355267B1B18FCDEDE28F3F47F89526DD17BDDFD150A8A",
+    "sourceUiIndexSha256":  "39933134AD98FAFD51B2D22106B5E692371106610BEB62302A68B6938C72D02F",
+    "externalUiSha256":  null,
+    "externalUiPresent":  false,
+    "apiPort":  51965,
+    "healthReady":  true,
+    "legacyMarkerServed":  false,
+    "externalUiServed":  false,
+    "servedIndexSha256":  "CD6FDA3C2E12E240331F5EF314F5B99188BFEFDC9E92CB272EF4FEC28D4C605A",
+    "servedIndexMatchesCurrentSource":  true,
+    "ownedProcessStopped":  true,
+    "timeHK":  "2026-10-10T02:16:01.5814086",
+    "servedIndexTokenNormalizedSha256":  "39933134AD98FAFD51B2D22106B5E692371106610BEB62302A68B6938C72D02F"
+}

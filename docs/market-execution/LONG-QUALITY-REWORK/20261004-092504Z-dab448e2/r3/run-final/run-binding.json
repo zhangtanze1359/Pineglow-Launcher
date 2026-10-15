@@ -1,0 +1,13 @@
+{
+    "schemaVersion":  1,
+    "runId":  "20261004-r3rework-dab448e2",
+    "inputManifest":  "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\g2\\input-manifest.json",
+    "inputManifestSha256":  "812D385A09538183215747737C9F7817A26CEE1DE05B2F2B34E78FC2235F8C22",
+    "verifiedInputSetSha256":  "D10CBC26126EA17EC0837F3E2AA95C6D12D075F3986DBA5DC4E8833151282661",
+    "verifiedInputCount":  292,
+    "verifiedInputRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c",
+    "stagesFile":  "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\goal-stages.json",
+    "stagesFileSha256":  "13968D613DD7E00C6D0F9D3B94AECF48B24FA284234BD18D95B03344AB7B33CD",
+    "executionRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c",
+    "evidenceRoot":  "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3"
+}

@@ -1,0 +1,106 @@
+﻿{
+    "runId":  "20261003-080000Z",
+    "task":  "MR20 自更新安全、失效与恢复",
+    "generatedUtc":  "2026-10-02T22:29:13Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "result":  {
+                   "csharp":  "19 passed / 0 failed (RED baseline: 6 failed / 13 passed)",
+                   "csharpFull":  "747 passed / 0 failed",
+                   "nodeFull":  "221 passed / 0 failed (17 files)",
+                   "realScriptExecutions":  3,
+                   "gitStatus":  "1325 -\u003e 1326",
+                   "node":  "update-recovery.test.cjs 5 passed / 0 failed (added in the round-17 UI closeout)"
+               },
+    "fixedByThisPackage":  {
+                               "rollback":  "the biggest gap: the old script overwrote the exe with no backup, no verification and no rollback; now backup -\u003e replace -\u003e byte-compare -\u003e rollback",
+                               "alwaysRunnable":  "all three failure paths still start the OLD binary",
+                               "applyState":  "script writes apply-state.json; only \"applied\" counts as a successful replacement",
+                               "platformAssetMatch":  "assets carrying a foreign RID token are rejected before download",
+                               "truncation":  "size is checked against the manifest before the SHA check, with a precise reason",
+                               "trustNote":  "accurate claim: SHA256 detects corruption/truncation but is NOT identity authentication",
+                               "errorlevelHardening":  "set \"RC=%errorlevel%\" immediately after each command instead of relying on if errorlevel reading the adjacent command"
+                           },
+    "keyFinding":  {
+                       "statement":  "if errorlevel 1 reads the exit code of the IMMEDIATELY preceding command",
+                       "howFound":  "during RED construction I removed only the backup copy line and left the following if errorlevel check; it then read the stale find exit code (1) and still reported backup_failed",
+                       "risk":  "inserting any command between the operation and the check silently reads the wrong exit code -\u003e update failure could be reported as success or vice versa",
+                       "fix":  "capture the exit code immediately into RC and compare explicitly; covered by three real script executions"
+                   },
+    "knownGaps":  [
+                      "真实安装目录替换未做（卡片明确需另行授权）；只在临时目录里真实执行了替换脚本",
+                      "真实重启未做：测试用空操作代替 start 命令（脚本其余部分与产品生成的一致）",
+                      "Unix .sh 分支未真实执行（本机 Windows），仅结构断言",
+                      "真实 WebView2 里的设置页渲染与告警显示未验证（只做接线级断言与静态扫描）",
+                      "断电/杀进程中断未真的模拟（\"替换到一半\"由 fc /b 逐字节校验覆盖逻辑）",
+                      "签名清单/身份认证未实现（本包只做准确声明；卡片要求不自动申请签名凭据）",
+                      "主备下载切换本包未改动，也未新增用例"
+                  ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "750FB96AC15EA17D0383A03F08EC12040BAAD6811BCBF7CE842820A10200AD7E",
+                      "sizeBytes":  11991
+                  },
+                  {
+                      "path":  "green/01-update-recovery-first.log",
+                      "sha256":  "E487B5F79E58C5E745D89B7FF7EAADB1761BD23FF9794814838375F2299FF51F",
+                      "sizeBytes":  14622
+                  },
+                  {
+                      "path":  "green/02-update-recovery-after.log",
+                      "sha256":  "E96E63030876B53F9686465871FAFE34029201CE8F7C3C8C0AACA1ECF7C97FA2",
+                      "sizeBytes":  14622
+                  },
+                  {
+                      "path":  "green/03-csharp-full.log",
+                      "sha256":  "EEB73E4C4FED831904A4ED77EECC5080EE0F6267C06840FB180C20E345D320DA",
+                      "sizeBytes":  652
+                  },
+                  {
+                      "path":  "green/04-node-full.log",
+                      "sha256":  "1A236C1EB9C2E42CC6F6E94B3BC5C35EA2AE3C7C61848769FBF1B0C5BAF989A9",
+                      "sizeBytes":  22561
+                  },
+                  {
+                      "path":  "green/05-node-update-recovery.log",
+                      "sha256":  "C02BEA7F2ACF76F15F6EEE67C07F2C694D5B138867086032875728A14B13BC92",
+                      "sizeBytes":  794
+                  },
+                  {
+                      "path":  "green/06-csharp-full-final.log",
+                      "sha256":  "64AD00C9E9AC4190CDA95E48358AB51AB872E54B7D5C4DB996D1333A2C7D7665",
+                      "sizeBytes":  652
+                  },
+                  {
+                      "path":  "green/07-node-full-final.log",
+                      "sha256":  "70D56A7EE7720A7B3F3E648820DACCCFADDBC70230AA09A278F1C9D8F5CFDA50",
+                      "sizeBytes":  23049
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "C979702C1094DE6E4E5AA69DDB82B0D9996BEFADA8776DED995D9F6FEA7E2E0F",
+                      "sizeBytes":  835
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "EB1FA2FAB4029742C24A232D68F219F1646A4742464F3AE4FB06BD65388DDE01",
+                      "sizeBytes":  114858
+                  },
+                  {
+                      "path":  "green/UpdateService.cs.mr20",
+                      "sha256":  "F050172E68930AEF14802BCE7738C71F8C06D3E76F1ECE3436C6ADB81FAFB8C1",
+                      "sizeBytes":  15056
+                  },
+                  {
+                      "path":  "green/UpdateService.cs.mr20.sha256.txt",
+                      "sha256":  "F6670E30420934C137CB8FCBBB6DB63C2236A8EA15851EAE75D9501012537B77",
+                      "sizeBytes":  69
+                  },
+                  {
+                      "path":  "red/01-update-recovery-before.log",
+                      "sha256":  "D70EBE61BBFCF36B5336ADF510BE29393F6C62E36F899704CF5543663B585F77",
+                      "sizeBytes":  32006
+                  }
+              ]
+}

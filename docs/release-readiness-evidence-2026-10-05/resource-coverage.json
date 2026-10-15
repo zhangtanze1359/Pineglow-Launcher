@@ -1,0 +1,20 @@
+[
+  {
+    "path": "ui/css/pineglow.css",
+    "sourceExists": true,
+    "snapshotExists": false,
+    "tracked": false
+  },
+  {
+    "path": "ui/assets/pine-forest.svg",
+    "sourceExists": true,
+    "snapshotExists": false,
+    "tracked": false
+  },
+  {
+    "path": "ui/tests/goal-core-flow.test.cjs",
+    "sourceExists": true,
+    "snapshotExists": true,
+    "tracked": false
+  }
+]

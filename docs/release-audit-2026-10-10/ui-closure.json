@@ -1,0 +1,11 @@
+{
+  "generatedAt": "2026-10-09T17:33:24.284Z",
+  "root": "C:/Users/Administrator/AppData/Local/Temp/pineglow-release-audit-4b7da0cd23f34522971cf2d1f1c13071/ui",
+  "entryPoints": [
+    "index.html"
+  ],
+  "scannedFiles": 9,
+  "totalLocalReferences": 9,
+  "missingCount": 0,
+  "missing": []
+}

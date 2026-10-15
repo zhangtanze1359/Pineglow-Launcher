@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "checkedUtc": "2026-10-03T11:33:35Z",
+  "package": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\FINAL-LOCAL-QUALITY\\20261003-092612Z-b4d896a8",
+  "runId": "20261003-092612Z-b4d896a8",
+  "manifestDeclaredCount": 148,
+  "filesListed": 148,
+  "filesChecked": 148,
+  "problems": [],
+  "extraFilesNotListed": [],
+  "manifestSha256": "7B09EA7568BD114B9A8A1F13864DCAAF34CA81CDE777A55ACB2A94C8990E3B99",
+  "detachedSha256": "7B09EA7568BD114B9A8A1F13864DCAAF34CA81CDE777A55ACB2A94C8990E3B99",
+  "detachedMatches": true,
+  "countMatches": true,
+  "verdict": "PASS"
+}

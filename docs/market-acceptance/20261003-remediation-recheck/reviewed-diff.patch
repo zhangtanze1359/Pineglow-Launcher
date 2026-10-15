@@ -1,0 +1,911 @@
+--- before/dev/PineglowLauncher.Tests/ConfigPreservationTests.cs
++++ after/dev/PineglowLauncher.Tests/ConfigPreservationTests.cs
+@@ -11,34 +11,45 @@
+ namespace Pineglow.Launcher.Tests;
+ 
+ /// <summary>
+-/// MR20 补测（缺口登记表 A15）：**旧配置/凭据不被重置**。
++/// MR20 补测（缺口登记表 A15）＋ 最终验收阻断项 F-02（R0）修复：**旧配置/凭据不被重置**，
++/// 且**测试绝不触碰真实凭据**。
+ ///
+-/// 这一半可以安全地测：<see cref="ConfigStore.LoadAsync"/> 对凭据只**读**不写
+-/// （所有 <c>SecretStore.Save</c> 都在 <c>SaveCore</c> 里），
+-/// 加上本轮新增的 <see cref="ConfigStore.ConfigPathOverrideForTest"/>，就能对**真实的 LoadAsync 归一化**
+-/// 做验证，而完全不碰真实 <c>%APPDATA%</c>。
++/// F-02 实测（独立验收 <c>credential-intents.jsonl</c>）：修复前这 5 个用例会真实进入
++/// Windows 凭据管理器 —— 5 次运行共产生 **20 次 delete-intent**（外加 15 次 read-stub）。
++/// 原因是 <c>ConfigStore.SaveCore</c> 会把凭据写回 <see cref="SecretStore"/>，而
++/// <c>ConfigStore.ConfigPathOverrideForTest</c> 只重定向了 config.json，
++/// 原来的 A15 守卫又只看 <c>secrets.json</c>（那不是 Windows 凭据管理器）。
+ ///
+-/// **刻意不做的事**：
+-///   * **不调用 `SaveAsync`** —— 它会写 <c>SecretStore</c>（真实凭据存储）；
+-///   * **不断言凭据字段**（`CurseForgeApiKey` / 账号 token）—— 那些值来自真实凭据存储，
+-///     断言它们会让用例依赖**本机凭据**；
+-///   * 因此"**主备切换留证**"（config.json 的 `.bak`/`.prev` 轮转）**本包未测**：它必须经 `SaveAsync`，
+-///     而那会写真实凭据。见本包 deliverable §四。
++/// 本轮修复：<see cref="SecretStore"/> 的读/写/删统一走可注入的 <c>ISecretStoreBackend</c>。
++/// 本类每个用例都在**内存后端作用域**内执行（构造函数建立、Dispose 释放），
++/// 并在守卫用例中断言"生产（原生）后端调用次数 = 0"。
+ /// </summary>
+ public class ConfigPreservationTests : IDisposable
+ {
+ 	private readonly ITestOutputHelper _out;
+ 	private readonly string _root;
+ 
++	/// <summary>R0：本用例的凭据作用域（AsyncLocal，按异步流隔离；Dispose 时还原）。</summary>
++	private readonly IDisposable _secretScope;
++
++	/// <summary>R0：本用例实际使用的内存后端 —— 用于证明"调用确实被它接住了"。</summary>
++	private readonly InMemorySecretStoreBackend _secrets;
++
+ 	public ConfigPreservationTests(ITestOutputHelper output)
+ 	{
+ 		_out = output;
+ 		_root = Path.Combine(Path.GetTempPath(), "pineglow-a15-" + Guid.NewGuid().ToString("N"));
+ 		Directory.CreateDirectory(_root);
++
++		// F-02 修复：先把凭据后端换成内存实现，再让任何 LoadAsync 发生。
++		// 没有这一步，SaveCore 会真的调用 CredDeleteW/CredWriteW。
++		_secrets = new InMemorySecretStoreBackend("a15-config-preservation");
++		_secretScope = SecretStore.OverrideBackendForTest(_secrets);
+ 	}
+ 
+ 	public void Dispose()
+ 	{
++		_secretScope.Dispose();
+ 		ConfigStore.ConfigPathOverrideForTest = null;
+ 		try { if (Directory.Exists(_root)) Directory.Delete(_root, true); } catch { }
+ 	}
+@@ -188,16 +199,20 @@
+ 	[Fact]
+ 	public async Task LoadAsync_MustNotCreateOrModifyTheRealCredentialStore()
+ 	{
+-		// 为什么需要这条：`LoadAsync` 的迁移分支会回写，而回写路径会调用 `SecretStore.Save`，
+-		// 那个存储的路径是**真实 %APPDATA%**（`PlatformPaths.GetConfigDirectory()/secrets.json`），
+-		// **没有测试缝**。本包实测：这次没出事**只是因为**所有凭据值恰好都是空串
+-		// （非空值就会真的写进去）。
++		// 这条守卫是 F-02 的**直接证明**（修复前它只看 secrets.json，因此在 Windows 上
++		// 是一道假守卫 —— 真正的写入目标是 Windows 凭据管理器）。
+ 		//
+-		// 因此这里显式守卫：跑一次 LoadAsync 之后，真实凭据存储**不得被创建、也不得被改动**。
++		// 现在三件事一起断言：
++		//   ① 真实 secrets.json 不得被创建/改动；
++		//   ② **生产（原生）后端调用次数必须为 0**；
++		//   ③ 这些读/删**确实**发生在了本用例注入的内存后端上（否则 ② 就是空话）。
+ 		string realSecrets = Path.Combine(PlatformPaths.GetConfigDirectory(), "secrets.json");
+ 		bool existedBefore = File.Exists(realSecrets);
+ 		DateTime? mtimeBefore = existedBefore ? File.GetLastWriteTimeUtc(realSecrets) : null;
+ 
++		long nativeBefore = SecretStore.ProductionBackendCallCount;
++		int isolatedOpsBefore = _secrets.Operations.Count;
++
+ 		WriteConfig("""
+ 		{
+ 		  "gameDirectory": "D:\\synthetic\\game",
+@@ -207,7 +222,11 @@
+ 		await ConfigStore.LoadAsync();
+ 
+ 		bool existedAfter = File.Exists(realSecrets);
++		long nativeAfter = SecretStore.ProductionBackendCallCount;
++		int isolatedOps = _secrets.Operations.Count - isolatedOpsBefore;
+ 		_out.WriteLine($"[A15] 真实 secrets.json：存在 {existedBefore} → {existedAfter}；路径 = {realSecrets}");
++		_out.WriteLine($"[A15] 生产后端调用 delta={nativeAfter - nativeBefore}；内存后端受理操作={isolatedOps}；" +
++			"其中 delete=" + _secrets.CountOf("delete") + " read=" + _secrets.CountOf("read") + " write=" + _secrets.CountOf("write"));
+ 
+ 		Assert.False(existedAfter && !existedBefore,
+ 			"测试**创建了真实凭据存储** —— 这是不可接受的：测试绝不能碰用户凭据。路径：" + realSecrets);
+@@ -215,5 +234,8 @@
+ 		{
+ 			Assert.Equal(mtimeBefore, File.GetLastWriteTimeUtc(realSecrets));
+ 		}
++
++		Assert.Equal(0, nativeAfter - nativeBefore);
++		Assert.True(isolatedOps > 0, "内存后端一次调用都没有被受理 —— 说明注入没生效，② 的 0 次就成了空断言");
+ 	}
+ }
+--- before/dev/PineglowLauncher/Pineglow.Launcher.Services/FileRecoveryService.cs
++++ after/dev/PineglowLauncher/Pineglow.Launcher.Services/FileRecoveryService.cs
+@@ -217,15 +217,16 @@
+ 
+ 		int restored = record.Files.Count(x => x.State == "restored" || x.State == "already_restored");
+ 		bool anyConflict = record.Files.Any(x => x.State == "conflict");
++		bool anyFailed = record.Files.Any(x => x.State == "failed");
+ 		record.Status = restored == record.Files.Count
+ 			? "restored"
+-			: (anyConflict ? "conflict" : "partial");
++			: (anyConflict ? "conflict" : (restored == 0 && anyFailed ? "failed" : "partial"));
+ 
+ 		await WriteRecordAsync(operationDir, record).ConfigureAwait(false);
+ 		return record;
+ 	}
+ 
+-	private static void RestoreOne(FileRecoveryEntry entry, string fullGameDir, bool overwrite)
++	private void RestoreOne(FileRecoveryEntry entry, string fullGameDir, bool overwrite)
+ 	{
+ 		entry.Error = null;
+ 
+@@ -236,10 +237,52 @@
+ 			return;
+ 		}
+ 
++		if (string.IsNullOrWhiteSpace(entry.OriginalPath))
++		{
++			entry.State = "failed";
++			entry.Error = "记录中的原路径无效";
++			return;
++		}
++
+ 		if (!IsPathInside(fullGameDir, entry.OriginalPath))
+ 		{
+ 			entry.State = "failed";
+ 			entry.Error = "恢复目标越界，拒绝写入";
++			return;
++		}
++
++		// 独立验收 F-01：`IsPathInside` 只是**词法**前缀检查，拦不住目录联接（junction）。
++		// 实测：把 game\mods 换成指向游戏目录之外的联接后，恢复仍返回 200/restored，
++		// 文件被写到了游戏目录之外。因此这里在**任何创建/删除/覆盖/移动之前**，
++		// 校验目标所属的整条真实路径链（根目录自身 + 最近存在的祖先到叶子）。
++		if (!IsRealPathChain(fullGameDir, entry.OriginalPath, out string targetChainError))
++		{
++			entry.State = "failed";
++			entry.Error = "恢复目标路径不可信，拒绝写入：" + targetChainError;
++			return;
++		}
++
++		if (string.IsNullOrWhiteSpace(entry.StoredPath))
++		{
++			entry.State = "failed";
++			entry.Error = "隔离副本不存在，无法恢复";
++			return;
++		}
++
++		// 记录里的 StoredPath 是**可被篡改的输入**：必须落回本服务自己的恢复根之内，
++		// 否则一次"恢复"就可能把恢复区之外的任意文件搬进游戏目录。
++		string storedFull = SafeFullPath(entry.StoredPath);
++		if (string.IsNullOrWhiteSpace(storedFull) || !IsPathInside(_recoveryRoot, storedFull))
++		{
++			entry.State = "failed";
++			entry.Error = "隔离副本路径不在本恢复区内，拒绝使用（伪造或越界的记录）";
++			return;
++		}
++
++		if (!IsRealPathChain(_recoveryRoot, storedFull, out string storedChainError))
++		{
++			entry.State = "failed";
++			entry.Error = "隔离副本路径不可信，拒绝使用：" + storedChainError;
+ 			return;
+ 		}
+ 
+@@ -267,7 +310,7 @@
+ 			}
+ 		}
+ 
+-		if (string.IsNullOrWhiteSpace(entry.StoredPath) || !File.Exists(entry.StoredPath))
++		if (!File.Exists(entry.StoredPath))
+ 		{
+ 			entry.State = "failed";
+ 			entry.Error = "隔离副本不存在，无法恢复";
+@@ -308,6 +351,16 @@
+ 			}
+ 		}
+ 
++		// 校验与写入之间仍存在竞态窗口：上面的检查不能"宣称彻底关闭"它。
++		// 这里做**写入后复核**：如果父目录在校验之后被换成联接，必须如实报告失败，
++		// 而不是继续报 restored。残留风险见交付文档"未验证/残留风险"一节。
++		if (TryFindReparsePointOnPath(fullGameDir, entry.OriginalPath, out string postOffender))
++		{
++			entry.State = "failed";
++			entry.Error = "恢复写入后复核发现问题：路径上出现符号链接/重解析点（写入过程被替换）-" + postOffender;
++			return;
++		}
++
+ 		string finalSha = HashFile(entry.OriginalPath);
+ 		if (!string.Equals(finalSha, entry.Sha256, StringComparison.OrdinalIgnoreCase))
+ 		{
+@@ -453,6 +506,107 @@
+ 		}
+ 	}
+ 
++	/// <summary>
++	/// R1（验收阻断项 F-01）：确认 <paramref name="candidateFullPath"/> 落到
++	/// <paramref name="rootFullPath"/> 之下时，整条**真实**路径链都不含重解析点。
++	///
++	/// 检查范围：
++	///   * 根目录自身（必须存在、是目录、且不是联接）；
++	///   * 从叶子的父目录向上直到根目录的每一级**已存在**层级
++	///     —— 因此"缺失目录"自然回落到"最近存在的祖先"；
++	///   * 叶子自身（若已存在且是重解析点）。
++	///
++	/// 这是**写入前**的校验；它不声称关闭"校验与写入之间的竞态"，
++	/// 竞态的显式处理见 <see cref="RestoreOne"/> 的写入后复核与交付文档的残留风险一节。
++	/// </summary>
++	private static bool IsRealPathChain(string rootFullPath, string candidateFullPath, out string error)
++	{
++		error = string.Empty;
++
++		string root;
++		string candidate;
++		try
++		{
++			root = Path.GetFullPath(rootFullPath).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
++			candidate = Path.GetFullPath(candidateFullPath);
++		}
++		catch
++		{
++			error = "路径无法规范化";
++			return false;
++		}
++
++		if (string.Equals(root, candidate, StringComparison.OrdinalIgnoreCase))
++		{
++			error = "目标就是根目录自身";
++			return false;
++		}
++
++		if (File.Exists(root))
++		{
++			error = "根路径是文件而不是目录：" + root;
++			return false;
++		}
++
++		if (!Directory.Exists(root))
++		{
++			error = "根目录不存在，无法确认写入边界：" + root;
++			return false;
++		}
++
++		if (TryFindReparsePointOnPath(root, candidate, out string offender))
++		{
++			error = "路径上存在符号链接/重解析点（junction）：" + offender;
++			return false;
++		}
++
++		return true;
++	}
++
++	/// <summary>在 <paramref name="rootFullPath"/> 之内的路径链上查找第一个重解析点（含根自身与叶子）。</summary>
++	private static bool TryFindReparsePointOnPath(string rootFullPath, string candidateFullPath, out string offender)
++	{
++		offender = string.Empty;
++
++		string root;
++		string candidate;
++		try
++		{
++			root = Path.GetFullPath(rootFullPath).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
++			candidate = Path.GetFullPath(candidateFullPath);
++		}
++		catch
++		{
++			return false;
++		}
++
++		if (IsReparsePoint(root))
++		{
++			offender = root;
++			return true;
++		}
++
++		string? current = Path.GetDirectoryName(candidate);
++		while (!string.IsNullOrEmpty(current) && IsPathInside(root, current))
++		{
++			if ((Directory.Exists(current) || File.Exists(current)) && IsReparsePoint(current))
++			{
++				offender = current;
++				return true;
++			}
++
++			current = Path.GetDirectoryName(current);
++		}
++
++		if (File.Exists(candidate) && IsReparsePoint(candidate))
++		{
++			offender = candidate;
++			return true;
++		}
++
++		return false;
++	}
++
+ 	private static bool HasReparseAncestor(string root, string path)
+ 	{
+ 		try
+--- before/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.cs
++++ after/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.cs
+@@ -2368,8 +2368,10 @@
+ 		string gameDir = ResolveGameDirectory(config, instance);
+ 		// Codex 独立探针发现的缺陷 1（第 63 轮修复）：列表**必须按请求的世界过滤**。
+ 		// 修复前这里返回该实例的**全部**备份 —— 请求 worldB 会拿到 worldA 的备份（探针实测）。
+-		// GroupName 来自备份文件名解析（如 worldA-20261003-030238.zip → worldA）；
+-		// 无法解析归属的备份（回退名）不属于任何具体世界，因此不会出现在任何世界的列表里。
++		//
++		// GroupName 的真实来源（最终验收 F-05 的文案更正）：`SaveBackupService.ToBackupInfo`
++		// 取的是**备份文件相对备份根的父目录名**（`<备份根>/<世界名>/<时间戳>.zip` → `<世界名>`），
++		// **不是**从备份文件名里解析出来的。为空的回退分支才用「存档」。
+ 		List<BackupFileInfo> backups = new SaveBackupService(gameDir).GetBackups(instance)
+ 			.Where(x => string.Equals(x.GroupName, folderName, StringComparison.OrdinalIgnoreCase))
+ 			.ToList();
+@@ -2398,7 +2400,8 @@
+ 
+ 		// Codex 独立探针发现的缺陷 2（第 63 轮修复，**数据安全**）：
+ 		// 修复前跨世界恢复会被接受 —— 把 worldA 的备份恢复到 worldB 会返回 200 并写出 `saves\worldA (1)`。
+-		// 备份归属于哪个世界由文件名解析（GroupName）；不匹配就拒绝。
++		// 备份归属于哪个世界由 GroupName 决定；而 GroupName 是**备份相对备份根的父目录名**
++		// （见 SaveBackupService.ToBackupInfo，F-05 文案更正），不匹配就拒绝。
+ 		if (!string.Equals(backup.GroupName, folderName, StringComparison.OrdinalIgnoreCase))
+ 		{
+ 			throw new InvalidOperationException($"该备份属于「{backup.GroupName}」，不能恢复到「{folderName}」。");
+@@ -2521,16 +2524,14 @@
+ 		AppConfig config = LoadConfig();
+ 		GameInstance instance = RequireInstance(config, instanceId);
+ 
+-		// MR03 收尾之二（缺口登记表 A7）：同一实例的**并发启动守卫**。
+-		// 修复前这里从不检查运行态，`MarkRunning` 会"以最后一次为准"覆盖注册表 ——
+-		// 于是同一实例能起两个游戏进程同时写同一份存档（真实的损坏风险），
+-		// 而删除守卫此后只跟踪最新的那个 PID。
+-		// 位置刻意放在最前：在任何网络调用/进程派发**之前**就拒绝。
+-		if (RunningInstanceRegistry.IsRunning(instanceId, out int alreadyRunningPid))
+-		{
+-			throw new InvalidOperationException($"该实例已在运行（进程 {alreadyRunningPid}），请勿重复启动。");
+-		}
+-
++		// 验收阻断项 F-04（本轮 R3 修复）：这里原本也被"并发启动守卫"拦住 ——
++		// 但本路由是**只读列表**，不可能重复启动游戏。实测：把合成实例标记为运行中后，
++		// 真实 HTTP `GET /api/instances/{id}/mods` 返回 400「请勿重复启动」，前端在游戏运行时
++		// 连 Mod 列表都读不出来。
++		//
++		// 因此把守卫**逐路由**收窄到"变更/启动/危险文件操作"（同文件的 toggle/delete/replace、
++		// 启动、诊断、存档恢复、实例移除、Bisect 写操作都保留守卫）；
++		// 这里不再做运行态检查，只读地列出 Mod。
+ 		string gameDir = ResolveGameDirectory(config, instance);
+ 		List<ModFile> mods = await new ModService(gameDir).GetModsAsync(instance);
+ 		await WriteJsonAsync(response, 200, new { instanceId, mods = mods.Select(BuildModSummary) });
+@@ -2737,13 +2738,27 @@
+ 	private static async Task HandleRestoreRecoveryAsync(HttpListenerRequest request, HttpListenerResponse response, string instanceId, string operationId)
+ 	{
+ 		AppConfig config = LoadConfig();
+-		RequireInstance(config, instanceId);
++		GameInstance instance = RequireInstance(config, instanceId);
+ 
+ 		FileRecoveryService service = CreateRecoveryService();
+ 		FileRecoveryRecord? record = await service.LoadAsync(instanceId, operationId);
+ 		if (record == null)
+ 		{
+ 			throw new InvalidOperationException("恢复记录不存在或不可读：" + operationId);
++		}
++
++		// R1（验收阻断项 F-01）：记录是**磁盘上的输入**，不能直接相信它的游戏目录。
++		// 记录只允许绑定当前实例的游戏目录（`mod-delete` 等）或它下面的子目录（`mod-replace` 用 mods 目录）。
++		// 越界记录会让一次"恢复"把文件写到实例配置之外的路径。
++		string instanceGameDir = ResolveGameDirectory(config, instance);
++		string recordGameDir = string.IsNullOrWhiteSpace(record.GameDirectory) ? string.Empty : Path.GetFullPath(record.GameDirectory);
++		bool boundToInstance = recordGameDir.Length > 0
++			&& (string.Equals(recordGameDir, Path.GetFullPath(instanceGameDir), StringComparison.OrdinalIgnoreCase)
++				|| FileRecoveryService.IsPathInside(instanceGameDir, recordGameDir));
++		if (!boundToInstance)
++		{
++			throw new InvalidOperationException(
++				$"恢复记录与当前实例的游戏目录不匹配，拒绝恢复：{operationId}（记录 {record.GameDirectory}，实例 {instanceGameDir}）");
+ 		}
+ 
+ 		bool overwrite = false;
+@@ -2858,7 +2873,12 @@
+ 
+ 			if (!result.Ok)
+ 			{
+-				throw new InvalidOperationException($"[{result.Status}] {result.Error}");
++				// R2：失败时把真实回滚状态一并发出去 —— needsRecovery 为 true 表示
++				// 旧版本还没回到原位，用户必须能据此判断"还需要人工恢复"。
++				string rollbackDetail = result.NeedsRecovery
++					? $"（needsRecovery=true；operationId={result.OperationId}；recoveryStatus={result.RecoveryStatus}；未恢复文件：{string.Join("；", result.FailedFiles)}）"
++					: string.Empty;
++				throw new InvalidOperationException($"[{result.Status}] {result.Error}{rollbackDetail}");
+ 			}
+ 
+ 			await WriteJsonAsync(response, 200, new
+--- before/dev/PineglowLauncher/Pineglow.Launcher.Services/ModReplacementService.cs
++++ after/dev/PineglowLauncher/Pineglow.Launcher.Services/ModReplacementService.cs
+@@ -20,6 +20,19 @@
+ 
+ 	/// <summary>旧文件的隔离记录 ID；撤销本次更新时用它。</summary>
+ 	public string? OperationId { get; set; }
++
++	/// <summary>
++	/// R2（验收阻断项 F-03）：回滚**是否没能**把旧文件全部放回原位置。
++	/// 为 true 时结果里必须同时带 <see cref="OperationId"/> 与 <see cref="FailedFiles"/>，
++	/// 并且 <see cref="Error"/> 不能声称"已回滚到旧版本"。
++	/// </summary>
++	public bool NeedsRecovery { get; set; }
++
++	/// <summary>回滚后的恢复记录状态（restored / partial / failed / conflict）；未发生回滚时为 null。</summary>
++	public string? RecoveryStatus { get; set; }
++
++	/// <summary>回滚后仍未回到原位置的文件（相对路径 → 原因）。</summary>
++	public List<string> FailedFiles { get; set; } = new List<string>();
+ 
+ 	public string? FileName { get; set; }
+ 
+@@ -146,9 +159,9 @@
+ 				&& record.Files.All(x => x.State != "failed");
+ 			if (!quarantineOk)
+ 			{
+-				await RollbackAsync(record).ConfigureAwait(false);
++				RollbackOutcome quarantineRollback = await RollbackAsync(record).ConfigureAwait(false);
+ 				result.Status = "quarantine_failed";
+-				result.Error = "旧文件隔离失败，已回滚：" + Describe(record);
++				ApplyRollback(result, quarantineRollback, "旧文件隔离失败", Describe(record));
+ 				return result;
+ 			}
+ 
+@@ -166,9 +179,9 @@
+ 			catch (Exception ex)
+ 			{
+ 				TryDelete(targetPath);
+-				await RollbackAsync(record).ConfigureAwait(false);
++				RollbackOutcome outcome = await RollbackAsync(record).ConfigureAwait(false);
+ 				result.Status = "commit_failed";
+-				result.Error = "写入新版本失败，已回滚到旧版本：" + ex.Message;
++				ApplyRollback(result, outcome, "写入新版本失败", ex.Message);
+ 				return result;
+ 			}
+ 
+@@ -183,9 +196,9 @@
+ 				catch (Exception ex)
+ 				{
+ 					TryDelete(targetPath);
+-					await RollbackAsync(record).ConfigureAwait(false);
++					RollbackOutcome outcome = await RollbackAsync(record).ConfigureAwait(false);
+ 					result.Status = "metadata_failed";
+-					result.Error = "写入元数据失败，已回滚到旧版本：" + ex.Message;
++					ApplyRollback(result, outcome, "写入元数据失败", ex.Message);
+ 					return result;
+ 				}
+ 			}
+@@ -201,17 +214,91 @@
+ 		}
+ 	}
+ 
+-	/// <summary>把隔离记录里的旧文件恢复到原位置（撤销更新）。</summary>
+-	private async Task RollbackAsync(FileRecoveryRecord record)
++	/// <summary>
++	/// 把隔离记录里的旧文件恢复到原位置（撤销更新）。
++	///
++	/// R2（验收阻断项 F-03）修复：修复前这里**吞掉所有异常**，调用方随后**无条件**
++	/// 拼上"已回滚到旧版本" —— 实测（只读目标 + 注入提交失败）恢复记录是 <c>partial</c>、
++	/// 目标仍是 foreign 内容，用户却被告知已经回滚。现在返回**真实结果**：
++	/// 逐项成败、恢复记录状态、未恢复文件、以及异常本身（不再吞）。
++	/// </summary>
++	private async Task<RollbackOutcome> RollbackAsync(FileRecoveryRecord record)
+ 	{
+ 		try
+ 		{
+-			await _recovery.RestoreAsync(record, overwrite: true).ConfigureAwait(false);
+-		}
+-		catch
+-		{
+-			// 回滚失败不能再抛：调用方已经处于失败分支，记录仍在恢复区可人工处理。
+-		}
++			FileRecoveryRecord restored = await _recovery.RestoreAsync(record, overwrite: true).ConfigureAwait(false);
++			List<string> notBack = restored.Files
++				.Where(x => x.State != "restored" && x.State != "already_restored")
++				.Select(x => x.RelativePath + " → " + (x.Error ?? x.State))
++				.ToList();
++			return new RollbackOutcome
++			{
++				Record = restored,
++				Status = restored.Status,
++				Complete = notBack.Count == 0,
++				FailedFiles = notBack,
++				Error = (notBack.Count == 0) ? null : "未能恢复的文件：" + string.Join("；", notBack)
++			};
++		}
++		catch (Exception ex)
++		{
++			// 回滚异常**不能吞**：旧文件还在恢复区，调用方必须知道"它们还没回去"。
++			List<string> notBack = record.Files
++				.Where(x => x.State != "restored" && x.State != "already_restored")
++				.Select(x => x.RelativePath + " → " + (x.Error ?? x.State))
++				.ToList();
++			return new RollbackOutcome
++			{
++				Record = record,
++				Status = "failed",
++				Complete = false,
++				FailedFiles = notBack,
++				Error = "回滚过程抛出异常：" + ex.GetType().Name + "：" + ex.Message
++			};
++		}
++	}
++
++	/// <summary>
++	/// 把一次回滚的**真实**结果写进替换结果。
++	///
++	/// 只有**逐项都回到原位**时才允许出现"已回滚"；否则必须带
++	/// <see cref="ModReplacementResult.NeedsRecovery"/>、operationId 与逐文件错误。
++	/// </summary>
++	private static void ApplyRollback(ModReplacementResult result, RollbackOutcome outcome, string failurePrefix, string originalException)
++	{
++		string operationId = outcome.Record.OperationId ?? result.OperationId ?? "(未知)";
++		result.OperationId ??= outcome.Record.OperationId;
++		result.RecoveryStatus = outcome.Status;
++		result.FailedFiles = outcome.FailedFiles;
++		result.NeedsRecovery = !outcome.Complete;
++
++		if (outcome.Complete)
++		{
++			result.Error = failurePrefix + "，已回滚到旧版本：" + originalException;
++			return;
++		}
++
++		result.Error = failurePrefix + "，**未能完全回滚**，旧版本仍需人工恢复。"
++			+ "恢复记录 " + operationId
++			+ "，回滚状态 " + outcome.Status
++			+ "，未恢复文件：" + (outcome.FailedFiles.Count == 0 ? "(逐项状态见恢复记录)" : string.Join("；", outcome.FailedFiles))
++			+ (string.IsNullOrWhiteSpace(outcome.Error) ? string.Empty : "；原因：" + outcome.Error)
++			+ "；原始失败：" + originalException;
++	}
++
++	/// <summary>一次回滚的真实结果。</summary>
++	private sealed class RollbackOutcome
++	{
++		public FileRecoveryRecord Record { get; set; } = new FileRecoveryRecord();
++
++		public string Status { get; set; } = "failed";
++
++		/// <summary>旧文件是否**全部**回到原位置。</summary>
++		public bool Complete { get; set; }
++
++		public List<string> FailedFiles { get; set; } = new List<string>();
++
++		public string? Error { get; set; }
+ 	}
+ 
+ 	private static string Describe(FileRecoveryRecord record) =>
+--- before/dev/PineglowLauncher/Pineglow.Launcher.Services/SecretStore.cs
++++ after/dev/PineglowLauncher/Pineglow.Launcher.Services/SecretStore.cs
+@@ -1,58 +1,107 @@
+ using System;
+-using System.Collections.Generic;
+-using System.ComponentModel;
+-using System.IO;
+ using System.Linq;
+-using System.Runtime.InteropServices;
+-using System.Runtime.InteropServices.ComTypes;
+-using System.Text;
+-using System.Text.Json;
++using System.Threading;
+ 
+ namespace Pineglow.Launcher.Services;
+ 
++/// <summary>
++/// 启动器凭据存储（公开 API 不变）。
++///
++/// 本轮 R0（验收阻断项 F-02）修复：读/写/删**全部**经由可注入的
++/// <see cref="ISecretStoreBackend"/>，不再内联原生调用。
++///
++/// 为什么必须改：修复前 5 个配置用例会真实进入 Windows 凭据管理器并产生
++/// **20 次 delete-intent**（独立验收 <c>credential-intents.jsonl</c> 实测），
++/// 也就是说"跑一遍测试"可能删掉用户真实凭据。
++///
++/// 三条硬约束（本轮保持不变）：
++///   1. **生产默认行为不变**：Windows 走原生凭据管理器，非 Windows 走 <c>secrets.json</c>；
++///   2. **凭据命名/前缀/迁移策略不变**：目标名仍是 <c>MCMiniLauncher/{name}</c>，
++///      常量值仍是 <c>MicrosoftRefreshToken</c> / <c>CurseForgeApiKey</c> / <c>ProxyPassword</c>；
++///   3. **测试不再可达原生 API**：测试程序集可安装内存后端（见
++///      <see cref="InstallProductionBackendForTest"/>），并且可证明原生调用次数为 0。
++/// </summary>
+ public static class SecretStore
+ {
+-	[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+-	private struct NativeCredential
+-	{
+-		public uint Flags;
+-
+-		public uint Type;
+-
+-		public string TargetName;
+-
+-		public string? Comment;
+-
+-		public FILETIME LastWritten;
+-
+-		public uint CredentialBlobSize;
+-
+-		public nint CredentialBlob;
+-
+-		public uint Persist;
+-
+-		public uint AttributeCount;
+-
+-		public nint Attributes;
+-
+-		public string? TargetAlias;
+-
+-		public string UserName;
+-	}
+-
+ 	public const string MicrosoftRefreshToken = "MicrosoftRefreshToken";
+ 
+ 	public const string CurseForgeApiKey = "CurseForgeApiKey";
+ 
+ 	public const string ProxyPassword = "ProxyPassword";
+ 
+-	private const string TargetPrefix = "MCMiniLauncher/";
++	private static ISecretStoreBackend _productionBackend = CreateProductionBackend();
+ 
+-	private const uint CredentialTypeGeneric = 1u;
++	/// <summary>
++	/// 作用域内（当前异步流）生效的后端覆盖。用 <see cref="AsyncLocal{T}"/> 而不是普通静态字段：
++	/// xUnit 按测试类并行调度，普通静态字段会让并行用例互相串后端。
++	/// </summary>
++	private static readonly AsyncLocal<ISecretStoreBackend?> BackendOverrideForTest = new AsyncLocal<ISecretStoreBackend?>();
+ 
+-	private const uint CredentialPersistLocalMachine = 2u;
++	private static long _productionBackendCallCount;
+ 
+-	private const int ErrorNotFound = 1168;
++	/// <summary>生产后端（Windows 原生 / 受限文件）被真正进入的次数。测试用它证明"原生不可达"。</summary>
++	internal static long ProductionBackendCallCount => Interlocked.Read(ref _productionBackendCallCount);
++
++	/// <summary>由后端实现调用：每进入一次生产后端计一次数（内存后端不计）。</summary>
++	internal static void CountProductionBackendCall() => Interlocked.Increment(ref _productionBackendCallCount);
++
++	/// <summary>当前实际生效的后端。</summary>
++	internal static ISecretStoreBackend CurrentBackend => BackendOverrideForTest.Value ?? _productionBackend;
++
++	/// <summary>当前是否处于测试注入的作用域内。</summary>
++	internal static bool IsBackendOverriddenForTest => BackendOverrideForTest.Value != null;
++
++	/// <summary>
++	/// 测试程序集专用：替换**进程默认后端**。
++	///
++	/// 测试程序集在 <c>[ModuleInitializer]</c> 里调用它，把整个测试进程的默认后端换成内存后端 ——
++	/// 这样"忘记加作用域"的未来用例也碰不到真实凭据（fail-safe），
++	/// 而生产代码路径（GUI / VerifyHost）永远不会执行到这里（<c>internal</c> + InternalsVisibleTo）。
++	/// </summary>
++	internal static void InstallProductionBackendForTest(ISecretStoreBackend backend)
++	{
++		_productionBackend = backend ?? throw new ArgumentNullException(nameof(backend));
++	}
++
++	/// <summary>测试程序集专用：在当前异步流内临时覆盖后端；<see cref="IDisposable.Dispose"/> 时还原。</summary>
++	internal static IDisposable OverrideBackendForTest(ISecretStoreBackend backend)
++	{
++		if (backend == null)
++		{
++			throw new ArgumentNullException(nameof(backend));
++		}
++
++		ISecretStoreBackend? previous = BackendOverrideForTest.Value;
++		BackendOverrideForTest.Value = backend;
++		return new BackendOverrideScope(previous);
++	}
++
++	/// <summary>测试程序集专用：把计数清零，便于"某段操作期间原生调用为 0"的差分断言。</summary>
++	internal static void ResetProductionBackendCallCountForTest() => Interlocked.Exchange(ref _productionBackendCallCount, 0L);
++
++	private sealed class BackendOverrideScope : IDisposable
++	{
++		private readonly ISecretStoreBackend? _previous;
++		private bool _disposed;
++
++		public BackendOverrideScope(ISecretStoreBackend? previous) => _previous = previous;
++
++		public void Dispose()
++		{
++			if (_disposed)
++			{
++				return;
++			}
++
++			_disposed = true;
++			BackendOverrideForTest.Value = _previous;
++		}
++	}
++
++	private static ISecretStoreBackend CreateProductionBackend() =>
++		OperatingSystem.IsWindows()
++			? (ISecretStoreBackend)new WindowsCredentialSecretBackend()
++			: new RestrictedFileSecretBackend();
+ 
+ 	public static string MicrosoftAccountToken(string accountId)
+ 	{
+@@ -64,157 +113,26 @@
+ 		return "AccountToken_" + accountId;
+ 	}
+ 
++	/// <summary>读取凭据；不存在返回空串（与修复前一致）。</summary>
+ 	public static string Load(string name)
+ 	{
+ 		ValidateName(name);
+-		if (!OperatingSystem.IsWindows())
+-		{
+-			return LoadRestrictedFile(name);
+-		}
+-		return LoadWindows(name);
++		return CurrentBackend.Read(name) ?? string.Empty;
+ 	}
+ 
++	/// <summary>写入凭据；<paramref name="value"/> 为空/null 表示删除（与修复前一致）。</summary>
+ 	public static void Save(string name, string? value)
+ 	{
+ 		ValidateName(name);
+-		if (OperatingSystem.IsWindows())
++		ISecretStoreBackend backend = CurrentBackend;
++		if (string.IsNullOrEmpty(value))
+ 		{
+-			SaveWindows(name, value ?? string.Empty);
++			backend.Delete(name);
+ 		}
+ 		else
+ 		{
+-			SaveRestrictedFile(name, value ?? string.Empty);
++			backend.Write(name, value);
+ 		}
+-	}
+-
+-	private static string LoadWindows(string name)
+-	{
+-		if (!CredReadW("MCMiniLauncher/" + name, 1u, 0u, out var credentialPointer))
+-		{
+-			int lastWin32Error = Marshal.GetLastWin32Error();
+-			if (lastWin32Error == 1168)
+-			{
+-				return string.Empty;
+-			}
+-			throw new Win32Exception(lastWin32Error, "无法从 Windows 凭据管理器读取启动器凭据。");
+-		}
+-		try
+-		{
+-			NativeCredential nativeCredential = Marshal.PtrToStructure<NativeCredential>(credentialPointer);
+-			if (nativeCredential.CredentialBlob == IntPtr.Zero || nativeCredential.CredentialBlobSize == 0)
+-			{
+-				return string.Empty;
+-			}
+-			byte[] array = new byte[nativeCredential.CredentialBlobSize];
+-			Marshal.Copy(nativeCredential.CredentialBlob, array, 0, array.Length);
+-			return Encoding.Unicode.GetString(array).TrimEnd('\0');
+-		}
+-		finally
+-		{
+-			CredFree(credentialPointer);
+-		}
+-	}
+-
+-	private static void SaveWindows(string name, string value)
+-	{
+-		string text = "MCMiniLauncher/" + name;
+-		if (string.IsNullOrEmpty(value))
+-		{
+-			if (!CredDeleteW(text, 1u, 0u))
+-			{
+-				int lastWin32Error = Marshal.GetLastWin32Error();
+-				if (lastWin32Error != 1168)
+-				{
+-					throw new Win32Exception(lastWin32Error, "无法删除 Windows 凭据管理器中的启动器凭据。");
+-				}
+-			}
+-			return;
+-		}
+-		byte[] bytes = Encoding.Unicode.GetBytes(value);
+-		nint num = Marshal.AllocCoTaskMem(bytes.Length);
+-		try
+-		{
+-			Marshal.Copy(bytes, 0, num, bytes.Length);
+-			NativeCredential credential = new NativeCredential
+-			{
+-				Type = 1u,
+-				TargetName = text,
+-				CredentialBlobSize = (uint)bytes.Length,
+-				CredentialBlob = num,
+-				Persist = 2u,
+-				UserName = Environment.UserName
+-			};
+-			if (!CredWriteW(ref credential, 0u))
+-			{
+-				throw new Win32Exception(Marshal.GetLastWin32Error(), "无法将启动器凭据写入 Windows 凭据管理器。");
+-			}
+-		}
+-		finally
+-		{
+-			for (int i = 0; i < bytes.Length; i++)
+-			{
+-				Marshal.WriteByte(num, i, 0);
+-			}
+-			Marshal.FreeCoTaskMem(num);
+-		}
+-	}
+-
+-	private static string LoadRestrictedFile(string name)
+-	{
+-		string restrictedFilePath = GetRestrictedFilePath();
+-		if (!File.Exists(restrictedFilePath))
+-		{
+-			return string.Empty;
+-		}
+-		try
+-		{
+-			Dictionary<string, string> dictionary = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(restrictedFilePath));
+-			string value;
+-			return (dictionary != null && dictionary.TryGetValue(name, out value)) ? value : string.Empty;
+-		}
+-		catch (JsonException)
+-		{
+-			return string.Empty;
+-		}
+-	}
+-
+-	private static void SaveRestrictedFile(string name, string value)
+-	{
+-		string restrictedFilePath = GetRestrictedFilePath();
+-		Directory.CreateDirectory(Path.GetDirectoryName(restrictedFilePath));
+-		Dictionary<string, string> dictionary;
+-		try
+-		{
+-			dictionary = (File.Exists(restrictedFilePath) ? (JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(restrictedFilePath)) ?? new Dictionary<string, string>()) : new Dictionary<string, string>());
+-		}
+-		catch (JsonException)
+-		{
+-			dictionary = new Dictionary<string, string>();
+-		}
+-		if (string.IsNullOrEmpty(value))
+-		{
+-			dictionary.Remove(name);
+-		}
+-		else
+-		{
+-			dictionary[name] = value;
+-		}
+-		File.WriteAllText(restrictedFilePath, JsonSerializer.Serialize(dictionary));
+-		try
+-		{
+-			if (!OperatingSystem.IsWindows())
+-			{
+-				File.SetUnixFileMode(restrictedFilePath, UnixFileMode.UserWrite | UnixFileMode.UserRead);
+-			}
+-		}
+-		catch (PlatformNotSupportedException)
+-		{
+-		}
+-	}
+-
+-	private static string GetRestrictedFilePath()
+-	{
+-		return Path.Combine(PlatformPaths.GetConfigDirectory(), "secrets.json");
+ 	}
+ 
+ 	private static void ValidateName(string name)
+@@ -233,19 +151,4 @@
+ 			throw new ArgumentException("凭据名称无效。", "name");
+ 		}
+ 	}
+-
+-	[DllImport("advapi32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+-	[return: MarshalAs(UnmanagedType.Bool)]
+-	private static extern bool CredWriteW(ref NativeCredential credential, uint flags);
+-
+-	[DllImport("advapi32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+-	[return: MarshalAs(UnmanagedType.Bool)]
+-	private static extern bool CredReadW(string target, uint type, uint flags, out nint credentialPointer);
+-
+-	[DllImport("advapi32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+-	[return: MarshalAs(UnmanagedType.Bool)]
+-	private static extern bool CredDeleteW(string target, uint type, uint flags);
+-
+-	[DllImport("advapi32.dll")]
+-	private static extern void CredFree(nint buffer);
+ }
+--- before/scripts/source-snapshot-inputs.txt
++++ after/scripts/source-snapshot-inputs.txt
+@@ -153,3 +153,9 @@
+ scripts/measure-singlefile-pathcheck.ps1
+ scripts/measure-singlefile-pathlen.ps1
+ scripts/measure-singlefile-drivecheck.ps1
++
++# ---- 类别 H：FINAL-REMEDIATION（R0–R4）本轮新增输入（3）----
++# 仅追加本轮新增的实现/测试文件；不批量纳入目录、不改动既有条目。
++dev/PineglowLauncher/Pineglow.Launcher.Services/SecretStoreBackend.cs
++dev/PineglowLauncher.Tests/SecretStoreBackendTests.cs
++dev/PineglowLauncher.Tests/FinalAcceptanceRegressionTests.cs

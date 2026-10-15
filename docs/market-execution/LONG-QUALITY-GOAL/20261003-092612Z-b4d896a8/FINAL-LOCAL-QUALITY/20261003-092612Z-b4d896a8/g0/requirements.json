@@ -1,0 +1,323 @@
+{
+  "schemaVersion": 1,
+  "scope": "windows-local-offline-quality",
+  "frozenLocal": "2026-10-03T17:29:00+08:00",
+  "frozenUtc": "2026-10-03T09:29:00Z",
+  "revisions": [
+    {
+      "revision": 1,
+      "local": "2026-10-03T18:06:00+08:00",
+      "scope": "DIAGNOSIS-04.testId",
+      "from": "DIAGNOSIS-04 export without original evidence states what is missing",
+      "to": "DIAGNOSIS-04 a non-empty history renders and export states the evidence scope",
+      "reason": "The plan requires testId to be filled with the method that actually exists at execution time. The implemented behaviour test covers both the render path (which previously threw on an undeclared identifier) and the includeEvidence=false export argument, so the execution-time name is the accurate binding. The frozen expectation text is unchanged.",
+      "previousSha256": "8D46EA54CF19225F90C6DC940489F53AB90DAADED8DF55EDA63CF8FDF3831EB2"
+    }
+  ],
+  "sourceRoot": "D:\\松光启动器",
+  "head": "f145d14eb26b0b7459a28491e764ac8c573085d3",
+  "layerVocabulary": {
+    "node-behavior": "runs the real ui/js function inside a controlled DOM/fetch fixture (node:test)",
+    "node-static": "text/contract scan only - explicitly NOT sufficient on its own",
+    "api-normalization": "the shipped ui/js/api.js normalization path with a controlled response",
+    "csharp-behavior": "xUnit test against the real service in an isolated GUID root"
+  },
+  "scenarioGroups": [
+    { "id": "INSTANCE", "count": 4, "flow": "instance removal", "productionEntry": "ui/js/launcher.js renderInstallations / openInstanceMenu('#mRemove') + SG.api.deleteInstance" },
+    { "id": "RECOVERY", "count": 6, "flow": "recovery panel (mod delete / undo replace)", "productionEntry": "ui/js/launcher.js openRecoveryPanel + SG.api.listRecoveries / SG.api.restoreRecovery" },
+    { "id": "BISECT", "count": 5, "flow": "mod bisect (MR07 restart recovery)", "productionEntry": "ui/js/launcher.js openModBisect / drawBisectPending / drawBisect + SG.api.bisectPending / bisectResume / bisectGiveUp" },
+    { "id": "IMPORT", "count": 4, "flow": "instance-pack import and cancel", "productionEntry": "ui/js/launcher.js handleImportFiles + SG.api.importInstance / SG.api.cancelImport" },
+    { "id": "DIAGNOSIS", "count": 4, "flow": "diagnosis history and export", "productionEntry": "ui/js/launcher.js openDiagnoseHistory + SG.api.diagnoseHistory / diagnoseExport" },
+    { "id": "UPDATE", "count": 4, "flow": "self-update status", "productionEntry": "ui/js/launcher.js initUpdateSection / renderUpdateTrust / renderUpdateReady / pollUpdateProgress + SG.api.getUpdateStatus" }
+  ],
+  "items": [
+    {
+      "id": "INSTANCE-01", "required": true, "layer": "node-behavior",
+      "entry": "openInstanceMenu -> '#mRemove' -> confirm dialog cancel",
+      "fixture": "controlled DOM fixture; SG.api.deleteInstance counted",
+      "expected": "cancelling the confirmation issues no delete request at all",
+      "existingCoverage": "instance-removal.test.cjs static scan only",
+      "gap": "no behavioural assertion",
+      "testId": "INSTANCE-01 cancel does not issue a delete request",
+      "evidence": "g2/node-goal-core-flow.log"
+    },
+    {
+      "id": "INSTANCE-02", "required": true, "layer": "node-behavior",
+      "entry": "openInstanceMenu -> '#mRemove' -> confirm",
+      "fixture": "controlled DOM fixture; SG.api.deleteInstance resolves ok",
+      "expected": "exactly one deleteInstance call and the instance disappears from the re-rendered list",
+      "existingCoverage": "instance-removal.test.cjs covers registerInstance only",
+      "gap": "list re-render after removal not asserted",
+      "testId": "INSTANCE-02 confirm removes the instance from the list and re-renders",
+      "evidence": "g2/node-goal-core-flow.log"
+    },
+    {
+      "id": "INSTANCE-03", "required": true, "layer": "node-behavior",
+      "entry": "renderInstallations selection state",
+      "fixture": "two instances, second one selected, delete the selected one",
+      "expected": "no stale selection id survives the removal (falls back to a remaining instance or empty)",
+      "existingCoverage": "none",
+      "gap": "selection state after removal",
+      "testId": "INSTANCE-03 removing the selected instance clears the stale selection",
+      "evidence": "g2/node-goal-core-flow.log"
+    },
+    {
+      "id": "INSTANCE-04", "required": true, "layer": "node-behavior",
+      "entry": "confirm button double click while the request is in flight",
+      "fixture": "deleteInstance returns a pending promise resolved by the test",
+      "expected": "the button becomes disabled and only one request is issued",
+      "existingCoverage": "none",
+      "gap": "busy state on the confirm path",
+      "testId": "INSTANCE-04 repeated clicks during the request issue one request",
+      "evidence": "g2/node-goal-core-flow.log"
+    },
+
+    {
+      "id": "RECOVERY-01", "required": true, "layer": "node-behavior",
+      "entry": "openRecoveryPanel with SG.api.listRecoveries rejecting",
+      "fixture": "controlled DOM fixture; listRecoveries rejects with a normal error",
+      "expected": "the panel shows the failure text AND a retry action; retrying calls listRecoveries again",
+      "existingCoverage": "file-recovery.test.cjs asserts only the static presence of the panel",
+      "gap": "observed: failure path renders text with no retry action",
+      "testId": "RECOVERY-01 recovery query failure shows an error and a retry action",
+      "evidence": "g2/node-goal-core-flow.log"
+    },
+    {
+      "id": "RECOVERY-02", "required": true, "layer": "node-behavior",
+      "entry": "openRecoveryPanel with an empty recoveries list",
+      "fixture": "{ recoveries: [], retentionDays: 30 }",
+      "expected": "empty state text, no restore button",
+      "existingCoverage": "none",
+      "gap": "empty list rendering",
+      "testId": "RECOVERY-02 empty recovery list shows the empty state",
+      "evidence": "g2/node-goal-core-flow.log"
+    },
+    {
+      "id": "RECOVERY-03", "required": true, "layer": "node-behavior",
+      "entry": "openRecoveryPanel -> .rec-restore click with overwrite=0",
+      "fixture": "restoreRecovery resolves { ok: true, conflicts: 0 }",
+      "expected": "success toast, panel reloaded, no conflict wording",
+      "existingCoverage": "mock-side api test only",
+      "gap": "panel-level restore flow",
+      "testId": "RECOVERY-03 normal restore reports success and refreshes the panel",
+      "evidence": "g2/node-goal-core-flow.log"
+    },
+    {
+      "id": "RECOVERY-04", "required": true, "layer": "node-behavior",
+      "entry": "openRecoveryPanel rendering of a partial/failed record",
+      "fixture": "recoveries[0].files = [{state:'failed',error:'locked'},{state:'restored'}]",
+      "expected": "each file is listed with its own state and error; the panel never claims everything was restored",
+      "existingCoverage": "none",
+      "gap": "per-file rendering",
+      "testId": "RECOVERY-04 partial results list each file with its state",
+      "evidence": "g2/node-goal-core-flow.log"
+    },
+    {
+      "id": "RECOVERY-05", "required": true, "layer": "node-behavior",
+      "entry": "openRecoveryPanel -> restore click with conflicts > 0",
+      "fixture": "restoreRecovery resolves { ok: false, conflicts: 2 }",
+      "expected": "a conflict notice is shown and the UI never says the file was overwritten",
+      "existingCoverage": "MR05 mock-side test covers the api layer only",
+      "gap": "panel wording on conflict",
+      "testId": "RECOVERY-05 conflict result never claims a successful overwrite",
+      "evidence": "g2/node-goal-core-flow.log"
+    },
+    {
+      "id": "RECOVERY-06", "required": true, "layer": "node-behavior",
+      "entry": "restore button busy state and failure recovery",
+      "fixture": "restoreRecovery returns a pending promise that then rejects",
+      "expected": "button disabled while in flight; after the rejection it is enabled again and the failure is reported",
+      "existingCoverage": "none",
+      "gap": "busy/retry state",
+      "testId": "RECOVERY-06 submit disables the button and failure restores it",
+      "evidence": "g2/node-goal-core-flow.log"
+    },
+
+    {
+      "id": "BISECT-01", "required": true, "layer": "node-behavior",
+      "entry": "openModBisect with bisectPending -> { pending: false }",
+      "fixture": "controlled DOM fixture",
+      "expected": "the normal start button is shown and the safety guidance stays visible",
+      "existingCoverage": "a6-bisect-safety-guidance.test.cjs static scan",
+      "gap": "behavioural branch for the no-pending case",
+      "testId": "BISECT-01 no pending session shows the normal start entry",
+      "evidence": "g2/node-goal-core-flow.log"
+    },
+    {
+      "id": "BISECT-02", "required": true, "layer": "node-behavior",
+      "entry": "openModBisect with bisectPending -> { pending: true, canContinue: true }",
+      "fixture": "pending record with conflicts and rounds",
+      "expected": "restore and continue entries are offered; continue is disabled when canContinue is false",
+      "existingCoverage": "MR07 static scan",
+      "gap": "behavioural rendering of the pending branch",
+      "testId": "BISECT-02 pending session offers restore or continue",
+      "evidence": "g2/node-goal-core-flow.log"
+    },
+    {
+      "id": "BISECT-03", "required": true, "layer": "node-behavior",
+      "entry": "openModBisect where SG.api.bisectPending rejects",
+      "fixture": "bisectPending rejects with a normal transport error",
+      "expected": "an explicit 'cannot confirm the previous state, retry' state with a retry action; the panel must not silently pretend there is no pending session",
+      "existingCoverage": "none",
+      "gap": "FOUND BY INSPECTION: launcher.js openModBisect catch block (line 1355) swallows the error and shows the normal start state",
+      "testId": "BISECT-03 pending query failure shows an explicit error and retry",
+      "evidence": "g2/node-goal-core-flow.log"
+    },
+    {
+      "id": "BISECT-04", "required": true, "layer": "node-behavior",
+      "entry": "drawBisect with needsRecovery=true (ordinary file lock)",
+      "fixture": "data.needsRecovery with lastResults and recoveryError",
+      "expected": "the panel stays in the needs-recovery state, lists the files and never shows a finished result",
+      "existingCoverage": "MR06 static scan",
+      "gap": "behavioural rendering",
+      "testId": "BISECT-04 file-lock failure keeps the needs-recovery state",
+      "evidence": "g2/node-goal-core-flow.log"
+    },
+    {
+      "id": "BISECT-05", "required": true, "layer": "node-behavior",
+      "entry": "drawBisect retry recovery failing with payload.needsRecovery",
+      "fixture": "bisectGiveUp rejects with { payload: { needsRecovery: true } }",
+      "expected": "the needs-recovery panel is re-rendered; no all-complete message",
+      "existingCoverage": "none",
+      "gap": "failure branch of the recovery retry",
+      "testId": "BISECT-05 failed recovery never shows all-complete",
+      "evidence": "g2/node-goal-core-flow.log"
+    },
+
+    {
+      "id": "IMPORT-01", "required": true, "layer": "node-behavior",
+      "entry": "handleImportFiles -> SG.api.importInstance(fileName, base64, operationId)",
+      "fixture": "one synthetic File object; importInstance captured",
+      "expected": "a non-empty operationId is bound to the request before any cancel entry is offered",
+      "existingCoverage": "import-cancel.test.cjs asserts the api signature",
+      "gap": "the UI side binding is only statically scanned",
+      "testId": "IMPORT-01 operationId is bound before cancel is offered",
+      "evidence": "g2/node-goal-core-flow.log"
+    },
+    {
+      "id": "IMPORT-02", "required": true, "layer": "node-behavior",
+      "entry": "cancel before the server accepted the import",
+      "fixture": "importInstance rejects with err.cancelled = true",
+      "expected": "the user is told the import was cancelled; no failure wording",
+      "existingCoverage": "import-cancel.test.cjs api-level",
+      "gap": "UI feedback branch",
+      "testId": "IMPORT-02 cancel before acceptance reports the cancelled result",
+      "evidence": "g2/node-goal-core-flow.log"
+    },
+    {
+      "id": "IMPORT-03", "required": true, "layer": "node-behavior",
+      "entry": "cancel after the server accepted the import",
+      "fixture": "cancelImport resolves { pendingCancel: true, ok: false }",
+      "expected": "the real server result is shown, not an unconditional 'cancelled' claim",
+      "existingCoverage": "import-cancel.test.cjs api-level",
+      "gap": "UI feedback branch",
+      "testId": "IMPORT-03 cancel after acceptance reports the real server result",
+      "evidence": "g2/node-goal-core-flow.log"
+    },
+    {
+      "id": "IMPORT-04", "required": true, "layer": "node-behavior",
+      "entry": "cancelImport rejecting / unknown operationId",
+      "fixture": "cancelImport rejects",
+      "expected": "the UI reports the cancel failed and never claims the import is cancelled",
+      "existingCoverage": "none",
+      "gap": "failure branch",
+      "testId": "IMPORT-04 unknown or failed cancel never claims the import was cancelled",
+      "evidence": "g2/node-goal-core-flow.log"
+    },
+
+    {
+      "id": "DIAGNOSIS-01", "required": true, "layer": "node-behavior",
+      "entry": "SG.api.diagnoseInstance with localOnly (no API key)",
+      "fixture": "live api normalization path with a controlled local report",
+      "expected": "the local report is usable and no AI/provider error is produced",
+      "existingCoverage": "ai-diagnose.test.cjs covers the api/diagnose paths",
+      "gap": "the flow-level assertion lives in an existing test; re-used as equivalent coverage",
+      "testId": "DIAGNOSIS-01 local diagnosis works without an API key",
+      "evidence": "g2/node-goal-core-flow.log"
+    },
+    {
+      "id": "DIAGNOSIS-02", "required": true, "layer": "node-behavior",
+      "entry": "openDiagnoseHistory with an empty report list",
+      "fixture": "{ reports: [], notice: null }",
+      "expected": "empty state text, no export buttons",
+      "existingCoverage": "MR08 static scan",
+      "gap": "behavioural rendering",
+      "testId": "DIAGNOSIS-02 empty history shows the empty state",
+      "evidence": "g2/node-goal-core-flow.log"
+    },
+    {
+      "id": "DIAGNOSIS-03", "required": true, "layer": "node-behavior",
+      "entry": "openDiagnoseHistory with SG.api.diagnoseHistory rejecting",
+      "fixture": "diagnoseHistory rejects",
+      "expected": "an explicit failure text AND a retry action that re-queries",
+      "existingCoverage": "none",
+      "gap": "FOUND BY INSPECTION: the catch block renders failure text with no retry action",
+      "testId": "DIAGNOSIS-03 history query failure shows an error and retry",
+      "evidence": "g2/node-goal-core-flow.log"
+    },
+    {
+      "id": "DIAGNOSIS-04", "required": true, "layer": "node-behavior",
+      "entry": "openDiagnoseHistory rendering a non-empty history (includeEvidence unchecked)",
+      "fixture": "one report with reportId/status/summary/redactionTotal",
+      "expected": "the report renders and the export request carries includeEvidence=false; the UI states that the original evidence is not included",
+      "existingCoverage": "MR08 api-level only",
+      "gap": "FOUND BY INSPECTION: the report template references an undeclared 'versionLine' identifier, so a non-empty history throws at render time",
+      "testId": "DIAGNOSIS-04 a non-empty history renders and export states the evidence scope",
+      "evidence": "g2/node-goal-core-flow.log"
+    },
+
+    {
+      "id": "UPDATE-01", "required": true, "layer": "node-behavior",
+      "entry": "initUpdateSection with a status that has no lastApplyResult",
+      "fixture": "{ state: 'idle' }",
+      "expected": "no warning block and no success claim",
+      "existingCoverage": "MR20 static scan",
+      "gap": "behavioural rendering",
+      "testId": "UPDATE-01 no previous apply result shows no false alarm",
+      "evidence": "g2/node-goal-core-flow.log"
+    },
+    {
+      "id": "UPDATE-02", "required": true, "layer": "node-behavior",
+      "entry": "renderUpdateTrust with lastApplyResult.applied === false",
+      "fixture": "{ lastApplyResult: { applied: false, result: 'verify-failed', version: '1.0.1' } }",
+      "expected": "an explicit 'still on the old version' warning with the tried version",
+      "existingCoverage": "MR20 static scan",
+      "gap": "behavioural rendering",
+      "testId": "UPDATE-02 a previous non-applied update is reported as still old",
+      "evidence": "g2/node-goal-core-flow.log"
+    },
+    {
+      "id": "UPDATE-03", "required": true, "layer": "api-normalization",
+      "entry": "SG.api.getUpdateStatus with missing trustNote/lastApplyResult",
+      "fixture": "live normalization path with a minimal payload",
+      "expected": "defaults are filled in and nothing throws",
+      "existingCoverage": "update-recovery.test.cjs covers this normalization",
+      "gap": "equivalent existing coverage re-used",
+      "testId": "UPDATE-03 missing compatibility fields do not crash",
+      "evidence": "g2/node-goal-core-flow.log"
+    },
+    {
+      "id": "UPDATE-04", "required": true, "layer": "node-behavior",
+      "entry": "initUpdateSection where SG.api.getUpdateStatus rejects",
+      "fixture": "getUpdateStatus rejects",
+      "expected": "no success/completed wording is rendered",
+      "existingCoverage": "MR20 static scan",
+      "gap": "behavioural rendering of the failure branch",
+      "testId": "UPDATE-04 status query failure never shows update success",
+      "evidence": "g2/node-goal-core-flow.log"
+    }
+  ],
+  "notRun": [
+    {
+      "id": "RA-01/RA-02 recovery-safety counter-proofs",
+      "reason": "the previous Codex turn was terminated by the platform for this range; the goal does not execute or delegate it",
+      "status": "NOT_RUN",
+      "note": "existing tests stay untouched, no skip flag is changed, no assertion is weakened"
+    },
+    {
+      "id": "real Avalonia/WebView2 GUI, Minecraft, native credential round-trip, real update handover, cross-platform, remote CI",
+      "reason": "outside the bounded local offline scope",
+      "status": "NOT_VERIFIED"
+    }
+  ]
+}

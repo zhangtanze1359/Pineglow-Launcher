@@ -1,0 +1,18 @@
+﻿[
+    {
+        "instance":  "d7-forge 导入",
+        "loader":  "Forge",
+        "mc":  "1.21.11-forge-61.2.1",
+        "prelaunchOk":  true,
+        "reachedTitle":  true,
+        "marker":  "Sound engine started"
+    },
+    {
+        "instance":  "d7-neoforge 导入",
+        "loader":  "NeoForge",
+        "mc":  "neoforge-21.11.45",
+        "prelaunchOk":  true,
+        "reachedTitle":  true,
+        "marker":  "Sound engine started"
+    }
+]

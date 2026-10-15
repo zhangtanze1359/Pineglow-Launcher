@@ -1,0 +1,28 @@
+{
+  "scope": "Actual BuildCommandAsync from frozen current product DLL; synthetic isolated fixtures; no product edits",
+  "failures": 2,
+  "results": [
+    {
+      "name": "unrelated-extra",
+      "currentVersion": "1.21.1",
+      "strayRelative": "libraries/net/minecraftforge/unrelated-tool/1.0/unrelated-tool-extra.jar",
+      "strayIsNotReferencedByProfile": true,
+      "retainedBefore": true,
+      "retainedAfter": false,
+      "beforeClasspath": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-2d6b3c529b824d77a508bcbebe2efc76\\fixtures\\unrelated-extra\\versions\\1.21.1\\1.21.1.jar",
+      "afterClasspath": "cpw.mods.bootstraplauncher.BootstrapLauncher",
+      "pass": false
+    },
+    {
+      "name": "stale-client",
+      "currentVersion": "1.21.1",
+      "strayRelative": "libraries/net/minecraft/client/1.20.1/client-1.20.1-extra.jar",
+      "strayIsNotReferencedByProfile": true,
+      "retainedBefore": true,
+      "retainedAfter": false,
+      "beforeClasspath": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-2d6b3c529b824d77a508bcbebe2efc76\\fixtures\\stale-client\\versions\\1.21.1\\1.21.1.jar",
+      "afterClasspath": "cpw.mods.bootstraplauncher.BootstrapLauncher",
+      "pass": false
+    }
+  ]
+}

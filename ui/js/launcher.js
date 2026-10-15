@@ -125,8 +125,7 @@ function skinAvatar(w, url, model) {
 }
 function skinThumb(scale, skin) {
 	if (skin && skin.url) return skinAvatar(scale, skin.url, skin.model);
-	const c = (skin && skin.colors) || {};
-	return steveSvg(scale, { head: c.head || '#b5835a', face: c.face || '#7d5a3c', body: c.body || '#3aa0a0', arm: c.arm || c.head || '#b5835a', leg: c.leg || '#3a4a80' });
+	return `<span class="ui-muted" role="status">${esc(t('skin.textureUnavailable'))}</span>`;
 }
 /* 仅头部大头照：裁剪图集头层(8,8)+帽层(40,8)填满 w×w 方块，用于账户身份头像 */
 function skinFace(w, url) {
@@ -140,13 +139,7 @@ function skinFace(w, url) {
 }
 function faceThumb(scale, skin) {
 	if (skin && skin.url) return skinFace(scale, skin.url);
-	const c = (skin && skin.colors) || {};
-	const head = c.head || '#b5835a';
-	return `<svg viewBox="0 0 8 8" width="${scale}" height="${scale}" style="image-rendering:pixelated;display:block">
-		<rect x="0" y="0" width="8" height="8" fill="${head}"/>
-		<rect x="1.5" y="3" width="1.6" height="1.6" fill="#fff"/><rect x="4.9" y="3" width="1.6" height="1.6" fill="#fff"/>
-		<rect x="1.9" y="3.4" width="1" height="1" fill="#3a5da0"/><rect x="5.3" y="3.4" width="1" height="1" fill="#3a5da0"/>
-	</svg>`;
+	return `<svg viewBox="0 0 24 24" width="${scale}" height="${scale}" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:1.5"><circle cx="12" cy="8" r="3.5"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/></svg>`;
 }
 
 /* ================================================================
@@ -425,11 +418,7 @@ function homeNewsInnerHtml() {
 			const linkIdAttr = (n.linkOk && n.linkId) ? ` data-link-id="${esc(n.linkId)}"` : '';
 			return `<button class="news-card" data-news="${esc(n.title)}"${linkIdAttr} data-link-ok="${n.linkOk ? '1' : '0'}">
 				${newsArtInner(n, 'news-card-art')}
-				<span class="news-card-body">
-					<span class="news-cat">${esc(n.category || '')}</span>
-					<span class="news-card-title">${esc(n.title)}</span>
-				</span>
-				<span class="news-date">${esc(fmtDate(n.date))}</span>
+				<span class="news-card-body"><span class="news-card-title">${esc(n.title)}</span><span class="news-card-meta"><span class="news-cat">${esc(n.category || '')}</span> · <span class="news-date">${esc(fmtDate(n.date))}</span></span></span>
 			</button>`;
 		}).join('');
 		if (NEWS_META && (NEWS_META.state === 'cached')) {
@@ -468,51 +457,30 @@ async function renderHome() {
 
 	const options = insts.map(i => `<option value="${esc(i.id)}"${i.id === (sel && sel.id) ? ' selected' : ''}>${esc(i.name)} · ${esc(i.version || '—')}</option>`).join('');
 
-	return `
-	<div class="play-view">
-		<div class="banner">
-			<div class="banner-art" aria-hidden="true"></div>
-			<div class="banner-body">
-				<span class="banner-badge">${esc(t('home.badge'))}</span>
-				<h1 class="banner-title">${esc(t('home.bannerTitle'))}</h1>
-				<p class="banner-desc">${esc(t('home.bannerDesc'))}</p>
-			</div>
-			<div class="banner-stats">
-				<span class="bs-item"><b>${esc(fmtPlayTime(totalPlaySeconds))}</b>${esc(t('home.statsPlayTime'))}</span>
-				<span class="bs-item"><b>${esc(totalPlayCount)}</b>${esc(t('home.statsPlayCount'))}</span>
-				<span class="bs-item"><b>${esc(insts.length)}</b>${esc(t('home.statsInstances'))}</span>
-			</div>
-		</div>
+	return redesignedHome(insts, sel, options, totalPlaySeconds, totalPlayCount);
+}
 
-		<div class="play-footer">
-			<div class="pf-version">
-				<span class="pf-label">${esc(t('home.selectedVersion'))}</span>
-				<div class="pf-select-btn" style="position:relative">
-					<span class="sw"></span>
-					<select id="pfVersionSelect" style="appearance:none;background:transparent;border:0;color:inherit;font:inherit;cursor:pointer;padding-right:20px;outline:none">
-						${options || `<option>${esc(t('home.noInstances'))}</option>`}
-					</select>
-					<svg viewBox="0 0 24 24" style="pointer-events:none;position:absolute;right:8px;top:50%;transform:translateY(-50%)"><path d="m6 9 6 6 6-6"/></svg>
-				</div>
-			</div>
-			<button class="play-btn" id="btnPlay"${sel ? '' : ' disabled'}>
-				<svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8V4Z"/></svg>
-				<span>${esc(t('home.play'))}</span>
-			</button>
-			<div class="pf-right">
-				<span class="pf-edition">${esc(t('home.javaEdition'))}</span>
-				<span class="pf-status">${esc(t('home.instancesAvailable', { n: insts.length }))}</span>
-			</div>
-		</div>
+function uiText(zh,en) { return SG.locale === 'en' ? en : zh; }
+const navigationCounts = {};
+function uiPlayTime(seconds) {
+ if(SG.locale==='en')return esc(fmtPlayTime(seconds));
+ const s=Math.max(0,Math.floor(Number(seconds)||0)),m=Math.floor(s/60),h=Math.floor(m/60);
+ return h?`${h} <small>小时</small>${m%60?' '+m%60+' <small>分</small>':''}`:m?`${m} <small>分</small>`:`${s} <small>秒</small>`;
+}
+function uiIcon(name) {
+ const paths={play:'<path d="M6 4l14 8-14 8V4Z"/>',cube:'<path d="m12 3 9 5v9l-9 5-9-5V8l9-5Zm0 10v9M3 8l9 5 9-5"/>',layers:'<path d="m12 3 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 16l9 5 9-5"/>',world:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a16 16 0 0 1 0 18 16 16 0 0 1 0-18Z"/>',server:'<rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.1M7 17h.1"/>',folder:'<path d="M3 6h6l2 2h10v12H3V6Z"/>',download:'<path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4"/>',search:'<circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/>',trash:'<path d="M3 6h18M9 6V3h6v3M6 6l1 15h10l1-15M10 10v7m4-7v7"/>',close:'<path d="m6 6 12 12M6 18 18 6"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 22v-3a8 8 0 0 1 16 0v3"/>'};
+ return `<svg viewBox="0 0 24 24" aria-hidden="true">${paths[name]||paths.cube}</svg>`;
+}
+function uiSearch(id,label,value='') { return `<label class="search-box">${uiIcon('search')}<input type="search" id="${id}" value="${esc(value)}" placeholder="${esc(label)}" aria-label="${esc(label)}"></label>`; }
+function bindListSearch(el,id,selector) {
+ const input=el.querySelector('#'+id);if(!input)return;
+ const apply=()=>{const q=input.value.trim().toLocaleLowerCase();el.querySelectorAll(selector).forEach(row=>{const kind=row.dataset.kind;const filter=el.querySelector('[data-filter].active')?.dataset.filter||'all';row.hidden=!row.textContent.toLocaleLowerCase().includes(q)||(kind&&filter!=='all'&&kind!==filter);});};
+ input.addEventListener('input',apply);el.querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click',apply));
+}
 
-		<div class="news-section">
-			<div class="news-head">
-				<h2 class="section-title">${esc(t('home.recentNews'))}</h2>
-				<button class="news-more" id="newsMore">${esc(t('home.newsMore'))}</button>
-			</div>
-			<div class="news-grid" id="homeNewsSection">${homeNewsInnerHtml()}</div>
-		</div>
-	</div>`;
+function redesignedHome(insts, sel, options, totalPlaySeconds, totalPlayCount) {
+ const chips=sel?`<span class="ui-chip">${uiIcon('cube')}${esc(sel.version||'—')}</span><span class="ui-chip">${esc(sel.loader||'Vanilla')}</span><span class="ui-chip">${uiIcon('layers')}${sel.modsCount||0} Mod</span>`:'';
+ return `<div class="new-home"><section class="home-hero"><div class="home-hero-art" aria-hidden="true"></div><div class="home-hero-content"><div class="home-launch-row"><div class="home-instance-info"><span class="home-kicker">${uiText('当前实例','Current instance')} · PINEGLOW JAVA EDITION</span><h2 class="home-game-title">${esc(sel?sel.name:t('home.noInstances'))}</h2><div class="home-chips">${chips}</div></div><div class="home-launch-controls"><button class="play-btn" id="btnPlay"${sel?'':' disabled'}>${uiIcon('play')}<span>${esc(t('home.play'))}</span></button><button class="ui-button" id="btnHomeInstances">${esc(t('shell.selectInstance'))}</button></div></div><div class="home-stats"><div class="home-stat">${esc(t('home.statsPlayTime'))}<b>${uiPlayTime(totalPlaySeconds)}</b></div><div class="home-stat">${esc(t('home.statsPlayCount'))}<b>${totalPlayCount}</b></div><div class="home-stat">${esc(t('home.statsInstances'))}<b>${insts.length}</b></div><div class="home-stat">${esc(t('shell.memory'))}<b>${((STATE.config&&STATE.config.maxMemoryMb)||4096)/1024} <small>GB</small></b></div></div></div></section><div class="home-bottom"><section class="ui-card"><div class="ui-card-head"><h2>${esc(t('shell.queue'))}</h2><button class="news-more" id="homeAllDownloads">${esc(t('shell.allTasks'))}</button></div><div id="homeDownloadQueue" class="ui-muted">${esc(t('common.loading'))}</div></section><section class="ui-card news-section"><div class="ui-card-head"><h2>${esc(t('home.recentNews'))}</h2><button class="news-more" id="newsMore">${esc(t('home.newsMore'))}</button></div><div class="news-grid" id="homeNewsSection">${homeNewsInnerHtml()}</div></section></div></div>`;
 }
 
 async function renderInstallations() {
@@ -520,7 +488,7 @@ async function renderInstallations() {
 	const insts = STATE.instances || [];
 	const cards = insts.map(i => {
 		const isSel = i.id === selectedInstanceId;
-		const kind = (i.loader && i.loader !== 'Vanilla') ? 'mod' : 'all';
+		const kind = /(?:w\d+[a-z]$|snapshot|pre\d|rc\d)/i.test(i.version||'') ? 'snap' : (i.loader && i.loader !== 'Vanilla') ? 'mod' : 'all';
 		const playInfo = (i.totalPlaySeconds > 0 || i.playCount > 0)
 			? ` · ${esc(t('inst.played', { n: i.playCount || 0, t: fmtPlayTime(i.totalPlaySeconds) }))}`
 			: '';
@@ -528,18 +496,19 @@ async function renderInstallations() {
 		return `
 		<div class="inst-card ${isSel ? 'selected' : ''}" data-inst="${esc(i.id)}" data-kind="${kind}">
 			<div class="inst-left">
-				<div class="inst-icon" style="background:${loaderColor(i.loader)}">${firstLetter(i.name)}</div>
+				<div class="inst-icon">${uiIcon(kind==='mod'?'layers':'cube')}</div>
 				<div class="inst-meta">
 					<div class="inst-name-row">
 						<span class="inst-name">${esc(i.name)}</span>
-						<span class="inst-tag">${esc(i.loader || 'Vanilla')}</span>
+						<span class="inst-tag">${esc(i.loader || 'Vanilla')}</span>${isSel?`<span class="ui-chip chip-ok">${uiText('默认','Default')}</span>`:''}${i.modsCount?`<span class="ui-chip" data-instance-mod-count="${esc(i.id)}">${i.modsCount} Mod</span>`:''}
 					</div>
 					<span class="inst-sub">${sub}</span>
 				</div>
 			</div>
 			<div class="inst-actions">
+				${kind === 'mod' ? `<button class="ui-button inst-mods" data-mods="${esc(i.id)}">Mod</button>` : ''}
 				<button class="inst-play ${isSel ? 'primary' : 'ghost'}" data-play="${esc(i.id)}">${esc(t('inst.play'))}</button>
-				<button class="inst-more" data-more="${esc(i.id)}" aria-label="${esc(t('inst.play'))}"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
+				<button class="inst-more" data-more="${esc(i.id)}" aria-label="${esc(t('shell.more', { name: i.name }))}"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
 			</div>
 		</div>`;
 	}).join('');
@@ -547,11 +516,11 @@ async function renderInstallations() {
 	const empty = insts.length ? '' : `<div style="padding:48px;text-align:center;color:var(--muted,#8b91a1)">${esc(t('inst.empty'))}</div>`;
 
 	return `
-	<div class="installations-view">
+	<div class="installations-view ui-card">
 		<div class="page-head">
 			<div><h1 class="page-title">${esc(t('inst.title'))}</h1><p class="page-sub">${esc(t('inst.subtitle'))}</p></div>
 		</div>
-		<div class="top-control">
+		<div class="top-control"><div class="list-heading"><h2>${uiText('你的游戏实例','Your game instances')}</h2><p>${insts.length} ${uiText('个实例可用 · 版本与加载器互相独立','instances · separate versions and loaders')}</p></div>${uiSearch('instanceSearch',uiText('搜索实例…','Search instances…'))}
 			<div class="filters">
 				<button class="filter active" data-filter="all">${esc(t('inst.all'))}</button>
 				<button class="filter" data-filter="mod">${esc(t('inst.modded'))}</button>
@@ -587,12 +556,12 @@ async function renderSkins() {
 	return `
 	<div class="skins-view">
 		<div class="skin-preview-panel">
-			<div class="skin-preview-title">${esc(t('skin.currentActive'))}</div>
+			<div class="skin-preview-title"><div>${esc(t('skin.previewTitle'))}<p class="ui-muted">${esc(active?active.userName:uiText('未登录 · 可选择本地皮肤预览','Not signed in · preview a local skin'))}</p></div><span class="ui-chip" id="skinHeaderModel">${esc((activeSkin&&activeSkin.model)==='slim'?t('skin.slimModel'):t('skin.classicModel'))}</span></div>
 			<div class="preview-canvas" id="previewCanvas">
 				<div id="skin3dContainer" class="skin3d-container"></div>
 				<div id="skin2dFallback" class="skin2d-fallback" hidden role="status">
-					${active && activeSkin && activeSkin.url ? `<img src="/api/accounts/${encodeURIComponent(active.id)}/skin-image?token=${encodeURIComponent(SG.apiToken || '')}" alt="${esc(t('skin.fallbackAlt'))}">` : skinThumb(120, activeSkin)}
-					<span id="skinFallbackMessage">${esc(t('skin.webglFallback'))}</span>
+					${active && activeSkin && activeSkin.url ? `<img src="/api/accounts/${encodeURIComponent(active.id)}/skin-image?token=${encodeURIComponent(SG.apiToken || '')}" alt="${esc(t('skin.fallbackAlt'))}">` : ''}
+					<span id="skinFallbackMessage">${esc(t('skin.webglFallback'))}</span>${!active?`<button class="ui-button primary skin-login" id="btnSkinLogin">${uiIcon('user')}${uiText('登录 Microsoft 账户','Sign in with Microsoft')}</button>`:''}
 				</div>
 			</div>
 			<div class='skin3d-hint'>
@@ -610,22 +579,24 @@ async function renderSkins() {
 		</div>
 		<div class="inventory-panel">
 			<div class="inventory-actions">
-				<label class="skin-model-field">${esc(t('skin.model'))}<select id="skinModelSelect"><option value="classic">${esc(t('skin.classicModel'))}</option><option value="slim">${esc(t('skin.slimModel'))}</option></select></label>
+				<div class="skin-model-field"><span>${esc(t('skin.model'))}</span><div class="skin-model-segment" role="group" aria-label="${esc(t('skin.model'))}"><button data-skin-model="classic" aria-pressed="true">${esc(t('skin.classicModel'))}</button><button data-skin-model="slim" aria-pressed="false">Slim / Alex</button></div><select id="skinModelSelect" hidden aria-label="${esc(t('skin.model'))}"><option value="classic">${esc(t('skin.classicModel'))}</option><option value="slim">${esc(t('skin.slimModel'))}</option></select></div>
 				<button class="skin-btn primary" id="btnUploadSkin">
 					<svg viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"/></svg>
-					<span>${esc(t('skin.upload'))}</span>
+					<span>${esc(t('skin.chooseFile'))}</span>
 				</button>
-				<button class="skin-btn ghost" id="btnBrowseSkin">
-					<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
-					<span>${esc(t('skin.browse'))}</span>
-				</button>
+                <p class="ui-muted">${uiText('64×64 或 64×32 PNG，不超过 1 MiB。选择后先预览。','64×64 or 64×32 PNG, up to 1 MiB. Preview before applying.')}</p>
 			</div>
 			<div class="saved-skins">
 				<div class="saved-label">${esc(t('skin.saved', { n: skins.length }))}</div>
 				<div class="skins-grid" id="skinsGrid">${cards}</div>
-			</div>
-		</div>
-	</div>`;
+				<div class="skin-local-preview"><p>${esc(t('skin.previewFirst'))}</p><img id="localSkinTexture" alt="${esc(t('skin.fallbackAlt'))}" hidden><p id="localSkinFileName"></p><div class="skin-local-actions"><button class="ui-button primary" id="btnApplyLocalSkin" disabled>${esc(t('skin.applyAccount'))}</button></div><p>${esc(t('skin.microsoftOnly'))}</p></div>
+            </div>
+				<button class="skin-btn ghost" id="btnBrowseSkin">
+					<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
+					<span>${esc(t('skin.browse'))}</span>
+				</button>
+        </div>
+    </div>`;
 }
 
 function renderAccountCards(accounts) {
@@ -671,7 +642,7 @@ async function renderSettings() {
 
 
 	return `
-	<div class="settings-view">
+	<div class="settings-view"><div class="settings-grid">
 		<div class="settings-section">
 			<div class="section-heading">${esc(t('set.javaSection'))}</div>
 			<div class="section-content">
@@ -681,10 +652,7 @@ async function renderSettings() {
 						<span class="setting-desc">${esc(t('set.memDesc'))}</span>
 					</div>
 					<div class="slider-wrap">
-						<div class="slider" id="memSlider"${autoMem ? ' style="opacity:.4;pointer-events:none"' : ''}>
-							<div class="slider-fill" style="width:${pct}%"></div>
-							<div class="slider-knob" style="left:${pct}%"></div>
-						</div>
+						<input type="range" class="memory-range" id="memSlider" min="2048" max="16384" step="512" value="${Math.round(gb*1024)}" aria-label="${esc(t('set.memName'))}"${autoMem ? ' disabled' : ''}>
 						<span class="setting-value" id="memValue">${gb.toFixed(1)} GB</span>
 					</div>
 				</div>
@@ -694,7 +662,7 @@ async function renderSettings() {
 						<span class="setting-name">${esc(t('set.autoMemName'))}</span>
 						<span class="setting-desc">${esc(t('set.autoMemDesc'))}</span>
 					</div>
-					<button class="toggle ${autoMem ? 'on' : ''}" data-toggle="autoMem" role="switch" aria-checked="${autoMem}"></button>
+					<button class="toggle ${autoMem ? 'on' : ''}" data-toggle="autoMem" aria-label="${esc(t('set.autoMemName'))}" role="switch" aria-checked="${autoMem}"></button>
 				</div>
 				<div class="setting-divider"></div>
 				<div class="setting-row">
@@ -725,7 +693,7 @@ async function renderSettings() {
 						<span class="setting-name">${esc(t('set.fakeIpName'))}</span>
 						<span class="setting-desc">${esc(t('set.fakeIpDesc'))}</span>
 					</div>
-					<button class="toggle ${newsFakeIp ? 'on' : ''}" data-toggle="newsFakeIp" role="switch" aria-checked="${newsFakeIp}"></button>
+					<button class="toggle ${newsFakeIp ? 'on' : ''}" data-toggle="newsFakeIp" aria-label="${esc(t('set.fakeIpName'))}" role="switch" aria-checked="${newsFakeIp}"></button>
 				</div>
 				<div class="setting-divider"></div>
 				<div class="setting-row">
@@ -735,36 +703,13 @@ async function renderSettings() {
 					</div>
 					<button class="setting-btn" id="btnProxy">${esc(t('set.proxyConfigure'))}</button>
 				</div>
-				<div class="setting-divider"></div>
-				<div class="setting-row">
-					<div class="setting-info">
-						<span class="setting-name">${esc(t('set.quickName'))}</span>
-						<span class="setting-desc">${esc(t('set.quickDesc'))}</span>
-					</div>
-					<button class="setting-btn" id="btnQuick">${esc(t('set.quickConfigure'))}</button>
-				</div>
-				<div class="setting-divider"></div>
-				<div class="setting-row">
-					<div class="setting-info">
-						<span class="setting-name">${esc(t('set.logsName'))}</span>
-						<span class="setting-desc">${esc(t('set.logsDesc'))}</span>
-					</div>
-					<button class="setting-btn" id="btnOpenLogs">${esc(t('set.openLogs'))}</button>
-				</div>
+
 			</div>
 		</div>
 
-		<div class="settings-section">
-			<div class="section-heading">${esc(t('set.accountSection'))}</div>
-			<div class="section-content">
-				<div class="account-login-actions">
-					<button class="setting-btn" id="btnMsLogin">${esc(t('set.microsoftLogin'))}</button>
-					<button class="setting-btn" id="btnAuthlibLogin">${esc(t('set.authlibLogin'))}</button>
-					<button class="setting-btn" id="btnAddAccount">${esc(t('set.addAccount'))}</button>
-				</div>
-				<div class="account-cards" id="accountCards">${renderAccountCards(accounts)}</div>
-			</div>
-		</div>
+        <section class="settings-section settings-quick"><div class="section-heading">${esc(t('set.quickName'))}</div><div class="section-content"><p class="ui-muted">${esc(t('set.quickDesc'))}</p><button class="setting-btn" id="btnQuick">${esc(t('set.quickConfigure'))}</button></div></section>
+        <section class="settings-section settings-logs"><div class="section-heading">${esc(t('set.logsName'))}</div><div class="section-content"><p class="ui-muted">${esc(t('set.logsDesc'))}</p><button class="setting-btn" id="btnOpenLogs">${uiIcon('folder')}${esc(t('set.openLogs'))}</button></div></section>
+
 		<div class="settings-section">
 			<div class="section-heading">${esc(t('set.updateSection'))}</div>
 			<div class="section-content">
@@ -789,7 +734,7 @@ async function renderSettings() {
 						<span class="setting-name">${esc(t('set.aiEnableName'))}</span>
 						<span class="setting-desc">${esc(t('set.aiEnableDesc'))}</span>
 					</div>
-					<button class="toggle ${cfg.aiDiagnosisEnabled ? 'on' : ''}" data-toggle="aiDiag" role="switch" aria-checked="${!!cfg.aiDiagnosisEnabled}"></button>
+					<button class="toggle ${cfg.aiDiagnosisEnabled ? 'on' : ''}" data-toggle="aiDiag" aria-label="${esc(t('set.aiEnableName'))}" role="switch" aria-checked="${!!cfg.aiDiagnosisEnabled}"></button>
 				</div>
 				<div class="setting-divider"></div>
 				<div class="setting-row">
@@ -799,6 +744,18 @@ async function renderSettings() {
 				</div>
 				<button class="setting-btn" id="btnAiManage">${esc(t('set.aiManage'))}</button>
 			</div>
+			</div>
+		</div>
+        </div>
+		<div class="settings-section">
+			<div class="section-heading">${esc(t('set.accountSection'))}</div>
+			<div class="section-content">
+				<div class="account-login-actions">
+					<button class="setting-btn" id="btnMsLogin">${esc(t('set.microsoftLogin'))}</button>
+					<button class="setting-btn" id="btnAuthlibLogin">${esc(t('set.authlibLogin'))}</button>
+					<button class="setting-btn" id="btnAddAccount">${esc(t('set.addAccount'))}</button>
+				</div>
+				<div class="account-cards" id="accountCards">${renderAccountCards(accounts)}</div>
 			</div>
 		</div>
 	</div>`;
@@ -896,6 +853,7 @@ function openModal(html) {
 	// 只有"从页面里"打开弹窗时才更新返回焦点；弹窗内换弹窗不应把返回点设成弹窗内部元素。
 	if (!host.contains(document.activeElement)) modalReturnFocus = document.activeElement;
 	host.innerHTML = '<div class="modal">' + html + '</div>';
+	delete host.dataset.drawer;
 	host.hidden = false;
 	host.dataset.modalGeneration = String(myGen);
 	// 对话框语义：屏幕阅读器会以"对话框"宣读，并知道背景不可交互。
@@ -1227,62 +1185,77 @@ function openInstanceMenu(inst) {
 
 /* Mod 管理弹窗 */
 async function openModManager(inst) {
-	openModal(`<div class="modal-title">${esc(t('mod.manageTitle', { name: inst.name }))}</div><div class="mod-manage-list" id="modList"><div class="loading-state">${esc(t('common.loading'))}</div></div><div class="modal-actions"><button class="modal-btn primary" id="mCancel">${esc(t('common.done'))}</button></div>`);
-	document.getElementById('mCancel').onclick = closeModal;
-	let mods = [];
-	try { mods = await SG.api.getMods(inst.id); } catch (e) { mods = []; }
-	const listEl = document.getElementById('modList');
-	if (!listEl) return;
-	if (!mods.length) { listEl.innerHTML = '<div class="empty-state" style="padding:32px"><div class="es-icon">🧩</div>' + esc(t('mod.empty')) + '</div>'; return; }
-	listEl.innerHTML = mods.map(m => `
-		<div class="mod-row ${m.enabled ? '' : 'disabled'}">
-			<div class="mod-row-left">
-				<span class="mod-row-name">${esc(m.displayName)}</span>
-				<span class="mod-row-sub">${esc(m.version || '')} ${m.loader ? '· ' + esc(m.loader) : ''} · ${esc(m.sizeText || '')}</span>
-			</div>
-			<div class="mod-row-actions">
-				<button class="mod-del" title="${esc(t('mod.deleteHint'))}" aria-label="${esc(t('mod.delete'))}" data-del="${esc(m.fileName)}">🗑</button>
-				<button class="toggle ${m.enabled ? 'on' : ''}" role="switch" aria-checked="${m.enabled}" data-mod="${esc(m.fileName)}"></button>
-			</div>
-		</div>`).join('');
-	listEl.querySelectorAll('.toggle').forEach(t => t.addEventListener('click', async () => {
-		const fileName = t.dataset.mod;
-		if (!fileName || t.disabled) return;
-		t.disabled = true;
-		const row = t.closest('.mod-row');
-		try {
-			const res = await SG.api.toggleMod(inst.id, fileName);
-			const on = !!res.enabled;
-			t.classList.toggle('on', on);
-			t.setAttribute('aria-checked', on ? 'true' : 'false');
-			if (row) row.classList.toggle('disabled', !on);
-			toast(on ? window.SG.t('mod.enabled', { name: '' }) : window.SG.t('mod.disabled', { name: '' }));
-		} catch (err) {
-			toast(window.SG.t('mod.toggleFailed') + (err.message || window.SG.t('common.unknownError')));
-		} finally {
-			t.disabled = false;
-		}
-	}));
-	// MR04：删除 = 移入恢复区。确认框说明可还原；用户取消时直接返回，不发请求。
-	listEl.querySelectorAll('.mod-del').forEach(btn => btn.addEventListener('click', async () => {
-		const fileName = btn.dataset.del;
-		if (!fileName || btn.disabled) return;
-		if (!confirm(t('mod.deleteConfirm', { name: inst.name, file: fileName }))) return;
-		btn.disabled = true;
-		try {
-			await SG.api.deleteMod(inst.id, fileName);
-			toast(t('mod.deleted'));
-			closeModal();
-			openModManager(inst);
-		} catch (err) {
-			toast(t('mod.deleteFailed') + (err.message || t('common.unknownError')));
-			btn.disabled = false;
-		}
-	}));
+ const host = openModal(`<div class="drawer-head"><div><div class="modal-title">${esc(t('mod.manageTitle', { name: inst.name }))}</div><p>${esc(inst.version||'—')} · ${esc(inst.loader||'Vanilla')} · <span data-mod-count>—</span> Mod · ${uiText('恢复区','Recovery')} <span data-recovery-count>—</span></p></div><button class="ui-button drawer-close" id="mCancel" aria-label="${esc(t('common.close'))}">${uiIcon('close')}</button></div><div class="drawer-tabs" role="group" aria-label="${uiText('管理视图','Manage view')}"><button id="modsListTab" aria-pressed="true">${uiText('模组列表','Mod list')} (<span data-mod-count>—</span>)</button><button id="modsRecovery" aria-pressed="false">${esc(t('mod.recoveryOpen'))} (<span data-recovery-count>—</span>)</button></div><div id="modWorkspace" class="mod-workspace"><div class="drawer-tools"><input type="search" id="modSearch" placeholder="${esc(t('mod.search'))}" aria-label="${esc(t('mod.search'))}"><div class="mod-filters" role="group" aria-label="${esc(t('mod.filter.all'))}">${['all','enabled','disabled'].map(k=>`<button data-mod-filter="${k}" aria-pressed="${k==='all'}">${esc(t('mod.filter.'+k))} <span data-mod-filter-count="${k}">—</span></button>`).join('')}</div></div><div class="drawer-body mod-manage-list" id="modList"><div class="loading-state">${esc(t('common.loading'))}</div></div></div><div class="drawer-body" id="modRecoveryBody" hidden></div>`);
+ if (!host) return;
+ host.dataset.drawer = 'true';
+ const generation = host.dataset.modalGeneration;
+ const alive = () => !host.hidden && host.dataset.modalGeneration === generation && host.classList.contains('show');
+ document.getElementById('mCancel').onclick = closeModal;
+ const workspace=document.getElementById('modWorkspace'),recoveryBody=document.getElementById('modRecoveryBody');
+ const setCount=(selector,count)=>host.querySelectorAll(selector).forEach(e=>e.textContent=String(count));
+ const context={alive,onCount:n=>setCount('[data-recovery-count]',n),reloadMods:()=>load()};
+ const selectTab=async recovery=>{workspace.hidden=recovery;recoveryBody.hidden=!recovery;host.querySelector('#modsListTab').setAttribute('aria-pressed',String(!recovery));host.querySelector('#modsRecovery').setAttribute('aria-pressed',String(recovery));if(recovery)await openRecoveryPanel(inst,true,context);};
+ document.getElementById('modsRecovery').onclick=()=>selectTab(true);
+ document.getElementById('modsListTab').onclick=()=>selectTab(false);
+ const list = document.getElementById('modList');
+ let mods=[], filter='all', query='';
+ const draw = () => {
+   setCount('[data-mod-count]',mods.length);
+   const instance=((STATE&&STATE.instances)||[]).find(i=>i.id===inst.id);if(instance)instance.modsCount=mods.length;
+   document.querySelectorAll('[data-instance-mod-count]').forEach(e=>{if(e.dataset.instanceModCount===inst.id)e.textContent=mods.length+' Mod';});
+   invalidate('home');
+   for(const key of ['all','enabled','disabled'])setCount(`[data-mod-filter-count="${key}"]`,mods.filter(m=>key==='all'||!!m.enabled===(key==='enabled')).length);
+   const visible=mods.filter(m=>(filter==='all'||!!m.enabled===(filter==='enabled'))&&String(m.displayName||m.fileName).toLowerCase().includes(query.toLowerCase()));
+   list.innerHTML=visible.length?visible.map(m=>`<div class="mod-row ${m.enabled?'':'disabled'}"><div class="mod-row-left"><span class="mod-row-name">${esc(m.fileName)}</span><span class="mod-row-sub">${esc(m.displayName||'')} ${esc(m.version||'')} · ${esc(m.sizeText||'')}</span><span class="mod-disabled-label" ${m.enabled?'hidden':''}>${esc(t('mod.filter.disabled'))}</span></div><div class="mod-row-actions"><button class="mod-del ui-button" aria-label="${esc(t('mod.delete'))}" data-del="${esc(m.fileName)}">×</button><button class="toggle ${m.enabled?'on':''}" role="switch" aria-label="${esc(m.displayName||m.fileName)}" aria-checked="${!!m.enabled}" data-mod="${esc(m.fileName)}"></button></div></div>`).join(''):`<div class="empty-state">${esc(t(mods.length?'mod.noMatch':'mod.empty'))}</div>`;
+ };
+ const load = async () => {
+   try { const result=await SG.api.getMods(inst.id); if(!alive())return; mods=result;draw(); }
+   catch(err){if(!alive())return;list.innerHTML=`<div class="content-error" role="alert"><h2>${esc(t('mod.queryFailed'))}</h2><p>${esc(err.message)}</p><button class="ui-button" data-mod-retry>${esc(t('content.retry'))}</button></div>`;}
+ };
+ document.getElementById('modSearch').oninput=e=>{query=e.target.value;draw();};
+ host.querySelectorAll('[data-mod-filter]').forEach(b=>b.onclick=()=>{filter=b.dataset.modFilter;host.querySelectorAll('[data-mod-filter]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));draw();});
+ list.onclick=async e=>{
+   const b=e.target.closest('button');if(!b||b.disabled)return;
+   if(b.hasAttribute('data-mod-retry')){await load();return;}
+   if(b.hasAttribute('data-cancel-remove')){b.closest('.mod-inline-confirm').remove();return;}
+   const row=b.closest('.mod-row');
+   if(b.dataset.del){
+     list.querySelectorAll('.mod-inline-confirm').forEach(x=>x.remove());
+     const strip=document.createElement('div');strip.className='mod-inline-confirm';
+     strip.innerHTML=`<p>${esc(t('mod.inlineRemove'))} ${esc(b.dataset.del)}</p><button class="ui-button" data-cancel-remove>${esc(t('common.cancel'))}</button><button class="ui-button confirm-remove" data-remove-file="${esc(b.dataset.del)}">${esc(t('mod.confirmRemove'))}</button>`;
+     row.appendChild(strip);strip.querySelector('[data-cancel-remove]').focus();return;
+   }
+   if(b.dataset.mod){
+     b.disabled=true;
+     try{const res=await SG.api.toggleMod(inst.id,b.dataset.mod);if(!alive())return;const m=mods.find(x=>x.fileName===b.dataset.mod);
+       // Existing API returns the source filename. ModService renames .jar <-> .jar.disabled.
+       const originalFile=b.dataset.mod;
+       const nextFile=res.fileName&&res.fileName!==originalFile?res.fileName:(res.enabled?originalFile.replace(/\.disabled$/i,''):(/\.disabled$/i.test(originalFile)?originalFile:originalFile+'.disabled'));
+       if(m){m.enabled=!!res.enabled;m.fileName=nextFile;}
+       b.dataset.mod=nextFile;row.querySelector('.mod-row-name').textContent=nextFile;const remove=row.querySelector('[data-del]');if(remove)remove.dataset.del=nextFile;
+       b.classList.toggle('on',!!res.enabled);b.setAttribute('aria-checked',String(!!res.enabled));row.classList.toggle('disabled',!res.enabled);row.querySelector('.mod-disabled-label').hidden=!!res.enabled;
+       toast(t(res.enabled?'mod.enabled':'mod.disabled',{name:''}));
+       for(const key of ['all','enabled','disabled'])setCount(`[data-mod-filter-count="${key}"]`,mods.filter(m=>key==='all'||!!m.enabled===(key==='enabled')).length);
+       if(filter!=='all'&&!!res.enabled!==(filter==='enabled')){row.remove();document.getElementById('modSearch')?.focus();}
+     }catch(err){toast(t('mod.toggleFailed')+(err.message||''));}finally{b.disabled=false;}
+   }
+   if(b.dataset.removeFile){
+     b.disabled=true;
+     try{await SG.api.deleteMod(inst.id,b.dataset.removeFile);if(!alive())return;mods=mods.filter(x=>x.fileName!==b.dataset.removeFile);draw();SG.api.listRecoveries(inst.id).then(data=>{if(alive())context.onCount((data.recoveries||[]).length);}).catch(()=>{});toast(t('mod.deleted'));document.getElementById('modSearch')?.focus();}
+     catch(err){toast(t('mod.deleteFailed')+(err.message||''));b.disabled=false;}
+   }
+ };
+ await new Promise(resolve => requestAnimationFrame(resolve));
+ await load();
+ SG.api.listRecoveries(inst.id).then(data=>{if(alive())context.onCount((data.recoveries||[]).length);}).catch(()=>{});
 }
 
 /* MR04：恢复区面板 —— 列出可还原的移除操作，并逐项恢复 */
-async function openRecoveryPanel(inst) {
+async function openRecoveryPanel(inst, drawer, context) {
+ const embedded=!!(drawer&&context);
+ const requestGeneration=embedded?(context.recoverySeq=(context.recoverySeq||0)+1):0;
+ const stillHere=()=>!embedded||context.alive()&&context.recoverySeq===requestGeneration&&document.getElementById('modRecoveryBody')&&!document.getElementById('modRecoveryBody').hidden;
+ if(!stillHere())return;
 	const fmtStamp = (v) => { try { return v ? new Date(v).toLocaleString() : '—'; } catch (e) { return '—'; } };
 	const fmtSize = (n) => {
 		const b = Number(n) || 0;
@@ -1290,18 +1263,22 @@ async function openRecoveryPanel(inst) {
 		if (b < 1048576) return (b / 1024).toFixed(1) + ' KB';
 		return (b / 1048576).toFixed(1) + ' MB';
 	};
-	openModal(`
-		<div class="modal-title">${esc(t('recovery.title', { name: inst.name }))}</div>
+ const panelHtml=`
+		<div class="modal-title" ${embedded?'hidden':''}>${esc(t('recovery.title', { name: inst.name }))}</div>
 		<div style="font-size:12px;color:var(--muted,#8b91a1);margin-top:6px" id="recoveryIntro"></div>
 		<div id="recoveryContent" style="margin-top:10px"><div class="loading-state">${esc(t('common.loading'))}</div></div>
-		<div class="modal-actions"><button class="modal-btn primary" id="rClose">${esc(t('common.done'))}</button></div>`);
+		<div class="modal-actions" ${embedded?'hidden':''}><button class="modal-btn primary" id="rClose">${esc(t('common.done'))}</button></div>`;
+ if(embedded)document.getElementById('modRecoveryBody').innerHTML=panelHtml;else openModal(panelHtml);
+	if (drawer) document.getElementById('modalHost').dataset.drawer = 'true';
 	document.getElementById('rClose').onclick = closeModal;
 	const content = document.getElementById('recoveryContent');
 	if (!content) return;
 	let data;
 	try {
 		data = await SG.api.listRecoveries(inst.id);
+        if(!stillHere())return;
 	} catch (err) {
+        if(!stillHere())return;
 		// G2/RECOVERY-01（有效 RED）：读取失败时原来只丢一句错误就结束——用户既不知道
 		// 有哪些文件可恢复，也没有任何重试入口。这里保留真实原因并给出显式重试动作，
 		// 重试走同一条生产路径（不新增业务入口）。
@@ -1311,12 +1288,13 @@ async function openRecoveryPanel(inst) {
 				<button class="modal-btn primary retry-action" id="rRetry">${esc(t('recovery.queryRetry'))}</button>
 			</div>`;
 		const retry = document.getElementById('rRetry');
-		if (retry) { retry.onclick = () => { openRecoveryPanel(inst); }; retry.focus(); }
+		if (retry) { retry.onclick = () => { openRecoveryPanel(inst, drawer, context); }; retry.focus(); }
 		return;
 	}
 	const intro = document.getElementById('recoveryIntro');
 	if (intro) intro.textContent = t('recovery.intro', { days: (data && data.retentionDays) || 30 });
 	const ops = (data && data.recoveries) || [];
+ if(embedded)context.onCount(ops.length);
 	if (!ops.length) {
 		content.innerHTML = `<div class="empty-state" style="padding:28px">${esc(t('recovery.empty'))}</div>`;
 		return;
@@ -1338,7 +1316,7 @@ async function openRecoveryPanel(inst) {
 				<span class="rec-meta">${esc(t('recovery.at', { time: fmtStamp(op.createdAt) }))} · ${esc(t('recovery.items', { n: op.files.length, size: fmtSize(op.totalBytes) }))}</span>
 			</div>
 			<div class="rec-files">${op.files.map(f => `<div class="rec-file">${esc(f.relativePath)} <span class="rec-file-state">${esc(stateText(f.state))}</span>${f.error ? ' · ' + esc(f.error) : ''}</div>`).join('')}</div>
-			<button class="modal-btn primary rec-restore" data-op="${esc(op.operationId)}" data-overwrite="${isReplace ? '1' : '0'}">${esc(isReplace ? t('recovery.undoReplace') : t('recovery.restore'))}</button>
+			<button class="modal-btn primary rec-restore" data-op="${esc(op.operationId)}" data-overwrite="${isReplace ? '1' : '0'}" ${op.status==='restored'?'disabled':''}>${esc(op.status==='restored'?stateText('restored'):isReplace ? t('recovery.undoReplace') : t('recovery.restore'))}</button>
 		</div>`;
 	}).join('');
 	content.querySelectorAll('.rec-restore').forEach(btn => btn.addEventListener('click', async () => {
@@ -1351,8 +1329,8 @@ async function openRecoveryPanel(inst) {
 			if (res.conflicts > 0) toast(t('recovery.conflictNote'));
 			else if (res.ok) toast(overwrite ? t('recovery.undone') : t('recovery.restored'));
 			else toast(t('recovery.partial'));
-			closeModal();
-			openRecoveryPanel(inst);
+            if(embedded){if(!stillHere())return;await context.reloadMods();await openRecoveryPanel(inst,true,context);}
+            else {closeModal();openRecoveryPanel(inst,drawer);}
 		} catch (err) {
 			toast(t('recovery.failed') + (err.message || t('common.unknownError')));
 			btn.disabled = false;
@@ -2088,7 +2066,7 @@ function contentCardHtml(c) {
 		? `<span class="mod-icon-placeholder" aria-hidden="true">${placeholder}</span>`
 		+ `<img class="content-icon-img" data-icon-state="loading" src="${esc(c.iconUrl)}" alt="" width="52" height="52" loading="lazy" decoding="async" style="opacity:0">`
 		: `<span class="mod-icon-placeholder" aria-hidden="true">${placeholder}</span>`;
-	const badges = (c.versions || []).slice(0, 2).map(v => `<span class="mod-badge">${esc(v)}</span>`).join('');
+	const badges = [...new Set([...(c.versions || []).slice(0, 2),...(c.loaders&&c.loaders.length?c.loaders:c.loader?[c.loader]:[])])].map(v => `<span class="mod-badge">${esc(v)}</span>`).join('');
 	// 卡片必须携带自身的 source / category / projectId 身份信息，
 	// 安装时使用 data-* 读取，不再依赖可能已经变化的全局筛选状态。
 	const cardSource = (c.source && /^(modrinth|curseforge)$/i.test(c.source)) ? c.source.toLowerCase() : 'modrinth';
@@ -2099,14 +2077,12 @@ function contentCardHtml(c) {
 		<div class="mod-icon">${iconInner}</div>
 		<div class="mod-body">
 			<div class="mod-top">
-				<span class="mod-name">${esc(c.title)}</span>
-				<button class="mod-install" data-install="${esc(c.id)}" data-source="${esc(cardSource)}" data-category="${esc(cardCategory)}">${esc(t('content.install'))}</button>
+				<div class="mod-title-group"><span class="mod-name">${esc(c.title)}</span><span class="mod-author">${esc(t('content.by', { author: c.author || t('common.unknown') }))}</span></div>
+				<button class="mod-install" data-install="${esc(c.id)}" data-source="${esc(cardSource)}" data-category="${esc(cardCategory)}">${uiIcon('download')}${esc(t('content.install'))}</button>
 			</div>
-			<span class="mod-author">${esc(t('content.by', { author: c.author || t('common.unknown') }))}</span>
 			<span class="mod-desc">${esc(c.desc || '')}</span>
 			<div class="mod-meta">
 				<span class="mod-dl"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"/></svg>${esc(c.downloads || '0')}</span>
-				${c.loader ? `<span class="mod-badge">${esc(c.loader)}</span>` : ''}
 				${badges}
 			</div>
 		</div>
@@ -2165,7 +2141,7 @@ async function renderContent() {
 	if (token !== contentSearchToken) return '';
 	// 关键：await 期间页面已切走，放弃。
 	if (contentPageGen === -1) return '';
-	const tabs = CONTENT_CATS.map(c => `<button class="filter ${c.key === contentCat ? 'active' : ''}" data-cat="${c.key}">${esc(t(c.labelKey))}</button>`).join('');
+	const tabs = CONTENT_CATS.map(c => `<button class="filter ${c.key === contentCat ? 'active' : ''}" data-cat="${c.key}" aria-pressed="${c.key===contentCat}">${esc(t(c.labelKey))}</button>`).join('');
 	// 关键：错误块必须放在 content-grid 内部。
 	// rerenderGrid 走 grid.innerHTML 重置时，会连同错误块与重试按钮一起被替换，
 	// 避免"列表已恢复但错误块与按钮仍残留"的双重状态。
@@ -2180,22 +2156,11 @@ async function renderContent() {
 	<div class="content-view">
 		<div class="page-head">
 			<div>
-				<div class="page-title">${esc(t('content.title'))}</div>
-				<div class="page-sub">${esc(t('content.subtitle'))}</div>
+				<h2 class="content-library-title">${esc(t('shell.contentLibrary'))}</h2><p class="ui-muted">${uiText('查找适合当前实例的内容','Find content for your current instance')}</p>
 			</div>
-			<div class="head-actions">
-				<div class="content-source-switch" id="contentSourceSwitch" style="display:${contentCat === 'mod' ? '' : 'none'}">
-					<button class="source-btn ${contentSource === 'modrinth' ? 'active' : ''}" data-source="modrinth"><span class="dot"></span>Modrinth</button>
-					<button class="source-btn ${contentSource === 'curseforge' ? 'active' : ''}" data-source="curseforge"><span class="dot"></span>CurseForge</button>
-				</div>
-				<div class="search-box">
-				<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-				<input type="text" id="contentSearch" placeholder="${esc(t('content.searchPlaceholder'))}" value="${esc(contentQuery)}">
-			</div>
-			</div>
-		</div>
-		<div class="content-tabs">${tabs}</div>
-		${filterBadge}
+            ${uiSearch('contentSearch',t('content.searchPlaceholder'),contentQuery)}
+        </div>
+        <div class="content-toolbar"><div class="content-tabs">${tabs}</div><div class="content-context">${filterBadge}<div class="content-source-switch" id="contentSourceSwitch" style="display:${contentCat === 'mod' ? '' : 'none'}"><button class="source-btn ${contentSource === 'modrinth' ? 'active' : ''}" data-source="modrinth">Modrinth</button><button class="source-btn ${contentSource === 'curseforge' ? 'active' : ''}" data-source="curseforge">CurseForge</button></div></div></div>
 		<div class="content-grid" id="contentGrid">${grid}</div>
 	</div>`;
 }
@@ -2292,8 +2257,8 @@ function bindContent(el) {
 	// 关键（v4）：innerHTML 替换后子节点换新，这里每次都重新 querySelector 与绑定即可。
 	const sourceButtons = el.querySelectorAll('#contentSourceSwitch .source-btn[data-source]');
 	sourceButtons.forEach(b => b.addEventListener('click', () => {
-		sourceButtons.forEach(x => x.classList.remove('active'));
-		b.classList.add('active');
+		sourceButtons.forEach(x => {x.classList.remove('active');x.setAttribute('aria-pressed','false');});
+		b.classList.add('active');b.setAttribute('aria-pressed','true');
 		const next = b.dataset.source;
 		if (!/^(modrinth|curseforge)$/i.test(next)) return;
 		contentSource = next.toLowerCase();
@@ -2301,7 +2266,7 @@ function bindContent(el) {
 	}));
 	el.querySelectorAll('[data-cat]').forEach(b => b.addEventListener('click', () => {
 		el.querySelectorAll('[data-cat]').forEach(x => x.classList.remove('active'));
-		b.classList.add('active');
+		b.classList.add('active');b.setAttribute('aria-pressed','true');
 		contentCat = b.dataset.cat;
 		contentRerenderGrid(el);
 	}));
@@ -2540,14 +2505,15 @@ function bindContentInstalls(el) {
 async function renderWorlds() {
 	let worlds = [];
 	try { worlds = await SG.api.getWorlds(); } catch (e) { worlds = []; }
+ navigationCounts.worlds=worlds.length;
 	const cards = worlds.length ? worlds.map(w => `
 		<div class="world-card" data-inst="${esc(w.instanceId)}" data-folder="${esc(w.folderName)}">
-			<div class="world-icon" style="background:${w.iconBg || '#2b3040'}">${esc(w.icon || '🌍')}</div>
+			<div class="world-icon">${uiIcon('world')}</div>
 			<div class="world-meta">
 				<span class="world-name">${esc(w.name)}</span>
 				<span class="world-sub">${esc(w.instance || t('worlds.unknownInstance'))} · ${esc(w.lastPlayed || '')}</span>
 			</div>
-			<span class="world-size">${esc(w.size || '—')}</span>
+			<span class="world-size">${esc(w.size || '—')}</span><button class="world-btn" data-world-manage>${uiText('管理存档','Manage world')}</button>
 		</div>`).join('')
 		: `<div class="empty-state"><div class="es-icon">🗺️</div>${esc(t('worlds.empty'))}</div>`;
 	return `
@@ -2558,10 +2524,11 @@ async function renderWorlds() {
 				<div class="page-sub">${esc(t('worlds.subtitle'))}</div>
 			</div>
 		</div>
-		<div class="list-grid">${cards}</div>
+		<div class="list-panel-head"><div class="list-heading"><h2>${uiText('单人存档','Singleplayer worlds')}</h2></div>${uiSearch('worldSearch',uiText('搜索存档…','Search worlds…'))}</div><div class="list-grid">${cards}</div>
 	</div>`;
 }
 function bindWorlds(el) {
+ bindListSearch(el,'worldSearch','.world-card');
 	el.querySelectorAll('.world-card').forEach(c => c.addEventListener('click', async () => {
 		const instanceId = c.dataset.inst;
 		const folderName = c.dataset.folder;
@@ -2660,7 +2627,7 @@ function serverCardHtml(s) {
 	const pingTxt = s.latency == null ? t('servers.offline') : s.latency + ' ms';
 	return `
 	<div class="server-card" data-server="${esc(s.id)}">
-		<div class="server-icon" style="background:${s.iconBg || '#2b3040'}">${esc(s.icon || '🏳️')}</div>
+		<div class="server-icon">${uiIcon('server')}</div>
 		<div class="server-meta">
 			<span class="server-name">${esc(s.name)}</span>
 			<span class="server-sub">${esc(s.address)}${s.port && s.port !== 25565 ? ':' + s.port : ''} · ${esc(s.version || t('common.unknown'))}</span>
@@ -2670,7 +2637,7 @@ function serverCardHtml(s) {
 				<span class="server-count ${online ? '' : 'offline'}">${online ? (s.online + ' / ' + s.max) : '—'}</span>
 				<span class="server-ping ${pingCls}">${pingTxt}</span>
 			</div>
-			<span class="server-dot ${online ? 'on' : 'off'}"></span>
+			<button class="server-btn" data-server-ping>${uiText('刷新延迟','Refresh ping')}</button>
 			<button class="inst-more" data-server-del="${esc(s.id)}" aria-label="${esc(t('servers.deleteConfirm'))}"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
 		</div>
 	</div>`;
@@ -2678,6 +2645,7 @@ function serverCardHtml(s) {
 async function renderServers() {
 	let servers = [];
 	try { servers = await SG.api.getServers(); } catch (e) { servers = []; }
+ navigationCounts.servers=servers.length;
 	const cards = servers.length ? servers.map(serverCardHtml).join('')
 		: `<div class="empty-state"><div class="es-icon">🖥️</div>${esc(t('servers.empty'))}</div>`;
 	return `
@@ -2692,10 +2660,11 @@ async function renderServers() {
 				<span>${esc(t('servers.add'))}</span>
 			</button>
 		</div>
-		<div class="list-grid" id="serverList">${cards}</div>
+		<div class="list-panel-head"><div class="list-heading"><h2>${uiText('收藏的服务器','Saved servers')}</h2></div>${uiSearch('serverSearch',uiText('搜索服务器…','Search servers…'))}</div><div class="list-grid" id="serverList">${cards}</div>
 	</div>`;
 }
 function bindServers(el) {
+ bindListSearch(el,'serverSearch','.server-card');
 	el.querySelector('#btnAddServer')?.addEventListener('click', () => {
 		openModal(`
 			<div class="modal-title">${esc(t('servers.addTitle'))}</div>
@@ -2784,7 +2753,7 @@ function versionRowHtml(v) {
 function dlTaskHtml(t) {
 	return `
 	<div class="dl-task">
-		<div class="dl-task-icon" style="background:${t.iconBg || '#0f766e'}">${esc(t.icon || '⛏️')}</div>
+		<div class="dl-task-icon">${uiIcon('download')}</div>
 		<div class="dl-task-body">
 			<div class="dl-task-top">
 				<span class="dl-task-name">${esc(t.name)}</span>
@@ -2854,6 +2823,7 @@ async function renderDownloads() {
 function downloadsPageHtml() {
 	const versions = dlVersions.items;
 	const tasks = dlTasks.items;
+ if(dlTasks.status==='ready')navigationCounts.downloads=tasks.filter(x=>x.status==='queued'||x.status==='downloading').length;
 	const filtered = versions.filter(v => dlVersionFilter === 'all' ? true : v.type === dlVersionFilter);
 	let vlist;
 	if (dlVersions.status === 'error') {
@@ -2965,6 +2935,7 @@ const VIEWS = {
 	downloads:     { titleKey: 'view.downloads',     render: renderDownloads,     bind: bindDownloads },
 	news:          { titleKey: 'view.news',          render: renderNews,          bind: bindNews },
 	settings:      { titleKey: 'view.settings',      render: renderSettings,      bind: bindSettings },
+	playtime:      { titleKey: 'nav.playtime', render: () => SG.playtime.render(), bind: el => SG.playtime.bind(el) },
 };
 let currentView = null;
 let navSeq = 0;
@@ -3008,9 +2979,11 @@ async function goTo(nav) {
 		contentPageGen = myseq;
 	}
 	if (currentView === 'skins' && nav !== 'skins' && activeSkinViewer) { activeSkinViewer.dispose(); activeSkinViewer = null; }
+	if (currentView === 'playtime' && nav !== 'playtime' && SG.playtime) SG.playtime.dispose();
 	document.querySelectorAll('.view').forEach(v => { v.hidden = true; });
 	const el = document.getElementById('view-' + nav);
 	if (!el) return;
+	if (nav === 'playtime') delete el.dataset.rendered;
 	// 关键（v5）：进入 content 时记录本次 goTo 的 pageGen。提交结果前再校验，
 	// 避免"旧 renderContent 写空 innerHTML + 设置 rendered + 绑定事件"。
 	let expectedPageGen = (nav === 'content') ? contentPageGen : null;
@@ -3051,6 +3024,7 @@ async function goTo(nav) {
 	document.querySelectorAll('.view').forEach(v => { v.hidden = (v !== el); });
 	document.getElementById('contentPanel').scrollTop = 0;
 	document.querySelectorAll('.nav-item').forEach(b => b.classList.toggle('active', b.dataset.nav === nav));
+	updateShell(nav);
 	currentView = nav;
 	try { if (('#' + nav) !== location.hash) history.replaceState(null, '', '#' + nav); } catch (e) { /* file:// 下忽略 */ }
 }
@@ -3145,12 +3119,88 @@ function bindHome(el) {
 	const newsMore = el.querySelector('#newsMore');
 	if (newsMore) newsMore.addEventListener('click', () => goTo('news'));
 	const selEl = el.querySelector('#pfVersionSelect');
-	if (selEl) selEl.addEventListener('change', () => { selectedInstanceId = selEl.value; invalidate('installations'); });
+	if (selEl) selEl.addEventListener('change', async () => { selectedInstanceId = selEl.value; invalidate('installations'); invalidate('home'); await goTo('home'); });
+	el.querySelector('#btnHomeInstances')?.addEventListener('click', () => goTo('installations'));
+	el.querySelector('#homeAllDownloads')?.addEventListener('click', () => goTo('downloads'));
+	refreshHomeQueue(el);
 	const playBtn = el.querySelector('#btnPlay');
 	if (playBtn) playBtn.addEventListener('click', () => {
 		const inst = (STATE.instances || []).find(i => i.id === selectedInstanceId);
 		doLaunch(selectedInstanceId, inst ? inst.name : t('launch.game'));
 	});
+}
+
+async function refreshHomeQueue(el) {
+	const host = el.querySelector('#homeDownloadQueue');
+	if (!host) return;
+	try {
+		const tasks = (await SG.api.getDownloads()).filter(task=>task.status==='queued'||task.status==='downloading');
+		if (!host.isConnected) return;
+		host.innerHTML = tasks.length ? tasks.slice(0, 4).map(task => {
+			const pct = Math.min(100, Math.max(0, Number(task.progress) || 0));
+			return `<div class="home-task"><div class="home-task-line"><span>${esc(task.name || task.id)}</span><span class="home-task-state">${esc(t('shell.task.' + (task.status || 'queued')))} · ${Math.round(pct)}%</span></div><div class="home-task-track"><span style="width:${pct}%"></span></div></div>`;
+		}).join('') : `<p class="ui-muted">${esc(t('shell.noTasks'))}</p>`;
+	} catch (e) { host.textContent = t('shell.queueFailed'); }
+}
+
+const SHELL_PAGES = {
+	home:['nav.home','shell.homeSub'], installations:['nav.installations','inst.subtitle'],
+	worlds:['nav.worlds','worlds.subtitle'], servers:['nav.servers','servers.subtitle'],
+	playtime:['nav.playtime','pt.subtitle'], content:['nav.content','content.subtitle'],
+	skins:['nav.skins','skin.previewFirst'], downloads:['nav.downloads','dl.subtitle'],
+	news:['nav.news','news.subtitle'], settings:['nav.settings','shell.settingsSub'],
+};
+function updateShell(nav) {
+	const keys = SHELL_PAGES[nav] || SHELL_PAGES.home;
+	const title = document.getElementById('workspaceTitle'), sub = document.getElementById('workspaceSubtitle');
+	if (title) title.textContent = t(keys[0]);
+	if (sub) sub.textContent = t(keys[1]);
+ if(STATE&&STATE.instances)navigationCounts.installations=STATE.instances.length;
+	document.querySelectorAll('[data-nav-count]').forEach(e=>{const n=navigationCounts[e.dataset.navCount];e.hidden=n==null;if(n!=null)e.textContent=String(n);});
+	document.querySelectorAll('.nav-item').forEach(b => {
+		if (b.dataset.nav === nav) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current');
+	});
+	const zh = document.getElementById('btnLangZh'), en = document.getElementById('btnLangEn');
+	if (zh) zh.setAttribute('aria-pressed', String(SG.locale === 'zh'));
+	if (en) en.setAttribute('aria-pressed', String(SG.locale === 'en'));
+	const version = document.getElementById('shellVersion');
+	if (version && STATE && STATE.config && STATE.config.appVersion) version.textContent = 'v' + STATE.config.appVersion;
+}
+
+function openCommandPalette() {
+	const host = document.getElementById('modalHost');
+	// Do not replace an in-flight business dialog (diagnosis, import or confirmation).
+	if (host && !host.hidden && host.classList.contains('show')) return;
+	const entries = Object.keys(SHELL_PAGES).map(nav => ({name:t('shell.open') + ' · ' + t(SHELL_PAGES[nav][0]), run:()=>goTo(nav)}));
+	entries.push({name:t('home.play'),run:()=>{const i=(STATE&&STATE.instances||[]).find(x=>x.id===selectedInstanceId);if(i)doLaunch(i.id,i.name);else goTo('installations');}});
+	entries.push({name:t('set.openLogs'),run:()=>SG.api.openLogDirectory()});
+	entries.push({name:t('set.checkUpdate'),run:async()=>{await goTo('settings');document.getElementById('btnCheckUpdate')?.click();}});
+	openModal(`<div class="modal-title">${esc(t('shell.quick'))}</div><input class="palette-search" id="commandQuery" type="search" autocomplete="off" placeholder="${esc(t('shell.commandSearch'))}" aria-label="${esc(t('shell.commandSearch'))}"><div class="palette-results" id="commandResults"></div><p class="palette-hint">${esc(t('shell.commandHint'))}</p>`);
+	const input = document.getElementById('commandQuery'), list = document.getElementById('commandResults');
+	const draw = () => {
+		const q = input.value.trim().toLocaleLowerCase();
+		list.innerHTML = entries.map((e,i)=>({e,i})).filter(x=>x.e.name.toLocaleLowerCase().includes(q)).map(x=>`<button class="palette-item" data-command="${x.i}">${esc(x.e.name)}<small>↵</small></button>`).join('') || `<p class="ui-muted">${esc(t('shell.noCommands'))}</p>`;
+	};
+	draw(); input.oninput = draw;
+	const run = b => {if(!b)return;const entry=entries[Number(b.dataset.command)];closeModal();Promise.resolve(entry.run()).catch(e=>toast(e.message));};
+	list.onclick=e=>run(e.target.closest('[data-command]'));
+	input.onkeydown=e=>{if(e.key==='ArrowDown'){e.preventDefault();list.querySelector('button')?.focus();}else if(e.key==='Enter'){e.preventDefault();run(list.querySelector('button'));}};
+	list.onkeydown=e=>{const buttons=[...list.querySelectorAll('button')],idx=buttons.indexOf(document.activeElement);if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();buttons[(idx+(e.key==='ArrowDown'?1:-1)+buttons.length)%buttons.length]?.focus();}};
+	input.focus();
+}
+
+function wireRedesignedShell() {
+	document.getElementById('btnQuickOpen')?.addEventListener('click',openCommandPalette);
+	document.getElementById('btnProfile')?.addEventListener('click',()=>goTo('settings'));
+	document.getElementById('btnLangZh')?.addEventListener('click',()=>SG.setLocale('zh'));
+	document.getElementById('btnLangEn')?.addEventListener('click',()=>SG.setLocale('en'));
+	document.getElementById('btnRefreshView')?.addEventListener('click',async e=>{
+		if(e.currentTarget.disabled)return;
+		const b=e.currentTarget,nav=currentView||'home',startedSeq=navSeq;b.disabled=true;
+		try {await loadState(true);await loadAccounts(true);refreshSidebarAccount();if(startedSeq!==navSeq)return;invalidate(nav);await goTo(nav);}
+		catch(err){toast(t('common.loadFailed')+(err.message||''));}finally{b.disabled=false;}
+	});
+	document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openCommandPalette();}});
 }
 
 /* ================================================================
@@ -3187,7 +3237,7 @@ async function renderNews() {
 function newsPageHtml() {
 	const items = newsList();
 	return `
-	<div class="content-view">
+	<div class="content-view news-view">
 		<div class="page-head">
 			<div>
 				<div class="page-title">${esc(t('news.title'))}</div>
@@ -3195,7 +3245,7 @@ function newsPageHtml() {
 			</div>
 			<button class="modal-btn ghost" id="newsRefresh">${esc(t('news.refresh'))}</button>
 		</div>
-		<div id="newsViewContent">
+		<h2 class="content-library-title news-library-title">${uiText('官方动态','Official news')}</h2><div id="newsViewContent">
 			${newsStatusHtml()}
 			<div class="news-full-list">${items.length ? items.map((n, idx) => newsFullCardHtml(n, idx)).join('') : newsEmptyOrErrorHtml()}</div>
 		</div>
@@ -3227,10 +3277,10 @@ function newsFullCardHtml(n, idx) {
 		<article class="news-full-card" data-idx="${idx}" data-link-ok="${n.linkOk ? '1' : '0'}" data-news-title="${esc(n.title)}"${(n.linkOk && n.linkId) ? ` data-link-id="${esc(n.linkId)}"` : ''}>
 			${newsArtInner(n, 'news-full-art')}
 			<div class="news-full-body">
-				<span class="news-cat">${esc(n.category || '')}</span>
+				<div class="news-meta-row"><span class="news-cat">${esc(n.category || '')}</span><span class="news-date">${esc(fmtDate(n.date))}</span></div>
 				<h3 class="news-full-title">${esc(n.title)}</h3>
 				<p class="news-full-desc">${esc(n.text || '')}</p>
-				<span class="news-date">${esc(fmtDate(n.date))}</span>
+				<button class="ui-button news-details">${uiText('查看详情','View details')}</button>
 			</div>
 		</article>`;
 }
@@ -3334,6 +3384,7 @@ function bindNewsRetry(el) {
 
 /* ---------------- Installations 页 ---------------- */
 function bindInstallations(el) {
+ bindListSearch(el,'instanceSearch','.inst-card');
 	el.querySelectorAll('.filter').forEach(f => {
 		f.addEventListener('click', () => {
 			el.querySelectorAll('.filter').forEach(x => x.classList.remove('active'));
@@ -3342,8 +3393,9 @@ function bindInstallations(el) {
 			el.querySelectorAll('.inst-card').forEach(card => {
 				let show = true;
 				if (kind === 'mod') show = card.dataset.kind === 'mod';
-				else if (kind === 'snap') show = false; // 快照实例暂无标记
-				card.style.display = show ? '' : 'none';
+				else if (kind === 'snap') show = card.dataset.kind === 'snap';
+                const query=el.querySelector('#instanceSearch')?.value.trim().toLocaleLowerCase()||'';
+                card.hidden=!show||!card.textContent.toLocaleLowerCase().includes(query);
 			});
 		});
 	});
@@ -3421,9 +3473,12 @@ function bindInstallations(el) {
 			openInstanceMenu(inst);
 		});
 	});
+	el.querySelectorAll('[data-mods]').forEach(b => b.addEventListener('click', e => {
+		e.stopPropagation(); const inst = (STATE.instances || []).find(i => i.id === b.dataset.mods); if (inst) openModManager(inst);
+	}));
 	el.querySelectorAll('.inst-card').forEach(card => {
 		card.addEventListener('click', e => {
-			if (e.target.closest('[data-play],[data-more]')) return;
+			if (e.target.closest('[data-play],[data-more],[data-mods]')) return;
 			selectedInstanceId = card.dataset.inst;
 			el.querySelectorAll('.inst-card').forEach(c => {
 				const on = c === card;
@@ -3450,7 +3505,9 @@ function bindSkins(el) {
 		if (fallback) {
 			fallback.hidden = false;
 			if (fallbackMessage) fallbackMessage.textContent = message || t('skin.webglFallback');
-			const image = fallback.querySelector('img'); if (image && url) image.src = url;
+			let image = fallback.querySelector('img');
+			if (!image && url) { image=document.createElement('img'); image.alt=t('skin.fallbackAlt'); fallback.prepend(image); }
+			if (image && url) image.src = url;
 		}
 	};
 	const showViewer = () => { if (container) container.hidden = false; if (fallback) fallback.hidden = true; };
@@ -3458,7 +3515,8 @@ function bindSkins(el) {
 		try {
 			viewer = new Skin3DViewer(container, { ariaLabel: t('skin.canvasLabel'), onError: showFallback, onReady: showViewer });
 			activeSkinViewer = viewer;
-			viewer.setSkin(skins[0] || null, active ? active.id : null);
+			if (skins[0] && skins[0].url) viewer.setSkin(skins[0], active ? active.id : null);
+			else showFallback(t('skin.textureUnavailable'));
 		} catch (e) {
 			viewer = null;
 			showFallback(t('skin.webglFallback'));
@@ -3476,60 +3534,79 @@ function bindSkins(el) {
 			el.querySelectorAll('.skin-card').forEach(x => x.classList.remove('selected'));
 			c.classList.add('selected');
 			const skin = skins.find(s => s.id === c.dataset.skin);
+			pendingSkin = null; if (apply) apply.disabled = true;
+			const texture = el.querySelector('#localSkinTexture'); if (texture) texture.hidden = true;
 			if (skin) {
 				if (viewer) viewer.setSkin(skin, active ? active.id : null);
 				const nameEl = el.querySelector('#activeSkinName');
 				if (nameEl) nameEl.textContent = skin.name || t('skin.item');
 				const modelEl = el.querySelector('#activeSkinModel');
 				if (modelEl) modelEl.textContent = skin.model === 'slim' ? t('skin.slimModel') : t('skin.classicModel');
+                syncModel(skin.model);
 				toast(t('skin.preview', { name: skin.name || '' }));
 			}
 		});
 	});
-	el.querySelector('#btnUploadSkin')?.addEventListener('click', () => {
-		const active = ACCOUNTS.find(a => a.selected) || ACCOUNTS[0];
-		if (!active) { toast(t('skin.needAccount')); return; }
-		if (active.type !== 'microsoft') { toast(t('skin.needMicrosoft')); return; }
-		const input = document.createElement('input');
-		input.type = 'file';
-		input.accept = 'image/png';
-		input.onchange = () => {
-			const f = input.files && input.files[0];
-			if (!f) return;
-			if (f.type !== 'image/png' || f.size > 1024 * 1024) { toast(t('skin.invalidFile')); return; }
-			const reader = new FileReader();
-			reader.onload = async () => {
-				const dataUrl = String(reader.result || '');
-				const dimensionsValid = await new Promise(resolve => {
-					const image = new Image();
-					image.onload = () => resolve(!!window.Skin3DCore && Skin3DCore.validDimensions(image.naturalWidth, image.naturalHeight));
-					image.onerror = () => resolve(false);
-					image.src = dataUrl;
-				});
-				if (!dimensionsValid) { toast(t('skin.invalidFile')); return; }
-				const b64 = dataUrl.replace(/^data:image\/png;base64,/, '');
-				const btn = el.querySelector('#btnUploadSkin');
-				if (btn) { btn.disabled = true; btn.textContent = t('skin.uploading'); }
-				try {
-					const slim = el.querySelector('#skinModelSelect')?.value === 'slim';
-					await SG.api.uploadSkin(active.id, b64, slim);
-					toast(t('skin.uploaded'));
-					// 刷新账号列表（皮肤数量/外观变化）
-					await loadState(true);
-					invalidate('skins');
-					if (activeSkinViewer) { activeSkinViewer.dispose(); activeSkinViewer = null; }
-					const v = document.getElementById('view-skins');
-					v.innerHTML = await renderSkins(); bindSkins(v);
-				} catch (err) {
-					toast(t('skin.uploadFailed') + (err.message || t('common.unknownError')));
-				} finally {
-					if (btn) { btn.disabled = false; btn.textContent = t('skin.upload'); }
-				}
-			};
-			reader.readAsDataURL(f);
-		};
-		input.click();
-	});
+
+ let pendingSkin = null;
+ const apply = el.querySelector('#btnApplyLocalSkin');
+ const modelSelect = el.querySelector('#skinModelSelect');
+ const syncModel=model=>{const value=model==='slim'?'slim':'classic';if(modelSelect)modelSelect.value=value;el.querySelectorAll('[data-skin-model]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.skinModel===value)));const label=el.querySelector('#skinHeaderModel');if(label)label.textContent=t(value==='slim'?'skin.slimModel':'skin.classicModel');};
+ syncModel(skins[0]?.model);
+ const previewLocal = () => {
+   if (!pendingSkin) {const selected=el.querySelector('.skin-card.selected');const skin=skins.find(x=>x.id===selected?.dataset.skin)||skins[0];if(skin&&viewer)viewer.setSkin({...skin,model:modelSelect.value},active?active.id:null);return;}
+   const slim = modelSelect && modelSelect.value === 'slim';
+   const local = { url: pendingSkin.dataUrl, model: slim ? 'slim' : 'classic' };
+   if (viewer) viewer.setSkin(local, null); else showFallback(t('skin.webglFallback'), pendingSkin.dataUrl);
+   const name = el.querySelector('#activeSkinName'), model = el.querySelector('#activeSkinModel');
+   if (name) name.textContent = pendingSkin.name;
+   if (model) model.textContent = t(slim ? 'skin.slimModel' : 'skin.classicModel');
+   const texture = el.querySelector('#localSkinTexture');
+   if (texture) { texture.src = pendingSkin.dataUrl; texture.hidden = false; }
+   const label = el.querySelector('#localSkinFileName');
+   if (label) label.textContent = pendingSkin.name;
+   if (apply) apply.disabled = !active || active.type !== 'microsoft';
+ };
+ modelSelect?.addEventListener('change', previewLocal);
+ el.querySelectorAll('[data-skin-model]').forEach(b=>b.addEventListener('click',()=>{modelSelect.value=b.dataset.skinModel;el.querySelectorAll('[data-skin-model]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));const label=el.querySelector('#skinHeaderModel');if(label)label.textContent=b.textContent;previewLocal();}));
+ el.querySelector('#btnSkinLogin')?.addEventListener('click',()=>goTo('settings'));
+
+ el.querySelector('#btnUploadSkin')?.addEventListener('click', () => {
+   const input = document.createElement('input');
+   input.type = 'file'; input.accept = 'image/png';
+   input.onchange = () => {
+     const f = input.files && input.files[0];
+     if (!f) return;
+     if (!/\.png$/i.test(f.name) || (f.type && f.type !== 'image/png') || f.size > 1024 * 1024) { toast(t('skin.invalidFile')); return; }
+     const reader = new FileReader();
+     reader.onerror = () => toast(t('skin.invalidFile'));
+     reader.onload = () => {
+       if (!el.isConnected) return;
+       const dataUrl = String(reader.result || ''), image = new Image();
+       image.onerror = () => toast(t('skin.invalidFile'));
+       image.onload = () => {
+         if (!el.isConnected) return;
+         if (image.width !== 64 || (image.height !== 64 && image.height !== 32)) { toast(t('skin.invalidDimensions')); return; }
+         pendingSkin = { dataUrl, name: f.name }; previewLocal();
+         toast(t('skin.preview', { name: f.name }));
+       };
+       image.src = dataUrl;
+     };
+     reader.readAsDataURL(f);
+   };
+   input.click();
+ });
+ apply?.addEventListener('click', async () => {
+   if (!pendingSkin || apply.disabled) return;
+   if (!active || active.type !== 'microsoft') { toast(t('skin.needMicrosoft')); return; }
+   apply.disabled = true;
+   try {
+     await SG.api.uploadSkin(active.id, pendingSkin.dataUrl.replace(/^data:[^;]+;base64,/, ''), modelSelect?.value === 'slim');
+     toast(t('skin.uploaded')); await loadAccounts(true); invalidate('skins');
+     if (currentView === 'skins') await goTo('skins');
+   } catch (err) { toast(t('skin.uploadFailed') + (err.message || t('common.unknownError'))); }
+   finally { if (apply.isConnected) apply.disabled = false; }
+ });
 	el.querySelector('#btnBrowseSkin')?.addEventListener('click', () => SG.goTo('content'));
 }
 
@@ -3546,30 +3623,12 @@ function sourceLabel(key) {
 }
 function bindSettings(el) {
 	// 内存滑块（2–16 GB）→ 真实写入 maxMemoryMb
-	const slider = el.querySelector('#memSlider');
-	if (slider) {
-		const fill = slider.querySelector('.slider-fill');
-		const knob = slider.querySelector('.slider-knob');
-		const valueEl = el.querySelector('#memValue');
-		const MIN = 2, MAX = 16;
-		let dragging = false, pendingGb = null, saveTimer = null;
-		const commit = () => { if (pendingGb != null) SG.api.updateConfig({ maxMemoryMb: Math.round(pendingGb * 1024), useAutoMemory: false }).catch(() => {}); };
-		const setFromClientX = (cx) => {
-			const rect = slider.getBoundingClientRect();
-			let pct = (cx - rect.left) / rect.width;
-			pct = Math.max(0, Math.min(1, pct));
-			const gb = Math.round((MIN + pct * (MAX - MIN)) * 2) / 2;
-			const realPct = ((gb - MIN) / (MAX - MIN)) * 100;
-			fill.style.width = realPct + '%';
-			knob.style.left = realPct + '%';
-			valueEl.textContent = gb.toFixed(1) + ' GB';
-			pendingGb = gb;
-			clearTimeout(saveTimer); saveTimer = setTimeout(commit, 300);
-		};
-		slider.addEventListener('pointerdown', e => { dragging = true; slider.setPointerCapture(e.pointerId); setFromClientX(e.clientX); });
-		slider.addEventListener('pointermove', e => { if (dragging) setFromClientX(e.clientX); });
-		slider.addEventListener('pointerup', () => { dragging = false; commit(); });
-	}
+ const slider=el.querySelector('#memSlider');
+ if(slider){
+  slider.addEventListener('input',()=>{el.querySelector('#memValue').textContent=(Number(slider.value)/1024).toFixed(1)+' GB';});
+  slider.addEventListener('change',async()=>{const previous=STATE.config.maxMemoryMb;try{await SG.api.updateConfig({maxMemoryMb:Number(slider.value),useAutoMemory:false});STATE.config.maxMemoryMb=Number(slider.value);invalidate('home');}catch(err){slider.value=String(previous);el.querySelector('#memValue').textContent=(previous/1024).toFixed(1)+' GB';toast(err.message||t('common.unknownError'));}});
+ }
+
 	// 开关 → 真实写入
 	// R2-02：newsFakeIp 需要连点去重 + 失败回滚 + 成功同步；autoMem/aiDiag 沿用旧行为
 	// 注意：参数名用 toggle 而非 t，避免遮蔽顶层 i18n 函数 t(key)
@@ -3580,12 +3639,15 @@ function bindSettings(el) {
 		toggle.addEventListener('click', () => {
 			const key = toggle.dataset.toggle;
 			if (key === 'autoMem') {
+				if(submittingToggles.has(key))return;
+				submittingToggles.add(key);toggle.disabled=true;
+				const previous=toggle.classList.contains('on');
 				const on = !toggle.classList.contains('on');
 				toggle.classList.toggle('on', on);
 				toggle.setAttribute('aria-checked', on ? 'true' : 'false');
-				SG.api.updateConfig({ useAutoMemory: on }).catch(() => {});
+				SG.api.updateConfig({ useAutoMemory: on }).then(()=>{STATE.config.useAutoMemory=on;}).catch(err=>{toggle.classList.toggle('on',previous);toggle.setAttribute('aria-checked',String(previous));if(s)s.disabled=previous;toast(err.message||t('common.unknownError'));}).finally(()=>{submittingToggles.delete(key);toggle.disabled=false;});
 				const s = el.querySelector('#memSlider');
-				if (s) { s.style.opacity = on ? '.4' : ''; s.style.pointerEvents = on ? 'none' : ''; }
+				if (s) s.disabled = on;
 				invalidate('home');
 			} else if (key === 'aiDiag') {
 				const on = !toggle.classList.contains('on');
@@ -4104,13 +4166,23 @@ function wireWindowControls() {
    ================================================================ */
 function refreshSidebarAccount() {
 	const acc = ACCOUNTS.find(a => a.selected) || ACCOUNTS[0];
-	if (!acc) return;
+	if (!acc) {
+		const name = document.getElementById('profileName'), status = document.getElementById('profileStatus');
+		if (name) name.textContent = t('shell.notSignedIn');
+		if (status) status.textContent = t('sidebar.offlineMode');
+		return;
+	}
 	const nameEl = document.getElementById('profileName');
 	if (nameEl) nameEl.textContent = acc.userName || 'Player';
 	const statusEl = document.getElementById('profileStatus');
 	if (statusEl) statusEl.textContent = acc.type === 'microsoft' ? t('sidebar.microsoft') : acc.type === 'authlib' ? t('sidebar.authlib') : t('sidebar.offlineMode');
 	const avatarEl = document.getElementById('profileAvatar');
-	if (avatarEl) avatarEl.innerHTML = faceThumb(40, acc.skins && acc.skins[0]);
+	if (avatarEl) {
+		// 新版侧栏头像为 30px；按容器内宽生成图标及皮肤图集，避免沿用 40px 后被裁切。
+		const style = getComputedStyle(avatarEl);
+		const size = Math.floor(parseFloat(style.width) - parseFloat(style.borderLeftWidth) - parseFloat(style.borderRightWidth));
+		avatarEl.innerHTML = faceThumb(size, acc.skins && acc.skins[0]);
+	}
 }
 
 /* ================================================================
@@ -4145,6 +4217,7 @@ SG.onLocaleChange = () => {
 
 async function init() {
 	wireWindowControls();
+	wireRedesignedShell();
 	wireNav();
 	wireLangToggle();
 	document.documentElement.setAttribute('lang', SG.locale === 'zh' ? 'zh-CN' : 'en');

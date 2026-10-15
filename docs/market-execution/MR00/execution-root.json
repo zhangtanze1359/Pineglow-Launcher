@@ -1,0 +1,40 @@
+﻿{
+    "generatedUtc":  "2026-10-02T07:28:22Z",
+    "runId":  "20261002-072004Z",
+    "scope":  "MR00+MR01 第一批",
+    "sourceRoot":  "D:\\松光启动器",
+    "sourceRootHead":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "sourceRootBranch":  "main",
+    "deliveryRoot":  "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器",
+    "executionRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-810a28bd0d3d456c9e28201fb6fdf158",
+    "executionRootKind":  "verify-source-snapshot.ps1 生成的 TEMP 隔离快照",
+    "snapshotMarkerToken":  "26bb5020d98640cf9c316760f890cf37",
+    "fileCount":  214,
+    "binObjDirCount":  0,
+    "unexpectedFiles":  [
+
+                        ],
+    "shaMismatchWithSource":  [
+
+                              ],
+    "missingInSource":  [
+
+                        ],
+    "inputManifestPath":  "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR00\\20261002-072004Z\\baseline\\input-manifest.json",
+    "inputManifestSha256Txt":  "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR00\\20261002-072004Z\\baseline\\input-manifest.sha256.txt",
+    "whitelistTotal":  53,
+    "builtByRunId":  "20261002-072004Z",
+    "builderNote":  "组装与完整性校验阶段结果有效；步骤执行阶段因 2 个已证实缺陷作废，见 mr00-verification-defects.md",
+    "environment":  {
+                        "dotnetSdk":  "10.0.301",
+                        "globalJson":  "version 10.0.301 / rollForward latestPatch / allowPrerelease false",
+                        "node":  "v24.19.0",
+                        "npm":  "11.17.0",
+                        "powerShell":  "5.1.26100.9549",
+                        "platform":  "Windows"
+                    },
+    "knownBoundaries":  [
+                            "RID 发布为已知未锁定边界：packages.lock.json 只覆盖 net10.0 且不含 ILLink 任务包，--locked-mode 必然 NU1004",
+                            "本批次不启动真实 GUI、不启动游戏、不调用真实付费模型，均记为未验证"
+                        ]
+}

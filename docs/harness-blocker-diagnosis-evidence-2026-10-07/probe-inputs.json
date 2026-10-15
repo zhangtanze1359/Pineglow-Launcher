@@ -1,0 +1,30 @@
+{
+  "root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-diagnosis-04ddb5f496084a6a85acac5b00852467",
+  "files": [
+    {
+      "source": "D:\\松光启动器\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\JavaVersionMatcher.cs",
+      "sha256": "F2184C46401AD710690599A47FCFC1E19BB55AFFA890CA4D429366464501A55B",
+      "copyMatches": true
+    },
+    {
+      "source": "D:\\松光启动器\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\VersionResolver.cs",
+      "sha256": "CC42823D053C482A451B246CD69B55A989D224F7AA4D70FF0DCA05E25253DAD4",
+      "copyMatches": true
+    },
+    {
+      "source": "D:\\松光启动器\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\MinecraftVersion.cs",
+      "sha256": "F491B542C910614E23C0220C0EC4941F91089C3E09760EFAB3EA2B0717062CFB",
+      "copyMatches": true
+    },
+    {
+      "source": "D:\\松光启动器\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\JsonUtil.cs",
+      "sha256": "AE1516D7F7C2F05D979F174A892ABEE5AE444603451C92F3D55B03CFF8230B3C",
+      "copyMatches": true
+    },
+    {
+      "source": "D:\\松光启动器\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\EnumerableExtensions.cs",
+      "sha256": "99A1349C9BCE2725CDA00334BFAE647BD65DB3B50A2D7E901B060D863DC09873",
+      "copyMatches": true
+    }
+  ]
+}

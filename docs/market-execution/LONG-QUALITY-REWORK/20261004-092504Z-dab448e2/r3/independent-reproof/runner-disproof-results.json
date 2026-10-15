@@ -1,0 +1,498 @@
+{
+  "runner": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3-905e0b60\\scripts\\run-goal-validation.ps1",
+  "fixtureRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb",
+  "cases": [
+    {
+      "id": "actual-input-changed-manifest-unchanged",
+      "expected": "Reject input drift; no REUSED or PASS",
+      "actual": {
+        "exitCode": 2,
+        "verdict": {
+          "schemaVersion": 2,
+          "runner": "run-goal-validation.ps1",
+          "runId": "same-run-id",
+          "inputManifest": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\actual-input-changed-manifest-unchanged\\input.json",
+          "inputManifestSha256": "4B7EA75D06A200762F6A53C25A7C3BC309438616CD6178CC6290AAF88115E11D",
+          "verifiedInputSetSha256": "CA2B2C1D77DB387520C39E7A3991BC17974DA62FFE215AD2304A1488FA7C68CE",
+          "verifiedInputCount": 1,
+          "verifiedInputRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\actual-input-changed-manifest-unchanged",
+          "stagesFile": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\actual-input-changed-manifest-unchanged\\stages.json",
+          "stagesFileSha256": "AFA91D4E8327F0DFA4CCA508D3AA3C1248A91DFD654EA5E18E71F931A16C3266",
+          "generatedUtc": "2026-10-04T09:49:28Z",
+          "resume": false,
+          "only": "",
+          "partial": false,
+          "requiredStages": [],
+          "requiredNotCompleted": [],
+          "partialNotRun": {},
+          "stageCount": 1,
+          "failedCount": 0,
+          "stages": [
+            {
+              "schemaVersion": 2,
+              "id": "unit",
+              "runId": "same-run-id",
+              "attemptDir": "attempts/unit/1",
+              "fingerprint": "711884BBEB94C45FDE04F46EC5D8CC87EE33330E34076226ADF410C900FB13EE",
+              "inputManifestSha256": "4B7EA75D06A200762F6A53C25A7C3BC309438616CD6178CC6290AAF88115E11D",
+              "inputSetSha256": "CA2B2C1D77DB387520C39E7A3991BC17974DA62FFE215AD2304A1488FA7C68CE",
+              "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\actual-input-changed-manifest-unchanged\\child.cjs write C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\actual-input-changed-manifest-unchanged\\run\\attempts\\unit\\1/unit.trx",
+              "workingDirectory": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\actual-input-changed-manifest-unchanged\\run",
+              "startUtc": "2026-10-04T09:49:28Z",
+              "endUtc": "2026-10-04T09:49:28Z",
+              "exitCode": 0,
+              "timedOut": false,
+              "stillRunning": false,
+              "counters": {
+                "total": 3,
+                "executed": 3,
+                "passed": 3,
+                "failed": 0,
+                "notExecuted": 0,
+                "resultRows": 3,
+                "passedRows": 3,
+                "failedRows": 0,
+                "notExecutedRows": 0,
+                "otherRows": 0
+              },
+              "trx": "unit.trx",
+              "artifacts": [
+                {
+                  "path": "unit.trx",
+                  "sha256": "316D97575BA26A38C4B16B027FCF081EE7C2C4BA5E6A432A6E0A570DF1CACEE4",
+                  "sizeBytes": 288
+                }
+              ],
+              "rawEvidence": [
+                {
+                  "path": "unit.stdout.log",
+                  "sha256": "7EDB33FEBB737A06BD6747F3C8255003CC9B9FB908D0BC7B7273539D3D9AC637",
+                  "sizeBytes": 10
+                },
+                {
+                  "path": "unit.stderr.log",
+                  "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                  "sizeBytes": 0
+                }
+              ],
+              "reasons": [],
+              "status": "COMPLETED",
+              "reused": false
+            }
+          ],
+          "verdict": "PASS"
+        }
+      },
+      "details": {
+        "actualSourceSha": "0B07DE62D81D8CD6203EAF31ACB4F06429F057B59E9C2F88EAE2FF59A47B250D",
+        "manifestBytesUnchanged": true
+      },
+      "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\actual-input-changed-manifest-unchanged"
+    },
+    {
+      "id": "stale-trx",
+      "expected": "Reject existing TRX untouched by child",
+      "actual": {
+        "exitCode": 1,
+        "verdict": {
+          "schemaVersion": 2,
+          "runner": "run-goal-validation.ps1",
+          "runId": "same-run-id",
+          "inputManifest": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\stale-trx\\input.json",
+          "inputManifestSha256": "D66A4C300DA460A81CD819AADBDFBDAD8997CAFCC5B7D608648A2CF91E3CCF04",
+          "verifiedInputSetSha256": "CA2B2C1D77DB387520C39E7A3991BC17974DA62FFE215AD2304A1488FA7C68CE",
+          "verifiedInputCount": 1,
+          "verifiedInputRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\stale-trx",
+          "stagesFile": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\stale-trx\\stages.json",
+          "stagesFileSha256": "077AF34DDD16B1CF7BB935DEE1C408CBEA70BEB1565D6C5F327BCEBE4D69D5C6",
+          "generatedUtc": "2026-10-04T09:49:29Z",
+          "resume": false,
+          "only": "",
+          "partial": false,
+          "requiredStages": [],
+          "requiredNotCompleted": [],
+          "partialNotRun": {},
+          "stageCount": 1,
+          "failedCount": 1,
+          "stages": [
+            {
+              "schemaVersion": 2,
+              "id": "unit",
+              "runId": "same-run-id",
+              "attemptDir": "attempts/unit/1",
+              "fingerprint": "1CC6C5B138A121C142CE49B4254DD67A5FC2D41DD88188A4769BD3B8D88E2499",
+              "inputManifestSha256": "D66A4C300DA460A81CD819AADBDFBDAD8997CAFCC5B7D608648A2CF91E3CCF04",
+              "inputSetSha256": "CA2B2C1D77DB387520C39E7A3991BC17974DA62FFE215AD2304A1488FA7C68CE",
+              "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\stale-trx\\child.cjs noop C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\stale-trx\\run\\attempts\\unit\\1/unit.trx",
+              "workingDirectory": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\stale-trx\\run",
+              "startUtc": "2026-10-04T09:49:29Z",
+              "endUtc": "2026-10-04T09:49:29Z",
+              "exitCode": 0,
+              "timedOut": false,
+              "stillRunning": false,
+              "counters": {
+                "total": 3,
+                "executed": 3,
+                "passed": 3,
+                "failed": 0,
+                "notExecuted": 0,
+                "resultRows": 0,
+                "passedRows": 0,
+                "failedRows": 0,
+                "notExecutedRows": 0,
+                "otherRows": 0
+              },
+              "trx": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\stale-trx\\stale-unit.trx",
+              "artifacts": [
+                {
+                  "path": "unit.trx",
+                  "sha256": null,
+                  "sizeBytes": null,
+                  "missing": true
+                }
+              ],
+              "rawEvidence": [
+                {
+                  "path": "unit.stdout.log",
+                  "sha256": "7EDB33FEBB737A06BD6747F3C8255003CC9B9FB908D0BC7B7273539D3D9AC637",
+                  "sizeBytes": 10
+                },
+                {
+                  "path": "unit.stderr.log",
+                  "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                  "sizeBytes": 0
+                }
+              ],
+              "reasons": [
+                "TRX_PREEXISTING",
+                "TRX_NO_RESULT_ROWS",
+                "TRX_COUNTERS_INCONSISTENT",
+                "ARTIFACT_MISSING"
+              ],
+              "status": "FAILED",
+              "reused": false
+            }
+          ],
+          "verdict": "FAIL"
+        }
+      },
+      "details": {
+        "childDoesNotWriteTrx": true,
+        "staleTrx": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\stale-trx\\stale-unit.trx"
+      },
+      "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\stale-trx"
+    },
+    {
+      "id": "inconsistent-counters",
+      "expected": "Reject zero executed/passed tests and inconsistent counters",
+      "actual": {
+        "exitCode": 1,
+        "verdict": {
+          "schemaVersion": 2,
+          "runner": "run-goal-validation.ps1",
+          "runId": "same-run-id",
+          "inputManifest": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\inconsistent-counters\\input.json",
+          "inputManifestSha256": "90DEF87F37F5203DFF39E6204D9AE78FF527A71BB8706D2FA80D536EC81C6CF0",
+          "verifiedInputSetSha256": "CA2B2C1D77DB387520C39E7A3991BC17974DA62FFE215AD2304A1488FA7C68CE",
+          "verifiedInputCount": 1,
+          "verifiedInputRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\inconsistent-counters",
+          "stagesFile": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\inconsistent-counters\\stages.json",
+          "stagesFileSha256": "8E44B744A08BA501F81F344B7CE46CFD68993C45D07582A4EB2899303E1B1119",
+          "generatedUtc": "2026-10-04T09:49:30Z",
+          "resume": false,
+          "only": "",
+          "partial": false,
+          "requiredStages": [],
+          "requiredNotCompleted": [],
+          "partialNotRun": {},
+          "stageCount": 1,
+          "failedCount": 1,
+          "stages": [
+            {
+              "schemaVersion": 2,
+              "id": "unit",
+              "runId": "same-run-id",
+              "attemptDir": "attempts/unit/1",
+              "fingerprint": "99F1DA303239D33595F7A90DBE5D76FEC3120D7571170490B19EF68D744DB1E4",
+              "inputManifestSha256": "90DEF87F37F5203DFF39E6204D9AE78FF527A71BB8706D2FA80D536EC81C6CF0",
+              "inputSetSha256": "CA2B2C1D77DB387520C39E7A3991BC17974DA62FFE215AD2304A1488FA7C68CE",
+              "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\inconsistent-counters\\child.cjs write C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\inconsistent-counters\\run\\attempts\\unit\\1/unit.trx",
+              "workingDirectory": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\inconsistent-counters\\run",
+              "startUtc": "2026-10-04T09:49:30Z",
+              "endUtc": "2026-10-04T09:49:30Z",
+              "exitCode": 0,
+              "timedOut": false,
+              "stillRunning": false,
+              "counters": {
+                "total": 3,
+                "executed": 0,
+                "passed": 0,
+                "failed": 0,
+                "notExecuted": 0,
+                "resultRows": 0,
+                "passedRows": 0,
+                "failedRows": 0,
+                "notExecutedRows": 0,
+                "otherRows": 0
+              },
+              "trx": "unit.trx",
+              "artifacts": [
+                {
+                  "path": "unit.trx",
+                  "sha256": "39C41FF8E472CAB60C915907BB31D2E312F5DA4021D696554E7C14E3ECFBA529",
+                  "sizeBytes": 122
+                }
+              ],
+              "rawEvidence": [
+                {
+                  "path": "unit.stdout.log",
+                  "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                  "sizeBytes": 0
+                },
+                {
+                  "path": "unit.stderr.log",
+                  "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                  "sizeBytes": 0
+                }
+              ],
+              "reasons": [
+                "TRX_NO_RESULT_ROWS",
+                "TRX_COUNTERS_INCONSISTENT",
+                "ZERO_TESTS",
+                "TESTS_BELOW_MIN"
+              ],
+              "status": "FAILED",
+              "reused": false
+            }
+          ],
+          "verdict": "FAIL"
+        }
+      },
+      "details": {},
+      "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\inconsistent-counters"
+    },
+    {
+      "id": "produces-list-changed",
+      "expected": "Refuse reuse after required outputs change",
+      "actual": {
+        "exitCode": 2,
+        "verdict": {
+          "schemaVersion": 2,
+          "runner": "run-goal-validation.ps1",
+          "runId": "same-run-id",
+          "inputManifest": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\produces-list-changed\\input.json",
+          "inputManifestSha256": "D002AD583C1D564A73BFE9C1AE3210813320011B95A17D625301722FC7D8C957",
+          "verifiedInputSetSha256": "CA2B2C1D77DB387520C39E7A3991BC17974DA62FFE215AD2304A1488FA7C68CE",
+          "verifiedInputCount": 1,
+          "verifiedInputRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\produces-list-changed",
+          "stagesFile": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\produces-list-changed\\stages.json",
+          "stagesFileSha256": "3724997B5C0A2D83D8C215A95907A7FED1348F7B5979176A73F9ABA929B15EB0",
+          "generatedUtc": "2026-10-04T09:49:31Z",
+          "resume": false,
+          "only": "",
+          "partial": false,
+          "requiredStages": [],
+          "requiredNotCompleted": [],
+          "partialNotRun": {},
+          "stageCount": 1,
+          "failedCount": 0,
+          "stages": [
+            {
+              "schemaVersion": 2,
+              "id": "unit",
+              "runId": "same-run-id",
+              "attemptDir": "attempts/unit/1",
+              "fingerprint": "49964B8A5936B9F61491D532F4396C4605FD97EED4785DFBA9B6E0BC1AF05F9E",
+              "inputManifestSha256": "D002AD583C1D564A73BFE9C1AE3210813320011B95A17D625301722FC7D8C957",
+              "inputSetSha256": "CA2B2C1D77DB387520C39E7A3991BC17974DA62FFE215AD2304A1488FA7C68CE",
+              "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\produces-list-changed\\child.cjs write C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\produces-list-changed\\run\\attempts\\unit\\1/unit.trx",
+              "workingDirectory": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\produces-list-changed\\run",
+              "startUtc": "2026-10-04T09:49:31Z",
+              "endUtc": "2026-10-04T09:49:31Z",
+              "exitCode": 0,
+              "timedOut": false,
+              "stillRunning": false,
+              "counters": {
+                "total": 3,
+                "executed": 3,
+                "passed": 3,
+                "failed": 0,
+                "notExecuted": 0,
+                "resultRows": 3,
+                "passedRows": 3,
+                "failedRows": 0,
+                "notExecutedRows": 0,
+                "otherRows": 0
+              },
+              "trx": "unit.trx",
+              "artifacts": [
+                {
+                  "path": "unit.trx",
+                  "sha256": "316D97575BA26A38C4B16B027FCF081EE7C2C4BA5E6A432A6E0A570DF1CACEE4",
+                  "sizeBytes": 288
+                }
+              ],
+              "rawEvidence": [
+                {
+                  "path": "unit.stdout.log",
+                  "sha256": "7EDB33FEBB737A06BD6747F3C8255003CC9B9FB908D0BC7B7273539D3D9AC637",
+                  "sizeBytes": 10
+                },
+                {
+                  "path": "unit.stderr.log",
+                  "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                  "sizeBytes": 0
+                }
+              ],
+              "reasons": [],
+              "status": "COMPLETED",
+              "reused": false
+            }
+          ],
+          "verdict": "PASS"
+        }
+      },
+      "details": {
+        "newArtifactExists": false
+      },
+      "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\produces-list-changed"
+    },
+    {
+      "id": "resume-changed-manifest-same-run-id",
+      "expected": "New runId and preserve prior completed record/evidence",
+      "actual": {
+        "exitCode": 2,
+        "verdict": {
+          "schemaVersion": 2,
+          "runner": "run-goal-validation.ps1",
+          "runId": "same-run-id",
+          "inputManifest": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\resume-changed-manifest-same-run-id\\input.json",
+          "inputManifestSha256": "2B5FF32E6B58344FF0466790F384ECF9572E474451738E295183416145369D27",
+          "verifiedInputSetSha256": "CA2B2C1D77DB387520C39E7A3991BC17974DA62FFE215AD2304A1488FA7C68CE",
+          "verifiedInputCount": 1,
+          "verifiedInputRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\resume-changed-manifest-same-run-id",
+          "stagesFile": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\resume-changed-manifest-same-run-id\\stages.json",
+          "stagesFileSha256": "AF4B6E43EDAB1EF6D25445A28373A1FEE935094094FA98543F5ABD8B40FFF004",
+          "generatedUtc": "2026-10-04T09:49:32Z",
+          "resume": false,
+          "only": "",
+          "partial": false,
+          "requiredStages": [],
+          "requiredNotCompleted": [],
+          "partialNotRun": {},
+          "stageCount": 1,
+          "failedCount": 0,
+          "stages": [
+            {
+              "schemaVersion": 2,
+              "id": "unit",
+              "runId": "same-run-id",
+              "attemptDir": "attempts/unit/1",
+              "fingerprint": "B6C76DD434FC954104B3FE249E24B9CC371C7B9305AC9C85FB1EE0DEBD842704",
+              "inputManifestSha256": "2B5FF32E6B58344FF0466790F384ECF9572E474451738E295183416145369D27",
+              "inputSetSha256": "CA2B2C1D77DB387520C39E7A3991BC17974DA62FFE215AD2304A1488FA7C68CE",
+              "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\resume-changed-manifest-same-run-id\\child.cjs write C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\resume-changed-manifest-same-run-id\\run\\attempts\\unit\\1/unit.trx",
+              "workingDirectory": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\resume-changed-manifest-same-run-id\\run",
+              "startUtc": "2026-10-04T09:49:32Z",
+              "endUtc": "2026-10-04T09:49:32Z",
+              "exitCode": 0,
+              "timedOut": false,
+              "stillRunning": false,
+              "counters": {
+                "total": 3,
+                "executed": 3,
+                "passed": 3,
+                "failed": 0,
+                "notExecuted": 0,
+                "resultRows": 3,
+                "passedRows": 3,
+                "failedRows": 0,
+                "notExecutedRows": 0,
+                "otherRows": 0
+              },
+              "trx": "unit.trx",
+              "artifacts": [
+                {
+                  "path": "unit.trx",
+                  "sha256": "316D97575BA26A38C4B16B027FCF081EE7C2C4BA5E6A432A6E0A570DF1CACEE4",
+                  "sizeBytes": 288
+                }
+              ],
+              "rawEvidence": [
+                {
+                  "path": "unit.stdout.log",
+                  "sha256": "7EDB33FEBB737A06BD6747F3C8255003CC9B9FB908D0BC7B7273539D3D9AC637",
+                  "sizeBytes": 10
+                },
+                {
+                  "path": "unit.stderr.log",
+                  "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                  "sizeBytes": 0
+                }
+              ],
+              "reasons": [],
+              "status": "COMPLETED",
+              "reused": false
+            }
+          ],
+          "verdict": "PASS"
+        }
+      },
+      "details": {
+        "oldStageRecordRetained": false,
+        "stageFiles": [
+          "unit.json"
+        ]
+      },
+      "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\resume-changed-manifest-same-run-id"
+    },
+    {
+      "id": "empty-stages",
+      "expected": "Reject zero-stage validation",
+      "actual": {
+        "exitCode": 2,
+        "verdict": {
+          "schemaVersion": 2,
+          "runner": "run-goal-validation.ps1",
+          "runDir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\empty-stages\\run",
+          "stageFilter": "",
+          "generatedUtc": "2026-10-04T09:49:32Z",
+          "refused": true,
+          "reasons": [
+            "NO_STAGES"
+          ],
+          "verdict": "REFUSED",
+          "stageCount": 0,
+          "failedCount": 0,
+          "stages": []
+        }
+      },
+      "details": {},
+      "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\empty-stages"
+    },
+    {
+      "id": "only-unknown",
+      "expected": "Reject unknown Only selection",
+      "actual": {
+        "exitCode": 2,
+        "verdict": {
+          "schemaVersion": 2,
+          "runner": "run-goal-validation.ps1",
+          "runDir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\only-unknown\\run",
+          "stageFilter": "",
+          "generatedUtc": "2026-10-04T09:49:33Z",
+          "refused": true,
+          "reasons": [
+            "ONLY_NOT_FOUND"
+          ],
+          "verdict": "REFUSED",
+          "stageCount": 0,
+          "failedCount": 0,
+          "stages": []
+        }
+      },
+      "details": {},
+      "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-yxpMSb\\only-unknown"
+    }
+  ]
+}

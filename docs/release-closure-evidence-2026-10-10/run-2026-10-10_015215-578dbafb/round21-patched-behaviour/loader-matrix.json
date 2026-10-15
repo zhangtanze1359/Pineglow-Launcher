@@ -1,0 +1,32 @@
+﻿{
+    "probe":  "loader-matrix-via-modpack-import",
+    "fixture":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-patched-fixture-f64f11c9adc149cb9afa5aab89fc5fab",
+    "proxyKnob":  "",
+    "javaToolOptionsKnob":  "",
+    "apiPort":  50065,
+    "healthReady":  true,
+    "rows":  [
+                 {
+                     "loader":  "fabric",
+                     "mc":  "1.21.11",
+                     "dep":  "fabric-loader",
+                     "depVersion":  "0.19.5",
+                     "importOk":  false,
+                     "instanceId":  "",
+                     "importSeconds":  2400,
+                     "importResponse":  "请求被中止: 操作超时。",
+                     "instanceLoader":  "",
+                     "instanceVersion":  "",
+                     "loaderProfileOnDisk":  false,
+                     "prelaunchOk":  false,
+                     "prelaunchVerdict":  "",
+                     "launchResponse":  "",
+                     "javaStarted":  false,
+                     "reachedTitle":  false,
+                     "gameLogMarker":  "",
+                     "gameLogPath":  "",
+                     "error":  ""
+                 }
+             ],
+    "timeHK":  "2026-10-11T15:19:00.3325312"
+}

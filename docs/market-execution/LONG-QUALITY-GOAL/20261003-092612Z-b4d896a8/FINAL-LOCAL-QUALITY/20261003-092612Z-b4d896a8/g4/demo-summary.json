@@ -1,0 +1,39 @@
+{
+    "schemaVersion":  1,
+    "generatedUtc":  "2026-10-03T10:25:51Z",
+    "runner":  "D:\\松光启动器\\scripts\\run-goal-validation.ps1",
+    "demoDir":  "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\g4\\demo",
+    "pass1":  {
+                  "expected":  "runner exits non-zero and both stage records stay on disk",
+                  "exitCode":  1
+              },
+    "pass2":  {
+                  "expected":  "runner exits 0, demo-ok reused, demo-fail re-run, old record archived",
+                  "exitCode":  0
+              },
+    "pass2Stages":  [
+                        {
+                            "id":  "demo-ok",
+                            "status":  "REUSED",
+                            "reused":  true,
+                            "exitCode":  null,
+                            "reasons":  [
+
+                                        ]
+                        },
+                        {
+                            "id":  "demo-fail",
+                            "status":  "COMPLETED",
+                            "reused":  false,
+                            "exitCode":  0,
+                            "reasons":  [
+
+                                        ]
+                        }
+                    ],
+    "archivedRecords":  [
+                            "demo-fail.incomplete.demo-pass1.json",
+                            "demo-fail.json",
+                            "demo-ok.json"
+                        ]
+}

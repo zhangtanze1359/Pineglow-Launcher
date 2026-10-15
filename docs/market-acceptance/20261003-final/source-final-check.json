@@ -1,0 +1,35 @@
+{
+  "utc": "2026-10-03T05:18:06.047414+00:00",
+  "inputs": 281,
+  "changed": [],
+  "beforeStatusEntries": 1360,
+  "afterStatusEntries": 1360,
+  "statusDiff": [],
+  "realConfigFiles": [
+    {
+      "path": "C:\\Users\\Administrator\\AppData\\Roaming\\MCMiniLauncher\\config.json",
+      "beforeSha": "556AC3FD373EFC485DDBD275FD88858CAB33AEC0ABE7D0DD5E0747C41CBC45AC",
+      "afterSha": "556AC3FD373EFC485DDBD275FD88858CAB33AEC0ABE7D0DD5E0747C41CBC45AC",
+      "changed": false
+    },
+    {
+      "path": "C:\\Users\\Administrator\\AppData\\Roaming\\MCMiniLauncher\\config.json.bak",
+      "beforeSha": "21AD545C55A2FC0446B10F573B3BCDBCADB0CA85A0BC757AD1EEF2F0C158D883",
+      "afterSha": "21AD545C55A2FC0446B10F573B3BCDBCADB0CA85A0BC757AD1EEF2F0C158D883",
+      "changed": false
+    },
+    {
+      "path": "C:\\Users\\Administrator\\AppData\\Roaming\\MCMiniLauncher\\config.json.prev",
+      "beforeSha": "44136FA355B3678A1146AD16F7E8649E94FB4FC21FE77E8310C060F61CAAFF8A",
+      "afterSha": "44136FA355B3678A1146AD16F7E8649E94FB4FC21FE77E8310C060F61CAAFF8A",
+      "changed": false
+    },
+    {
+      "path": "C:\\Users\\Administrator\\AppData\\Roaming\\MCMiniLauncher\\secrets.json",
+      "beforeSha": null,
+      "afterSha": null,
+      "changed": false
+    }
+  ],
+  "nativeCredentialsInspected": false
+}

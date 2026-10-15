@@ -1,0 +1,46 @@
+{
+    "schemaVersion":  1,
+    "id":  "g4-recovery-normal",
+    "runId":  "20261003-092612Z-b4d896a8",
+    "fingerprint":  "6991062B07092CD865C5193D20D11DC1FD430DDD917C5679D41896E0346C6234",
+    "inputManifestSha256":  "7F1A71FCD47541C2055E58DC2BC840FDE0670B013DC1ED923E2263BB1D1A0FF0",
+    "command":  "dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --no-build --filter FullyQualifiedName~DeleteMod_QuarantinesJarAndSidecar_KeepsByteIdenticalCopies|FullyQualifiedName~DeleteMod_DisabledMod_QuarantinesDotDisabledName|FullyQualifiedName~Restore_PutsJarAndSidecarBackByteIdentical|FullyQualifiedName~Restore_Twice_IsIdempotent_AndKeepsFileContent|FullyQualifiedName~Restore_WithDifferentFileAtOriginalPath_ReportsConflictAndDoesNotOverwrite|FullyQualifiedName~DeleteMod_LeavesEveryOtherFileUntouched --logger trx;LogFileName=recovery-normal.trx --results-directory C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\g4\\run-20261003-092612Z-b4d896a8/results",
+    "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-seal-39dfd2b90cbb4689b7fbad1c8ab10ba9",
+    "startUtc":  "2026-10-03T10:37:17Z",
+    "endUtc":  "2026-10-03T10:37:18Z",
+    "exitCode":  0,
+    "timedOut":  false,
+    "stillRunning":  false,
+    "counters":  {
+                     "total":  6,
+                     "executed":  6,
+                     "passed":  6,
+                     "failed":  0,
+                     "notExecuted":  0
+                 },
+    "trx":  "results/recovery-normal.trx",
+    "artifacts":  [
+                      {
+                          "path":  "results/recovery-normal.trx",
+                          "sha256":  "45C44617DA0168AB3D86E170D6A3A2F45B116B8DF9D3E2443AF13644353CCB14",
+                          "sizeBytes":  13531
+                      }
+                  ],
+    "rawEvidence":  [
+                        {
+                            "path":  "g4-recovery-normal.stdout.log",
+                            "sha256":  "303C3123128A65AD2E149762413E8C0D024EDCB99BA0E35A8A99973EA2E29C20",
+                            "sizeBytes":  613
+                        },
+                        {
+                            "path":  "g4-recovery-normal.stderr.log",
+                            "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                            "sizeBytes":  0
+                        }
+                    ],
+    "reasons":  [
+
+                ],
+    "status":  "COMPLETED",
+    "reused":  false
+}

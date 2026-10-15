@@ -1,0 +1,13 @@
+{
+    "schemaVersion":  1,
+    "runId":  "fixed-id",
+    "inputManifest":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\execution-root-misbinding\\input.json",
+    "inputManifestSha256":  "1E932A1110605A0E35A4C4AE546E70351CF03A034630EACD5AC5D5E83BCCA8FA",
+    "verifiedInputSetSha256":  "8B61E22B98906A58BCCF598A8597273C39E974CA49E3A725FCEE986A121651DB",
+    "verifiedInputCount":  2,
+    "verifiedInputRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\execution-root-misbinding",
+    "stagesFile":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\execution-root-misbinding\\stages.json",
+    "stagesFileSha256":  "135E022C04689FCC843AD48B52EC1CDE46DE1639812671CC7163B1CC316E3C24",
+    "executionRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\execution-root-misbinding\\other-execution",
+    "evidenceRoot":  ""
+}

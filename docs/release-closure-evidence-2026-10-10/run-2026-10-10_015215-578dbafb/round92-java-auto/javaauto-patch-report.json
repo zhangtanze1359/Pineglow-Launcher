@@ -1,0 +1,14 @@
+﻿[
+    {
+        "label":  "P-JAVAAUTO 1/3 the helper",
+        "ok":  true
+    },
+    {
+        "label":  "P-JAVAAUTO 2/3 wrong version -\u003e auto-install",
+        "ok":  true
+    },
+    {
+        "label":  "P-JAVAAUTO 3/3 no Java -\u003e auto-install",
+        "ok":  true
+    }
+]

@@ -1,0 +1,37 @@
+✖ playtime: hierarchy separates instance identities and groups actual sessions by descending date (1.1509ms)
+✖ playtime: tree conserves cross-midnight duration and counts the original session once (4.8727ms)
+✔ playtime: range summary counts unique sessions, active days and clipped longest duration (1.4232ms)
+✔ playtime: ISO calendar dates reject rollover and custom range preserves 120 day limit (0.5316ms)
+✔ playtime: Monday based week and rolling range include today exactly once (1.1384ms)
+✔ playtime: midnight sessions split actual seconds across dates without inventing history (0.2251ms)
+✔ playtime: treemap conserves area, contains rectangles and has no overlaps (0.4844ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 5
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 90.0084
+
+✖ failing tests:
+
+test at ui\tests\playtime.test.cjs:4:1
+✖ playtime: hierarchy separates instance identities and groups actual sessions by descending date (1.1509ms)
+  TypeError: buildSessionTree is not a function
+      at TestContext.<anonymous> (D:\松光启动器\ui\tests\playtime.test.cjs:6:13)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17)
+
+test at ui\tests\playtime.test.cjs:12:1
+✖ playtime: tree conserves cross-midnight duration and counts the original session once (4.8727ms)
+  TypeError: buildSessionTree is not a function or its return value is not iterable
+      at TestContext.<anonymous> (D:\松光启动器\ui\tests\playtime.test.cjs:14:16)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)

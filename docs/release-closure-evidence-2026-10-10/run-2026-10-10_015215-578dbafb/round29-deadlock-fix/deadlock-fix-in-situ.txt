@@ -1,0 +1,28 @@
+﻿*** STEP A: does the app START with the restore on the UI thread? ***
+   apiUp = True   (the pre-fix build HUNG here: apiUp=False, CPU flat)
+*** STEP B: start a download ***
+   {"ok":true,"id":"dlv1791713120642","versionId":"1.21.11","status":"queued"}
+   before kill: {"tasks":[{"id":"dlv1791713120642","versionId":"1.21.11","name":"Minecraft 1.21.11 客户端","status":"downloading","progress":0.4326726203441516,"message":"正在下载游戏资源：250/4591","startedAt":"2026-10-11T18:05:20.6428805+08:00"}]}
+   persisted DownloadQueue = 1 entries
+*** STEP C: HARD KILL ***
+   restarted, apiUp = True
+*** STEP D: queue after restart ***
+{
+    "tasks":  [
+                  {
+                      "id":  "dlv1791713120642",
+                      "versionId":  "1.21.11",
+                      "name":  "Minecraft 1.21.11 客户端",
+                      "status":  "failed",
+                      "progress":  0,
+                      "message":  "上次运行被中断，可重新下载",
+                      "startedAt":  "2026-10-11T18:05:20.6428805+08:00"
+                  }
+              ]
+}
+*** product log ***
+   2026-10-11 18:05:20.043 [INFO] === Pineglow Launcher 启动 v1.0.0 ===
+   2026-10-11 18:05:20.188 [INFO] [LocalApi] 监听 127.0.0.1:54432, ui=C:\Users\Administrator\AppData\Local\Temp\pineglow-dltest-0d904f3ddeda4202bec604fe301e8524\data\UI\1.0.0-41346c7082cb
+   2026-10-11 18:06:05.313 [INFO] === Pineglow Launcher 启动 v1.0.0 ===
+   2026-10-11 18:06:05.422 [INFO] [Downloads] 已恢复 1 条下载队列记录
+   2026-10-11 18:06:05.444 [INFO] [LocalApi] 监听 127.0.0.1:51901, ui=C:\Users\Administrator\AppData\Local\Temp\pineglow-dltest-0d904f3ddeda4202bec604fe301e8524\data\UI\1.0.0-41346c7082cb

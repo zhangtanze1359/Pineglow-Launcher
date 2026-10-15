@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "generatedUtc": "2026-10-03T09:40:00Z",
+  "oldAuditor": "C:\\Users\\Administrator\\.codex\\worktrees\\0f45\\松光启动器\\docs\\market-execution\\FINAL-REMEDIATION-R2\\20261003-071724Z\\audit-all-manifests-r2.py",
+  "oldAuditorSha256": "FA7FC2CF154BABD58C4C679084622825F2502D442D38C2EA4BD37B92B254C1D5",
+  "newAuditor": "D:\\松光启动器\\scripts\\audit-goal-evidence.py",
+  "newAuditorSha256": "F4121D33933F22C3A32BB556F36FF8F7E83A622C6CAEFF594533A2BE2673099E",
+  "fixtureRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\goal-red-auditor-fydegryn",
+  "shapes": [
+    {
+      "shape": "required-root-missing",
+      "oldAuditorExit": 0,
+      "oldAuditorStdout": "{\"roots\": 1, \"manifestCount\": 1, \"fileEntries\": 1, \"selfEntries\": 0, \"knownMismatches\": 0, \"missingDetached\": 0, \"failures\": 0, \"exit\": 0}",
+      "newAuditorExit": 1,
+      "newAuditorFailureCodes": [
+        "ROOT_MISSING"
+      ],
+      "newAuditorStdout": "{\"auditor\": \"audit-goal-evidence.py\", \"expected\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\goal-red-auditor-fydegryn\\\\required-root-missing\\\\expected-evidence.json\", \"totals\": {\"roots\": 2, \"packages\": 1, \"manifestEntries\": 1, \"filesVerified\": 1, \"failures\": 1, \"knownDrift\": 0, \"notes\": 0}, \"failureCodes\": [\"ROOT_MISSING\"]}",
+      "expected": "old=0 (false pass preserved as RED), new!=0",
+      "verdict": "RED-REPRODUCED"
+    },
+    {
+      "shape": "required-root-empty",
+      "oldAuditorExit": 0,
+      "oldAuditorStdout": "{\"roots\": 1, \"manifestCount\": 1, \"fileEntries\": 1, \"selfEntries\": 0, \"knownMismatches\": 0, \"missingDetached\": 0, \"failures\": 0, \"exit\": 0}",
+      "newAuditorExit": 1,
+      "newAuditorFailureCodes": [
+        "PACKAGE_MISSING",
+        "ROOT_EMPTY"
+      ],
+      "newAuditorStdout": "{\"auditor\": \"audit-goal-evidence.py\", \"expected\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\goal-red-auditor-fydegryn\\\\required-root-empty\\\\expected-evidence.json\", \"totals\": {\"roots\": 2, \"packages\": 2, \"manifestEntries\": 1, \"filesVerified\": 1, \"failures\": 2, \"knownDrift\": 0, \"notes\": 0}, \"failureCodes\": [\"PACKAGE_MISSING\", \"ROOT_EMPTY\"]}",
+      "expected": "old=0 (false pass preserved as RED), new!=0",
+      "verdict": "RED-REPRODUCED"
+    },
+    {
+      "shape": "unsealed-sibling-package",
+      "oldAuditorExit": 0,
+      "oldAuditorStdout": "{\"roots\": 1, \"manifestCount\": 1, \"fileEntries\": 1, \"selfEntries\": 0, \"knownMismatches\": 0, \"missingDetached\": 0, \"failures\": 0, \"exit\": 0}",
+      "newAuditorExit": 1,
+      "newAuditorFailureCodes": [
+        "UNSEALED_SIBLING"
+      ],
+      "newAuditorStdout": "{\"auditor\": \"audit-goal-evidence.py\", \"expected\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\goal-red-auditor-fydegryn\\\\unsealed-sibling-package\\\\expected-evidence.json\", \"totals\": {\"roots\": 1, \"packages\": 1, \"manifestEntries\": 1, \"filesVerified\": 1, \"failures\": 1, \"knownDrift\": 0, \"notes\": 0}, \"failureCodes\": [\"UNSEALED_SIBLING\"]}",
+      "expected": "old=0 (false pass preserved as RED), new!=0",
+      "verdict": "RED-REPRODUCED"
+    },
+    {
+      "shape": "empty-new-manifest",
+      "oldAuditorExit": 0,
+      "oldAuditorStdout": "{\"roots\": 1, \"manifestCount\": 1, \"fileEntries\": 0, \"selfEntries\": 0, \"knownMismatches\": 0, \"missingDetached\": 0, \"failures\": 0, \"exit\": 0}",
+      "newAuditorExit": 1,
+      "newAuditorFailureCodes": [
+        "MANIFEST_EMPTY_FILES"
+      ],
+      "newAuditorStdout": "{\"auditor\": \"audit-goal-evidence.py\", \"expected\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\goal-red-auditor-fydegryn\\\\empty-new-manifest\\\\expected-evidence.json\", \"totals\": {\"roots\": 1, \"packages\": 1, \"manifestEntries\": 0, \"filesVerified\": 0, \"failures\": 1, \"knownDrift\": 0, \"notes\": 0}, \"failureCodes\": [\"MANIFEST_EMPTY_FILES\"]}",
+      "expected": "old=0 (false pass preserved as RED), new!=0",
+      "verdict": "RED-REPRODUCED"
+    },
+    {
+      "shape": "entry-without-size",
+      "oldAuditorExit": 0,
+      "oldAuditorStdout": "{\"roots\": 1, \"manifestCount\": 1, \"fileEntries\": 1, \"selfEntries\": 0, \"knownMismatches\": 0, \"missingDetached\": 0, \"failures\": 0, \"exit\": 0}",
+      "newAuditorExit": 1,
+      "newAuditorFailureCodes": [
+        "ENTRY_MISSING_SIZE"
+      ],
+      "newAuditorStdout": "{\"auditor\": \"audit-goal-evidence.py\", \"expected\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\goal-red-auditor-fydegryn\\\\entry-without-size\\\\expected-evidence.json\", \"totals\": {\"roots\": 1, \"packages\": 1, \"manifestEntries\": 1, \"filesVerified\": 1, \"failures\": 1, \"knownDrift\": 0, \"notes\": 0}, \"failureCodes\": [\"ENTRY_MISSING_SIZE\"]}",
+      "expected": "old=0 (false pass preserved as RED), new!=0",
+      "verdict": "RED-REPRODUCED"
+    }
+  ],
+  "allRedReproduced": true
+}

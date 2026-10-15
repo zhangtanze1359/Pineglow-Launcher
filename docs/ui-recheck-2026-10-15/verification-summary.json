@@ -1,0 +1,15 @@
+{
+  "pagePairs": 20,
+  "mainScreenshots": 40,
+  "totalScreenshots": 46,
+  "sourceFilesUnchanged": true,
+  "statsFilterReproduced": true,
+  "recoveryModeLost": true,
+  "referenceFailureReproduced": true,
+  "productPageErrors": [],
+  "methods": [
+    "GET",
+    "POST"
+  ],
+  "mutationPolicy": "All non-GET intercepted and returned409; no real backend"
+}

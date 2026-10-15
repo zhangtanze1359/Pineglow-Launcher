@@ -1,0 +1,22 @@
+﻿{
+    "probe":  "native-window-capture",
+    "fixture":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\install",
+    "exe":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\install\\Pineglow.Launcher.exe",
+    "apiPort":  64265,
+    "healthReady":  true,
+    "windowFound":  true,
+    "windowTitle":  "松光启动器",
+    "windowHandle":  14943932,
+    "windowRect":  "320,84,1920 x 1200",
+    "visible":  true,
+    "methodPrintWindow":  true,
+    "methodScreenBitBlt":  true,
+    "pngPrintWindow":  "D:\\松光启动器\\docs\\release-closure-evidence-2026-10-10\\run-2026-10-10_015215-578dbafb\\round19-native-window\\real-window-printwindow.png",
+    "pngScreen":  "D:\\松光启动器\\docs\\release-closure-evidence-2026-10-10\\run-2026-10-10_015215-578dbafb\\round19-native-window\\real-window-screen.png",
+    "bytesPrintWindow":  423614,
+    "bytesScreen":  444668,
+    "nonBlackRatioPrintWindow":  1,
+    "nonBlackRatioScreen":  1,
+    "ownedProcessesStopped":  true,
+    "timeHK":  "2026-10-11T15:06:52.5187081"
+}

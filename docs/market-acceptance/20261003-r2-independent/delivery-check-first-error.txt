@@ -1,0 +1,3 @@
+本轮交付元数据校验工具错误，非产品失败。原工具命令把PowerShell布尔值写成false而不是$false，导致delivery-check.json未正确生成；后续已用ErrorActionPreference=Stop及$false修正重新运行。
+原错误：The term 'false' is not recognized as a name of a cmdlet, function, script file, or executable program.
+该原工具调用最后一个只读输出成功，因此进程exit=0，不能代表交付元数据步骤通过。修正后的delivery-check.json才是对应有效记录。既有C#/Node/TRX与审计原始结果不受此错误影响。

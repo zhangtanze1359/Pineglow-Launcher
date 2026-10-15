@@ -1,0 +1,47 @@
+[
+  {
+    "file": "full-original.trx",
+    "start": "2026-10-03T02:57:31.3966973+08:00",
+    "finish": "2026-10-03T02:58:28.3184325+08:00",
+    "total": 628,
+    "passed": 628,
+    "failed": 0,
+    "executed": 628
+  },
+  {
+    "file": "independent-failures-repeat.trx",
+    "start": "2026-10-03T03:02:38.0419119+08:00",
+    "finish": "2026-10-03T03:02:38.8312042+08:00",
+    "total": 2,
+    "passed": 0,
+    "failed": 2,
+    "executed": 2
+  },
+  {
+    "file": "independent-probes.trx",
+    "start": "2026-10-03T02:59:19.6611496+08:00",
+    "finish": "2026-10-03T02:59:20.5011721+08:00",
+    "total": 15,
+    "passed": 13,
+    "failed": 2,
+    "executed": 15
+  },
+  {
+    "file": "independent-red.trx",
+    "start": "2026-10-03T03:02:35.5381336+08:00",
+    "finish": "2026-10-03T03:02:36.3942101+08:00",
+    "total": 16,
+    "passed": 1,
+    "failed": 15,
+    "executed": 16
+  },
+  {
+    "file": "route-original.trx",
+    "start": "2026-10-03T02:55:54.0112926+08:00",
+    "finish": "2026-10-03T02:55:54.9020450+08:00",
+    "total": 16,
+    "passed": 16,
+    "failed": 0,
+    "executed": 16
+  }
+]

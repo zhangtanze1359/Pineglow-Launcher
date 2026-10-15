@@ -1,0 +1,229 @@
+{
+  "schemaVersion": 1,
+  "generatedUtc": "2026-10-04T10:17:09.543Z",
+  "goal": "松光启动器 Windows 本机离线质量闭环 — G2/G4 有限返工（LQ-01..LQ-06）",
+  "round": "LONG-QUALITY-REWORK",
+  "sourceRoot": "D:\\松光启动器",
+  "sourceHead": "f145d14eb26b0b7459a28491e764ac8c573085d3",
+  "sourceBranch": "main",
+  "predecessor": {
+    "independentAcceptance": "docs/deepseek-harness-long-quality-independent-acceptance-2026-10-04.md (technicalAcceptance=FAIL)",
+    "failedGates": [
+      "G2",
+      "G4"
+    ]
+  },
+  "gates": {
+    "R0_baseline_and_real_red": {
+      "status": "PASS",
+      "evidence": "evidence/r0/*"
+    },
+    "R1_import_terminal_state": {
+      "status": "PASS",
+      "evidence": "evidence/r3/independent-reproof/import-terminal-disproof.log"
+    },
+    "R2_runner_contract": {
+      "status": "PASS",
+      "evidence": "evidence/r3/run-final/attempts/g4-runner-tests/1/logs"
+    },
+    "R3_guid_copy_regression": {
+      "status": "PASS",
+      "evidence": "evidence/r3/run-final/runner-verdict.json"
+    },
+    "R4_terminal_seal": {
+      "status": "PASS",
+      "evidence": "manifest.json + detached sha + out-of-package audit"
+    }
+  },
+  "lq": [
+    {
+      "id": "LQ-01",
+      "severity": "P1",
+      "title": "取消意图被当成服务端确认取消",
+      "status": "CLOSED",
+      "red": {
+        "instrument": "independent import-terminal disproof (unchanged expectations, rebound to this round's copy)",
+        "executed": 3,
+        "passed": 1,
+        "failed": 2,
+        "exitCode": 1,
+        "log": "evidence/r0/red/import-terminal-disproof.log"
+      },
+      "green": {
+        "executed": 3,
+        "passed": 3,
+        "failed": 0,
+        "exitCode": 0,
+        "log": "evidence/r3/independent-reproof/import-terminal-disproof.log",
+        "inFileTests": "ui/tests/goal-core-flow.test.cjs (IMPORT-03/04 terminal assertions + 3 INDEPENDENT cases)"
+      },
+      "fix": "ui/js/launcher.js handleImportFiles: cancelRequested (intent) and cancelConfirmed (server-confirmed) are separate; the terminal branch only claims cancellation for err.cancelled===true or a server-confirmed cancel; a plain failure reports an explicitly unconfirmed outcome (new i18n key import.outcomeUnconfirmed, zh+en)."
+    },
+    {
+      "id": "LQ-02",
+      "severity": "P1",
+      "title": "实际输入变化仍可复用旧成功结果",
+      "status": "CLOSED",
+      "red": {
+        "case": "actual-input-changed-manifest-unchanged",
+        "exitCode": 0,
+        "verdict": "PASS",
+        "reused": true,
+        "results": "evidence/r0/red/runner-disproof-results.json"
+      },
+      "green": {
+        "case": "actual-input-changed-manifest-unchanged",
+        "exitCode": 2,
+        "verdict": "REFUSED",
+        "reused": false,
+        "reason": "INPUT_SHA_MISMATCH"
+      },
+      "fix": "run-goal-validation.ps1 Test-InputSet: the manifest is parsed and every entry is re-checked against the actual execution root (existence + integer size + SHA256); a verified input-set fingerprint is bound into the run binding and into every stage fingerprint. Empty/duplicate/rooted/missing/malformed entries are refused."
+    },
+    {
+      "id": "LQ-03",
+      "severity": "P1",
+      "title": "接受旧TRX及没有实际执行测试的计数",
+      "status": "CLOSED",
+      "red": {
+        "cases": [
+          "stale-trx",
+          "inconsistent-counters"
+        ],
+        "exitCode": 0,
+        "verdict": "PASS",
+        "results": "evidence/r0/red/runner-disproof-results.json"
+      },
+      "green": {
+        "cases": [
+          "stale-trx",
+          "inconsistent-counters"
+        ],
+        "exitCode": 1,
+        "verdict": "FAIL",
+        "reasons": [
+          "TRX_PREEXISTING",
+          "TRX_COUNTERS_INCONSISTENT"
+        ]
+      },
+      "fix": "Each attempt runs in a freshly created attempt directory, so a TRX can only be the one this child wrote; counters must be present, non-negative and mutually consistent with the UnitTestResult row census; executed=0 is never a pass."
+    },
+    {
+      "id": "LQ-04",
+      "severity": "P1",
+      "title": "必需产物变化没有参与stage指纹",
+      "status": "CLOSED",
+      "red": {
+        "case": "produces-list-changed",
+        "exitCode": 0,
+        "verdict": "PASS",
+        "reused": true,
+        "results": "evidence/r0/red/runner-disproof-results.json"
+      },
+      "green": {
+        "case": "produces-list-changed",
+        "exitCode": 2,
+        "verdict": "REFUSED",
+        "reused": false,
+        "reason": "INCOMPATIBLE_RESUME_SAME_RUN_DIR"
+      },
+      "fix": "produces is part of the length-prefixed stage fingerprint, and reuse additionally requires every declared required output to exist with the recorded SHA256. The R3 stage file binds the real tests assembly, VerifyHost.exe and VerifyHost.dll."
+    },
+    {
+      "id": "LQ-05",
+      "severity": "P1",
+      "title": "不兼容Resume覆盖旧记录且沿用旧runId",
+      "status": "CLOSED",
+      "red": {
+        "case": "resume-changed-manifest-same-run-id",
+        "exitCode": 0,
+        "verdict": "PASS",
+        "oldStageRecordRetained": false,
+        "results": "evidence/r0/red/runner-disproof-results.json"
+      },
+      "green": {
+        "case": "resume-changed-manifest-same-run-id",
+        "exitCode": 2,
+        "verdict": "REFUSED",
+        "oldStageRecordRetained": true,
+        "reasons": [
+          "INCOMPATIBLE_RESUME_SAME_RUN_DIR"
+        ]
+      },
+      "fix": "run-binding.json binds runId + input-manifest SHA + verified input-set SHA + stages-file SHA + execution root. An incompatible resume refuses before touching anything (exit 2, refusal-*.json); attempt evidence is never overwritten, superseded records are archived and previous verdicts are kept in verdicts/."
+    },
+    {
+      "id": "LQ-06",
+      "severity": "P2",
+      "title": "空执行列表也生成整体PASS",
+      "status": "CLOSED",
+      "red": {
+        "cases": [
+          "empty-stages",
+          "only-unknown"
+        ],
+        "exitCode": 0,
+        "verdict": "PASS",
+        "stageCount": 0,
+        "results": "evidence/r0/red/runner-disproof-results.json"
+      },
+      "green": {
+        "cases": [
+          "empty-stages",
+          "only-unknown"
+        ],
+        "exitCode": 2,
+        "verdict": "REFUSED",
+        "reasons": [
+          "NO_STAGES",
+          "ONLY_NOT_FOUND"
+        ]
+      },
+      "fix": "Empty stage lists, unknown -Only selections, duplicate stage ids and missing requiredStages are refused (exit 2); a legal -Only subset yields an explicit PARTIAL verdict and exit 3, which is not an overall completion."
+    }
+  ],
+  "independentEvidence": {
+    "runnerDisproof": {
+      "cases": 7,
+      "falsePassBefore": 7,
+      "falsePassAfter": 0,
+      "allRejected": true
+    },
+    "importDisproof": {
+      "before": {
+        "executed": 3,
+        "passed": 1,
+        "failed": 2
+      },
+      "after": {
+        "executed": 3,
+        "passed": 3,
+        "failed": 0
+      }
+    },
+    "scenarioMatrix": {
+      "scenarios": 28,
+      "passed": 28
+    },
+    "realEvidenceAudit": {
+      "roots": 3,
+      "packages": 62,
+      "manifestEntries": 1022,
+      "filesVerified": 1022,
+      "failures": 0,
+      "knownDrift": 3,
+      "notes": 0
+    }
+  },
+  "implementationReady": true,
+  "formalPhaseApproval": "NOT_GRANTED",
+  "releaseApproval": "NOT_GRANTED",
+  "technicalAcceptance": "AWAITING_INDEPENDENT_REVIEW",
+  "limitations": [
+    "Real Avalonia/WebView2 GUI, real Minecraft, native credential backends, real update handover, cross-platform and remote CI/release remain unverified.",
+    "The C# figure is the authorised 13+5+6+49=73 selection; ImportWithALiveTokenButCancelledMidway stays excluded and no full C# suite is claimed.",
+    "RA-01/RA-02 (restricted recovery-safety counter-proofs) stay out of scope per the earlier platform boundary.",
+    "Builds and tests ran only inside the GUID execution copies, never in D:\\松光启动器."
+  ],
+  "closingStatement": "具备独立复验条件，等待 Codex 独立验收"
+}

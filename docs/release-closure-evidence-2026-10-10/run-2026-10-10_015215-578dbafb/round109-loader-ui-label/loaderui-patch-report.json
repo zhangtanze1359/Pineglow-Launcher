@@ -1,0 +1,22 @@
+﻿[
+    {
+        "label":  "P-LOADERUI 1/4 api.js: installLoader()",
+        "ok":  true
+    },
+    {
+        "label":  "P-LOADERUI 2/4 launcher.js: the button",
+        "ok":  true
+    },
+    {
+        "label":  "P-LOADERUI 3/4 launcher.js: wire the button",
+        "ok":  true
+    },
+    {
+        "label":  "P-LOADERUI 4/4a i18n.js: zh keys",
+        "ok":  true
+    },
+    {
+        "label":  "P-LOADERUI 4/4b i18n.js: en keys",
+        "ok":  true
+    }
+]

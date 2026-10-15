@@ -1,0 +1,83 @@
+{
+    "schemaVersion":  2,
+    "runner":  "run-goal-validation.ps1",
+    "runId":  "fixed-id",
+    "inputManifest":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\execution-root-misbinding\\input.json",
+    "inputManifestSha256":  "1E932A1110605A0E35A4C4AE546E70351CF03A034630EACD5AC5D5E83BCCA8FA",
+    "verifiedInputSetSha256":  "8B61E22B98906A58BCCF598A8597273C39E974CA49E3A725FCEE986A121651DB",
+    "verifiedInputCount":  2,
+    "verifiedInputRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\execution-root-misbinding",
+    "stagesFile":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\execution-root-misbinding\\stages.json",
+    "stagesFileSha256":  "135E022C04689FCC843AD48B52EC1CDE46DE1639812671CC7163B1CC316E3C24",
+    "generatedUtc":  "2026-10-04T10:38:51Z",
+    "resume":  false,
+    "only":  "",
+    "partial":  false,
+    "requiredStages":  [
+                           "unit"
+                       ],
+    "requiredNotCompleted":  [
+
+                             ],
+    "partialNotRun":  {
+
+                      },
+    "stageCount":  1,
+    "failedCount":  0,
+    "stages":  [
+                   {
+                       "schemaVersion":  2,
+                       "id":  "unit",
+                       "runId":  "fixed-id",
+                       "attemptDir":  "attempts/unit/1",
+                       "fingerprint":  "89B5AE5097AE3E54ACE53A8C47DEB8C4B6E7575FBE10AFB1433476359F572D8C",
+                       "inputManifestSha256":  "1E932A1110605A0E35A4C4AE546E70351CF03A034630EACD5AC5D5E83BCCA8FA",
+                       "inputSetSha256":  "8B61E22B98906A58BCCF598A8597273C39E974CA49E3A725FCEE986A121651DB",
+                       "command":  "C:\\Program Files\\nodejs\\node.exe child.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\execution-root-misbinding\\run\\attempts\\unit\\1/unit.trx write",
+                       "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\execution-root-misbinding\\other-execution",
+                       "startUtc":  "2026-10-04T10:38:51Z",
+                       "endUtc":  "2026-10-04T10:38:51Z",
+                       "exitCode":  0,
+                       "timedOut":  false,
+                       "stillRunning":  false,
+                       "counters":  {
+                                        "total":  3,
+                                        "executed":  3,
+                                        "passed":  3,
+                                        "failed":  0,
+                                        "notExecuted":  0,
+                                        "resultRows":  3,
+                                        "passedRows":  3,
+                                        "failedRows":  0,
+                                        "notExecutedRows":  0,
+                                        "otherRows":  0
+                                    },
+                       "trx":  "unit.trx",
+                       "artifacts":  [
+                                         {
+                                             "path":  "unit.trx",
+                                             "sha256":  "0B1A0EA65E62258B46DACE75043AEE88A27ED36416C855216C963BB230F4ED0D",
+                                             "sizeBytes":  243
+                                         }
+                                     ],
+                       "rawEvidence":  [
+                                           {
+                                               "path":  "unit.stdout.log",
+                                               "sha256":  "6D993898DA29865C207BD8761D592BDA04A3A6C08DB584163BB3935BD5EC2BCA",
+                                               "sizeBytes":  50
+                                           },
+                                           {
+                                               "path":  "unit.stderr.log",
+                                               "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                                               "sizeBytes":  0
+                                           }
+                                       ],
+                       "reasons":  [
+
+                                   ],
+                       "status":  "COMPLETED",
+                       "reused":  false
+                   }
+               ],
+    "verdict":  "PASS"
+}

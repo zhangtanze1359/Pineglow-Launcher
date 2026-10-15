@@ -1,0 +1,50 @@
+[
+  {
+    "Path": "D:\\松光启动器\\ui\\index.html",
+    "Hash": "632E9A0102C957B614F940D5AAF70B782F988E7E4CE8B1EECDC96CC8E94FAC3F"
+  },
+  {
+    "Path": "D:\\松光启动器\\ui\\css\\redesign.css",
+    "Hash": "DF8FCD53DAB4796C2D918F7DDF98553BAC29CA967D4BED8B93522CAE945AE75B"
+  },
+  {
+    "Path": "D:\\松光启动器\\ui\\js\\playtime.js",
+    "Hash": "01FC1F7A51EABF51B403F8880488537F2A8AA61AD21FC5E0F6D1D09F4CACAE0F"
+  },
+  {
+    "Path": "D:\\松光启动器\\ui\\js\\launcher.js",
+    "Hash": "4A2CA780D48672BBD0746B60898B56087E9D6E552F79D951F75B40832E6B6E16"
+  },
+  {
+    "Path": "D:\\松光启动器\\ui\\js\\api.js",
+    "Hash": "D367558D0C837E21673C77BA446E2E3FD0FAE99F33DD7073235D4A43516D149A"
+  },
+  {
+    "Path": "D:\\松光启动器\\ui\\js\\skin3d.js",
+    "Hash": "F60F3400A619CBAF037E78601B4EBD896E58AE25F63CF1D7E4F54C974D40DEF9"
+  },
+  {
+    "Path": "D:\\松光启动器\\ui\\js\\i18n.js",
+    "Hash": "4AB439BD47F97AD5E829ACE645DDB9F2D9750512B04B127777EEAA9D7E6EFAFB"
+  },
+  {
+    "Path": "D:\\松光启动器\\ui\\assets\\pine-forest-night.svg",
+    "Hash": "32A0981E0A77FC824D1B604E307CF02530CFA9F1131DC5AC860278B38E19E4A2"
+  },
+  {
+    "Path": "D:\\松光启动器\\dev\\PineglowLauncher\\Pineglow.Launcher.Models\\GameInstance.cs",
+    "Hash": "FD45681EE8A09A1FB347F0939C09CB560023D02CFC279247D328604F2DD9521F"
+  },
+  {
+    "Path": "D:\\松光启动器\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\LocalApiService.cs",
+    "Hash": "17CF00C6FFA819A801198935B59DBD80E998EAEA407A014F2D6F2CD1E39AA938"
+  },
+  {
+    "Path": "D:\\松光启动器\\scripts\\start-new-ui.ps1",
+    "Hash": "0023CEA2B9C8EE14AD9F7550D292F34F8BBD0E922FC5297F23BF85694C426506"
+  },
+  {
+    "Path": "D:\\松光启动器\\dev\\PineglowLauncher\\bin\\Debug\\net10.0\\Pineglow.Launcher.dll",
+    "Hash": "2C3FD27D09771C841586D8FA30792D1B5AE7FEF8442DD2EEA5E0A2E0F3769674"
+  }
+]

@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 1,
+  "generatedHongKong": "2026-10-04T17:13:48.331012+08:00",
+  "sourceRoot": "D:\\松光启动器",
+  "executionRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-quality-acceptance-17hncq03",
+  "sourceHead": "f145d14eb26b0b7459a28491e764ac8c573085d3",
+  "sourceInputCount": 292,
+  "sourceDriftDuringAcceptance": [],
+  "sourceStatusUnchanged": true,
+  "packageIntegrity": {
+    "count": 148,
+    "issues": [],
+    "unlisted": [],
+    "manifestSha256": "7B09EA7568BD114B9A8A1F13864DCAAF34CA81CDE777A55ACB2A94C8990E3B99",
+    "detachedMatches": true
+  },
+  "auditTotals": {
+    "roots": 3,
+    "packages": 62,
+    "manifestEntries": 1022,
+    "filesVerified": 1022,
+    "failures": 0,
+    "knownDrift": 3,
+    "notes": 0
+  },
+  "trx": [
+    {
+      "path": "results/csharp-flows.trx",
+      "counters": {
+        "total": "49",
+        "executed": "49",
+        "passed": "49",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "resultCount": 49,
+      "outcomes": {
+        "Passed": 49
+      },
+      "sha256": "04632A9AD0A33D4E24D136C804571F49E64EF9F434A67AEF815EC80E736BDADF"
+    },
+    {
+      "path": "results/csharp-r2.trx",
+      "counters": {
+        "total": "5",
+        "executed": "5",
+        "passed": "5",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "resultCount": 5,
+      "outcomes": {
+        "Passed": 5
+      },
+      "sha256": "22AEA2FD8C420B77F6E60BEFF532A641D9917E605B62DEF2129291751C494C76"
+    },
+    {
+      "path": "results/csharp-recovery-normal.trx",
+      "counters": {
+        "total": "6",
+        "executed": "6",
+        "passed": "6",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "resultCount": 6,
+      "outcomes": {
+        "Passed": 6
+      },
+      "sha256": "63A7651AD112B7106527D91B8ABA0DF77E2F5A05C53D0C3E6316B36A73FF8A97"
+    },
+    {
+      "path": "results/csharp-secrets.trx",
+      "counters": {
+        "total": "13",
+        "executed": "13",
+        "passed": "13",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "resultCount": 13,
+      "outcomes": {
+        "Passed": 13
+      },
+      "sha256": "47B386B17BE5C3B72712CB0878F4DC22D050DA92C677352ECEED818F573F0EEE"
+    }
+  ],
+  "csharpExecuted": 73,
+  "csharpPassed": 73,
+  "csharpRequiredSkipped": 0,
+  "node": {
+    "tests": 266,
+    "passed": 266,
+    "failed": 0,
+    "skipped": 0
+  },
+  "auditorTests": {
+    "tests": 26,
+    "passed": 26
+  },
+  "runnerExistingTests": {
+    "tests": 10,
+    "passed": 10,
+    "environmentCorrection": "PSModulePath set only in test parent process; first failure log retained"
+  },
+  "importIndependentTests": {
+    "tests": 3,
+    "passed": 1,
+    "failed": 2,
+    "skipped": 0,
+    "exitCode": 1
+  },
+  "runnerDisproofCases": 7,
+  "runnerUnexpectedPassCases": 7,
+  "bisectChecks": 19,
+  "goalGates": {
+    "G0": "PASS",
+    "G1": "PASS",
+    "G2": "FAIL",
+    "G3": "PASS",
+    "G4": "FAIL"
+  },
+  "technicalAcceptance": "FAIL",
+  "implementationReadyForAcceptedGoal": false,
+  "formalPhaseApproval": "NOT_GRANTED",
+  "releaseApproval": "NOT_GRANTED",
+  "limitations": [
+    "controlled DOM is not real WebView",
+    "73 selected C# tests exclude ImportWithALiveTokenButCancelledMidway; no full C# suite claimed",
+    "RA-01/02 remain excluded by earlier platform scope",
+    "real games/credential backend/update handover/cross-platform/clean checkout CI/release not verified"
+  ]
+}

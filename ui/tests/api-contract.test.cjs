@@ -112,6 +112,21 @@ function loadI18nRaw(ctx) {
 	return ctx.SG;
 }
 
+test('New product UI: file fallback still uses live API and never fabricates account data', async () => {
+	const stub=makeStubBrowser({fetchHandler:()=>Promise.reject(new Error('api unavailable'))});
+	stub.ctx.location.protocol='file:';
+	stub.document.documentElement.getAttribute=k=>k==='data-pineglow-product'?'true':'';
+	const api=loadApiRaw(stub.ctx);
+	assert.equal(stub.ctx.SG.apiMode,'live');
+	await assert.rejects(()=>api.getState(),/api unavailable/);
+	assert.equal(api._allowMockFallback,false);
+});
+
+test('New product UI: fractional download progress maps to percent and clamps corrupt values', async () => {
+	const {api}=loadApi(()=>Promise.resolve({ok:true,status:200,json:()=>Promise.resolve({tasks:[{id:'a',progress:.375},{id:'b',progress:1},{id:'c',progress:-1},{id:'d',progress:5}]})}));
+	assert.deepEqual(Array.from(await api.getDownloads(),x=>x.progress),[38,100,0,100]);
+});
+
 /* ============== 1. apiMode 决定 ============== */
 test('api.js 在 http: 协议下默认是 live 模式', () => {
 	const stub = makeStubBrowser();

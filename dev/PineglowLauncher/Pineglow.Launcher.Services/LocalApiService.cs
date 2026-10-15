@@ -1766,7 +1766,8 @@ public static class LocalApiService
 		Process process = await new LauncherService(msg => Debug.WriteLine("[launch] " + msg)).LaunchAsync(profile, CancellationToken.None);
 		// MR03 收尾：启动成功即登记运行态；退出监听结束时清除（注册表本身也会自愈）。
 		RunningInstanceRegistry.MarkRunning(instanceId, process);
-		instance.LastLaunchTime = DateTimeOffset.Now;
+		DateTimeOffset playStartedAt = DateTimeOffset.Now;
+		instance.LastLaunchTime = playStartedAt;
 		instance.PlayCount++;
 		SaveConfig(config);
 		bool minimizeOnLaunch = config.MinimizeOnLaunch;
@@ -1776,14 +1777,16 @@ public static class LocalApiService
 		{
 			try
 			{
-				DateTimeOffset start = DateTimeOffset.Now;
 				await process.WaitForExitAsync();
-				AppConfig latest = LoadConfig();
-				GameInstance? target = latest.Instances.FirstOrDefault(x => x.Id == instanceId);
-				if (target != null)
+				lock (ConfigGate)
 				{
-					target.TotalPlaySeconds += (long)Math.Max(0, (DateTimeOffset.Now - start).TotalSeconds);
-					SaveConfig(latest);
+					AppConfig latest = LoadConfig();
+					GameInstance? target = latest.Instances.FirstOrDefault(x => x.Id == instanceId);
+					if (target != null)
+					{
+						target.RecordPlaySession(playStartedAt, DateTimeOffset.Now);
+						SaveConfig(latest);
+					}
 				}
 				if (autoCloseOnExit)
 				{
@@ -5563,7 +5566,14 @@ public static class LocalApiService
 			totalPlaySeconds = totalSeconds,
 			totalPlayCount = totalCount,
 			totalInstances = config.Instances.Count,
-			perInstance
+			perInstance,
+			sessions = config.Instances.SelectMany(instance => (instance.PlaySessions ?? new List<GamePlaySession>()).Select(session => new
+			{
+				instanceId = instance.Id,
+				instanceName = instance.Name,
+				session.StartedAt,
+				session.EndedAt
+			})).OrderByDescending(session => session.StartedAt).ToList()
 		});
 	}
 

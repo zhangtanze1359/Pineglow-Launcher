@@ -1,0 +1,9 @@
+{
+  "outsideUiPaths": [
+    "dev/PineglowLauncher/Pineglow.Launcher.Models/GameInstance.cs",
+    "dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.cs",
+    "scripts/source-snapshot-inputs.txt",
+    "scripts/test-inventory.txt"
+  ],
+  "outsideUiDiffUnchanged": true
+}

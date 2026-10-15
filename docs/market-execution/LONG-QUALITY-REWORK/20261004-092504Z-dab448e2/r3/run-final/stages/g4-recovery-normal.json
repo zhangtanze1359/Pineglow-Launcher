@@ -1,0 +1,53 @@
+{
+    "schemaVersion":  2,
+    "id":  "g4-recovery-normal",
+    "runId":  "20261004-r3rework-dab448e2",
+    "attemptDir":  "attempts/g4-recovery-normal/1",
+    "fingerprint":  "0AA0C0CFFEBB255032A1BABD048AD8226975F0EA1BAF9C1972D6D1E4F9E7E2F9",
+    "inputManifestSha256":  "812D385A09538183215747737C9F7817A26CEE1DE05B2F2B34E78FC2235F8C22",
+    "inputSetSha256":  "D10CBC26126EA17EC0837F3E2AA95C6D12D075F3986DBA5DC4E8833151282661",
+    "command":  "dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --no-build --filter FullyQualifiedName~DeleteMod_QuarantinesJarAndSidecar_KeepsByteIdenticalCopies|FullyQualifiedName~DeleteMod_DisabledMod_QuarantinesDotDisabledName|FullyQualifiedName~Restore_PutsJarAndSidecarBackByteIdentical|FullyQualifiedName~Restore_Twice_IsIdempotent_AndKeepsFileContent|FullyQualifiedName~Restore_WithDifferentFileAtOriginalPath_ReportsConflictAndDoesNotOverwrite|FullyQualifiedName~DeleteMod_LeavesEveryOtherFileUntouched --logger trx;LogFileName=recovery-normal.trx --results-directory C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\run-final\\attempts\\g4-recovery-normal\\1/results",
+    "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c",
+    "startUtc":  "2026-10-04T10:08:04Z",
+    "endUtc":  "2026-10-04T10:08:06Z",
+    "exitCode":  0,
+    "timedOut":  false,
+    "stillRunning":  false,
+    "counters":  {
+                     "total":  6,
+                     "executed":  6,
+                     "passed":  6,
+                     "failed":  0,
+                     "notExecuted":  0,
+                     "resultRows":  6,
+                     "passedRows":  6,
+                     "failedRows":  0,
+                     "notExecutedRows":  0,
+                     "otherRows":  0
+                 },
+    "trx":  "results/recovery-normal.trx",
+    "artifacts":  [
+                      {
+                          "path":  "results/recovery-normal.trx",
+                          "sha256":  "FF6B921678F9B31FD9A1A40819746CE2A783D14AF10BC9CC49008E7F0B8B1798",
+                          "sizeBytes":  13195
+                      }
+                  ],
+    "rawEvidence":  [
+                        {
+                            "path":  "g4-recovery-normal.stdout.log",
+                            "sha256":  "EBFB0B289BEA9C8BCD7CE617AA9DB0B117F679A7A9396B170BDA1BCA9C95BB08",
+                            "sizeBytes":  597
+                        },
+                        {
+                            "path":  "g4-recovery-normal.stderr.log",
+                            "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                            "sizeBytes":  0
+                        }
+                    ],
+    "reasons":  [
+
+                ],
+    "status":  "COMPLETED",
+    "reused":  false
+}

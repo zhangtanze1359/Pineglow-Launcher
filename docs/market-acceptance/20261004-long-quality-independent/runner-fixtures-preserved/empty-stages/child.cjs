@@ -1,0 +1,1 @@
+const fs=require('fs');const arg=process.argv[2];if(arg==='write')fs.writeFileSync('unit.trx','<TestRun><ResultSummary><Counters total="3" executed="3" passed="3" failed="0" notExecuted="0"/></ResultSummary></TestRun>');console.log('child ran');

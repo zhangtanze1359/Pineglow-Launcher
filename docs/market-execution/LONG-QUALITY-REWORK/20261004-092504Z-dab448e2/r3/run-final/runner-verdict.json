@@ -1,0 +1,442 @@
+{
+    "schemaVersion":  2,
+    "runner":  "run-goal-validation.ps1",
+    "runId":  "20261004-r3rework-dab448e2",
+    "inputManifest":  "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\g2\\input-manifest.json",
+    "inputManifestSha256":  "812D385A09538183215747737C9F7817A26CEE1DE05B2F2B34E78FC2235F8C22",
+    "verifiedInputSetSha256":  "D10CBC26126EA17EC0837F3E2AA95C6D12D075F3986DBA5DC4E8833151282661",
+    "verifiedInputCount":  292,
+    "verifiedInputRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c",
+    "stagesFile":  "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\goal-stages.json",
+    "stagesFileSha256":  "13968D613DD7E00C6D0F9D3B94AECF48B24FA284234BD18D95B03344AB7B33CD",
+    "generatedUtc":  "2026-10-04T10:14:52Z",
+    "resume":  true,
+    "only":  "",
+    "partial":  false,
+    "requiredStages":  [
+                           "g4-build-tests",
+                           "g4-secrets",
+                           "g4-ordinary-r2",
+                           "g4-recovery-normal",
+                           "g4-flows",
+                           "g4-node-all",
+                           "g4-runner-tests",
+                           "g4-auditor-tests",
+                           "g4-verifyhost-build",
+                           "g4-bisect-smoke"
+                       ],
+    "requiredNotCompleted":  [
+
+                             ],
+    "partialNotRun":  {
+
+                      },
+    "stageCount":  10,
+    "failedCount":  0,
+    "stages":  [
+                   {
+                       "schemaVersion":  2,
+                       "id":  "g4-build-tests",
+                       "runId":  "20261004-r3rework-dab448e2",
+                       "attemptDir":  "attempts/g4-build-tests/1",
+                       "fingerprint":  "9FA9496D86347042B39A5502AF52695C885C1DF0CB53369957B07AC6F8D38B0A",
+                       "inputManifestSha256":  "812D385A09538183215747737C9F7817A26CEE1DE05B2F2B34E78FC2235F8C22",
+                       "inputSetSha256":  "D10CBC26126EA17EC0837F3E2AA95C6D12D075F3986DBA5DC4E8833151282661",
+                       "command":  "dotnet build dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release",
+                       "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c",
+                       "counters":  null,
+                       "artifacts":  [
+                                         {
+                                             "path":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c/dev/PineglowLauncher.Tests/bin/Release/net10.0/Pineglow.Launcher.Tests.dll",
+                                             "sha256":  "03C7D64C303D66C1CD9EC54C3D8E95EAA9F72D743879867F2C4C452055F843D2",
+                                             "sizeBytes":  1047040
+                                         }
+                                     ],
+                       "rawEvidence":  [
+                                           {
+                                               "path":  "g4-build-tests.stdout.log",
+                                               "sha256":  "90CE90F58AA08484F9B9BECF52B3AD61B318FE4DAE41ED5CF07B9338EA37CCFA",
+                                               "sizeBytes":  16396
+                                           },
+                                           {
+                                               "path":  "g4-build-tests.stderr.log",
+                                               "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                                               "sizeBytes":  0
+                                           }
+                                       ],
+                       "status":  "REUSED",
+                       "reused":  true,
+                       "reusedFrom":  "stages/g4-build-tests.json",
+                       "reasons":  [
+
+                                   ]
+                   },
+                   {
+                       "schemaVersion":  2,
+                       "id":  "g4-secrets",
+                       "runId":  "20261004-r3rework-dab448e2",
+                       "attemptDir":  "attempts/g4-secrets/1",
+                       "fingerprint":  "175A296726D20F86FEF07C5C12A1CA022951C467ADD903509AB6F43936E0A8CD",
+                       "inputManifestSha256":  "812D385A09538183215747737C9F7817A26CEE1DE05B2F2B34E78FC2235F8C22",
+                       "inputSetSha256":  "D10CBC26126EA17EC0837F3E2AA95C6D12D075F3986DBA5DC4E8833151282661",
+                       "command":  "dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --no-build --filter FullyQualifiedName~ConfigPreservationTests|FullyQualifiedName~SecretStoreBackendTests --logger trx;LogFileName=secrets.trx --results-directory C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\run-final\\attempts\\g4-secrets\\1/results",
+                       "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c",
+                       "counters":  {
+                                        "total":  13,
+                                        "executed":  13,
+                                        "passed":  13,
+                                        "failed":  0,
+                                        "notExecuted":  0,
+                                        "resultRows":  13,
+                                        "passedRows":  13,
+                                        "failedRows":  0,
+                                        "notExecutedRows":  0,
+                                        "otherRows":  0
+                                    },
+                       "artifacts":  [
+                                         {
+                                             "path":  "results/secrets.trx",
+                                             "sha256":  "F21D80035BBCFE3FDB1DD642FC24F8B06DBEC4CB197CD235DC821A4A7897D334",
+                                             "sizeBytes":  22402
+                                         }
+                                     ],
+                       "rawEvidence":  [
+                                           {
+                                               "path":  "g4-secrets.stdout.log",
+                                               "sha256":  "A87248FDBD9E99BB7436539BD06A9142C90F1D8C124414169F138F9744F3826D",
+                                               "sizeBytes":  581
+                                           },
+                                           {
+                                               "path":  "g4-secrets.stderr.log",
+                                               "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                                               "sizeBytes":  0
+                                           }
+                                       ],
+                       "status":  "REUSED",
+                       "reused":  true,
+                       "reusedFrom":  "stages/g4-secrets.json",
+                       "reasons":  [
+
+                                   ]
+                   },
+                   {
+                       "schemaVersion":  2,
+                       "id":  "g4-ordinary-r2",
+                       "runId":  "20261004-r3rework-dab448e2",
+                       "attemptDir":  "attempts/g4-ordinary-r2/1",
+                       "fingerprint":  "6F74823D5C1D63FF221C5BDB5E98C21CB8AC19E60128D2D4935431B4FE03E552",
+                       "inputManifestSha256":  "812D385A09538183215747737C9F7817A26CEE1DE05B2F2B34E78FC2235F8C22",
+                       "inputSetSha256":  "D10CBC26126EA17EC0837F3E2AA95C6D12D075F3986DBA5DC4E8833151282661",
+                       "command":  "dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --no-build --filter FullyQualifiedName~RollbackFailure_HttpExposesStructuredRecoveryFields|FullyQualifiedName~RollbackSuccess_HttpReportsNoRecoveryNeeded|FullyQualifiedName~MetadataFailure_HttpExposesStructuredFields|FullyQualifiedName~ModReplaceUndo_NormalRestore_StillWorksWithTrustedRoot|FullyQualifiedName~SecretBackend_ConcurrentAsyncFlowsStayIsolated --logger trx;LogFileName=ordinary-r2.trx --results-directory C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\run-final\\attempts\\g4-ordinary-r2\\1/results",
+                       "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c",
+                       "counters":  {
+                                        "total":  5,
+                                        "executed":  5,
+                                        "passed":  5,
+                                        "failed":  0,
+                                        "notExecuted":  0,
+                                        "resultRows":  5,
+                                        "passedRows":  5,
+                                        "failedRows":  0,
+                                        "notExecutedRows":  0,
+                                        "otherRows":  0
+                                    },
+                       "artifacts":  [
+                                         {
+                                             "path":  "results/ordinary-r2.trx",
+                                             "sha256":  "303926A6F5C1CC2DDC84474E575E46157FEBC99B45DA6490FE07DA718EA4E767",
+                                             "sizeBytes":  11672
+                                         }
+                                     ],
+                       "rawEvidence":  [
+                                           {
+                                               "path":  "g4-ordinary-r2.stdout.log",
+                                               "sha256":  "E02AB13B3E389DEDB9DF34D36857595DC08BE912EFDE25E9940415C0F60763A4",
+                                               "sizeBytes":  589
+                                           },
+                                           {
+                                               "path":  "g4-ordinary-r2.stderr.log",
+                                               "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                                               "sizeBytes":  0
+                                           }
+                                       ],
+                       "status":  "REUSED",
+                       "reused":  true,
+                       "reusedFrom":  "stages/g4-ordinary-r2.json",
+                       "reasons":  [
+
+                                   ]
+                   },
+                   {
+                       "schemaVersion":  2,
+                       "id":  "g4-recovery-normal",
+                       "runId":  "20261004-r3rework-dab448e2",
+                       "attemptDir":  "attempts/g4-recovery-normal/1",
+                       "fingerprint":  "0AA0C0CFFEBB255032A1BABD048AD8226975F0EA1BAF9C1972D6D1E4F9E7E2F9",
+                       "inputManifestSha256":  "812D385A09538183215747737C9F7817A26CEE1DE05B2F2B34E78FC2235F8C22",
+                       "inputSetSha256":  "D10CBC26126EA17EC0837F3E2AA95C6D12D075F3986DBA5DC4E8833151282661",
+                       "command":  "dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --no-build --filter FullyQualifiedName~DeleteMod_QuarantinesJarAndSidecar_KeepsByteIdenticalCopies|FullyQualifiedName~DeleteMod_DisabledMod_QuarantinesDotDisabledName|FullyQualifiedName~Restore_PutsJarAndSidecarBackByteIdentical|FullyQualifiedName~Restore_Twice_IsIdempotent_AndKeepsFileContent|FullyQualifiedName~Restore_WithDifferentFileAtOriginalPath_ReportsConflictAndDoesNotOverwrite|FullyQualifiedName~DeleteMod_LeavesEveryOtherFileUntouched --logger trx;LogFileName=recovery-normal.trx --results-directory C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\run-final\\attempts\\g4-recovery-normal\\1/results",
+                       "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c",
+                       "counters":  {
+                                        "total":  6,
+                                        "executed":  6,
+                                        "passed":  6,
+                                        "failed":  0,
+                                        "notExecuted":  0,
+                                        "resultRows":  6,
+                                        "passedRows":  6,
+                                        "failedRows":  0,
+                                        "notExecutedRows":  0,
+                                        "otherRows":  0
+                                    },
+                       "artifacts":  [
+                                         {
+                                             "path":  "results/recovery-normal.trx",
+                                             "sha256":  "FF6B921678F9B31FD9A1A40819746CE2A783D14AF10BC9CC49008E7F0B8B1798",
+                                             "sizeBytes":  13195
+                                         }
+                                     ],
+                       "rawEvidence":  [
+                                           {
+                                               "path":  "g4-recovery-normal.stdout.log",
+                                               "sha256":  "EBFB0B289BEA9C8BCD7CE617AA9DB0B117F679A7A9396B170BDA1BCA9C95BB08",
+                                               "sizeBytes":  597
+                                           },
+                                           {
+                                               "path":  "g4-recovery-normal.stderr.log",
+                                               "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                                               "sizeBytes":  0
+                                           }
+                                       ],
+                       "status":  "REUSED",
+                       "reused":  true,
+                       "reusedFrom":  "stages/g4-recovery-normal.json",
+                       "reasons":  [
+
+                                   ]
+                   },
+                   {
+                       "schemaVersion":  2,
+                       "id":  "g4-flows",
+                       "runId":  "20261004-r3rework-dab448e2",
+                       "attemptDir":  "attempts/g4-flows/1",
+                       "fingerprint":  "FA326C8909EEABD19FF2C9245E74B9E146C0B32FEAB8015250D2710BEFA90EA5",
+                       "inputManifestSha256":  "812D385A09538183215747737C9F7817A26CEE1DE05B2F2B34E78FC2235F8C22",
+                       "inputSetSha256":  "D10CBC26126EA17EC0837F3E2AA95C6D12D075F3986DBA5DC4E8833151282661",
+                       "command":  "dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --no-build --filter (FullyQualifiedName~InstanceRemovalTests|FullyQualifiedName~ImportCancellationTests|FullyQualifiedName~DiagnosticReportTests|FullyQualifiedName~BisectRecoveryTests|FullyQualifiedName~UpdateRecoveryTests|FullyQualifiedName~RecoveryVersionDisplayEndToEndTests)\u0026FullyQualifiedName!~ImportWithALiveTokenButCancelledMidway --logger trx;LogFileName=flows.trx --results-directory C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\run-final\\attempts\\g4-flows\\1/results",
+                       "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c",
+                       "counters":  {
+                                        "total":  49,
+                                        "executed":  49,
+                                        "passed":  49,
+                                        "failed":  0,
+                                        "notExecuted":  0,
+                                        "resultRows":  49,
+                                        "passedRows":  49,
+                                        "failedRows":  0,
+                                        "notExecutedRows":  0,
+                                        "otherRows":  0
+                                    },
+                       "artifacts":  [
+                                         {
+                                             "path":  "results/flows.trx",
+                                             "sha256":  "CC25A35E599ECB4FA2A961E683C415CF45BA5AFD78F645863402972BF8813175",
+                                             "sizeBytes":  86113
+                                         }
+                                     ],
+                       "rawEvidence":  [
+                                           {
+                                               "path":  "g4-flows.stdout.log",
+                                               "sha256":  "7367494D833D1BDE548F34D34AD417D019F0166E5FFFE7C2399DA1FD7B980010",
+                                               "sizeBytes":  574
+                                           },
+                                           {
+                                               "path":  "g4-flows.stderr.log",
+                                               "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                                               "sizeBytes":  0
+                                           }
+                                       ],
+                       "status":  "REUSED",
+                       "reused":  true,
+                       "reusedFrom":  "stages/g4-flows.json",
+                       "reasons":  [
+
+                                   ]
+                   },
+                   {
+                       "schemaVersion":  2,
+                       "id":  "g4-node-all",
+                       "runId":  "20261004-r3rework-dab448e2",
+                       "attemptDir":  "attempts/g4-node-all/1",
+                       "fingerprint":  "DF5BB475C26EF713CE545FF78A301E8CBE2B99C7B4D1C52A46B26A7185D1BBB8",
+                       "inputManifestSha256":  "812D385A09538183215747737C9F7817A26CEE1DE05B2F2B34E78FC2235F8C22",
+                       "inputSetSha256":  "D10CBC26126EA17EC0837F3E2AA95C6D12D075F3986DBA5DC4E8833151282661",
+                       "command":  "node --test --test-reporter=tap ui/tests/*.test.cjs",
+                       "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c",
+                       "counters":  null,
+                       "artifacts":  [
+
+                                     ],
+                       "rawEvidence":  [
+                                           {
+                                               "path":  "g4-node-all.stdout.log",
+                                               "sha256":  "89149F78C03F4314765B3A2BD8CE70458CAD06143ED017461F659F483E13E564",
+                                               "sizeBytes":  62191
+                                           },
+                                           {
+                                               "path":  "g4-node-all.stderr.log",
+                                               "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                                               "sizeBytes":  0
+                                           }
+                                       ],
+                       "status":  "REUSED",
+                       "reused":  true,
+                       "reusedFrom":  "stages/g4-node-all.json",
+                       "reasons":  [
+
+                                   ]
+                   },
+                   {
+                       "schemaVersion":  2,
+                       "id":  "g4-runner-tests",
+                       "runId":  "20261004-r3rework-dab448e2",
+                       "attemptDir":  "attempts/g4-runner-tests/1",
+                       "fingerprint":  "02D26ACC7FA2B75347117BE604FD4074C766B247BD109808195F3ABAEE20DBFB",
+                       "inputManifestSha256":  "812D385A09538183215747737C9F7817A26CEE1DE05B2F2B34E78FC2235F8C22",
+                       "inputSetSha256":  "D10CBC26126EA17EC0837F3E2AA95C6D12D075F3986DBA5DC4E8833151282661",
+                       "command":  "node --test --test-reporter=tap scripts/tests/goal-validation.test.cjs",
+                       "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c",
+                       "counters":  null,
+                       "artifacts":  [
+
+                                     ],
+                       "rawEvidence":  [
+                                           {
+                                               "path":  "g4-runner-tests.stdout.log",
+                                               "sha256":  "0632E9FAA165401F50E06551FA2FA52C944B3A22F01C520411903F60C72DF363",
+                                               "sizeBytes":  5608
+                                           },
+                                           {
+                                               "path":  "g4-runner-tests.stderr.log",
+                                               "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                                               "sizeBytes":  0
+                                           }
+                                       ],
+                       "status":  "REUSED",
+                       "reused":  true,
+                       "reusedFrom":  "stages/g4-runner-tests.json",
+                       "reasons":  [
+
+                                   ]
+                   },
+                   {
+                       "schemaVersion":  2,
+                       "id":  "g4-auditor-tests",
+                       "runId":  "20261004-r3rework-dab448e2",
+                       "attemptDir":  "attempts/g4-auditor-tests/1",
+                       "fingerprint":  "7DC6ED3A0089F14A5EFEDEAF2EE388A2194D2B0071BB87FD62C1A649D5DDA108",
+                       "inputManifestSha256":  "812D385A09538183215747737C9F7817A26CEE1DE05B2F2B34E78FC2235F8C22",
+                       "inputSetSha256":  "D10CBC26126EA17EC0837F3E2AA95C6D12D075F3986DBA5DC4E8833151282661",
+                       "command":  "python scripts/tests/audit-goal-evidence.test.py",
+                       "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c",
+                       "counters":  null,
+                       "artifacts":  [
+
+                                     ],
+                       "rawEvidence":  [
+                                           {
+                                               "path":  "g4-auditor-tests.stdout.log",
+                                               "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                                               "sizeBytes":  0
+                                           },
+                                           {
+                                               "path":  "g4-auditor-tests.stderr.log",
+                                               "sha256":  "78095199B40A88965E8B5D9D3A61C98C25540B5F7BB542743B48EB5003ECB1BD",
+                                               "sizeBytes":  3374
+                                           }
+                                       ],
+                       "status":  "REUSED",
+                       "reused":  true,
+                       "reusedFrom":  "stages/g4-auditor-tests.json",
+                       "reasons":  [
+
+                                   ]
+                   },
+                   {
+                       "schemaVersion":  2,
+                       "id":  "g4-verifyhost-build",
+                       "runId":  "20261004-r3rework-dab448e2",
+                       "attemptDir":  "attempts/g4-verifyhost-build/1",
+                       "fingerprint":  "41780B6747D204595570872A50339D23CEEE0D5B1B34FB198220F01AC27E685D",
+                       "inputManifestSha256":  "812D385A09538183215747737C9F7817A26CEE1DE05B2F2B34E78FC2235F8C22",
+                       "inputSetSha256":  "D10CBC26126EA17EC0837F3E2AA95C6D12D075F3986DBA5DC4E8833151282661",
+                       "command":  "dotnet build dev/PineglowLauncher/VerifyHost/VerifyHost.csproj -c Release",
+                       "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c",
+                       "counters":  null,
+                       "artifacts":  [
+                                         {
+                                             "path":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c/dev/PineglowLauncher/VerifyHost/bin/Release/net10.0/VerifyHost.exe",
+                                             "sha256":  "57CEA40B10006E4AD08AFAF044E1F50CD8432D0CC97445F838BC81D2622D6690",
+                                             "sizeBytes":  162304
+                                         },
+                                         {
+                                             "path":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c/dev/PineglowLauncher/VerifyHost/bin/Release/net10.0/VerifyHost.dll",
+                                             "sha256":  "2E0D73F6231756792E03439A3700A33F73DFBC44B6EE4A167DC99D68C401D316",
+                                             "sizeBytes":  1103872
+                                         }
+                                     ],
+                       "rawEvidence":  [
+                                           {
+                                               "path":  "g4-verifyhost-build.stdout.log",
+                                               "sha256":  "15521B0E07A9F0C00DD9A3FDFDC771DBDC91B11E55192CBC3EA4DBE00827B528",
+                                               "sizeBytes":  4351
+                                           },
+                                           {
+                                               "path":  "g4-verifyhost-build.stderr.log",
+                                               "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                                               "sizeBytes":  0
+                                           }
+                                       ],
+                       "status":  "REUSED",
+                       "reused":  true,
+                       "reusedFrom":  "stages/g4-verifyhost-build.json",
+                       "reasons":  [
+
+                                   ]
+                   },
+                   {
+                       "schemaVersion":  2,
+                       "id":  "g4-bisect-smoke",
+                       "runId":  "20261004-r3rework-dab448e2",
+                       "attemptDir":  "attempts/g4-bisect-smoke/1",
+                       "fingerprint":  "778AC2ACF13B475B104DDB1FCCA33A65A18DDED46D7E9F9F13F8C832BFDC9C80",
+                       "inputManifestSha256":  "812D385A09538183215747737C9F7817A26CEE1DE05B2F2B34E78FC2235F8C22",
+                       "inputSetSha256":  "D10CBC26126EA17EC0837F3E2AA95C6D12D075F3986DBA5DC4E8833151282661",
+                       "command":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c/dev/PineglowLauncher/VerifyHost/bin/Release/net10.0/VerifyHost.exe --bisect-smoke",
+                       "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c",
+                       "counters":  null,
+                       "artifacts":  [
+
+                                     ],
+                       "rawEvidence":  [
+                                           {
+                                               "path":  "g4-bisect-smoke.stdout.log",
+                                               "sha256":  "46192127B11E40CF69855227D6591B6FDC7767E81C02B91FB8CF7FE67A7F31CC",
+                                               "sizeBytes":  1889
+                                           },
+                                           {
+                                               "path":  "g4-bisect-smoke.stderr.log",
+                                               "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                                               "sizeBytes":  0
+                                           }
+                                       ],
+                       "status":  "REUSED",
+                       "reused":  true,
+                       "reusedFrom":  "stages/g4-bisect-smoke.json",
+                       "reasons":  [
+
+                                   ]
+                   }
+               ],
+    "verdict":  "PASS"
+}

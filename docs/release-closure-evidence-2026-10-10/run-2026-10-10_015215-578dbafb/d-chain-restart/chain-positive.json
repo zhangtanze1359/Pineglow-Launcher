@@ -1,0 +1,33 @@
+﻿{
+    "probe":  "real-update-chain",
+    "mode":  "positive",
+    "fixture":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-chain-positive-a24aea83ba5c468ea2a4dff8f8dde257\\install",
+    "apiPort":  51280,
+    "installedExeSha256":  "CA8F94C1A6173F23F38F3D2A3C949AFFC16D5AB67752B662C7806831F350D93E",
+    "offeredVersion":  "1.0.2",
+    "offeredSha256":  "6130db19bbcc8b4d6b606bc1825d824a99a19c72ef2ef7af3ac874515953a999",
+    "assetUrl":  "https://github.com/zhangtanze1359/Pineglow-Launcher/releases/download/v1.0.0/Pineglow-Launcher-win-x64-single-file.exe",
+    "assetSize":  43989943,
+    "manifestFetches":  1,
+    "currentVersion":  "1.0.0",
+    "checkResult":  "{\"enabled\":true,\"currentVersion\":\"1.0.0\",\"updateAvailable\":true,\"latestVersion\":\"1.0.2\",\"notes\":\"round-5 chain probe (positive)\",\"mandatory\":false,\"downloadUrl\":\"https://github.com/zhangtanze1359/Pineglow-Launcher/releases/download/v1.0.0/Pineglow-Launcher-win-x64-single-file.exe\",\"manifestSource\":\"http://127.0.0.1:51277/manifest.json\",\"usedFallback\":false}",
+    "checkSaysUpdate":  true,
+    "download":  "{\"ok\":true,\"state\":\"downloading\",\"version\":\"1.0.2\"}",
+    "downloadState":  "completed",
+    "downloadError":  "",
+    "apply":  "{\"ok\":true,\"message\":\"更新已启动，重启后生效。\"}",
+    "exeReplaced":  true,
+    "exeShaAfter":  "6130DB19BBCC8B4D6B606BC1825D824A99A19C72EF2EF7AF3AC874515953A999",
+    "exeEqualsOfferedAsset":  true,
+    "applyStateResult":  "applied",
+    "replaceScriptSaved":  false,
+    "restartedHealthy":  true,
+    "restartedVersion":  "",
+    "nativeLibsPrePlaced":  [
+                                "libSkiaSharp.dll",
+                                "libHarfBuzzSharp.dll",
+                                "av_libglesv2.dll"
+                            ],
+    "ownedProcessesStopped":  true,
+    "timeHK":  "2026-10-10T02:52:13.5719061"
+}

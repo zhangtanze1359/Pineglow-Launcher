@@ -1,0 +1,13 @@
+{
+    "schemaVersion":  1,
+    "runId":  "fixed-id",
+    "inputManifest":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\failure-resume-original-evidence\\input.json",
+    "inputManifestSha256":  "2ACFAC7A8E499501A3496769AF041F802668004FBE8990CAC6D396A775096BB8",
+    "verifiedInputSetSha256":  "8B61E22B98906A58BCCF598A8597273C39E974CA49E3A725FCEE986A121651DB",
+    "verifiedInputCount":  2,
+    "verifiedInputRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\failure-resume-original-evidence",
+    "stagesFile":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\failure-resume-original-evidence\\stages.json",
+    "stagesFileSha256":  "9E5DA6157A77944187057CD0C889BEB97FCAD1B53432E423CF69BC04E2CF536B",
+    "executionRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\failure-resume-original-evidence",
+    "evidenceRoot":  ""
+}

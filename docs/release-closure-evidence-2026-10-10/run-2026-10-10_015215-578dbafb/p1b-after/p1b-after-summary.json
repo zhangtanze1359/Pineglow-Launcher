@@ -1,0 +1,20 @@
+﻿[
+    {
+        "mode":  "legacy",
+        "exitCode":  0,
+        "healthReady":  true,
+        "legacyMarkerServed":  false,
+        "externalUiServed":  false,
+        "matchesCurrentSource":  true,
+        "ownedProcessStopped":  true
+    },
+    {
+        "mode":  "clean",
+        "exitCode":  0,
+        "healthReady":  true,
+        "legacyMarkerServed":  false,
+        "externalUiServed":  false,
+        "matchesCurrentSource":  true,
+        "ownedProcessStopped":  true
+    }
+]

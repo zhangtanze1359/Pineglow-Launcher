@@ -1,0 +1,93 @@
+✔ MR04: i18n 在 zh 与 en 两侧都提供 mod/恢复区 新增键 (2.9155ms)
+✔ MR04: 删除确认文案必须说明可恢复，且不得声称不可撤销 (1.0716ms)
+✔ MR04: live 侧 listRecoveries 走 GET /recovery (19.812ms)
+✔ MR04: live 侧 restoreRecovery 走 POST /recovery/{op}/restore 并透出冲突数 (1.743ms)
+✔ MR04: mock 侧删除后可列出并恢复同一条记录（行为与 live 一致） (250.7857ms)
+✔ MR04 static scan: 新版 Mod 抽屉使用独立行内确认入口 (0.2977ms)
+✖ MR04 static scan: launcher.js 提供恢复区面板，且渲染与恢复都走 api (0.7181ms)
+✔ MR05: i18n 在 zh 与 en 两侧都提供撤销更新相关键 (0.9711ms)
+✔ MR05: live 侧 restoreRecovery 把 overwrite 显式传给服务端 (1.4046ms)
+✔ MR05: mock 侧重复恢复默认报冲突，显式 overwrite 才成功 (326.0657ms)
+✖ MR05 static scan: launcher.js 恢复区对 mod-replace 记录显示"撤销本次更新"并带 overwrite (0.2963ms)
+✔ CONTROL openRecoveryPanel renders a normal recovery record (43.7747ms)
+✔ RECOVERY-01 recovery query failure shows an error and a retry action (70.7935ms)
+✔ BISECT-03 pending query failure shows an explicit error and retry (78.5513ms)
+✔ DIAGNOSIS-03 history query failure shows an error and retry (94.2625ms)
+✔ DIAGNOSIS-04 a non-empty history renders and export states the evidence scope (93.2685ms)
+✔ INSTANCE-01 cancel does not issue a delete request (93.9284ms)
+✔ INSTANCE-02 confirm removes the instance from the list and re-renders (94.2323ms)
+✔ INSTANCE-03 removing the selected instance clears the stale selection (78.4541ms)
+✔ INSTANCE-04 repeated clicks during the request issue one request (77.9012ms)
+✔ RECOVERY-02 empty recovery list shows the empty state (1.7806ms)
+✔ RECOVERY-03 normal restore reports success and refreshes the panel (76.4778ms)
+✔ RECOVERY-04 partial results list each file with its state (2.3076ms)
+✔ RECOVERY-05 conflict result never claims a successful overwrite (74.9679ms)
+✔ RECOVERY-06 submit disables the button and failure restores it (140.8861ms)
+✔ BISECT-01 no pending session shows the normal start entry (1.9209ms)
+✔ BISECT-02 pending session offers restore or continue (2.8546ms)
+✔ BISECT-04 file-lock failure keeps the needs-recovery state (2.0047ms)
+✔ BISECT-05 failed recovery never shows all-complete (85.038ms)
+✔ IMPORT-01 operationId is bound before cancel is offered (61.3041ms)
+✔ IMPORT-02 cancel before acceptance reports the cancelled result (16.2758ms)
+✔ IMPORT-03 cancel after acceptance reports the real server result (154.4778ms)
+✔ IMPORT-04 unknown or failed cancel never claims the import was cancelled (156.0267ms)
+✔ DIAGNOSIS-01 local diagnosis works without an API key (4.7511ms)
+✔ DIAGNOSIS-02 empty history shows the empty state (1.1627ms)
+✔ UPDATE-01 no previous apply result shows no false alarm (71.8738ms)
+✔ UPDATE-02 a previous non-applied update is reported as still old (78.9242ms)
+✔ UPDATE-03 missing compatibility fields do not crash (2.3748ms)
+✔ UPDATE-04 status query failure never shows update success (77.0505ms)
+✔ INDEPENDENT IMPORT-01 cancel uses the active import operationId (139.4137ms)
+✔ INDEPENDENT IMPORT-04 failed cancel followed by ordinary import failure must not claim cancelled (123.4469ms)
+✔ INDEPENDENT IMPORT-03 pending cancel followed by ordinary import failure must keep outcome unconfirmed (140.8258ms)
+✔ playtime: range summary counts unique sessions, active days and clipped longest duration (1.9021ms)
+✔ playtime: ISO calendar dates reject rollover and custom range preserves 120 day limit (0.5153ms)
+✔ playtime: Monday based week and rolling range include today exactly once (0.1071ms)
+✔ playtime: midnight sessions split actual seconds across dates without inventing history (0.1715ms)
+✔ playtime: treemap conserves area, contains rectangles and has no overlaps (1.0375ms)
+ℹ tests 47
+ℹ suites 0
+ℹ pass 45
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4421.5482
+
+✖ failing tests:
+
+test at ui\tests\file-recovery.test.cjs:199:1
+✖ MR04 static scan: launcher.js 提供恢复区面板，且渲染与恢复都走 api (0.7181ms)
+  AssertionError [ERR_ASSERTION]: 面板必须调用 restoreRecovery
+      at TestContext.<anonymous> (D:\松光启动器\ui\tests\file-recovery.test.cjs:207:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at ui\tests\file-recovery.test.cjs:260:1
+✖ MR05 static scan: launcher.js 恢复区对 mod-replace 记录显示"撤销本次更新"并带 overwrite (0.2963ms)
+  AssertionError [ERR_ASSERTION]: 必须把 overwrite 传给 api
+      at TestContext.<anonymous> (D:\松光启动器\ui\tests\file-recovery.test.cjs:267:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

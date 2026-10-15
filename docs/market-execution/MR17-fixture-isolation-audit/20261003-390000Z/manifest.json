@@ -1,0 +1,77 @@
+﻿{
+    "runId":  "20261003-390000Z",
+    "task":  "夹具隔离完全关闭（A21）",
+    "generatedUtc":  "2026-10-03T02:46:47Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "gap-register A21 - FULLY CLOSED: all 6 hand-rolled fixtures now redirect all four roots",
+    "lastGap":  "AiCancelAndRedirectTests already owned its own diagnostic-root scope, so stacking the three-root helper would have double-redirected and scrambled that scope. Added InstallRecoveryAndBisectCurrent() (implemented as new TestIsolationRoots(includeDiagnostic: false)) so the fixture can fill only the missing rec/bisect without disturbing its existing structure. Two lines changed.",
+    "finalTable":  "LocalApiTestHarness: 4/4 explicit ; LauncherStartupBoundaryTests: 4/4 explicit ; AiCancelAndRedirectTests: 4/4 (explicit diag + helper rec/bisect) ; ContentIconServiceTests: 4/4 helper ; NewsFakeIpConfigTests: 4/4 helper ; NewsLinkHandlerTests: 4/4 helper",
+    "verification":  {
+                         "aiClasses":  "31 passed / 0 failed",
+                         "csharpFull":  "817 passed / 0 failed / 0 skipped",
+                         "realRoots":  "diagnostics 259 -\u003e 259, recovery 0 -\u003e 0, bisect 0 -\u003e 0 (unchanged)",
+                         "nodeFull":  "230 passed / 0 failed (18 files)",
+                         "productionCodeChanged":  false
+                     },
+    "remainingGaps":  "A4 (disk full / file in use), A6 (MR07 temporary test-world guidance), A13 (MR17 remaining makeEl doubles + tab order), A14 (MR05 sidecar version/change display), plus A15 remainder (.bak/.prev rotation untested because SaveAsync writes real credentials)",
+    "pendingUserDecisions":  [
+                                 "delete the 259 leftover test files in the real diagnostics directory?",
+                                 "give SecretStore a test seam so SaveAsync (and the .bak/.prev rotation) can be tested safely?",
+                                 "narrow the MR19 ledger conclusion per the round-45 measurement?",
+                                 "keep the A16/A19/guard fixes?",
+                                 "A17 (dangling SelectedInstanceId) fix?",
+                                 "A18 (Modrinth rate-limit policy) fix?",
+                                 "MR09 real-model evaluation authorization",
+                                 "MR02 recruiting authorization",
+                                 "Java-probe caching subpackage (-95%)",
+                                 "MR22 beta"
+                             ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "66210C94E8497E65847B038E86265F5F36A943A65A6E44C0F471433626F9B63A",
+                      "sizeBytes":  3662
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "263E93D5EEE5FAE985BE90FFFB055A759B0D0A97C5EAA3C463BC046AE1DC04FB",
+                      "sizeBytes":  17411
+                  },
+                  {
+                      "path":  "green/01-ai-classes.log",
+                      "sha256":  "C98EABB62A5FEAE32FD868A70369A46355F495190B3D283DE3265CC04E93648C",
+                      "sizeBytes":  336
+                  },
+                  {
+                      "path":  "green/02-csharp-full.log",
+                      "sha256":  "35AB1E8382E72A9B4E667C9960ABA95233C1111A739FE057FB9E419503A5406E",
+                      "sizeBytes":  490
+                  },
+                  {
+                      "path":  "green/03-node-full.log",
+                      "sha256":  "1C6F486FCBEE9BFFCA7C3328DA470D9E0D77F44A4AA1A286CFB4B66BAB9A7883",
+                      "sizeBytes":  23807
+                  },
+                  {
+                      "path":  "green/AiCancelAndRedirectTests.cs.fixed",
+                      "sha256":  "87B4042707E19A6F254DAA9DC5EB9B010702BBBB0AA8B37AEBE787B8EC54B8BE",
+                      "sizeBytes":  54408
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "C22CB5F2EE473F05983C0E684F0427443575659F019849D76DF741EA024BB469",
+                      "sizeBytes":  241
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "D1ED7904461700840BA396C8C568FF3119A1B8EB1AA04FA317DBDB7465C428EA",
+                      "sizeBytes":  116125
+                  },
+                  {
+                      "path":  "green/TestIsolationRoots.cs.fixed",
+                      "sha256":  "7BE2F2EA13CAD27CBC1F0B0B624BEECC7AF16FB1DC0FE3DC7943077E2B822CF2",
+                      "sizeBytes":  4540
+                  }
+              ]
+}

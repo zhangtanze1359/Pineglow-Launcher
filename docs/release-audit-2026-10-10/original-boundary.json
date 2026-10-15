@@ -1,0 +1,28 @@
+{
+  "scope": "Actual BuildCommandAsync from frozen current product DLL; synthetic isolated fixtures; no product edits",
+  "failures": 0,
+  "results": [
+    {
+      "name": "unrelated-extra",
+      "currentVersion": "1.21.1",
+      "strayRelative": "libraries/net/minecraftforge/unrelated-tool/1.0/unrelated-tool-extra.jar",
+      "strayIsNotReferencedByProfile": true,
+      "retainedBefore": true,
+      "retainedAfter": true,
+      "beforeClasspath": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-original-boundary-b74cb78b472c4458a685624508789cf9\\unrelated-extra\\versions\\1.21.1\\1.21.1.jar",
+      "afterClasspath": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-original-boundary-b74cb78b472c4458a685624508789cf9\\unrelated-extra\\versions\\1.21.1\\1.21.1.jar",
+      "pass": true
+    },
+    {
+      "name": "stale-client",
+      "currentVersion": "1.21.1",
+      "strayRelative": "libraries/net/minecraft/client/1.20.1/client-1.20.1-extra.jar",
+      "strayIsNotReferencedByProfile": true,
+      "retainedBefore": true,
+      "retainedAfter": true,
+      "beforeClasspath": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-original-boundary-b74cb78b472c4458a685624508789cf9\\stale-client\\versions\\1.21.1\\1.21.1.jar",
+      "afterClasspath": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-original-boundary-b74cb78b472c4458a685624508789cf9\\stale-client\\versions\\1.21.1\\1.21.1.jar",
+      "pass": true
+    }
+  ]
+}

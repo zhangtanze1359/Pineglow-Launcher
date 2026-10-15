@@ -1,0 +1,273 @@
+﻿# Proposed fixes: P-UA / P-FABRICMETA / P-PROXYJVM / P-FAKEIP / P-IMPORTLOG + 6 regression tests.
+# Validated in an isolated copy: build 0 warnings 0 errors; test suite 941 (baseline) -> 947 (patched) pass, 0 fail.
+# NOT applied to the product tree.
+diff --git "a/D:\\\346\235\276\345\205\211\345\220\257\345\212\250\345\231\250\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\LocalApiService.cs" "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-patch5-a277605404a445c9b907ffc88280548b\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\LocalApiService.cs"
+index 33f3243..1913405 100644
+--- "a/D:\\\346\235\276\345\205\211\345\220\257\345\212\250\345\231\250\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\LocalApiService.cs"
++++ "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-patch5-a277605404a445c9b907ffc88280548b\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\LocalApiService.cs"
+@@ -102,10 +102,33 @@ public static class LocalApiService
+ 		{
+ 			handler.UseProxy = false;
+ 		}
+-		return new HttpClient(handler) { Timeout = TimeSpan.FromSeconds(timeoutSeconds) };
++		HttpClient client = new HttpClient(handler) { Timeout = TimeSpan.FromSeconds(timeoutSeconds) };
++		// FIX-UA: mirror redirects land on academic mirrors that answer 403 to a request with no
++		// User-Agent (and also to browser-looking ones). A tool-style UA is accepted, and this is the
++		// convention already used elsewhere in this codebase (MinecraftNewsService / UpdateService).
++		client.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "PineglowLauncher/" + LauncherService.LauncherVersion);
++		return client;
+ 	}
+ 
+ 	/// <summary>按 config 刷新 ApiHttp 代理配置（在 SaveConfig 后调用）。</summary>
++	// FIX-PROXYJVM: the loader installer is a separate JVM; it only sees a proxy if we pass the
++	// standard -Dhttp.proxyHost/-Dhttps.proxyHost options on its command line. Same values the game
++	// launch already uses for its own JVM (see the launch path below).
++	private static IReadOnlyList<string> BuildLoaderInstallerJvmArgs(AppConfig config)
++	{
++		if (!config.ProxyEnabled || string.IsNullOrWhiteSpace(config.ProxyHost) || config.ProxyPort <= 0)
++		{
++			return Array.Empty<string>();
++		}
++		return new string[]
++		{
++			$"-Dhttp.proxyHost={config.ProxyHost}",
++			$"-Dhttp.proxyPort={config.ProxyPort}",
++			$"-Dhttps.proxyHost={config.ProxyHost}",
++			$"-Dhttps.proxyPort={config.ProxyPort}"
++		};
++	}
++
+ 	private static void RefreshApiHttpProxy(AppConfig config)
+ 	{
+ 		try
+@@ -1452,7 +1475,7 @@ public static class LocalApiService
+ 			await File.WriteAllBytesAsync(zipPath, bytes);
+ 			AppConfig config = LoadConfig();
+ 			string defaultGameDir = string.IsNullOrWhiteSpace(config.GameDirectory) ? PlatformPaths.GetDefaultMinecraftDirectory() : config.GameDirectory;
+-			InstancePackService packService = new InstancePackService(ApiHttp, defaultGameDir, _ => { });
++			InstancePackService packService = new InstancePackService(ApiHttp, defaultGameDir, msg => LauncherLog.Info("[Import] " + msg), BuildLoaderInstallerJvmArgs(config));
+ 
+ 			CancellationToken ct = CancellationToken.None;
+ 			if (operationId.Length > 0)
+@@ -1486,7 +1509,7 @@ public static class LocalApiService
+ 				switch (InstancePackService.DetectModpackFormat(zipPath))
+ 				{
+ 					case ModpackArchiveFormat.Modrinth:
+-						newInstance = await packService.ImportModrinthPackAsync(zipPath, _ => { }, ct);
++						newInstance = await packService.ImportModrinthPackAsync(zipPath, msg => LauncherLog.Info("[Import] " + msg), ct);
+ 						break;
+ 					case ModpackArchiveFormat.CurseForge:
+ 						newInstance = await packService.ImportCurseForgePackAsync(zipPath, config.CurseForgeApiKey ?? string.Empty, _ => { }, ct);
+@@ -5526,7 +5549,7 @@ public static class LocalApiService
+ 		try
+ 		{
+ 			string defaultGameDir = string.IsNullOrWhiteSpace(config.GameDirectory) ? PlatformPaths.GetDefaultMinecraftDirectory() : config.GameDirectory;
+-			InstancePackService packService = new InstancePackService(ApiHttp, defaultGameDir, msg => UpdateContentTask(entry, msg));
++			InstancePackService packService = new InstancePackService(ApiHttp, defaultGameDir, msg => UpdateContentTask(entry, msg), BuildLoaderInstallerJvmArgs(config));
+ 			UpdateContentTask(entry, "正在创建实例并安装整合包", 0.15);
+ 			GameInstance newInstance = await packService.ImportModrinthPackAsync(zipPath,
+ 				msg => UpdateContentTask(entry, msg),
+
+diff --git "a/D:\\\346\235\276\345\205\211\345\220\257\345\212\250\345\231\250\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\MirrorHelper.cs" "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-patch5-a277605404a445c9b907ffc88280548b\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\MirrorHelper.cs"
+index 97c6eff..0fb89bc 100644
+--- "a/D:\\\346\235\276\345\205\211\345\220\257\345\212\250\345\231\250\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\MirrorHelper.cs"
++++ "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-patch5-a277605404a445c9b907ffc88280548b\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\MirrorHelper.cs"
+@@ -143,7 +143,10 @@ public static class MirrorHelper
+ 		}
+ 		if (url.Contains("meta.fabricmc.net", StringComparison.Ordinal))
+ 		{
+-			return ReplaceHost(url, baseUrl);
++			// FIX-FABRICMETA: BMCLAPI serves Fabric meta under /fabric-meta/v2/...; the bare
++			// "<base> + path" form answers 404 (verified with curl). Quilt's mapping below
++			// already carries its own prefix, which is why only Fabric was broken.
++			return ReplaceHost(url, baseUrl + "/fabric-meta");
+ 		}
+ 		if (url.Contains("meta.quiltmc.org", StringComparison.Ordinal))
+ 		{
+
+diff --git "a/D:\\\346\235\276\345\205\211\345\220\257\345\212\250\345\231\250\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\LoaderInstallHelper.cs" "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-patch5-a277605404a445c9b907ffc88280548b\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\LoaderInstallHelper.cs"
+index d0287e7..71f78a6 100644
+--- "a/D:\\\346\235\276\345\205\211\345\220\257\345\212\250\345\231\250\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\LoaderInstallHelper.cs"
++++ "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-patch5-a277605404a445c9b907ffc88280548b\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\LoaderInstallHelper.cs"
+@@ -23,11 +23,16 @@ public sealed class LoaderInstallHelper
+ 
+ 	private readonly Action<string> _log;
+ 
++	// FIX-PROXYJVM: JVM options handed to the loader INSTALLER process (e.g. -Dhttps.proxyHost=...).
++	// The installer is a separate JVM and does NOT inherit the launcher's HttpClient proxy settings.
++	private readonly IReadOnlyList<string> _extraJvmArgs;
++
+ 	public string GameDirectory => _gameDirectory;
+ 
+-	public LoaderInstallHelper(HttpClient http, string gameDirectory, MinecraftDownloader downloader, Action<string> log)
++	public LoaderInstallHelper(HttpClient http, string gameDirectory, MinecraftDownloader downloader, Action<string> log, IReadOnlyList<string>? extraJvmArgs = null)
+ 	{
+ 		_http = http;
++		_extraJvmArgs = extraJvmArgs ?? Array.Empty<string>();
+ 		_gameDirectory = (string.IsNullOrWhiteSpace(gameDirectory) ? PlatformPaths.GetDefaultMinecraftDirectory() : gameDirectory);
+ 		_downloader = downloader;
+ 		_log = log;
+@@ -150,6 +155,12 @@ public sealed class LoaderInstallHelper
+ 			UseShellExecute = false,
+ 			CreateNoWindow = true
+ 		};
++		// FIX-PROXYJVM: JVM options must precede -jar. Without a proxy the installer tries to download
++		// the vanilla client directly and fails ("Downloading minecraft client failed, invalid checksum").
++		foreach (string jvmArg in _extraJvmArgs)
++		{
++			processStartInfo.ArgumentList.Add(jvmArg);
++		}
+ 		processStartInfo.ArgumentList.Add("-jar");
+ 		processStartInfo.ArgumentList.Add(installerPath);
+ 		processStartInfo.ArgumentList.Add("--installClient");
+
+diff --git "a/D:\\\346\235\276\345\205\211\345\220\257\345\212\250\345\231\250\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\InstallerLoaderService.cs" "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-patch5-a277605404a445c9b907ffc88280548b\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\InstallerLoaderService.cs"
+index 37c2205..f97fbf0 100644
+--- "a/D:\\\346\235\276\345\205\211\345\220\257\345\212\250\345\231\250\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\InstallerLoaderService.cs"
++++ "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-patch5-a277605404a445c9b907ffc88280548b\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\InstallerLoaderService.cs"
+@@ -31,10 +31,10 @@ public abstract class InstallerLoaderService
+ 
+ 	private readonly Action<string> _log;
+ 
+-	protected InstallerLoaderService(HttpClient http, string gameDirectory, MinecraftDownloader downloader, Action<string> log, string metadataUrl, string artifactBaseUrl, string groupPath, string artifactId, ModLoaderKind kind, string label)
++	protected InstallerLoaderService(HttpClient http, string gameDirectory, MinecraftDownloader downloader, Action<string> log, string metadataUrl, string artifactBaseUrl, string groupPath, string artifactId, ModLoaderKind kind, string label, IReadOnlyList<string>? installerJvmArgs = null)
+ 	{
+ 		_http = http;
+-		_helper = new LoaderInstallHelper(http, gameDirectory, downloader, log);
++		_helper = new LoaderInstallHelper(http, gameDirectory, downloader, log, installerJvmArgs);
+ 		_log = log;
+ 		_metadataUrl = metadataUrl;
+ 		_artifactBaseUrl = artifactBaseUrl.TrimEnd('/');
+
+diff --git "a/D:\\\346\235\276\345\205\211\345\220\257\345\212\250\345\231\250\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\ForgeService.cs" "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-patch5-a277605404a445c9b907ffc88280548b\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\ForgeService.cs"
+index 3898c70..42359b7 100644
+--- "a/D:\\\346\235\276\345\205\211\345\220\257\345\212\250\345\231\250\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\ForgeService.cs"
++++ "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-patch5-a277605404a445c9b907ffc88280548b\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\ForgeService.cs"
+@@ -1,4 +1,5 @@
+ using System;
++using System.Collections.Generic;
+ using System.Net.Http;
+ using Pineglow.Launcher.Models;
+ 
+@@ -6,8 +7,8 @@ namespace Pineglow.Launcher.Services;
+ 
+ public sealed class ForgeService : InstallerLoaderService
+ {
+-	public ForgeService(HttpClient http, string gameDirectory, MinecraftDownloader downloader, Action<string> log)
+-		: base(http, gameDirectory, downloader, log, "https://maven.minecraftforge.net/net/minecraftforge/forge/maven-metadata.xml", "https://maven.minecraftforge.net", "net/minecraftforge/forge", "forge", ModLoaderKind.Forge, "Forge")
++	public ForgeService(HttpClient http, string gameDirectory, MinecraftDownloader downloader, Action<string> log, IReadOnlyList<string>? installerJvmArgs = null)
++		: base(http, gameDirectory, downloader, log, "https://maven.minecraftforge.net/net/minecraftforge/forge/maven-metadata.xml", "https://maven.minecraftforge.net", "net/minecraftforge/forge", "forge", ModLoaderKind.Forge, "Forge", installerJvmArgs)
+ 	{
+ 	}
+ 
+
+diff --git "a/D:\\\346\235\276\345\205\211\345\220\257\345\212\250\345\231\250\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\NeoForgeService.cs" "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-patch5-a277605404a445c9b907ffc88280548b\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\NeoForgeService.cs"
+index 60c6d66..78776f5 100644
+--- "a/D:\\\346\235\276\345\205\211\345\220\257\345\212\250\345\231\250\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\NeoForgeService.cs"
++++ "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-patch5-a277605404a445c9b907ffc88280548b\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\NeoForgeService.cs"
+@@ -1,4 +1,5 @@
+ using System;
++using System.Collections.Generic;
+ using System.Net.Http;
+ using Pineglow.Launcher.Models;
+ 
+@@ -6,8 +7,8 @@ namespace Pineglow.Launcher.Services;
+ 
+ public sealed class NeoForgeService : InstallerLoaderService
+ {
+-	public NeoForgeService(HttpClient http, string gameDirectory, MinecraftDownloader downloader, Action<string> log)
+-		: base(http, gameDirectory, downloader, log, "https://maven.neoforged.net/releases/net/neoforged/neoforge/maven-metadata.xml", "https://maven.neoforged.net/releases", "net/neoforged/neoforge", "neoforge", ModLoaderKind.NeoForge, "NeoForge")
++	public NeoForgeService(HttpClient http, string gameDirectory, MinecraftDownloader downloader, Action<string> log, IReadOnlyList<string>? installerJvmArgs = null)
++		: base(http, gameDirectory, downloader, log, "https://maven.neoforged.net/releases/net/neoforged/neoforge/maven-metadata.xml", "https://maven.neoforged.net/releases", "net/neoforged/neoforge", "neoforge", ModLoaderKind.NeoForge, "NeoForge", installerJvmArgs)
+ 	{
+ 	}
+ 
+
+diff --git "a/D:\\\346\235\276\345\205\211\345\220\257\345\212\250\345\231\250\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\InstancePackService.cs" "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-patch5-a277605404a445c9b907ffc88280548b\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\InstancePackService.cs"
+index 2674be4..ce4d2a0 100644
+--- "a/D:\\\346\235\276\345\205\211\345\220\257\345\212\250\345\231\250\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\InstancePackService.cs"
++++ "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-patch5-a277605404a445c9b907ffc88280548b\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\InstancePackService.cs"
+@@ -37,11 +37,15 @@ public sealed class InstancePackService
+ 
+ 	private readonly string _defaultGameDir;
+ 
+-	public InstancePackService(HttpClient http, string defaultGameDir, Action<string> log)
++	// FIX-PROXYJVM: JVM options forwarded to the Forge/NeoForge installer process.
++	private readonly IReadOnlyList<string> _installerJvmArgs;
++
++	public InstancePackService(HttpClient http, string defaultGameDir, Action<string> log, IReadOnlyList<string>? installerJvmArgs = null)
+ 	{
+ 		_http = http;
+ 		_defaultGameDir = defaultGameDir;
+ 		_log = log;
++		_installerJvmArgs = installerJvmArgs ?? Array.Empty<string>();
+ 	}
+ 
+ 	public static ModpackArchiveFormat DetectModpackFormat(string zipPath)
+@@ -486,7 +490,7 @@ public sealed class InstancePackService
+ 			{
+ 				progress(msg);
+ 			})), 
+-			ModLoaderKind.Forge => await new ForgeService(_http, gameDir, downloader, _log).InstallProfileAsync(instance, mcVersion, new LoaderVersionEntry
++			ModLoaderKind.Forge => await new ForgeService(_http, gameDir, downloader, _log, _installerJvmArgs).InstallProfileAsync(instance, mcVersion, new LoaderVersionEntry
+ 			{
+ 				Version = loaderVersion,
+ 				MavenVersion = mcVersion + "-" + loaderVersion
+@@ -494,7 +498,7 @@ public sealed class InstancePackService
+ 			{
+ 				progress(msg);
+ 			})), 
+-			ModLoaderKind.NeoForge => await new NeoForgeService(_http, gameDir, downloader, _log).InstallProfileAsync(instance, mcVersion, new LoaderVersionEntry
++			ModLoaderKind.NeoForge => await new NeoForgeService(_http, gameDir, downloader, _log, _installerJvmArgs).InstallProfileAsync(instance, mcVersion, new LoaderVersionEntry
+ 			{
+ 				Version = loaderVersion,
+ 				MavenVersion = loaderVersion
+
+diff --git "a/D:\\\346\235\276\345\205\211\345\220\257\345\212\250\345\231\250\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\NewsImageProxyService.cs" "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-patch5-a277605404a445c9b907ffc88280548b\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\NewsImageProxyService.cs"
+index 1264205..2f8bd15 100644
+--- "a/D:\\\346\235\276\345\205\211\345\220\257\345\212\250\345\231\250\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\NewsImageProxyService.cs"
++++ "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-patch5-a277605404a445c9b907ffc88280548b\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\NewsImageProxyService.cs"
+@@ -410,7 +410,9 @@ public static class NewsSsrfGuard
+                 throw new NewsImageException("dns_mixed", "fake-ip mixed with other address classes");
+             }
+ 
+-            return fakeIp[0];
++            // FIX-FAKEIP: a dual-stack fake-ip pair is [IPv4, IPv6]; pin the IPv4 one, which is the
++            // address the TUN/fake-ip proxy actually accepts.
++            return fakeIp.FirstOrDefault(a => a.AddressFamily == AddressFamily.InterNetwork) ?? fakeIp[0];
+         }
+ 
+         return addresses.First(address => !IsForbiddenAddress(address));
+@@ -433,17 +435,25 @@ public static class NewsSsrfGuard
+         return true;
+     }
+ 
+-    /// <summary>198.18.0.0/15（含 IPv4-mapped 形式）：基准测试保留段，默认拒绝。</summary>
++    /// <summary>
++    /// 基准测试保留段：198.18.0.0/15（含 IPv4-mapped 形式）与 2001:2::/48（RFC 5180，IPv6 对应段）。
++    /// 两者都是 Clash 类 TUN/fake-ip 模式在双栈机器上会返回的地址，默认拒绝。
++    /// </summary>
+     public static bool IsFakeIpBenchmarkAddress(IPAddress address)
+     {
+         IPAddress candidate = address.IsIPv4MappedToIPv6 ? address.MapToIPv4() : address;
+-        if (candidate.AddressFamily != AddressFamily.InterNetwork)
++        byte[] b = candidate.GetAddressBytes();
++        if (candidate.AddressFamily == AddressFamily.InterNetwork)
+         {
+-            return false;
++            return b[0] == 198 && (b[1] & 0xFE) == 18;
+         }
+-
+-        byte[] b = candidate.GetAddressBytes();
+-        return b[0] == 198 && (b[1] & 0xFE) == 18;
++        if (candidate.AddressFamily == AddressFamily.InterNetworkV6)
++        {
++            // FIX-FAKEIP: IPv6 基准测试段 2001:2::/48。以前只认 IPv4，于是双栈机器上
++            // 「198.18.x.x + 2001:2::x」被当成"fake-ip 与其他类别混合"，兼容开关永远救不回来。
++            return b[0] == 0x20 && b[1] == 0x01 && b[2] == 0x00 && b[3] == 0x02;
++        }
++        return false;
+     }
+ 
+     private static bool IsForbiddenIPv4(byte[] b)
+

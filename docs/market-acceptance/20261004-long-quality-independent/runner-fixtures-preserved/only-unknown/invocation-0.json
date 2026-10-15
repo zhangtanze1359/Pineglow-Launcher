@@ -1,0 +1,34 @@
+{
+  "args": [
+    "-NoProfile",
+    "-ExecutionPolicy",
+    "Bypass",
+    "-File",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-quality-acceptance-17hncq03\\scripts\\run-goal-validation.ps1",
+    "-InputManifest",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\only-unknown\\input.json",
+    "-RunDir",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\only-unknown\\run",
+    "-StagesFile",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\only-unknown\\stages.json",
+    "-Only",
+    "missing-id"
+  ],
+  "exitCode": 0,
+  "stdout": "runner verdict: PASS (stages 0, failed 0)\n",
+  "stderr": "",
+  "verdict": {
+    "schemaVersion": 1,
+    "runner": "run-goal-validation.ps1",
+    "runId": "same-run-id",
+    "inputManifest": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\only-unknown\\input.json",
+    "inputManifestSha256": "6C8AE6312BF9B5861AF0CB8B027B7AC8FC65815621D150C74218DDDB9255AAAF",
+    "stagesFile": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\only-unknown\\stages.json",
+    "generatedUtc": "2026-10-04T09:10:00Z",
+    "resume": false,
+    "stageCount": 0,
+    "failedCount": 0,
+    "stages": [],
+    "verdict": "PASS"
+  }
+}

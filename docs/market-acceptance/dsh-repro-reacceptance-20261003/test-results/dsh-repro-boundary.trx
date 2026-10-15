@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="8287c759-44ec-4dee-8844-96ce66ddef48" name="Administrator@PC-20260705RBJQ 2026-10-03 15:13:45" runUser="PC-20260705RBJQ\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-03T15:13:45.8432728+08:00" queuing="2026-10-03T15:13:45.8432732+08:00" start="2026-10-03T15:13:44.5985629+08:00" finish="2026-10-03T15:13:45.8492432+08:00" />
+  <TestSettings name="default" id="845b9e25-18f7-4bc7-acd6-9b89dd56c3fa">
+    <Deployment runDeploymentRoot="Administrator_PC-20260705RBJQ_2026-10-03_15_13_45" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="3e5aec3a-6465-4df3-a17c-62e9f7a9b52f" testId="9f3459b2-81fe-c70f-9814-7aa6bda1c730" testName="Pineglow.Launcher.Tests.RemediationBoundaryProbes.HttpForgedStoredPath_MustNotConsumeOtherInstanceFile" computerName="PC-20260705RBJQ" duration="00:00:00.1603743" startTime="2026-10-03T15:13:45.1713708+08:00" endTime="2026-10-03T15:13:45.3439766+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3e5aec3a-6465-4df3-a17c-62e9f7a9b52f">
+      <Output>
+        <StdOut>sandbox=C:\Users\Administrator\AppData\Local\Temp\pineglow-boundary-28bbea1aa29b4bf2b141288be2216049; HTTP=200; body={"ok":true,"operationId":"20261003-071345-22a5e93b","status":"restored","overwrite":false,"conflicts":0,"files":[{"relativePath":"mods\\a.jar","state":"restored","sha256":"F92AB83C0FD58E1140418FDF4AA4FA74F0E779E085D408A6FEADB299634C090E","error":null}]}; BStoredExists=False; target=http-other-instance-B</StdOut>
+        <ErrorInfo>
+          <Message>HTTP accepted a record pointing to another instance's isolated file</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.RemediationBoundaryProbes.HttpForgedStoredPath_MustNotConsumeOtherInstanceFile() in C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-repro-6b1f0c9e2a4d47b8a3e5c70d91f4b2a6\dev\PineglowLauncher.Tests\RemediationBoundaryProbes.cs:line 91&#xD;
+   at Pineglow.Launcher.Tests.RemediationBoundaryProbes.HttpForgedStoredPath_MustNotConsumeOtherInstanceFile() in C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-repro-6b1f0c9e2a4d47b8a3e5c70d91f4b2a6\dev\PineglowLauncher.Tests\RemediationBoundaryProbes.cs:line 92&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="25ff2d76-32b1-4bf3-acbe-c0442b3dd894" testId="041be455-c5b5-7eb5-73bc-b36c858eb016" testName="Pineglow.Launcher.Tests.RemediationBoundaryProbes.StoredPath_MustBelongToSameInstanceAndOperation" computerName="PC-20260705RBJQ" duration="00:00:00.0085521" startTime="2026-10-03T15:13:45.7204200+08:00" endTime="2026-10-03T15:13:45.7287646+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="25ff2d76-32b1-4bf3-acbe-c0442b3dd894">
+      <Output>
+        <StdOut>sandbox=C:\Users\Administrator\AppData\Local\Temp\pineglow-boundary-825ed8411e354ac59c791e545052a6ae; status=restored; target=other-instance-B; BStoredExists=False; AStoredExists=True</StdOut>
+        <ErrorInfo>
+          <Message>Another instance's isolated file was consumed by a forged record</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.RemediationBoundaryProbes.StoredPath_MustBelongToSameInstanceAndOperation() in C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-repro-6b1f0c9e2a4d47b8a3e5c70d91f4b2a6\dev\PineglowLauncher.Tests\RemediationBoundaryProbes.cs:line 74&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="6be3a5c7-248b-4902-a40e-01d63cbce4a1" testId="21e3502e-a3a6-9950-e0b7-aa1cb1acb14e" testName="Pineglow.Launcher.Tests.RemediationBoundaryProbes.RollbackFailure_HttpMustExposeRecoveryFields" computerName="PC-20260705RBJQ" duration="00:00:00.0302026" startTime="2026-10-03T15:13:45.3589280+08:00" endTime="2026-10-03T15:13:45.3764461+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6be3a5c7-248b-4902-a40e-01d63cbce4a1">
+      <Output>
+        <StdOut>sandbox=C:\Users\Administrator\AppData\Local\Temp\pineglow-boundary-04fef1f6be934ff39109c6a5a8bf66d9; HTTP=400; body={"error":"[commit_failed] \u5199\u5165\u65B0\u7248\u672C\u5931\u8D25\uFF0C**\u672A\u80FD\u5B8C\u5168\u56DE\u6EDA**\uFF0C\u65E7\u7248\u672C\u4ECD\u9700\u4EBA\u5DE5\u6062\u590D\u3002\u6062\u590D\u8BB0\u5F55 20261003-071345-ff3088fa\uFF0C\u56DE\u6EDA\u72B6\u6001 failed\uFF0C\u672A\u6062\u590D\u6587\u4EF6\uFF1Aa.jar \u2192 Access to the path \u0027C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-04fef1f6be934ff39109c6a5a8bf66d9\\game\\mods\\a.jar\u0027 is denied.\uFF1B\u539F\u56E0\uFF1A\u672A\u80FD\u6062\u590D\u7684\u6587\u4EF6\uFF1Aa.jar \u2192 Access to the path \u0027C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-04fef1f6be934ff39109c6a5a8bf66d9\\game\\mods\\a.jar\u0027 is denied.\uFF1B\u539F\u59CB\u5931\u8D25\uFF1Ainjected commit failure\uFF08needsRecovery=true\uFF1BoperationId=20261003-071345-ff3088fa\uFF1BrecoveryStatus=failed\uFF1B\u672A\u6062\u590D\u6587\u4EF6\uFF1Aa.jar \u2192 Access to the path \u0027C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-04fef1f6be934ff39109c6a5a8bf66d9\\game\\mods\\a.jar\u0027 is denied.\uFF09"}</StdOut>
+        <ErrorInfo>
+          <Message>needsRecovery only appears inside error prose, not a JSON field</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.RemediationBoundaryProbes.RollbackFailure_HttpMustExposeRecoveryFields() in C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-repro-6b1f0c9e2a4d47b8a3e5c70d91f4b2a6\dev\PineglowLauncher.Tests\RemediationBoundaryProbes.cs:line 104&#xD;
+   at Pineglow.Launcher.Tests.RemediationBoundaryProbes.RollbackFailure_HttpMustExposeRecoveryFields() in C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-repro-6b1f0c9e2a4d47b8a3e5c70d91f4b2a6\dev\PineglowLauncher.Tests\RemediationBoundaryProbes.cs:line 107&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="43e85361-8b93-4642-80a5-63b00fcdcbfb" testId="9fa6e5a9-f92b-780b-d2b6-5c2dd18b76d1" testName="Pineglow.Launcher.Tests.RemediationBoundaryProbes.SecretBackend_ConcurrentAsyncFlowsStayIsolated" computerName="PC-20260705RBJQ" duration="00:00:00.0118392" startTime="2026-10-03T15:13:45.7294056+08:00" endTime="2026-10-03T15:13:45.7412858+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="43e85361-8b93-4642-80a5-63b00fcdcbfb">
+      <Output>
+        <StdOut>two overlapping async scopes stayed isolated; native delta=0</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="51f3576f-4599-432e-8ac6-f68615636928" testId="a4caee86-0e18-b2d7-2f24-89cc4faf876e" testName="Pineglow.Launcher.Tests.RemediationBoundaryProbes.ModReplaceUndo_MustRejectJunctionAboveRecordedModsRoot" computerName="PC-20260705RBJQ" duration="00:00:00.3425996" startTime="2026-10-03T15:13:45.3778966+08:00" endTime="2026-10-03T15:13:45.7196751+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="51f3576f-4599-432e-8ac6-f68615636928">
+      <Output>
+        <StdOut>sandbox=C:\Users\Administrator\AppData\Local\Temp\pineglow-boundary-cb86c0fac2014db8b494670022d84d51; restoreHTTP=200; body={"ok":true,"operationId":"20261003-071345-40ef7349","status":"restored","overwrite":false,"conflicts":0,"files":[{"relativePath":"a.jar","state":"restored","sha256":"DD7A346236273D4FD019C7BF806B00A7EEA9D992583B6AED9ED2231CF345F4B7","error":null}]}; outsideFileExists=True</StdOut>
+        <ErrorInfo>
+          <Message>Undo wrote through the game junction above record.GameDirectory=game/mods</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.RemediationBoundaryProbes.ModReplaceUndo_MustRejectJunctionAboveRecordedModsRoot() in C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-repro-6b1f0c9e2a4d47b8a3e5c70d91f4b2a6\dev\PineglowLauncher.Tests\RemediationBoundaryProbes.cs:line 59&#xD;
+   at Pineglow.Launcher.Tests.RemediationBoundaryProbes.ModReplaceUndo_MustRejectJunctionAboveRecordedModsRoot() in C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-repro-6b1f0c9e2a4d47b8a3e5c70d91f4b2a6\dev\PineglowLauncher.Tests\RemediationBoundaryProbes.cs:line 60&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Pineglow.Launcher.Tests.RemediationBoundaryProbes.StoredPath_MustBelongToSameInstanceAndOperation" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-repro-6b1f0c9e2a4d47b8a3e5c70d91f4b2a6\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="041be455-c5b5-7eb5-73bc-b36c858eb016">
+      <Execution id="25ff2d76-32b1-4bf3-acbe-c0442b3dd894" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-repro-6b1f0c9e2a4d47b8a3e5c70d91f4b2a6\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RemediationBoundaryProbes" name="StoredPath_MustBelongToSameInstanceAndOperation" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RemediationBoundaryProbes.RollbackFailure_HttpMustExposeRecoveryFields" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-repro-6b1f0c9e2a4d47b8a3e5c70d91f4b2a6\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="21e3502e-a3a6-9950-e0b7-aa1cb1acb14e">
+      <Execution id="6be3a5c7-248b-4902-a40e-01d63cbce4a1" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-repro-6b1f0c9e2a4d47b8a3e5c70d91f4b2a6\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RemediationBoundaryProbes" name="RollbackFailure_HttpMustExposeRecoveryFields" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RemediationBoundaryProbes.HttpForgedStoredPath_MustNotConsumeOtherInstanceFile" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-repro-6b1f0c9e2a4d47b8a3e5c70d91f4b2a6\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="9f3459b2-81fe-c70f-9814-7aa6bda1c730">
+      <Execution id="3e5aec3a-6465-4df3-a17c-62e9f7a9b52f" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-repro-6b1f0c9e2a4d47b8a3e5c70d91f4b2a6\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RemediationBoundaryProbes" name="HttpForgedStoredPath_MustNotConsumeOtherInstanceFile" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RemediationBoundaryProbes.ModReplaceUndo_MustRejectJunctionAboveRecordedModsRoot" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-repro-6b1f0c9e2a4d47b8a3e5c70d91f4b2a6\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="a4caee86-0e18-b2d7-2f24-89cc4faf876e">
+      <Execution id="51f3576f-4599-432e-8ac6-f68615636928" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-repro-6b1f0c9e2a4d47b8a3e5c70d91f4b2a6\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RemediationBoundaryProbes" name="ModReplaceUndo_MustRejectJunctionAboveRecordedModsRoot" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RemediationBoundaryProbes.SecretBackend_ConcurrentAsyncFlowsStayIsolated" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-repro-6b1f0c9e2a4d47b8a3e5c70d91f4b2a6\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="9fa6e5a9-f92b-780b-d2b6-5c2dd18b76d1">
+      <Execution id="43e85361-8b93-4642-80a5-63b00fcdcbfb" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-repro-6b1f0c9e2a4d47b8a3e5c70d91f4b2a6\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RemediationBoundaryProbes" name="SecretBackend_ConcurrentAsyncFlowsStayIsolated" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="9f3459b2-81fe-c70f-9814-7aa6bda1c730" executionId="3e5aec3a-6465-4df3-a17c-62e9f7a9b52f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="041be455-c5b5-7eb5-73bc-b36c858eb016" executionId="25ff2d76-32b1-4bf3-acbe-c0442b3dd894" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="21e3502e-a3a6-9950-e0b7-aa1cb1acb14e" executionId="6be3a5c7-248b-4902-a40e-01d63cbce4a1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9fa6e5a9-f92b-780b-d2b6-5c2dd18b76d1" executionId="43e85361-8b93-4642-80a5-63b00fcdcbfb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a4caee86-0e18-b2d7-2f24-89cc4faf876e" executionId="51f3576f-4599-432e-8ac6-f68615636928" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="5" executed="5" passed="1" failed="4" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.9)&#xD;
+[xUnit.net 00:00:00.09]   Discovering: Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.19]   Discovered:  Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.21]   Starting:    Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.40]       HTTP accepted a record pointing to another instance's isolated file&#xD;
+[xUnit.net 00:00:00.40]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.41]         C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-repro-6b1f0c9e2a4d47b8a3e5c70d91f4b2a6\dev\PineglowLauncher.Tests\RemediationBoundaryProbes.cs(91,0): at Pineglow.Launcher.Tests.RemediationBoundaryProbes.HttpForgedStoredPath_MustNotConsumeOtherInstanceFile()&#xD;
+[xUnit.net 00:00:00.41]         C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-repro-6b1f0c9e2a4d47b8a3e5c70d91f4b2a6\dev\PineglowLauncher.Tests\RemediationBoundaryProbes.cs(92,0): at Pineglow.Launcher.Tests.RemediationBoundaryProbes.HttpForgedStoredPath_MustNotConsumeOtherInstanceFile()&#xD;
+[xUnit.net 00:00:00.41]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.41]       Output:&#xD;
+[xUnit.net 00:00:00.41]         sandbox=C:\Users\Administrator\AppData\Local\Temp\pineglow-boundary-28bbea1aa29b4bf2b141288be2216049; HTTP=200; body={"ok":true,"operationId":"20261003-071345-22a5e93b","status":"restored","overwrite":false,"conflicts":0,"files":[{"relativePath":"mods\\a.jar","state":"restored","sha256":"F92AB83C0FD58E1140418FDF4AA4FA74F0E779E085D408A6FEADB299634C090E","error":null}]}; BStoredExists=False; target=http-other-instance-B&#xD;
+[xUnit.net 00:00:00.43]       needsRecovery only appears inside error prose, not a JSON field&#xD;
+[xUnit.net 00:00:00.43]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.43]         C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-repro-6b1f0c9e2a4d47b8a3e5c70d91f4b2a6\dev\PineglowLauncher.Tests\RemediationBoundaryProbes.cs(104,0): at Pineglow.Launcher.Tests.RemediationBoundaryProbes.RollbackFailure_HttpMustExposeRecoveryFields()&#xD;
+[xUnit.net 00:00:00.43]         C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-repro-6b1f0c9e2a4d47b8a3e5c70d91f4b2a6\dev\PineglowLauncher.Tests\RemediationBoundaryProbes.cs(107,0): at Pineglow.Launcher.Tests.RemediationBoundaryProbes.RollbackFailure_HttpMustExposeRecoveryFields()&#xD;
+[xUnit.net 00:00:00.43]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.43]       Output:&#xD;
+[xUnit.net 00:00:00.43]         sandbox=C:\Users\Administrator\AppData\Local\Temp\pineglow-boundary-04fef1f6be934ff39109c6a5a8bf66d9; HTTP=400; body={"error":"[commit_failed] \u5199\u5165\u65B0\u7248\u672C\u5931\u8D25\uFF0C**\u672A\u80FD\u5B8C\u5168\u56DE\u6EDA**\uFF0C\u65E7\u7248\u672C\u4ECD\u9700\u4EBA\u5DE5\u6062\u590D\u3002\u6062\u590D\u8BB0\u5F55 20261003-071345-ff3088fa\uFF0C\u56DE\u6EDA\u72B6\u6001 failed\uFF0C\u672A\u6062\u590D\u6587\u4EF6\uFF1Aa.jar \u2192 Access to the path \u0027C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-04fef1f6be934ff39109c6a5a8bf66d9\\game\\mods\\a.jar\u0027 is denied.\uFF1B\u539F\u56E0\uFF1A\u672A\u80FD\u6062\u590D\u7684\u6587\u4EF6\uFF1Aa.jar \u2192 Access to the path \u0027C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-04fef1f6be934ff39109c6a5a8bf66d9\\game\\mods\\a.jar\u0027 is denied.\uFF1B\u539F\u59CB\u5931\u8D25\uFF1Ainjected commit failure\uFF08needsRecovery=true\uFF1BoperationId=20261003-071345-ff3088fa\uFF1BrecoveryStatus=failed\uFF1B\u672A\u6062\u590D\u6587\u4EF6\uFF1Aa.jar \u2192 Access to the path \u0027C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-04fef1f6be934ff39109c6a5a8bf66d9\\game\\mods\\a.jar\u0027 is denied.\uFF09"}&#xD;
+[xUnit.net 00:00:00.78]       Undo wrote through the game junction above record.GameDirectory=game/mods&#xD;
+[xUnit.net 00:00:00.78]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.78]         C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-repro-6b1f0c9e2a4d47b8a3e5c70d91f4b2a6\dev\PineglowLauncher.Tests\RemediationBoundaryProbes.cs(59,0): at Pineglow.Launcher.Tests.RemediationBoundaryProbes.ModReplaceUndo_MustRejectJunctionAboveRecordedModsRoot()&#xD;
+[xUnit.net 00:00:00.78]         C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-repro-6b1f0c9e2a4d47b8a3e5c70d91f4b2a6\dev\PineglowLauncher.Tests\RemediationBoundaryProbes.cs(60,0): at Pineglow.Launcher.Tests.RemediationBoundaryProbes.ModReplaceUndo_MustRejectJunctionAboveRecordedModsRoot()&#xD;
+[xUnit.net 00:00:00.78]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.78]       Output:&#xD;
+[xUnit.net 00:00:00.78]         sandbox=C:\Users\Administrator\AppData\Local\Temp\pineglow-boundary-cb86c0fac2014db8b494670022d84d51; restoreHTTP=200; body={"ok":true,"operationId":"20261003-071345-40ef7349","status":"restored","overwrite":false,"conflicts":0,"files":[{"relativePath":"a.jar","state":"restored","sha256":"DD7A346236273D4FD019C7BF806B00A7EEA9D992583B6AED9ED2231CF345F4B7","error":null}]}; outsideFileExists=True&#xD;
+[xUnit.net 00:00:00.79]       Another instance's isolated file was consumed by a forged record&#xD;
+[xUnit.net 00:00:00.79]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.79]         C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-repro-6b1f0c9e2a4d47b8a3e5c70d91f4b2a6\dev\PineglowLauncher.Tests\RemediationBoundaryProbes.cs(74,0): at Pineglow.Launcher.Tests.RemediationBoundaryProbes.StoredPath_MustBelongToSameInstanceAndOperation()&#xD;
+[xUnit.net 00:00:00.79]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.79]       Output:&#xD;
+[xUnit.net 00:00:00.79]         sandbox=C:\Users\Administrator\AppData\Local\Temp\pineglow-boundary-825ed8411e354ac59c791e545052a6ae; status=restored; target=other-instance-B; BStoredExists=False; AStoredExists=True&#xD;
+[xUnit.net 00:00:00.80]   Finished:    Pineglow.Launcher.Tests&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-03T15:13:45.3468845+08:00">
+        <Text>[xUnit.net 00:00:00.40]     Pineglow.Launcher.Tests.RemediationBoundaryProbes.HttpForgedStoredPath_MustNotConsumeOtherInstanceFile [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-03T15:13:45.3769306+08:00">
+        <Text>[xUnit.net 00:00:00.43]     Pineglow.Launcher.Tests.RemediationBoundaryProbes.RollbackFailure_HttpMustExposeRecoveryFields [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-03T15:13:45.7201348+08:00">
+        <Text>[xUnit.net 00:00:00.78]     Pineglow.Launcher.Tests.RemediationBoundaryProbes.ModReplaceUndo_MustRejectJunctionAboveRecordedModsRoot [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-03T15:13:45.7291727+08:00">
+        <Text>[xUnit.net 00:00:00.79]     Pineglow.Launcher.Tests.RemediationBoundaryProbes.StoredPath_MustBelongToSameInstanceAndOperation [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

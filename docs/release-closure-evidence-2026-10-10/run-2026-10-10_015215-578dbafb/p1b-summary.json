@@ -1,0 +1,12 @@
+﻿[
+    {
+        "mode":  "legacy",
+        "exitCode":  1,
+        "output":  "{\r\n    \"mode\":  \"legacy\",\r\n    \"fixtureRoot\":  \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pineglow-uiprobe-legacy-c63f46de70564a9e88fb5842eb88315f\",\r\n    \"artifactSha256\":  \"3BA605531690D832900280DD29CCEAF1C0102EC71171F8498AFFF234DC47F96F\",\r\n    \"sourceUiIndexSha256\":  \"39933134AD98FAFD51B2D22106B5E692371106610BEB62302A68B6938C72D02F\",\r\n    \"externalUiSha256\":  \"61E1007A87FF7D67E0AEAD3882044942A4FD12E7F9DA3C013900480F84921708\",\r\n    \"externalUiPresent\":  true,\r\n    \"apiPort\":  55029,\r\n    \"healthReady\":  true,\r\n    \"legacyMarkerServed\":  true,\r\n    \"externalUiServed\":  true,\r\n    \"servedIndexSha256\":  \"61E1007A87FF7D67E0AEAD3882044942A4FD12E7F9DA3C013900480F84921708\",\r\n    \"servedIndexMatchesCurrentSource\":  false,\r\n    \"ownedProcessStopped\":  true,\r\n    \"timeHK\":  \"2026-10-10T01:54:11.3599078\"\r\n}"
+    },
+    {
+        "mode":  "clean",
+        "exitCode":  3,
+        "output":  "{\r\n    \"mode\":  \"clean\",\r\n    \"fixtureRoot\":  \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pineglow-uiprobe-clean-6006a61f352b4a61a0a4cfd725c940f6\",\r\n    \"artifactSha256\":  \"3BA605531690D832900280DD29CCEAF1C0102EC71171F8498AFFF234DC47F96F\",\r\n    \"sourceUiIndexSha256\":  \"39933134AD98FAFD51B2D22106B5E692371106610BEB62302A68B6938C72D02F\",\r\n    \"externalUiSha256\":  null,\r\n    \"externalUiPresent\":  false,\r\n    \"apiPort\":  55032,\r\n    \"healthReady\":  true,\r\n    \"legacyMarkerServed\":  false,\r\n    \"externalUiServed\":  false,\r\n    \"servedIndexSha256\":  \"FB80E536331FD5E4FD9C6FF60D6173A8948304BD4BE1D09CE9120E7903E5F2D2\",\r\n    \"servedIndexMatchesCurrentSource\":  false,\r\n    \"ownedProcessStopped\":  true,\r\n    \"timeHK\":  \"2026-10-10T01:54:13.3970519\"\r\n}"
+    }
+]

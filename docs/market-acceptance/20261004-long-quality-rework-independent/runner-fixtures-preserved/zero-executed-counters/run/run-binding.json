@@ -1,0 +1,13 @@
+{
+    "schemaVersion":  1,
+    "runId":  "fixed-id",
+    "inputManifest":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\zero-executed-counters\\input.json",
+    "inputManifestSha256":  "011DEC3A7BF8463404DD59D3C0224A224B1638F3FBDB023CE786E6FDA91BBEC9",
+    "verifiedInputSetSha256":  "8B61E22B98906A58BCCF598A8597273C39E974CA49E3A725FCEE986A121651DB",
+    "verifiedInputCount":  2,
+    "verifiedInputRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\zero-executed-counters",
+    "stagesFile":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\zero-executed-counters\\stages.json",
+    "stagesFileSha256":  "97E4F3FB6C971BEE3306AFBCF80C5A62252947AEECDE96E598AAF601077EDCA2",
+    "executionRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\zero-executed-counters",
+    "evidenceRoot":  ""
+}

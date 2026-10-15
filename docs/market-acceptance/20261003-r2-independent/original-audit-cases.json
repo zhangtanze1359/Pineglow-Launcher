@@ -1,0 +1,91 @@
+{
+  "fixtureRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-audit-neg-by6pp6hj",
+  "auditor": "C:\\Users\\Administrator\\.codex\\worktrees\\0f45\\松光启动器\\docs\\market-execution\\FINAL-REMEDIATION-R2\\20261003-071724Z\\audit-all-manifests-r2.py",
+  "cases": [
+    {
+      "case": "empty-root",
+      "expected": "non-zero",
+      "exitCode": 1,
+      "ok": true,
+      "summary": "{\"roots\": 1, \"manifestCount\": 0, \"fileEntries\": 0, \"selfEntries\": 0, \"knownMismatches\": 0, \"missingDetached\": 0, \"failures\": 1, \"exit\": 1}"
+    },
+    {
+      "case": "no-manifest",
+      "expected": "non-zero",
+      "exitCode": 1,
+      "ok": true,
+      "summary": "{\"roots\": 1, \"manifestCount\": 0, \"fileEntries\": 0, \"selfEntries\": 0, \"knownMismatches\": 0, \"missingDetached\": 0, \"failures\": 1, \"exit\": 1}"
+    },
+    {
+      "case": "bad-detached",
+      "expected": "non-zero",
+      "exitCode": 1,
+      "ok": true,
+      "summary": "{\"roots\": 1, \"manifestCount\": 1, \"fileEntries\": 1, \"selfEntries\": 0, \"knownMismatches\": 0, \"missingDetached\": 0, \"failures\": 1, \"exit\": 1}"
+    },
+    {
+      "case": "missing-detached-remediation-line",
+      "expected": "non-zero",
+      "exitCode": 1,
+      "ok": true,
+      "summary": "{\"roots\": 1, \"manifestCount\": 1, \"fileEntries\": 1, \"selfEntries\": 0, \"knownMismatches\": 0, \"missingDetached\": 0, \"failures\": 1, \"exit\": 1}"
+    },
+    {
+      "case": "missing-listed-file",
+      "expected": "non-zero",
+      "exitCode": 1,
+      "ok": true,
+      "summary": "{\"roots\": 1, \"manifestCount\": 1, \"fileEntries\": 2, \"selfEntries\": 0, \"knownMismatches\": 0, \"missingDetached\": 0, \"failures\": 1, \"exit\": 1}"
+    },
+    {
+      "case": "unlisted-file",
+      "expected": "non-zero",
+      "exitCode": 1,
+      "ok": true,
+      "summary": "{\"roots\": 1, \"manifestCount\": 1, \"fileEntries\": 1, \"selfEntries\": 0, \"knownMismatches\": 0, \"missingDetached\": 0, \"failures\": 1, \"exit\": 1}"
+    },
+    {
+      "case": "unknown-sha-drift",
+      "expected": "non-zero",
+      "exitCode": 1,
+      "ok": true,
+      "summary": "{\"roots\": 1, \"manifestCount\": 1, \"fileEntries\": 1, \"selfEntries\": 0, \"knownMismatches\": 0, \"missingDetached\": 0, \"failures\": 1, \"exit\": 1}"
+    },
+    {
+      "case": "runid-mismatch",
+      "expected": "non-zero",
+      "exitCode": 1,
+      "ok": true,
+      "summary": "{\"roots\": 1, \"manifestCount\": 1, \"fileEntries\": 1, \"selfEntries\": 0, \"knownMismatches\": 0, \"missingDetached\": 0, \"failures\": 1, \"exit\": 1}"
+    },
+    {
+      "case": "manifest-self-reference",
+      "expected": "non-zero",
+      "exitCode": 1,
+      "ok": true,
+      "summary": "{\"roots\": 1, \"manifestCount\": 1, \"fileEntries\": 1, \"selfEntries\": 1, \"knownMismatches\": 0, \"missingDetached\": 0, \"failures\": 1, \"exit\": 1}"
+    },
+    {
+      "case": "known-path-third-bytes",
+      "expected": "non-zero",
+      "exitCode": 1,
+      "ok": true,
+      "summary": "{\"roots\": 1, \"manifestCount\": 1, \"fileEntries\": 1, \"selfEntries\": 0, \"knownMismatches\": 0, \"missingDetached\": 1, \"failures\": 1, \"exit\": 1}"
+    },
+    {
+      "case": "valid-package",
+      "expected": "zero",
+      "exitCode": 0,
+      "ok": true,
+      "summary": "{\"roots\": 1, \"manifestCount\": 1, \"fileEntries\": 2, \"selfEntries\": 0, \"knownMismatches\": 0, \"missingDetached\": 0, \"failures\": 0, \"exit\": 0}"
+    },
+    {
+      "case": "registered-exception",
+      "expected": "zero",
+      "exitCode": 0,
+      "ok": true,
+      "summary": "{\"roots\": 1, \"manifestCount\": 1, \"fileEntries\": 1, \"selfEntries\": 0, \"knownMismatches\": 1, \"missingDetached\": 1, \"failures\": 0, \"exit\": 0}"
+    }
+  ],
+  "failed": []
+}

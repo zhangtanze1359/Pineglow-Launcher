@@ -1,0 +1,44 @@
+﻿{
+    "probe":  "loader-install-reachability",
+    "fixture":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\install",
+    "apiPort":  53741,
+    "healthReady":  true,
+    "attempts":  [
+                     {
+                         "kind":  "control-vanilla",
+                         "versionId":  "1.21.11",
+                         "accepted":  true,
+                         "response":  "{\"ok\":true,\"id\":\"dlv1791572866812\",\"versionId\":\"1.21.11\",\"status\":\"queued\"}",
+                         "taskState":  "[downloading] 正在获取 Minecraft 1.21.11 元数据..."
+                     },
+                     {
+                         "kind":  "fabric",
+                         "versionId":  "fabric-loader-0.17.2-1.21.11",
+                         "accepted":  true,
+                         "response":  "{\"ok\":true,\"id\":\"dlv1791572870917\",\"versionId\":\"fabric-loader-0.17.2-1.21.11\",\"status\":\"queued\"}",
+                         "taskState":  "[failed] 在线版本清单中找不到 fabric-loader-0.17.2-1.21.11"
+                     },
+                     {
+                         "kind":  "quilt",
+                         "versionId":  "quilt-loader-0.28.0-1.21.11",
+                         "accepted":  true,
+                         "response":  "{\"ok\":true,\"id\":\"dlv1791572874927\",\"versionId\":\"quilt-loader-0.28.0-1.21.11\",\"status\":\"queued\"}",
+                         "taskState":  "[failed] 在线版本清单中找不到 quilt-loader-0.28.0-1.21.11"
+                     },
+                     {
+                         "kind":  "forge",
+                         "versionId":  "1.21.11-forge-61.0.1",
+                         "accepted":  true,
+                         "response":  "{\"ok\":true,\"id\":\"dlv1791572878942\",\"versionId\":\"1.21.11-forge-61.0.1\",\"status\":\"queued\"}",
+                         "taskState":  "[failed] 在线版本清单中找不到 1.21.11-forge-61.0.1"
+                     },
+                     {
+                         "kind":  "neoforge",
+                         "versionId":  "neoforge-21.11.0",
+                         "accepted":  true,
+                         "response":  "{\"ok\":true,\"id\":\"dlv1791572882955\",\"versionId\":\"neoforge-21.11.0\",\"status\":\"queued\"}",
+                         "taskState":  "[failed] 在线版本清单中找不到 neoforge-21.11.0"
+                     }
+                 ],
+    "timeHK":  "2026-10-10T03:07:45.2306833"
+}

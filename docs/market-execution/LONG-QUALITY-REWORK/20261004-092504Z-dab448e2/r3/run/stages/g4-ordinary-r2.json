@@ -1,0 +1,53 @@
+{
+    "schemaVersion":  2,
+    "id":  "g4-ordinary-r2",
+    "runId":  "20261004-r3rework-dab448e2",
+    "attemptDir":  "attempts/g4-ordinary-r2/1",
+    "fingerprint":  "4ECCA6E0328A0446BFD6484BF3002D2F9DA5A129A726CDFEFA2E35DB66FFCDC8",
+    "inputManifestSha256":  "89CE5BF4126E935C30F20AFBE54B36EBCCFC54E5441896BA42F68ACCF87D9B63",
+    "inputSetSha256":  "F01233261D80313E9973761A9809961549330D6F4DAE914DD1DAFFCDCA48A127",
+    "command":  "dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --no-build --filter FullyQualifiedName~RollbackFailure_HttpExposesStructuredRecoveryFields|FullyQualifiedName~RollbackSuccess_HttpReportsNoRecoveryNeeded|FullyQualifiedName~MetadataFailure_HttpExposesStructuredFields|FullyQualifiedName~ModReplaceUndo_NormalRestore_StillWorksWithTrustedRoot|FullyQualifiedName~SecretBackend_ConcurrentAsyncFlowsStayIsolated --logger trx;LogFileName=ordinary-r2.trx --results-directory C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\run\\attempts\\g4-ordinary-r2\\1/results",
+    "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3b-3c837208",
+    "startUtc":  "2026-10-04T10:03:36Z",
+    "endUtc":  "2026-10-04T10:03:37Z",
+    "exitCode":  0,
+    "timedOut":  false,
+    "stillRunning":  false,
+    "counters":  {
+                     "total":  5,
+                     "executed":  5,
+                     "passed":  5,
+                     "failed":  0,
+                     "notExecuted":  0,
+                     "resultRows":  5,
+                     "passedRows":  5,
+                     "failedRows":  0,
+                     "notExecutedRows":  0,
+                     "otherRows":  0
+                 },
+    "trx":  "results/ordinary-r2.trx",
+    "artifacts":  [
+                      {
+                          "path":  "results/ordinary-r2.trx",
+                          "sha256":  "6EFB6DF89C73DDF509FD77A497A5D5E3F50A0F7697A3DB5BF5B64B6BBE081160",
+                          "sizeBytes":  11672
+                      }
+                  ],
+    "rawEvidence":  [
+                        {
+                            "path":  "g4-ordinary-r2.stdout.log",
+                            "sha256":  "5D5DDE7572A5377A4A1AC2495B46ED922EC5D0EFB5BE912D593F3F6D2C967F47",
+                            "sizeBytes":  583
+                        },
+                        {
+                            "path":  "g4-ordinary-r2.stderr.log",
+                            "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                            "sizeBytes":  0
+                        }
+                    ],
+    "reasons":  [
+
+                ],
+    "status":  "COMPLETED",
+    "reused":  false
+}

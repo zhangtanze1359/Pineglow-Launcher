@@ -1,0 +1,30 @@
+{
+  "kind": "Isolated headless Edge + real product APIs using a run-owned portable fixture; no real account upload",
+  "checks": [
+    {
+      "name": "Stats API returns persisted instance identities and 8 real-format fixture sessions",
+      "status": "PASS"
+    },
+    {
+      "name": "Late shell refresh cannot navigate away from the newer selected page",
+      "status": "PASS"
+    },
+    {
+      "name": "Treemap renders both instance groups, focus readout, day filter, invalid range keeps prior chart, resize redraw",
+      "status": "PASS"
+    },
+    {
+      "name": "Mod drawer searches, toggles the actual file, cancel preserves file, confirmed removal moves it to recovery",
+      "status": "PASS"
+    },
+    {
+      "name": "Recovery API restores removed fixture mod without overwriting unrelated files",
+      "status": "PASS"
+    },
+    {
+      "name": "Selecting local PNG previews without upload; offline account apply remains disabled",
+      "status": "PASS"
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,18 @@
+﻿{
+    "probe":  "patched-build-launch",
+    "exe":  "642051E5F46F940E81A2F80F1B1F95B1B4DE4E7207E0F135A9ECE99EB1609C3D",
+    "instance":  "d7-fabric 导入",
+    "instanceId":  "6478bce1e50048ab85339cb800fbe80a",
+    "loader":  "Fabric",
+    "mcVersion":  "fabric-loader-0.19.5-1.21.11",
+    "prelaunchOk":  true,
+    "prelaunchErrors":  [
+
+                        ],
+    "launchOk":  true,
+    "gamePid":  25044,
+    "reachedTitle":  true,
+    "marker":  "Sound engine started",
+    "gameLogPath":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\install\\data\\.minecraft\\instances\\d7-fabric 导入 (1)\\logs\\latest.log",
+    "timeHK":  "2026-10-11T17:21:26.3049238"
+}

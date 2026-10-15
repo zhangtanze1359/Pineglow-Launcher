@@ -38,6 +38,7 @@ node ui/tests/launcher-v4.test.cjs
 node ui/tests/launcher-v5.test.cjs
 node ui/tests/news-behavior.test.cjs
 node ui/tests/news-link.test.cjs
+node ui/tests/playtime.test.cjs
 node ui/tests/skin3d-core.test.cjs
 node ui/tests/update-recovery.test.cjs
 project dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj

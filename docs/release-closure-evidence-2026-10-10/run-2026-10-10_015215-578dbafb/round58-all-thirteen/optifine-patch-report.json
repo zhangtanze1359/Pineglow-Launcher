@@ -1,0 +1,12 @@
+﻿[
+    {
+        "label":  "P-OPTIFINE 1/2 drop OptiFine from the supported-loader list",
+        "file":  "README.md",
+        "ok":  true
+    },
+    {
+        "label":  "P-OPTIFINE 2/2 state the OptiFine limitation explicitly",
+        "file":  "README.md",
+        "ok":  true
+    }
+]

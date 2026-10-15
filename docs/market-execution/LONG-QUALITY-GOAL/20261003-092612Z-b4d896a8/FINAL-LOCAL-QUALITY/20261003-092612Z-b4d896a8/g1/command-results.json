@@ -1,0 +1,63 @@
+{
+    "generatedUtc":  "2026-10-03T09:52:10Z",
+    "cwd":  "D:\\松光启动器",
+    "auditorSha256":  "F4121D33933F22C3A32BB556F36FF8F7E83A622C6CAEFF594533A2BE2673099E",
+    "commands":  [
+                     {
+                         "id":  "audit-contract-tests",
+                         "command":  "python -X utf8 scripts/tests/audit-goal-evidence.test.py",
+                         "exitCode":  0,
+                         "expected":  "26 tests OK",
+                         "actual":  "exit=0"
+                     },
+                     {
+                         "id":  "old-auditor-red",
+                         "command":  "python -X utf8 \u003cER\u003e/g1/red-old-auditor-coverage.py \u003cER\u003e/g1",
+                         "exitCode":  0,
+                         "expected":  "5/5 old auditor false passes reproduced",
+                         "actual":  "exit=0"
+                     },
+                     {
+                         "id":  "audit-history-raw",
+                         "command":  "python -X utf8 scripts/audit-goal-evidence.py --expected g1/expected-evidence-history.json --out g1/audit-history-raw.json",
+                         "exitCode":  1,
+                         "expected":  "exit 1 (the untouched R2 package fails)",
+                         "actual":  "exit=1"
+                     },
+                     {
+                         "id":  "audit-history-bound",
+                         "command":  "... --expected g0/expected-evidence.json --out g1/audit-history-bound.json",
+                         "exitCode":  0,
+                         "expected":  "exit 0, 61 packages, 874 entries, 3 known drifts",
+                         "actual":  "exit=0"
+                     },
+                     {
+                         "id":  "audit-final-preflight",
+                         "command":  "... --expected g0/expected-evidence-final.json --out g1/audit-final-preflight.json",
+                         "exitCode":  1,
+                         "expected":  "exit 1 until the final package exists",
+                         "actual":  "exit=1"
+                     },
+                     {
+                         "id":  "source-drift",
+                         "command":  "python -X utf8 \u003cER\u003e/source-drift-check.py \u003cER\u003e g2/source-drift-after-g2.json --label after-g2-final",
+                         "exitCode":  0,
+                         "expected":  "0 unexpected drift",
+                         "actual":  "exit=0"
+                     },
+                     {
+                         "id":  "goal-core-flow",
+                         "command":  "node --test ui/tests/goal-core-flow.test.cjs",
+                         "exitCode":  0,
+                         "expected":  "5 tests pass",
+                         "actual":  "exit=0"
+                     },
+                     {
+                         "id":  "node-all",
+                         "command":  "node --test \u003c21 ui/tests entries\u003e",
+                         "exitCode":  0,
+                         "expected":  "243 tests pass, 0 skip",
+                         "actual":  "exit=0"
+                     }
+                 ]
+}

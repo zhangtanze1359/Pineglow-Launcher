@@ -1,0 +1,25 @@
+﻿{
+    "utc":  "2026-10-03T07:36:13.1416519Z",
+    "head":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "statusLinesBefore":  1363,
+    "statusLinesAfter":  1365,
+    "comparedAgainst":  "FINAL-REMEDIATION/20261003-052200Z/green-snapshot-manifest.json (R1)",
+    "identical":  280,
+    "changed":  [
+                    "dev/PineglowLauncher.Tests/FinalAcceptanceRegressionTests.cs",
+                    "dev/PineglowLauncher/Pineglow.Launcher.Services/FileRecoveryService.cs",
+                    "dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.cs",
+                    "scripts/source-snapshot-inputs.txt"
+                ],
+    "changedOutsideAllowed":  [
+
+                              ],
+    "newFilesThisRound":  [
+                              "dev/PineglowLauncher/Pineglow.Launcher.Services/PathSafetyGuard.cs",
+                              "dev/PineglowLauncher.Tests/RemediationBoundaryRegressionTests.cs"
+                          ],
+    "absentInSourceBecauseDeliveryRootExtra":  [
+                                                   "dev/PineglowLauncher.Tests/FinalAcceptanceProbes.cs",
+                                                   "dev/PineglowLauncher.Tests/IndependentRouteProbes.cs"
+                                               ]
+}

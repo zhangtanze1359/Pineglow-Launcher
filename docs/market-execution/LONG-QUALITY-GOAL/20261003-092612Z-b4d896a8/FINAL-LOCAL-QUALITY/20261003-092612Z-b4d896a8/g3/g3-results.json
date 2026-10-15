@@ -1,0 +1,85 @@
+{
+    "schemaVersion":  1,
+    "generatedUtc":  "2026-10-03T10:07:36Z",
+    "executionRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49",
+    "resultsDir":  "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\g3\\test-results",
+    "stages":  [
+                   {
+                       "id":  "g3-build-tests",
+                       "file":  "dotnet",
+                       "argv":  "build dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release",
+                       "cwd":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49",
+                       "startedUtc":  "2026-10-03T10:07:12Z",
+                       "endedUtc":  "2026-10-03T10:07:23Z",
+                       "exitCode":  0,
+                       "expected":  "exit 0",
+                       "rawEvidence":  "g3/g3-build-tests.log"
+                   },
+                   {
+                       "id":  "g3-secrets",
+                       "file":  "dotnet",
+                       "argv":  "test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --no-build --filter FullyQualifiedName~ConfigPreservationTests|FullyQualifiedName~SecretStoreBackendTests --logger trx;LogFileName=secrets.trx --results-directory C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\g3\\test-results",
+                       "cwd":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49",
+                       "startedUtc":  "2026-10-03T10:07:23Z",
+                       "endedUtc":  "2026-10-03T10:07:24Z",
+                       "exitCode":  0,
+                       "expected":  "exit 0, non-zero tests, no skip",
+                       "rawEvidence":  "g3/g3-secrets.log"
+                   },
+                   {
+                       "id":  "g3-ordinary-r2",
+                       "file":  "dotnet",
+                       "argv":  "test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --no-build --filter FullyQualifiedName~RollbackFailure_HttpExposesStructuredRecoveryFields|FullyQualifiedName~RollbackSuccess_HttpReportsNoRecoveryNeeded|FullyQualifiedName~MetadataFailure_HttpExposesStructuredFields|FullyQualifiedName~ModReplaceUndo_NormalRestore_StillWorksWithTrustedRoot|FullyQualifiedName~SecretBackend_ConcurrentAsyncFlowsStayIsolated --logger trx;LogFileName=ordinary-r2.trx --results-directory C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\g3\\test-results",
+                       "cwd":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49",
+                       "startedUtc":  "2026-10-03T10:07:24Z",
+                       "endedUtc":  "2026-10-03T10:07:26Z",
+                       "exitCode":  0,
+                       "expected":  "exit 0, non-zero tests, no skip",
+                       "rawEvidence":  "g3/g3-ordinary-r2.log"
+                   },
+                   {
+                       "id":  "g3-recovery-normal",
+                       "file":  "dotnet",
+                       "argv":  "test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --no-build --filter FullyQualifiedName~DeleteMod_QuarantinesJarAndSidecar_KeepsByteIdenticalCopies|FullyQualifiedName~DeleteMod_DisabledMod_QuarantinesDotDisabledName|FullyQualifiedName~Restore_PutsJarAndSidecarBackByteIdentical|FullyQualifiedName~Restore_Twice_IsIdempotent_AndKeepsFileContent|FullyQualifiedName~Restore_WithDifferentFileAtOriginalPath_ReportsConflictAndDoesNotOverwrite|FullyQualifiedName~DeleteMod_LeavesEveryOtherFileUntouched --logger trx;LogFileName=recovery-normal.trx --results-directory C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\g3\\test-results",
+                       "cwd":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49",
+                       "startedUtc":  "2026-10-03T10:07:26Z",
+                       "endedUtc":  "2026-10-03T10:07:28Z",
+                       "exitCode":  0,
+                       "expected":  "exit 0, non-zero tests, no skip",
+                       "rawEvidence":  "g3/g3-recovery-normal.log"
+                   },
+                   {
+                       "id":  "g3-node-all",
+                       "file":  "node",
+                       "argv":  "--test C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49\\ui\\tests\\a11y-keyboard.test.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49\\ui\\tests\\a13-doubles-and-taborder.test.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49\\ui\\tests\\a6-bisect-safety-guidance.test.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49\\ui\\tests\\ai-diagnose.test.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49\\ui\\tests\\api-contract.test.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49\\ui\\tests\\bisect-recovery.test.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49\\ui\\tests\\content-icon.test.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49\\ui\\tests\\diagnostic-history.test.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49\\ui\\tests\\file-recovery.test.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49\\ui\\tests\\goal-core-flow.test.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49\\ui\\tests\\import-cancel.test.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49\\ui\\tests\\instance-removal.test.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49\\ui\\tests\\launcher-behavior.test.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49\\ui\\tests\\launcher-content.test.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49\\ui\\tests\\launcher-v3.test.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49\\ui\\tests\\launcher-v4.test.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49\\ui\\tests\\launcher-v5.test.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49\\ui\\tests\\news-behavior.test.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49\\ui\\tests\\news-link.test.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49\\ui\\tests\\skin3d-core.test.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49\\ui\\tests\\update-recovery.test.cjs",
+                       "cwd":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49",
+                       "startedUtc":  "2026-10-03T10:07:28Z",
+                       "endedUtc":  "2026-10-03T10:07:32Z",
+                       "exitCode":  0,
+                       "expected":  "exit 0, non-zero tests, no skip",
+                       "rawEvidence":  "g3/g3-node-all.log"
+                   },
+                   {
+                       "id":  "g3-verifyhost-build",
+                       "file":  "dotnet",
+                       "argv":  "build dev/PineglowLauncher/VerifyHost/VerifyHost.csproj -c Release",
+                       "cwd":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49",
+                       "startedUtc":  "2026-10-03T10:07:32Z",
+                       "endedUtc":  "2026-10-03T10:07:35Z",
+                       "exitCode":  0,
+                       "expected":  "exit 0",
+                       "rawEvidence":  "g3/g3-verifyhost-build.log"
+                   },
+                   {
+                       "id":  "g3-bisect-smoke",
+                       "file":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49\\dev\\PineglowLauncher\\VerifyHost\\bin\\Release\\net10.0\\VerifyHost.exe",
+                       "argv":  "--bisect-smoke",
+                       "cwd":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49",
+                       "startedUtc":  "2026-10-03T10:07:35Z",
+                       "endedUtc":  "2026-10-03T10:07:36Z",
+                       "exitCode":  0,
+                       "expected":  "exit 0, ordinary loopback HTTP + file sandbox only",
+                       "rawEvidence":  "g3/g3-bisect-smoke.log"
+                   }
+               ]
+}

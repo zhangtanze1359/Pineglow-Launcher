@@ -1,0 +1,45 @@
+{
+  "timeHK": "2026-10-10T01:43:17.4054228+08:00",
+  "documentChecks": [
+    {
+      "path": "docs\\release-readiness-review-restored-2026-10-10.md",
+      "bytes": 11895,
+      "replacementChar": false,
+      "fenceCount": 0,
+      "fencesBalanced": true
+    },
+    {
+      "path": "docs\\release-readiness-remediation-restored-2026-10-10.md",
+      "bytes": 7679,
+      "replacementChar": false,
+      "fenceCount": 0,
+      "fencesBalanced": true
+    },
+    {
+      "path": "docs\\minimax-release-readiness-restored-prompt-2026-10-10.md",
+      "bytes": 5804,
+      "replacementChar": false,
+      "fenceCount": 2,
+      "fencesBalanced": true
+    }
+  ],
+  "allTrxCounters": {
+    "total": 931,
+    "executed": 931,
+    "passed": 931,
+    "failed": 0,
+    "notExecuted": 0
+  },
+  "allResultRows": 931,
+  "focusedTrxCounters": {
+    "total": 14,
+    "executed": 14,
+    "passed": 14,
+    "failed": 0,
+    "notExecuted": 0
+  },
+  "focusedResultRows": 14,
+  "currentSourceChanges": [],
+  "staged": 0,
+  "ownedPidsRemaining": []
+}

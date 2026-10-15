@@ -1,0 +1,8 @@
+{
+  "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-r2-79578cd926db4451a6c4f85bdc37e515",
+  "buildCommand": "dotnet build dev/PineglowLauncher/VerifyHost/VerifyHost.csproj -c Release",
+  "buildExit": 0,
+  "smokeCommand": "VerifyHost.exe --bisect-smoke",
+  "smokeExit": 0,
+  "timeHK": "2026-10-03T17:02:26.7681332+08:00"
+}

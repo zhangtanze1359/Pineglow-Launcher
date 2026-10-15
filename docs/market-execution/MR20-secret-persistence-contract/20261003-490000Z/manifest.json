@@ -1,0 +1,92 @@
+{
+    "runId":  "20261003-490000Z",
+    "task":  "MR20 补测：凭据持久化契约（A19 的可验证部分）",
+    "generatedUtc":  "2026-10-03T04:34:59Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "gap-register A19 - PARTIAL: the write contract is now pinned by source-level guards; the real write-to-read round trip is still untested",
+    "whyStatic":  "Adding a path seam to SecretStore would touch credential code, which I had flagged as needing confirmation. SaveCore write contract is source-decidable, so I pinned it with static guards (same approach as A6/A13) instead - no authorization needed.",
+    "contract":  "SaveCore performs exactly 7 SecretStore.Save calls: per-account token; clear per-account legacy key; clear global MicrosoftRefreshToken; write CurseForgeApiKey from config; write ProxyPassword from config; clear global AiApiKey; write per-provider key.",
+    "whyClearsMatter":  "The three clears are the tail of the migration from global keys to per-account/per-provider keys. Missing one leaves BOTH the old and new key on the user machine, and the old key may still be read elsewhere - an inconsistency.",
+    "extraCheck":  "Test 3 catches literal-vs-constant drift: ConfigStore uses literals while SecretStore uses constants; if a constant is renamed and the literal is not, credentials get written to a key nobody reads (silent failure). Test 4 pins the three key names because they are part of the on-disk format - renaming orphans credentials already saved on user machines.",
+    "redBaseline":  "deleting the global AiApiKey clear produced 3 failures (tests 1, 2 and 3)",
+    "verification":  [
+                         "4 passed / 0 failed",
+                         "C# full: 832 passed / 0 failed / 0 skipped (828 + 4)",
+                         "Node full: 238 passed / 0 failed",
+                         "restore byte-identical to green/ConfigStore.cs.fixed"
+                     ],
+    "stillNotCovered":  [
+                            "the real write-to-read round trip still needs a SecretStore path seam (touches credential code - needs your confirmation)",
+                            "the actual secrets.json content and file permissions are not verified",
+                            "the LoadAsync write-back path is still untested end to end"
+                        ],
+    "productionCodeChanged":  "false - tests only",
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "3BA0D125B328F053D32FC658693A2EA2B94E9C6D89EC3E69A6EDA2BAE0D298CF",
+                      "sizeBytes":  5366
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "A840FDE7909BA535B2E863ADD57EBA7D9E456C6FA3F1723C11306747CC54C6D8",
+                      "sizeBytes":  20489
+                  },
+                  {
+                      "path":  "green/01-contract.log",
+                      "sha256":  "5EEA6779315E9DAC431189F1C07121CD6001AC3DBB0BE0E39E80993F1167AEE2",
+                      "sizeBytes":  1986
+                  },
+                  {
+                      "path":  "green/02-csharp-full.log",
+                      "sha256":  "6407C333D041944A6C2E19AC89F8EBA50F4A7F120FD89EDBBBBBD15C5E6552AB",
+                      "sizeBytes":  490
+                  },
+                  {
+                      "path":  "green/03-node-full.log",
+                      "sha256":  "5504601FFEA37460BB6782461E6A7611116D751CEA9E8BB20021A1D202D6C39D",
+                      "sizeBytes":  37648
+                  },
+                  {
+                      "path":  "green/audit-claimed-tests.log",
+                      "sha256":  "39470DB578F38A54595AFFD860E6375B7815EB20DB36256ACF43403891B7D900",
+                      "sizeBytes":  377
+                  },
+                  {
+                      "path":  "green/audit-evidence-tree.log",
+                      "sha256":  "1D88EB14A9A1475E19E299B6E30F898844EE17B1A90535285263E500FB014475",
+                      "sizeBytes":  587
+                  },
+                  {
+                      "path":  "green/audit-plan-ledger.log",
+                      "sha256":  "C15A97877F833E001E33548F20026589AA708C6FA8D57EFEF97288597F44D6C3",
+                      "sizeBytes":  538
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "4A4A96FC2E2DBD6CBEED7AB749C75C499374782A15E5AF2A884C5692977796D1",
+                      "sizeBytes":  233
+                  },
+                  {
+                      "path":  "green/ConfigStore.cs.fixed",
+                      "sha256":  "635D9EBC818532B669D3FC8BFB6C32624E35CE00A4DD6163403679B902A7135C",
+                      "sizeBytes":  9769
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "5A3BF452892444F4773C5516483DCCB1D78DC25FC4F997EBFD6DE0321A512470",
+                      "sizeBytes":  116588
+                  },
+                  {
+                      "path":  "green/SecretPersistenceContractTests.cs.fixed",
+                      "sha256":  "03FD0E22F385E9347C1B5C592AC033FE20608132A2E9DE14EEF37F1741DE83DB",
+                      "sizeBytes":  6168
+                  },
+                  {
+                      "path":  "red/01-red-missing-legacy-clear.log",
+                      "sha256":  "CCDE02BA72EE98F0D50DA8F4561819A91ED70427DCB9F585B7201C7E490D75A5",
+                      "sizeBytes":  6941
+                  }
+              ]
+}

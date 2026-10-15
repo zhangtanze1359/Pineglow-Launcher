@@ -1,0 +1,40 @@
+Checking home at 1280
+Checking installations at 1280
+Checking worlds at 1280
+Checking servers at 1280
+Checking playtime at 1280
+Checking content at 1280
+Checking skins at 1280
+Checking downloads at 1280
+Checking news at 1280
+Checking settings at 1280
+Checking home at 960
+Checking installations at 960
+Checking worlds at 960
+Checking servers at 960
+Checking playtime at 960
+Checking content at 960
+Checking skins at 960
+Checking downloads at 960
+Checking news at 960
+Checking settings at 960
+Checking home at 1600
+Checking installations at 1600
+Checking worlds at 1600
+Checking servers at 1600
+Checking playtime at 1600
+Checking content at 1600
+Checking skins at 1600
+Checking downloads at 1600
+Checking news at 1600
+Checking settings at 1600
+locator.click: Error: strict mode violation: locator('[data-del]') resolved to 2 elements:
+    1) <span tabindex="0" role="button" class="account-card-del" data-del="51f74ad8462e4af9b442955c17e66db9">删除</span> aka getByText('删除')
+    2) <button aria-label="删除（可恢复）" class="mod-del ui-button" data-del="layout_alpha.jar">×</button> aka getByRole('button', { name: '删除（可恢复）' })
+
+Call log:
+  - waiting for locator('[data-del]')
+
+    at D:\松光启动器\docs\ui-fix-2026-10-15\verify-native-final.cjs:62:35 {
+  log: [ "  - waiting for locator('[data-del]')" ]
+}

@@ -1,0 +1,32 @@
+﻿{
+    "probe":  "loader-matrix-via-modpack-import",
+    "fixture":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\install",
+    "proxyKnob":  "127.0.0.1:7897",
+    "javaToolOptionsKnob":  "-Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=7897 -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=7897",
+    "apiPort":  59494,
+    "healthReady":  true,
+    "rows":  [
+                 {
+                     "loader":  "fabric",
+                     "mc":  "1.21.11",
+                     "dep":  "fabric-loader",
+                     "depVersion":  "0.19.5",
+                     "importOk":  false,
+                     "instanceId":  "",
+                     "importSeconds":  330,
+                     "importResponse":  "{\"error\":\"\\u65E0\\u6CD5\\u8FDE\\u63A5 Fabric Meta API\\uFF0C\\u8BF7\\u68C0\\u67E5\\u7F51\\u7EDC\\u8FDE\\u63A5\\u3002The SSL connection could not be established, see inner exception.\"}",
+                     "instanceLoader":  "",
+                     "instanceVersion":  "",
+                     "loaderProfileOnDisk":  false,
+                     "prelaunchOk":  false,
+                     "prelaunchVerdict":  "",
+                     "launchResponse":  "",
+                     "javaStarted":  false,
+                     "reachedTitle":  false,
+                     "gameLogMarker":  "",
+                     "gameLogPath":  "",
+                     "error":  ""
+                 }
+             ],
+    "timeHK":  "2026-10-10T04:03:03.6653841"
+}

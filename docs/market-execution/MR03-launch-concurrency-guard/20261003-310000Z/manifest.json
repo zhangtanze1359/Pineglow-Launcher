@@ -1,0 +1,131 @@
+﻿{
+    "runId":  "20261003-310000Z",
+    "task":  "MR03 补测之二：同一实例的并发启动守卫（A7 剩余项）",
+    "generatedUtc":  "2026-10-03T01:40:09Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "gap-register A7 remainder (no concurrency guard on launching the same instance twice)",
+    "result":  {
+                   "testsAdded":  3,
+                   "green":  "3 passed / 0 failed",
+                   "csharpFull":  "807 passed / 0 failed / 0 skipped - THREE consecutive clean full runs",
+                   "nodeFull":  "230 passed / 0 failed (18 files)",
+                   "productionCodeChanged":  true,
+                   "productionChange":  "LocalApiService.HandleLaunchAsync: added a concurrency guard that rejects launching an instance already reported as running, placed BEFORE any network call or process dispatch",
+                   "harnessFixed":  "LocalApiTestHarness.StartAsync now retries on a fresh port (up to 6 attempts) when HttpListenerException occurs",
+                   "currentDriftNumbers":  "mg0: 265/1/101/0 ; mg1: 75/0/78/0 ; mg2: 265/1/100/0 ; mg3: 75/0/78/0 ; ledger audit exit 0"
+               },
+    "gapWasReal":  {
+                       "before":  "HandleLaunchAsync only called MarkRunning (line 1677) and never checked IsRunning; the only check was in the DELETE guard (line 1243)",
+                       "consequence":  "the same instance could start two game processes writing the same saves, and MarkRunning overwrote the registry (\"last one wins\") so the delete guard then tracked only the newest PID",
+                       "placement":  "the guard runs before credential refresh, version resolution and process dispatch"
+                   },
+    "redBaseline":  "remove the guard -\u003e the \"already running\" test gets 500 \"未找到版本 JSON\" instead of 400 \"已在运行\" (1 failed)",
+    "selfFoundIssues":  [
+                            "MY RED BACKUP WAS THE PRE-FIX STATE: restoring it undid the fix itself (I caught it because I checked 含守卫=False). Re-applied the guard and saved a proper POST-fix backup (green/LocalApiService.cs.fixed). RULE: for a RED on a fix, the backup must be the POST-fix state.",
+                            "A PRE-EXISTING harness flake surfaced (6 then 2 intermittent bisect failures): HttpListenerException \"另一个程序正在使用此文件\" at LocalApiService.Start from LocalApiTestHarness. Bisect tests pass 17/17 alone. Root cause: AcquirePortAsync binds then RELEASES a TcpListener before HttpListener binds (classic TOCTOU), plus a deterministic port seed sequence; more service starts made it visible. Fixed by retrying on a fresh port (6 attempts). Verified: THREE consecutive full runs at 807/0 (was 6 -\u003e 2 failures)."
+                        ],
+    "stillNotCovered":  [
+                            "real Minecraft launch (needs a real game and Java) - this package only verifies the GUARD",
+                            "runtime state is still in-process memory only: after a launcher restart it does not know the game is still running",
+                            "STRICT ATOMICITY of the guard: it is check-then-dispatch, so a very narrow window remains between two concurrent HTTP requests. A per-instance launch reservation (TryBeginLaunch) was NOT implemented - recorded as remaining.",
+                            "non-Windows: self-healing relies on Process.GetProcessById, verified on Windows only"
+                        ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "EF36F668184E726D5763919DEE7278F41AE3DC49C7461FCB69E0030EDF0E00B8",
+                      "sizeBytes":  7983
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "73FB92D81E4FF319F1299DB4E9AED87C6F932EF16286198153F0D316B176109C",
+                      "sizeBytes":  13973
+                  },
+                  {
+                      "path":  "green/01-launch-guard-first.log",
+                      "sha256":  "ECEE7895B39E0811938D47CC9B9BB1070EDCE85023C4ED7387EF485BF4B94533",
+                      "sizeBytes":  1642
+                  },
+                  {
+                      "path":  "green/02-launch-guard-final.log",
+                      "sha256":  "12D9B25F903FA8A2B49FC9D7FB3CFAD44D23D0FB6CBAC41103A8D18B9C23D6C3",
+                      "sizeBytes":  3382
+                  },
+                  {
+                      "path":  "green/03-launch-guard-restored.log",
+                      "sha256":  "5C5C60CA59A9CB010DABE729D7584776D6750D6932F89244C47D340B0AA5AF3A",
+                      "sizeBytes":  1642
+                  },
+                  {
+                      "path":  "green/04-csharp-full.log",
+                      "sha256":  "C5FF27CC9F7A796717A64CB24CBAD194BDF9EE90A475359548C758A60640E497",
+                      "sizeBytes":  16300
+                  },
+                  {
+                      "path":  "green/05-node-full.log",
+                      "sha256":  "32E126F8378E082797793661B37166BFD814F5161507D8F47E93414AD29339D4",
+                      "sizeBytes":  23800
+                  },
+                  {
+                      "path":  "green/06-bisect-alone.log",
+                      "sha256":  "19E1D9A53002DC512FA5510CC749293FE794BA414419C3F60223572B3B075716",
+                      "sizeBytes":  338
+                  },
+                  {
+                      "path":  "green/07-csharp-full-retry.log",
+                      "sha256":  "84A804F6A15EF2BF1AD1D7E516C9FEEC5C35F3369D6E78C8B5A94A43E17D2FE7",
+                      "sizeBytes":  2936
+                  },
+                  {
+                      "path":  "green/08-csharp-full-run1.log",
+                      "sha256":  "21238516AF89428531D31D2E8AFB021ED6426E3CE7E3EBCABD59693183E1AC9A",
+                      "sizeBytes":  339
+                  },
+                  {
+                      "path":  "green/08-csharp-full-run2.log",
+                      "sha256":  "21238516AF89428531D31D2E8AFB021ED6426E3CE7E3EBCABD59693183E1AC9A",
+                      "sizeBytes":  339
+                  },
+                  {
+                      "path":  "green/08-csharp-full-run3.log",
+                      "sha256":  "21238516AF89428531D31D2E8AFB021ED6426E3CE7E3EBCABD59693183E1AC9A",
+                      "sizeBytes":  339
+                  },
+                  {
+                      "path":  "green/09-node-full.log",
+                      "sha256":  "116AEEAB5DC225F35493768D721E58BA7D020A9D92F67CA80D0BE41E3A91787E",
+                      "sizeBytes":  23803
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "206CFCD8D25FC91D876DDBCB918046FB972D6E600744F084FE5D1837DEBA2E71",
+                      "sizeBytes":  478
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "D8E85D475178CB5552158D8C7F36748733DBDC71BC21398947F04EEE7C1EA7F0",
+                      "sizeBytes":  116014
+                  },
+                  {
+                      "path":  "green/LocalApiService.cs.fixed",
+                      "sha256":  "7179D310ACEF7E8A2F396ED147C04EFF8C6BB5A2C59643385B767ED0610ED3FF",
+                      "sizeBytes":  199832
+                  },
+                  {
+                      "path":  "green/LocalApiTestHarness.cs.before",
+                      "sha256":  "5D9A3355FDC889AA0C500D2239ACB0A2C00EA6E708CCAB9D73402207E3829CCF",
+                      "sizeBytes":  9444
+                  },
+                  {
+                      "path":  "red/01-red-no-launch-guard.log",
+                      "sha256":  "F7A00CD534159BE5044462A0A01420374A0879CDD7888BA1FACCFB9E8C9811A1",
+                      "sizeBytes":  3382
+                  },
+                  {
+                      "path":  "red/LocalApiService.cs.before",
+                      "sha256":  "DDAC2BD86D71BF6806DEC5AEE7F9C279F279BC725DF88D0A71758795706ABD43",
+                      "sizeBytes":  190620
+                  }
+              ]
+}

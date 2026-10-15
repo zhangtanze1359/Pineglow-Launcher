@@ -1,0 +1,36 @@
+{
+    "schemaVersion":  1,
+    "id":  "g4-node-all",
+    "runId":  "20261003-092612Z-b4d896a8",
+    "fingerprint":  "4442A084C4C635A1D05A10BDC93C841012D4ACBED28C3D7B198FC3C5786D42D0",
+    "inputManifestSha256":  "7F1A71FCD47541C2055E58DC2BC840FDE0670B013DC1ED923E2263BB1D1A0FF0",
+    "command":  "node --test --test-reporter=tap ui/tests/*.test.cjs",
+    "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-seal-39dfd2b90cbb4689b7fbad1c8ab10ba9",
+    "startUtc":  "2026-10-03T10:38:47Z",
+    "endUtc":  "2026-10-03T10:38:51Z",
+    "exitCode":  0,
+    "timedOut":  false,
+    "stillRunning":  false,
+    "counters":  null,
+    "trx":  "",
+    "artifacts":  [
+
+                  ],
+    "rawEvidence":  [
+                        {
+                            "path":  "g4-node-all.stdout.log",
+                            "sha256":  "FFC68A011E2F6BC6E0D2F5A7D6D6423EF26C837063454E68D8B3673B1430EB88",
+                            "sizeBytes":  61450
+                        },
+                        {
+                            "path":  "g4-node-all.stderr.log",
+                            "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                            "sizeBytes":  0
+                        }
+                    ],
+    "reasons":  [
+
+                ],
+    "status":  "COMPLETED",
+    "reused":  false
+}

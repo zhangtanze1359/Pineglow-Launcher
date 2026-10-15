@@ -1,0 +1,22 @@
+﻿{
+    "probe":  "real-launch",
+    "fixture":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\install",
+    "javaConfigured":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-jre-92310fa5235b45c9bd1b4690811899bc\\jdk-21.0.12.1+1-jre\\bin\\javaw.exe",
+    "requestedVersion":  "1.21.11",
+    "apiPort":  55230,
+    "healthReady":  true,
+    "javaReport":  "{\"javaPath\":\"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pineglow-jre-92310fa5235b45c9bd1b4690811899bc\\\\jdk-21.0.12.1+1-jre\\\\bin\\\\javaw.exe\",\"installations\":[]}",
+    "offlineAccount":  "{\"ok\":true,\"account\":{\"id\":\"6ca2fdfad0d0443e939999dec2f70f0a\",\"type\":\"offline\",\"userName\":\"d6tester\",\"uuid\":\"\",\"xuid\":\"\",\"authServerUrl\":\"\",\"skinUrl\":\"\",\"skinModel\":\"classic\",\"skinCount\":0,\"capeCount\":0,\"capes\":[],\"accessTokenExpiresAt\":\"0001-01-01T00:00:00+00:00\",\"isMicrosoft\":false,\"isThirdParty\":false}}",
+    "instanceId":  "45a7f748a6da4d689ea6c6bdb4db4223",
+    "prelaunchVerdict":  "{\"ok\":true,\"errors\":[],\"warnings\":[],\"maxMemoryMb\":4096,\"gameDir\":\"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\\\install\\\\data\\\\.minecraft\"}",
+    "prelaunchOk":  true,
+    "launchResponse":  "{\"ok\":true,\"pid\":34524,\"minimizeOnLaunch\":false}",
+    "javaProcessStarted":  true,
+    "javaProcessCmdline":  "\"C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-jre-92310fa5235b45c9bd1b4690811899bc\\jdk-21.0.12.1+1-jre\\bin\\javaw.exe\" -Xmx4096M -Dfile.encoding=UTF-8 -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump -Djava.library.path=C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\install\\data\\.minecraft\\versions\\1.21.11\\natives -Djna.tmpdir=C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\install\\data\\.minecraft\\versions\\1.21.11\\natives -Dorg.lwjgl.system.SharedLibraryEx",
+    "gameLogPath":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\install\\data\\.minecraft\\logs\\latest.log",
+    "gameLogTail":  "",
+    "launcherLogTail":  "",
+    "gameReachedMainMenu":  false,
+    "ownedProcessesStopped":  true,
+    "timeHK":  "2026-10-10T03:04:37.5305679"
+}

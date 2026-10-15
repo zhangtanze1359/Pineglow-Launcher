@@ -1,0 +1,210 @@
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace Pineglow.Launcher.Services;
+
+/// <summary>MR12：CurseForge 请求的结果分类。调用方/界面据此区分"稍后重试"与"Key 无效/没有结果"。</summary>
+internal enum CurseForgeOutcome
+{
+	Ok,
+	RateLimited,
+	Unauthorized,
+	NotFound,
+	ServerError,
+	NetworkError
+}
+
+/// <summary>MR12：CurseForge 请求失败（带分类与限流时的建议等待时间）。</summary>
+internal sealed class CurseForgeRequestException : Exception
+{
+	public CurseForgeOutcome Outcome { get; }
+
+	public TimeSpan? RetryAfter { get; }
+
+	public int Attempts { get; }
+
+	public CurseForgeRequestException(CurseForgeOutcome outcome, string message, TimeSpan? retryAfter = null, int attempts = 1, Exception? inner = null)
+		: base(message, inner)
+	{
+		Outcome = outcome;
+		RetryAfter = retryAfter;
+		Attempts = attempts;
+	}
+
+	/// <summary>给用户看的下一步（"稍后重试" vs "换 Key" vs "换个关键词"）。</summary>
+	public string Hint => Outcome switch
+	{
+		CurseForgeOutcome.RateLimited => RetryAfter.HasValue
+			? $"CurseForge 请求过于频繁，请在约 {Math.Ceiling(RetryAfter.Value.TotalSeconds)} 秒后重试。"
+			: "CurseForge 请求过于频繁，请稍后重试。",
+		CurseForgeOutcome.Unauthorized => "CurseForge API Key 无效或未授权，请在设置中检查 Key。",
+		CurseForgeOutcome.NotFound => "CurseForge 上找不到该内容，请换个关键词或确认项目是否已下架。",
+		CurseForgeOutcome.ServerError => "CurseForge 服务暂时异常，请稍后重试。",
+		_ => "网络请求失败，请检查网络后重试。",
+	};
+}
+
+/// <summary>
+/// MR12：CurseForge 的**单一出口**请求策略。
+///
+/// 解决的真实问题：改动前 CurseForge 的三处请求（搜索 / 文件列表 / 下载地址）都只调用
+/// <c>EnsureSuccessStatusCode()</c> —— 429 会被当成普通失败直接抛出：
+///   - 不读 <c>Retry-After</c>，也不退避，短时间连续请求会持续撞限流；
+///   - 无法区分"限流（稍后重试就能好）"与"Key 无效 / 真的没有结果"，界面只能笼统报错。
+///
+/// 现在统一走这里：遵守 Retry-After、指数退避 + 抖动、限流/鉴权/未找到分类明确，
+/// 并且所有 CF 请求共享一个并发上限（不绕过官方 API 限制）。
+/// </summary>
+internal static class CurseForgeRequestPolicy
+{
+	public const int MaxAttempts = 4;
+
+	/// <summary>并发上限：CF 请求同时最多这么多条。</summary>
+	public const int MaxConcurrentRequests = 2;
+
+	public static readonly TimeSpan BaseDelay = TimeSpan.FromMilliseconds(400);
+
+	public static readonly TimeSpan MaxDelay = TimeSpan.FromSeconds(10);
+
+	private static readonly SemaphoreSlim Gate = new SemaphoreSlim(MaxConcurrentRequests, MaxConcurrentRequests);
+
+	/// <summary>测试缝：接管等待（默认真的等）。用完必须置回 null。</summary>
+	internal static Func<TimeSpan, CancellationToken, Task>? DelayForTest;
+
+	/// <summary>测试缝：接管抖动（默认随机）。用完必须置回 null。</summary>
+	internal static Func<double>? JitterForTest;
+
+	/// <summary>指数退避 + 抖动：抖动把等待缩放到 [50%, 100%]，避免多个请求整点同时重试。</summary>
+	internal static TimeSpan Backoff(int attempt)
+	{
+		double jitter = JitterForTest?.Invoke() ?? Random.Shared.NextDouble();
+		double milliseconds = BaseDelay.TotalMilliseconds * Math.Pow(2, Math.Max(0, attempt - 1));
+		milliseconds = Math.Min(milliseconds, MaxDelay.TotalMilliseconds);
+		return TimeSpan.FromMilliseconds(milliseconds * (0.5 + 0.5 * Math.Clamp(jitter, 0, 1)));
+	}
+
+	/// <summary>解析 Retry-After（秒数或 HTTP 日期两种形式都支持）。</summary>
+	internal static TimeSpan? ParseRetryAfter(HttpResponseMessage response)
+	{
+		if (response.Headers.RetryAfter == null)
+		{
+			return null;
+		}
+
+		if (response.Headers.RetryAfter.Delta.HasValue)
+		{
+			TimeSpan delta = response.Headers.RetryAfter.Delta.Value;
+			return delta > TimeSpan.Zero ? delta : TimeSpan.Zero;
+		}
+
+		if (response.Headers.RetryAfter.Date.HasValue)
+		{
+			TimeSpan wait = response.Headers.RetryAfter.Date.Value - DateTimeOffset.UtcNow;
+			return wait > TimeSpan.Zero ? wait : TimeSpan.Zero;
+		}
+
+		return null;
+	}
+
+	/// <summary>
+	/// 发送一次 CurseForge 请求。
+	/// 必须传**工厂**而不是 HttpRequestMessage：.NET 不允许同一条请求被发送两次，重试需要重建。
+	/// 成功时返回的响应由调用方负责 Dispose。
+	/// </summary>
+	public static async Task<HttpResponseMessage> SendAsync(HttpClient http, Func<HttpRequestMessage> requestFactory, CancellationToken ct)
+	{
+		if (http == null) throw new ArgumentNullException(nameof(http));
+		if (requestFactory == null) throw new ArgumentNullException(nameof(requestFactory));
+
+		await Gate.WaitAsync(ct).ConfigureAwait(false);
+		try
+		{
+			Exception? lastNetworkError = null;
+			TimeSpan? lastRetryAfter = null;
+			bool sawRateLimit = false;
+
+			for (int attempt = 1; attempt <= MaxAttempts; attempt++)
+			{
+				HttpResponseMessage response;
+				try
+				{
+					using HttpRequestMessage request = requestFactory();
+					response = await http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(false);
+				}
+				catch (HttpRequestException ex)
+				{
+					lastNetworkError = ex;
+					if (attempt == MaxAttempts)
+					{
+						break;
+					}
+
+					await DelayAsync(Backoff(attempt), ct).ConfigureAwait(false);
+					continue;
+				}
+
+				if (response.IsSuccessStatusCode)
+				{
+					return response;
+				}
+
+				int status = (int)response.StatusCode;
+
+				if (status == 429 || status == 503)
+				{
+					sawRateLimit = true;
+					lastRetryAfter = ParseRetryAfter(response);
+					response.Dispose();
+					if (attempt == MaxAttempts)
+					{
+						break;
+					}
+
+					// 遵守 Retry-After；它比退避短时仍给一点退避，避免立刻再撞。
+					TimeSpan backoff = Backoff(attempt);
+					TimeSpan wait = lastRetryAfter.HasValue && lastRetryAfter.Value > backoff ? lastRetryAfter.Value : backoff;
+					await DelayAsync(wait, ct).ConfigureAwait(false);
+					continue;
+				}
+
+				// 非限流：不重试，直接给出分类（重试只会浪费配额）。
+				response.Dispose();
+				throw status switch
+				{
+					401 or 403 => new CurseForgeRequestException(CurseForgeOutcome.Unauthorized, $"CurseForge 返回 HTTP {status}（未授权）。"),
+					404 => new CurseForgeRequestException(CurseForgeOutcome.NotFound, "CurseForge 返回 HTTP 404（未找到）。"),
+					_ => new CurseForgeRequestException(CurseForgeOutcome.ServerError, $"CurseForge 返回 HTTP {status}。")
+				};
+			}
+
+			if (sawRateLimit)
+			{
+				throw new CurseForgeRequestException(
+					CurseForgeOutcome.RateLimited,
+					$"CurseForge 持续限流（已尝试 {MaxAttempts} 次）。",
+					lastRetryAfter,
+					MaxAttempts);
+			}
+
+			throw new CurseForgeRequestException(
+				CurseForgeOutcome.NetworkError,
+				$"CurseForge 网络请求失败（已尝试 {MaxAttempts} 次）。",
+				null,
+				MaxAttempts,
+				lastNetworkError);
+		}
+		finally
+		{
+			Gate.Release();
+		}
+	}
+
+	private static Task DelayAsync(TimeSpan wait, CancellationToken ct)
+	{
+		Func<TimeSpan, CancellationToken, Task>? overrideDelay = DelayForTest;
+		return overrideDelay != null ? overrideDelay(wait, ct) : Task.Delay(wait, ct);
+	}
+}

@@ -1,0 +1,14 @@
+{
+  "fixtureRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-legacy-ui-51b21b4e33224b87bad0f7a79f1d2330",
+  "sourceOldHtml": "git HEAD c8aa286 ui/index.html + unique audit marker",
+  "artifactSha256": "3BA605531690D832900280DD29CCEAF1C0102EC71171F8498AFFF234DC47F96F",
+  "apiPort": 63740,
+  "healthReady": true,
+  "legacyUiServed": true,
+  "failureClass": "product-upgrade",
+  "scope": "EXE-only replacement into old installation retaining external UI directory",
+  "timeHK": "2026-10-10T01:36:44.6716726",
+  "expectedCurrentUiServed": false,
+  "servedLength": 6175,
+  "ownedProcessStopped": true
+}

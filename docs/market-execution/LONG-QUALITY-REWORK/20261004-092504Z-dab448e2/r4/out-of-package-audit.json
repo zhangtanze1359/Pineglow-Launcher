@@ -1,0 +1,15 @@
+{
+  "label": "out-of-package-audit",
+  "generatedUtc": "2026-10-04T10:23:20.844Z",
+  "package": "20261004-092504Z-dab448e2-rework",
+  "packageDir": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r4\\FINAL-LOCAL-QUALITY\\20261004-092504Z-dab448e2-rework",
+  "manifestSha256": "7996AE0CBF6B78F5E523834DC0E7CCC5A7AF55C13357EB5D1653CDF69CDC3DAE",
+  "detachedFile": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r4\\20261004-092504Z-dab448e2-rework.manifest.sha256",
+  "detachedMatches": true,
+  "manifestCount": 121,
+  "filesPresent": 122,
+  "verified": 121,
+  "failures": [],
+  "unlisted": [],
+  "result": "PASS"
+}

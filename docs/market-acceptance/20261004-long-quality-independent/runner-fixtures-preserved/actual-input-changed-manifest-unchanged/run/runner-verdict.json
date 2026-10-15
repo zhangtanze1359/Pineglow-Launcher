@@ -1,0 +1,56 @@
+{
+    "schemaVersion":  1,
+    "runner":  "run-goal-validation.ps1",
+    "runId":  "same-run-id",
+    "inputManifest":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\actual-input-changed-manifest-unchanged\\input.json",
+    "inputManifestSha256":  "B0C7D95E1C1222A7AE0B9058DE2F9D8A550781007E3AEA310AFBC8134DA9B328",
+    "stagesFile":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\actual-input-changed-manifest-unchanged\\stages.json",
+    "generatedUtc":  "2026-10-04T09:09:54Z",
+    "resume":  true,
+    "stageCount":  1,
+    "failedCount":  0,
+    "stages":  [
+                   {
+                       "schemaVersion":  1,
+                       "id":  "unit",
+                       "runId":  "same-run-id",
+                       "fingerprint":  "C28CEC9248E0D6834C3241A47CF2DAD53447DA4DA176CC4508943F0D1733E801",
+                       "inputManifestSha256":  "B0C7D95E1C1222A7AE0B9058DE2F9D8A550781007E3AEA310AFBC8134DA9B328",
+                       "command":  "C:\\Program Files\\nodejs\\node.exe C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\actual-input-changed-manifest-unchanged\\child.cjs write",
+                       "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\actual-input-changed-manifest-unchanged\\run",
+                       "counters":  {
+                                        "total":  3,
+                                        "executed":  3,
+                                        "passed":  3,
+                                        "failed":  0,
+                                        "notExecuted":  0
+                                    },
+                       "artifacts":  [
+                                         {
+                                             "path":  "unit.trx",
+                                             "sha256":  "DCB71F29CE52D489A2E82C8E80C7DFF4511DEAF06B5991C233A37600D06326F4",
+                                             "sizeBytes":  122
+                                         }
+                                     ],
+                       "rawEvidence":  [
+                                           {
+                                               "path":  "unit.stdout.log",
+                                               "sha256":  "7EDB33FEBB737A06BD6747F3C8255003CC9B9FB908D0BC7B7273539D3D9AC637",
+                                               "sizeBytes":  10
+                                           },
+                                           {
+                                               "path":  "unit.stderr.log",
+                                               "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                                               "sizeBytes":  0
+                                           }
+                                       ],
+                       "status":  "REUSED",
+                       "reused":  true,
+                       "reusedFrom":  "stages/unit.json",
+                       "reasons":  [
+
+                                   ]
+                   }
+               ],
+    "verdict":  "PASS"
+}

@@ -1,0 +1,34 @@
+const fs=require('fs'),path=require('path');const dir=__dirname;
+const owned=JSON.parse(fs.readFileSync(path.join(dir,'native-final/owned-process.json'),'utf8').replace(/^\uFEFF/,''));
+let s=fs.readFileSync(path.join(dir,'../ui-integration-2026-10-15/verify-redesign.cjs'),'utf8');
+s=s.replace("process.env.PINEGLOW_VERIFY_DEBUG||'49377'",`process.env.PINEGLOW_VERIFY_DEBUG||'${owned.debugPort}'`).replace("const root=__dirname,report=", "const root=path.join(__dirname,'native-final-check'),report=");
+const anchor="save();await browser.close();";
+const extra=`
+ await page.locator('[data-nav="playtime"]').click();await page.locator('[data-pt-range="custom"]').click();
+ const today=new Date().toLocaleDateString('sv-SE',{timeZone:'Asia/Hong_Kong'});await page.locator('#ptFrom').fill(today);await page.locator('#ptTo').fill(today);await page.locator('[data-pt-apply]').click();
+ assert.deepEqual(await page.locator('#ptSummary b').allTextContents(),['2 小时','2','1','1 小时']);report.interactions.push({name:'Actual persisted native fixture sessions produce correct single-day summary',status:'PASS'});
+ await page.locator('[data-nav="settings"]').click();await page.locator('.skip-link').focus();await page.locator('.skip-link').press('Enter');assert.equal(await page.evaluate(()=>document.activeElement.id),'contentPanel');
+ report.interactions.push({name:'Native keyboard skip focuses visible main content outside home',status:'PASS'});
+ await page.locator('[data-toggle="autoMem"]').click();await page.waitForFunction(()=>!document.querySelector('[data-toggle="autoMem"]').disabled);await page.locator('#memSlider').focus();await page.locator('#memSlider').press('ArrowRight');await page.waitForTimeout(100);
+ assert.equal(await page.locator('#memSlider').inputValue(),'4608');assert.equal(JSON.parse(fs.readFileSync(path.join(__dirname,'native-final/data/config.json'),'utf8')).MaxMemoryMb,4608);
+ report.interactions.push({name:'Native memory slider keyboard commits 4.5GB to isolated real config',status:'PASS'});
+ await page.locator('[data-nav="installations"]').click();await page.locator('[data-mods]').first().click();await page.locator('#modSearch').fill('layout_alpha');
+ await page.locator('.mod-row [role="switch"]').click();await page.waitForFunction(()=>document.querySelector('.mod-row-name').textContent.endsWith('.disabled'));
+ const modsDir=path.join(__dirname,'native-final/fixture-game/0/mods');assert.ok(fs.existsSync(path.join(modsDir,'layout_alpha.jar.disabled')));assert.ok(!fs.existsSync(path.join(modsDir,'layout_alpha.jar')));
+ await page.locator('.mod-row [role="switch"]').click();await page.waitForFunction(()=>document.querySelector('.mod-row [role="switch"]').getAttribute('aria-checked')==='true');assert.ok(fs.existsSync(path.join(modsDir,'layout_alpha.jar')));
+ report.interactions.push({name:'Native toggle twice renames the owned mod file and preserves identity',status:'PASS'});
+ await page.locator('.mod-row [data-del]').click();await page.locator('[data-cancel-remove]').click();assert.ok(fs.existsSync(path.join(modsDir,'layout_alpha.jar')));
+ await page.locator('.mod-row [data-del]').click();await page.locator('[data-remove-file]').click();await page.waitForFunction(()=>document.querySelector('[data-mod-count]').textContent==='1');assert.ok(!fs.existsSync(path.join(modsDir,'layout_alpha.jar')));
+ report.interactions.push({name:'Native inline cancel preserves file, confirm quarantines owned mod',status:'PASS'});
+ let failOnce=true;await page.route('**/api/instances/*/recovery',async route=>{if(failOnce){failOnce=false;await route.fulfill({status:503,json:{error:'Owned native retry probe'}});}else await route.continue();});
+ await page.locator('#modsRecovery').click();await page.locator('#rRetry').click();await page.locator('.rec-restore').first().waitFor();assert.equal(await page.locator('#modalHost').getAttribute('data-drawer'),'true');await page.unroute('**/api/instances/*/recovery');
+ report.interactions.push({name:'Fault-injected native recovery read retry stays in drawer, next read uses real API',status:'PASS'});
+ await page.locator('.rec-row').filter({has:page.locator('.rec-status',{hasText:/^可恢复/})}).first().locator('.rec-restore').click();await page.waitForFunction(()=>document.querySelector('[data-mod-count]').textContent==='2');assert.equal(await page.locator('#modalHost').getAttribute('data-drawer'),'true');assert.ok(fs.existsSync(path.join(modsDir,'layout_alpha.jar')));
+ await page.locator('#modsListTab').click();assert.equal(await page.locator('#modSearch').inputValue(),'layout_alpha');assert.equal(await page.locator('.mod-row [role="switch"]').getAttribute('aria-checked'),'true');
+ report.interactions.push({name:'Native recovery preserves the removed file state and drawer search',status:'PASS'});
+ await page.screenshot({animations:'disabled',path:path.join(root,'mod-restored-native.png')});await page.locator('#mCancel').click();await page.waitForFunction(()=>document.getElementById('modalHost').hidden);
+ assert.equal(await page.evaluate(()=>document.activeElement.getAttribute('data-mods')),'layout-native-0');report.interactions.push({name:'Native drawer close returns focus to the mod entry',status:'PASS'});
+ await page.locator('[data-nav="home"]').click();await page.screenshot({animations:'disabled',path:path.join(root,'final-home-native.png')});
+ ${anchor}
+`;
+s=s.replace(anchor,extra);s=s.replace("await page.reload();","await page.evaluate(()=>SG.api.updateConfig({maxMemoryMb:4096,useAutoMemory:true}));await page.reload();");fs.mkdirSync(path.join(dir,'native-final-check'),{recursive:true});fs.writeFileSync(path.join(dir,'verify-native-final.cjs'),s);

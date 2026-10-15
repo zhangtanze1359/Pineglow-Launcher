@@ -1,0 +1,52 @@
+﻿[
+    {
+        "label":  "P-RUNSYNC 1/8 add the RunSync helpers",
+        "count":  1,
+        "ok":  true
+    },
+    {
+        "label":  "P-RUNSYNC 2/8 ConfigStore.Load",
+        "count":  1,
+        "ok":  true
+    },
+    {
+        "label":  "P-RUNSYNC 3/8 ConfigStore.Save",
+        "count":  1,
+        "ok":  true
+    },
+    {
+        "label":  "P-RUNSYNC 4/8 BuildInstanceSummary",
+        "count":  2,
+        "ok":  true
+    },
+    {
+        "label":  "P-RUNSYNC 5/8 JavaLocator.ScanAsync",
+        "count":  2,
+        "ok":  true
+    },
+    {
+        "label":  "P-RUNSYNC 6/8 JavaLocator.FindAsync",
+        "count":  1,
+        "ok":  true
+    },
+    {
+        "label":  "P-RUNSYNC 7/8 WriteJsonAsync 400",
+        "count":  1,
+        "ok":  true
+    },
+    {
+        "label":  "P-RUNSYNC 7b/8 WriteJsonAsync 200",
+        "count":  1,
+        "ok":  true
+    },
+    {
+        "label":  "P-RUNSYNC 8/8 WriteJsonAsync 500",
+        "count":  1,
+        "ok":  true
+    },
+    {
+        "label":  "P-TEST RunSync",
+        "count":  1,
+        "ok":  true
+    }
+]

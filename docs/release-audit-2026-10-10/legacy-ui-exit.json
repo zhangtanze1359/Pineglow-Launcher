@@ -1,0 +1,4 @@
+{
+  "command": "pwsh -NoProfile -File probe-legacy-ui.ps1 -ExePath <run.json artifact.path>",
+  "exitCode": 1
+}

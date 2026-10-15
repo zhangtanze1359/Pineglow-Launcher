@@ -1,0 +1,31 @@
+﻿{
+    "probe":  "real-install-and-launch",
+    "mode":  "install",
+    "requestedVersion":  "1.21.11",
+    "fixture":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\install",
+    "installedExeSha256":  "CA8F94C1A6173F23F38F3D2A3C949AFFC16D5AB67752B662C7806831F350D93E",
+    "apiPort":  50418,
+    "healthReady":  true,
+    "javaBefore":  "{\"javaPath\":\"\",\"installations\":[]}",
+    "remoteVersionsListed":  918,
+    "remoteVersionPresent":  true,
+    "downloadTaskId":  "dlv1791572223422",
+    "downloadStatus":  "completed",
+    "downloadMessage":  "安装完成",
+    "downloadSeconds":  351,
+    "installedVersions":  [
+                              "{\"gameDir\":\"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\\\install\\\\data\\\\.minecraft\",\"local\":[\"1.21.11\"]}"
+                          ],
+    "versionOnDisk":  true,
+    "versionJsonFiles":  1,
+    "versionJars":  1,
+    "libraryJars":  75,
+    "assetObjects":  4591,
+    "instanceId":  "",
+    "prelaunchVerdict":  "",
+    "launchResponse":  "",
+    "launchObserved":  false,
+    "launchLogTail":  "2026-10-10 02:56:56.904 [INFO] === Pineglow Launcher 启动 v1.0.0 ===\n2026-10-10 02:56:57.032 [INFO] [LocalApi] 监听 127.0.0.1:50418, ui=C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\install\\data\\UI\\1.0.0-41346c7082cb",
+    "ownedProcessesStopped":  true,
+    "timeHK":  "2026-10-10T02:56:55.6442172"
+}

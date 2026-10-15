@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="62a56fba-8654-464c-95c7-a2329ae97a42" name="Administrator@PC-20260705RBJQ 2026-10-03 15:35:47" runUser="PC-20260705RBJQ\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-03T15:35:47.0873362+08:00" queuing="2026-10-03T15:35:47.0873365+08:00" start="2026-10-03T15:35:46.1127434+08:00" finish="2026-10-03T15:35:47.0913151+08:00" />
+  <TestSettings name="default" id="855b7079-9241-4a00-ac33-95f2fe2eb662">
+    <Deployment runDeploymentRoot="Administrator_PC-20260705RBJQ_2026-10-03_15_35_47" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="2aa89bd5-9173-4ccd-98a3-3ffe8946c5b0" testId="9f3459b2-81fe-c70f-9814-7aa6bda1c730" testName="Pineglow.Launcher.Tests.RemediationBoundaryProbes.HttpForgedStoredPath_MustNotConsumeOtherInstanceFile" computerName="PC-20260705RBJQ" duration="00:00:00.1256635" startTime="2026-10-03T15:35:46.6226129+08:00" endTime="2026-10-03T15:35:46.7563072+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2aa89bd5-9173-4ccd-98a3-3ffe8946c5b0">
+      <Output>
+        <StdOut>sandbox=C:\Users\Administrator\AppData\Local\Temp\pineglow-boundary-d3cd8ece54b14770be1c61782d241176; HTTP=200; body={"ok":false,"operationId":"20261003-073546-67829129","status":"failed","overwrite":false,"conflicts":0,"files":[{"relativePath":"mods\\a.jar","state":"failed","sha256":"F92AB83C0FD58E1140418FDF4AA4FA74F0E779E085D408A6FEADB299634C090E","error":"\u9694\u79BB\u526F\u672C\u4E0D\u5C5E\u4E8E\u672C\u5B9E\u4F8B/\u672C\u64CD\u4F5C\uFF0C\u62D2\u7EDD\u4F7F\u7528\uFF08\u4F2A\u9020\u6216\u8DE8\u64CD\u4F5C\u7684\u8BB0\u5F55\uFF09"}]}; BStoredExists=True; target=absent</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="58b8ebc8-685f-4d77-a4a7-588dc90ba4d5" testId="a4caee86-0e18-b2d7-2f24-89cc4faf876e" testName="Pineglow.Launcher.Tests.RemediationBoundaryProbes.ModReplaceUndo_MustRejectJunctionAboveRecordedModsRoot" computerName="PC-20260705RBJQ" duration="00:00:00.1966007" startTime="2026-10-03T15:35:46.7871739+08:00" endTime="2026-10-03T15:35:46.9834855+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="58b8ebc8-685f-4d77-a4a7-588dc90ba4d5">
+      <Output>
+        <StdOut>sandbox=C:\Users\Administrator\AppData\Local\Temp\pineglow-boundary-10e2af214f7c4775ac69646bc2948b9f; restoreHTTP=200; body={"ok":false,"operationId":"20261003-073546-c02bbc37","status":"failed","overwrite":false,"conflicts":0,"files":[{"relativePath":"a.jar","state":"failed","sha256":"DD7A346236273D4FD019C7BF806B00A7EEA9D992583B6AED9ED2231CF345F4B7","error":"\u6062\u590D\u76EE\u6807\u8DEF\u5F84\u4E0D\u53EF\u4FE1\uFF0C\u62D2\u7EDD\u5199\u5165\uFF1A\u8DEF\u5F84\u4E0A\u5B58\u5728\u7B26\u53F7\u94FE\u63A5/\u91CD\u89E3\u6790\u70B9\uFF08junction\uFF09\uFF1AC:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-10e2af214f7c4775ac69646bc2948b9f\\game"}]}; outsideFileExists=False</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="d1d6e143-dff6-430d-b1df-a992f7424c4e" testId="9fa6e5a9-f92b-780b-d2b6-5c2dd18b76d1" testName="Pineglow.Launcher.Tests.RemediationBoundaryProbes.SecretBackend_ConcurrentAsyncFlowsStayIsolated" computerName="PC-20260705RBJQ" duration="00:00:00.0107252" startTime="2026-10-03T15:35:46.9909203+08:00" endTime="2026-10-03T15:35:47.0018201+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d1d6e143-dff6-430d-b1df-a992f7424c4e">
+      <Output>
+        <StdOut>two overlapping async scopes stayed isolated; native delta=0</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="8e7525ec-517a-4ebc-bb10-04f06c769576" testId="21e3502e-a3a6-9950-e0b7-aa1cb1acb14e" testName="Pineglow.Launcher.Tests.RemediationBoundaryProbes.RollbackFailure_HttpMustExposeRecoveryFields" computerName="PC-20260705RBJQ" duration="00:00:00.0286323" startTime="2026-10-03T15:35:46.7642120+08:00" endTime="2026-10-03T15:35:46.7866091+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8e7525ec-517a-4ebc-bb10-04f06c769576">
+      <Output>
+        <StdOut>sandbox=C:\Users\Administrator\AppData\Local\Temp\pineglow-boundary-7529ca0678984800ac92304a1c3afcad; HTTP=400; body={"ok":false,"status":"commit_failed","error":"[commit_failed] \u5199\u5165\u65B0\u7248\u672C\u5931\u8D25\uFF0C**\u672A\u80FD\u5B8C\u5168\u56DE\u6EDA**\uFF0C\u65E7\u7248\u672C\u4ECD\u9700\u4EBA\u5DE5\u6062\u590D\u3002\u6062\u590D\u8BB0\u5F55 20261003-073546-a7552e2f\uFF0C\u56DE\u6EDA\u72B6\u6001 failed\uFF0C\u672A\u6062\u590D\u6587\u4EF6\uFF1Aa.jar \u2192 Access to the path \u0027C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-7529ca0678984800ac92304a1c3afcad\\game\\mods\\a.jar\u0027 is denied.\uFF1B\u539F\u56E0\uFF1A\u672A\u80FD\u6062\u590D\u7684\u6587\u4EF6\uFF1Aa.jar \u2192 Access to the path \u0027C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-7529ca0678984800ac92304a1c3afcad\\game\\mods\\a.jar\u0027 is denied.\uFF1B\u539F\u59CB\u5931\u8D25\uFF1Ainjected commit failure","needsRecovery":true,"operationId":"20261003-073546-a7552e2f","recoveryStatus":"failed","failedFiles":["a.jar \u2192 Access to the path \u0027C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-7529ca0678984800ac92304a1c3afcad\\game\\mods\\a.jar\u0027 is denied."]}</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="9ad1f1a3-ce65-40b6-92ed-0a92e1abc9fd" testId="041be455-c5b5-7eb5-73bc-b36c858eb016" testName="Pineglow.Launcher.Tests.RemediationBoundaryProbes.StoredPath_MustBelongToSameInstanceAndOperation" computerName="PC-20260705RBJQ" duration="00:00:00.0069967" startTime="2026-10-03T15:35:46.9836811+08:00" endTime="2026-10-03T15:35:46.9907470+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9ad1f1a3-ce65-40b6-92ed-0a92e1abc9fd">
+      <Output>
+        <StdOut>sandbox=C:\Users\Administrator\AppData\Local\Temp\pineglow-boundary-3faf53152bb24385b8e39e505bc52625; status=failed; target=absent; BStoredExists=True; AStoredExists=True</StdOut>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Pineglow.Launcher.Tests.RemediationBoundaryProbes.StoredPath_MustBelongToSameInstanceAndOperation" storage="c:\users\administrator\appdata\local\temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="041be455-c5b5-7eb5-73bc-b36c858eb016">
+      <Execution id="9ad1f1a3-ce65-40b6-92ed-0a92e1abc9fd" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RemediationBoundaryProbes" name="StoredPath_MustBelongToSameInstanceAndOperation" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RemediationBoundaryProbes.RollbackFailure_HttpMustExposeRecoveryFields" storage="c:\users\administrator\appdata\local\temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="21e3502e-a3a6-9950-e0b7-aa1cb1acb14e">
+      <Execution id="8e7525ec-517a-4ebc-bb10-04f06c769576" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RemediationBoundaryProbes" name="RollbackFailure_HttpMustExposeRecoveryFields" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RemediationBoundaryProbes.HttpForgedStoredPath_MustNotConsumeOtherInstanceFile" storage="c:\users\administrator\appdata\local\temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="9f3459b2-81fe-c70f-9814-7aa6bda1c730">
+      <Execution id="2aa89bd5-9173-4ccd-98a3-3ffe8946c5b0" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RemediationBoundaryProbes" name="HttpForgedStoredPath_MustNotConsumeOtherInstanceFile" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RemediationBoundaryProbes.ModReplaceUndo_MustRejectJunctionAboveRecordedModsRoot" storage="c:\users\administrator\appdata\local\temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="a4caee86-0e18-b2d7-2f24-89cc4faf876e">
+      <Execution id="58b8ebc8-685f-4d77-a4a7-588dc90ba4d5" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RemediationBoundaryProbes" name="ModReplaceUndo_MustRejectJunctionAboveRecordedModsRoot" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RemediationBoundaryProbes.SecretBackend_ConcurrentAsyncFlowsStayIsolated" storage="c:\users\administrator\appdata\local\temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="9fa6e5a9-f92b-780b-d2b6-5c2dd18b76d1">
+      <Execution id="d1d6e143-dff6-430d-b1df-a992f7424c4e" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RemediationBoundaryProbes" name="SecretBackend_ConcurrentAsyncFlowsStayIsolated" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="9f3459b2-81fe-c70f-9814-7aa6bda1c730" executionId="2aa89bd5-9173-4ccd-98a3-3ffe8946c5b0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a4caee86-0e18-b2d7-2f24-89cc4faf876e" executionId="58b8ebc8-685f-4d77-a4a7-588dc90ba4d5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9fa6e5a9-f92b-780b-d2b6-5c2dd18b76d1" executionId="d1d6e143-dff6-430d-b1df-a992f7424c4e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="21e3502e-a3a6-9950-e0b7-aa1cb1acb14e" executionId="8e7525ec-517a-4ebc-bb10-04f06c769576" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="041be455-c5b5-7eb5-73bc-b36c858eb016" executionId="9ad1f1a3-ce65-40b6-92ed-0a92e1abc9fd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="5" executed="5" passed="5" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.9)&#xD;
+[xUnit.net 00:00:00.07]   Discovering: Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.16]   Discovered:  Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.17]   Starting:    Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.57]   Finished:    Pineglow.Launcher.Tests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

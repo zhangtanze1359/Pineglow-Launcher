@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "label": "after-g3",
+  "generatedUtc": "2026-10-03T10:12:24Z",
+  "frozenManifest": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\g0\\input-manifest.json",
+  "frozenManifestSha256": "A02411E6AE18B427018D1BC1751E6C06675C52BAF702A00335517343AF242F28",
+  "sourceRoot": "D:\\松光启动器",
+  "head": "ref: refs/heads/main",
+  "counts": {
+    "frozen": 286,
+    "unchanged": 281,
+    "allowedDrift": 4,
+    "unexpectedDrift": 1,
+    "missing": 0,
+    "newInputsDeclaredInWhitelist": 4
+  },
+  "allowedDrift": [
+    {
+      "path": "scripts/source-snapshot-inputs.txt",
+      "frozenSha256": "6EAEB9758ACF8A3A12FA4E653BB722462DA5731EDB5C49A4E4D29393FE51A747",
+      "actualSha256": "D04FA929EF3EA99653E5612855F1EC839C028D99E5445D0BBAB0032CAB7F0463",
+      "frozenSize": 8463,
+      "actualSize": 8823
+    },
+    {
+      "path": "ui/css/figma.css",
+      "frozenSha256": "A21AFC607959315D230FAF9F169B533BAB23D5A4E74974648AD0241856257D97",
+      "actualSha256": "7DD6B77DCE06920A58B89CE57DB7FCA6A33C0E64404B6117A7C78CDDDEA62F2E",
+      "frozenSize": 50459,
+      "actualSize": 50949
+    },
+    {
+      "path": "ui/js/i18n.js",
+      "frozenSha256": "6E0CEC1BDF39B123A6DB03F210AF6A43B7BFF1EFDBD5394B5663F9CDEBE3D69C",
+      "actualSha256": "2F5F02F987F836A511A487AE6EE6C1CCB259A17A141F7BF077924234AB931A56",
+      "frozenSize": 58190,
+      "actualSize": 60384
+    },
+    {
+      "path": "ui/js/launcher.js",
+      "frozenSha256": "8FC5DB668A8A202F83D6669739E785475231FBFEC6553DCB9F3947D07927A417",
+      "actualSha256": "FADF76D17797B5AF1D7C5AFCE7BC208D8B20C5CB443EE0960B7C8F9839639195",
+      "frozenSize": 199993,
+      "actualSize": 203051
+    }
+  ],
+  "unexpectedDrift": [
+    {
+      "path": "ui/index.html",
+      "frozenSha256": "BBC0A6196EAC6919C3364BBA3D721193ADA30C9420C4C8AE280DBA63FE07B22C",
+      "actualSha256": "39933134AD98FAFD51B2D22106B5E692371106610BEB62302A68B6938C72D02F",
+      "frozenSize": 7136,
+      "actualSize": 7221
+    }
+  ],
+  "missing": [],
+  "newInputsDeclaredInWhitelist": [
+    "scripts/audit-goal-evidence.py",
+    "scripts/capture-goal-baseline.ps1",
+    "scripts/tests/audit-goal-evidence.test.py",
+    "ui/tests/goal-core-flow.test.cjs"
+  ],
+  "changedRelativeToR2Count": 4
+}

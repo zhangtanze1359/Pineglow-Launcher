@@ -1,0 +1,45 @@
+﻿JVM info: Eclipse Adoptium - 21.0.12.1 - 21.0.12.1+1-LTS
+java.net.preferIPv4Stack=true
+Current Time: 10/10/2026 03:37:54
+Host: files.minecraftforge.net [198.18.0.58]
+Host: maven.minecraftforge.net [198.18.0.57]
+Host: libraries.minecraft.net [198.18.0.38]
+Host: launchermeta.mojang.com [198.18.0.59]
+Host: piston-meta.mojang.com [198.18.0.36]
+Host: sessionserver.mojang.com [198.18.0.41]
+Host: authserver.mojang.com [198.18.0.60]
+Target Directory: C:\Users\Administrator\AppData\Local\Temp\pineglow-forge-ab-fb2a22f364ff44ff94a2155ca3f355f9\game
+Data kindly mirrored by CreeperHost at https://www.creeperhost.net/
+Extracting json
+Considering minecraft client jar
+  Downloading library from https://piston-data.mojang.com/v1/objects/ba2df812c2d12e0219c489c4cd9a5e1f0760f5bd/client.jar
+Failed to establish connection to https://piston-data.mojang.com/v1/objects/ba2df812c2d12e0219c489c4cd9a5e1f0760f5bd/client.jar
+ Host: piston-data.mojang.com [198.18.0.37]
+javax.net.ssl.SSLHandshakeException: Remote host terminated the handshake
+	at java.base/sun.security.ssl.SSLSocketImpl.handleEOF(Unknown Source)
+	at java.base/sun.security.ssl.SSLSocketImpl.decode(Unknown Source)
+	at java.base/sun.security.ssl.SSLSocketImpl.readHandshakeRecord(Unknown Source)
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(Unknown Source)
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(Unknown Source)
+	at java.base/sun.net.www.protocol.https.HttpsClient.afterConnect(Unknown Source)
+	at java.base/sun.net.www.protocol.https.AbstractDelegateHttpsURLConnection.connect(Unknown Source)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(Unknown Source)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(Unknown Source)
+	at java.base/java.net.HttpURLConnection.getResponseCode(Unknown Source)
+	at java.base/sun.net.www.protocol.https.HttpsURLConnectionImpl.getResponseCode(Unknown Source)
+	at net.minecraftforge.installer.DownloadUtils.getConnection(DownloadUtils.java:240)
+	at net.minecraftforge.installer.DownloadUtils.download(DownloadUtils.java:174)
+	at net.minecraftforge.installer.DownloadUtils.download(DownloadUtils.java:168)
+	at net.minecraftforge.installer.actions.Action.downloadVanilla(Action.java:134)
+	at net.minecraftforge.installer.actions.ClientInstall.run(ClientInstall.java:69)
+	at net.minecraftforge.installer.SimpleInstaller.main(SimpleInstaller.java:139)
+Caused by: java.io.EOFException: SSL peer shut down incorrectly
+	at java.base/sun.security.ssl.SSLSocketInputRecord.read(Unknown Source)
+	at java.base/sun.security.ssl.SSLSocketInputRecord.readHeader(Unknown Source)
+	at java.base/sun.security.ssl.SSLSocketInputRecord.decode(Unknown Source)
+	at java.base/sun.security.ssl.SSLTransport.decode(Unknown Source)
+	... 16 more
+Downloading minecraft client failed, invalid checksum.
+Try again, or use the vanilla launcher to install the vanilla version.
+There was an error during installation
+

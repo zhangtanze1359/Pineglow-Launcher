@@ -1,0 +1,144 @@
+﻿{
+    "runId":  "20261003-250000Z",
+    "task":  "MR03 补测：移除后的默认实例补建边界（A7）+ 夹具/生产分叉",
+    "generatedUtc":  "2026-10-03T00:44:41Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "gap-register A7 (the default-instance-recreation part that MR03 left unverified)",
+    "result":  {
+                   "testsAdded":  4,
+                   "green":  "4 passed / 0 failed",
+                   "csharpFull":  "773 passed / 0 failed / 0 skipped (769 + 4)",
+                   "nodeFull":  "230 passed / 0 failed (18 files)",
+                   "productionCodeNetChanges":  false,
+                   "retentionTestRepeat":  "10/10 pass after fixing the flaky timestamp manipulation",
+                   "currentDriftNumbers":  "mg0: 258/1/92/0 ; mg1: 66/0/71/0 ; mg2: 258/1/90/0 ; mg3: 66/0/71/0 ; ledger audit exit 0"
+               },
+    "keyFindings":  {
+                        "harnessDivergence":  "Production LoadConfig() -\u003e ConfigStore.LoadAsync() CALLS InstanceService.EnsureDefaultInstance (ConfigStore.cs:153). The test harness installs RouteTestMemoryConfigStore whose Load() returns the in-memory object and BYPASSES it. Measured: harness count=0 vs production-like count=1 after removing the last instance. So the existing green test Remove_LastInstance_LeavesEmptyListAndBlankSelection reflects the HARNESS, not production.",
+                        "danglingSelection":  "EnsureDefaultInstance does NOT repair a stale SelectedInstanceId: the guard is if (GetSelectedInstance(config) == null) and GetSelectedInstance falls back to the first instance, so the branch never fires. Consequence: GET /api/instances returns config.SelectedInstanceId verbatim (LocalApiService.cs:1117), so a config corrupted by another path yields a dangling id in the UI. Bounded: the delete path itself DOES re-point (HandleDeleteInstanceAsync 1264-1266). Registered as A17; not changed (behaviour decision)."
+                    },
+    "selfFoundIssues":  [
+                            "my new test class lacked [Collection(\"LocalApiService\")] so it ran in parallel with other LocalApiService tests and broke 8 unrelated tests (ModReplacementTests 4, InstanceRunningGuardTests 3, InstanceRemovalTests 1). Fixed by adding the attribute.",
+                            "I piped dotnet build output to Out-Null and ignored its exit code while the build was actually FAILING (missing using System.Text.Json), so subsequent dotnet test --no-build runs tested a STALE binary - the 5-run and 8-run loops were invalid evidence. Fixed by adding the using and checking the build exit code explicitly. This is the THIRD occurrence of this error class this session.",
+                            "I had introduced a FLAKY test in round 33: it faked expiry by string-replacing CreatedAt.ToString(\"O\"), but JSON serialization drops trailing zeros, so the replacement silently missed ~10% of the time. Fixed by rewriting createdAt at the JSON level; now 10/10 pass."
+                        ],
+    "redBaselines":  {
+                         "red1":  "Count == 0 -\u003e == -1 (no creation) -\u003e 2 failed (empty-list test + divergence test)",
+                         "red1b":  "production-like store stops calling EnsureDefaultInstance -\u003e 1 failed (divergence test detects the divergence disappearing)",
+                         "red2":  "add the dangling-selection repair (the A17 candidate fix) -\u003e 1 failed (the test guards current behaviour and will flag that change)"
+                     },
+    "stillNotCovered":  [
+                            "real GUI rendering after removing the last instance (needs a desktop session)",
+                            "the real ConfigStore with .bak/.prev/SecretStore was not exercised directly: its directory comes from a GLOBAL portable switch (portable.flag next to the executable), which would affect tests running in parallel",
+                            "A17 fix not implemented (behaviour decision)",
+                            "MR03 other remaining items: concurrent-start guard (no guard exists) and restart runtime state (in-memory only)"
+                        ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "238C9ADF94D92B787245359DA18670DA4E2F75805670DC099734BF8644936B0F",
+                      "sizeBytes":  9634
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "262B6C65221D546EFC7C6B05087B1A351FA7BD2132E8F9D785E05BF143030B7E",
+                      "sizeBytes":  11249
+                  },
+                  {
+                      "path":  "green/01-boundary-first.log",
+                      "sha256":  "E9D4B936AC9610AE94F2060871DEE8994EE3A575C9C07544221314D5C2433A9D",
+                      "sizeBytes":  8638
+                  },
+                  {
+                      "path":  "green/02-boundary.log",
+                      "sha256":  "B329E307AB7B62502D74E076AF8013673F5DC1810D492D301C60E8A2FC640459",
+                      "sizeBytes":  13670
+                  },
+                  {
+                      "path":  "green/03-boundary-final.log",
+                      "sha256":  "270D84210E5AB7C6116AE3688992F27E11736244CD685A2CAF3266ECFF2E0514",
+                      "sizeBytes":  10622
+                  },
+                  {
+                      "path":  "green/04-boundary-final.log",
+                      "sha256":  "C1FD13286446CF49F9F434CC7CC386A15E4943040D7EA3119C1D16C98F456201",
+                      "sizeBytes":  1682
+                  },
+                  {
+                      "path":  "green/05-csharp-full.log",
+                      "sha256":  "35D3FA88C547782EBC2C8C4AB6D3BC1F935927F8461A5BD8FB945ADF79D028A8",
+                      "sizeBytes":  11448
+                  },
+                  {
+                      "path":  "green/06-node-full.log",
+                      "sha256":  "AD994D10A9774944867EE47A3B0C178BAB1B6318A0EA4BF242DB6D309BF7DC21",
+                      "sizeBytes":  23800
+                  },
+                  {
+                      "path":  "green/07-csharp-full-fixed.log",
+                      "sha256":  "3996E6C8B652AF2F61562A98F526342D7EC2D2943B8F3B65FE69FF1550B6D728",
+                      "sizeBytes":  10316
+                  },
+                  {
+                      "path":  "green/08-node-full.log",
+                      "sha256":  "7A2EF7E46CE5B1A186826A90302FC718B7C536781CE79A3D18C5E526AB7A61AF",
+                      "sizeBytes":  23798
+                  },
+                  {
+                      "path":  "green/09-retention-repeat.log",
+                      "sha256":  "71ED7984E2CB18FFAD7337C5E669DD07D90544554D02E87E68E77870B4102218",
+                      "sizeBytes":  1084
+                  },
+                  {
+                      "path":  "green/10-csharp-full-final.log",
+                      "sha256":  "C1A575A7A77379128CF58BF7777A7578AFB2CBEAFF7CC42A444523CB1AE0E57D",
+                      "sizeBytes":  9436
+                  },
+                  {
+                      "path":  "green/11-boundary-final.log",
+                      "sha256":  "355D33AAA3809EE0026E5169A2269488F814A7D46D74B17A79284EBE19C8AF8C",
+                      "sizeBytes":  1682
+                  },
+                  {
+                      "path":  "green/12-csharp-full-final.log",
+                      "sha256":  "0C4D6463F9970B89AC595E959B0C9CE802ECBAEC665877E14704590A7F1651DA",
+                      "sizeBytes":  490
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "B294E4170DB45A88AAD9D1ED0367539BA4880F18CC7FCFBE359FC7F8DB22D7A5",
+                      "sizeBytes":  377
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "779D8A51E9C49106EBE4077D27A57037CF1FF0181271866ECFC962B9AA223B00",
+                      "sizeBytes":  115569
+                  },
+                  {
+                      "path":  "red/01b-red-empty-and-divergence.log",
+                      "sha256":  "5CF314CA6B4757F7B442F4CBC94775B586329D64E3DEE73CD63754D5D25601AA",
+                      "sizeBytes":  3549
+                  },
+                  {
+                      "path":  "red/01-red-empty-and-divergence.log",
+                      "sha256":  "638A9E165D3AF333B1F7265C908D6903E3C912A7F0508E4E8C9801817E86D283",
+                      "sizeBytes":  5299
+                  },
+                  {
+                      "path":  "red/02-red-repair-dangling.log",
+                      "sha256":  "9ABD0B04FFA3A5C4140FAFD84D383A23C3BBE1C3C8B5B843ECC4FBA484520DB8",
+                      "sizeBytes":  3280
+                  },
+                  {
+                      "path":  "red/InstanceDefaultInstanceBoundaryTests.cs.before",
+                      "sha256":  "A34FC6799A3EFE229855D59C2A600FDD4732EF94C8F5D64CE19DBF437183AF5E",
+                      "sizeBytes":  9768
+                  },
+                  {
+                      "path":  "red/InstanceService.cs.before",
+                      "sha256":  "9724405D8993517EE7381340E48130515B5B704EBD1D0A8C1EDBB564579AAACD",
+                      "sizeBytes":  3473
+                  }
+              ]
+}

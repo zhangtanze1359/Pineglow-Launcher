@@ -1,0 +1,71 @@
+﻿{
+    "runId":  "20261003-130000Z",
+    "task":  "台账一致性审计（计划 ↔ 磁盘证据）",
+    "generatedUtc":  "2026-10-02T23:13:52Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "result":  {
+                   "scriptExit":  0,
+                   "packageRowsParsed":  31,
+                   "inconsistenciesFound":  2,
+                   "inconsistenciesFixed":  2,
+                   "csharpFull":  "755 passed / 0 failed",
+                   "nodeFull":  "230 passed / 0 failed (18 files)",
+                   "productCodeChanged":  false,
+                   "gitStatus":  1332
+               },
+    "checks":  {
+                   "1 statusWordsLegal":  "pass - all 31 rows use one of the seven allowed status words",
+                   "2 evidenceLocatable":  "pass - every package claiming 证据就绪 maps to an evidence directory (MR03 has two runs)",
+                   "3 noOrphanEvidenceDirs":  "pass - no evidence directory lacks a ledger claim",
+                   "4 citedRunIdsExist":  "pass - every run-id cited in the ledger exists on disk (20 run dirs)"
+               },
+    "fixed":  {
+                  "MR10 status word":  "was \"判定：无需实现（附证据）\" which is NOT one of the seven allowed status words; changed to 证据就绪 with the determination kept as a note",
+                  "W2/W3 evidence reference":  "W1/W2/W3 share the combined run W1-W3-route-closure/20261002-182304Z but W2/W3 cited nothing and W1 cited only a bare run-id; all three now cite the evidence directory"
+              },
+    "scriptLimitations":  [
+                              "check 3 identifies which package a run directory belongs to by PREFIX matching, so milestone-level runs must be named after a claimed package (this audit dir uses MR00-...) or be registered explicitly in the script claimed list (MG1/MG2/MG3 are)",
+                              "the audit only checks locatability, not evidence CONTENT - verifying that manifest numbers match the logs is the job of verify-mg1/mg2/mg3.ps1 and human review"
+                          ],
+    "knownGaps":  [
+                      "剩余可执行包全部需要授权或门槛未达：MR13-MR16/MR18/MR24-MR27 是条件包（门槛未达）；MR22/MR23 需要分发与联系授权及真实用户"
+                  ],
+    "files":  [
+                  {
+                      "path":  "changed-files.sha256.txt",
+                      "sha256":  "2F829C62070536255C6BC0B0DD11B0119AC9A9EE692309D670B45DC58A3A08C9",
+                      "sizeBytes":  305
+                  },
+                  {
+                      "path":  "csharp-full.log",
+                      "sha256":  "BD35EBBD8FAB222A8006CB097B6B1CF6D24AB079C86A6095C55BFA5669E7A6A2",
+                      "sizeBytes":  655
+                  },
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "3BDBC50163F6E890FA9CE0DC05E4C34E0AD7D279D95135482B057C6527B43A34",
+                      "sizeBytes":  4251
+                  },
+                  {
+                      "path":  "git-status-after.txt",
+                      "sha256":  "E17CD5150AD3BAB61C0A1B6B34B1E0D71CA50DB264BBFC97E24F681B195675D7",
+                      "sizeBytes":  115107
+                  },
+                  {
+                      "path":  "ledger-audit.log",
+                      "sha256":  "F12DD9023817105615062112363B6F5D4A4020AD99DD9A1D416E933883C5166D",
+                      "sizeBytes":  516
+                  },
+                  {
+                      "path":  "node-full.log",
+                      "sha256":  "436860EA1CDCED134057ECDD7FE5CEB87A75170C9D33B31C8B2C23091085B2B6",
+                      "sizeBytes":  23807
+                  }
+              ],
+    "auditScript":  {
+                        "path":  "scripts/audit-plan-ledger.ps1",
+                        "sha256":  "249EAB4BB01EF1BDC53F08D7C4F9DF2840F83C2FDF6BDC7D8F64EE4B86FE908A",
+                        "sizeBytes":  5045
+                    }
+}

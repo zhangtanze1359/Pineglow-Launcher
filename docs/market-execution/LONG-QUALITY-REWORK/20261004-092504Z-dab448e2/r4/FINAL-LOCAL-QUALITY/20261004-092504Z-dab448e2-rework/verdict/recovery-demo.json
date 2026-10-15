@@ -1,0 +1,80 @@
+{
+  "runner": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c\\scripts\\run-goal-validation.ps1",
+  "demoDir": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\demo",
+  "fixtureDir": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\demo\\fixture",
+  "sections": {
+    "A_same_definition_transient_failure": {
+      "firstRun": {
+        "exitCode": 1,
+        "verdict": "FAIL",
+        "stageStatus": "FAILED",
+        "reasons": [
+          "EXIT_NONZERO",
+          "TESTS_BELOW_MIN",
+          "TESTS_FAILED"
+        ]
+      },
+      "recoveryRun": {
+        "exitCode": 0,
+        "verdict": "PASS",
+        "stageStatus": "COMPLETED",
+        "reused": false,
+        "attemptDir": "attempts/demo/2"
+      },
+      "attempt1EvidenceUnchanged": true,
+      "shas": {
+        "before": {
+          "stdout": "0A94A8DFF8F2C65B549291BD90CBCAB810BE74636B2B432A3BD9A6E952254AB0",
+          "stderr": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+          "trx": "71BE0E4E3402FE5C91C67F9E9F09071899ECCF19BE76FB9365B0320FAE5D09C6"
+        },
+        "after": {
+          "stdout": "0A94A8DFF8F2C65B549291BD90CBCAB810BE74636B2B432A3BD9A6E952254AB0",
+          "stderr": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+          "trx": "71BE0E4E3402FE5C91C67F9E9F09071899ECCF19BE76FB9365B0320FAE5D09C6"
+        }
+      },
+      "supersededRecordArchivedByteIdentical": true,
+      "archivedRecord": "demo.incomplete.demo-run-1.json",
+      "archivedRecords": [
+        "demo.incomplete.demo-run-1.json",
+        "demo.json"
+      ],
+      "attemptDirs": [
+        "1",
+        "2"
+      ],
+      "archivedVerdicts": [
+        "runner-verdict.2026-10-04T101333Z.json"
+      ],
+      "attempt2TrxExists": true
+    },
+    "B_changed_input_needs_new_runId": {
+      "baseline": {
+        "exitCode": 0,
+        "verdict": "PASS",
+        "runId": "demo-run-1",
+        "verifiedInputSetSha256": "CA2B2C1D77DB387520C39E7A3991BC17974DA62FFE215AD2304A1488FA7C68CE"
+      },
+      "incompatibleResume": {
+        "exitCode": 2,
+        "refusalReasons": [
+          "INPUT_SHA_MISMATCH",
+          "INPUT_SET_FAILED"
+        ],
+        "oldVerdictPreserved": true,
+        "oldBindingPreserved": true,
+        "refusedByInputGate": true,
+        "refusedByBinding": false
+      },
+      "newRunIdRun": {
+        "exitCode": 0,
+        "verdict": "PASS",
+        "runId": "demo-run-2",
+        "verifiedInputSetSha256": "CAC7F4E67537CBB100633AC8DF877122053B7C73BC222B7DCD06AC0A5E25A41B"
+      },
+      "inputSetShaChanged": true
+    }
+  },
+  "verdict": "DEMO_PASS"
+}

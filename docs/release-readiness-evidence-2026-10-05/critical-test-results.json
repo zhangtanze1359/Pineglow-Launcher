@@ -1,0 +1,162 @@
+[
+  {
+    "testName": "Pineglow.Launcher.Tests.FinalAcceptanceRegressionTests.Replace_WhenRollbackCannotRestore_ReportsNeedsRecovery_AndNeverSaysRolledBack",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.FinalAcceptanceRegressionTests.Restore_RejectsForgedOriginalPathOutsideGameRoot",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.ConfigPreservationTests.LoadAsync_FillsUpdateUrl_OnlyWhenItIsBlank",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.MetadataFailure_HttpExposesStructuredFields",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.FinalAcceptanceRegressionTests.Restore_RejectsStoredPathOutsideRecoveryRoot",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.ConfigPreservationTests.LoadAsync_PreservesEveryNonSecretField_FromAnExistingConfig",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.Restore_RejectsJunctionInsteadOfOperationFilesDirectory",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.SecretStoreBackendTests.Load_MissingName_ReturnsEmptyString_AndGoesThroughTheInjectedBackend",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.HttpForgedStoredPath_MustNotConsumeOtherInstanceFile",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.ConfigPreservationTests.LoadAsync_DoesNotInjectADefaultInstance_WhenInstancesExist",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.Restore_RejectsJunctionAboveRecordedRoot_EvenWithoutTrustedRoot",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.SecretStoreBackendTests.WriteThenRead_RoundTrips_WithTheSameKeyNamesAsProduction",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.Restore_RejectsJunctionAboveRecordedRoot_WithTrustedRoot",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.LoadAsync_RejectsRecordWhoseInstanceIdOnlyNormalizesToTheRequestedOne",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.RollbackFailure_HttpExposesStructuredRecoveryFields",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.Restore_RejectsRecordWhoseRelativePathDoesNotMatchTheSource",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.Restore_RejectsWhenStoredSourceShaDoesNotMatchRecord",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.ModReplaceUndo_RejectsJunctionAboveRecordedModsRoot_Http",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.FinalAcceptanceRegressionTests.Restore_ServiceLevel_RejectsJunctionAncestor_AndKeepsIsolatedFile",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.RollbackSuccess_HttpReportsNoRecoveryNeeded",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.SecretStoreBackendTests.BackendFailures_Propagate_InsteadOfBeingSwallowed",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.FinalAcceptanceRegressionTests.Restore_RejectsWhenGameRootItselfIsAReparsePoint",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.FinalAcceptanceRegressionTests.ListMods_IsAllowedWhileInstanceRuns_ButDangerousMutationsAreStillRejected",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.ConfigPreservationTests.LoadAsync_MustNotCreateOrModifyTheRealCredentialStore",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.FinalAcceptanceRegressionTests.Restore_HandlesChineseSpaceHyphenNames_ForJarAndSidecar",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.FinalAcceptanceRegressionTests.Restore_RecreatesMissingParentDirectories_InsideGameRoot",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.SecretBackend_ConcurrentAsyncFlowsStayIsolated",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.SecretStoreBackendTests.OverrideScope_NestsAndRestores_ThePreviousBackend",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.SecretStoreBackendTests.ProductionBackend_IsNeverEntered_WhenTheIsolatedBackendIsArmed",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.SecretStoreBackendTests.InvalidNames_AreRejectedBeforeReachingAnyBackend",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.SecretStoreBackendTests.ProcessDefaultBackend_IsTheInMemoryTestBackend_NotTheNativeOne",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.SecretStoreBackendTests.Save_EmptyOrNull_DeletesThroughTheInjectedBackend",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.Restore_RejectsSourceFromAnotherOperationOfTheSameInstance",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.FinalAcceptanceRegressionTests.SecretStoreSource_ContainsNoInlineNativeCredentialCalls",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.FinalAcceptanceRegressionTests.Restore_HttpLevel_RejectsJunctionAncestor_AndReportsOkFalse",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.ConfigPreservationTests.LoadAsync_IfItWritesBack_StillPreservesExistingFields",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.FinalAcceptanceRegressionTests.Restore_DefaultDoesNotOverwrite_ButExplicitOverwriteRestoresByteIdenticalContent",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.ModReplaceUndo_NormalRestore_StillWorksWithTrustedRoot",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.StoredPath_MustBelongToSameInstanceAndOperation_Service",
+    "outcome": "Passed"
+  },
+  {
+    "testName": "Pineglow.Launcher.Tests.FinalAcceptanceRegressionTests.Replace_WhenRollbackSucceeds_StillReportsTheRealRollback",
+    "outcome": "Passed"
+  }
+]

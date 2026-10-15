@@ -1,0 +1,8 @@
+stage=terminal
+generatedLocal=2026-10-03T18:06:28+08:00
+head=f145d14eb26b0b7459a28491e764ac8c573085d3 branch=main
+inputs=290 tracked=161 whitelist=125 goalTooling=4 missing=0
+totalBytes=6023971
+gitStatusLines=1376 -> C:\Users\Administrator\.codex\worktrees\34ca\松光启动器\docs\market-execution\LONG-QUALITY-GOAL\20261003-092612Z-b4d896a8\g3-terminal\source-status-terminal.txt
+manifest=C:\Users\Administrator\.codex\worktrees\34ca\松光启动器\docs\market-execution\LONG-QUALITY-GOAL\20261003-092612Z-b4d896a8\g3-terminal\source-after-manifest.json
+materializedExecutionRoot=C:\Users\Administrator\AppData\Local\Temp\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49 copied=290

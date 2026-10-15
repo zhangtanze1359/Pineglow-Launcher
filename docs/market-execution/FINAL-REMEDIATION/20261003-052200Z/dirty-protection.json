@@ -1,0 +1,27 @@
+﻿{
+    "utc":  "2026-10-03T05:56:01.2329279Z",
+    "preFixInputs":  281,
+    "identical":  275,
+    "changed":  [
+                    "dev/PineglowLauncher.Tests/ConfigPreservationTests.cs",
+                    "dev/PineglowLauncher/Pineglow.Launcher.Services/FileRecoveryService.cs",
+                    "dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.cs",
+                    "dev/PineglowLauncher/Pineglow.Launcher.Services/ModReplacementService.cs",
+                    "dev/PineglowLauncher/Pineglow.Launcher.Services/SecretStore.cs",
+                    "scripts/source-snapshot-inputs.txt"
+                ],
+    "changedOutsideAllowed":  {
+
+                              },
+    "newFiles":  [
+                     "dev/PineglowLauncher/Pineglow.Launcher.Services/SecretStoreBackend.cs",
+                     "dev/PineglowLauncher.Tests/SecretStoreBackendTests.cs",
+                     "dev/PineglowLauncher.Tests/FinalAcceptanceRegressionTests.cs"
+                 ],
+    "missingFromSource":  [
+
+                          ],
+    "statusLinesBefore":  1360,
+    "statusLinesAfter":  1363,
+    "head":  "f145d14eb26b0b7459a28491e764ac8c573085d3"
+}

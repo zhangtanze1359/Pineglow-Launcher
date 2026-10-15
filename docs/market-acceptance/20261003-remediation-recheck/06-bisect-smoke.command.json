@@ -1,0 +1,11 @@
+{
+  "label": "06-bisect-smoke",
+  "command": [
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\\dev\\PineglowLauncher\\VerifyHost\\bin\\Release\\net10.0\\VerifyHost.exe",
+    "--bisect-smoke"
+  ],
+  "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d",
+  "startUTC": "2026-10-03T06:58:12.678627+00:00",
+  "endUTC": "2026-10-03T06:58:13.031527+00:00",
+  "exitCode": 0
+}

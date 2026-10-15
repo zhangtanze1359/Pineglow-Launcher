@@ -1,0 +1,72 @@
+[
+  {
+    "path": "docs/current-version-audit-2026-10-13/baseline-ui.json",
+    "line": 185,
+    "kind": "query-token"
+  },
+  {
+    "path": "docs/current-version-audit-2026-10-13/baseline-ui.json",
+    "line": 203,
+    "kind": "query-token"
+  },
+  {
+    "path": "docs/market-execution/MR17-accessibility-keyboard/20261003-100000Z/green/index.html.mr17",
+    "line": 123,
+    "kind": "meta-token"
+  },
+  {
+    "path": "docs/market-execution/MR17-fixture-isolation-audit/20261003-380000Z/green/ContentIconServiceTests.cs.fixed",
+    "line": 2089,
+    "kind": "query-token"
+  },
+  {
+    "path": "docs/market-execution/MR17-makeel-doubles-and-taborder/20261003-400000Z/green/index.html.fixed",
+    "line": 123,
+    "kind": "meta-token"
+  },
+  {
+    "path": "docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/round107-loader-ui-runtime/ui-dom.html",
+    "line": 198,
+    "kind": "meta-token"
+  },
+  {
+    "path": "docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/round18-ui-focus-content/ui-nav-sweep.json",
+    "line": 47,
+    "kind": "query-token"
+  },
+  {
+    "path": "docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/round18-ui-focus-content/ui-nav-sweep.json",
+    "line": 94,
+    "kind": "query-token"
+  },
+  {
+    "path": "docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/round18-ui-level/ui-dom.html",
+    "line": 198,
+    "kind": "meta-token"
+  },
+  {
+    "path": "docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/round18-ui-nav-sweep/ui-nav-sweep.json",
+    "line": 188,
+    "kind": "query-token"
+  },
+  {
+    "path": "docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/round18-ui-nav-sweep/ui-nav-sweep.json",
+    "line": 297,
+    "kind": "query-token"
+  },
+  {
+    "path": "docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/round44-ui-level-on-patched/factory-ab/ui-dom.html",
+    "line": 198,
+    "kind": "meta-token"
+  },
+  {
+    "path": "docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/round44-ui-level-on-patched/ui-dom.html",
+    "line": 198,
+    "kind": "meta-token"
+  },
+  {
+    "path": "ui/index.html",
+    "line": 131,
+    "kind": "meta-token"
+  }
+]

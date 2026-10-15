@@ -1,0 +1,91 @@
+﻿{
+    "runId":  "20261003-070000Z",
+    "task":  "MR19 可复现构建、RID 边界与 CI",
+    "generatedUtc":  "2026-10-02T22:18:12Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "result":  {
+                   "csharp":  "3 passed / 0 failed (BuildLockFileTests)",
+                   "csharpFull":  "728 passed / 0 failed",
+                   "nodeFull":  "216 passed / 0 failed (16 files)",
+                   "lockFilesRestoredToCommittedForm":  true,
+                   "managedAssemblyReproducible":  "byte-identical across --no-incremental rebuild: 52C170310B59C304... 3580928 bytes",
+                   "actionlint":  "1.7.7 verified via the skill pinned SHA; exit 0 on both workflows",
+                   "gitStatus":  "1324"
+               },
+    "reproduced":  {
+                       "ridLockedPublish":  "NU1004 (runtime identifier changed; Microsoft.NET.ILLink.Tasks missing from lock)",
+                       "publishRewritesLockInPlace":  "8663 -\u003e 10868 bytes; adds net10.0/win-x64 (8 packages incl. ILLink.Tasks)"
+                   },
+    "keyFinding":  {
+                       "statement":  "A RID-expanded lock file and the non-RID --locked-mode restore are mutually exclusive",
+                       "experiment":  "RID locked publish exit 0 with expanded lock; non-RID --locked-mode exit 1 (NU1004); tests project --locked-mode also exit 1 because it walks the project reference",
+                       "consequence":  "Committing the RID form is NOT a fix; the current CI trade-off (locked non-RID + unlocked RID) is correct",
+                       "decision":  "Freeze KNOWN-UNLOCKED as an accepted, documented trade-off with this evidence"
+                   },
+    "guard":  {
+                  "invariant":  "committed packages.lock.json must be in non-RID form: no \"net10.0/ section, no Microsoft.NET.ILLink.Tasks, RestorePackagesWithLockFile stays true",
+                  "csharpTests":  3,
+                  "ciSteps":  "build.yml (bash) + release.yml (pwsh), each with the experimental numbers in comments",
+                  "validatedBothWays":  "committed files pass; the RID-expanded copy is rejected with the NU1004 reason"
+              },
+    "knownGaps":  [
+                      "真实 GitHub Actions 运行未验证（本机无 runner）；守卫用本地等价逻辑双向实跑 + actionlint 校验",
+                      "单文件自包含 exe 的逐字节可复现性未测（含 ILC/原生输出）",
+                      "RID 锁定按决策保持不锁定；若要真正锁定需放弃非 RID 校验或改用每 RID 独立 lock 文件（NuGet 目前不直接支持）",
+                      "actionlint CI 门禁未新增（建议已记录）",
+                      "linux-x64 / osx-x64 的 RID 发布未在本机跑",
+                      "CI YAML 未纳入源码快照白名单（决策已记录：CI 定义不是构建输入）"
+                  ],
+    "selfFoundIssues":  [
+                            "测试按目录名拼项目文件名（PineglowLauncher.csproj 不存在，实际是 Pineglow.Launcher.csproj）-\u003e 改为显式映射",
+                            "反直觉连带失败：lock 文件被展开后测试项目的 --locked-mode 也会失败（它引用主项目），这决定了\"只能二选一\""
+                        ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "56689FFF7E6521DB2827312452213F1F865AACCAC73D39C67908B31A1A4B5243",
+                      "sizeBytes":  9487
+                  },
+                  {
+                      "path":  "green/01-lock-guard-first.log",
+                      "sha256":  "65ED079D0977D8B50B3BB113E2262CD17CF94E2AA453C48CC9DC171FC7341FE3",
+                      "sizeBytes":  9868
+                  },
+                  {
+                      "path":  "green/02-csharp-full.log",
+                      "sha256":  "E8397909BD4039EBCD6860BC1C2CE4AB985779F32AA84345AABF4A91DCA9B773",
+                      "sizeBytes":  652
+                  },
+                  {
+                      "path":  "green/03-node-full.log",
+                      "sha256":  "F18F3120D56F462EBE1A82452669234173C0FCE885B4A8DF48845DC9403A206D",
+                      "sizeBytes":  22555
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "6C8CF1DE07C083B8FD2BAEC69E5F4EBD8CC7B1AC58CA35D46FD4FEBFC3E47845",
+                      "sizeBytes":  413
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "F029CCA25716736FD8C1AF40AD8C1EB930FB3B82760A74FFFA19259A15A4CBBF",
+                      "sizeBytes":  114766
+                  },
+                  {
+                      "path":  "green/launcher-packages.lock.json.rid-expanded",
+                      "sha256":  "36DACA912DB381C05F939BF3C7B65AED267BE9FDA839AB43A4FD1B31C79F239F",
+                      "sizeBytes":  10868
+                  },
+                  {
+                      "path":  "red/launcher-packages.lock.json.before",
+                      "sha256":  "FBBC9AE67B8E8CF2E3AA63C48242BC08AC713BE47830D337914CC39C85EE0672",
+                      "sizeBytes":  8663
+                  },
+                  {
+                      "path":  "red/tests-packages.lock.json.before",
+                      "sha256":  "244BA2BCD1EB1F5AF72967D5F2AFB5C4978E9B73669D53B450F02FD6F057551B",
+                      "sizeBytes":  12806
+                  }
+              ]
+}

@@ -1,0 +1,33 @@
+﻿{
+    "probe":  "real-install-and-launch",
+    "mode":  "install",
+    "requestedVersion":  "1.7.10",
+    "fixture":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-319538793d7c4f2287d28af761caaa20\\install",
+    "installedExeSha256":  "CA8F94C1A6173F23F38F3D2A3C949AFFC16D5AB67752B662C7806831F350D93E",
+    "apiPort":  54707,
+    "healthReady":  true,
+    "javaBefore":  "{\"javaPath\":\"\",\"installations\":[]}",
+    "remoteVersionsListed":  918,
+    "remoteVersionPresent":  true,
+    "downloadTaskId":  "dlv1791577738883",
+    "downloadStatus":  "completed",
+    "downloadMessage":  "安装完成",
+    "downloadSeconds":  130,
+    "installedVersions":  [
+                              "{\"gameDir\":\"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pineglow-d6-install-319538793d7c4f2287d28af761caaa20\\\\install\\\\data\\\\.minecraft\",\"local\":[\"1.7.10\"]}"
+                          ],
+    "versionOnDisk":  true,
+    "versionJsonFiles":  1,
+    "versionJars":  1,
+    "libraryJars":  33,
+    "assetObjects":  674,
+    "instanceId":  "",
+    "prelaunchVerdict":  "",
+    "launchResponse":  "",
+    "launchObserved":  false,
+    "launchLogTail":  "2026-10-10 04:28:46.663 [INFO] === Pineglow Launcher 启动 v1.0.0 ===\n2026-10-10 04:28:46.771 [INFO] [LocalApi] 监听 127.0.0.1:54707, ui=C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-319538793d7c4f2287d28af761caaa20\\install\\data\\UI\\1.0.0-41346c7082cb",
+    "ownedProcessesStopped":  true,
+    "timeHK":  "2026-10-10T04:28:45.2856372",
+    "sourcesSelect":  "{\"ok\":true,\"selected\":\"bmclapi\",\"useMirror\":true}",
+    "sourcesAfterSelect":  "{\"selected\":\"bmclapi\",\"sources\":[{\"key\":\"official\",\"name\":\"官方源\",\"baseUrl\":\"https://piston-meta.mojang.com\",\"latencyMs\":3896,\"available\":true},{\"key\":\"bmclapi\",\"name\":\"BMCLAPI\",\"baseUrl\":\"https://bmclapi2.bangbang93.com\",\"latencyMs\":264,\"available\":true},{\"key\":\"mcbbs\",\"name\":\"MCBBS 镜像\",\"baseUrl\":\"https://download.mcbbs.net\",\"latencyMs\":-1,\"available\":false}]}"
+}

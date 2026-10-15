@@ -1,0 +1,6 @@
+﻿# MR21 变更文件哈希（run 20261003-090000Z）
+# 说明：本包也改过 scripts/source-snapshot-inputs.txt（登记新增测试与脚本），
+#       但该文件随后被 MR17 修改，其"MR21 时刻的哈希"已无法从当前工作区复现。
+#       为避免记录一个无法核对的值，这里**刻意不记录**它；由 MR17 的记录与 MG3 的漂移分类覆盖。
+CC039A493E4C8EC3E63EAC1AFF502FAE51B5E9680C0045BA2572EA36E566F823  dev/PineglowLauncher.Tests/LauncherPerfMeasurementTests.cs
+9863CAA171AA9021F67E8FF99E9E356907ED32A3782C058116BC7FBCC94FEAB2  scripts/measure-mr21.ps1

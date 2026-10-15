@@ -186,16 +186,14 @@ test('MR04: mock 侧删除后可列出并恢复同一条记录（行为与 live 
 
 /* ============== C. 静态扫描（补充防线） ============== */
 
-test('MR04 static scan: launcher.js Mod 行有可恢复删除入口，并在取消时不发请求', () => {
-	const start = LAUNCHER_JS.indexOf("listEl.querySelectorAll('.mod-del')");
-	assert.ok(start > 0, 'launcher.js 必须存在 .mod-del 的点击处理');
-	const block = LAUNCHER_JS.slice(start, start + 800);
-
-	assert.ok(block.includes("t('mod.deleteConfirm'"), '必须使用 mod.deleteConfirm 确认');
-	assert.ok(/if \(!confirm\(/.test(block), '必须要求用户确认');
-	assert.ok(/return;\s*\n/.test(block), '用户取消时必须直接返回，不发请求');
-	assert.ok(block.includes('SG.api.deleteMod('), '必须调用 SG.api.deleteMod');
-	assert.ok(block.includes("t('mod.deleted')"), '成功提示必须说明已移入恢复区');
+test('MR04 static scan: 新版 Mod 抽屉使用独立行内确认入口', () => {
+	const start = LAUNCHER_JS.indexOf('async function openModManager(');
+	const block = LAUNCHER_JS.slice(start, LAUNCHER_JS.indexOf('async function openRecoveryPanel(',start));
+	assert.ok(block.includes('data-cancel-remove'), '行内确认提供取消');
+	assert.ok(block.includes("strip.querySelector('[data-cancel-remove]').focus()"), '初始焦点给取消');
+	assert.ok(block.includes('if(b.dataset.removeFile)'), '真实删除由独立确认按钮触发');
+	assert.ok(block.includes('await SG.api.deleteMod('), '确认后调用真实 API');
+	assert.ok(block.includes("t('mod.deleted')"), '成功提示仍说明移入恢复区');
 });
 
 test('MR04 static scan: launcher.js 提供恢复区面板，且渲染与恢复都走 api', () => {
@@ -204,7 +202,7 @@ test('MR04 static scan: launcher.js 提供恢复区面板，且渲染与恢复�
 	assert.ok(LAUNCHER_JS.includes('openRecoveryPanel(inst)'), '入口必须打开面板');
 
 	const start = LAUNCHER_JS.indexOf('async function openRecoveryPanel(');
-	const block = LAUNCHER_JS.slice(start, start + 4200);
+	const block = LAUNCHER_JS.slice(start, LAUNCHER_JS.indexOf('function drawBisectPending(', start));
 	assert.ok(block.includes('SG.api.listRecoveries('), '面板必须调用 listRecoveries');
 	assert.ok(block.includes('SG.api.restoreRecovery('), '面板必须调用 restoreRecovery');
 	assert.ok(block.includes("t('recovery.conflictNote')"), '冲突必须提示"未覆盖"');
@@ -261,7 +259,7 @@ test('MR05: mock 侧重复恢复默认报冲突，显式 overwrite 才成功', a
 
 test('MR05 static scan: launcher.js 恢复区对 mod-replace 记录显示"撤销本次更新"并带 overwrite', () => {
 	const start = LAUNCHER_JS.indexOf('async function openRecoveryPanel(');
-	const block = LAUNCHER_JS.slice(start, start + 4200);
+	const block = LAUNCHER_JS.slice(start, LAUNCHER_JS.indexOf('function drawBisectPending(', start));
 
 	assert.ok(block.includes("op.reason === 'mod-replace'"), '必须区分 mod-replace 记录');
 	assert.ok(block.includes('data-overwrite='), '必须把 overwrite 意图写进 DOM');

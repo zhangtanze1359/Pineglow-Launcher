@@ -1,0 +1,177 @@
+[
+  {
+    "path": "actionlint-tool.json",
+    "size": 210,
+    "sha256": "AF2191C625477899CAA70E8A869D2809D7F5C7A0016C5589DA949F8C883F5DE1"
+  },
+  {
+    "path": "actionlint.exitcode",
+    "size": 3,
+    "sha256": "13BF7B3039C63BF5A50491FA3CFD8EB4E699D1BA1436315AEF9CBE5711530354"
+  },
+  {
+    "path": "actionlint.log",
+    "size": 0,
+    "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+  },
+  {
+    "path": "audit-summary.json",
+    "size": 2676,
+    "sha256": "E63A46650BB404B64081E51ED1974B160781CFFF1483115B8051D218B00C33C4"
+  },
+  {
+    "path": "ci-coverage.json",
+    "size": 551,
+    "sha256": "1D1D0B206B60B62CE36BF3BFE99F27C0E1C4B3F0F32059CFE7D6F2E6CA23A1DE"
+  },
+  {
+    "path": "critical-test-results.json",
+    "size": 6690,
+    "sha256": "F7C3912540245D6AB2A1B96E5E134A5A9F4B27A780B59E72E3ABE7B311848525"
+  },
+  {
+    "path": "direct-dotnet-test.exitcode",
+    "size": 3,
+    "sha256": "13BF7B3039C63BF5A50491FA3CFD8EB4E699D1BA1436315AEF9CBE5711530354"
+  },
+  {
+    "path": "direct-dotnet-test.log",
+    "size": 9776,
+    "sha256": "3FB861DD161C1D87AE674BCED2DA96B67E0B1AF39E9DDD58579EBACD7ED3B9B9"
+  },
+  {
+    "path": "direct-node.exitcode",
+    "size": 3,
+    "sha256": "13BF7B3039C63BF5A50491FA3CFD8EB4E699D1BA1436315AEF9CBE5711530354"
+  },
+  {
+    "path": "direct-node.log",
+    "size": 27236,
+    "sha256": "18D85687EE01A2C1A27956B5A4BE2D90ED35696FFA7236659986A813FCE60092"
+  },
+  {
+    "path": "direct-publish.exitcode",
+    "size": 3,
+    "sha256": "13BF7B3039C63BF5A50491FA3CFD8EB4E699D1BA1436315AEF9CBE5711530354"
+  },
+  {
+    "path": "direct-publish.log",
+    "size": 523,
+    "sha256": "F7B94A6891945B591900AA87C514871767C60D7DD2B9533B1565A3BDFC74A0FF"
+  },
+  {
+    "path": "direct-restore.exitcode",
+    "size": 3,
+    "sha256": "13BF7B3039C63BF5A50491FA3CFD8EB4E699D1BA1436315AEF9CBE5711530354"
+  },
+  {
+    "path": "direct-restore.log",
+    "size": 395,
+    "sha256": "F10FE07FA023634D489E0761564F39DA8CBB09DB31CDA8C5AC0DA19B43F7E7BA"
+  },
+  {
+    "path": "dotnet-version.txt",
+    "size": 10,
+    "sha256": "041F4EE33CD6A7E10BE63E5CAB2808033952036DFF6BBAD206A0F909C3568B6E"
+  },
+  {
+    "path": "exe-only-crash.log",
+    "size": 952,
+    "sha256": "E506A651983580EA12F578A0BAE2A76418C01B0938F74F293881C4D6C4CF6571"
+  },
+  {
+    "path": "exe-only-summary.json",
+    "size": 288,
+    "sha256": "ECE1D3BB435A410177672B75BA60544F7A9A7736BAD8ECA39C1DC27A5A414364"
+  },
+  {
+    "path": "exe-only.stderr.log",
+    "size": 954,
+    "sha256": "6932A9E0A5D68916E1BB6707F0C65504653DE2CBD5CFFEB6F521A58CFABC1543"
+  },
+  {
+    "path": "exe-only.stdout.log",
+    "size": 0,
+    "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+  },
+  {
+    "path": "hash-protection-summary.json",
+    "size": 109,
+    "sha256": "975407340D04666BF72968200E09E29700BBC693C86D92A9DF167EBB1C235492"
+  },
+  {
+    "path": "node-version.txt",
+    "size": 10,
+    "sha256": "BC697DE995DC791DF53D688EF69C08994CDFFC8CE30C906B1FFC65B131CCD0EB"
+  },
+  {
+    "path": "public-release-endpoints.json",
+    "size": 2992,
+    "sha256": "92958DE243AAABD77ABD3CB3E65E9732CE5845D3813C141C79E08A35738B82C7"
+  },
+  {
+    "path": "publish-files.json",
+    "size": 2864,
+    "sha256": "B14FF8E5E6AE68E1F8C7EEB6786B4CC67CDA442FB9D93602B4A9390D96CEA524"
+  },
+  {
+    "path": "publish-summary.json",
+    "size": 222,
+    "sha256": "9E45D6047F58328D1BE6D99050D5E0D596CD20B9832CE5D4E6C02A71FB332308"
+  },
+  {
+    "path": "resource-coverage.json",
+    "size": 401,
+    "sha256": "A5D4874B22CDD0A50166FEFD27ED7E83602F1B76A6D319237ACDDC88FDBEE1EC"
+  },
+  {
+    "path": "snapshot-exitcode.txt",
+    "size": 3,
+    "sha256": "F1B2F662800122BED0FF255693DF89C4487FBDCF453D3524A42D4EC20C3D9C04"
+  },
+  {
+    "path": "snapshot-run.log",
+    "size": 7637,
+    "sha256": "412F8848D72F68ECA56E9454BD2640408FEE0A05E7D499B59D910A6FB97B1CDD"
+  },
+  {
+    "path": "source-protection.json",
+    "size": 76,
+    "sha256": "A681B7E0DEC5CF9543890B61C6D3421C1B3E0930E85EDC67609686E648AE70F2"
+  },
+  {
+    "path": "source-status-after.txt",
+    "size": 120200,
+    "sha256": "C565D742FC43D972F23EB129E827C6B928267555468911B720190D17503066C2"
+  },
+  {
+    "path": "source-status-before.txt",
+    "size": 120200,
+    "sha256": "C565D742FC43D972F23EB129E827C6B928267555468911B720190D17503066C2"
+  },
+  {
+    "path": "tracked-source-hash-check.json",
+    "size": 42679,
+    "sha256": "DEA9841E8BE2F3E08F9B46476CD76538AC11C9E514FF73D7A45C353FFFD295EC"
+  },
+  {
+    "path": "whitelist-source-hash-check.json",
+    "size": 36211,
+    "sha256": "D43A4B13D2608293B96B1B9BB03A1DC0A3CC0BDE679222430900E54E47777370"
+  },
+  {
+    "path": "candidate-snapshot/snapshot-manifest.sha256.txt",
+    "size": 15246,
+    "sha256": "17B6BB7CD65746BD27ED2D8140DAB298B4E813C2E9E4BD0AA7E3D3E7F46E3067"
+  },
+  {
+    "path": "candidate-snapshot/verify-summary.json",
+    "size": 8306,
+    "sha256": "4DB2FCEC6538A83302B88D917364283658399537425C7EFF9654F530557A2B0E"
+  },
+  {
+    "path": "test-results/full.trx",
+    "size": 1415619,
+    "sha256": "116EDE502F5B2A8896042AC7F277CC890103DA909EF8D3D3163E6884D9AAC94F"
+  }
+]

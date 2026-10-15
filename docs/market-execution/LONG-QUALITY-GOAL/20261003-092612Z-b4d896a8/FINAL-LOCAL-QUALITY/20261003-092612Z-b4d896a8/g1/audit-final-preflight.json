@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "auditor": "audit-goal-evidence.py",
+  "auditorSha256": "F4121D33933F22C3A32BB556F36FF8F7E83A622C6CAEFF594533A2BE2673099E",
+  "generatedUtc": "2026-10-03T09:52:05Z",
+  "expected": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\g0\\expected-evidence-final.json",
+  "expectedSha256": "29B8E240F29FF2E01FA7CAACB5638F8036B6B01B75EEBBF983A5FB8040384EC0",
+  "roots": [
+    {
+      "id": "ed41-history",
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution",
+      "policy": "legacy-policy",
+      "required": true,
+      "exists": true,
+      "manifestsFound": 60,
+      "packagesDeclared": 60,
+      "packagesChecked": 60
+    },
+    {
+      "id": "r2-current",
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\0f45\\松光启动器\\docs\\market-execution",
+      "policy": "legacy-policy",
+      "required": true,
+      "exists": true,
+      "manifestsFound": 1,
+      "packagesDeclared": 1,
+      "packagesChecked": 1
+    },
+    {
+      "id": "goal-new",
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8",
+      "policy": "legacy-policy",
+      "required": true,
+      "exists": true,
+      "manifestsFound": 0,
+      "packagesDeclared": 1,
+      "packagesChecked": 0
+    }
+  ],
+  "totals": {
+    "roots": 3,
+    "packages": 62,
+    "manifestEntries": 874,
+    "filesVerified": 874,
+    "failures": 2,
+    "knownDrift": 3,
+    "notes": 0
+  },
+  "failures": [
+    {
+      "code": "ROOT_EMPTY",
+      "root": "goal-new",
+      "package": "",
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8",
+      "detail": "declared required root contains no manifest.json"
+    },
+    {
+      "code": "PACKAGE_MISSING",
+      "root": "goal-new",
+      "package": "FINAL-LOCAL-QUALITY/20261003-092612Z-b4d896a8",
+      "path": "",
+      "detail": "declared required package does not exist"
+    }
+  ],
+  "knownDrift": [
+    {
+      "manifest": "MG0-verification-package-20261003/manifest.json",
+      "path": "drift-notes.md",
+      "root": "ed41-history",
+      "package": "MG0-verification-package-20261003",
+      "recordedSha256": "1F7197B34E86025D32C0B8DDB6DE0A136F1CB3489FD4927AEEDAA97698F0BE88",
+      "currentSha256": "C55CE93981D8D078CD66450D91AAF5571145731049B024433301EB955277CF6B",
+      "actualSha256": "C55CE93981D8D078CD66450D91AAF5571145731049B024433301EB955277CF6B",
+      "recordedSize": 3114,
+      "currentSize": 4088,
+      "reason": "Historical: the file was rewritten after the manifest was sealed (3114 -> 4088 bytes). The old manifest is kept as-is and was not recomputed; this entry only registers the difference.",
+      "source": "ed41 delivery root MG0 package; already registered in the R2 historical-exceptions.json and confirmed by the Codex independent acceptance of 2026-10-03."
+    },
+    {
+      "manifest": "MG2-verification-package-20261003/manifest.json",
+      "path": "verify-mg2-full.log",
+      "root": "ed41-history",
+      "package": "MG2-verification-package-20261003",
+      "recordedSha256": "B99A6D92BA9E6791B9DE5C8579254AD233AEB35AC539B7CC5BF05748F0813C31",
+      "currentSha256": "BE2E432EADE77D436B39A1706248B9C90D9280CA98DFF8C57EEE4A5C5F5E2F95",
+      "actualSha256": "BE2E432EADE77D436B39A1706248B9C90D9280CA98DFF8C57EEE4A5C5F5E2F95",
+      "recordedSize": 41770,
+      "currentSize": 41770,
+      "reason": "Historical: same size, different bytes - the log was regenerated. The old manifest and the old log are kept as history and were not recomputed.",
+      "source": "ed41 delivery root MG2 package; already registered in the R2 historical-exceptions.json and confirmed by the Codex independent acceptance of 2026-10-03."
+    },
+    {
+      "manifest": "FINAL-REMEDIATION-R2/20261003-071724Z/manifest.json",
+      "path": "source-after.json",
+      "root": "r2-current",
+      "package": "FINAL-REMEDIATION-R2/20261003-071724Z",
+      "recordedSha256": "7CA0937ED50944ADF32776FEED37C4F2458D527FD7B1F2194933C2B0CFE7F161",
+      "currentSha256": "0FDB01944B5926DA9D500EC98D756476A85FB7BB5F73F61F8D97D9A46CA899B2",
+      "actualSha256": "0FDB01944B5926DA9D500EC98D756476A85FB7BB5F73F61F8D97D9A46CA899B2",
+      "recordedSize": 4192,
+      "currentSize": 4192,
+      "reason": "The R2 package was sealed and audited, and only then did the same tool call run capture-baseline -Tag after, which rewrote the already sealed source-after.json. Recorded and actual size agree (4192) but the bytes do not, so the shipped seal of that package is invalid. The original manifest, the original audit result and the original RED records are kept unchanged; this entry only binds the drift so that no third byte set can pass silently.",
+      "source": "Harness session tool/call seq=1351 (order: seal-evidence.ps1 -> audit-all-manifests-r2.py -> capture-baseline.ps1 -Tag after). Call order preserved read-only at 34ca\\docs\\market-acceptance\\20261003-r2-independent\\harness-sealing-call-order.json; the mismatch record is r2-seal-mismatch.json in the same directory."
+    }
+  ],
+  "notes": [],
+  "exitCode": 1
+}

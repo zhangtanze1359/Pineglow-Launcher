@@ -1,0 +1,107 @@
+{
+    "runId":  "20261003-500000Z",
+    "task":  "修复 Codex 独立探针发现的 2 个缺陷：世界备份归属过滤与跨世界恢复（A23）",
+    "generatedUtc":  "2026-10-03T04:47:59Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "discoveredBy":  "Codex independent acceptance (docs/market-acceptance/20261003-W1-W3): independent-probes.trx showed 15 probes with 13 passed / 2 failed, and 08-failures-repeat.log reproduced both failures. MY OWN TESTS DID NOT CATCH EITHER DEFECT.",
+    "defects":  [
+                    "GET /saves/{world}/backups ignored folderName and returned every backup of the instance (requesting worldB returned worldAs backup)",
+                    "POST /saves/{world}/backups/{name}/restore did not check ownership: restoring worldAs backup into worldB returned 200 and wrote saves\\\\worldA (1) - a DATA SAFETY issue"
+                ],
+    "fix":  "List filters by BackupFileInfo.GroupName == requested world (case-insensitive). Restore rejects with a readable error when GroupName does not match. Backups whose ownership cannot be parsed (fallback group name) belong to no specific world and therefore appear in no world list - a deliberately conservative choice.",
+    "decisiveEvidence":  "I copied Codex own IndependentRouteProbes.cs into the test project, ran it VERBATIM (file SHA 06B36DFF7C1F7275ACDC33C9...), got 15 passed / 0 failed (was 13/15), then removed the file immediately - no trace left in the repo.",
+    "myTests":  "3 permanent tests: list scoped to the requested world; cross-world restore rejected with a readable error and the whole tree byte-identical (including no worldA (1) left behind); same-world restore still works.",
+    "redBaseline":  "reverting BOTH fixes produced exactly 2 failures - the two new tests",
+    "selfFoundIssue":  "My first run failed on MY OWN assertion: I used Assert.Contains(\"属于\", body) but JSON responses escape non-ASCII as \\\\uXXXX. Fixed by parsing the JSON first. This rule is already in my own notes and I violated it again - the test now carries a comment about it.",
+    "verification":  [
+                         "Codex probes verbatim: 15/15 passed",
+                         "my tests: 3 passed / 0 failed",
+                         "C# full: 835 passed / 0 failed / 0 skipped (832 + 3)",
+                         "Node full: 238 passed / 0 failed",
+                         "restore byte-identical to green/LocalApiService.cs.fixed"
+                     ],
+    "stillNotCovered":  [
+                            "the OTHER Codex acceptance artifacts are not yet read line by line - notably implementer-manifest-audit.json, which audits MY manifests",
+                            "other backup entry points (e.g. delete backup) were not audited for the same ownership issue",
+                            "real GUI backup screens not verified"
+                        ],
+    "productionCodeChanged":  true,
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "27CE22C84BF97C8246DDBE489023B14D0489BE5753CB256E826DA14721E7F2CD",
+                      "sizeBytes":  6904
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "E351CBDCAB1720E74A9D3FAB8470677E330888D37845AF07AFD58D092E210302",
+                      "sizeBytes":  21004
+                  },
+                  {
+                      "path":  "green/01-codex-probes-verbatim.log",
+                      "sha256":  "8EC9E89EF56A08C6D48DCF4CB95F7B3D6A64448E8F2AF84C5051C962425951D1",
+                      "sizeBytes":  4719
+                  },
+                  {
+                      "path":  "green/02-my-tests.log",
+                      "sha256":  "59F41E706ECCBB0F3A8FFF9A8A08F8166C4B5CB4E198380C975A7A2BB6F9FAAE",
+                      "sizeBytes":  3313
+                  },
+                  {
+                      "path":  "green/03-my-tests-final.log",
+                      "sha256":  "079392D7A164DBB33FAAE3E1114582C50C047C932E6E33EB71ACFB87158536F5",
+                      "sizeBytes":  1601
+                  },
+                  {
+                      "path":  "green/04-csharp-full.log",
+                      "sha256":  "A30D1937CB853EA1F5D6A92096D78191A260EDC5CA24812CE2986FA7DD23E497",
+                      "sizeBytes":  490
+                  },
+                  {
+                      "path":  "green/05-node-full.log",
+                      "sha256":  "4029B4A7306C0D380A1BEFB21BBA78F35A03E422ACD62425062AF96CCC090805",
+                      "sizeBytes":  37634
+                  },
+                  {
+                      "path":  "green/audit-claimed-tests.log",
+                      "sha256":  "62D41AF23906A728E0B4BEFEC56B80273A35742B4D2AC27CE82DE21EC0A452F2",
+                      "sizeBytes":  377
+                  },
+                  {
+                      "path":  "green/audit-evidence-tree.log",
+                      "sha256":  "EE2E22966A77FF12341F65A575BBA4BA10F044C18338A5DCB51D3F0BF9D55D95",
+                      "sizeBytes":  582
+                  },
+                  {
+                      "path":  "green/audit-plan-ledger.log",
+                      "sha256":  "AFF34AEAC57FFAA3D4563B00A24279058594A5FD273FED09F659DE4BDC2C2FB9",
+                      "sizeBytes":  538
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "9B2515F3C1A330E52DCE92C914212DEB7DF16A37593628C591C6EA3FA61566C6",
+                      "sizeBytes":  358
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "AE16588C0B98250740F2573FDD392ECCC5061E25AFBA3ABCC7F8D19F913AC51C",
+                      "sizeBytes":  116644
+                  },
+                  {
+                      "path":  "green/LocalApiService.cs.fixed",
+                      "sha256":  "4273CCA1BDFBB6ACFD51C213A89EF1818A16FAA46EE8FC60F9ED724FE0C496EB",
+                      "sizeBytes":  205386
+                  },
+                  {
+                      "path":  "green/WorldBackupScopeTests.cs.fixed",
+                      "sha256":  "66CF28160E061A6A9C672459A2531478E5F04D92A0C9A05C87931391DB7CA680",
+                      "sizeBytes":  6826
+                  },
+                  {
+                      "path":  "red/01-red-both-defects-restored.log",
+                      "sha256":  "3D5DB7540C3C305F0A5064C7A4558C16654D45DA7D14E83B50E36742AC2EF8FB",
+                      "sizeBytes":  6258
+                  }
+              ]
+}

@@ -1,0 +1,132 @@
+{
+    "schemaVersion":  2,
+    "runner":  "run-goal-validation.ps1",
+    "runId":  "fixed-id",
+    "inputManifest":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\legal-partial-then-full\\input.json",
+    "inputManifestSha256":  "8C0E13E3F4D42847F61E1C0A09D7543763EB5A7C38DFC201659FDA8D1DB98FBE",
+    "verifiedInputSetSha256":  "8B61E22B98906A58BCCF598A8597273C39E974CA49E3A725FCEE986A121651DB",
+    "verifiedInputCount":  2,
+    "verifiedInputRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\legal-partial-then-full",
+    "stagesFile":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\legal-partial-then-full\\stages.json",
+    "stagesFileSha256":  "F0E940836A45C3C82719104E4427650C488781273FC06CC19DF71B87B14587E5",
+    "generatedUtc":  "2026-10-04T10:38:50Z",
+    "resume":  true,
+    "only":  "",
+    "partial":  false,
+    "requiredStages":  [
+                           "unit",
+                           "second"
+                       ],
+    "requiredNotCompleted":  [
+
+                             ],
+    "partialNotRun":  {
+
+                      },
+    "stageCount":  2,
+    "failedCount":  0,
+    "stages":  [
+                   {
+                       "schemaVersion":  2,
+                       "id":  "unit",
+                       "runId":  "fixed-id",
+                       "attemptDir":  "attempts/unit/1",
+                       "fingerprint":  "86C14EA1AE747ACEAC236EE5356F7297893D22C92146C7524058606ABD0CF41A",
+                       "inputManifestSha256":  "8C0E13E3F4D42847F61E1C0A09D7543763EB5A7C38DFC201659FDA8D1DB98FBE",
+                       "inputSetSha256":  "8B61E22B98906A58BCCF598A8597273C39E974CA49E3A725FCEE986A121651DB",
+                       "command":  "C:\\Program Files\\nodejs\\node.exe C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\legal-partial-then-full\\child.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\legal-partial-then-full\\run\\attempts\\unit\\1/unit.trx write",
+                       "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\legal-partial-then-full",
+                       "counters":  {
+                                        "total":  3,
+                                        "executed":  3,
+                                        "passed":  3,
+                                        "failed":  0,
+                                        "notExecuted":  0,
+                                        "resultRows":  3,
+                                        "passedRows":  3,
+                                        "failedRows":  0,
+                                        "notExecutedRows":  0,
+                                        "otherRows":  0
+                                    },
+                       "artifacts":  [
+                                         {
+                                             "path":  "unit.trx",
+                                             "sha256":  "0B1A0EA65E62258B46DACE75043AEE88A27ED36416C855216C963BB230F4ED0D",
+                                             "sizeBytes":  243
+                                         }
+                                     ],
+                       "rawEvidence":  [
+                                           {
+                                               "path":  "unit.stdout.log",
+                                               "sha256":  "A5535F67A81F90334A838E0935772E949A2156297D7A62EEAF7578F46460BD5D",
+                                               "sizeBytes":  40
+                                           },
+                                           {
+                                               "path":  "unit.stderr.log",
+                                               "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                                               "sizeBytes":  0
+                                           }
+                                       ],
+                       "status":  "REUSED",
+                       "reused":  true,
+                       "reusedFrom":  "stages/unit.json",
+                       "reasons":  [
+
+                                   ]
+                   },
+                   {
+                       "schemaVersion":  2,
+                       "id":  "second",
+                       "runId":  "fixed-id",
+                       "attemptDir":  "attempts/second/1",
+                       "fingerprint":  "7ED783AAE3977AA13C3C36BBDAE0139233473C4571FD44AC436DE0A0FDFB8553",
+                       "inputManifestSha256":  "8C0E13E3F4D42847F61E1C0A09D7543763EB5A7C38DFC201659FDA8D1DB98FBE",
+                       "inputSetSha256":  "8B61E22B98906A58BCCF598A8597273C39E974CA49E3A725FCEE986A121651DB",
+                       "command":  "C:\\Program Files\\nodejs\\node.exe C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\legal-partial-then-full\\child.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\legal-partial-then-full\\run\\attempts\\second\\1/unit.trx write",
+                       "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\legal-partial-then-full",
+                       "startUtc":  "2026-10-04T10:38:50Z",
+                       "endUtc":  "2026-10-04T10:38:50Z",
+                       "exitCode":  0,
+                       "timedOut":  false,
+                       "stillRunning":  false,
+                       "counters":  {
+                                        "total":  3,
+                                        "executed":  3,
+                                        "passed":  3,
+                                        "failed":  0,
+                                        "notExecuted":  0,
+                                        "resultRows":  3,
+                                        "passedRows":  3,
+                                        "failedRows":  0,
+                                        "notExecutedRows":  0,
+                                        "otherRows":  0
+                                    },
+                       "trx":  "unit.trx",
+                       "artifacts":  [
+                                         {
+                                             "path":  "unit.trx",
+                                             "sha256":  "0B1A0EA65E62258B46DACE75043AEE88A27ED36416C855216C963BB230F4ED0D",
+                                             "sizeBytes":  243
+                                         }
+                                     ],
+                       "rawEvidence":  [
+                                           {
+                                               "path":  "second.stdout.log",
+                                               "sha256":  "A5535F67A81F90334A838E0935772E949A2156297D7A62EEAF7578F46460BD5D",
+                                               "sizeBytes":  40
+                                           },
+                                           {
+                                               "path":  "second.stderr.log",
+                                               "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                                               "sizeBytes":  0
+                                           }
+                                       ],
+                       "reasons":  [
+
+                                   ],
+                       "status":  "COMPLETED",
+                       "reused":  false
+                   }
+               ],
+    "verdict":  "PASS"
+}

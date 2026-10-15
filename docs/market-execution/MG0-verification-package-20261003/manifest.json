@@ -1,0 +1,76 @@
+﻿{
+    "package":  "MG0 / MG0-pre 独立复验包（执行基线与路由可达性）",
+    "generatedUtc":  "2026-10-02T23:21:07Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "scope":  [
+                  "MR00",
+                  "MR01",
+                  "W1",
+                  "W2",
+                  "W3"
+              ],
+    "oneCommand":  "powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\verify-mg0.ps1",
+    "automatedResult":  {
+                            "scriptExit":  0,
+                            "csharp":  "755 passed / 0 failed",
+                            "node":  "230 passed / 0 failed (18 files)",
+                            "ledgerAudit":  "exit 0",
+                            "evidenceDrift":  "scannedRecords=330 across 17 runs; match=249, unexplainedWithinThisMilestone=1 (EXPLAINED: the plan is a living ledger), supersededByLaterMilestones=80, missing=0",
+                            "gitStatus":  1333
+                        },
+    "formatDifferences":  {
+                              "MR00":  "142 files; NO manifest.json; hash list is baseline/input-manifest.sha256.txt (214 entries) and its semantics are SOURCE INPUTS, not changed files",
+                              "MR01":  "11 files; NO manifest.json and NO hash list at all; deliverables are outputs/docs/* and mr01-report.md",
+                              "W1-W3":  "26 files; conforms to the later convention (manifest.json + green/changed-files.sha256.txt)",
+                              "note":  "this package states the difference instead of back-filling, because back-filling would look like original evidence"
+                          },
+    "fixedDuringThisPackage":  {
+                                   "MR17 evidence omission":  "MR17 modified dev/PineglowLauncher.Tests/ContentIconServiceTests.cs but omitted it from its changed-files list; the file was back-filled with its current (accurate) hash",
+                                   "audit script claimed list":  "the ledger audit flagged the new MG0-verification-package directory as an orphan because its explicit claimed list only had MG1/MG2/MG3; MG0 was registered"
+                               },
+    "status":  "evidence-ready; independent verification NOT yet performed; user approval NOT given",
+    "knownGaps":  [
+                      "MR00 的 214 条输入清单是否真的覆盖构建所需输入：脚本只校验哈希，不判断完整性",
+                      "MR01 的文档产出是否与当时源码事实一致：需人读",
+                      "MR00/MR01 没有 manifest.json（早期格式）；是否要求回填需用户判断",
+                      "W1-W3 当时已标未验证：真实 GUI / WebView2 / 真实游戏"
+                  ],
+    "files":  [
+                  {
+                      "path":  "drift-notes.md",
+                      "sha256":  "1F7197B34E86025D32C0B8DDB6DE0A136F1CB3489FD4927AEEDAA97698F0BE88",
+                      "sizeBytes":  3114
+                  },
+                  {
+                      "path":  "git-status-after.txt",
+                      "sha256":  "81904A54D62FB90540BC9AEC791B7BBA9E6324B247F07776BE71D65FDF434361",
+                      "sizeBytes":  115134
+                  },
+                  {
+                      "path":  "README.md",
+                      "sha256":  "1E6C9F9D4CFF0DBC177FF0552BF4C1360D74149B06C91E065C1B26572A30498C",
+                      "sizeBytes":  5385
+                  },
+                  {
+                      "path":  "verification-checklist.md",
+                      "sha256":  "2951C0DF11E39D8742D9F55F412C76ACCE9C0465501E7305E92E1430E603A19C",
+                      "sizeBytes":  4537
+                  },
+                  {
+                      "path":  "verify-mg0-drift-check.log",
+                      "sha256":  "AEC3FF50DE63CD7D18920A2AA3F8B3D649BDC4E28B30CE5AAFB1D801056A0B3D",
+                      "sizeBytes":  3178
+                  },
+                  {
+                      "path":  "verify-mg0-full.log",
+                      "sha256":  "613B3248C15E342BEDAAA9DB60B69202CF1D7CE0537E0D31B42FFDE4E2B75236",
+                      "sizeBytes":  41744
+                  }
+              ],
+    "verifierScript":  {
+                           "path":  "scripts/verify-mg0.ps1",
+                           "sha256":  "0E3B02B28C7720555358A60D2434150E60B2AC9733824B396926D5471B497154",
+                           "sizeBytes":  7073
+                       }
+}

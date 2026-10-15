@@ -1,0 +1,53 @@
+{
+    "schemaVersion":  2,
+    "id":  "g4-flows",
+    "runId":  "20261004-r3rework-dab448e2",
+    "attemptDir":  "attempts/g4-flows/1",
+    "fingerprint":  "FA326C8909EEABD19FF2C9245E74B9E146C0B32FEAB8015250D2710BEFA90EA5",
+    "inputManifestSha256":  "812D385A09538183215747737C9F7817A26CEE1DE05B2F2B34E78FC2235F8C22",
+    "inputSetSha256":  "D10CBC26126EA17EC0837F3E2AA95C6D12D075F3986DBA5DC4E8833151282661",
+    "command":  "dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --no-build --filter (FullyQualifiedName~InstanceRemovalTests|FullyQualifiedName~ImportCancellationTests|FullyQualifiedName~DiagnosticReportTests|FullyQualifiedName~BisectRecoveryTests|FullyQualifiedName~UpdateRecoveryTests|FullyQualifiedName~RecoveryVersionDisplayEndToEndTests)\u0026FullyQualifiedName!~ImportWithALiveTokenButCancelledMidway --logger trx;LogFileName=flows.trx --results-directory C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\run-final\\attempts\\g4-flows\\1/results",
+    "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c",
+    "startUtc":  "2026-10-04T10:08:06Z",
+    "endUtc":  "2026-10-04T10:08:12Z",
+    "exitCode":  0,
+    "timedOut":  false,
+    "stillRunning":  false,
+    "counters":  {
+                     "total":  49,
+                     "executed":  49,
+                     "passed":  49,
+                     "failed":  0,
+                     "notExecuted":  0,
+                     "resultRows":  49,
+                     "passedRows":  49,
+                     "failedRows":  0,
+                     "notExecutedRows":  0,
+                     "otherRows":  0
+                 },
+    "trx":  "results/flows.trx",
+    "artifacts":  [
+                      {
+                          "path":  "results/flows.trx",
+                          "sha256":  "CC25A35E599ECB4FA2A961E683C415CF45BA5AFD78F645863402972BF8813175",
+                          "sizeBytes":  86113
+                      }
+                  ],
+    "rawEvidence":  [
+                        {
+                            "path":  "g4-flows.stdout.log",
+                            "sha256":  "7367494D833D1BDE548F34D34AD417D019F0166E5FFFE7C2399DA1FD7B980010",
+                            "sizeBytes":  574
+                        },
+                        {
+                            "path":  "g4-flows.stderr.log",
+                            "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                            "sizeBytes":  0
+                        }
+                    ],
+    "reasons":  [
+
+                ],
+    "status":  "COMPLETED",
+    "reused":  false
+}

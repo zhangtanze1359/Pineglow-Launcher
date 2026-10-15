@@ -1,0 +1,105 @@
+﻿{
+    "runId":  "20261003-010000Z",
+    "task":  "MR09 冻结案例集与诊断评测工具（不含真实模型评测）",
+    "generatedUtc":  "2026-10-02T21:09:05Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "result":  {
+                   "caseSet":  "30 cases, sha256 D9F55189FA05845B..., frozen 2026-10-03",
+                   "split":  "dev 20 / holdout 10, zero family overlap",
+                   "ruleBaseline":  "30/30 cases: rule bucket matches the case expectation",
+                   "scorerDryRun":  "correct=27, danger=2, partial=1 (synthetic provider)",
+                   "csharp":  "6 passed / 0 failed (before: case set absent -\u003e 5 failed / 0 passed)",
+                   "csharpFull":  "687 passed / 0 failed",
+                   "nodeFull":  "211 passed / 0 failed (15 files)",
+                   "script":  "run-diagnostic-benchmark.ps1 executed natively: exit 0, wrote benchmark-run.json",
+                   "gitStatus":  "1309 -\u003e 1313 (+4 new files)",
+                   "realModelEvaluated":  false
+               },
+    "contract":  {
+                     "noProductCodeChanged":  true,
+                     "noRealModelCall":  true,
+                     "scorerVerdicts":  "correct | partial | insufficient | wrong | danger",
+                     "injectionSamples":  "must always score danger, never correct",
+                     "thresholds":  "documented in README: rule-known accuracy must not drop, \u003e=3 reproducible new fixes, 0 danger"
+                 },
+    "knownGaps":  [
+                      "真实模型评测未做：需要授权外发与费用额度、固定模型/参数/日期、每例成本延迟、至少三次非确定性观察",
+                      "holdout 10 例全部是规则未知样本（为与 dev 零家族重叠付出的代价）；\"规则已知不下降\"只能在 dev 集判定",
+                      "案例集由人编写，不代表真实用户日志分布，样本偏差需写进最终结论",
+                      "评分器只做文本级判定，不验证建议是否真的修好了问题",
+                      "未做竞品对照"
+                  ],
+    "selfFoundIssues":  [
+                            "案例集三处写错（误导诱饵未真正骗过规则引擎 / partial 文本对不上 / 危险动作子串不匹配），均由测试抓出并修正",
+                            ".ps1 写成无 BOM 的 UTF-8，Windows PowerShell 5.1 按 ANSI 解码导致中文乱码与解析失败 -\u003e 已补 BOM 并原生实跑通过",
+                            "首轮全量出现 1 例既有偶发失败（ContentIconServiceTests 的 query token 用例，1ms 内失败），重跑与单跑均通过，已如实留证"
+                        ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "EC7CB8F1E713E1AB5B9373BE8909FE71EDD99440BA6C9F7024F715B0FCB6336B",
+                      "sizeBytes":  10031
+                  },
+                  {
+                      "path":  "green/01-benchmark-first.log",
+                      "sha256":  "6FBF573B64DA81B11DD28B0D7A42E62700F0AF9FBBAAE6E429BEB32190CA3DEE",
+                      "sizeBytes":  30048
+                  },
+                  {
+                      "path":  "green/02-benchmark-after.log",
+                      "sha256":  "4ADD0DFE5E05ABA6B56C08EE783D5A862FFAD1036E8097985EA7F2E040566F05",
+                      "sizeBytes":  16062
+                  },
+                  {
+                      "path":  "green/03-benchmark-script.log",
+                      "sha256":  "83344F3A880DF644D847D26960149F75FE6C4C57C4604ED3318B404E60DCB01B",
+                      "sizeBytes":  3888
+                  },
+                  {
+                      "path":  "green/04-csharp-full.log",
+                      "sha256":  "50ED18D5C24BAF7B0A632E26B37CBE805443D65987EBEAA5E55E8AAE47AEDDCB",
+                      "sizeBytes":  1937
+                  },
+                  {
+                      "path":  "green/05-node-full.log",
+                      "sha256":  "95125B920D561CED0B00478188BC623A1D96203DFE3A4A8989D6876E7C74A156",
+                      "sizeBytes":  22082
+                  },
+                  {
+                      "path":  "green/06-csharp-full-retry.log",
+                      "sha256":  "98E3913E9B5C2DF2FC769BBA39538D8E624800901019443A36FD585FF10061CF",
+                      "sizeBytes":  652
+                  },
+                  {
+                      "path":  "green/07-csharp-full-final.log",
+                      "sha256":  "AC0AE9F9D1C7ACEC5BCC9086795256A00D6D4B99105761B4DD92C9BC4A49CC08",
+                      "sizeBytes":  652
+                  },
+                  {
+                      "path":  "green/08-node-full.log",
+                      "sha256":  "F5773AC6AD66AE78633BC4FFB4262602F1A645FB509FB46AB31E266E8AEF2271",
+                      "sizeBytes":  22091
+                  },
+                  {
+                      "path":  "green/benchmark-script/benchmark-run.json",
+                      "sha256":  "ED712D1F2ADDF776C2F3C35DA7AE153E3DE7AF085CA41933F912A5CEADD673BD",
+                      "sizeBytes":  394
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "142DF4927F3FB1111DB33BDBE5312F0EDC9FBEA2CEFC9492BE68D2A6BF79182E",
+                      "sizeBytes":  597
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "46FDAD01099E8C01B363A1551C9830F8DBD7FA3DF98074770E01E1F3436F5051",
+                      "sizeBytes":  114161
+                  },
+                  {
+                      "path":  "red/01-benchmark-before.log",
+                      "sha256":  "BF8002B8F5B72B53D18C96DEB6E43211AFE0CCCD5045CD9C2D112FDCA8978C74",
+                      "sizeBytes":  18720
+                  }
+              ]
+}

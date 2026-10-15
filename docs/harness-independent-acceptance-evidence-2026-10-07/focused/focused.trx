@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="6afee9cd-e9c9-4bad-91e5-788e9c7f1048" name="Administrator@PC-20260705RBJQ 2026-10-07 17:06:11" runUser="PC-20260705RBJQ\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-07T17:06:11.2522120+08:00" queuing="2026-10-07T17:06:11.2522124+08:00" start="2026-10-07T17:06:09.2757415+08:00" finish="2026-10-07T17:06:11.6239722+08:00" />
+  <TestSettings name="default" id="bddb75be-a4ac-450f-952a-9e9e1b985313">
+    <Deployment runDeploymentRoot="Administrator_PC-20260705RBJQ_2026-10-07_17_06_11" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="e5b7d23c-c3f5-4301-b21a-ff54cc30b078" testId="dd3014d7-e40a-2a61-a95c-f8a8c8d7b077" testName="Pineglow.Launcher.Tests.LoaderLaunchAssemblyTests.ResolveJvmArguments_LeavesNoPlaceholderInModulePath" computerName="PC-20260705RBJQ" duration="00:00:00.0019926" startTime="2026-10-07T17:06:10.2916976+08:00" endTime="2026-10-07T17:06:10.2917349+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e5b7d23c-c3f5-4301-b21a-ff54cc30b078" />
+    <UnitTestResult executionId="36c78ad2-17d6-4bca-8411-17d1f1d1efb7" testId="fd6ffb46-476f-68d2-9616-bb63727c27c7" testName="Pineglow.Launcher.Tests.LoaderLaunchAssemblyTests.BuildClasspath_KeepsVanillaJar_WhenProfileDoesNotSupplyItsOwnClient" computerName="PC-20260705RBJQ" duration="00:00:00.0041789" startTime="2026-10-07T17:06:10.2917930+08:00" endTime="2026-10-07T17:06:10.2952186+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="36c78ad2-17d6-4bca-8411-17d1f1d1efb7" />
+    <UnitTestResult executionId="2e87f66b-ba06-453c-a04f-3ec53faec7d8" testId="edeff330-b735-b871-45fd-ec82b41f0ce7" testName="Pineglow.Launcher.Tests.LoaderLaunchAssemblyTests.BuildClasspath_SkipsVanillaJar_WhenProfileSuppliesItsOwnClient" computerName="PC-20260705RBJQ" duration="00:00:00.0215753" startTime="2026-10-07T17:06:10.2474114+08:00" endTime="2026-10-07T17:06:10.2770788+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2e87f66b-ba06-453c-a04f-3ec53faec7d8" />
+    <UnitTestResult executionId="6dd5c177-ea51-45cc-b919-2f04b5072d6f" testId="69718e67-d9b9-9f89-1166-777873229a2b" testName="Pineglow.Launcher.Tests.JavaSelectionMetadataTests.GetRequiredJavaMajor_LoaderIdWithMetadata_ReadsInheritedMajor" computerName="PC-20260705RBJQ" duration="00:00:00.0044035" startTime="2026-10-07T17:06:11.5264893+08:00" endTime="2026-10-07T17:06:11.5310877+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6dd5c177-ea51-45cc-b919-2f04b5072d6f" />
+    <UnitTestResult executionId="b8bd8689-f78a-4634-87b6-715aabf17698" testId="e37a1b12-f968-5a83-c58f-20fa8382774d" testName="Pineglow.Launcher.Tests.JavaSelectionMetadataTests.MatchForMinecraftVersion_LoaderIdWithMetadata_RejectsJava17" computerName="PC-20260705RBJQ" duration="00:00:00.0036039" startTime="2026-10-07T17:06:11.5355537+08:00" endTime="2026-10-07T17:06:11.5389844+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b8bd8689-f78a-4634-87b6-715aabf17698" />
+    <UnitTestResult executionId="a6519e0a-3b06-407e-a5d6-2a9a9ffa6bc8" testId="3c5c310b-dd66-7871-4309-d6f019d49c02" testName="Pineglow.Launcher.Tests.LoaderLaunchAssemblyTests.ResolveJvmArguments_KeepsRepeatedAddOpensAndAddExportsTokens" computerName="PC-20260705RBJQ" duration="00:00:00.0062290" startTime="2026-10-07T17:06:10.2915521+08:00" endTime="2026-10-07T17:06:10.2916126+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a6519e0a-3b06-407e-a5d6-2a9a9ffa6bc8" />
+    <UnitTestResult executionId="ce58e8a7-7cf0-4ec5-9be6-808313eda40d" testId="e9562c83-1401-c721-310a-d71c5a30314d" testName="Pineglow.Launcher.Tests.LoaderLaunchAssemblyTests.BuildReplacements_ProvidesForgePlaceholders" computerName="PC-20260705RBJQ" duration="00:00:00.0048639" startTime="2026-10-07T17:06:10.2908009+08:00" endTime="2026-10-07T17:06:10.2908940+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ce58e8a7-7cf0-4ec5-9be6-808313eda40d" />
+    <UnitTestResult executionId="cee9da5b-c49b-4728-aaee-0636540e771c" testId="6d719e19-3765-6654-bdbe-259e3a6089a3" testName="Pineglow.Launcher.Tests.JavaSelectionMetadataTests.MatchForMinecraftVersion_UnknownInstallationMajor_IsNotTreatedAsCompatible" computerName="PC-20260705RBJQ" duration="00:00:00.0038848" startTime="2026-10-07T17:06:11.5313243+08:00" endTime="2026-10-07T17:06:11.5352117+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cee9da5b-c49b-4728-aaee-0636540e771c" />
+    <UnitTestResult executionId="52bbdbf9-185d-4f5e-be6e-e1cbcba6dcec" testId="865de4e4-c774-b6af-cfd5-979a4d60e6e2" testName="Pineglow.Launcher.Tests.JavaSelectionMetadataTests.ResolveJavaPath_LoaderInstanceRequiring21_NeverSilentlyReturnsIncompatibleRuntime" computerName="PC-20260705RBJQ" duration="00:00:01.2676479" startTime="2026-10-07T17:06:10.2491020+08:00" endTime="2026-10-07T17:06:11.5247534+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="52bbdbf9-185d-4f5e-be6e-e1cbcba6dcec" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Pineglow.Launcher.Tests.LoaderLaunchAssemblyTests.ResolveJvmArguments_LeavesNoPlaceholderInModulePath" storage="c:\users\administrator\appdata\local\temp\pineglow-snapshot-9884ddfb14c74d08845d665be91de5e3\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="dd3014d7-e40a-2a61-a95c-f8a8c8d7b077">
+      <Execution id="e5b7d23c-c3f5-4301-b21a-ff54cc30b078" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-snapshot-9884ddfb14c74d08845d665be91de5e3\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.LoaderLaunchAssemblyTests" name="ResolveJvmArguments_LeavesNoPlaceholderInModulePath" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.JavaSelectionMetadataTests.MatchForMinecraftVersion_UnknownInstallationMajor_IsNotTreatedAsCompatible" storage="c:\users\administrator\appdata\local\temp\pineglow-snapshot-9884ddfb14c74d08845d665be91de5e3\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="6d719e19-3765-6654-bdbe-259e3a6089a3">
+      <Execution id="cee9da5b-c49b-4728-aaee-0636540e771c" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-snapshot-9884ddfb14c74d08845d665be91de5e3\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.JavaSelectionMetadataTests" name="MatchForMinecraftVersion_UnknownInstallationMajor_IsNotTreatedAsCompatible" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.JavaSelectionMetadataTests.GetRequiredJavaMajor_LoaderIdWithMetadata_ReadsInheritedMajor" storage="c:\users\administrator\appdata\local\temp\pineglow-snapshot-9884ddfb14c74d08845d665be91de5e3\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="69718e67-d9b9-9f89-1166-777873229a2b">
+      <Execution id="6dd5c177-ea51-45cc-b919-2f04b5072d6f" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-snapshot-9884ddfb14c74d08845d665be91de5e3\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.JavaSelectionMetadataTests" name="GetRequiredJavaMajor_LoaderIdWithMetadata_ReadsInheritedMajor" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.JavaSelectionMetadataTests.MatchForMinecraftVersion_LoaderIdWithMetadata_RejectsJava17" storage="c:\users\administrator\appdata\local\temp\pineglow-snapshot-9884ddfb14c74d08845d665be91de5e3\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="e37a1b12-f968-5a83-c58f-20fa8382774d">
+      <Execution id="b8bd8689-f78a-4634-87b6-715aabf17698" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-snapshot-9884ddfb14c74d08845d665be91de5e3\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.JavaSelectionMetadataTests" name="MatchForMinecraftVersion_LoaderIdWithMetadata_RejectsJava17" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.LoaderLaunchAssemblyTests.BuildClasspath_KeepsVanillaJar_WhenProfileDoesNotSupplyItsOwnClient" storage="c:\users\administrator\appdata\local\temp\pineglow-snapshot-9884ddfb14c74d08845d665be91de5e3\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="fd6ffb46-476f-68d2-9616-bb63727c27c7">
+      <Execution id="36c78ad2-17d6-4bca-8411-17d1f1d1efb7" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-snapshot-9884ddfb14c74d08845d665be91de5e3\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.LoaderLaunchAssemblyTests" name="BuildClasspath_KeepsVanillaJar_WhenProfileDoesNotSupplyItsOwnClient" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.JavaSelectionMetadataTests.ResolveJavaPath_LoaderInstanceRequiring21_NeverSilentlyReturnsIncompatibleRuntime" storage="c:\users\administrator\appdata\local\temp\pineglow-snapshot-9884ddfb14c74d08845d665be91de5e3\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="865de4e4-c774-b6af-cfd5-979a4d60e6e2">
+      <Execution id="52bbdbf9-185d-4f5e-be6e-e1cbcba6dcec" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-snapshot-9884ddfb14c74d08845d665be91de5e3\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.JavaSelectionMetadataTests" name="ResolveJavaPath_LoaderInstanceRequiring21_NeverSilentlyReturnsIncompatibleRuntime" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.LoaderLaunchAssemblyTests.BuildReplacements_ProvidesForgePlaceholders" storage="c:\users\administrator\appdata\local\temp\pineglow-snapshot-9884ddfb14c74d08845d665be91de5e3\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="e9562c83-1401-c721-310a-d71c5a30314d">
+      <Execution id="ce58e8a7-7cf0-4ec5-9be6-808313eda40d" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-snapshot-9884ddfb14c74d08845d665be91de5e3\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.LoaderLaunchAssemblyTests" name="BuildReplacements_ProvidesForgePlaceholders" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.LoaderLaunchAssemblyTests.ResolveJvmArguments_KeepsRepeatedAddOpensAndAddExportsTokens" storage="c:\users\administrator\appdata\local\temp\pineglow-snapshot-9884ddfb14c74d08845d665be91de5e3\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="3c5c310b-dd66-7871-4309-d6f019d49c02">
+      <Execution id="a6519e0a-3b06-407e-a5d6-2a9a9ffa6bc8" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-snapshot-9884ddfb14c74d08845d665be91de5e3\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.LoaderLaunchAssemblyTests" name="ResolveJvmArguments_KeepsRepeatedAddOpensAndAddExportsTokens" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.LoaderLaunchAssemblyTests.BuildClasspath_SkipsVanillaJar_WhenProfileSuppliesItsOwnClient" storage="c:\users\administrator\appdata\local\temp\pineglow-snapshot-9884ddfb14c74d08845d665be91de5e3\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="edeff330-b735-b871-45fd-ec82b41f0ce7">
+      <Execution id="2e87f66b-ba06-453c-a04f-3ec53faec7d8" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-snapshot-9884ddfb14c74d08845d665be91de5e3\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.LoaderLaunchAssemblyTests" name="BuildClasspath_SkipsVanillaJar_WhenProfileSuppliesItsOwnClient" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="dd3014d7-e40a-2a61-a95c-f8a8c8d7b077" executionId="e5b7d23c-c3f5-4301-b21a-ff54cc30b078" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fd6ffb46-476f-68d2-9616-bb63727c27c7" executionId="36c78ad2-17d6-4bca-8411-17d1f1d1efb7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="edeff330-b735-b871-45fd-ec82b41f0ce7" executionId="2e87f66b-ba06-453c-a04f-3ec53faec7d8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="69718e67-d9b9-9f89-1166-777873229a2b" executionId="6dd5c177-ea51-45cc-b919-2f04b5072d6f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e37a1b12-f968-5a83-c58f-20fa8382774d" executionId="b8bd8689-f78a-4634-87b6-715aabf17698" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3c5c310b-dd66-7871-4309-d6f019d49c02" executionId="a6519e0a-3b06-407e-a5d6-2a9a9ffa6bc8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e9562c83-1401-c721-310a-d71c5a30314d" executionId="ce58e8a7-7cf0-4ec5-9be6-808313eda40d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6d719e19-3765-6654-bdbe-259e3a6089a3" executionId="cee9da5b-c49b-4728-aaee-0636540e771c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="865de4e4-c774-b6af-cfd5-979a4d60e6e2" executionId="52bbdbf9-185d-4f5e-be6e-e1cbcba6dcec" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="9" executed="9" passed="9" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.9)&#xD;
+[xUnit.net 00:00:00.14]   Discovering: Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.30]   Discovered:  Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.32]   Starting:    Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:01.64]   Finished:    Pineglow.Launcher.Tests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

@@ -1,0 +1,67 @@
+
+HEAD      : f145d14eb26b0b7459a28491e764ac8c573085d3
+branch    : main
+tracked   : 161
+modified  : 35
+untracked : 1251
+whitelist : 53
+
+--- 未跟踪文件分类（总数 / 其中已在白名单）---
+  other                   7   白名单内    0
+  agent-meta             18   白名单内    0
+  csharp-test            17   白名单内   16
+  test-fixture            6   白名单内    6
+  testresults             4   白名单内    0
+  dev-other               2   白名单内    1
+  prod-service-cs        10   白名单内   10
+  proj-lock               1   白名单内    1
+  docs-evidence        1115   白名单内    0
+  sdk-pin                 1   白名单内    1
+  temp-scripts           32   白名单内    0
+  scripts                 2   白名单内    2
+  prod-ui                 5   白名单内    5
+  node-test-probe        20   白名单内    0
+  node-test              11   白名单内   11
+
+--- 疑似构建必需、但不在白名单的未跟踪文件：1 项 ---
+  csharp-test      dev/PineglowLauncher.Tests/DownloadResumeTests.cs
+
+--- 白名单条目已变 tracked（陈旧）：0 ---
+--- 白名单条目源已不存在：0 ---
+
+--- 已修改(M/A/D/R)文件清单 ---
+   M  .github/workflows/build.yml
+   M  .github/workflows/release.yml
+   M  dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj
+   M  dev/PineglowLauncher/app.ico
+   M  dev/PineglowLauncher/Assets/AppIcon.ico
+   M  dev/PineglowLauncher/Assets/AppIcon.png
+   M  dev/PineglowLauncher/Pineglow.Launcher.csproj
+   M  dev/PineglowLauncher/Pineglow.Launcher.Models/AppConfig.cs
+   M  dev/PineglowLauncher/Pineglow.Launcher.Models/LauncherAccount.cs
+   M  dev/PineglowLauncher/Pineglow.Launcher.Services/AccountService.cs
+   M  dev/PineglowLauncher/Pineglow.Launcher.Services/AiDiagnoseService.cs
+   M  dev/PineglowLauncher/Pineglow.Launcher.Services/AuthlibAccount.cs
+   M  dev/PineglowLauncher/Pineglow.Launcher.Services/AuthlibInjectorService.cs
+   M  dev/PineglowLauncher/Pineglow.Launcher.Services/ConfigStore.cs
+   M  dev/PineglowLauncher/Pineglow.Launcher.Services/LauncherService.cs
+   M  dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.cs
+   M  dev/PineglowLauncher/Pineglow.Launcher.Services/MicrosoftAuthService.cs
+   M  dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftAccount.cs
+   M  dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftAppearance.cs
+   M  dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftNewsService.cs
+   M  dev/PineglowLauncher/Pineglow.Launcher.Services/SecretStore.cs
+   M  dev/PineglowLauncher/Pineglow.Launcher.Services/UpdateService.cs
+   M  dev/PineglowLauncher/Properties/AssemblyInfo.cs
+   M  dev/PineglowLauncher/VerifyHost/BisectSmoke.cs
+   M  dev/PineglowLauncher/VerifyHost/VerifyHost.csproj
+   M  docs/archive/archive-README.md
+   M  docs/development-guide.md
+   M  docs/features.md
+   M  docs/roadmap.md
+   M  README.md
+   M  ui/css/figma.css
+   M  ui/index.html
+   M  ui/js/api.js
+   M  ui/js/i18n.js
+   M  ui/js/launcher.js

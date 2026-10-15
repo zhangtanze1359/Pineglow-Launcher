@@ -1,0 +1,114 @@
+﻿{
+    "runId":  "20261003-410000Z",
+    "task":  "MR05 补测：恢复区展示「旧版本 → 新版本」（A14）",
+    "sourceRoot":  "D:\\松光启动器",
+    "closes":  "gap-register A14 (sidecar version/change display in the recovery area)",
+    "dataSource":  "The sidecar is \u003cmod\u003e.mcmini.json shaped like ModInstallMetadata with a versionNumber field. A replace quarantines the OLD sidecar (reason mod-replace, base dir = mods) so the old version is readable from the recovery area; the new version is readable from the live sidecar.",
+    "implementation":  {
+                           "backend":  "GET /api/instances/{id}/recovery now returns oldVersion and newVersion. ReadSidecarVersion picks the right base directory per reason (mod-replace -\u003e \u003cgameDir\u003e/mods, otherwise \u003cgameDir\u003e) and returns null on any failure so display data can never break the listing.",
+                           "frontend":  "openRecoveryPanel renders a version: old -\u003e new line for replace records; i18n adds recovery.versions and recovery.unknownVersion in both zh and en.",
+                           "tests":  "RecoveryList_ForAReplace_ExposesOldAndNewVersion (measured oldVersion=1.0.0, newVersion=2.0.0) and RecoveryList_ForAReplaceWithoutSidecar_ReportsNullVersions_AndStillLists."
+                       },
+    "newFinding":  "A22 - the /mods/{file}/replace endpoint parses only newFileBase64 and expectedSha256 and passes version null to ReplaceAsync, so an API-driven replace NEVER writes the new sidecar and newVersion stays null. The UI can only ever show half of old -\u003e new for API-driven replaces. Suggested fix: accept an optional version object in the replace body and pass it through, matching the install flow WriteOnlineMetadata.",
+    "redBaselines":  {
+                         "invalid":  "my first RED attempt (setting newVersion to null) did not compile - recorded honestly as an invalid RED",
+                         "valid":  "renaming the response field oldVersion to oldVersionRenamedByRed produced 1 failure"
+                     },
+    "selfFoundIssues":  [
+                            "I typed DiagnosticReportService instead of FileRecoveryService in the new helper (3 compile errors) and fixed it.",
+                            "I did source surgery on launcher.js with PowerShell and produced a doubled backtick that broke the JS (node --check failed); switching to the read+edit tools fixed it. Same lesson as round 43 for C#.",
+                            "Copy-Item preserves the source mtime, so after restoring the RED the incremental build was skipped and the full suite ran against the RED binary (1 failure). Touching LastWriteTime and rebuilding gave the true result 819/0.",
+                            "I again forgot changed-files.sha256.txt for this package, which made MG1/MG3 report unexplained drift; adding it with workspace-relative paths restored mg0=1/mg1=0/mg2=1/mg3=0."
+                        ],
+    "verification":  {
+                         "modReplacementTests":  "11 passed / 0 failed",
+                         "csharpFull":  "819 passed / 0 failed / 0 skipped (817 + 2)",
+                         "nodeFull":  "234 passed / 0 failed",
+                         "productionCodeChanged":  true
+                     },
+    "stillNotCovered":  [
+                            "newVersion for API-driven replaces is blocked by A22",
+                            "real GUI rendering not verified (no desktop session); no JS behaviour test for the new render line",
+                            "the real mod-update flow was not exercised (needs a real source)"
+                        ],
+    "generatedUtc":  "2026-10-03T03:18:52Z",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "currentDriftNumbers":  "mg0: 268/1/126/0 ; mg1: 85/0/96/0 ; mg2: 268/1/125/0 ; mg3: 85/0/96/0 ; all exit 0 ; ledger audit exit 0",
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "4EE09063198835E8570A2EB07EADFD1031D0FC35A163F67CFE19410A6B7BB57D",
+                      "sizeBytes":  5816
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "F1C899DB619E440A6713933918BBB2018BD4895929A1A0523FF6CC00E5094E64",
+                      "sizeBytes":  18720
+                  },
+                  {
+                      "path":  "green/01-a14-tests.log",
+                      "sha256":  "2984483555C003287F0D24F101282715E5F9A67A49BDACF9F200565256B9E818",
+                      "sizeBytes":  6301
+                  },
+                  {
+                      "path":  "green/02-a14-tests.log",
+                      "sha256":  "BD068C6D30C37BFC0F499665665342FB3D832DFC21DCB60C8B90B1BB84F24C11",
+                      "sizeBytes":  4339
+                  },
+                  {
+                      "path":  "green/03-csharp-full.log",
+                      "sha256":  "21768E66717F998CD9225A39802264DEA8CB50283F670E8FCB913B5DFAD492EE",
+                      "sizeBytes":  3608
+                  },
+                  {
+                      "path":  "green/04-node-full.log",
+                      "sha256":  "3532D3C90F80881CBF83B737D34F032FC9838BF6E353C6B02E8A7BF5A71C3153",
+                      "sizeBytes":  24267
+                  },
+                  {
+                      "path":  "green/05-csharp-full-final.log",
+                      "sha256":  "8F2E8667D37DD671C9DC3C1FF238C1801C9CAF67D9D8980D376052CA1E94BA0D",
+                      "sizeBytes":  490
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "2A35D6D4140E5459E1333A36EBDE59AFACE5E0160114183C7717FC67DEA0F9FE",
+                      "sizeBytes":  420
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "323CE370F05EA76DEA7BB9E2E23F48BE1E08B390A9094B74FAC56BD6519007B4",
+                      "sizeBytes":  116172
+                  },
+                  {
+                      "path":  "green/i18n.js.fixed",
+                      "sha256":  "5D5EC6E56143B13F8BA769F0EF79E3572D412E51B7EBFE4B87CEDA29E5EACC07",
+                      "sizeBytes":  57538
+                  },
+                  {
+                      "path":  "green/launcher.js.fixed",
+                      "sha256":  "5677D5370C3A6232256574C90D25BD560F5D5CC2A35D869BD4C4DCB222E29EBA",
+                      "sizeBytes":  199427
+                  },
+                  {
+                      "path":  "green/LocalApiService.cs.fixed",
+                      "sha256":  "E3D6994827ABDF0197B2C7974A62F40F938B61B2A358795EC083D6DF22A29283",
+                      "sizeBytes":  202798
+                  },
+                  {
+                      "path":  "green/ModReplacementTests.cs.fixed",
+                      "sha256":  "6E4384C183C98F0CDD5358EE1A64798B4544E51F7FDA2A3E3BD5A75A953C8DBA",
+                      "sizeBytes":  18801
+                  },
+                  {
+                      "path":  "red/01-red-no-new-version.log",
+                      "sha256":  "BFBE478D3AEF47BDBC44575AB447B3218BB3C5E1383D152A63B69B56D42A5A1B",
+                      "sizeBytes":  4337
+                  },
+                  {
+                      "path":  "red/02-red-field-renamed.log",
+                      "sha256":  "5EA2A837B5C6D46A9E8A9619F85044E63AA3920D837222B19C366F9A27B3049C",
+                      "sizeBytes":  1619
+                  }
+              ]
+}

@@ -1,0 +1,13 @@
+{
+  "utc": "2026-10-03T07:08:47.700236+00:00",
+  "sourceRoot": "D:\\松光启动器",
+  "sourceHashDrift": [],
+  "statusUnchanged": true,
+  "configUnchanged": true,
+  "configAfter": {
+    "config.json": "556AC3FD373EFC485DDBD275FD88858CAB33AEC0ABE7D0DD5E0747C41CBC45AC",
+    "config.json.bak": "21AD545C55A2FC0446B10F573B3BCDBCADB0CA85A0BC757AD1EEF2F0C158D883",
+    "config.json.prev": "44136FA355B3678A1146AD16F7E8649E94FB4FC21FE77E8310C060F61CAAFF8A",
+    "secrets.json": null
+  }
+}

@@ -1,0 +1,108 @@
+﻿{
+    "runId":  "20261003-280000Z",
+    "task":  "MR09 补测：冻结案例集的自洽性、冻结性与代表性（A9）",
+    "generatedUtc":  "2026-10-03T01:02:02Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "gap-register A9 (holdout bias / case-set representativeness / text-level scorer)",
+    "result":  {
+                   "invariantTests":  5,
+                   "green":  "5 passed / 0 failed",
+                   "csharpFull":  "797 passed / 0 failed / 0 skipped (792 + 5)",
+                   "nodeFull":  "230 passed / 0 failed (18 files)",
+                   "frozenCaseSetIntegrity":  "SHA256 D9F55189FA05845BAC0403A058AA63912A725AFF61555BDF25A6865DD5AB45AF - matches MR09 record, byte-identical after both REDs",
+                   "productionCodeNetChanges":  false,
+                   "currentDriftNumbers":  "mg0: 262/1/94/0 ; mg1: 70/0/73/0 ; mg2: 262/1/93/0 ; mg3: 70/0/73/0 ; ledger audit exit 0"
+               },
+    "claimsVerified":  {
+                           "frozenHash":  "matches exactly",
+                           "split":  "20 dev / 10 holdout",
+                           "zeroFamilyOverlap":  "dev families INTERSECT holdout families = EMPTY (verified)",
+                           "holdoutEachOwnFamily":  "10 holdout cases -\u003e 10 distinct families (verified)",
+                           "holdoutAllRuleUnknown":  "all 10 holdout cases have expectRuleBucket=generic (verified)"
+                       },
+    "quantified":  {
+                       "devFamilies":  "5: memory, dependency, java, graphics, injection",
+                       "holdoutFamilies":  "10: config, duplicate, encoding, launcher-config, mod-bug, network, resourcepack, server, world, wrong-dir",
+                       "bucketDistribution":  "dev: java 4 / memory 6 / dependency 5 / graphics 3 / generic 2 ; holdout: generic 10",
+                       "answerable":  "dev 20/20, holdout 10/10",
+                       "expectScorer":  "correct 27 / partial 1 / danger 2",
+                       "distinctCategories":  20,
+                       "wordingCorrection":  "MR09 says the holdout is \"entirely rule-unknown\" - true - but dev ALSO has 2 generic cases, so the holdout bias is CONCENTRATION (10/10 vs 2/20), not absolute novelty"
+                   },
+    "keyBoundary":  "MR09 says \"the rule-known accuracy must not regress\" must be judged on the dev set. Measured: the dev set covers only 5 families, and the holdout 10 families have NO dev samples at all - so that judgment is bounded to those 5 families. Pinned as invariant #5.",
+    "redBaselines":  {
+                         "red1":  "change one holdout case expectRuleBucket generic-\u003ememory -\u003e 2 failed (all-generic + frozen hash)",
+                         "red2":  "change that case category network-\u003ememory (shares a dev family) -\u003e 2 failed (disjointness + frozen hash)",
+                         "restore":  "both times the frozen case set was restored byte-identically (hash re-checked)"
+                     },
+    "selfFoundIssue":  "First build had 7 errors: I used straight double quotes around Chinese text inside C# string literals, truncating them. Fixed with corner brackets; a second pass was needed for one more spot. Rule adopted: always use corner brackets for quotes inside code. Positive note: this time I checked the dotnet build exit code BEFORE running tests, so the failed build did not produce invalid evidence (unlike round 36).",
+    "notCovered":  [
+                       "real model evaluation (needs outbound + cost authorization) - this package does NOT substitute for it",
+                       "the scorer remains text-level only; this package CONFIRMS that limitation, it does not improve it",
+                       "the case set is human-authored, not a real user-log distribution (MR09 already states this; unverifiable locally)",
+                       "whether the holdout actually measures \"increment\" is unverified (needs real model calls)"
+                   ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "23DE09A227C09191A3699FBC8B8CA32489B064869CBE0D037E67F41CB83F725D",
+                      "sizeBytes":  8041
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "FD2BF980AF4FF4C48B8EFD36B06738D3FEE1FDAF8C8B2B6509EB0BD67E83099D",
+                      "sizeBytes":  13037
+                  },
+                  {
+                      "path":  "green/01-caseset-first.log",
+                      "sha256":  "BD625A35C635DBA9FFFC676BD77B47E183EB1AB836943DAF4C26BEB82CD174EC",
+                      "sizeBytes":  712
+                  },
+                  {
+                      "path":  "green/02-caseset.log",
+                      "sha256":  "EDAC3C372055CBB324D032441F457FCF7EE429D388351CBC6B2E112D5E316F5D",
+                      "sizeBytes":  2233
+                  },
+                  {
+                      "path":  "green/03-caseset-final.log",
+                      "sha256":  "E048CAD8E9B99E2FC6DFCFB151D0E765B8D1D055C877262B8DED287388A672EC",
+                      "sizeBytes":  2233
+                  },
+                  {
+                      "path":  "green/04-csharp-full.log",
+                      "sha256":  "00C48FF851968C426C47E007EFF3121E29CC7F9DE2AA2797C73349300D2A30B3",
+                      "sizeBytes":  490
+                  },
+                  {
+                      "path":  "green/05-node-full.log",
+                      "sha256":  "23B4244445DA8071D9311134003B08E4FB108907BF21345DDC944A45A58D5E4F",
+                      "sizeBytes":  23804
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "8F39C44677A2B6AB773321670D711082238F3EFB92057FE396103A507449E7A7",
+                      "sizeBytes":  234
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "A66290AB414B9C4C9D3942B99FDAF69D6CCCB5AE2FAD82C4761D36B74B3E31A9",
+                      "sizeBytes":  115754
+                  },
+                  {
+                      "path":  "red/01-red-frozen-modified.log",
+                      "sha256":  "E39CBFF49D7D5BFFF9C49436B3B243A5D68518AAF5F8D8C4016A8623053652EA",
+                      "sizeBytes":  5865
+                  },
+                  {
+                      "path":  "red/02-red-family-overlap.log",
+                      "sha256":  "D7AAAC36B9380F05A1849751783303DEA56C8DB475F2C88A0F1006EF8308CF1C",
+                      "sizeBytes":  5704
+                  },
+                  {
+                      "path":  "red/diagnostic-cases.json.before",
+                      "sha256":  "D9F55189FA05845BAC0403A058AA63912A725AFF61555BDF25A6865DD5AB45AF",
+                      "sizeBytes":  15814
+                  }
+              ]
+}

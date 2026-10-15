@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "runId": "demo-run-2",
+  "requiredStages": [
+    "demo"
+  ],
+  "stages": [
+    {
+      "id": "demo",
+      "file": "C:\\Program Files\\nodejs\\node.exe",
+      "argv": [
+        "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\demo\\fixture\\child.cjs",
+        "{attemptDir}/results/demo.trx",
+        "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\demo\\fixture\\make-it-fail.flag"
+      ],
+      "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\demo\\fixture\\run-a",
+      "produces": [
+        "results/demo.trx"
+      ],
+      "expect": {
+        "trx": "results/demo.trx",
+        "minTests": 2,
+        "maxSkipped": 0
+      }
+    }
+  ]
+}

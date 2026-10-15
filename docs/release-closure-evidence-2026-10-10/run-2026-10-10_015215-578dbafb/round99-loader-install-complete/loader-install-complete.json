@@ -1,0 +1,7 @@
+﻿{
+    "prelaunchOk":  true,
+    "mcAfter":  "fabric-loader-0.19.5-1.21.11",
+    "before":  "Vanilla",
+    "probe":  "loader-install-complete",
+    "after":  "Fabric"
+}

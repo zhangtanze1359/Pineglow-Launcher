@@ -1,0 +1,16 @@
+{
+    "schemaVersion":  1,
+    "runner":  "run-goal-validation.ps1",
+    "runId":  "same-run-id",
+    "inputManifest":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\empty-stages\\input.json",
+    "inputManifestSha256":  "41B79F769FB008313943807C53E1F150A5A8F28C38AA13B117B27012E8308E0F",
+    "stagesFile":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\empty-stages\\stages.json",
+    "generatedUtc":  "2026-10-04T09:09:59Z",
+    "resume":  false,
+    "stageCount":  0,
+    "failedCount":  0,
+    "stages":  [
+
+               ],
+    "verdict":  "PASS"
+}

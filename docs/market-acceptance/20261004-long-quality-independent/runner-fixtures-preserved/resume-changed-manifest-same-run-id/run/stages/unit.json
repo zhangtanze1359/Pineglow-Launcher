@@ -1,0 +1,46 @@
+{
+    "schemaVersion":  1,
+    "id":  "unit",
+    "runId":  "same-run-id",
+    "fingerprint":  "06EB14B997345CD10147F1DE57F084140DE57751AB2AC159C27EB0A1EBE43C5B",
+    "inputManifestSha256":  "EE0D2EE713FE16800902A0136340937BA64A957D5DDBA5CB8709E01818C20FC5",
+    "command":  "C:\\Program Files\\nodejs\\node.exe C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\resume-changed-manifest-same-run-id\\child.cjs write",
+    "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\resume-changed-manifest-same-run-id\\run",
+    "startUtc":  "2026-10-04T09:09:58Z",
+    "endUtc":  "2026-10-04T09:09:58Z",
+    "exitCode":  0,
+    "timedOut":  false,
+    "stillRunning":  false,
+    "counters":  {
+                     "total":  3,
+                     "executed":  3,
+                     "passed":  3,
+                     "failed":  0,
+                     "notExecuted":  0
+                 },
+    "trx":  "unit.trx",
+    "artifacts":  [
+                      {
+                          "path":  "unit.trx",
+                          "sha256":  "DCB71F29CE52D489A2E82C8E80C7DFF4511DEAF06B5991C233A37600D06326F4",
+                          "sizeBytes":  122
+                      }
+                  ],
+    "rawEvidence":  [
+                        {
+                            "path":  "unit.stdout.log",
+                            "sha256":  "7EDB33FEBB737A06BD6747F3C8255003CC9B9FB908D0BC7B7273539D3D9AC637",
+                            "sizeBytes":  10
+                        },
+                        {
+                            "path":  "unit.stderr.log",
+                            "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                            "sizeBytes":  0
+                        }
+                    ],
+    "reasons":  [
+
+                ],
+    "status":  "COMPLETED",
+    "reused":  false
+}

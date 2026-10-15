@@ -1,0 +1,103 @@
+﻿{
+    "runId":  "20261002-223000Z",
+    "task":  "MR07 Bisect 重启恢复、依赖与存档保护",
+    "generatedUtc":  "2026-10-02T20:30:46Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "result":  {
+                   "csharp":  "8 passed / 0 failed (before implementation: 8 failed / 0 passed)",
+                   "node":  "bisect-recovery.test.cjs 4 passed / 0 failed",
+                   "csharpFull":  "672 passed / 0 failed",
+                   "nodeFull":  "206 passed / 0 failed (14 files)",
+                   "bisectSmoke":  "exit 0",
+                   "gitStatus":  "1302 -\u003e 1305 (+3 new files)"
+               },
+    "contract":  {
+                     "persistedOutsideGameDir":  "\u003cconfigDir\u003e/bisect/\u003cinstanceId\u003e.json, atomic write",
+                     "pendingQuery":  "GET /bisect returns per-file conflicts derived from the record, never from file names",
+                     "resumeRestore":  "only files enabled at session start; user-disabled and later-added files untouched",
+                     "resumeContinue":  "only when disk matches record exactly; otherwise 409 + conflicts",
+                     "startBlockedWhilePending":  true,
+                     "dependencyBreak":  "round marked invalid, nothing written to disk, reports rejected",
+                     "metadataMissing":  "roundValidity=limited + issues (still executed)"
+                 },
+    "knownGaps":  [
+                      "未实现\"临时测试世界/实例副本\"引导与存档备份/副本操作指引（计划明确要求，本包未做）",
+                      "\"真实进程中断\"是用清空内存会话模拟的，未真的杀进程/重启应用",
+                      "真实 Minecraft 测试副本与世界安全未验证（本包未触碰存档路径）",
+                      "重启检测是\"打开定位面板时按需查询\"，未在应用启动时主动扫描所有实例",
+                      "真实 GUI / WebView2 的恢复选择面板未验证"
+                  ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "0494B650A2D5B2E5DEF56696836A87E1F394DD8CF747857E8C858D6DD2E05DA0",
+                      "sizeBytes":  12440
+                  },
+                  {
+                      "path":  "green/01-bisect-recovery-first.log",
+                      "sha256":  "7389ADE0023B025351BDF432D6EF911FA11BAE693FBD95577822FE0124A43B39",
+                      "sizeBytes":  15804
+                  },
+                  {
+                      "path":  "green/02-bisect-recovery-after.log",
+                      "sha256":  "56276D4F9AD86989F50A5862CD88982A65799564526BBFEE561D5D89A5E5071C",
+                      "sizeBytes":  15802
+                  },
+                  {
+                      "path":  "green/03-node-bisect-recovery.log",
+                      "sha256":  "63E3CE5A9700559B8FAC9EAAC0854E3CFEEEABE70F296C899E52DC6E0F6D21A0",
+                      "sizeBytes":  720
+                  },
+                  {
+                      "path":  "green/04-csharp-full.log",
+                      "sha256":  "FCBAD231615777AD72D912C94CB489EB69F931A792278C937BD03A68AF5A1B12",
+                      "sizeBytes":  652
+                  },
+                  {
+                      "path":  "green/05-node-full.log",
+                      "sha256":  "7C1709BB454928175AB6858358A2A33ABD234787409AC0B50617F4C4057B1769",
+                      "sizeBytes":  21632
+                  },
+                  {
+                      "path":  "green/06-bisect-smoke.log",
+                      "sha256":  "ACAEF3616E4F496056FBFA2A501071150E3897FB9E4CC6D0A79C34C65514B5CF",
+                      "sizeBytes":  653
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "60DABD85FF8B8D792AD5EB6DA829EBF85457E2CB693AE30588554BED909682C6",
+                      "sizeBytes":  1093
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "57965753854C354ADA0E9EFB2DA507A38AFF813E133173DB8B82D66216218FC4",
+                      "sizeBytes":  113675
+                  },
+                  {
+                      "path":  "green/LocalApiService.cs.mr07",
+                      "sha256":  "4A3885D015C3DEB5AC7475EDD2B548C10088B8C4D54B0B7ACC97699784D35116",
+                      "sizeBytes":  173841
+                  },
+                  {
+                      "path":  "green/LocalApiService.cs.mr07.sha256.txt",
+                      "sha256":  "CAE5E6FF94DF68F0F31755540F25B8D4BC222F78ED67938CE30542BFA3FC5699",
+                      "sizeBytes":  69
+                  },
+                  {
+                      "path":  "green/ModBisectService.cs.mr07",
+                      "sha256":  "B8E0D7F73CABC337162FAB374ED65348BBF5FE65EAD5AFEF20CE037B14513E4E",
+                      "sizeBytes":  10119
+                  },
+                  {
+                      "path":  "green/ModBisectService.cs.mr07.sha256.txt",
+                      "sha256":  "1627A2B06DBA8FB299B68A19F3B4F86D7B64BA49E564445679755DA53B9BE6F8",
+                      "sizeBytes":  69
+                  },
+                  {
+                      "path":  "red/01-bisect-recovery-before.log",
+                      "sha256":  "1F58F4F6D21EF38DF086ED1A6080B7047CA2DC919A5EBF87E59258EBE0F16D87",
+                      "sizeBytes":  37130
+                  }
+              ]
+}

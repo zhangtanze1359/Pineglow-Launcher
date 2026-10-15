@@ -1,0 +1,116 @@
+﻿[
+    {
+        "name":  "src-toplevel",
+        "command":  "git rev-parse --show-toplevel",
+        "cwd":  "D:\\松光启动器",
+        "exitCode":  0
+    },
+    {
+        "name":  "src-branch",
+        "command":  "git branch --show-current",
+        "cwd":  "D:\\松光启动器",
+        "exitCode":  0
+    },
+    {
+        "name":  "src-head",
+        "command":  "git rev-parse HEAD",
+        "cwd":  "D:\\松光启动器",
+        "exitCode":  0
+    },
+    {
+        "name":  "src-status-all",
+        "command":  "git status --short --untracked-files=all",
+        "cwd":  "D:\\松光启动器",
+        "exitCode":  0
+    },
+    {
+        "name":  "src-diff-stat",
+        "command":  "git diff --stat",
+        "cwd":  "D:\\松光启动器",
+        "exitCode":  0
+    },
+    {
+        "name":  "src-diff-check",
+        "command":  "git diff --check",
+        "cwd":  "D:\\松光启动器",
+        "exitCode":  0
+    },
+    {
+        "name":  "src-global-json",
+        "command":  "type global.json",
+        "cwd":  "D:\\松光启动器",
+        "exitCode":  0
+    },
+    {
+        "name":  "src-dotnet-sdks",
+        "command":  "dotnet --list-sdks",
+        "cwd":  "D:\\松光启动器",
+        "exitCode":  0
+    },
+    {
+        "name":  "src-dotnet-runtimes",
+        "command":  "dotnet --list-runtimes",
+        "cwd":  "D:\\松光启动器",
+        "exitCode":  0
+    },
+    {
+        "name":  "src-node-version",
+        "command":  "node --version",
+        "cwd":  "D:\\松光启动器",
+        "exitCode":  0
+    },
+    {
+        "name":  "src-npm-version",
+        "command":  "npm --version",
+        "cwd":  "D:\\松光启动器",
+        "exitCode":  0
+    },
+    {
+        "name":  "src-ls-files-count",
+        "command":  "git ls-files | find /c /v \"\"",
+        "cwd":  "D:\\松光启动器",
+        "exitCode":  2
+    },
+    {
+        "name":  "src-ps-version",
+        "command":  "powershell -NoProfile -Command \"$PSVersionTable.PSVersion.ToString()\"",
+        "cwd":  "D:\\松光启动器",
+        "exitCode":  0
+    },
+    {
+        "name":  "dlv-toplevel",
+        "command":  "git rev-parse --show-toplevel",
+        "cwd":  "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器",
+        "exitCode":  0
+    },
+    {
+        "name":  "dlv-branch",
+        "command":  "git branch --show-current",
+        "cwd":  "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器",
+        "exitCode":  0
+    },
+    {
+        "name":  "dlv-head",
+        "command":  "git rev-parse HEAD",
+        "cwd":  "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器",
+        "exitCode":  0
+    },
+    {
+        "name":  "dlv-status-all",
+        "command":  "git status --short --untracked-files=all",
+        "cwd":  "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器",
+        "exitCode":  0
+    },
+    {
+        "name":  "dlv-diff-stat",
+        "command":  "git diff --stat",
+        "cwd":  "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器",
+        "exitCode":  0
+    },
+    {
+        "name":  "dlv-ls-files",
+        "command":  "git ls-files | find /c /v \"\"",
+        "cwd":  "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器",
+        "exitCode":  2
+    }
+]

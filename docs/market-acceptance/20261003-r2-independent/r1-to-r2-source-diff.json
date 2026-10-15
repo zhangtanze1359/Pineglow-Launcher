@@ -1,0 +1,1765 @@
+{
+  "same": 280,
+  "changed": [
+    {
+      "path": "dev/PineglowLauncher.Tests/FinalAcceptanceRegressionTests.cs",
+      "oldSha": "7F15CF9BDC24A68B8A99E570424EE2FB39485B5A313B7F454E2E6AE30345CFEC",
+      "currentSha": "6BF2FF3C8E21D236E3D6094A4288BEEC6C197D344A0CC832647BFA37409E9109",
+      "status": "changed"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/FileRecoveryService.cs",
+      "oldSha": "1EE0192A9075D315B81E50B25DB1332DCF50E3A8AF301CB16E212ED3608056B1",
+      "currentSha": "83429906A8CD4C0527AD3A2B1973DE44067A60FDFC0A603590C4885CDEF1D42F",
+      "status": "changed"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.cs",
+      "oldSha": "FFA20BC0B2303876CFAD030162CFFBA565EEB8D6C93AF6CDB3553570D25439E7",
+      "currentSha": "BC8097B501F0A69D67C7C4184BF31EC56DB410288A5FB2C87C1E50F574B2EBF6",
+      "status": "changed"
+    },
+    {
+      "path": "scripts/source-snapshot-inputs.txt",
+      "oldSha": "8EC200AF52608943E6278B21C78624507748A83D3F500C21CBD00EBE17A1CB37",
+      "currentSha": "6EAEB9758ACF8A3A12FA4E653BB722462DA5731EDB5C49A4E4D29393FE51A747",
+      "status": "changed"
+    }
+  ],
+  "absent": [
+    {
+      "path": "dev/PineglowLauncher.Tests/FinalAcceptanceProbes.cs",
+      "oldSha": "EE99525B8CFD6D134EA52E9525D5BBF3E3BA6B6BEA73A270FA9D1857EA593469",
+      "currentSha": null,
+      "status": "delivery-extra-absent"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/IndependentRouteProbes.cs",
+      "oldSha": "06B36DFF7C1F7275ACDC33C972168BACA552E21606A566D6BE212B81580595CD",
+      "currentSha": null,
+      "status": "delivery-extra-absent"
+    }
+  ],
+  "newSourcePaths": [
+    "dev/PineglowLauncher.Tests/RemediationBoundaryRegressionTests.cs",
+    "dev/PineglowLauncher/Pineglow.Launcher.Services/PathSafetyGuard.cs"
+  ],
+  "records": [
+    {
+      "path": ".github/workflows/build.yml",
+      "oldSha": "32D6E5DD1DEBC9E01F6CC4C1C9182BAD04820B8FDDB29E8C7840286540DB2FA3",
+      "currentSha": "32D6E5DD1DEBC9E01F6CC4C1C9182BAD04820B8FDDB29E8C7840286540DB2FA3",
+      "status": "same"
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "oldSha": "C814F2846F922E5DFB99CF41763BECEA19EBD79275C7E9CBA35896A1C6C0F845",
+      "currentSha": "C814F2846F922E5DFB99CF41763BECEA19EBD79275C7E9CBA35896A1C6C0F845",
+      "status": "same"
+    },
+    {
+      "path": ".gitignore",
+      "oldSha": "4855D7BCE329C3E3E7275C306C4BF5EAB1DFCAD461302C44CFD38DF67B75015E",
+      "currentSha": "4855D7BCE329C3E3E7275C306C4BF5EAB1DFCAD461302C44CFD38DF67B75015E",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/AiCancelAndRedirectTests.cs",
+      "oldSha": "87B4042707E19A6F254DAA9DC5EB9B010702BBBB0AA8B37AEBE787B8EC54B8BE",
+      "currentSha": "87B4042707E19A6F254DAA9DC5EB9B010702BBBB0AA8B37AEBE787B8EC54B8BE",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/AiDiagnoseReleaseSafetyTests.cs",
+      "oldSha": "E979C7EC72B2756FFB46D999BD4EE7E60E7283E3091FFCD3ADD84DBC2097D5E9",
+      "currentSha": "E979C7EC72B2756FFB46D999BD4EE7E60E7283E3091FFCD3ADD84DBC2097D5E9",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/AiDiagnoseServiceTests.cs",
+      "oldSha": "6BDCFE063132548D2FA0AACE6637913093E3454F31173BDA175C9DA183B83D1E",
+      "currentSha": "6BDCFE063132548D2FA0AACE6637913093E3454F31173BDA175C9DA183B83D1E",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/AiDispatchMetadataTests.cs",
+      "oldSha": "3925E2A5A2E06D04B471B779F66055D1EF191486A1C1DD95495DBBC137D19AB8",
+      "currentSha": "3925E2A5A2E06D04B471B779F66055D1EF191486A1C1DD95495DBBC137D19AB8",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/BisectFileOperationTests.cs",
+      "oldSha": "068DDDD3E44B90DAFD8EDCD4DB75A641E11234C7D84C524AECD912C80631C949",
+      "currentSha": "068DDDD3E44B90DAFD8EDCD4DB75A641E11234C7D84C524AECD912C80631C949",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/BisectRecoveryTests.cs",
+      "oldSha": "339DFCEF642CC37D8993A75B77901D335CC385AFA3C68DED0EF610739C69F936",
+      "currentSha": "339DFCEF642CC37D8993A75B77901D335CC385AFA3C68DED0EF610739C69F936",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/BuildLockFileTests.cs",
+      "oldSha": "7BA781DB5C705D3D3EBAB033A3EE3787F7785F967302F03B633A884E8E4DF1C6",
+      "currentSha": "7BA781DB5C705D3D3EBAB033A3EE3787F7785F967302F03B633A884E8E4DF1C6",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/ConfigBackupRotationTests.cs",
+      "oldSha": "3C93B7BBCF7E6AEBB6286247EED69B76484D3B33A836595D84CEC3CEFDC36CA8",
+      "currentSha": "3C93B7BBCF7E6AEBB6286247EED69B76484D3B33A836595D84CEC3CEFDC36CA8",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/ConfigPreservationTests.cs",
+      "oldSha": "6B0DE7C7FE207B371BF3C28C466A8E7541B7DE68A149621D22CE220334C2E6B7",
+      "currentSha": "6B0DE7C7FE207B371BF3C28C466A8E7541B7DE68A149621D22CE220334C2E6B7",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/ContentIconServiceTests.cs",
+      "oldSha": "95D86A301A075455E223E57BF99FFB63AEEDC08BE2899494519EEDCF2B7A1467",
+      "currentSha": "95D86A301A075455E223E57BF99FFB63AEEDC08BE2899494519EEDCF2B7A1467",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/CrashAnalyzerServiceTests.cs",
+      "oldSha": "AA9606BCFCB029D17A29C4AEB7DA59DAED6896BEC6AD2C2070C5CB9A5D52E8CF",
+      "currentSha": "AA9606BCFCB029D17A29C4AEB7DA59DAED6896BEC6AD2C2070C5CB9A5D52E8CF",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/CurseForgeRateLimitTests.cs",
+      "oldSha": "414B69ADAD7BEDD6ADC60BCB2F8BAD420A468D58854ACFBBBEDF9EB245031296",
+      "currentSha": "414B69ADAD7BEDD6ADC60BCB2F8BAD420A468D58854ACFBBBEDF9EB245031296",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/DiagnoseProgressGateTests.cs",
+      "oldSha": "631F63DACE986BF82FC6D23E5698D245D5D795300E00A2F463AB4E12D5373EA8",
+      "currentSha": "631F63DACE986BF82FC6D23E5698D245D5D795300E00A2F463AB4E12D5373EA8",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/DiagnosticBenchmarkTests.cs",
+      "oldSha": "6FF69F6A8D64E9E7C06C40B18CD725E72458285C4D82FD169268D1C3CC7D2B6E",
+      "currentSha": "6FF69F6A8D64E9E7C06C40B18CD725E72458285C4D82FD169268D1C3CC7D2B6E",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/DiagnosticCaseSetInvariantTests.cs",
+      "oldSha": "D800C8F8896E7EFD09A1A1B860EAD123EEC37AF1EC6BA0CF37D2DF0EEF90EEC8",
+      "currentSha": "D800C8F8896E7EFD09A1A1B860EAD123EEC37AF1EC6BA0CF37D2DF0EEF90EEC8",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/DiagnosticReportTests.cs",
+      "oldSha": "C1CC11C43AE1582616604014C175608A1522649DADE2A83A4DA99B9766C2847B",
+      "currentSha": "C1CC11C43AE1582616604014C175608A1522649DADE2A83A4DA99B9766C2847B",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/DiagnosticSnapshotServiceTests.cs",
+      "oldSha": "46EC2473058A43776FC6C7AA7373590C295E6EA3ACE53AAD8750894F64346193",
+      "currentSha": "46EC2473058A43776FC6C7AA7373590C295E6EA3ACE53AAD8750894F64346193",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/FileRecoveryEdgeCaseTests.cs",
+      "oldSha": "BD70019169211E431968B7D3FC07B56DD287BC4546185A6A9F412C8217A3A776",
+      "currentSha": "BD70019169211E431968B7D3FC07B56DD287BC4546185A6A9F412C8217A3A776",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/FileRecoveryTests.cs",
+      "oldSha": "1B6C65419F0FBF389191F821A61FC673D3620EFC0812F204C394E3F2B2FDDAF0",
+      "currentSha": "1B6C65419F0FBF389191F821A61FC673D3620EFC0812F204C394E3F2B2FDDAF0",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/FinalAcceptanceProbes.cs",
+      "oldSha": "EE99525B8CFD6D134EA52E9525D5BBF3E3BA6B6BEA73A270FA9D1857EA593469",
+      "currentSha": null,
+      "status": "delivery-extra-absent"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/FinalAcceptanceRegressionTests.cs",
+      "oldSha": "7F15CF9BDC24A68B8A99E570424EE2FB39485B5A313B7F454E2E6AE30345CFEC",
+      "currentSha": "6BF2FF3C8E21D236E3D6094A4288BEEC6C197D344A0CC832647BFA37409E9109",
+      "status": "changed"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/ImportCancellationTests.cs",
+      "oldSha": "8B234D77283DA42DAA2130E46DB0CBF5AEEEE6B947BEB8B2810149B61E251209",
+      "currentSha": "8B234D77283DA42DAA2130E46DB0CBF5AEEEE6B947BEB8B2810149B61E251209",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/IndependentRouteProbes.cs",
+      "oldSha": "06B36DFF7C1F7275ACDC33C972168BACA552E21606A566D6BE212B81580595CD",
+      "currentSha": null,
+      "status": "delivery-extra-absent"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/InstanceDefaultInstanceBoundaryTests.cs",
+      "oldSha": "C3456A81AF63294AF2DFEAD17406A5F22E8C9334EF58FBCFF667042846DBDD3C",
+      "currentSha": "C3456A81AF63294AF2DFEAD17406A5F22E8C9334EF58FBCFF667042846DBDD3C",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/InstanceIsolationServiceTests.cs",
+      "oldSha": "66D4F558CFEB7559343AE771A3382FF7E01E950DAF90D075910698BEA4A9DF97",
+      "currentSha": "66D4F558CFEB7559343AE771A3382FF7E01E950DAF90D075910698BEA4A9DF97",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/InstanceLaunchGuardTests.cs",
+      "oldSha": "4E1CD5F7D60748C52AC76B15E6B16B55D1AE279E2E1728B4136B8E018545F493",
+      "currentSha": "4E1CD5F7D60748C52AC76B15E6B16B55D1AE279E2E1728B4136B8E018545F493",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/InstancePackTests.cs",
+      "oldSha": "746625D1679C206872C45E201CF3FE4E02FA3A192B8024715BC2B345095664C6",
+      "currentSha": "746625D1679C206872C45E201CF3FE4E02FA3A192B8024715BC2B345095664C6",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/InstanceRemovalTests.cs",
+      "oldSha": "FD0FD1738F1C11ECFBCABB80BB1BFC1FF7856CBBC9B6A17548F0832BF06792E9",
+      "currentSha": "FD0FD1738F1C11ECFBCABB80BB1BFC1FF7856CBBC9B6A17548F0832BF06792E9",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/InstanceRunningGuardTests.cs",
+      "oldSha": "4C1238A6643ADB31410DCCF7023B748FB5A24AB36748F1553CEA25E374826A70",
+      "currentSha": "4C1238A6643ADB31410DCCF7023B748FB5A24AB36748F1553CEA25E374826A70",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/JavaVersionMatcherTests.cs",
+      "oldSha": "194EAE07EE25EF23D1FC0574BA46D788C923705A10D88BBECECA8BEAD217504B",
+      "currentSha": "194EAE07EE25EF23D1FC0574BA46D788C923705A10D88BBECECA8BEAD217504B",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/LauncherPerfMeasurementTests.cs",
+      "oldSha": "CC039A493E4C8EC3E63EAC1AFF502FAE51B5E9680C0045BA2572EA36E566F823",
+      "currentSha": "CC039A493E4C8EC3E63EAC1AFF502FAE51B5E9680C0045BA2572EA36E566F823",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/LauncherStartupBoundaryTests.cs",
+      "oldSha": "6D668EC8CFB022D90173BC4622BE0DEF249506F8FF50BEFDEF5A4E3FAC0DE94C",
+      "currentSha": "6D668EC8CFB022D90173BC4622BE0DEF249506F8FF50BEFDEF5A4E3FAC0DE94C",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/LocalApiServiceTestCollection.cs",
+      "oldSha": "B2BB21196038AF4797203049B9D0472A5A95C94DC561BF5DEB58F684E194A26F",
+      "currentSha": "B2BB21196038AF4797203049B9D0472A5A95C94DC561BF5DEB58F684E194A26F",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/LocalApiTestHarness.cs",
+      "oldSha": "A2A7017866D119BD2E2AF740388DB08DEE76861F0F4F1FA61DC1C5C1A22F9BB6",
+      "currentSha": "A2A7017866D119BD2E2AF740388DB08DEE76861F0F4F1FA61DC1C5C1A22F9BB6",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/MemoryAllocationServiceTests.cs",
+      "oldSha": "35D80A34CB4A338AC2C2D47A5078AF67AD18E7290531F21951E51F27CFE90CBC",
+      "currentSha": "35D80A34CB4A338AC2C2D47A5078AF67AD18E7290531F21951E51F27CFE90CBC",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/MicrosoftAuthServiceTests.cs",
+      "oldSha": "E21CEB36D5B8A6748C29429E40D9CD3B891319CF9667C0DF55D1A81D3ADA542D",
+      "currentSha": "E21CEB36D5B8A6748C29429E40D9CD3B891319CF9667C0DF55D1A81D3ADA542D",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/MinecraftNewsServiceTests.cs",
+      "oldSha": "E10BDD7B3A1F2704FE42DC2C4A36227D87C0980C89E6FD90C62723C3F11DC3EB",
+      "currentSha": "E10BDD7B3A1F2704FE42DC2C4A36227D87C0980C89E6FD90C62723C3F11DC3EB",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/ModBisectServiceTests.cs",
+      "oldSha": "9C920ACF5A2A0FF5AF01F3D9A4159C9B152B831ECEA9EDBD36378109DF4A42DF",
+      "currentSha": "9C920ACF5A2A0FF5AF01F3D9A4159C9B152B831ECEA9EDBD36378109DF4A42DF",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/ModContentDependencyInstallTests.cs",
+      "oldSha": "6D10CCA5C630061B9427D8AC72483E60B787F347E0029573FF85575BC71843EB",
+      "currentSha": "6D10CCA5C630061B9427D8AC72483E60B787F347E0029573FF85575BC71843EB",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/ModContentUpdateWiringTests.cs",
+      "oldSha": "934FA5C39D109831E956E6675D3F8ABEFBD80D78EF30FEC53B2AB0F29A6F1E58",
+      "currentSha": "934FA5C39D109831E956E6675D3F8ABEFBD80D78EF30FEC53B2AB0F29A6F1E58",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/ModReplaceFileInUseTests.cs",
+      "oldSha": "BF23A765E163AE7EF51A5AAAE84A51EE58A4A66CFE4E808492F5F4BB3B4CD20C",
+      "currentSha": "BF23A765E163AE7EF51A5AAAE84A51EE58A4A66CFE4E808492F5F4BB3B4CD20C",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/ModReplacementTests.cs",
+      "oldSha": "869F1C3F69835EDCAD918364ECCF58878A48A2F47434F5AE3FA68C5AD9988587",
+      "currentSha": "869F1C3F69835EDCAD918364ECCF58878A48A2F47434F5AE3FA68C5AD9988587",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/NewsEndpointPolicyTests.cs",
+      "oldSha": "5FBCBCE0473A008CD209B3C57B56949F55144F562BCD1A3544C51F52874FA013",
+      "currentSha": "5FBCBCE0473A008CD209B3C57B56949F55144F562BCD1A3544C51F52874FA013",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/NewsFakeIpConfigTests.cs",
+      "oldSha": "F151349D6C895F8C98026B9D84A7091F0EEFA99F5D52B8CE3D8109FF169CB1F2",
+      "currentSha": "F151349D6C895F8C98026B9D84A7091F0EEFA99F5D52B8CE3D8109FF169CB1F2",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/NewsFakeIpPolicyTests.cs",
+      "oldSha": "989002DBC5813D8D49F478B5B0AD72FA45A49CA44F430ACCD12317E93FE61A50",
+      "currentSha": "989002DBC5813D8D49F478B5B0AD72FA45A49CA44F430ACCD12317E93FE61A50",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/NewsImageProxyServiceTests.cs",
+      "oldSha": "A2F223089D8521E6B6EB6E466C912316824D3D55EFE7316173E23611B4A94ED2",
+      "currentSha": "A2F223089D8521E6B6EB6E466C912316824D3D55EFE7316173E23611B4A94ED2",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/NewsLinkHandlerTests.cs",
+      "oldSha": "1EEF388C22F7FAF333DA06E2481EBB204596A7046B41768E5F28C859E3294CF8",
+      "currentSha": "1EEF388C22F7FAF333DA06E2481EBB204596A7046B41768E5F28C859E3294CF8",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/NewsLinkServiceTests.cs",
+      "oldSha": "BB8933A0889203268F90DAFCE087AD9B4D661FF4E85A75B11909FF69F75B3563",
+      "currentSha": "BB8933A0889203268F90DAFCE087AD9B4D661FF4E85A75B11909FF69F75B3563",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/NewsR2TeredoNat64Tests.cs",
+      "oldSha": "16090B745FF5B39893167623B9F17697DF6EC956F967E05A57682ADBE831647D",
+      "currentSha": "16090B745FF5B39893167623B9F17697DF6EC956F967E05A57682ADBE831647D",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/OutboundEndpointPolicyTests.cs",
+      "oldSha": "1B523796F37F6286CCE0CBBF66D23073D73E3FC1F3E87A9B19A28184E2617018",
+      "currentSha": "1B523796F37F6286CCE0CBBF66D23073D73E3FC1F3E87A9B19A28184E2617018",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/packages.lock.json",
+      "oldSha": "244BA2BCD1EB1F5AF72967D5F2AFB5C4978E9B73669D53B450F02FD6F057551B",
+      "currentSha": "244BA2BCD1EB1F5AF72967D5F2AFB5C4978E9B73669D53B450F02FD6F057551B",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj",
+      "oldSha": "7F57D7F0EFCF4B9E5174B0EF2E01B4E793EB8CA5590D6A813511A8E723A1C9CA",
+      "currentSha": "7F57D7F0EFCF4B9E5174B0EF2E01B4E793EB8CA5590D6A813511A8E723A1C9CA",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/RecoveryVersionDisplayEndToEndTests.cs",
+      "oldSha": "3947CB844627EE091320CEE173100C7C8E805A2A20832A1C0E38AE5BF868BA76",
+      "currentSha": "3947CB844627EE091320CEE173100C7C8E805A2A20832A1C0E38AE5BF868BA76",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/RouteReachabilityTests.cs",
+      "oldSha": "73BDE9818547430B5178345EB99533B7B4770DDBF73AA0238AA13B2D61BAD08E",
+      "currentSha": "73BDE9818547430B5178345EB99533B7B4770DDBF73AA0238AA13B2D61BAD08E",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/SecretPersistenceContractTests.cs",
+      "oldSha": "03FD0E22F385E9347C1B5C592AC033FE20608132A2E9DE14EEF37F1741DE83DB",
+      "currentSha": "03FD0E22F385E9347C1B5C592AC033FE20608132A2E9DE14EEF37F1741DE83DB",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/SecretStoreBackendTests.cs",
+      "oldSha": "A1684AA2FF13A09B743A8ACF7BBE691F4C648EA08A60AD65006DE7AB9F4D210F",
+      "currentSha": "A1684AA2FF13A09B743A8ACF7BBE691F4C648EA08A60AD65006DE7AB9F4D210F",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/SecurityRegressionTests.cs",
+      "oldSha": "1656F49FED2493CB9178308C48471817FF645943612CE4AF3AE97BE40DF5EF93",
+      "currentSha": "1656F49FED2493CB9178308C48471817FF645943612CE4AF3AE97BE40DF5EF93",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/SkinImageProxyServiceTests.cs",
+      "oldSha": "407B1B87C4FABB09F0091D45A3FF080049D300A710B854E3AC4FB1588AE64AD9",
+      "currentSha": "407B1B87C4FABB09F0091D45A3FF080049D300A710B854E3AC4FB1588AE64AD9",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/TestAssets/ContentIcons/valid-1x1.jpg",
+      "oldSha": "797156D8FBA55AAF8A0E794B4161EB7816232DB661532C631E53504E1CD9C64F",
+      "currentSha": "797156D8FBA55AAF8A0E794B4161EB7816232DB661532C631E53504E1CD9C64F",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/TestAssets/ContentIcons/valid-1x1.png",
+      "oldSha": "E8F0DE6A1B4299EE0159AB807E8E825D02331B99E209426EFC7EAD08A1CDC983",
+      "currentSha": "E8F0DE6A1B4299EE0159AB807E8E825D02331B99E209426EFC7EAD08A1CDC983",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/TestAssets/ContentIcons/valid-1x1.webp",
+      "oldSha": "71D05BAA8036E2AA25378F27952A2BCDC97AAA62B5B6101EB8F274580DCCEBD3",
+      "currentSha": "71D05BAA8036E2AA25378F27952A2BCDC97AAA62B5B6101EB8F274580DCCEBD3",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/TestAssets/ContentIcons/valid-64.jpg",
+      "oldSha": "73D3296D90E92D83942A601BAAD4C4FD738895CFF85959C66A9C152F29BE7E03",
+      "currentSha": "73D3296D90E92D83942A601BAAD4C4FD738895CFF85959C66A9C152F29BE7E03",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/TestAssets/ContentIcons/valid-64.png",
+      "oldSha": "FB0EDA9BAE84EFC28DE0758145D79DE921661FAB54093966094B566E4839DB78",
+      "currentSha": "FB0EDA9BAE84EFC28DE0758145D79DE921661FAB54093966094B566E4839DB78",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/TestAssets/ContentIcons/valid-64.webp",
+      "oldSha": "D3963C214E483D79C5FD01923A5A3163E9AF7CBD3D80F02BB9D98CE094D54B2C",
+      "currentSha": "D3963C214E483D79C5FD01923A5A3163E9AF7CBD3D80F02BB9D98CE094D54B2C",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/TestAssets/Diagnostics/diagnostic-cases.json",
+      "oldSha": "D9F55189FA05845BAC0403A058AA63912A725AFF61555BDF25A6865DD5AB45AF",
+      "currentSha": "D9F55189FA05845BAC0403A058AA63912A725AFF61555BDF25A6865DD5AB45AF",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/TestAssets/Diagnostics/README.md",
+      "oldSha": "05D24FDE0B9C0CE155AFEB99FD66F7638168E6482DE2AD123C4098945624C8A8",
+      "currentSha": "05D24FDE0B9C0CE155AFEB99FD66F7638168E6482DE2AD123C4098945624C8A8",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/TestIsolationRoots.cs",
+      "oldSha": "7BE2F2EA13CAD27CBC1F0B0B624BEECC7AF16FB1DC0FE3DC7943077E2B822CF2",
+      "currentSha": "7BE2F2EA13CAD27CBC1F0B0B624BEECC7AF16FB1DC0FE3DC7943077E2B822CF2",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/UnwritableDirectoryTests.cs",
+      "oldSha": "09814E76D08BD7CD0D3D85877A3624700AA2EF9F22D6EB789F974C8D608CD5C5",
+      "currentSha": "09814E76D08BD7CD0D3D85877A3624700AA2EF9F22D6EB789F974C8D608CD5C5",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/UpdateRecoveryTests.cs",
+      "oldSha": "E17EDE241C4B255A97ACBEFD3AC17B6C7501623E4F6B0FCE9AA489EEBD8C3880",
+      "currentSha": "E17EDE241C4B255A97ACBEFD3AC17B6C7501623E4F6B0FCE9AA489EEBD8C3880",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/WorkflowInvariantTests.cs",
+      "oldSha": "0A5DA5EEF2301A1667AD3C0A5950FC04C92E4CB5102D65C329C4AF2D00DF03B7",
+      "currentSha": "0A5DA5EEF2301A1667AD3C0A5950FC04C92E4CB5102D65C329C4AF2D00DF03B7",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/WorldBackupScopeTests.cs",
+      "oldSha": "66CF28160E061A6A9C672459A2531478E5F04D92A0C9A05C87931391DB7CA680",
+      "currentSha": "66CF28160E061A6A9C672459A2531478E5F04D92A0C9A05C87931391DB7CA680",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/app.ico",
+      "oldSha": "4E329E14BCFE3036F1284147A91C6E1FB1DEC501F9E94C6B6A76880C30998FDE",
+      "currentSha": "4E329E14BCFE3036F1284147A91C6E1FB1DEC501F9E94C6B6A76880C30998FDE",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/app.manifest",
+      "oldSha": "03F07E0E03BAEE92DC48576F43D68DBC61786F544EDC07EE02CB39C491B13444",
+      "currentSha": "03F07E0E03BAEE92DC48576F43D68DBC61786F544EDC07EE02CB39C491B13444",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Assets/AppIcon.ico",
+      "oldSha": "4E329E14BCFE3036F1284147A91C6E1FB1DEC501F9E94C6B6A76880C30998FDE",
+      "currentSha": "4E329E14BCFE3036F1284147A91C6E1FB1DEC501F9E94C6B6A76880C30998FDE",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Assets/AppIcon.png",
+      "oldSha": "B3FEF85A048407F3B8CD1A9F6B495D0653803A2AA06B3BA24E535CA1A3F20981",
+      "currentSha": "B3FEF85A048407F3B8CD1A9F6B495D0653803A2AA06B3BA24E535CA1A3F20981",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/packages.lock.json",
+      "oldSha": "FBBC9AE67B8E8CF2E3AA63C48242BC08AC713BE47830D337914CC39C85EE0672",
+      "currentSha": "FBBC9AE67B8E8CF2E3AA63C48242BC08AC713BE47830D337914CC39C85EE0672",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.csproj",
+      "oldSha": "A368CED9E4ABA786B97C9FB854877ED06A66E7C3BBD5EE2009539424505C5800",
+      "currentSha": "A368CED9E4ABA786B97C9FB854877ED06A66E7C3BBD5EE2009539424505C5800",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/AiProviderProfile.cs",
+      "oldSha": "02247F64099FA001B7CA2B9C41CCF12F1795E1EADF49A5200F6963ED8676AA6F",
+      "currentSha": "02247F64099FA001B7CA2B9C41CCF12F1795E1EADF49A5200F6963ED8676AA6F",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/AppConfig.cs",
+      "oldSha": "C1765C7FB3D93135F27F66D6D5CC8F9926D9EAA53263E371944B5E881B2DD2C0",
+      "currentSha": "C1765C7FB3D93135F27F66D6D5CC8F9926D9EAA53263E371944B5E881B2DD2C0",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/BackupFileInfo.cs",
+      "oldSha": "8D111570A786CA7FA82FB2846924FFEF9E9ED3F3A88A1498E7B3F089C4195E9B",
+      "currentSha": "8D111570A786CA7FA82FB2846924FFEF9E9ED3F3A88A1498E7B3F089C4195E9B",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/DiagnosticReport.cs",
+      "oldSha": "82BF7DAD5478EE3B9DC726279550DEFBFF7127FB4B0B0728D01A69AB9C078247",
+      "currentSha": "82BF7DAD5478EE3B9DC726279550DEFBFF7127FB4B0B0728D01A69AB9C078247",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/FabricCompatibleLoaderVersion.cs",
+      "oldSha": "4967E21F355D3AECAD7FEC77247B6D5A9BFB619A27B9861FA2977DD75F8EAAF5",
+      "currentSha": "4967E21F355D3AECAD7FEC77247B6D5A9BFB619A27B9861FA2977DD75F8EAAF5",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/FabricGameVersion.cs",
+      "oldSha": "86670C18B8720C220DC316C3AAEB6FC6C27AFAD2D170E835AF339282172BB063",
+      "currentSha": "86670C18B8720C220DC316C3AAEB6FC6C27AFAD2D170E835AF339282172BB063",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/FabricLoaderVersion.cs",
+      "oldSha": "FF49C1AA9ED0260F811DA07299C7EBF54305924DDD05469839DDE86F308C9C1D",
+      "currentSha": "FF49C1AA9ED0260F811DA07299C7EBF54305924DDD05469839DDE86F308C9C1D",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/FavoriteServer.cs",
+      "oldSha": "7F85F41136732DAF4B039277C3F88F5698F723449CB0BF9F7223233A96736DDF",
+      "currentSha": "7F85F41136732DAF4B039277C3F88F5698F723449CB0BF9F7223233A96736DDF",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/FileRecoveryRecord.cs",
+      "oldSha": "5469E48EF55017C79F1EF4F212C501FABC6A767DD9D7D2C3A41962562E591AF1",
+      "currentSha": "5469E48EF55017C79F1EF4F212C501FABC6A767DD9D7D2C3A41962562E591AF1",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/GameInstance.cs",
+      "oldSha": "E8C40427FB3B868D4538264915768F05F864B357BB674A7F32487ADF873FDAE2",
+      "currentSha": "E8C40427FB3B868D4538264915768F05F864B357BB674A7F32487ADF873FDAE2",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/InstalledLoaderProfile.cs",
+      "oldSha": "11623841AFFEB549FDCED6A6886850145539FB651ACEB0EC89C0DBC54F11BF36",
+      "currentSha": "11623841AFFEB549FDCED6A6886850145539FB651ACEB0EC89C0DBC54F11BF36",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/JavaInstallation.cs",
+      "oldSha": "BB8E4FE51AC27EFF71B99E1489D01837EDDEE776B638EC474B4A572664BD1260",
+      "currentSha": "BB8E4FE51AC27EFF71B99E1489D01837EDDEE776B638EC474B4A572664BD1260",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/LauncherAccount.cs",
+      "oldSha": "0DD1D19F95CFDBF720E4DD795FBABB6A337267D3784707688813AD00EDD4C3FA",
+      "currentSha": "0DD1D19F95CFDBF720E4DD795FBABB6A337267D3784707688813AD00EDD4C3FA",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/LauncherTaskInfo.cs",
+      "oldSha": "A7B44B207AEE7C992B352061DE33BEE855DA38893500E10B33D5E72166EC6C7C",
+      "currentSha": "A7B44B207AEE7C992B352061DE33BEE855DA38893500E10B33D5E72166EC6C7C",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/LaunchProfile.cs",
+      "oldSha": "182AD1904D6EB77ED9D6A574E068D6EE0BF2BE010667CC63AB8D24394350B0D6",
+      "currentSha": "182AD1904D6EB77ED9D6A574E068D6EE0BF2BE010667CC63AB8D24394350B0D6",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/LoaderGameVersion.cs",
+      "oldSha": "279F5C14F34C45D4FBB77773D186ADDFE33134F67AEA5087B286E3E33D344B4A",
+      "currentSha": "279F5C14F34C45D4FBB77773D186ADDFE33134F67AEA5087B286E3E33D344B4A",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/LoaderVersionEntry.cs",
+      "oldSha": "14BE5D2008808DE35454BE0C9C8A8C4BC7BE6597E6CB1CEF643CE6A4C28CBE4B",
+      "currentSha": "14BE5D2008808DE35454BE0C9C8A8C4BC7BE6597E6CB1CEF643CE6A4C28CBE4B",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/MinecraftCapeInfo.cs",
+      "oldSha": "21D25A83E775078D5665BF69B0BD66AF932653CACCEB68D15D507B18E7775D16",
+      "currentSha": "21D25A83E775078D5665BF69B0BD66AF932653CACCEB68D15D507B18E7775D16",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModDependency.cs",
+      "oldSha": "4178D6D3948A5A5EB82D3262290DECF66848F1830B4183E293AE9897C4F2CDCD",
+      "currentSha": "4178D6D3948A5A5EB82D3262290DECF66848F1830B4183E293AE9897C4F2CDCD",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModFile.cs",
+      "oldSha": "3E140F0E19A1EC2D7EF23D30D32F55B434873618400B433A579357891F627280",
+      "currentSha": "3E140F0E19A1EC2D7EF23D30D32F55B434873618400B433A579357891F627280",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModHealthIssue.cs",
+      "oldSha": "89A2EAB003BADFB9095D20BA2C8A59850D0739102B8B02A941B1D8FE21D64A62",
+      "currentSha": "89A2EAB003BADFB9095D20BA2C8A59850D0739102B8B02A941B1D8FE21D64A62",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModHealthReport.cs",
+      "oldSha": "17D383C7853818576F458D94329BFC35A9188069D8F6E67B908B2C004D270F8E",
+      "currentSha": "17D383C7853818576F458D94329BFC35A9188069D8F6E67B908B2C004D270F8E",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModHealthSeverity.cs",
+      "oldSha": "94E825BB4158FFB3A6934F3CCF9CE4311C30EFC584D54E7C208722EAA52EFDC7",
+      "currentSha": "94E825BB4158FFB3A6934F3CCF9CE4311C30EFC584D54E7C208722EAA52EFDC7",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModInstallMetadata.cs",
+      "oldSha": "83E9C8075E462F863C1A1A4668E6988C049C8830286CAF22B8158CE35C30312B",
+      "currentSha": "83E9C8075E462F863C1A1A4668E6988C049C8830286CAF22B8158CE35C30312B",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModInstallResult.cs",
+      "oldSha": "94EBE1055140B207F5956EA850387E7018B9E88C1989917FADDF8B3DD9C9C2F0",
+      "currentSha": "94EBE1055140B207F5956EA850387E7018B9E88C1989917FADDF8B3DD9C9C2F0",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModLoaderInfo.cs",
+      "oldSha": "7261F3A9B805D4D8E2F485EC392B0AA975CABB25A24BAFD5DC8CE3ED83E73649",
+      "currentSha": "7261F3A9B805D4D8E2F485EC392B0AA975CABB25A24BAFD5DC8CE3ED83E73649",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModLoaderKind.cs",
+      "oldSha": "44DB8F7FD6FC4E6280D6A117A1A41FE75E71DA21757BDC6BDCDA584FF58E0419",
+      "currentSha": "44DB8F7FD6FC4E6280D6A117A1A41FE75E71DA21757BDC6BDCDA584FF58E0419",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModManifestDependency.cs",
+      "oldSha": "8196DF0FCC749FC9C595A8273060C7875161E682FF16D629FAC83ED17022651F",
+      "currentSha": "8196DF0FCC749FC9C595A8273060C7875161E682FF16D629FAC83ED17022651F",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModpackArchiveFormat.cs",
+      "oldSha": "722D60CDA49C793FBA9C7C69361AC40D0C464C1F271777954DD78CCDEDEE8767",
+      "currentSha": "722D60CDA49C793FBA9C7C69361AC40D0C464C1F271777954DD78CCDEDEE8767",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModpackInstallation.cs",
+      "oldSha": "2CBD46F5D4FC971D80EC5F926A3A71094941745BB3E9AA03DDE6FE1CC90A0A27",
+      "currentSha": "2CBD46F5D4FC971D80EC5F926A3A71094941745BB3E9AA03DDE6FE1CC90A0A27",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModpackProject.cs",
+      "oldSha": "C78739522088801ED794C9349D5D38FAE448EBC64EBB5AA151C456F78833F689",
+      "currentSha": "C78739522088801ED794C9349D5D38FAE448EBC64EBB5AA151C456F78833F689",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModpackVersion.cs",
+      "oldSha": "607C05B3DDC1D31465BD090E4B1CE1FBDB7A29D4E57D708E8D9BC3F679377D17",
+      "currentSha": "607C05B3DDC1D31465BD090E4B1CE1FBDB7A29D4E57D708E8D9BC3F679377D17",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModSearchRequest.cs",
+      "oldSha": "919B081486D3B49CBC545D79D0A7F7EC893C3E0EECADC99EBF5E5EA9AF63C9F5",
+      "currentSha": "919B081486D3B49CBC545D79D0A7F7EC893C3E0EECADC99EBF5E5EA9AF63C9F5",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModSearchResult.cs",
+      "oldSha": "50ABD632F14C4B3284A34CE7B80578DEA56CFC011DB4FB2BCB17E1A40542EE4B",
+      "currentSha": "50ABD632F14C4B3284A34CE7B80578DEA56CFC011DB4FB2BCB17E1A40542EE4B",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModSource.cs",
+      "oldSha": "9BC6363A0E2AC20D12A4A290BEE211AEA9FF17C277DA94F0DDEDD40CEB0D2860",
+      "currentSha": "9BC6363A0E2AC20D12A4A290BEE211AEA9FF17C277DA94F0DDEDD40CEB0D2860",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModVersion.cs",
+      "oldSha": "6F54DF7C5FC7F298D68AB96CB89A920AFFA48ADB92DB0887B18C9EA172D29FC7",
+      "currentSha": "6F54DF7C5FC7F298D68AB96CB89A920AFFA48ADB92DB0887B18C9EA172D29FC7",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/QuiltGameVersion.cs",
+      "oldSha": "DFB444BD0E32DAEA7EF6D162F4D2F8850F23B6815A75B36FCBA632FB8ADC816A",
+      "currentSha": "DFB444BD0E32DAEA7EF6D162F4D2F8850F23B6815A75B36FCBA632FB8ADC816A",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/QuiltLoaderVersion.cs",
+      "oldSha": "9F5275DF69F1EAA0EC65E220160A1EB2EFB9C644553919D4E4CC4D3A8908BC4B",
+      "currentSha": "9F5275DF69F1EAA0EC65E220160A1EB2EFB9C644553919D4E4CC4D3A8908BC4B",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ResourceContentKind.cs",
+      "oldSha": "1183316C9C3CD4B23B40100EF24FA371475BD8CF6D859323D3850C73BDC8BECC",
+      "currentSha": "1183316C9C3CD4B23B40100EF24FA371475BD8CF6D859323D3850C73BDC8BECC",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ResourceContentProject.cs",
+      "oldSha": "18C58609053E2FC96F4ABC22F89150E01656BAB5BC78CF991AA8F4F441AAD5A5",
+      "currentSha": "18C58609053E2FC96F4ABC22F89150E01656BAB5BC78CF991AA8F4F441AAD5A5",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ResourceContentVersion.cs",
+      "oldSha": "17AC63EA805F04B3629C5584D74CE04ECD326D7CAFC2F0720471B39B54B02CE9",
+      "currentSha": "17AC63EA805F04B3629C5584D74CE04ECD326D7CAFC2F0720471B39B54B02CE9",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ResourcePackInfo.cs",
+      "oldSha": "F5B595C424B32A656F4F24071531967D88347AEA2C717A3BC87BE8735C3138D2",
+      "currentSha": "F5B595C424B32A656F4F24071531967D88347AEA2C717A3BC87BE8735C3138D2",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ResumableTaskItem.cs",
+      "oldSha": "E4C054261858746523BDB72DCC81F2591D2E36B83E5699013156862809D19C3E",
+      "currentSha": "E4C054261858746523BDB72DCC81F2591D2E36B83E5699013156862809D19C3E",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ResumableTaskKind.cs",
+      "oldSha": "792379C1DA917BD2E354E89F66A7069D6535847B7F5F3F15B3C96889D7739EE0",
+      "currentSha": "792379C1DA917BD2E354E89F66A7069D6535847B7F5F3F15B3C96889D7739EE0",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ResumableTaskState.cs",
+      "oldSha": "1263B7558AEF92F5836674245528C81460127368B4F418832420A739158C2FCD",
+      "currentSha": "1263B7558AEF92F5836674245528C81460127368B4F418832420A739158C2FCD",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/SaveInfo.cs",
+      "oldSha": "EE612F235FBECDA2B74B4D186C22A527557A38DC5B709E04394894E74F1A291E",
+      "currentSha": "EE612F235FBECDA2B74B4D186C22A527557A38DC5B709E04394894E74F1A291E",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ShaderPackInfo.cs",
+      "oldSha": "D627F75A675D163882BB7CD752A5831FFF372AE29A09E6FEA061FCDC8AA54DCD",
+      "currentSha": "D627F75A675D163882BB7CD752A5831FFF372AE29A09E6FEA061FCDC8AA54DCD",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/UpdateManifest.cs",
+      "oldSha": "85FADBC7293BAF113D084FF71EC346B22E6F9C630CDDA2DD93C9563DEEC4EA4B",
+      "currentSha": "85FADBC7293BAF113D084FF71EC346B22E6F9C630CDDA2DD93C9563DEEC4EA4B",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/VersionDownloadQueueItem.cs",
+      "oldSha": "A58C4003754F1AC8B8A4255B5561AB6586048B13ECBE986BA6271A44C024D42B",
+      "currentSha": "A58C4003754F1AC8B8A4255B5561AB6586048B13ECBE986BA6271A44C024D42B",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/VersionDownloadQueueState.cs",
+      "oldSha": "359862D958657D0523048FE857CDA36A0DB5E67647EC2645635CDF97F5CA38A1",
+      "currentSha": "359862D958657D0523048FE857CDA36A0DB5E67647EC2645635CDF97F5CA38A1",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/VersionEntry.cs",
+      "oldSha": "9D0723627F4211C7F35D129D87CC0C5700377911C8E25F776A584B604180B931",
+      "currentSha": "9D0723627F4211C7F35D129D87CC0C5700377911C8E25F776A584B604180B931",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/VersionInfo.cs",
+      "oldSha": "AC2F0F50B62CF8349E3142C1B73083C3163CB5E9A25C210CC11DC668E50C0504",
+      "currentSha": "AC2F0F50B62CF8349E3142C1B73083C3163CB5E9A25C210CC11DC668E50C0504",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/AccountService.cs",
+      "oldSha": "1480F691F4FE19D366C5A3DA981FA8C63EF70F3F72F06BDCB9C803F73D482D16",
+      "currentSha": "1480F691F4FE19D366C5A3DA981FA8C63EF70F3F72F06BDCB9C803F73D482D16",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/AiDiagnoseService.cs",
+      "oldSha": "A257DFF5F5BE43E71E4E5EB43F07E392E81C545736975F5A35C1FE468E99577C",
+      "currentSha": "A257DFF5F5BE43E71E4E5EB43F07E392E81C545736975F5A35C1FE468E99577C",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/AiEndpointPolicy.cs",
+      "oldSha": "51F26E2C9DBF26F9D312AA5A3A89998DF0EA83595C5C90F7ABB75AEFDB96D24C",
+      "currentSha": "51F26E2C9DBF26F9D312AA5A3A89998DF0EA83595C5C90F7ABB75AEFDB96D24C",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/AiHttpClientFactory.cs",
+      "oldSha": "D8431CEB58E73564F385EF3C0EB00FB07E0D8E86C586B9DB80AE282BBC9F8B9B",
+      "currentSha": "D8431CEB58E73564F385EF3C0EB00FB07E0D8E86C586B9DB80AE282BBC9F8B9B",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/AiOperationRegistry.cs",
+      "oldSha": "9C081AEDF0F3F80FEE471E29FA0048FFC5C653D22968B8F6CDE2EE136F2DFA38",
+      "currentSha": "9C081AEDF0F3F80FEE471E29FA0048FFC5C653D22968B8F6CDE2EE136F2DFA38",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/AuthClientOptions.cs",
+      "oldSha": "42CD35E2ACD5FB85544F8C653166BF0759D13A679ED071CFC920AAE14AE5C73C",
+      "currentSha": "42CD35E2ACD5FB85544F8C653166BF0759D13A679ED071CFC920AAE14AE5C73C",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/AuthlibAccount.cs",
+      "oldSha": "324349CC30572B1858BFBD6E0BC918D5591AAB7183EBDE22274BC2612B66BADD",
+      "currentSha": "324349CC30572B1858BFBD6E0BC918D5591AAB7183EBDE22274BC2612B66BADD",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/AuthlibInjectorService.cs",
+      "oldSha": "6652503188A13F868010D9FC60677D004C38206A9B9D9819900B8186EB702DC8",
+      "currentSha": "6652503188A13F868010D9FC60677D004C38206A9B9D9819900B8186EB702DC8",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/BisectRecoveryStore.cs",
+      "oldSha": "136DBC3ADB5B474A0159E4B97E9B96FFA79BE7022D8CE2045EF5A0C2E181D091",
+      "currentSha": "136DBC3ADB5B474A0159E4B97E9B96FFA79BE7022D8CE2045EF5A0C2E181D091",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ConfigStore.cs",
+      "oldSha": "635D9EBC818532B669D3FC8BFB6C32624E35CE00A4DD6163403679B902A7135C",
+      "currentSha": "635D9EBC818532B669D3FC8BFB6C32624E35CE00A4DD6163403679B902A7135C",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ContentIconResult.cs",
+      "oldSha": "FE65E7F960600DB136132F63CA493560F93747DEFB90B31DA39EF33866E56E05",
+      "currentSha": "FE65E7F960600DB136132F63CA493560F93747DEFB90B31DA39EF33866E56E05",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ContentIconService.cs",
+      "oldSha": "8D723D0447C6F83D139FB1502B657C6FAC0EA2C3C365993283A40C979F94CCCB",
+      "currentSha": "8D723D0447C6F83D139FB1502B657C6FAC0EA2C3C365993283A40C979F94CCCB",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/CrashAnalysis.cs",
+      "oldSha": "FD402CEBC5DF6C315728F0B69E0C82EA15CF5A265AD07A9D51D2140A69A4C94D",
+      "currentSha": "FD402CEBC5DF6C315728F0B69E0C82EA15CF5A265AD07A9D51D2140A69A4C94D",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/CrashAnalyzerService.cs",
+      "oldSha": "3F0CB5DAAE97EEBAB28C51420113C8D7C35D0183F969549A2DF48998A23E737D",
+      "currentSha": "3F0CB5DAAE97EEBAB28C51420113C8D7C35D0183F969549A2DF48998A23E737D",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/CurseForgeRequestPolicy.cs",
+      "oldSha": "2F2F64F3A54A58CA5B484F11ABA01875F92CB397A7441BE477C57E7241CAD822",
+      "currentSha": "2F2F64F3A54A58CA5B484F11ABA01875F92CB397A7441BE477C57E7241CAD822",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/DeviceCodeInfo.cs",
+      "oldSha": "9581D264DA83DF750D89E3A1497D729EE04D2C5C2A4D9BAFA9105C835E6CF517",
+      "currentSha": "9581D264DA83DF750D89E3A1497D729EE04D2C5C2A4D9BAFA9105C835E6CF517",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/DiagnosticReportService.cs",
+      "oldSha": "BE7EDFC943622168AB349FE235F15EB6B0729E14812915BC0FECBCBCAA6902CE",
+      "currentSha": "BE7EDFC943622168AB349FE235F15EB6B0729E14812915BC0FECBCBCAA6902CE",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/DiagnosticSnapshotService.cs",
+      "oldSha": "80D8823C904C0B572DE460264340DC4494F48933B2EC2F5E6577B25BE1D771B7",
+      "currentSha": "80D8823C904C0B572DE460264340DC4494F48933B2EC2F5E6577B25BE1D771B7",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/DownloadTaskStatus.cs",
+      "oldSha": "D8D21CB866E9D3561844EA4F12E440D2B4EA7FAE6BBBA755E1157DCDBB3E8D20",
+      "currentSha": "D8D21CB866E9D3561844EA4F12E440D2B4EA7FAE6BBBA755E1157DCDBB3E8D20",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/EnumerableExtensions.cs",
+      "oldSha": "99A1349C9BCE2725CDA00334BFAE647BD65DB3B50A2D7E901B060D863DC09873",
+      "currentSha": "99A1349C9BCE2725CDA00334BFAE647BD65DB3B50A2D7E901B060D863DC09873",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/FabricService.cs",
+      "oldSha": "0D90286B706F480CEE541242569561614CDFDB1367316A1FF2D53596D9AFEB86",
+      "currentSha": "0D90286B706F480CEE541242569561614CDFDB1367316A1FF2D53596D9AFEB86",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/FileRecoveryService.cs",
+      "oldSha": "1EE0192A9075D315B81E50B25DB1332DCF50E3A8AF301CB16E212ED3608056B1",
+      "currentSha": "83429906A8CD4C0527AD3A2B1973DE44067A60FDFC0A603590C4885CDEF1D42F",
+      "status": "changed"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ForgeService.cs",
+      "oldSha": "F286FF72BFB7535BB6408F8944CDA99F733F2CA8FBE25F93E76F8553B776AFAC",
+      "currentSha": "F286FF72BFB7535BB6408F8944CDA99F733F2CA8FBE25F93E76F8553B776AFAC",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/InstallerLoaderService.cs",
+      "oldSha": "4F87FA9AAF333C94E6F97FF9147EBC9C5E315AE7F3E4663426ED61B7E4002D4A",
+      "currentSha": "4F87FA9AAF333C94E6F97FF9147EBC9C5E315AE7F3E4663426ED61B7E4002D4A",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/InstanceIsolationService.cs",
+      "oldSha": "AC1C0FF633A6965B7F6494C5C2E247BBE7DDF7952C15AE80F19554D234007B38",
+      "currentSha": "AC1C0FF633A6965B7F6494C5C2E247BBE7DDF7952C15AE80F19554D234007B38",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/InstancePackService.cs",
+      "oldSha": "8202AE9769EA0559FFB4D34A4EE6E7F4DDCC6C66F106059E447E1416AE4DE148",
+      "currentSha": "8202AE9769EA0559FFB4D34A4EE6E7F4DDCC6C66F106059E447E1416AE4DE148",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/InstanceService.cs",
+      "oldSha": "9724405D8993517EE7381340E48130515B5B704EBD1D0A8C1EDBB564579AAACD",
+      "currentSha": "9724405D8993517EE7381340E48130515B5B704EBD1D0A8C1EDBB564579AAACD",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/JavaInfo.cs",
+      "oldSha": "F5327B56F3F8266A17A47FCC5541C40DDAD343AABC7B03D5C82B7F00BC1E36D1",
+      "currentSha": "F5327B56F3F8266A17A47FCC5541C40DDAD343AABC7B03D5C82B7F00BC1E36D1",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/JavaLocator.cs",
+      "oldSha": "258EDC237599DB5744003327F403C33439E08872FADF418A99A48AFC94791165",
+      "currentSha": "258EDC237599DB5744003327F403C33439E08872FADF418A99A48AFC94791165",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/JavaRuntimeProgress.cs",
+      "oldSha": "D0BF791A49916FF60244C80D5EDF3F139D9B5D832B49F3FBAEF6EBAA1C8F3F79",
+      "currentSha": "D0BF791A49916FF60244C80D5EDF3F139D9B5D832B49F3FBAEF6EBAA1C8F3F79",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/JavaRuntimeService.cs",
+      "oldSha": "A72AD5FB24E03BAA8172D987B8E1467A1BAF10831CE1C8176BA7A1A2B3325A78",
+      "currentSha": "A72AD5FB24E03BAA8172D987B8E1467A1BAF10831CE1C8176BA7A1A2B3325A78",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/JavaVersionMatcher.cs",
+      "oldSha": "F2184C46401AD710690599A47FCFC1E19BB55AFFA890CA4D429366464501A55B",
+      "currentSha": "F2184C46401AD710690599A47FCFC1E19BB55AFFA890CA4D429366464501A55B",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/JsonUtil.cs",
+      "oldSha": "AE1516D7F7C2F05D979F174A892ABEE5AE444603451C92F3D55B03CFF8230B3C",
+      "currentSha": "AE1516D7F7C2F05D979F174A892ABEE5AE444603451C92F3D55B03CFF8230B3C",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/LaunchCommand.cs",
+      "oldSha": "7E45AC3434CC7865D6C58632E507EA02DB20E87E481E4AB0990B7BD00E0898B8",
+      "currentSha": "7E45AC3434CC7865D6C58632E507EA02DB20E87E481E4AB0990B7BD00E0898B8",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/LauncherLog.cs",
+      "oldSha": "5947BE5C7034BDACAD241C8E6630AE88831FC46CDA00C0D9F8EA8FCE492DC78C",
+      "currentSha": "5947BE5C7034BDACAD241C8E6630AE88831FC46CDA00C0D9F8EA8FCE492DC78C",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/LauncherService.cs",
+      "oldSha": "EEDC971B95362B72F956C0D776DBC6BE2593A62FA34C6CFD82E0F654752917B9",
+      "currentSha": "EEDC971B95362B72F956C0D776DBC6BE2593A62FA34C6CFD82E0F654752917B9",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/LoaderInstallHelper.cs",
+      "oldSha": "411FDC205DC83EBFB2F27F29B622A6162C84C5ED0D1B95B811B30FA1C71F1E35",
+      "currentSha": "411FDC205DC83EBFB2F27F29B622A6162C84C5ED0D1B95B811B30FA1C71F1E35",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.cs",
+      "oldSha": "FFA20BC0B2303876CFAD030162CFFBA565EEB8D6C93AF6CDB3553570D25439E7",
+      "currentSha": "BC8097B501F0A69D67C7C4184BF31EC56DB410288A5FB2C87C1E50F574B2EBF6",
+      "status": "changed"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MemoryAllocationService.cs",
+      "oldSha": "1F20D689525E69F1F530413E982DEAA4256A043022D59266E081C9528EA1C8B7",
+      "currentSha": "1F20D689525E69F1F530413E982DEAA4256A043022D59266E081C9528EA1C8B7",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MemoryRecommendation.cs",
+      "oldSha": "BBAC9F5C6F16EF7BF012A1A7F4FCF6B8B62BC382418682C8BDC496BC7DD4BFDC",
+      "currentSha": "BBAC9F5C6F16EF7BF012A1A7F4FCF6B8B62BC382418682C8BDC496BC7DD4BFDC",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MicrosoftAuthService.cs",
+      "oldSha": "3567E04E21CD8602042971966F2BF2246FA68152C9218E4C6EEE7C5307232FF8",
+      "currentSha": "3567E04E21CD8602042971966F2BF2246FA68152C9218E4C6EEE7C5307232FF8",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MicrosoftBrowserAuthorizationException.cs",
+      "oldSha": "2487EC97299ECEAEA5B58A4F69AD8F8B15755E30F2C092D93434984BDD5F63EB",
+      "currentSha": "2487EC97299ECEAEA5B58A4F69AD8F8B15755E30F2C092D93434984BDD5F63EB",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MicrosoftBrowserAuthorizationService.cs",
+      "oldSha": "2F26DDFC06421BAE81B6C46B050AE33D24E3A78469B7084CA89E693E5267CB56",
+      "currentSha": "2F26DDFC06421BAE81B6C46B050AE33D24E3A78469B7084CA89E693E5267CB56",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MicrosoftOAuthToken.cs",
+      "oldSha": "F628CDCE64D97352E0399721BCE0096F3AB9BC2A7ED43591402314A88ACA558A",
+      "currentSha": "F628CDCE64D97352E0399721BCE0096F3AB9BC2A7ED43591402314A88ACA558A",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MicrosoftReauthenticationRequiredException.cs",
+      "oldSha": "7213963059B0307DB1C2BCB0296937E136114DD1B6DD5A807A5D905A8896E935",
+      "currentSha": "7213963059B0307DB1C2BCB0296937E136114DD1B6DD5A807A5D905A8896E935",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftAccount.cs",
+      "oldSha": "A82D300886987B506DE6615AD46522594F6E5B79084914FD89B46D415FBCBC46",
+      "currentSha": "A82D300886987B506DE6615AD46522594F6E5B79084914FD89B46D415FBCBC46",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftAppearance.cs",
+      "oldSha": "B5978BCA4E53C829E6612E6046EF4B8EEDB6FCEB928425471E669332B640060D",
+      "currentSha": "B5978BCA4E53C829E6612E6046EF4B8EEDB6FCEB928425471E669332B640060D",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftAppRegistrationRequiredException.cs",
+      "oldSha": "8DFA13A5940C2EC76F5A86F02F2E157D20A7B4E1702C338F6C71E6E05C08A4D0",
+      "currentSha": "8DFA13A5940C2EC76F5A86F02F2E157D20A7B4E1702C338F6C71E6E05C08A4D0",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftDownloader.cs",
+      "oldSha": "DD8CBA613E44BBEC9DF32F363E171BB8B9D386E2D9D0BFB7903870FABD3ED2E2",
+      "currentSha": "DD8CBA613E44BBEC9DF32F363E171BB8B9D386E2D9D0BFB7903870FABD3ED2E2",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftDownloadProgress.cs",
+      "oldSha": "C1C259C047048326AEE899C097C5E83CB5C83D145FC7297627FE47AA7CEA9DDC",
+      "currentSha": "C1C259C047048326AEE899C097C5E83CB5C83D145FC7297627FE47AA7CEA9DDC",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftNewsService.cs",
+      "oldSha": "123149684D55B1E8918F913FCE5947637D0427E24BA7C146079944B1E474526F",
+      "currentSha": "123149684D55B1E8918F913FCE5947637D0427E24BA7C146079944B1E474526F",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftServerStatus.cs",
+      "oldSha": "F055CF7101447BD4B88DE57B22093F56BADF7458D2BEC96B042B7ADE9A2FD53F",
+      "currentSha": "F055CF7101447BD4B88DE57B22093F56BADF7458D2BEC96B042B7ADE9A2FD53F",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftUtils.cs",
+      "oldSha": "6DEBA3197C473CFDA8DA0E46CFD3A675210E68777C9E53D68B3CD17F362D964A",
+      "currentSha": "6DEBA3197C473CFDA8DA0E46CFD3A675210E68777C9E53D68B3CD17F362D964A",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftVersion.cs",
+      "oldSha": "F491B542C910614E23C0220C0EC4941F91089C3E09760EFAB3EA2B0717062CFB",
+      "currentSha": "F491B542C910614E23C0220C0EC4941F91089C3E09760EFAB3EA2B0717062CFB",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MirrorHelper.cs",
+      "oldSha": "2573F812FADAAA5EB5CBCBF430D8F18D839BF794CFD5BC25F1EE5CAF77364CAA",
+      "currentSha": "2573F812FADAAA5EB5CBCBF430D8F18D839BF794CFD5BC25F1EE5CAF77364CAA",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ModBisectService.cs",
+      "oldSha": "B8E0D7F73CABC337162FAB374ED65348BBF5FE65EAD5AFEF20CE037B14513E4E",
+      "currentSha": "B8E0D7F73CABC337162FAB374ED65348BBF5FE65EAD5AFEF20CE037B14513E4E",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ModContentService.cs",
+      "oldSha": "D39A5A2102049795940602D2071DAFFBF4C8A1F3DE3317705201ADC860FB55CC",
+      "currentSha": "D39A5A2102049795940602D2071DAFFBF4C8A1F3DE3317705201ADC860FB55CC",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ModHealthService.cs",
+      "oldSha": "338EE150FE5AC89CE64BB62915E7AA71D1181B491B507F01D259F11BABE0F149",
+      "currentSha": "338EE150FE5AC89CE64BB62915E7AA71D1181B491B507F01D259F11BABE0F149",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ModpackLifecycleService.cs",
+      "oldSha": "A10487F572938E44BCA054C920130157E36A663E637DA3415CBB8EEE60232E3D",
+      "currentSha": "A10487F572938E44BCA054C920130157E36A663E637DA3415CBB8EEE60232E3D",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ModReplacementService.cs",
+      "oldSha": "DA7B50B96F6D3024ED11CC3375768DD2A275B887A8A46F773F7E6753CB7ABE12",
+      "currentSha": "DA7B50B96F6D3024ED11CC3375768DD2A275B887A8A46F773F7E6753CB7ABE12",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ModrinthModpackService.cs",
+      "oldSha": "1224AE6383EDA8A9D93D5FB44B787C9C8C27C1C7300495A17594C0B8F898F519",
+      "currentSha": "1224AE6383EDA8A9D93D5FB44B787C9C8C27C1C7300495A17594C0B8F898F519",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ModSearchQueryResolver.cs",
+      "oldSha": "C5F26AB04C7866AFA03FF283F4B137BBF4B4E99C61FF6A8A3E365F70A9027A14",
+      "currentSha": "C5F26AB04C7866AFA03FF283F4B137BBF4B4E99C61FF6A8A3E365F70A9027A14",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ModService.cs",
+      "oldSha": "7464A8CF83EEE3D261C323A9985FCF19EF168E441476729A8A7C6314EE94B13F",
+      "currentSha": "7464A8CF83EEE3D261C323A9985FCF19EF168E441476729A8A7C6314EE94B13F",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/NeoForgeService.cs",
+      "oldSha": "E0312E911982C31B0D6F2A8C1342EC66884AFDE0906E5D46B317729FC0672C11",
+      "currentSha": "E0312E911982C31B0D6F2A8C1342EC66884AFDE0906E5D46B317729FC0672C11",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/NewsEndpointPolicy.cs",
+      "oldSha": "ABC47CD37DF6DA09F267AE1EC6A9CED8060158F3C808FF142D08FC2CD9AC0950",
+      "currentSha": "ABC47CD37DF6DA09F267AE1EC6A9CED8060158F3C808FF142D08FC2CD9AC0950",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/NewsImageProxyService.cs",
+      "oldSha": "3E8BBBB43A8D1FE64422FB6192C256F4DDA4541726CEEBBF9940B35CF834B73C",
+      "currentSha": "3E8BBBB43A8D1FE64422FB6192C256F4DDA4541726CEEBBF9940B35CF834B73C",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/NewsLinkService.cs",
+      "oldSha": "BE7C057FEE63A454677A92FFED516D8CB3646899BF58F1AFA304D8E09A2768AB",
+      "currentSha": "BE7C057FEE63A454677A92FFED516D8CB3646899BF58F1AFA304D8E09A2768AB",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/PlatformPaths.cs",
+      "oldSha": "BBA0F0097E6F64AABCC2DB6F183400312736A457293109F810B0DB9A144692FE",
+      "currentSha": "BBA0F0097E6F64AABCC2DB6F183400312736A457293109F810B0DB9A144692FE",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/QuiltService.cs",
+      "oldSha": "4D1354D0057F27FBED6020E8FDA31237B6DA04E2AE6AD5050CF8765B20E2CD9D",
+      "currentSha": "4D1354D0057F27FBED6020E8FDA31237B6DA04E2AE6AD5050CF8765B20E2CD9D",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ResourceContentService.cs",
+      "oldSha": "C48C947382DB681A9E7985ED39261F70A278138E667F7EC5CA5CC4A0AF2E5647",
+      "currentSha": "C48C947382DB681A9E7985ED39261F70A278138E667F7EC5CA5CC4A0AF2E5647",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ResourcePackService.cs",
+      "oldSha": "71CC058B23D9EB87E36FCE62440AFAD1184E04912641D2D1A31EADF6483093CF",
+      "currentSha": "71CC058B23D9EB87E36FCE62440AFAD1184E04912641D2D1A31EADF6483093CF",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/RulesEvaluator.cs",
+      "oldSha": "B6280682F53024B691617EB050DD5903D112B651AD979F4857BC08DB3B32D4AD",
+      "currentSha": "B6280682F53024B691617EB050DD5903D112B651AD979F4857BC08DB3B32D4AD",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/RunningInstanceRegistry.cs",
+      "oldSha": "3AF747DA7B15B5D7DD12055DA67B49EEEC2D9F08CF938D15D9F06AF7E7DA0653",
+      "currentSha": "3AF747DA7B15B5D7DD12055DA67B49EEEC2D9F08CF938D15D9F06AF7E7DA0653",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/SaveBackupService.cs",
+      "oldSha": "3C9694088CECB1C46AD0B47433F6E48CA61CF327F632D9A6536D5492E49ABABF",
+      "currentSha": "3C9694088CECB1C46AD0B47433F6E48CA61CF327F632D9A6536D5492E49ABABF",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/SaveService.cs",
+      "oldSha": "99214343B36BC9EC67582264530E6569EA23A2BBA9142B6B929A4A67E33C1EB3",
+      "currentSha": "99214343B36BC9EC67582264530E6569EA23A2BBA9142B6B929A4A67E33C1EB3",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/SecretStore.cs",
+      "oldSha": "2D130691FDCEA1F2124CF9F6BF028E6CE9CB79DBEF1E1A1DC7D74AB604DDBBCF",
+      "currentSha": "2D130691FDCEA1F2124CF9F6BF028E6CE9CB79DBEF1E1A1DC7D74AB604DDBBCF",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/SecretStoreBackend.cs",
+      "oldSha": "354ABCA5C73B210877DA0E307DF062F2495BDD799D44CAE3614A593664A94C23",
+      "currentSha": "354ABCA5C73B210877DA0E307DF062F2495BDD799D44CAE3614A593664A94C23",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ServerPingService.cs",
+      "oldSha": "4A2118BD34697535463E28142144052DEAD72BA1D0B3DB750814101C3540768B",
+      "currentSha": "4A2118BD34697535463E28142144052DEAD72BA1D0B3DB750814101C3540768B",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ShaderPackService.cs",
+      "oldSha": "873D6002646032C421611BE2D084D3AD0BEC751C9EE25CB33B87B3480CAF83C3",
+      "currentSha": "873D6002646032C421611BE2D084D3AD0BEC751C9EE25CB33B87B3480CAF83C3",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/SkinImageProxyService.cs",
+      "oldSha": "47975FAEF31CF7A4EE622EBC17EF25DED8C02810F67385DE28F7DFBE264181A5",
+      "currentSha": "47975FAEF31CF7A4EE622EBC17EF25DED8C02810F67385DE28F7DFBE264181A5",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/UpdateService.cs",
+      "oldSha": "F050172E68930AEF14802BCE7738C71F8C06D3E76F1ECE3436C6ADB81FAFB8C1",
+      "currentSha": "F050172E68930AEF14802BCE7738C71F8C06D3E76F1ECE3436C6ADB81FAFB8C1",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/VersionFilter.cs",
+      "oldSha": "6FB7699E1795693A3EF2AF5689F74B9F2C5F6C47E51ED927439EDFA87B5E492B",
+      "currentSha": "6FB7699E1795693A3EF2AF5689F74B9F2C5F6C47E51ED927439EDFA87B5E492B",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/VersionResolver.cs",
+      "oldSha": "6751BF502294EAB185EA96FDC33A7B1B3D28D32ECE8574D5101D69AD83B22ED1",
+      "currentSha": "6751BF502294EAB185EA96FDC33A7B1B3D28D32ECE8574D5101D69AD83B22ED1",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Views/Shell/WebShellWindow.axaml",
+      "oldSha": "95B3FA9DDEE6857AD251FB80FAE92AF98B9C43071EF468AAD591013100519D32",
+      "currentSha": "95B3FA9DDEE6857AD251FB80FAE92AF98B9C43071EF468AAD591013100519D32",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Views/Shell/WebShellWindow.axaml.cs",
+      "oldSha": "E055AFAA656DCA178A00F3AFC5D6B55679E66651EB67B2E4FD1CB65729FB1B66",
+      "currentSha": "E055AFAA656DCA178A00F3AFC5D6B55679E66651EB67B2E4FD1CB65729FB1B66",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher/App.axaml",
+      "oldSha": "7E96344FDC826E74BCEA5B12457D139BE16D13A157E104D19E490E7127570C9C",
+      "currentSha": "7E96344FDC826E74BCEA5B12457D139BE16D13A157E104D19E490E7127570C9C",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher/App.cs",
+      "oldSha": "4E8B9369DF3165999EEE2A99153E8AAD130E776C7BEA99BA35E251BF86934A48",
+      "currentSha": "4E8B9369DF3165999EEE2A99153E8AAD130E776C7BEA99BA35E251BF86934A48",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher/Program.cs",
+      "oldSha": "02768DD95076D5014E769D4F6F96E8429057E8D32C4F59177E608FFB4725B4B5",
+      "currentSha": "02768DD95076D5014E769D4F6F96E8429057E8D32C4F59177E608FFB4725B4B5",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Properties/AssemblyInfo.cs",
+      "oldSha": "F168DFF6D6DC2DFF33F13438E0F6F6ACDEC2D04501A6BA317CDD892411412DF1",
+      "currentSha": "F168DFF6D6DC2DFF33F13438E0F6F6ACDEC2D04501A6BA317CDD892411412DF1",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/Themes/ControlStyles.axaml",
+      "oldSha": "79C05285F0EADB500127423E52CC37603D25FBEE9E3820F6B7FEA89F4FBC807B",
+      "currentSha": "79C05285F0EADB500127423E52CC37603D25FBEE9E3820F6B7FEA89F4FBC807B",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/VerifyHost/BisectSmoke.cs",
+      "oldSha": "5638684C35B1501BDB654442576E3F4069BD2F2A9F0B74E21DE391D7C4B863D3",
+      "currentSha": "5638684C35B1501BDB654442576E3F4069BD2F2A9F0B74E21DE391D7C4B863D3",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/VerifyHost/Program.cs",
+      "oldSha": "732ABF02AE81F0AC7F208584182A599AABC7411F55FC2CDB67F2D764BCF8DC1F",
+      "currentSha": "732ABF02AE81F0AC7F208584182A599AABC7411F55FC2CDB67F2D764BCF8DC1F",
+      "status": "same"
+    },
+    {
+      "path": "dev/PineglowLauncher/VerifyHost/VerifyHost.csproj",
+      "oldSha": "79C18D1853E6C630971C965F5A36A953C65D3CCFFB19EF711BEBA373CAA6B64E",
+      "currentSha": "79C18D1853E6C630971C965F5A36A953C65D3CCFFB19EF711BEBA373CAA6B64E",
+      "status": "same"
+    },
+    {
+      "path": "docs/ai-diagnosis-plan.md",
+      "oldSha": "10F704A00023F7A841708D5B914D2D9C01C0554222276FD869447C144B486712",
+      "currentSha": "10F704A00023F7A841708D5B914D2D9C01C0554222276FD869447C144B486712",
+      "status": "same"
+    },
+    {
+      "path": "docs/ai-feature-evolution.md",
+      "oldSha": "9E2C790527276AF3C4809A40D3802C3CCE3D5C0B2204BF2FCDC2A14A194B06E4",
+      "currentSha": "9E2C790527276AF3C4809A40D3802C3CCE3D5C0B2204BF2FCDC2A14A194B06E4",
+      "status": "same"
+    },
+    {
+      "path": "docs/api-reference.md",
+      "oldSha": "A844B82B630F5E7B63CDC57B7008CA3DDD2692028125A7DD3810330A9E7DF78A",
+      "currentSha": "A844B82B630F5E7B63CDC57B7008CA3DDD2692028125A7DD3810330A9E7DF78A",
+      "status": "same"
+    },
+    {
+      "path": "docs/architecture.md",
+      "oldSha": "9BECFA865CA3DCE92E6F043FE3819270C91AF14CFBC3F7A23B661D3CAD8835FD",
+      "currentSha": "9BECFA865CA3DCE92E6F043FE3819270C91AF14CFBC3F7A23B661D3CAD8835FD",
+      "status": "same"
+    },
+    {
+      "path": "docs/archive/archive-README.md",
+      "oldSha": "D457024EEBD56AA48B1439C3D4013F83D739AB06F0A67BE6B7545B8448D186BE",
+      "currentSha": "D457024EEBD56AA48B1439C3D4013F83D739AB06F0A67BE6B7545B8448D186BE",
+      "status": "same"
+    },
+    {
+      "path": "docs/design-system.md",
+      "oldSha": "90D1C6987BED957FD28D200F0C323B85904F9887601CCA89D962A4EF98EA6583",
+      "currentSha": "90D1C6987BED957FD28D200F0C323B85904F9887601CCA89D962A4EF98EA6583",
+      "status": "same"
+    },
+    {
+      "path": "docs/development-guide.md",
+      "oldSha": "660F3B06C8AA6F7174AFC4B43DFE2A27F72ED6A3A74CA085DFD8B833AFBCF010",
+      "currentSha": "660F3B06C8AA6F7174AFC4B43DFE2A27F72ED6A3A74CA085DFD8B833AFBCF010",
+      "status": "same"
+    },
+    {
+      "path": "docs/engineering.md",
+      "oldSha": "FD491CB60E699E48CB17B9F2B3074DF64A8F3CE9B79668E9E51BC2FD0001DF08",
+      "currentSha": "FD491CB60E699E48CB17B9F2B3074DF64A8F3CE9B79668E9E51BC2FD0001DF08",
+      "status": "same"
+    },
+    {
+      "path": "docs/features.md",
+      "oldSha": "AAD685E8AF79C8AA4A49F0681FF238CEBC448471CC7D3EE7FCB7692256674CF7",
+      "currentSha": "AAD685E8AF79C8AA4A49F0681FF238CEBC448471CC7D3EE7FCB7692256674CF7",
+      "status": "same"
+    },
+    {
+      "path": "docs/README.md",
+      "oldSha": "E4009EB272971B6995993D1A3496AD67FD55439E61F791819DD850251785464A",
+      "currentSha": "E4009EB272971B6995993D1A3496AD67FD55439E61F791819DD850251785464A",
+      "status": "same"
+    },
+    {
+      "path": "docs/roadmap.md",
+      "oldSha": "C078B46B7CBB1B5B08BBBEB55ECEE64FA12E4D657E9FF7BEA6138DCDE0765358",
+      "currentSha": "C078B46B7CBB1B5B08BBBEB55ECEE64FA12E4D657E9FF7BEA6138DCDE0765358",
+      "status": "same"
+    },
+    {
+      "path": "global.json",
+      "oldSha": "1497BDA77AC26A91600F9EAA9D733BE95A970961816C63738A4AAFE1DC9C14E3",
+      "currentSha": "1497BDA77AC26A91600F9EAA9D733BE95A970961816C63738A4AAFE1DC9C14E3",
+      "status": "same"
+    },
+    {
+      "path": "LICENSE",
+      "oldSha": "3972DC9744F6499F0F9B2DBF76696F2AE7AD8AF9B23DDE66D6AF86C9DFB36986",
+      "currentSha": "3972DC9744F6499F0F9B2DBF76696F2AE7AD8AF9B23DDE66D6AF86C9DFB36986",
+      "status": "same"
+    },
+    {
+      "path": "README.md",
+      "oldSha": "088A9001E182CAD23218566DCB536757C3D52480EA5F4FE3757C3B2C62DF324A",
+      "currentSha": "088A9001E182CAD23218566DCB536757C3D52480EA5F4FE3757C3B2C62DF324A",
+      "status": "same"
+    },
+    {
+      "path": "scripts/audit-claimed-tests.ps1",
+      "oldSha": "8108172B0A7FC3D55C65945AB5E78CB667E986A4153FA779A618168A1E14C048",
+      "currentSha": "8108172B0A7FC3D55C65945AB5E78CB667E986A4153FA779A618168A1E14C048",
+      "status": "same"
+    },
+    {
+      "path": "scripts/audit-evidence-tree.ps1",
+      "oldSha": "BE90F8163A3FBC05762F2BD66DE272F9E256A4A8F813C89D891D72122D1535E0",
+      "currentSha": "BE90F8163A3FBC05762F2BD66DE272F9E256A4A8F813C89D891D72122D1535E0",
+      "status": "same"
+    },
+    {
+      "path": "scripts/audit-plan-ledger.ps1",
+      "oldSha": "92D20C6E1B243522AD88602CB2380ACE45017D9348DCA669282F6A66D9838327",
+      "currentSha": "92D20C6E1B243522AD88602CB2380ACE45017D9348DCA669282F6A66D9838327",
+      "status": "same"
+    },
+    {
+      "path": "scripts/measure-mr21.ps1",
+      "oldSha": "9863CAA171AA9021F67E8FF99E9E356907ED32A3782C058116BC7FBCC94FEAB2",
+      "currentSha": "9863CAA171AA9021F67E8FF99E9E356907ED32A3782C058116BC7FBCC94FEAB2",
+      "status": "same"
+    },
+    {
+      "path": "scripts/measure-singlefile-drivecheck.ps1",
+      "oldSha": "9356C0BBE88D2DE41131ABBC3DED35D42404E62E817BB73141B742A29AA6C843",
+      "currentSha": "9356C0BBE88D2DE41131ABBC3DED35D42404E62E817BB73141B742A29AA6C843",
+      "status": "same"
+    },
+    {
+      "path": "scripts/measure-singlefile-pathcheck.ps1",
+      "oldSha": "7EAABF2CF8236134AE521018E24931073825D7AF3B93B1CC5A5C28B2D7F93C40",
+      "currentSha": "7EAABF2CF8236134AE521018E24931073825D7AF3B93B1CC5A5C28B2D7F93C40",
+      "status": "same"
+    },
+    {
+      "path": "scripts/measure-singlefile-pathlen.ps1",
+      "oldSha": "4B9EDF440E5DB01355B0CFBBD94D61FBAF5DB1CFD930A70A41033167B74B2B95",
+      "currentSha": "4B9EDF440E5DB01355B0CFBBD94D61FBAF5DB1CFD930A70A41033167B74B2B95",
+      "status": "same"
+    },
+    {
+      "path": "scripts/measure-singlefile-repro.ps1",
+      "oldSha": "F1AD9C85DCBF8099079451862ECBFE88C3D9FDBF26209ABA8B1E583D255F3FCA",
+      "currentSha": "F1AD9C85DCBF8099079451862ECBFE88C3D9FDBF26209ABA8B1E583D255F3FCA",
+      "status": "same"
+    },
+    {
+      "path": "scripts/mirror-gitee.mjs",
+      "oldSha": "EF36A7BD5D43650BD4E2C903FA62A12A325517E4C4AB053D2EF96FC8EAEA44D1",
+      "currentSha": "EF36A7BD5D43650BD4E2C903FA62A12A325517E4C4AB053D2EF96FC8EAEA44D1",
+      "status": "same"
+    },
+    {
+      "path": "scripts/repair-evidence-manifests.ps1",
+      "oldSha": "0D7C39A749CA58317AFF53C8F78BA0FDA78A748775D89423299F2651BB2D5A23",
+      "currentSha": "0D7C39A749CA58317AFF53C8F78BA0FDA78A748775D89423299F2651BB2D5A23",
+      "status": "same"
+    },
+    {
+      "path": "scripts/run-diagnostic-benchmark.ps1",
+      "oldSha": "44B7E0EA13A96D905D88DF3EEDDE41FC62ED36D222B6625E38D106533E30726E",
+      "currentSha": "44B7E0EA13A96D905D88DF3EEDDE41FC62ED36D222B6625E38D106533E30726E",
+      "status": "same"
+    },
+    {
+      "path": "scripts/source-snapshot-inputs.txt",
+      "oldSha": "8EC200AF52608943E6278B21C78624507748A83D3F500C21CBD00EBE17A1CB37",
+      "currentSha": "6EAEB9758ACF8A3A12FA4E653BB722462DA5731EDB5C49A4E4D29393FE51A747",
+      "status": "changed"
+    },
+    {
+      "path": "scripts/verify-mg0.ps1",
+      "oldSha": "0E3B02B28C7720555358A60D2434150E60B2AC9733824B396926D5471B497154",
+      "currentSha": "0E3B02B28C7720555358A60D2434150E60B2AC9733824B396926D5471B497154",
+      "status": "same"
+    },
+    {
+      "path": "scripts/verify-mg1.ps1",
+      "oldSha": "BD49A473078F358DF8C6BD4A72827516B1F56E966357CE6CABF8B16C137652D6",
+      "currentSha": "BD49A473078F358DF8C6BD4A72827516B1F56E966357CE6CABF8B16C137652D6",
+      "status": "same"
+    },
+    {
+      "path": "scripts/verify-mg2.ps1",
+      "oldSha": "7276D04CCA15A626BE669F9244BA54550B7D7AD7DD2B20AB99296CECC1CFA2DE",
+      "currentSha": "7276D04CCA15A626BE669F9244BA54550B7D7AD7DD2B20AB99296CECC1CFA2DE",
+      "status": "same"
+    },
+    {
+      "path": "scripts/verify-mg3.ps1",
+      "oldSha": "2296F5DCC4E46BB520D422D48D406CD10483940BD075D3A732C64819E9BCDF68",
+      "currentSha": "2296F5DCC4E46BB520D422D48D406CD10483940BD075D3A732C64819E9BCDF68",
+      "status": "same"
+    },
+    {
+      "path": "scripts/verify-source-snapshot.ps1",
+      "oldSha": "E3AAF2572CC47517D6C8D3383D3E924FC0B03030E61F4335AC7940B5904EEBB3",
+      "currentSha": "E3AAF2572CC47517D6C8D3383D3E924FC0B03030E61F4335AC7940B5904EEBB3",
+      "status": "same"
+    },
+    {
+      "path": "ui/css/figma.css",
+      "oldSha": "A21AFC607959315D230FAF9F169B533BAB23D5A4E74974648AD0241856257D97",
+      "currentSha": "A21AFC607959315D230FAF9F169B533BAB23D5A4E74974648AD0241856257D97",
+      "status": "same"
+    },
+    {
+      "path": "ui/index.html",
+      "oldSha": "BBC0A6196EAC6919C3364BBA3D721193ADA30C9420C4C8AE280DBA63FE07B22C",
+      "currentSha": "BBC0A6196EAC6919C3364BBA3D721193ADA30C9420C4C8AE280DBA63FE07B22C",
+      "status": "same"
+    },
+    {
+      "path": "ui/js/api.js",
+      "oldSha": "73A822E6994E1247FC4EEB81CD174249352A534E5F16B9162873A86776979B4D",
+      "currentSha": "73A822E6994E1247FC4EEB81CD174249352A534E5F16B9162873A86776979B4D",
+      "status": "same"
+    },
+    {
+      "path": "ui/js/i18n.js",
+      "oldSha": "6E0CEC1BDF39B123A6DB03F210AF6A43B7BFF1EFDBD5394B5663F9CDEBE3D69C",
+      "currentSha": "6E0CEC1BDF39B123A6DB03F210AF6A43B7BFF1EFDBD5394B5663F9CDEBE3D69C",
+      "status": "same"
+    },
+    {
+      "path": "ui/js/launcher.js",
+      "oldSha": "8FC5DB668A8A202F83D6669739E785475231FBFEC6553DCB9F3947D07927A417",
+      "currentSha": "8FC5DB668A8A202F83D6669739E785475231FBFEC6553DCB9F3947D07927A417",
+      "status": "same"
+    },
+    {
+      "path": "ui/js/skin3d.js",
+      "oldSha": "7DAEB486489FFE731D44AEEDD41A204A8A816CBE4C6AEA2030A257E16E0D7ED1",
+      "currentSha": "7DAEB486489FFE731D44AEEDD41A204A8A816CBE4C6AEA2030A257E16E0D7ED1",
+      "status": "same"
+    },
+    {
+      "path": "ui/js/skin3d-core.js",
+      "oldSha": "3852F56DFC9C178BCBCFA98F453E07A1767F254875917836D64F45F5EB287FE9",
+      "currentSha": "3852F56DFC9C178BCBCFA98F453E07A1767F254875917836D64F45F5EB287FE9",
+      "status": "same"
+    },
+    {
+      "path": "ui/tests/a11y-keyboard.test.cjs",
+      "oldSha": "81157BD9300BD0C82A046B9CD6ECBB6EE3CD3EBAC4E66E6A6D34528B8A160999",
+      "currentSha": "81157BD9300BD0C82A046B9CD6ECBB6EE3CD3EBAC4E66E6A6D34528B8A160999",
+      "status": "same"
+    },
+    {
+      "path": "ui/tests/a13-doubles-and-taborder.test.cjs",
+      "oldSha": "B79DD3F28A52FB50211927AD89FB26A55C2DB0962E39657D29A9C512D9470A3C",
+      "currentSha": "B79DD3F28A52FB50211927AD89FB26A55C2DB0962E39657D29A9C512D9470A3C",
+      "status": "same"
+    },
+    {
+      "path": "ui/tests/a6-bisect-safety-guidance.test.cjs",
+      "oldSha": "4B3146E14C0EEF68DDC82B761D9662DB1F930A9C82169AEA298DE858993EA5A7",
+      "currentSha": "4B3146E14C0EEF68DDC82B761D9662DB1F930A9C82169AEA298DE858993EA5A7",
+      "status": "same"
+    },
+    {
+      "path": "ui/tests/ai-diagnose.test.cjs",
+      "oldSha": "7A827F03A56785BF8AE8BA7CA914BC3F6D1AAEE75F97594F1B04D6AD328A71D9",
+      "currentSha": "7A827F03A56785BF8AE8BA7CA914BC3F6D1AAEE75F97594F1B04D6AD328A71D9",
+      "status": "same"
+    },
+    {
+      "path": "ui/tests/api-contract.test.cjs",
+      "oldSha": "0975643306747DB02F51241AE6B440A675346C5F8E99BBF7C8EB0896A15D2D65",
+      "currentSha": "0975643306747DB02F51241AE6B440A675346C5F8E99BBF7C8EB0896A15D2D65",
+      "status": "same"
+    },
+    {
+      "path": "ui/tests/bisect-recovery.test.cjs",
+      "oldSha": "50D9169FF38D6513E85AA4EE268D2BA4595A3F534984B702D9267DCFF47AFF66",
+      "currentSha": "50D9169FF38D6513E85AA4EE268D2BA4595A3F534984B702D9267DCFF47AFF66",
+      "status": "same"
+    },
+    {
+      "path": "ui/tests/content-icon.test.cjs",
+      "oldSha": "CD6164B925734370307BC2F3C9E248A8876B559CC2CE9D8BEDC4DC4F90B1BC88",
+      "currentSha": "CD6164B925734370307BC2F3C9E248A8876B559CC2CE9D8BEDC4DC4F90B1BC88",
+      "status": "same"
+    },
+    {
+      "path": "ui/tests/diagnostic-history.test.cjs",
+      "oldSha": "F8047A5A40F161F6BC5BDFA0ADF0C78E9F5122E4A8350F6D7DAE10658CB7020F",
+      "currentSha": "F8047A5A40F161F6BC5BDFA0ADF0C78E9F5122E4A8350F6D7DAE10658CB7020F",
+      "status": "same"
+    },
+    {
+      "path": "ui/tests/file-recovery.test.cjs",
+      "oldSha": "50B4F8A7B3C4571D58C2ECCC932DD9D0D21131CB2282144513E57A6A4E4D6FBD",
+      "currentSha": "50B4F8A7B3C4571D58C2ECCC932DD9D0D21131CB2282144513E57A6A4E4D6FBD",
+      "status": "same"
+    },
+    {
+      "path": "ui/tests/import-cancel.test.cjs",
+      "oldSha": "4B94CD67626B03B408FFD85BE4DC9496F97A210B9D7EEEBA7C91E3891A25210C",
+      "currentSha": "4B94CD67626B03B408FFD85BE4DC9496F97A210B9D7EEEBA7C91E3891A25210C",
+      "status": "same"
+    },
+    {
+      "path": "ui/tests/instance-removal.test.cjs",
+      "oldSha": "2F0AE7ECB477176A64E22263239F25CBF31A45F391487494975D89AF86621556",
+      "currentSha": "2F0AE7ECB477176A64E22263239F25CBF31A45F391487494975D89AF86621556",
+      "status": "same"
+    },
+    {
+      "path": "ui/tests/launcher-behavior.test.cjs",
+      "oldSha": "60C33214736364488EE21D8D8C517BB6370909CEE331312B349AF846869AEEB1",
+      "currentSha": "60C33214736364488EE21D8D8C517BB6370909CEE331312B349AF846869AEEB1",
+      "status": "same"
+    },
+    {
+      "path": "ui/tests/launcher-content.test.cjs",
+      "oldSha": "969A85A53FD5B3C02A0135AE954118010E3E05D65DAD93975025B2920ECB33AE",
+      "currentSha": "969A85A53FD5B3C02A0135AE954118010E3E05D65DAD93975025B2920ECB33AE",
+      "status": "same"
+    },
+    {
+      "path": "ui/tests/launcher-v3.test.cjs",
+      "oldSha": "38976F23D0CC47A8BFF159B22A3BE9FDA5E7F84ED0D75103948CBCD5B7FF75AE",
+      "currentSha": "38976F23D0CC47A8BFF159B22A3BE9FDA5E7F84ED0D75103948CBCD5B7FF75AE",
+      "status": "same"
+    },
+    {
+      "path": "ui/tests/launcher-v4.test.cjs",
+      "oldSha": "CE235CD6EA898F65119391FF4F3015165FBA6922BDEC62E139EDF53088331B28",
+      "currentSha": "CE235CD6EA898F65119391FF4F3015165FBA6922BDEC62E139EDF53088331B28",
+      "status": "same"
+    },
+    {
+      "path": "ui/tests/launcher-v5.test.cjs",
+      "oldSha": "AD7E4BBF5AAA39F9CD729D03370D7632E48EC51162FA7249E989B86EFE421A6F",
+      "currentSha": "AD7E4BBF5AAA39F9CD729D03370D7632E48EC51162FA7249E989B86EFE421A6F",
+      "status": "same"
+    },
+    {
+      "path": "ui/tests/news-behavior.test.cjs",
+      "oldSha": "44932878B9B8AB1321FDC0F2A6B3BFF6F43A383BD721F6708BE5BF4D906A8FA8",
+      "currentSha": "44932878B9B8AB1321FDC0F2A6B3BFF6F43A383BD721F6708BE5BF4D906A8FA8",
+      "status": "same"
+    },
+    {
+      "path": "ui/tests/news-link.test.cjs",
+      "oldSha": "BB760F7FBC69CAA429D02BAD3E68DCA3CB6A59DFC99D9D2E095F818CE1143EE8",
+      "currentSha": "BB760F7FBC69CAA429D02BAD3E68DCA3CB6A59DFC99D9D2E095F818CE1143EE8",
+      "status": "same"
+    },
+    {
+      "path": "ui/tests/skin3d-core.test.cjs",
+      "oldSha": "077CF4CDB657E196171E21A1E45AD4EBBB9EE2C3DC055CFCD3C7BE9077E0B246",
+      "currentSha": "077CF4CDB657E196171E21A1E45AD4EBBB9EE2C3DC055CFCD3C7BE9077E0B246",
+      "status": "same"
+    },
+    {
+      "path": "ui/tests/update-recovery.test.cjs",
+      "oldSha": "F630701CFF2E0C0C03097889A28B26C992DC81FAF375FD50763EC852B4EA26F8",
+      "currentSha": "F630701CFF2E0C0C03097889A28B26C992DC81FAF375FD50763EC852B4EA26F8",
+      "status": "same"
+    },
+    {
+      "path": "ui/vendor/README.md",
+      "oldSha": "9D4A3B1BAA6A5A10CA003283FEA15C7B4608AB501F11A75AF6180E2CA13C5F2C",
+      "currentSha": "9D4A3B1BAA6A5A10CA003283FEA15C7B4608AB501F11A75AF6180E2CA13C5F2C",
+      "status": "same"
+    },
+    {
+      "path": "ui/vendor/three.min.js",
+      "oldSha": "170C6789F43217C96B3170F4B42FAFE135DE7F7CD48497A4218F9757EE1D49FA",
+      "currentSha": "170C6789F43217C96B3170F4B42FAFE135DE7F7CD48497A4218F9757EE1D49FA",
+      "status": "same"
+    },
+    {
+      "path": "ui/vendor/THREE-LICENSE.txt",
+      "oldSha": "78396B5FE83D62267384403D46DA1009747088000DEA0C02D4ABFA4EFDC99098",
+      "currentSha": "78396B5FE83D62267384403D46DA1009747088000DEA0C02D4ABFA4EFDC99098",
+      "status": "same"
+    }
+  ]
+}

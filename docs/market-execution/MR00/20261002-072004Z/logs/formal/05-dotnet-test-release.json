@@ -1,0 +1,27 @@
+﻿{
+    "name":  "05-dotnet-test-release",
+    "command":  "dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --no-restore --logger console;verbosity=minimal",
+    "cwd":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-810a28bd0d3d456c9e28201fb6fdf158",
+    "startUtc":  "2026-10-02T07:29:51Z",
+    "endUtc":  "2026-10-02T07:30:51Z",
+    "durationSec":  60.2,
+    "exitCode":  0,
+    "status":  "PASS",
+    "logProduced":  true,
+    "verifierDefect":  false,
+    "logBytes":  6218,
+    "decodeMode":  "utf-8",
+    "stdoutPath":  "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR00\\20261002-072004Z\\logs\\formal\\05-dotnet-test-release.stdout.txt",
+    "nodeTests":  null,
+    "nodePass":  null,
+    "nodeFail":  null,
+    "nodeSkipped":  null,
+    "csPassed":  null,
+    "csFailed":  null,
+    "csSkipped":  null,
+    "csTotal":  null,
+    "buildErrors":  null,
+    "expectHits":  [
+
+                   ]
+}

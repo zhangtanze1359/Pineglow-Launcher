@@ -1,0 +1,36 @@
+{
+    "schemaVersion":  1,
+    "id":  "g4-audit-strict",
+    "runId":  "20261003-092612Z-b4d896a8-seal",
+    "fingerprint":  "6A52BB5B34D8C13857C885DB578809DB028F3C813C65C9203B015BC9AABE7A74",
+    "inputManifestSha256":  "38ECBCAEFC772AF54A1E804994E05F97357BD53FAD37C9D1A63C218C5CE9C4A6",
+    "command":  "python -X utf8 scripts/audit-goal-evidence.py --expected C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8/g0/expected-evidence-final.json --out C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8/final-audit-outside-package.json",
+    "workingDirectory":  "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\FINAL-LOCAL-QUALITY\\20261003-092612Z-b4d896a8",
+    "startUtc":  "2026-10-03T11:32:45Z",
+    "endUtc":  "2026-10-03T11:32:46Z",
+    "exitCode":  2,
+    "timedOut":  false,
+    "stillRunning":  false,
+    "counters":  null,
+    "trx":  "",
+    "artifacts":  [
+
+                  ],
+    "rawEvidence":  [
+                        {
+                            "path":  "g4-audit-strict.stdout.log",
+                            "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                            "sizeBytes":  0
+                        },
+                        {
+                            "path":  "g4-audit-strict.stderr.log",
+                            "sha256":  "5E9332975F0FAF0C551E9F69F558DA861BF18DAF3C3320C749696453DEB01FFD",
+                            "sizeBytes":  349
+                        }
+                    ],
+    "reasons":  [
+                    "EXIT_NONZERO"
+                ],
+    "status":  "FAILED",
+    "reused":  false
+}

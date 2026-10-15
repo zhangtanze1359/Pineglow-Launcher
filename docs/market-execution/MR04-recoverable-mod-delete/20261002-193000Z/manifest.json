@@ -1,0 +1,101 @@
+﻿{
+    "runId":  "20261002-193000Z",
+    "task":  "MR04 Mod 删除改为可恢复隔离",
+    "generatedUtc":  "2026-10-02T19:45:13Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "result":  {
+                   "csharp":  "11 passed / 0 failed (before implementation: 6 failed / 4 passed)",
+                   "node":  "7 passed / 0 failed",
+                   "csharpFull":  "646 passed / 0 failed",
+                   "nodeFull":  "198 passed / 0 failed (13 files)",
+                   "bisectSmoke":  "exit 0",
+                   "gitStatus":  "1292 -\u003e 1297 (+5: 4 new files, ModService.cs newly modified)"
+               },
+    "contract":  {
+                     "deleteNoLongerPhysical":  "jar + sidecar moved to recovery root, returns operationId",
+                     "restore":  "per-file state; idempotent; conflict does not overwrite",
+                     "recordWrittenBeforeMove":  true,
+                     "crossVolumeFallback":  "copy -\u003e SHA256 verify -\u003e delete source (verified across real C:/D: volumes)",
+                     "retentionDays":  30,
+                     "refuses":  "paths outside game dir; reparse points; unknown operation id"
+                 },
+    "knownGaps":  [
+                      "真实 GUI / WebView2 未验证（删除入口与恢复区面板均未在界面上跑过）",
+                      "符号链接/重解析点拒绝已实现但无测试覆盖（Windows 创建符号链接需特权）",
+                      "保留期只提示、不自动清理；UI 未展示过期提示",
+                      "磁盘不足与文件占用只有代码路径，没有真实构造用例",
+                      "BOM 检测器一度误判，已用会话前 MR00 快照做字节真值纠正（详见 deliverable §五.3）"
+                  ],
+    "bomNormalized":  {
+                          "note":  "edit 工具会剥离 BOM；已按会话前 MR00 快照逐文件归一",
+                          "hadBomBeforeSession":  [
+                                                      "dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.cs"
+                                                  ],
+                          "noBomBeforeSession":  [
+                                                     "ui/js/api.js",
+                                                     "ui/js/i18n.js",
+                                                     "ui/js/launcher.js",
+                                                     "ui/css/figma.css",
+                                                     "docs/api-reference.md",
+                                                     "dev/PineglowLauncher/Pineglow.Launcher.Services/ModService.cs"
+                                                 ]
+                      },
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "D005C29626C2C79C1121D96AD51B9C0E028FBADCD4CFEC9160EC16F5D45CEDA6",
+                      "sizeBytes":  13363
+                  },
+                  {
+                      "path":  "green/02-file-recovery-after.log",
+                      "sha256":  "47DD644EAD758F892EDB241EB61C34B3DD6EAC385EFBBFD70C09B7FE68649200",
+                      "sizeBytes":  15920
+                  },
+                  {
+                      "path":  "green/03-node-file-recovery.log",
+                      "sha256":  "FF1E2611AD51DEBC44C4A9CD9293A6DC43B9BB81EFC20132292979D41070BEB1",
+                      "sizeBytes":  1062
+                  },
+                  {
+                      "path":  "green/04-csharp-full.log",
+                      "sha256":  "917D127317CA93DD9866497BA0CB46275B8ED4DBE5D566F0E42D3B6F356632D6",
+                      "sizeBytes":  652
+                  },
+                  {
+                      "path":  "green/05-node-full.log",
+                      "sha256":  "E913FF1763953C75CF3A74B91CD684F250EA39967EB3D22EFB77CCEAC8CDAD21",
+                      "sizeBytes":  20896
+                  },
+                  {
+                      "path":  "green/06-bisect-smoke.log",
+                      "sha256":  "ACAEF3616E4F496056FBFA2A501071150E3897FB9E4CC6D0A79C34C65514B5CF",
+                      "sizeBytes":  653
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "A3AC560A8AFF24D3325F94665B2743DAD33F229C81069D16E69E062677B195C6",
+                      "sizeBytes":  1391
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "DE2984E7278C70BF25216A6B053D6CF9158F911952AA5F13E6253B14E4377C06",
+                      "sizeBytes":  113173
+                  },
+                  {
+                      "path":  "green/LocalApiService.cs.mr04",
+                      "sha256":  "BC328E5E19D4073748EE66075A58DCCDF7A6A50706743A8B10536B614A4E806F",
+                      "sizeBytes":  145761
+                  },
+                  {
+                      "path":  "green/LocalApiService.cs.mr04.sha256.txt",
+                      "sha256":  "3B4F2600904446610C2AF31CA7A7A440B32588A392CC1F7BFCF14B0D2BF55228",
+                      "sizeBytes":  69
+                  },
+                  {
+                      "path":  "red/01-file-recovery-before.log",
+                      "sha256":  "B58068AAF616EB4A94B40E9CCE068C4FD5332551CD4FCA2E3C67BB0309D65074",
+                      "sizeBytes":  29606
+                  }
+              ]
+}

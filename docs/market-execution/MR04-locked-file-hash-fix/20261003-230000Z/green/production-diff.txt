@@ -1,0 +1,457 @@
+﻿@{InputObject=		// A16 修复（MR04 范围）：哈希阶段也会因文件被占用/只读而抛出。; SideIndicator==>}
+@{InputObject=		entry.Sha256 = HashFile(entry.OriginalPath);; SideIndicator=<=}
+@{InputObject=		// 修复前这里没有任何保护，异常会直接冲出 QuarantineAsync，; SideIndicator==>}
+@{InputObject=		entry.SizeBytes = new FileInfo(entry.OriginalPath).Length;; SideIndicator=<=}
+@{InputObject=		// 与 MR04 报告所述"走 IOException 回退并逐项报错"不符（那只覆盖了下面的移动阶段）。; SideIndicator==>}
+@{InputObject=; SideIndicator=<=}
+@{InputObject=		// 现在与移动阶段用同一组异常类型，失败时逐项记录，而不是让整次操作炸掉。; SideIndicator==>}
+@{InputObject=		string stored = Path.Combine(filesDir, entry.RelativePath);; SideIndicator=<=}
+@{InputObject=			entry.Sha256 = HashFile(entry.OriginalPath);; SideIndicator==>}
+@{InputObject=		string? storedDir = Path.GetDirectoryName(stored);; SideIndicator=<=}
+@{InputObject=			entry.SizeBytes = new FileInfo(entry.OriginalPath).Length;; SideIndicator==>}
+@{InputObject=		if (!string.IsNullOrEmpty(storedDir)); SideIndicator=<=}
+@{InputObject=			entry.State = "failed";; SideIndicator==>}
+@{InputObject=			File.Move(entry.OriginalPath, stored);; SideIndicator=<=}
+@{InputObject=			entry.Error = "无法读取文件（可能被占用或只读）：" + ex.Message;; SideIndicator==>}
+@{InputObject=			entry.StoredPath = stored;; SideIndicator=<=}
+@{InputObject=		string stored = Path.Combine(filesDir, entry.RelativePath);; SideIndicator==>}
+@{InputObject=			entry.State = "quarantined";; SideIndicator=<=}
+@{InputObject=		string? storedDir = Path.GetDirectoryName(stored);; SideIndicator==>}
+@{InputObject=			// 常见原因：跨卷、被占用、只读。退化为「复制 → 校验 → 删源」。; SideIndicator=<=}
+@{InputObject=		if (!string.IsNullOrEmpty(storedDir)); SideIndicator==>}
+@{InputObject=			return CopyThenRemove(entry, stored, ex);; SideIndicator=<=}
+@{InputObject=			File.Move(entry.OriginalPath, stored);; SideIndicator==>}
+@{InputObject=	}; SideIndicator=<=}
+@{InputObject=			entry.StoredPath = stored;; SideIndicator==>}
+@{InputObject=	private static FileRecoveryEntry CopyThenRemove(FileRecoveryEntry entry, string stored, Exception moveError); SideIndicator=<=}
+@{InputObject=			entry.State = "quarantined";; SideIndicator==>}
+@{InputObject=	{; SideIndicator=<=}
+@{InputObject=			return entry;; SideIndicator==>}
+@{InputObject=			File.Copy(entry.OriginalPath, stored, overwrite: false);; SideIndicator=<=}
+@{InputObject=		}; SideIndicator==>}
+@{InputObject=			string copiedSha = HashFile(stored);; SideIndicator=<=}
+@{InputObject=		catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException); SideIndicator==>}
+@{InputObject=			if (!string.Equals(copiedSha, entry.Sha256, StringComparison.OrdinalIgnoreCase)); SideIndicator=<=}
+@{InputObject=		{; SideIndicator==>}
+@{InputObject=			{; SideIndicator=<=}
+@{InputObject=			// 常见原因：跨卷、被占用、只读。退化为「复制 → 校验 → 删源」。; SideIndicator==>}
+@{InputObject=				TryDelete(stored);; SideIndicator=<=}
+@{InputObject=			return CopyThenRemove(entry, stored, ex);; SideIndicator==>}
+@{InputObject=				entry.State = "failed";; SideIndicator=<=}
+@{InputObject=		}; SideIndicator==>}
+@{InputObject=				entry.Error = "复制后 SHA256 校验不通过：" + moveError.Message;; SideIndicator=<=}
+@{InputObject=	}; SideIndicator==>}
+@{InputObject=				return entry;; SideIndicator=<=}
+@{InputObject=	private static FileRecoveryEntry CopyThenRemove(FileRecoveryEntry entry, string stored, Exception moveError); SideIndicator==>}
+@{InputObject=			}; SideIndicator=<=}
+@{InputObject=	{; SideIndicator==>}
+@{InputObject=			File.Delete(entry.OriginalPath);; SideIndicator=<=}
+@{InputObject=		try; SideIndicator==>}
+@{InputObject=			entry.StoredPath = stored;; SideIndicator=<=}
+@{InputObject=			File.Copy(entry.OriginalPath, stored, overwrite: false);; SideIndicator==>}
+@{InputObject=			entry.State = "quarantined";; SideIndicator=<=}
+@{InputObject=			string copiedSha = HashFile(stored);; SideIndicator==>}
+@{InputObject=			return entry;; SideIndicator=<=}
+@{InputObject=			if (!string.Equals(copiedSha, entry.Sha256, StringComparison.OrdinalIgnoreCase)); SideIndicator==>}
+@{InputObject=		}; SideIndicator=<=}
+@{InputObject=			{; SideIndicator==>}
+@{InputObject=		catch (Exception ex); SideIndicator=<=}
+@{InputObject=				TryDelete(stored);; SideIndicator==>}
+@{InputObject=			// 源文件必须保留：宁可失败，也不能让它凭空消失。; SideIndicator=<=}
+@{InputObject=				entry.State = "failed";; SideIndicator==>}
+@{InputObject=			TryDelete(stored);; SideIndicator=<=}
+@{InputObject=				entry.Error = "复制后 SHA256 校验不通过：" + moveError.Message;; SideIndicator==>}
+@{InputObject=			entry.State = "failed";; SideIndicator=<=}
+@{InputObject=				return entry;; SideIndicator==>}
+@{InputObject=			entry.Error = ex.Message;; SideIndicator=<=}
+@{InputObject=			}; SideIndicator==>}
+@{InputObject=	}; SideIndicator=<=}
+@{InputObject=			File.Delete(entry.OriginalPath);; SideIndicator==>}
+@{InputObject=	/* ===================== 恢复 ===================== */; SideIndicator=<=}
+@{InputObject=			entry.StoredPath = stored;; SideIndicator==>}
+@{InputObject=; SideIndicator=<=}
+@{InputObject=			entry.State = "quarantined";; SideIndicator==>}
+@{InputObject=	/// <summary>; SideIndicator=<=}
+@{InputObject=		catch (Exception ex); SideIndicator==>}
+@{InputObject=	/// 把记录中的文件恢复到原位置，返回更新后的逐文件结果。; SideIndicator=<=}
+@{InputObject=		{; SideIndicator==>}
+@{InputObject=	/// 默认不覆盖同名现有文件；重复恢复是幂等的。; SideIndicator=<=}
+@{InputObject=			// 源文件必须保留：宁可失败，也不能让它凭空消失。; SideIndicator==>}
+@{InputObject=	/// </summary>; SideIndicator=<=}
+@{InputObject=			TryDelete(stored);; SideIndicator==>}
+@{InputObject=	public async Task<FileRecoveryRecord> RestoreAsync(FileRecoveryRecord record, bool overwrite = false); SideIndicator=<=}
+@{InputObject=			entry.State = "failed";; SideIndicator==>}
+@{InputObject=	{; SideIndicator=<=}
+@{InputObject=			entry.Error = ex.Message;; SideIndicator==>}
+@{InputObject=		string operationDir = GetOperationDirectory(record.InstanceId, record.OperationId);; SideIndicator=<=}
+@{InputObject=			return entry;; SideIndicator==>}
+@{InputObject=		string fullGameDir = SafeFullPath(record.GameDirectory);; SideIndicator=<=}
+@{InputObject=	}; SideIndicator==>}
+@{InputObject=		foreach (FileRecoveryEntry entry in record.Files); SideIndicator=<=}
+@{InputObject=	/* ===================== 恢复 ===================== */; SideIndicator==>}
+@{InputObject=		{; SideIndicator=<=}
+@{InputObject=	/// <summary>; SideIndicator==>}
+@{InputObject=			RestoreOne(entry, fullGameDir, overwrite);; SideIndicator=<=}
+@{InputObject=	/// 把记录中的文件恢复到原位置，返回更新后的逐文件结果。; SideIndicator==>}
+@{InputObject=		int restored = record.Files.Count(x => x.State == "restored" || x.State == "already_restored");; SideIndicator=<=}
+@{InputObject=	/// 默认不覆盖同名现有文件；重复恢复是幂等的。; SideIndicator==>}
+@{InputObject=		bool anyConflict = record.Files.Any(x => x.State == "conflict");; SideIndicator=<=}
+@{InputObject=	/// </summary>; SideIndicator==>}
+@{InputObject=		record.Status = restored == record.Files.Count; SideIndicator=<=}
+@{InputObject=	public async Task<FileRecoveryRecord> RestoreAsync(FileRecoveryRecord record, bool overwrite = false); SideIndicator==>}
+@{InputObject=			? "restored"; SideIndicator=<=}
+@{InputObject=	{; SideIndicator==>}
+@{InputObject=			: (anyConflict ? "conflict" : "partial");; SideIndicator=<=}
+@{InputObject=		string operationDir = GetOperationDirectory(record.InstanceId, record.OperationId);; SideIndicator==>}
+@{InputObject=		await WriteRecordAsync(operationDir, record).ConfigureAwait(false);; SideIndicator=<=}
+@{InputObject=		string fullGameDir = SafeFullPath(record.GameDirectory);; SideIndicator==>}
+@{InputObject=		return record;; SideIndicator=<=}
+@{InputObject=		foreach (FileRecoveryEntry entry in record.Files); SideIndicator==>}
+@{InputObject=	}; SideIndicator=<=}
+@{InputObject=			RestoreOne(entry, fullGameDir, overwrite);; SideIndicator==>}
+@{InputObject=	private static void RestoreOne(FileRecoveryEntry entry, string fullGameDir, bool overwrite); SideIndicator=<=}
+@{InputObject=		}; SideIndicator==>}
+@{InputObject=	{; SideIndicator=<=}
+@{InputObject=		int restored = record.Files.Count(x => x.State == "restored" || x.State == "already_restored");; SideIndicator==>}
+@{InputObject=		entry.Error = null;; SideIndicator=<=}
+@{InputObject=		bool anyConflict = record.Files.Any(x => x.State == "conflict");; SideIndicator==>}
+@{InputObject=		if (string.IsNullOrWhiteSpace(fullGameDir)); SideIndicator=<=}
+@{InputObject=		record.Status = restored == record.Files.Count; SideIndicator==>}
+@{InputObject=			entry.State = "failed";; SideIndicator=<=}
+@{InputObject=			? "restored"; SideIndicator==>}
+@{InputObject=			entry.Error = "记录中的游戏目录无效";; SideIndicator=<=}
+@{InputObject=			: (anyConflict ? "conflict" : "partial");; SideIndicator==>}
+@{InputObject=			return;; SideIndicator=<=}
+@{InputObject=		await WriteRecordAsync(operationDir, record).ConfigureAwait(false);; SideIndicator==>}
+@{InputObject=		}; SideIndicator=<=}
+@{InputObject=		return record;; SideIndicator==>}
+@{InputObject=		if (!IsPathInside(fullGameDir, entry.OriginalPath)); SideIndicator=<=}
+@{InputObject=	}; SideIndicator==>}
+@{InputObject=			entry.Error = "恢复目标越界，拒绝写入";; SideIndicator=<=}
+@{InputObject=	private static void RestoreOne(FileRecoveryEntry entry, string fullGameDir, bool overwrite); SideIndicator==>}
+@{InputObject=		// 先看原位置：上一次恢复已经把文件放回去时，隔离副本自然已经不在了，; SideIndicator=<=}
+@{InputObject=	{; SideIndicator==>}
+@{InputObject=		// 这属于幂等成功，不能报成"隔离副本不存在"的失败。; SideIndicator=<=}
+@{InputObject=		entry.Error = null;; SideIndicator==>}
+@{InputObject=		if (File.Exists(entry.OriginalPath)); SideIndicator=<=}
+@{InputObject=		if (string.IsNullOrWhiteSpace(fullGameDir)); SideIndicator==>}
+@{InputObject=			string existingSha = HashFile(entry.OriginalPath);; SideIndicator=<=}
+@{InputObject=			entry.Error = "记录中的游戏目录无效";; SideIndicator==>}
+@{InputObject=			if (string.Equals(existingSha, entry.Sha256, StringComparison.OrdinalIgnoreCase)); SideIndicator=<=}
+@{InputObject=		if (!IsPathInside(fullGameDir, entry.OriginalPath)); SideIndicator==>}
+@{InputObject=			{; SideIndicator=<=}
+@{InputObject=			entry.State = "failed";; SideIndicator==>}
+@{InputObject=				if (!string.IsNullOrWhiteSpace(entry.StoredPath)); SideIndicator=<=}
+@{InputObject=			entry.Error = "恢复目标越界，拒绝写入";; SideIndicator==>}
+@{InputObject=				{; SideIndicator=<=}
+@{InputObject=			return;; SideIndicator==>}
+@{InputObject=					TryDelete(entry.StoredPath);; SideIndicator=<=}
+@{InputObject=		}; SideIndicator==>}
+@{InputObject=				}; SideIndicator=<=}
+@{InputObject=		// 先看原位置：上一次恢复已经把文件放回去时，隔离副本自然已经不在了，; SideIndicator==>}
+@{InputObject=				entry.State = "already_restored";; SideIndicator=<=}
+@{InputObject=		// 这属于幂等成功，不能报成"隔离副本不存在"的失败。; SideIndicator==>}
+@{InputObject=				return;; SideIndicator=<=}
+@{InputObject=		if (File.Exists(entry.OriginalPath)); SideIndicator==>}
+@{InputObject=			}; SideIndicator=<=}
+@{InputObject=		{; SideIndicator==>}
+@{InputObject=			if (!overwrite); SideIndicator=<=}
+@{InputObject=			string existingSha = HashFile(entry.OriginalPath);; SideIndicator==>}
+@{InputObject=				entry.State = "conflict";; SideIndicator=<=}
+@{InputObject=			if (string.Equals(existingSha, entry.Sha256, StringComparison.OrdinalIgnoreCase)); SideIndicator==>}
+@{InputObject=				entry.Error = "目标位置已有同名文件且内容不同，默认不覆盖";; SideIndicator=<=}
+@{InputObject=				if (!string.IsNullOrWhiteSpace(entry.StoredPath)); SideIndicator==>}
+@{InputObject=		}; SideIndicator=<=}
+@{InputObject=				{; SideIndicator==>}
+@{InputObject=		if (string.IsNullOrWhiteSpace(entry.StoredPath) || !File.Exists(entry.StoredPath)); SideIndicator=<=}
+@{InputObject=					TryDelete(entry.StoredPath);; SideIndicator==>}
+@{InputObject=		{; SideIndicator=<=}
+@{InputObject=				}; SideIndicator==>}
+@{InputObject=			entry.State = "failed";; SideIndicator=<=}
+@{InputObject=				entry.State = "already_restored";; SideIndicator==>}
+@{InputObject=			entry.Error = "隔离副本不存在，无法恢复";; SideIndicator=<=}
+@{InputObject=			if (!overwrite); SideIndicator==>}
+@{InputObject=			return;; SideIndicator=<=}
+@{InputObject=			{; SideIndicator==>}
+@{InputObject=		}; SideIndicator=<=}
+@{InputObject=				entry.State = "conflict";; SideIndicator==>}
+@{InputObject=		string? targetDir = Path.GetDirectoryName(entry.OriginalPath);; SideIndicator=<=}
+@{InputObject=				entry.Error = "目标位置已有同名文件且内容不同，默认不覆盖";; SideIndicator==>}
+@{InputObject=		if (!string.IsNullOrEmpty(targetDir)); SideIndicator=<=}
+@{InputObject=				return;; SideIndicator==>}
+@{InputObject=		{; SideIndicator=<=}
+@{InputObject=			}; SideIndicator==>}
+@{InputObject=			Directory.CreateDirectory(targetDir);; SideIndicator=<=}
+@{InputObject=		if (string.IsNullOrWhiteSpace(entry.StoredPath) || !File.Exists(entry.StoredPath)); SideIndicator==>}
+@{InputObject=		try; SideIndicator=<=}
+@{InputObject=			entry.State = "failed";; SideIndicator==>}
+@{InputObject=			File.Move(entry.StoredPath, entry.OriginalPath);; SideIndicator=<=}
+@{InputObject=			entry.Error = "隔离副本不存在，无法恢复";; SideIndicator==>}
+@{InputObject=		catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException); SideIndicator=<=}
+@{InputObject=			return;; SideIndicator==>}
+@{InputObject=			try; SideIndicator=<=}
+@{InputObject=; SideIndicator==>}
+@{InputObject=			{; SideIndicator=<=}
+@{InputObject=		string? targetDir = Path.GetDirectoryName(entry.OriginalPath);; SideIndicator==>}
+@{InputObject=				File.Copy(entry.StoredPath, entry.OriginalPath, overwrite: true);; SideIndicator=<=}
+@{InputObject=		if (!string.IsNullOrEmpty(targetDir)); SideIndicator==>}
+@{InputObject=				string copiedSha = HashFile(entry.OriginalPath);; SideIndicator=<=}
+@{InputObject=			Directory.CreateDirectory(targetDir);; SideIndicator==>}
+@{InputObject=				if (!string.Equals(copiedSha, entry.Sha256, StringComparison.OrdinalIgnoreCase)); SideIndicator=<=}
+@{InputObject=		}; SideIndicator==>}
+@{InputObject=				{; SideIndicator=<=}
+@{InputObject=		try; SideIndicator==>}
+@{InputObject=					TryDelete(entry.OriginalPath);; SideIndicator=<=}
+@{InputObject=		{; SideIndicator==>}
+@{InputObject=					entry.State = "failed";; SideIndicator=<=}
+@{InputObject=			File.Move(entry.StoredPath, entry.OriginalPath);; SideIndicator==>}
+@{InputObject=					entry.Error = "恢复后 SHA256 校验不通过：" + ex.Message;; SideIndicator=<=}
+@{InputObject=		}; SideIndicator==>}
+@{InputObject=					return;; SideIndicator=<=}
+@{InputObject=		catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException); SideIndicator==>}
+@{InputObject=				}; SideIndicator=<=}
+@{InputObject=		{; SideIndicator==>}
+@{InputObject=				File.Delete(entry.StoredPath);; SideIndicator=<=}
+@{InputObject=			try; SideIndicator==>}
+@{InputObject=			}; SideIndicator=<=}
+@{InputObject=				File.Copy(entry.StoredPath, entry.OriginalPath, overwrite: true);; SideIndicator==>}
+@{InputObject=			catch (Exception copyEx); SideIndicator=<=}
+@{InputObject=				string copiedSha = HashFile(entry.OriginalPath);; SideIndicator==>}
+@{InputObject=				entry.State = "failed";; SideIndicator=<=}
+@{InputObject=				if (!string.Equals(copiedSha, entry.Sha256, StringComparison.OrdinalIgnoreCase)); SideIndicator==>}
+@{InputObject=				entry.Error = copyEx.Message;; SideIndicator=<=}
+@{InputObject=				{; SideIndicator==>}
+@{InputObject=				return;; SideIndicator=<=}
+@{InputObject=					TryDelete(entry.OriginalPath);; SideIndicator==>}
+@{InputObject=			}; SideIndicator=<=}
+@{InputObject=					entry.State = "failed";; SideIndicator==>}
+@{InputObject=		}; SideIndicator=<=}
+@{InputObject=					entry.Error = "恢复后 SHA256 校验不通过：" + ex.Message;; SideIndicator==>}
+@{InputObject=		string finalSha = HashFile(entry.OriginalPath);; SideIndicator=<=}
+@{InputObject=					return;; SideIndicator==>}
+@{InputObject=		if (!string.Equals(finalSha, entry.Sha256, StringComparison.OrdinalIgnoreCase)); SideIndicator=<=}
+@{InputObject=				}; SideIndicator==>}
+@{InputObject=		{; SideIndicator=<=}
+@{InputObject=				File.Delete(entry.StoredPath);; SideIndicator==>}
+@{InputObject=			entry.State = "failed";; SideIndicator=<=}
+@{InputObject=			}; SideIndicator==>}
+@{InputObject=			entry.Error = "恢复完成但 SHA256 与隔离前不一致";; SideIndicator=<=}
+@{InputObject=			catch (Exception copyEx); SideIndicator==>}
+@{InputObject=			return;; SideIndicator=<=}
+@{InputObject=			{; SideIndicator==>}
+@{InputObject=; SideIndicator=<=}
+@{InputObject=				entry.State = "failed";; SideIndicator==>}
+@{InputObject=		entry.State = "restored";; SideIndicator=<=}
+@{InputObject=				entry.Error = copyEx.Message;; SideIndicator==>}
+@{InputObject=	}; SideIndicator=<=}
+@{InputObject=				return;; SideIndicator==>}
+@{InputObject=; SideIndicator=<=}
+@{InputObject=			}; SideIndicator==>}
+@{InputObject=	/* ===================== 查询 ===================== */; SideIndicator=<=}
+@{InputObject=		string finalSha = HashFile(entry.OriginalPath);; SideIndicator==>}
+@{InputObject=	/// <summary>列出某实例的全部恢复记录，按时间倒序。损坏或缺失的记录会被跳过。</summary>; SideIndicator=<=}
+@{InputObject=		if (!string.Equals(finalSha, entry.Sha256, StringComparison.OrdinalIgnoreCase)); SideIndicator==>}
+@{InputObject=	public Task<List<FileRecoveryRecord>> ListAsync(string instanceId); SideIndicator=<=}
+@{InputObject=			entry.State = "failed";; SideIndicator==>}
+@{InputObject=	{; SideIndicator=<=}
+@{InputObject=			entry.Error = "恢复完成但 SHA256 与隔离前不一致";; SideIndicator==>}
+@{InputObject=		var list = new List<FileRecoveryRecord>();; SideIndicator=<=}
+@{InputObject=			return;; SideIndicator==>}
+@{InputObject=		string instanceDir = GetInstanceDirectory(instanceId);; SideIndicator=<=}
+@{InputObject=		entry.State = "restored";; SideIndicator==>}
+@{InputObject=		if (!Directory.Exists(instanceDir)); SideIndicator=<=}
+@{InputObject=	}; SideIndicator==>}
+@{InputObject=			return Task.FromResult(list);; SideIndicator=<=}
+@{InputObject=; SideIndicator==>}
+@{InputObject=		foreach (string dir in Directory.EnumerateDirectories(instanceDir)); SideIndicator=<=}
+@{InputObject=	/* ===================== 查询 ===================== */; SideIndicator==>}
+@{InputObject=		{; SideIndicator=<=}
+@{InputObject=	/// <summary>列出某实例的全部恢复记录，按时间倒序。损坏或缺失的记录会被跳过。</summary>; SideIndicator==>}
+@{InputObject=			string recordPath = Path.Combine(dir, "record.json");; SideIndicator=<=}
+@{InputObject=	public Task<List<FileRecoveryRecord>> ListAsync(string instanceId); SideIndicator==>}
+@{InputObject=			if (!File.Exists(recordPath)); SideIndicator=<=}
+@{InputObject=	{; SideIndicator==>}
+@{InputObject=			{; SideIndicator=<=}
+@{InputObject=		var list = new List<FileRecoveryRecord>();; SideIndicator==>}
+@{InputObject=				continue;; SideIndicator=<=}
+@{InputObject=		string instanceDir = GetInstanceDirectory(instanceId);; SideIndicator==>}
+@{InputObject=			}; SideIndicator=<=}
+@{InputObject=		if (!Directory.Exists(instanceDir)); SideIndicator==>}
+@{InputObject=			try; SideIndicator=<=}
+@{InputObject=		{; SideIndicator==>}
+@{InputObject=			{; SideIndicator=<=}
+@{InputObject=			return Task.FromResult(list);; SideIndicator==>}
+@{InputObject=				FileRecoveryRecord? record = JsonSerializer.Deserialize<FileRecoveryRecord>(; SideIndicator=<=}
+@{InputObject=		}; SideIndicator==>}
+@{InputObject=					File.ReadAllText(recordPath), RecordJsonOptions);; SideIndicator=<=}
+@{InputObject=; SideIndicator==>}
+@{InputObject=				if (record != null); SideIndicator=<=}
+@{InputObject=		foreach (string dir in Directory.EnumerateDirectories(instanceDir)); SideIndicator==>}
+@{InputObject=				{; SideIndicator=<=}
+@{InputObject=		{; SideIndicator==>}
+@{InputObject=					list.Add(record);; SideIndicator=<=}
+@{InputObject=			string recordPath = Path.Combine(dir, "record.json");; SideIndicator==>}
+@{InputObject=				}; SideIndicator=<=}
+@{InputObject=			if (!File.Exists(recordPath)); SideIndicator==>}
+@{InputObject=			catch; SideIndicator=<=}
+@{InputObject=				continue;; SideIndicator==>}
+@{InputObject=				// 记录不可读时跳过，不伪装成一条可用记录。; SideIndicator=<=}
+@{InputObject=			try; SideIndicator==>}
+@{InputObject=			}; SideIndicator=<=}
+@{InputObject=			{; SideIndicator==>}
+@{InputObject=		}; SideIndicator=<=}
+@{InputObject=				FileRecoveryRecord? record = JsonSerializer.Deserialize<FileRecoveryRecord>(; SideIndicator==>}
+@{InputObject=		return Task.FromResult(list.OrderByDescending(x => x.CreatedAt).ToList());; SideIndicator=<=}
+@{InputObject=					File.ReadAllText(recordPath), RecordJsonOptions);; SideIndicator==>}
+@{InputObject=	}; SideIndicator=<=}
+@{InputObject=				if (record != null); SideIndicator==>}
+@{InputObject=; SideIndicator=<=}
+@{InputObject=				{; SideIndicator==>}
+@{InputObject=	public Task<FileRecoveryRecord?> LoadAsync(string instanceId, string operationId); SideIndicator=<=}
+@{InputObject=					list.Add(record);; SideIndicator==>}
+@{InputObject=	{; SideIndicator=<=}
+@{InputObject=				}; SideIndicator==>}
+@{InputObject=		string recordPath = Path.Combine(GetOperationDirectory(instanceId, operationId), "record.json");; SideIndicator=<=}
+@{InputObject=			}; SideIndicator==>}
+@{InputObject=		if (!File.Exists(recordPath)); SideIndicator=<=}
+@{InputObject=			catch; SideIndicator==>}
+@{InputObject=		{; SideIndicator=<=}
+@{InputObject=			{; SideIndicator==>}
+@{InputObject=			return Task.FromResult<FileRecoveryRecord?>(null);; SideIndicator=<=}
+@{InputObject=				// 记录不可读时跳过，不伪装成一条可用记录。; SideIndicator==>}
+@{InputObject=		try; SideIndicator=<=}
+@{InputObject=			}; SideIndicator==>}
+@{InputObject=		{; SideIndicator=<=}
+@{InputObject=		return Task.FromResult(list.OrderByDescending(x => x.CreatedAt).ToList());; SideIndicator==>}
+@{InputObject=			FileRecoveryRecord? record = JsonSerializer.Deserialize<FileRecoveryRecord>(; SideIndicator=<=}
+@{InputObject=	}; SideIndicator==>}
+@{InputObject=				File.ReadAllText(recordPath), RecordJsonOptions);; SideIndicator=<=}
+@{InputObject=	public Task<FileRecoveryRecord?> LoadAsync(string instanceId, string operationId); SideIndicator==>}
+@{InputObject=			return Task.FromResult(record);; SideIndicator=<=}
+@{InputObject=	{; SideIndicator==>}
+@{InputObject=		catch; SideIndicator=<=}
+@{InputObject=		string recordPath = Path.Combine(GetOperationDirectory(instanceId, operationId), "record.json");; SideIndicator==>}
+@{InputObject=		}; SideIndicator=<=}
+@{InputObject=		if (!File.Exists(recordPath)); SideIndicator==>}
+@{InputObject=	}; SideIndicator=<=}
+@{InputObject=		try; SideIndicator==>}
+@{InputObject=	/* ===================== 工具 ===================== */; SideIndicator=<=}
+@{InputObject=			FileRecoveryRecord? record = JsonSerializer.Deserialize<FileRecoveryRecord>(; SideIndicator==>}
+@{InputObject=	/// <summary>目标必须严格位于根目录内部（根目录自身不算）。</summary>; SideIndicator=<=}
+@{InputObject=				File.ReadAllText(recordPath), RecordJsonOptions);; SideIndicator==>}
+@{InputObject=	public static bool IsPathInside(string rootFullPath, string candidateFullPath); SideIndicator=<=}
+@{InputObject=			return Task.FromResult(record);; SideIndicator==>}
+@{InputObject=	{; SideIndicator=<=}
+@{InputObject=		catch; SideIndicator==>}
+@{InputObject=		if (string.IsNullOrWhiteSpace(rootFullPath) || string.IsNullOrWhiteSpace(candidateFullPath)); SideIndicator=<=}
+@{InputObject=			return Task.FromResult<FileRecoveryRecord?>(null);; SideIndicator==>}
+@{InputObject=			return false;; SideIndicator=<=}
+@{InputObject=	}; SideIndicator==>}
+@{InputObject=		string root;; SideIndicator=<=}
+@{InputObject=	/* ===================== 工具 ===================== */; SideIndicator==>}
+@{InputObject=		string candidate;; SideIndicator=<=}
+@{InputObject=	/// <summary>目标必须严格位于根目录内部（根目录自身不算）。</summary>; SideIndicator==>}
+@{InputObject=		try; SideIndicator=<=}
+@{InputObject=	public static bool IsPathInside(string rootFullPath, string candidateFullPath); SideIndicator==>}
+@{InputObject=			root = Path.GetFullPath(rootFullPath).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);; SideIndicator=<=}
+@{InputObject=	{; SideIndicator==>}
+@{InputObject=			candidate = Path.GetFullPath(candidateFullPath);; SideIndicator=<=}
+@{InputObject=		if (string.IsNullOrWhiteSpace(rootFullPath) || string.IsNullOrWhiteSpace(candidateFullPath)); SideIndicator==>}
+@{InputObject=		catch; SideIndicator=<=}
+@{InputObject=		string root;; SideIndicator==>}
+@{InputObject=		if (string.Equals(candidate, root, StringComparison.OrdinalIgnoreCase)); SideIndicator=<=}
+@{InputObject=		string candidate;; SideIndicator==>}
+@{InputObject=			return false;; SideIndicator=<=}
+@{InputObject=		try; SideIndicator==>}
+@{InputObject=		return candidate.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase);; SideIndicator=<=}
+@{InputObject=			root = Path.GetFullPath(rootFullPath).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);; SideIndicator==>}
+@{InputObject=	}; SideIndicator=<=}
+@{InputObject=			candidate = Path.GetFullPath(candidateFullPath);; SideIndicator==>}
+@{InputObject=	public static string HashFile(string path); SideIndicator=<=}
+@{InputObject=		catch; SideIndicator==>}
+@{InputObject=	{; SideIndicator=<=}
+@{InputObject=		{; SideIndicator==>}
+@{InputObject=		using FileStream fs = File.OpenRead(path);; SideIndicator=<=}
+@{InputObject=			return false;; SideIndicator==>}
+@{InputObject=		return Convert.ToHexString(SHA256.HashData(fs));; SideIndicator=<=}
+@{InputObject=		if (string.Equals(candidate, root, StringComparison.OrdinalIgnoreCase)); SideIndicator==>}
+@{InputObject=	private static string SafeSegment(string value); SideIndicator=<=}
+@{InputObject=			return false;; SideIndicator==>}
+@{InputObject=		if (string.IsNullOrWhiteSpace(value)); SideIndicator=<=}
+@{InputObject=		return candidate.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase);; SideIndicator==>}
+@{InputObject=			throw new InvalidOperationException("标识不能为空");; SideIndicator=<=}
+@{InputObject=	public static string HashFile(string path); SideIndicator==>}
+@{InputObject=		string cleaned = new string(value.Where(c => char.IsLetterOrDigit(c) || c == '-' || c == '_').ToArray());; SideIndicator=<=}
+@{InputObject=		using FileStream fs = File.OpenRead(path);; SideIndicator==>}
+@{InputObject=		if (string.IsNullOrEmpty(cleaned) || cleaned == "." || cleaned == ".."); SideIndicator=<=}
+@{InputObject=		return Convert.ToHexString(SHA256.HashData(fs));; SideIndicator==>}
+@{InputObject=			throw new InvalidOperationException("标识含非法字符：" + value);; SideIndicator=<=}
+@{InputObject=	private static string SafeSegment(string value); SideIndicator==>}
+@{InputObject=		return cleaned;; SideIndicator=<=}
+@{InputObject=		if (string.IsNullOrWhiteSpace(value)); SideIndicator==>}
+@{InputObject=	private static string SafeFullPath(string path); SideIndicator=<=}
+@{InputObject=			throw new InvalidOperationException("标识不能为空");; SideIndicator==>}
+@{InputObject=		try; SideIndicator=<=}
+@{InputObject=		string cleaned = new string(value.Where(c => char.IsLetterOrDigit(c) || c == '-' || c == '_').ToArray());; SideIndicator==>}
+@{InputObject=			return Path.GetFullPath(path);; SideIndicator=<=}
+@{InputObject=		if (string.IsNullOrEmpty(cleaned) || cleaned == "." || cleaned == ".."); SideIndicator==>}
+@{InputObject=		catch; SideIndicator=<=}
+@{InputObject=			throw new InvalidOperationException("标识含非法字符：" + value);; SideIndicator==>}
+@{InputObject=			return false;; SideIndicator=<=}
+@{InputObject=		return cleaned;; SideIndicator==>}
+@{InputObject=	private static bool HasReparseAncestor(string root, string path); SideIndicator=<=}
+@{InputObject=	private static string SafeFullPath(string path); SideIndicator==>}
+@{InputObject=			string rootFull = Path.GetFullPath(root).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);; SideIndicator=<=}
+@{InputObject=			return Path.GetFullPath(path);; SideIndicator==>}
+@{InputObject=			string? current = Path.GetDirectoryName(Path.GetFullPath(path));; SideIndicator=<=}
+@{InputObject=; SideIndicator==>}
+@{InputObject=			while (!string.IsNullOrEmpty(current) && current.Length > rootFull.Length); SideIndicator=<=}
+@{InputObject=		}; SideIndicator==>}
+@{InputObject=			{; SideIndicator=<=}
+@{InputObject=		catch; SideIndicator==>}
+@{InputObject=				if ((File.GetAttributes(current) & FileAttributes.ReparsePoint) != 0); SideIndicator=<=}
+@{InputObject=			return false;; SideIndicator==>}
+@{InputObject=				{; SideIndicator=<=}
+@{InputObject=	}; SideIndicator==>}
+@{InputObject=					return true;; SideIndicator=<=}
+@{InputObject=	private static bool HasReparseAncestor(string root, string path); SideIndicator==>}
+@{InputObject=				}; SideIndicator=<=}
+@{InputObject=	{; SideIndicator==>}
+@{InputObject=				current = Path.GetDirectoryName(current);; SideIndicator=<=}
+@{InputObject=		try; SideIndicator==>}
+@{InputObject=			}; SideIndicator=<=}
+@{InputObject=			string rootFull = Path.GetFullPath(root).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);; SideIndicator==>}
+@{InputObject=		catch; SideIndicator=<=}
+@{InputObject=			string? current = Path.GetDirectoryName(Path.GetFullPath(path));; SideIndicator==>}
+@{InputObject=		}; SideIndicator=<=}
+@{InputObject=			while (!string.IsNullOrEmpty(current) && current.Length > rootFull.Length); SideIndicator==>}
+@{InputObject=; SideIndicator=<=}
+@{InputObject=			{; SideIndicator==>}
+@{InputObject=		return false;; SideIndicator=<=}
+@{InputObject=				if ((File.GetAttributes(current) & FileAttributes.ReparsePoint) != 0); SideIndicator==>}
+@{InputObject=	}; SideIndicator=<=}
+@{InputObject=				{; SideIndicator==>}
+@{InputObject=	private static void TryDelete(string path); SideIndicator=<=}
+@{InputObject=					return true;; SideIndicator==>}
+@{InputObject=	{; SideIndicator=<=}
+@{InputObject=				}; SideIndicator==>}
+@{InputObject=		try; SideIndicator=<=}
+@{InputObject=				current = Path.GetDirectoryName(current);; SideIndicator==>}
+@{InputObject=	private async Task WriteRecordAsync(string operationDir, FileRecoveryRecord record); SideIndicator=<=}
+@{InputObject=		return false;; SideIndicator==>}
+@{InputObject=		Directory.CreateDirectory(operationDir);; SideIndicator=<=}
+@{InputObject=; SideIndicator==>}
+@{InputObject=		string recordPath = Path.Combine(operationDir, "record.json");; SideIndicator=<=}
+@{InputObject=	private static void TryDelete(string path); SideIndicator==>}
+@{InputObject=		try; SideIndicator==>}
+@{InputObject=			}; SideIndicator==>}
+@{InputObject=		}; SideIndicator==>}
+@{InputObject=		catch; SideIndicator==>}
+@{InputObject=		{; SideIndicator==>}
+@{InputObject=		}; SideIndicator==>}
+@{InputObject=; SideIndicator==>}
+@{InputObject=	private async Task WriteRecordAsync(string operationDir, FileRecoveryRecord record); SideIndicator==>}
+@{InputObject=	{; SideIndicator==>}
+@{InputObject=		Directory.CreateDirectory(operationDir);; SideIndicator==>}
+@{InputObject=		string recordPath = Path.Combine(operationDir, "record.json");; SideIndicator==>}
+@{InputObject=	}; SideIndicator==>}

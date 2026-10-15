@@ -1,0 +1,61 @@
+{
+    "schemaVersion":  1,
+    "runner":  "run-goal-validation.ps1",
+    "runId":  "same-run-id",
+    "inputManifest":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\stale-trx\\input.json",
+    "inputManifestSha256":  "A18A38074C069793A2EAB539EB6EF1F6300F8429CD0FEA150A47CD00FA142417",
+    "stagesFile":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\stale-trx\\stages.json",
+    "generatedUtc":  "2026-10-04T09:09:55Z",
+    "resume":  false,
+    "stageCount":  1,
+    "failedCount":  0,
+    "stages":  [
+                   {
+                       "schemaVersion":  1,
+                       "id":  "unit",
+                       "runId":  "same-run-id",
+                       "fingerprint":  "C75700AB86586FF9FDF1F0AFEFA102B54F2A51E781BF30483DFBD4EB526A68A3",
+                       "inputManifestSha256":  "A18A38074C069793A2EAB539EB6EF1F6300F8429CD0FEA150A47CD00FA142417",
+                       "command":  "C:\\Program Files\\nodejs\\node.exe C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\stale-trx\\child.cjs noop",
+                       "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\stale-trx\\run",
+                       "startUtc":  "2026-10-04T09:09:55Z",
+                       "endUtc":  "2026-10-04T09:09:55Z",
+                       "exitCode":  0,
+                       "timedOut":  false,
+                       "stillRunning":  false,
+                       "counters":  {
+                                        "total":  3,
+                                        "executed":  3,
+                                        "passed":  3,
+                                        "failed":  0,
+                                        "notExecuted":  0
+                                    },
+                       "trx":  "unit.trx",
+                       "artifacts":  [
+                                         {
+                                             "path":  "unit.trx",
+                                             "sha256":  "DCB71F29CE52D489A2E82C8E80C7DFF4511DEAF06B5991C233A37600D06326F4",
+                                             "sizeBytes":  122
+                                         }
+                                     ],
+                       "rawEvidence":  [
+                                           {
+                                               "path":  "unit.stdout.log",
+                                               "sha256":  "7EDB33FEBB737A06BD6747F3C8255003CC9B9FB908D0BC7B7273539D3D9AC637",
+                                               "sizeBytes":  10
+                                           },
+                                           {
+                                               "path":  "unit.stderr.log",
+                                               "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                                               "sizeBytes":  0
+                                           }
+                                       ],
+                       "reasons":  [
+
+                                   ],
+                       "status":  "COMPLETED",
+                       "reused":  false
+                   }
+               ],
+    "verdict":  "PASS"
+}

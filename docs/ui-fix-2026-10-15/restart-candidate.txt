@@ -1,0 +1,8 @@
+{
+  "pid": 27736,
+  "executionRoot": "D:\\松光启动器\\docs\\ui-fix-2026-10-15\\native-final",
+  "sourceRoot": "D:\\松光启动器",
+  "apiPort": 51341,
+  "runtime": "10.0.0",
+  "debugPort": 51342
+}

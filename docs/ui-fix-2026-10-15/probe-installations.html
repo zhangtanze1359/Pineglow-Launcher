@@ -1,0 +1,90 @@
+
+	<div class="installations-view ui-card">
+		<div class="page-head">
+			<div><h1 class="page-title">你的游戏实例</h1><p class="page-sub">每个世界，都有自己的版本与模组。</p></div>
+		</div>
+		<div class="top-control"><div class="list-heading"><h2>你的游戏实例</h2><p>4 个实例可用 · 版本与加载器互相独立</p></div><label class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 5 5"></path></svg><input type="search" id="instanceSearch" placeholder="搜索实例…" aria-label="搜索实例…" style=""></label>
+			<div class="filters">
+				<button class="filter active" data-filter="all">全部版本</button>
+				<button class="filter" data-filter="mod">模组版</button>
+				<button class="filter" data-filter="snap">快照版</button>
+			</div>
+			<button class="btn-new" id="btnAddExisting">
+				<svg viewBox="0 0 24 24"><path d="M3 7h6l2 2h10v10H3z"></path></svg>
+				<span>从已有目录添加</span>
+			</button>
+			<button class="btn-new" id="btnNewInstall">
+				<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+				<span>新建实例</span>
+			</button>
+		</div>
+		<div class="inst-list" id="instList">
+		<div class="inst-card selected" data-inst="fabric-1215" data-kind="mod">
+			<div class="inst-left">
+				<div class="inst-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 16l9 5 9-5"></path></svg></div>
+				<div class="inst-meta">
+					<div class="inst-name-row">
+						<span class="inst-name">生电整合 · 1.21.5</span>
+						<span class="inst-tag">Fabric</span><span class="ui-chip chip-ok">默认</span><span class="ui-chip">12 Mod</span>
+					</div>
+					<span class="inst-sub">Minecraft 1.21.5 · 今天游玩 · 游玩 132 次 · 7d 18h</span>
+				</div>
+			</div>
+			<div class="inst-actions">
+				<button class="ui-button inst-mods" data-mods="fabric-1215">Mod</button>
+				<button class="inst-play primary" data-play="fabric-1215">启动</button>
+				<button class="inst-more" data-more="fabric-1215" aria-label="管理 生电整合 · 1.21.5"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle></svg></button>
+			</div>
+		</div>
+		<div class="inst-card " data-inst="vanilla-1215" data-kind="all">
+			<div class="inst-left">
+				<div class="inst-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 9 5v9l-9 5-9-5V8l9-5Zm0 10v9M3 8l9 5 9-5"></path></svg></div>
+				<div class="inst-meta">
+					<div class="inst-name-row">
+						<span class="inst-name">原版 1.21.5</span>
+						<span class="inst-tag">Vanilla</span>
+					</div>
+					<span class="inst-sub">Minecraft 1.21.5 · 今天游玩 · 游玩 18 次 · 12h 0m</span>
+				</div>
+			</div>
+			<div class="inst-actions">
+				
+				<button class="inst-play ghost" data-play="vanilla-1215">启动</button>
+				<button class="inst-more" data-more="vanilla-1215" aria-label="管理 原版 1.21.5"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle></svg></button>
+			</div>
+		</div>
+		<div class="inst-card " data-inst="forge-1201" data-kind="mod">
+			<div class="inst-left">
+				<div class="inst-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 16l9 5 9-5"></path></svg></div>
+				<div class="inst-meta">
+					<div class="inst-name-row">
+						<span class="inst-name">机械动力 · 1.20.1</span>
+						<span class="inst-tag">Forge</span><span class="ui-chip">8 Mod</span>
+					</div>
+					<span class="inst-sub">Minecraft 1.20.1 · 今天游玩 · 游玩 41 次 · 14h 0m</span>
+				</div>
+			</div>
+			<div class="inst-actions">
+				<button class="ui-button inst-mods" data-mods="forge-1201">Mod</button>
+				<button class="inst-play ghost" data-play="forge-1201">启动</button>
+				<button class="inst-more" data-more="forge-1201" aria-label="管理 机械动力 · 1.20.1"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle></svg></button>
+			</div>
+		</div>
+		<div class="inst-card " data-inst="snap-25w14a" data-kind="snap">
+			<div class="inst-left">
+				<div class="inst-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 9 5v9l-9 5-9-5V8l9-5Zm0 10v9M3 8l9 5 9-5"></path></svg></div>
+				<div class="inst-meta">
+					<div class="inst-name-row">
+						<span class="inst-name">快照测试</span>
+						<span class="inst-tag">Vanilla</span>
+					</div>
+					<span class="inst-sub">Minecraft 25w14a · 今天游玩 · 游玩 3 次 · 2h 0m</span>
+				</div>
+			</div>
+			<div class="inst-actions">
+				
+				<button class="inst-play ghost" data-play="snap-25w14a">启动</button>
+				<button class="inst-more" data-more="snap-25w14a" aria-label="管理 快照测试"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle></svg></button>
+			</div>
+		</div></div>
+	</div>

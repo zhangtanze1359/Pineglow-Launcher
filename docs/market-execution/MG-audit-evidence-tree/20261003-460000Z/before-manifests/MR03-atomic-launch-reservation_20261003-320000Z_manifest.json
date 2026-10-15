@@ -1,0 +1,134 @@
+﻿{
+    "runId":  "20261003-320000Z",
+    "task":  "MR03 补测之三：启动守卫的严格原子性（A7 剩余项收尾）",
+    "generatedUtc":  "2026-10-03T01:51:18Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "gap-register A7 remainder (strict atomicity of the launch guard)",
+    "result":  {
+                   "testsInClass":  7,
+                   "green":  "7 passed / 0 failed",
+                   "csharpFull":  "811 passed / 0 failed / 0 skipped (807 + 4)",
+                   "nodeFull":  "230 passed / 0 failed (18 files)",
+                   "productionCodeChanged":  true,
+                   "productionChange":  "RunningInstanceRegistry: Entry gains a Launching flag; new TryBeginLaunch (ConcurrentDictionary.TryAdd) and AbortLaunch; IsRunning now treats a reservation as occupied. LocalApiService: HandleLaunchAsync became a reservation shell with try/finally, and the former body was renamed LaunchBodyAsync.",
+                   "designNote":  "The finally can call AbortLaunch UNCONDITIONALLY because AbortLaunch only removes entries still marked Launching; after a successful start MarkRunning has upgraded the entry to Launching=false, making the call a no-op. That removes the need for an upgraded flag and shrinks the error surface.",
+                   "currentDriftNumbers":  "mg0: 265/1/104/0 ; mg1: 75/0/81/0 ; mg2: 265/1/103/0 ; mg3: 75/0/81/0 ; ledger audit exit 0"
+               },
+    "tests":  {
+                  "mutualExclusion":  "first TryBeginLaunch true; reservation counts as occupied; second rejected with existingPid=0; after release it can be reserved again",
+                  "concurrency":  "32 concurrent TryBeginLaunch calls -\u003e exactly 1 winner (measured)",
+                  "abortAfterUpgrade":  "MarkRunningPid then AbortLaunch leaves the entry and its PID intact (this is what justifies the unconditional finally)",
+                  "failureReleasesReservation":  "a launch that fails after reserving leaves IsRunning false, so a second launch is NOT treated as already-running/starting (reservation leaks would block the instance forever - worse than under-blocking)"
+              },
+    "redBaseline":  "NOT REPRODUCED: replacing TryAdd with ContainsKey-then-assign (non-atomic) still yielded exactly 1 winner under 32-way concurrency, because the check-then-assign window is nanoseconds and Task.Run startup is staggered. So the concurrency test is NOT proven to catch a non-atomic implementation - stated plainly as not achieved.",
+    "selfFoundIssues":  [
+                            "Two patch attempts failed because I did source surgery in PowerShell: v1 used index math and deleted the AppConfig config / GameInstance instance declarations (35 compile errors); v2/v3 failed to verbatim-match multi-line Chinese literals. Switching to the edit tool (read the exact text, then literal replace) worked on the first try. RULE: edit source with the edit tool; use PowerShell only to run commands.",
+                            "I REPEATED a round-42 mistake: the RED restore source was the PRE-round backup, so restoring removed TryBeginLaunch while LocalApiService still called it (build would break). Re-applied the registry patch and saved POST-fix references (green/*.fixed). RULE: for a RED on a fix, always keep and restore a POST-fix reference.",
+                            "Because I checked the build exit code, the over-deleting v1 patch did not produce invalid test evidence."
+                        ],
+    "stillNotCovered":  [
+                            "the RED for atomicity did not reproduce (see redBaseline)",
+                            "cross-process concurrent launch: two launcher processes starting the same instance are still uncoordinated (inherent limit of an in-process registry)",
+                            "runtime state is still in-process memory only",
+                            "real Minecraft launch not verified",
+                            "the delete-guard vs reservation interaction is correct by IsRunning but has no dedicated test"
+                        ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "4EC228708D2709C5ED5B46BDD3F91070CBB00A69DB914EA2669BA48DE2E9A1B4",
+                      "sizeBytes":  8074
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "A67AB934D2EF8E43ADD64256654478B207DA3EA5AF4A671346E689A2B422A122",
+                      "sizeBytes":  14104
+                  },
+                  {
+                      "path":  "green/01-after-atomic-wiring.log",
+                      "sha256":  "33095EBB89E1DBFD68483C9FD88E48BE1CD2C5E4752126DAEF4D104E1A4936E6",
+                      "sizeBytes":  1642
+                  },
+                  {
+                      "path":  "green/02-atomic-wired.log",
+                      "sha256":  "1DE6A1F5FCB635B4816C40362E935C0B5D274FA9F61CA3F50A83B3C97761F6F2",
+                      "sizeBytes":  1642
+                  },
+                  {
+                      "path":  "green/03-atomic-tests.log",
+                      "sha256":  "EFF8C6183BD68CB10488924466358EB0F724B58B3D9F56475AD9F255CCCD8ABF",
+                      "sizeBytes":  2636
+                  },
+                  {
+                      "path":  "green/04-atomic-with-race.log",
+                      "sha256":  "5DCD2450D357EC3CAE4DBC2919D0341AB970FB7CA00278F3E78B4F6665FC7370",
+                      "sizeBytes":  2837
+                  },
+                  {
+                      "path":  "green/05-atomic-restored.log",
+                      "sha256":  "19D1BF2B7D71A9C4B993ECFE6D9EF21026B3263E67774D521AD3824290686678",
+                      "sizeBytes":  2837
+                  },
+                  {
+                      "path":  "green/06-csharp-full.log",
+                      "sha256":  "F6A8B9013872BADCB9D0235C6F3416CBE0E4A3E4EBAFCF4522CAC9F4E6F646DA",
+                      "sizeBytes":  490
+                  },
+                  {
+                      "path":  "green/07-node-full.log",
+                      "sha256":  "A7BE0A9C0B0A73D9F36E58F311CABDE1E5F99FC7CDADC8714A46AB607F20D642",
+                      "sizeBytes":  23805
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "E3F97ECF9875B386D760749498FD04CE119672B90AB4217ADBAA1629C60A697B",
+                      "sizeBytes":  401
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "D8E85D475178CB5552158D8C7F36748733DBDC71BC21398947F04EEE7C1EA7F0",
+                      "sizeBytes":  116014
+                  },
+                  {
+                      "path":  "green/LocalApiService.cs.fixed",
+                      "sha256":  "87FB3AF0367DC31D2939C11FA686A0EB398D6723A8B956B0D7A87E82CC838CCF",
+                      "sizeBytes":  200488
+                  },
+                  {
+                      "path":  "green/RunningInstanceRegistry.cs.fixed",
+                      "sha256":  "0D835C8E0B17D860FDAE523AB349BEECEEB96F7B94CA54FCCAF2B4DE5A9EA72A",
+                      "sizeBytes":  5597
+                  },
+                  {
+                      "path":  "green/tmp-patch-a7c.ps1",
+                      "sha256":  "679603C3A7AB17CD7F24012AEA8EE1655603FA268DBE6EA1B1C040AF2D6FEE61",
+                      "sizeBytes":  7081
+                  },
+                  {
+                      "path":  "green/tmp-patch-a7c-v2.ps1",
+                      "sha256":  "81EAF616921FE9AFEF5B72B227E82AF3D2B1DC5F7AF07E4FDE0DA0012E58253B",
+                      "sizeBytes":  7245
+                  },
+                  {
+                      "path":  "green/tmp-patch-a7c-v3.ps1",
+                      "sha256":  "BCC5F3DB8AC69CBC34125736057151CB354B89A96DD0C3A9C39F66ACD49CE8D3",
+                      "sizeBytes":  2934
+                  },
+                  {
+                      "path":  "red/01-red-nonatomic.log",
+                      "sha256":  "2183C462720F22AAA8393BDC7F2EC7409F9B6F2DDE08ACCE7F5D6BF5AA25EF8B",
+                      "sizeBytes":  2837
+                  },
+                  {
+                      "path":  "red/LocalApiService.cs.before",
+                      "sha256":  "7179D310ACEF7E8A2F396ED147C04EFF8C6BB5A2C59643385B767ED0610ED3FF",
+                      "sizeBytes":  199832
+                  },
+                  {
+                      "path":  "red/RunningInstanceRegistry.cs.before",
+                      "sha256":  "16269BEAAFF199D81ABD942E3EA67D7A9A721B7A2FE544D6C06F9DF99EF7472D",
+                      "sizeBytes":  3777
+                  }
+              ]
+}

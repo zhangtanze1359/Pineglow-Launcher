@@ -1,0 +1,208 @@
+<html lang="zh-CN"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pineglow · 松光启动器</title>
+<link rel="stylesheet" href="css/figma.css">
+<link rel="stylesheet" href="css/pineglow.css">
+</head>
+<body>
+<!-- MR17：键盘用户可跳过标题栏直达主内容（WCAG 2.4.1）；平时隐藏，获得焦点时出现。
+     文案走 data-i18n（applyStaticI18n 会在 init 与语言切换时填充），静态文字仅作 JS 之前的兜底。 -->
+<a class="skip-link" href="#view-home" data-i18n="a11y.skipToContent">跳到主内容</a>
+<div class="win">
+	<!-- ============ 标题栏 ============ -->
+	<header class="title-bar" id="titleBar">
+		<div class="brand">
+			<span class="brand-pixel"></span>
+			<span class="brand-name">PINEGLOW</span>
+			<span class="brand-sub" data-i18n="brand.subtitle">松光启动器</span>
+		</div>
+		<div class="window-controls">
+			<button class="wc wc-min" id="btnMinimize" aria-label="最小化"><svg viewBox="0 0 12 12"><path d="M2 6h8"></path></svg></button>
+			<button class="wc wc-max" id="btnMaximize" aria-label="最大化"><svg viewBox="0 0 12 12"><rect x="2" y="2" width="8" height="8" rx="1"></rect></svg></button>
+			<button class="wc wc-close" id="btnClose" aria-label="关闭"><svg viewBox="0 0 12 12"><path d="M3 3l6 6M9 3l-6 6"></path></svg></button>
+		</div>
+	</header>
+
+	<!-- ============ 主区 ============ -->
+	<div class="main-row">
+		<!-- 侧边栏 -->
+		<aside class="sidebar">
+			<div class="profile">
+				<div class="avatar" id="profileAvatar"><svg viewBox="0 0 8 8" width="40" height="40" style="image-rendering:pixelated;display:block">
+		<rect x="0" y="0" width="8" height="8" fill="#b5835a"></rect>
+		<rect x="1.5" y="3" width="1.6" height="1.6" fill="#fff"></rect><rect x="4.9" y="3" width="1.6" height="1.6" fill="#fff"></rect>
+		<rect x="1.9" y="3.4" width="1" height="1" fill="#3a5da0"></rect><rect x="5.3" y="3.4" width="1" height="1" fill="#3a5da0"></rect>
+	</svg></div>
+				<div class="profile-info">
+					<span class="profile-name" id="profileName">d6tester</span>
+					<span class="profile-status"><span class="status-dot"></span><span id="profileStatus">离线模式</span></span>
+				</div>
+			</div>
+
+			<nav class="navigation" id="navigation">
+				<span class="nav-group-label" data-i18n="nav.group.game">游戏</span>
+				<button class="nav-item active" data-nav="home">
+					<span class="nav-ico nav-ico-play"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8V4Z"></path></svg></span>
+					<span class="nav-text" data-i18n="nav.home">开始游戏</span>
+				</button>
+				<button class="nav-item" data-nav="installations">
+					<span class="nav-ico"><svg viewBox="0 0 24 24"><path d="M4 5a1 1 0 0 1 1-1h5l2 2h7a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5Z"></path></svg></span>
+					<span class="nav-text" data-i18n="nav.installations">安装管理</span>
+				</button>
+				<button class="nav-item" data-nav="worlds">
+					<span class="nav-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"></path></svg></span>
+					<span class="nav-text" data-i18n="nav.worlds">世界</span>
+				</button>
+				<button class="nav-item" data-nav="servers">
+					<span class="nav-ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="7" rx="1.5"></rect><rect x="3" y="13" width="18" height="7" rx="1.5"></rect><path d="M7 7.5h.01M7 16.5h.01"></path></svg></span>
+					<span class="nav-text" data-i18n="nav.servers">服务器</span>
+				</button>
+
+				<span class="nav-group-label" data-i18n="nav.group.library">资源库</span>
+				<button class="nav-item" data-nav="content">
+					<span class="nav-ico"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 17l9 5 9-5"></path></svg></span>
+					<span class="nav-text" data-i18n="nav.content">内容中心</span>
+				</button>
+				<button class="nav-item" data-nav="skins">
+					<span class="nav-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"></circle><path d="M5 21v-1a6 6 0 0 1 6-6h2a6 6 0 0 1 6 6v1"></path></svg></span>
+					<span class="nav-text" data-i18n="nav.skins">皮肤</span>
+				</button>
+				<button class="nav-item" data-nav="downloads">
+					<span class="nav-ico"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"></path></svg></span>
+					<span class="nav-text" data-i18n="nav.downloads">下载</span>
+				</button>
+				<button class="nav-item" data-nav="news">
+					<span class="nav-ico"><svg viewBox="0 0 24 24"><path d="M4 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5Z"></path><path d="M8 8h8M8 12h8M8 16h5"></path></svg></span>
+					<span class="nav-text" data-i18n="nav.news">新闻</span>
+				</button>
+				<button class="nav-item" data-nav="settings">
+					<span class="nav-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 13a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1.08-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1.08 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></span>
+					<span class="nav-text" data-i18n="nav.settings">设置</span>
+				</button>
+			</nav>
+
+			<div class="sidebar-footer">
+				<button class="lang-toggle" id="btnLangToggle" aria-label="Language">
+					<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"></path></svg>
+					<span id="langToggleText" data-i18n="lang.toggle">EN</span>
+				</button>
+				<div class="realms-status">
+					<svg viewBox="0 0 24 24"><path d="M3 17l4-4 3 3 5-6 6 7"></path></svg>
+					<span data-i18n="sidebar.realms">独立世界，自由探索</span>
+				</div>
+			</div>
+		</aside>
+
+		<!-- 内容面板 -->
+		<section class="content-panel" id="contentPanel">
+			<!-- Play -->
+			<div class="view" id="view-home" tabindex="-1" data-rendered="1">
+	<div class="play-view">
+		<div class="banner">
+			<div class="banner-art" aria-hidden="true"></div>
+			<div class="banner-body">
+				<span class="banner-badge">PINEGLOW · JAVA EDITION</span>
+				<h1 class="banner-title">回到你的方块世界。</h1>
+				<p class="banner-desc">熟悉的存档，新的冒险。选好实例，下一段旅程从这里开始。</p>
+			</div>
+			<div class="banner-stats">
+				<span class="bs-item"><b>9m</b> 总游玩时长</span>
+				<span class="bs-item"><b>6</b> 次游玩</span>
+				<span class="bs-item"><b>7</b> 个实例</span>
+			</div>
+		</div>
+
+		<div class="play-footer">
+			<div class="pf-version">
+				<span class="pf-label">当前版本</span>
+				<div class="pf-select-btn" style="position:relative">
+					<span class="sw"></span>
+					<select id="pfVersionSelect" style="appearance:none;background:transparent;border:0;color:inherit;font:inherit;cursor:pointer;padding-right:20px;outline:none">
+						<option value="d39a5594071d47ae86538b2e17db72b6" selected="">默认游戏 · —</option><option value="45a7f748a6da4d689ea6c6bdb4db4223">d6-launch-1.21.11 · 1.21.11</option><option value="74bafbde946d40d382c01ccb1bb23022">d6-launch-1.21.11 · 1.21.11</option><option value="07b06f3960834380aba5d022d4c9aa3e">d7-quilt 导入 · quilt-loader-0.30.1-1.21.11</option><option value="cb04fa2a4e954ecd995e659048e4cc96">d7-forge 导入 · 1.21.11-forge-61.2.1</option><option value="8b8a741a7cc14457b285d541f0124712">d7-neoforge 导入 · neoforge-21.11.45</option><option value="6478bce1e50048ab85339cb800fbe80a">d7-fabric 导入 · fabric-loader-0.19.5-1.21.11</option>
+					</select>
+					<svg viewBox="0 0 24 24" style="pointer-events:none;position:absolute;right:8px;top:50%;transform:translateY(-50%)"><path d="m6 9 6 6 6-6"></path></svg>
+				</div>
+			</div>
+			<button class="play-btn" id="btnPlay">
+				<svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8V4Z"></path></svg>
+				<span>开始游戏</span>
+			</button>
+			<div class="pf-right">
+				<span class="pf-edition">Java 版</span>
+				<span class="pf-status">7 个实例可用</span>
+			</div>
+		</div>
+
+		<div class="news-section">
+			<div class="news-head">
+				<h2 class="section-title">最新资讯</h2>
+				<button class="news-more" id="newsMore">查看全部</button>
+			</div>
+			<div class="news-grid" id="homeNewsSection"><button class="news-card" data-news="Discover Planet Earth III DLC" data-link-id="MUHFIEOjUrgbQ-56FQlLEQ" data-link-ok="1">
+				<div class="news-card-art news-art-failed" data-news-art-id="2a43e476ad908c5c61650b73a93bd4f08ade9c4041f48aa319e12e866db9f236"></div>
+				<span class="news-card-body">
+					<span class="news-cat">Minecraft for Windows</span>
+					<span class="news-card-title">Discover Planet Earth III DLC</span>
+				</span>
+				<span class="news-date">2024-01-16</span>
+			</button><button class="news-card" data-news="Soothing Minecraft Stories" data-link-id="9JC4kY-YcGFqIJ5nBZq5Zg" data-link-ok="1">
+				<div class="news-card-art news-art-failed" data-news-art-id="c9d34179034d0d1364810e764d2ca94718ec5b6d6de10456e4f6aa347ccc85fc"></div>
+				<span class="news-card-body">
+					<span class="news-cat">Minecraft: Java Edition</span>
+					<span class="news-card-title">Soothing Minecraft Stories</span>
+				</span>
+				<span class="news-date">2023-12-22</span>
+			</button><button class="news-card" data-news="New on Realms: The 8 Maps Of Java Realms Day" data-link-id="vZAs-hlHouu69Uhr1gV7jA" data-link-ok="1">
+				<div class="news-card-art news-art-failed" data-news-art-id="a8175b8f712374be10b24a2a45f284a5a619d02954213a5731c412d0590237e8"></div>
+				<span class="news-card-body">
+					<span class="news-cat">Minecraft: Java Edition</span>
+					<span class="news-card-title">New on Realms: The 8 Maps Of Java Realms Day</span>
+				</span>
+				<span class="news-date">2023-12-21</span>
+			</button><button class="news-card" data-news="Universal New Year’s Celebration" data-link-id="9hik8iWUM8PR8QmlwF8MiQ" data-link-ok="1">
+				<div class="news-card-art news-art-failed" data-news-art-id="7944cc61c2da5060a00bb2ac451f89b6665275f63e0f9d7c3110d7e668e91fe7"></div>
+				<span class="news-card-body">
+					<span class="news-cat">Minecraft for Windows</span>
+					<span class="news-card-title">Universal New Year’s Celebration</span>
+				</span>
+				<span class="news-date">2023-12-12</span>
+			</button></div>
+		</div>
+	</div></div>
+			<!-- Installations -->
+			<div class="view" id="view-installations" hidden=""></div>
+			<!-- Worlds -->
+			<div class="view" id="view-worlds" hidden=""></div>
+			<!-- Servers -->
+			<div class="view" id="view-servers" hidden=""></div>
+			<!-- Content -->
+			<div class="view" id="view-content" hidden=""></div>
+			<!-- Skins -->
+			<div class="view" id="view-skins" hidden=""></div>
+			<!-- Downloads -->
+			<div class="view" id="view-downloads" hidden=""></div>
+			<!-- News -->
+			<div class="view" id="view-news" hidden=""></div>
+			<!-- Settings -->
+			<div class="view" id="view-settings" hidden=""></div>
+		</section>
+	</div>
+</div>
+
+<!-- MR17：异步状态必须能被屏幕阅读器感知（WCAG 4.1.3）。
+     toast 是"完成/失败/已取消"等异步结果的唯一出口，加上 live region 后无需移动焦点即可被宣读。 -->
+<div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+<div class="modal-host" id="modalHost" hidden=""></div>
+
+<meta name="pineglow-session-token" content="REDACTED_LOCAL_SESSION_TOKEN">
+
+<script src="vendor/three.min.js"></script>
+<script src="js/skin3d-core.js"></script>
+<script src="js/skin3d.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/api.js"></script>
+<script src="js/launcher.js"></script>
+
+
+</body></html>

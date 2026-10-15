@@ -1,0 +1,38 @@
+{
+    "schemaVersion":  2,
+    "id":  "g4-bisect-smoke",
+    "runId":  "20261004-r3rework-dab448e2",
+    "attemptDir":  "attempts/g4-bisect-smoke/1",
+    "fingerprint":  "778AC2ACF13B475B104DDB1FCCA33A65A18DDED46D7E9F9F13F8C832BFDC9C80",
+    "inputManifestSha256":  "812D385A09538183215747737C9F7817A26CEE1DE05B2F2B34E78FC2235F8C22",
+    "inputSetSha256":  "D10CBC26126EA17EC0837F3E2AA95C6D12D075F3986DBA5DC4E8833151282661",
+    "command":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c/dev/PineglowLauncher/VerifyHost/bin/Release/net10.0/VerifyHost.exe --bisect-smoke",
+    "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c",
+    "startUtc":  "2026-10-04T10:08:49Z",
+    "endUtc":  "2026-10-04T10:08:49Z",
+    "exitCode":  0,
+    "timedOut":  false,
+    "stillRunning":  false,
+    "counters":  null,
+    "trx":  "",
+    "artifacts":  [
+
+                  ],
+    "rawEvidence":  [
+                        {
+                            "path":  "g4-bisect-smoke.stdout.log",
+                            "sha256":  "46192127B11E40CF69855227D6591B6FDC7767E81C02B91FB8CF7FE67A7F31CC",
+                            "sizeBytes":  1889
+                        },
+                        {
+                            "path":  "g4-bisect-smoke.stderr.log",
+                            "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                            "sizeBytes":  0
+                        }
+                    ],
+    "reasons":  [
+
+                ],
+    "status":  "COMPLETED",
+    "reused":  false
+}

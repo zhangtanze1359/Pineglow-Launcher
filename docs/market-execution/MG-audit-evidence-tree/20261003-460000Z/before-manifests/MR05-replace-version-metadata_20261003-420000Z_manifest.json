@@ -1,0 +1,75 @@
+﻿{
+    "runId":  "20261003-420000Z",
+    "task":  "MR05 补测之二：替换端点接受版本元数据（A22）",
+    "generatedUtc":  "2026-10-03T03:27:19Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "gap-register A22 (the replace endpoint ignored version metadata, so newVersion was always null)",
+    "change":  "HandleReplaceModAsync now parses an OPTIONAL version object (source/projectId/versionId/versionNumber/fileName/displayName) and passes it to ReplaceAsync, which writes the new sidecar. The source string is parsed with the repo existing idiom (== curseforge ? CurseForge : Modrinth) rather than a new parser. Omitting version keeps the old behaviour exactly (backward compatible).",
+    "testStrengthened":  "The A14 test no longer hand-writes the live sidecar: it sends version through the API, asserts the sidecar file was actually written and contains 2.0.0, and the recovery listing reports oldVersion=1.0.0 newVersion=2.0.0 - end to end through the API.",
+    "redBaseline":  "reverting the pass-through to null makes the test fail with the exact message \"替换端点应写出新侧车（A22）\"",
+    "verification":  {
+                         "modReplacementTests":  "11 passed / 0 failed",
+                         "csharpFull":  "819 passed / 0 failed / 0 skipped",
+                         "nodeFull":  "234 passed / 0 failed",
+                         "restoreVerified":  "LocalApiService.cs byte-identical to green/LocalApiService.cs.fixed"
+                     },
+    "lessonsApplied":  [
+                           "Touched LastWriteTime after restoring the RED so the incremental build could not be skipped (a trap that produced a false result last round).",
+                           "Used the edit tool and short literal replacements for source changes instead of PowerShell surgery."
+                       ],
+    "stillNotCovered":  [
+                            "the real mod-update flow was not exercised (needs a real source)",
+                            "real GUI rendering not verified",
+                            "no validation that versionId matches the actual file content",
+                            "THE FRONTEND DOES NOT SEND version YET: the backend supports it, but the UI replace call site still omits it, so the new version will not appear in the UI until that call site is wired (or the install flow writes the sidecar)."
+                        ],
+    "remainingGaps":  "A4 (disk full / file in use), A6 (MR07 temporary test-world guidance), A15 remainder (.bak/.prev rotation), plus the frontend version call site noted above",
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "3FD643DD8CE7C2D4D3CDCCD930EB162126B65CF1700B4B0B719DB2257198D1B2",
+                      "sizeBytes":  5692
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "DF92389D7A1C0F430BEE70506D7BBA248AE1DD149D9FEAAFFE11040E799B49C5",
+                      "sizeBytes":  18800
+                  },
+                  {
+                      "path":  "green/01-csharp-full.log",
+                      "sha256":  "8F2E8667D37DD671C9DC3C1FF238C1801C9CAF67D9D8980D376052CA1E94BA0D",
+                      "sizeBytes":  490
+                  },
+                  {
+                      "path":  "green/02-node-full.log",
+                      "sha256":  "BDFCC6715E612B2E2B54BAB0442E3F26A21E37AC106ED4F47D8B337047FF7EBD",
+                      "sizeBytes":  24279
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "38E7A1AA20B2C6BCA89360810F62C19FA994D872C424E73263C65EC2C3369783",
+                      "sizeBytes":  254
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "323CE370F05EA76DEA7BB9E2E23F48BE1E08B390A9094B74FAC56BD6519007B4",
+                      "sizeBytes":  116172
+                  },
+                  {
+                      "path":  "green/LocalApiService.cs.fixed",
+                      "sha256":  "68E9550D99DC5B9CC3C8573A776A535B3A96C4A17AD9E9463F0A3A7164423976",
+                      "sizeBytes":  204302
+                  },
+                  {
+                      "path":  "green/ModReplacementTests.cs.fixed",
+                      "sha256":  "869F1C3F69835EDCAD918364ECCF58878A48A2F47434F5AE3FA68C5AD9988587",
+                      "sizeBytes":  19238
+                  },
+                  {
+                      "path":  "red/01-red-no-version-passthrough.log",
+                      "sha256":  "CCF2BD3FE753B97628EBF128966DCA9A44492F28D9C33ACACBFE2FC0D6542162",
+                      "sizeBytes":  6037
+                  }
+              ]
+}

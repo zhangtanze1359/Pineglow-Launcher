@@ -1,0 +1,259 @@
+{
+  "manifestCount": 59,
+  "fileEntries": 784,
+  "selfEntries": [],
+  "failures": [
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MG0-verification-package-20261003\\manifest.json",
+      "path": "drift-notes.md",
+      "hashMatches": false,
+      "size": 4088,
+      "expectedSize": 3114
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MG2-verification-package-20261003\\manifest.json",
+      "path": "verify-mg2-full.log",
+      "hashMatches": false,
+      "size": 41770,
+      "expectedSize": 41770
+    }
+  ],
+  "runs": [
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\gap-register-2026-10-03\\20261003-190000Z\\manifest.json",
+      "filesChecked": 7
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MG-audit-claimed-tests\\20261003-470000Z\\manifest.json",
+      "filesChecked": 8
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MG-audit-evidence-tree\\20261003-460000Z\\manifest.json",
+      "filesChecked": 66
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MG0-verification-package-20261003\\manifest.json",
+      "filesChecked": 6
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MG1-verification-package-20261003\\manifest.json",
+      "filesChecked": 5
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MG2-verification-package-20261003\\manifest.json",
+      "filesChecked": 6
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MG3-verification-package-20261003\\manifest.json",
+      "filesChecked": 5
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR00-MR27-evidence-index\\20261003-140000Z\\manifest.json",
+      "filesChecked": 7
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR00-MR27-ledger-consistency-audit\\20261003-130000Z\\manifest.json",
+      "filesChecked": 6
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR02\\20261003-110000Z\\manifest.json",
+      "filesChecked": 7
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR03-atomic-launch-reservation\\20261003-320000Z\\manifest.json",
+      "filesChecked": 19
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR03-default-instance-boundary\\20261003-250000Z\\manifest.json",
+      "filesChecked": 21
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR03-deterministic-atomicity-red\\20261003-330000Z\\manifest.json",
+      "filesChecked": 12
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR03-instance-running-guard\\20261003-060000Z\\manifest.json",
+      "filesChecked": 12
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR03-launch-concurrency-guard\\20261003-310000Z\\manifest.json",
+      "filesChecked": 19
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR03-remove-from-list\\20261002-190000Z\\manifest.json",
+      "filesChecked": 12
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR03-world-backup-scope-fix\\20261003-500000Z\\manifest.json",
+      "filesChecked": 15
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR04-locked-file-hash-fix\\20261003-230000Z\\manifest.json",
+      "filesChecked": 12
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR04-recoverable-mod-delete\\20261002-193000Z\\manifest.json",
+      "filesChecked": 11
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR04-recovery-edge-cases\\20261003-220000Z\\manifest.json",
+      "filesChecked": 16
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR05-dependency-install-tests\\20261003-210000Z\\manifest.json",
+      "filesChecked": 13
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR05-file-in-use\\20261003-440000Z\\manifest.json",
+      "filesChecked": 12
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR05-mod-replacement-transaction\\20261002-201500Z\\manifest.json",
+      "filesChecked": 12
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR05-modcontent-update-wiring-tests\\20261003-200000Z\\manifest.json",
+      "filesChecked": 10
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR05-recovery-version-display\\20261003-410000Z\\manifest.json",
+      "filesChecked": 15
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR05-recovery-version-display\\20261003-430000Z\\manifest.json",
+      "filesChecked": 10
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR05-replace-version-metadata\\20261003-420000Z\\manifest.json",
+      "filesChecked": 9
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR06-bisect-file-operation-failures\\20261002-211500Z\\manifest.json",
+      "filesChecked": 13
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR06-bisect-smoke-fault-injection\\20261003-240000Z\\manifest.json",
+      "filesChecked": 15
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR07-bisect-restart-recovery\\20261002-223000Z\\manifest.json",
+      "filesChecked": 14
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR07-bisect-safety-guidance\\20261003-450000Z\\manifest.json",
+      "filesChecked": 12
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR08-diagnostic-report-history\\20261002-234500Z\\manifest.json",
+      "filesChecked": 14
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR09-case-set-representativeness\\20261003-280000Z\\manifest.json",
+      "filesChecked": 12
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR09-diagnostic-benchmark\\20261003-010000Z\\manifest.json",
+      "filesChecked": 13
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR10-progress-gate-assessment\\20261003-120000Z\\manifest.json",
+      "filesChecked": 8
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR11-mrpack-spec-import-rollback\\20261003-023000Z\\manifest.json",
+      "filesChecked": 18
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR12-curseforge-rate-limit\\20261003-043000Z\\manifest.json",
+      "filesChecked": 10
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR12-outbound-endpoint-audit\\20261003-270000Z\\manifest.json",
+      "filesChecked": 13
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR17-accessibility-keyboard\\20261003-100000Z\\manifest.json",
+      "filesChecked": 20
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR17-fixture-isolation-audit\\20261003-370000Z\\manifest.json",
+      "filesChecked": 8
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR17-fixture-isolation-audit\\20261003-380000Z\\manifest.json",
+      "filesChecked": 15
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR17-fixture-isolation-audit\\20261003-390000Z\\manifest.json",
+      "filesChecked": 9
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR17-makeel-doubles-and-taborder\\20261003-400000Z\\manifest.json",
+      "filesChecked": 20
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR17-test-isolation-real-appdata\\20261003-360000Z\\manifest.json",
+      "filesChecked": 8
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR19-ci-workflow-invariants\\20261003-260000Z\\manifest.json",
+      "filesChecked": 14
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR19-dll-byte-diff-mechanism\\20261003-340000Z\\manifest.json",
+      "filesChecked": 8
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR19-managed-assembly-pathcheck\\20261003-180000Z\\manifest.json",
+      "filesChecked": 13
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR19-reproducible-build-rid\\20261003-070000Z\\manifest.json",
+      "filesChecked": 9
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR19-singlefile-pathcheck\\20261003-160000Z\\manifest.json",
+      "filesChecked": 13
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR19-singlefile-pathlen-discriminator\\20261003-170000Z\\manifest.json",
+      "filesChecked": 11
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR19-singlefile-reproducibility\\20261003-150000Z\\manifest.json",
+      "filesChecked": 12
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR20-config-backup-rotation\\20261003-480000Z\\manifest.json",
+      "filesChecked": 13
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR20-config-preservation\\20261003-350000Z\\manifest.json",
+      "filesChecked": 13
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR20-secret-persistence-contract\\20261003-490000Z\\manifest.json",
+      "filesChecked": 13
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR20-self-update-recovery\\20261003-080000Z\\manifest.json",
+      "filesChecked": 13
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR21-install-launch-perf-baseline\\20261003-090000Z\\manifest.json",
+      "filesChecked": 23
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR21-startup-boundaries\\20261003-290000Z\\manifest.json",
+      "filesChecked": 13
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR21-unwritable-directory\\20261003-300000Z\\manifest.json",
+      "filesChecked": 16
+    },
+    {
+      "manifest": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\W1-W3-route-closure\\20261002-182304Z\\manifest.json",
+      "filesChecked": 25
+    }
+  ]
+}

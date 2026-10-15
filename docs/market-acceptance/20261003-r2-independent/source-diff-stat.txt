@@ -1,0 +1,42 @@
+ .github/workflows/build.yml                        |   82 +-
+ .github/workflows/release.yml                      |   36 +-
+ README.md                                          |    4 +-
+ .../Pineglow.Launcher.Tests.csproj                 |    7 +-
+ dev/PineglowLauncher/Assets/AppIcon.ico            |  Bin 198241 -> 172927 bytes
+ dev/PineglowLauncher/Assets/AppIcon.png            |  Bin 444727 -> 1953440 bytes
+ .../Pineglow.Launcher.Models/AppConfig.cs          |   15 +
+ .../Pineglow.Launcher.Models/LauncherAccount.cs    |    2 +
+ .../Pineglow.Launcher.Services/AccountService.cs   |   11 +
+ .../AiDiagnoseService.cs                           |  741 ++++-
+ .../Pineglow.Launcher.Services/AuthlibAccount.cs   |    2 +-
+ .../AuthlibInjectorService.cs                      |   36 +-
+ .../Pineglow.Launcher.Services/ConfigStore.cs      |   91 +-
+ .../InstancePackService.cs                         |  288 +-
+ .../Pineglow.Launcher.Services/LauncherService.cs  |    2 +-
+ .../Pineglow.Launcher.Services/LocalApiService.cs  | 3223 ++++++++++++++++++--
+ .../MicrosoftAuthService.cs                        |    5 +
+ .../Pineglow.Launcher.Services/MinecraftAccount.cs |    2 +
+ .../MinecraftAppearance.cs                         |    2 +
+ .../MinecraftNewsService.cs                        |  677 +++-
+ .../Pineglow.Launcher.Services/ModBisectService.cs |  150 +
+ .../ModContentService.cs                           |   45 +-
+ .../Pineglow.Launcher.Services/ModService.cs       |    5 +
+ .../Pineglow.Launcher.Services/SecretStore.cs      |  265 +-
+ .../Pineglow.Launcher.Services/UpdateService.cs    |  244 +-
+ .../Shell/WebShellWindow.axaml.cs                  |   10 +-
+ dev/PineglowLauncher/Pineglow.Launcher.csproj      |   16 +-
+ dev/PineglowLauncher/Properties/AssemblyInfo.cs    |   14 +-
+ dev/PineglowLauncher/VerifyHost/BisectSmoke.cs     |   81 +-
+ dev/PineglowLauncher/VerifyHost/VerifyHost.csproj  |   10 +-
+ dev/PineglowLauncher/app.ico                       |  Bin 198241 -> 172927 bytes
+ docs/api-reference.md                              |   24 +-
+ docs/archive/archive-README.md                     |    2 +
+ docs/development-guide.md                          |    4 +-
+ docs/features.md                                   |    3 +-
+ docs/roadmap.md                                    |   43 +-
+ ui/css/figma.css                                   |  243 +-
+ ui/index.html                                      |   14 +-
+ ui/js/api.js                                       |  498 ++-
+ ui/js/i18n.js                                      |  396 ++-
+ ui/js/launcher.js                                  | 2228 ++++++++++++--
+ 41 files changed, 8560 insertions(+), 961 deletions(-)

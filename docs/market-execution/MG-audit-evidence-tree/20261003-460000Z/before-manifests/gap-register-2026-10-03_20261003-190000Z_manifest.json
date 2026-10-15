@@ -1,0 +1,70 @@
+﻿{
+    "runId":  "20261003-190000Z",
+    "task":  "缺口登记表：各包\"未做/未验证\"的汇总、分类与核实",
+    "generatedUtc":  "2026-10-02T23:56:19Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "deliverable":  "docs/market-execution/gap-register.md",
+    "result":  {
+                   "rawItemsExtracted":  102,
+                   "packagesCovered":  18,
+                   "classA_localOnly":  15,
+                   "classB_needsRealEnvironment":  8,
+                   "classC_needsAuthorization":  5,
+                   "classD_alreadyClosed":  9,
+                   "dClassClaimsVerified":  "12/12 PASS",
+                   "aClassSpotChecks":  "4/4 confirmed still open",
+                   "productCodeChanged":  false,
+                   "csharpFull":  "755 passed / 0 failed",
+                   "nodeFull":  "230 passed / 0 failed (18 files)",
+                   "ledgerAudit":  "exit 0 after registering the cross-milestone artifact in the audit script claimed list",
+                   "workspaceChanges":  "1 file content change: scripts/audit-plan-ledger.ps1 (registered the cross-milestone artifact gap-register in its claimed list). git status line count unchanged because the file was already untracked."
+               },
+    "keyFinding":  {
+                       "statement":  "A data-writing service on the mod install/update path has ZERO automated test coverage",
+                       "service":  "ModContentService (ModContentService.cs:15)",
+                       "members":  "DownloadAndInstallAsync (line 66), InstallWithDependenciesAsync (line 168)",
+                       "productionCallSites":  "InstancePackService.cs:248, LocalApiService.cs:4774, LocalApiService.cs:5055",
+                       "testReferences":  0,
+                       "whyItMatters":  "MR05 is in MG1 whose gate is data safety (\"unrecoverable deletion, state not matching disk\"); an untested update wiring is exactly such an entry point"
+                   },
+    "recommendation":  "Close A1 next (MR05 ModContentService update wiring test): fully local, no authorization, and it converts a known-untested path into a covered one. Second choice: A5 (extend --bisect-smoke with fault injection) which pushes MR06 coverage from unit to end-to-end.",
+    "note":  "Several packages still mark 🔴 for items that were closed by later rounds; section D is the correction entry point (sealed reports are NOT rewritten).",
+    "files":  [
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "4404FFF44FB1FCFD5C4C4A5F692B84C1550DD9D8A20921B4B85FECC074A5F7F4",
+                      "sizeBytes":  9593
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "E4B57D0E8900D668F65DEF15B300D9F18434AF54075D4867953E6EBEBDF160E9",
+                      "sizeBytes":  100
+                  },
+                  {
+                      "path":  "green/claim-verification.log",
+                      "sha256":  "23F3932B9977AE1D0B7D5E90D15699E310608E622FA639ADF04CB5964414FD14",
+                      "sizeBytes":  763
+                  },
+                  {
+                      "path":  "green/csharp-full.log",
+                      "sha256":  "BD35EBBD8FAB222A8006CB097B6B1CF6D24AB079C86A6095C55BFA5669E7A6A2",
+                      "sizeBytes":  655
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "8687B86F8D978B5E127CD526C7C8307954CAA3066D4F1CB68D022351D7BEA921",
+                      "sizeBytes":  115309
+                  },
+                  {
+                      "path":  "green/node-full.log",
+                      "sha256":  "25D7F7742F73FF9BD07FDC5896134DDA641ECEA82DEC99B7777C6C65E57F2C59",
+                      "sizeBytes":  23809
+                  },
+                  {
+                      "path":  "green/raw-extraction.csv",
+                      "sha256":  "56CAFB02E6CC21266F70419D2DC36E1C402172BCF9E3D99A7DF8F90B72153770",
+                      "sizeBytes":  6280
+                  }
+              ]
+}

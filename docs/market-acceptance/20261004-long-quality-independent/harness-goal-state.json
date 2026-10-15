@@ -1,0 +1,12 @@
+[
+  {
+    "jsonPath": "/record/rows/goal/val/current/goal",
+    "state": {
+      "id": "goal-1f34d5e3-a907-473d-ae66-b83e73fd459a",
+      "revision": 2,
+      "objective": "codex://threads/01a100f8-21d5-76f2-a7bd-bcd5eba116ba读取最新任务内容并执行",
+      "phase": "complete",
+      "maxGoalRounds": 256
+    }
+  }
+]

@@ -1,0 +1,7 @@
+stage=terminal
+generatedLocal=2026-10-03T19:32:28+08:00
+head=f145d14eb26b0b7459a28491e764ac8c573085d3 branch=main
+inputs=292 tracked=161 whitelist=125 goalTooling=6 missing=0
+totalBytes=6054378
+gitStatusLines=1425 -> C:\Users\Administrator\.codex\worktrees\34ca\松光启动器\docs\market-execution\LONG-QUALITY-GOAL\20261003-092612Z-b4d896a8\FINAL-LOCAL-QUALITY\20261003-092612Z-b4d896a8\seal\source-status-terminal.txt
+manifest=C:\Users\Administrator\.codex\worktrees\34ca\松光启动器\docs\market-execution\LONG-QUALITY-GOAL\20261003-092612Z-b4d896a8\FINAL-LOCAL-QUALITY\20261003-092612Z-b4d896a8\seal\source-after-manifest.json

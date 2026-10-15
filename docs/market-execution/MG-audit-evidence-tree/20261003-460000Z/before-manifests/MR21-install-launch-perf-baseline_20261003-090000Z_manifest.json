@@ -1,0 +1,189 @@
+﻿{
+    "runId":  "20261003-090000Z",
+    "task":  "MR21 安装启动与性能基线（仅测量，产品代码只读）",
+    "generatedUtc":  "2026-10-02T22:39:01Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "result":  {
+                   "productCodeChanged":  false,
+                   "runs":  5,
+                   "iterationsPerRun":  20,
+                   "samplesPerMetric":  100,
+                   "csharpFull":  "752 passed / 0 failed (62 s)",
+                   "nodeFull":  "221 passed / 0 failed (17 files)",
+                   "gitStatus":  1328,
+                   "performanceClaim":  "NONE - this package only measures"
+               },
+    "baseline":  {
+                     "diagnostic.sanitize.longlog":  {
+                                                         "p50":  30.24,
+                                                         "frozenBudgetP95":  82.83,
+                                                         "p95":  55.22
+                                                     },
+                     "mods.list.500":  {
+                                           "p50":  16.015,
+                                           "frozenBudgetP95":  30.24,
+                                           "p95":  20.16
+                                       },
+                     "mods.list.100":  {
+                                           "p50":  3.178,
+                                           "frozenBudgetP95":  8.343,
+                                           "p95":  5.562
+                                       },
+                     "mrpack.parse.500files":  {
+                                                   "p50":  1.2,
+                                                   "frozenBudgetP95":  2.018,
+                                                   "p95":  1.345
+                                               },
+                     "diagnostic.analyze.longlog":  {
+                                                        "p50":  0.984,
+                                                        "frozenBudgetP95":  13.365,
+                                                        "p95":  8.91
+                                                    }
+                 },
+    "bottleneck":  {
+                       "metric":  "diagnostic.sanitize.longlog",
+                       "current":  "p50 30.240 ms / p95 55.220 ms",
+                       "cause":  "SelectEvidence sanitizes the ENTIRE 1.2 MB log with 13 compiled regexes before selecting the few relevant lines (only ~4000 chars are used)",
+                       "candidateFix":  "select relevant lines first, sanitize only those lines",
+                       "candidateMeasured":  "p50 6.123 ms / p95 22.908 ms (p50 -80%, p95 -59%)",
+                       "candidateShipped":  false,
+                       "changeRisk":  "the two orders judge relevance on different text (sanitized vs raw), so the SELECTED LINE SET can differ when a keyword is itself redacted (e.g. Authorization: Bearer Error123); truncation point can also differ - needs a comparison case set, not just the perf number",
+                       "authorizationRequired":  "yes - the card requires bottleneck fixes to go through a separate precise sub-package"
+                   },
+    "environment":  {
+                        "os":  "Microsoft Windows NT 10.0.26200.0",
+                        "logicalCores":  16,
+                        "arch":  "X64",
+                        "dotnetSdk":  "10.0.301",
+                        "node":  "v24.19.0",
+                        "webView2Runtime":  "154.0.4258.48 (present)"
+                    },
+    "knownGaps":  [
+                      "任何优化都未做：产品代码零改动；候选修复只被量化",
+                      "真实 GUI 首屏可交互 / WebView2 渲染 / UI 阻塞未测量（需桌面会话与人工交互）",
+                      "真实登录授权、真实启动游戏、菜单往返未做",
+                      "无 .NET runtime 的便携产物首次启动未验证（本机装了 SDK）",
+                      "WebView2 缺失时的降级文案未观测（本机已安装 154.0.4258.48）",
+                      "目录不可写 / 端口冲突 / 下载失败恢复未计时",
+                      "100/500 Mod 只测了服务层扫描，没有测 UI 渲染",
+                      "结果不可跨机器比较：只在同机同 SDK 下可比"
+                  ],
+    "files":  [
+                  {
+                      "path":  "changed-files.sha256.txt",
+                      "sha256":  "84AA74E2C692E202A8F8B8449C24D9B546113496877B3450A635067AC3E6A487",
+                      "sizeBytes":  323
+                  },
+                  {
+                      "path":  "computed/perf-baseline.json",
+                      "sha256":  "ACC06B6FCA476B883DB7C2DFEFB497A541F91B21E46F8F40D0F182FC5DFCD18F",
+                      "sizeBytes":  5231
+                  },
+                  {
+                      "path":  "csharp-full.log",
+                      "sha256":  "34A4458208FC9899E83B5E559A2A8266B22834BBE6B47B24E9B49EF3D3BECF72",
+                      "sizeBytes":  4457
+                  },
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "BBC3496635E89F9BEE16DE02CD62C4354F8960B280B5C43D43B4B1DB14F4800E",
+                      "sizeBytes":  8127
+                  },
+                  {
+                      "path":  "git-status-after.txt",
+                      "sha256":  "6B29EA9FA970B83A917C2835C2A1FF289028F29E0C7AA9138E415AAFEDCAB9DB",
+                      "sizeBytes":  114950
+                  },
+                  {
+                      "path":  "measure-mr21.log",
+                      "sha256":  "47026C9E04F3CAC095D91C94B9AAFC3B42131CDC0DC0783EF4762D98AD7F4F51",
+                      "sizeBytes":  3350
+                  },
+                  {
+                      "path":  "node-full.log",
+                      "sha256":  "F5D682BFE25E1E69C1488F94739BF681D1D7E5A1A370E63EE7BEE7B9EC25B8C3",
+                      "sizeBytes":  23050
+                  },
+                  {
+                      "path":  "raw/environment.json",
+                      "sha256":  "1F12EB8A41D97663B394DEADA6D87295031BED3F1482513155CE784A5EF26A91",
+                      "sizeBytes":  397
+                  },
+                  {
+                      "path":  "raw/run-01/console.log",
+                      "sha256":  "A2AAEDA28B071D272EC07D1C7500A38FA40457ED7D03EAC6FF02EFA75B1570C2",
+                      "sizeBytes":  8287
+                  },
+                  {
+                      "path":  "raw/run-01/env-facts.json",
+                      "sha256":  "599E8289F696FC567F799FD2CD6666CB152F27AAAD22C85E7C850A16C3D77E74",
+                      "sizeBytes":  199
+                  },
+                  {
+                      "path":  "raw/run-01/raw-metrics.jsonl",
+                      "sha256":  "DD6D4DC426C3841A417333551579DE750DF2FB5A27E618F62B52FF7C1A58508F",
+                      "sizeBytes":  2531
+                  },
+                  {
+                      "path":  "raw/run-02/console.log",
+                      "sha256":  "ECB4930B290483B752FC1A1035912EFBAD60604D03E924A2E6E1736B0AB5DC9B",
+                      "sizeBytes":  4483
+                  },
+                  {
+                      "path":  "raw/run-02/env-facts.json",
+                      "sha256":  "18FC9C00030A2440FE7DF7C144931B108978BD96DD3885499F4754BDFD558161",
+                      "sizeBytes":  199
+                  },
+                  {
+                      "path":  "raw/run-02/raw-metrics.jsonl",
+                      "sha256":  "F788FD05FA26257D6C2242EFBC439A60BAADB80E001B5EEBEF91B24EB07E6D7E",
+                      "sizeBytes":  2532
+                  },
+                  {
+                      "path":  "raw/run-03/console.log",
+                      "sha256":  "D940BA9130E06DCB9C1C5277B5DE2184F8B9E08ECA58A30FBF64674C9D634E89",
+                      "sizeBytes":  4475
+                  },
+                  {
+                      "path":  "raw/run-03/env-facts.json",
+                      "sha256":  "3DAAA9FE0C69131DB4F3AC4C7A84322CB7650102203711E7DEC04FC28530C764",
+                      "sizeBytes":  199
+                  },
+                  {
+                      "path":  "raw/run-03/raw-metrics.jsonl",
+                      "sha256":  "95C41A2EF6570C547528F0EAE9745ABDAE9359BC052DB6CD921F58BB785857A7",
+                      "sizeBytes":  2524
+                  },
+                  {
+                      "path":  "raw/run-04/console.log",
+                      "sha256":  "D8F49229F7D45C81BD2C750F9989D9D3158B6585DF018EE19C890DBE3720DFE8",
+                      "sizeBytes":  4478
+                  },
+                  {
+                      "path":  "raw/run-04/env-facts.json",
+                      "sha256":  "04B4563C11506A1E6F4685E8C909FEFD7823822065996793C04DFE6EC4995BD3",
+                      "sizeBytes":  199
+                  },
+                  {
+                      "path":  "raw/run-04/raw-metrics.jsonl",
+                      "sha256":  "F8AA02401B5916CDDFC99F3364527CB06F6B476A7C1F364FA2CD1CAC48D8D9AD",
+                      "sizeBytes":  2527
+                  },
+                  {
+                      "path":  "raw/run-05/console.log",
+                      "sha256":  "DD2207F804FF3832A3D916DF4179722C2B68437CF1923E582F7946D9315211CD",
+                      "sizeBytes":  4470
+                  },
+                  {
+                      "path":  "raw/run-05/env-facts.json",
+                      "sha256":  "191738511A886624ED61FD547D83B05F31B97350C1040DEB61757C122CA0C9BF",
+                      "sizeBytes":  199
+                  },
+                  {
+                      "path":  "raw/run-05/raw-metrics.jsonl",
+                      "sha256":  "234FB4C85B79694C7EB6FD8EEAE26449D12A95D4B8B19B97734AEF83AF9CF61E",
+                      "sizeBytes":  2519
+                  }
+              ]
+}

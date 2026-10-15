@@ -1,0 +1,10 @@
+﻿[
+    {
+        "label":  "P-APILOG 1/2 every 500 reaches the log file",
+        "ok":  true
+    },
+    {
+        "label":  "P-APILOG 2/2 prelaunch-check tests the instance directory",
+        "ok":  true
+    }
+]

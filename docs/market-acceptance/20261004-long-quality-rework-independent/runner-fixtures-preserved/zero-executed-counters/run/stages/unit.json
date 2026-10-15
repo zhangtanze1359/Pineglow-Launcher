@@ -1,0 +1,56 @@
+{
+    "schemaVersion":  2,
+    "id":  "unit",
+    "runId":  "fixed-id",
+    "attemptDir":  "attempts/unit/1",
+    "fingerprint":  "DDBC17588074F4FE0CCD6380845A3CCF9DEEBF693AD8C4F688796F09B1BCC5D7",
+    "inputManifestSha256":  "011DEC3A7BF8463404DD59D3C0224A224B1638F3FBDB023CE786E6FDA91BBEC9",
+    "inputSetSha256":  "8B61E22B98906A58BCCF598A8597273C39E974CA49E3A725FCEE986A121651DB",
+    "command":  "C:\\Program Files\\nodejs\\node.exe C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\zero-executed-counters\\child.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\zero-executed-counters\\run\\attempts\\unit\\1/unit.trx bad",
+    "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\zero-executed-counters",
+    "startUtc":  "2026-10-04T10:38:44Z",
+    "endUtc":  "2026-10-04T10:38:44Z",
+    "exitCode":  0,
+    "timedOut":  false,
+    "stillRunning":  false,
+    "counters":  {
+                     "total":  3,
+                     "executed":  0,
+                     "passed":  0,
+                     "failed":  0,
+                     "notExecuted":  0,
+                     "resultRows":  0,
+                     "passedRows":  0,
+                     "failedRows":  0,
+                     "notExecutedRows":  0,
+                     "otherRows":  0
+                 },
+    "trx":  "unit.trx",
+    "artifacts":  [
+                      {
+                          "path":  "unit.trx",
+                          "sha256":  "83FCD2B1E529CC92F23FB9E7D2C8840FF575D32578ADC1562C391EC11D2987A9",
+                          "sizeBytes":  132
+                      }
+                  ],
+    "rawEvidence":  [
+                        {
+                            "path":  "unit.stdout.log",
+                            "sha256":  "A5535F67A81F90334A838E0935772E949A2156297D7A62EEAF7578F46460BD5D",
+                            "sizeBytes":  40
+                        },
+                        {
+                            "path":  "unit.stderr.log",
+                            "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                            "sizeBytes":  0
+                        }
+                    ],
+    "reasons":  [
+                    "TRX_NO_RESULT_ROWS",
+                    "TRX_COUNTERS_INCONSISTENT",
+                    "ZERO_TESTS",
+                    "TESTS_BELOW_MIN"
+                ],
+    "status":  "FAILED",
+    "reused":  false
+}

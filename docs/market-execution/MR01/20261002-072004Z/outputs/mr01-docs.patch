@@ -1,0 +1,801 @@
+MR01 文档更新逐文件 diff（对照执行前基线 @ D:\松光启动器）
+生成时间: 2026-10-02T07:36:45Z
+改动文件 6 / 6
+
+
+==========================================================================================
+README.md
+==========================================================================================
+--- a/README.md  (执行前基线 @ SourceRoot)
++++ b/README.md  (MR01 更新 @ ExecutionRoot)
+@@ -6,13 +6,25 @@
+ 
+ ## ✨ 功能
+ 
++> 状态分级与逐项证据见 [docs/features.md](docs/features.md)。
++> 本文只列**已确认可用或已确认存在**的项；不把"代码写了"当作"能用"。
++
+ - **账号**:离线 / 微软正版（浏览器授权登录）/ Authlib 第三方皮肤站
+ - **版本**:官方版本安装 / 校验 / 修复,断点续传 + 可恢复任务队列
+-- **加载器与整合包**:Forge / Fabric / NeoForge / Quilt / OptiFine,Modrinth 整合包导入安装
+-- **实例**:独立隔离目录、实例级 Java、Mod 启停 / 依赖解析 / 健康检查
++- **加载器与整合包**:Forge / Fabric / NeoForge / Quilt / OptiFine（**共 5 种**）；Modrinth `.mrpack` 与 CurseForge 整合包导入
++- **实例**:独立隔离目录、实例级 Java、依赖解析 / 健康检查
+ - **内容**:Modrinth 搜索、资源包 / 光影 / 存档管理、服务器收藏与状态 Ping
+ - **Java**:自动检测与自动安装、内存智能推荐
+ - **工程**:日志落盘、崩溃分析、诊断包导出、自更新框架、双语界面
++
++### ⚠️ 已知缺陷（2026-10-02 核实）
++
++- **Mod 启停/删除与 Mod 二分定位的 HTTP 路由当前不可达（返回 404）**——
++  `LocalApiService` 的路由分支被错误嵌套在 `seg.Length == 4` 的块内。
++  UI 已接线、服务层已实现，但端到端不可用。详见 [docs/architecture.md](docs/architecture.md) 与
++  [docs/features.md](docs/features.md) §1.1。
++- **Mod 删除为不可恢复的 `File.Delete`**，无隔离与撤销。
++- **RID 发布无法锁定还原**（`packages.lock.json` 只覆盖 `net10.0`，已知 NU1004 边界）。
+ 
+ ## 🚀 构建
+ 
+@@ -21,7 +33,7 @@
+ dotnet publish -c Release -r win-x64 --self-contained /p:PublishSingleFile=true
+ ```
+ 
+-产物为 Windows x64 单文件自包含 exe（无需安装 .NET 运行时）。CI 会编译 Linux/macOS 产物，但 WebView 与端到端运行目前仅在 Windows 验证，不能视为正式跨平台发布支持。
++产物为 Windows x64 单文件自包含 exe（无需安装 .NET 运行时）。CI 会编译 Linux/macOS 产物，但 WebView 与端到端运行目前仅在 Windows 验证，不能视为正式跨平台发布支持。
+ 
+ ## 🏗 架构
+ 
+@@ -30,7 +42,7 @@
+         │                            │ fetch
+         └──── LocalApiService ◀──────┘
+                   │
+-        C# 服务层(LauncherService 等服务,JSON/文件持久化)
++        C# 服务层(LauncherService 等服务,JSON/文件持久化)
+ ```
+ 
+ ## 📄 许可证
+
+==========================================================================================
+docs/README.md
+==========================================================================================
+--- a/docs/README.md  (执行前基线 @ SourceRoot)
++++ b/docs/README.md  (MR01 更新 @ ExecutionRoot)
+@@ -1,45 +1,73 @@
+ # 松光启动器 · 项目知识库
+ 
+-> 本文档是项目的**唯一可信知识源**，反映 2026-08-16 的最新状态。
++> 本文档是项目的**唯一可信知识源**，**事实基线 2026-10-02（MR01 刷新）**。
+ > 涉及开发 / 设计 / 发布 / 排障任务时，先读本文档，再按需进入子文档。
+ > 历史过时文档已归档至 `docs/archive/`，仅供可追溯参考，不作事实依据。
+ 
+ ## 一、项目一句话
+ 
+-**Pineglow Launcher（松光启动器）** —— 跨平台 Minecraft 启动器，**纯 Web UI 架构**：Avalonia 仅作 WebView2 宿主，界面由 `ui/` 下的 HTML/CSS/JS 实现，通过本地 `LocalApiService`（HttpListener，127.0.0.1:48123）与 C# 服务层（约 67 个服务）通信。
++**Pineglow Launcher（松光启动器）** —— Minecraft 启动器，**纯 Web UI 架构**：Avalonia / .NET 10 仅作 WebView2 宿主，界面由 `ui/` 下的 HTML/CSS/JS 实现，通过本地 `LocalApiService`（HttpListener，127.0.0.1:48123）与 C# 服务层（**76 个 `.cs`**，2026-10-02 实测）通信。
++⚠️ **本项目不是 Tauri**（全仓对 `tauri` 零命中），不要套用 Tauri 生态方案。
+ 
+ ## 二、知识库导航
+ 
+ | 文档 | 内容 | 适用场景 |
+ |---|---|---|
+-| [architecture.md](architecture.md) | 纯 Web UI 架构、三层职责、WebView 加载 | 理解整体架构 |
++| [architecture.md](architecture.md) | 纯 Web UI 架构、三层职责、WebView 加载、**路由门控陷阱** | 理解整体架构 / 排查接口 404 |
+ | [api-reference.md](api-reference.md) | LocalApiService 完整 API 协议 + 路由实现逻辑 | 前端联调 / 新增接口 |
+-| [features.md](features.md) | 功能矩阵（9 视图真实状态）+ 能力清单 | 功能盘点 / 验收 |
++| [features.md](features.md) | 功能矩阵（9 视图）+ 能力清单 + **状态分级 + 已知缺陷** | 功能盘点 / 验收 |
+ | [design-system.md](design-system.md) | 设计 Token、对比度/动效红线、品牌母题 | UI 开发 / 视觉走查 |
+ | [engineering.md](engineering.md) | 服务层索引 + LocalApiService 实现逻辑深析 | 后端开发 / 排障 |
+-| [roadmap.md](roadmap.md) | 竞品对标、时间线对照、差距现状、后续方向 | 规划 / 决策 |
++| [roadmap.md](roadmap.md) | 竞品对标、时间线对照、差距现状、后续方向（**含 MR00~MR27 映射**） | 规划 / 决策 |
+ | [ai-diagnosis-plan.md](ai-diagnosis-plan.md) | AI 崩溃诊断功能的完整执行计划（代码级） | 实现 AI 诊断 |
+ | [ai-feature-evolution.md](ai-feature-evolution.md) | AI 功能演进记录（原 .trae 三份规划整理 + 多提供商预设现状） | 理解 AI 功能来龙去脉 / 维护 AI 配置 |
+-| [development-guide.md](development-guide.md) | 构建 / 缓存 / 测试 / 操作纪律 | 日常开发 |
++| [development-guide.md](development-guide.md) | 构建 / 缓存 / 测试 / 操作纪律 / **源码快照与可复现性验证** | 日常开发 |
++| [market-research-task-workflow-2026-10-02.md](market-research-task-workflow-2026-10-02.md) | 市场调研导出的完整任务流程（28 个任务包 MR00~MR27） | 排期 / 任务授权 |
++| [minimax-market-research-execution-prompt-2026-10-02.md](minimax-market-research-execution-prompt-2026-10-02.md) | 给执行 AI 的第一批指令（MR00+MR01）与后续任务包规则 | 委派执行 |
+ 
+ ## 三、关键事实速查（已核实）
+ 
+ - **仓库**：`https://github.com/zhangtanze1359/Pineglow-Launcher.git`，分支 `main`，LICENSE=GPL-3.0。
+ - **CI**：`.github/workflows/build.yml`（三平台构建）+ `release.yml`（发布 + Gitee 镜像）。
++  ⚠️ **CI 至今未实际执行过**（未推送、未建 PR）；三平台产物 ≠ 跨平台正式支持。
++- **技术栈**：Avalonia 12 + Web UI + .NET 10（`global.json` 锁定 SDK 10.0.301）。**不是 Tauri。**
+ - **前端视图**：9 个（home / installations / worlds / servers / content / skins / downloads / news / settings）。
+-- **API**：约 50 处路由，覆盖 health / state / instances / accounts / versions / downloads / update / config / worlds / content / java / stats / sources / servers（含 `instances/{id}/diagnose` AI 诊断）。
++- **API**：`LocalApiService` 内 61 个 `Handle*Async` handler；仅 `127.0.0.1` 回环监听。
++- **加载器**：现有 **5 种**（Fabric / Forge / NeoForge / Quilt / OptiFine），见 `Models/ModLoaderKind.cs`。
++  Cleanroom / Legacy Fabric / LiteLoader **不在枚举中**，是未实施候选项。
+ - **崩溃分析**：`CrashAnalyzerService` 为纯规则引擎，已通过 `instances/{id}/diagnose` 暴露 + AI 增强（见 ai-diagnosis-plan.md）。
+ - **配置**：`AppConfig`，密钥字段（CurseForgeKey、Microsoft tokens）用 `[JsonIgnore]` 不掉盘。
+ - **前端双模式**：`api.js` 的 `live` / `_mock` 双通道，`file://` 下走 mock 降级。
++- **可复现性**：工作区 HEAD 之上有大量未提交改动且依赖未跟踪生产源；用
++  `scripts/verify-source-snapshot.ps1` + `scripts/source-snapshot-inputs.txt` 组装隔离快照复验。
++
++### 🔴 当前最高优先级缺陷（2026-10-02 发现）
++
++`/api/instances/{id}/bisect/{start,test,giveup}` 与 `/api/instances/{id}/mods/{file}/{toggle,delete}`
++**路由不可达、恒返回 404**——分支被错误嵌套在 `seg.Length == 4` 的块内。
++UI 已接线、服务层已实现、Bisect 有 12 个单测，但**端到端不可用**；`VerifyHost.exe --bisect-smoke` 实测 `exit=1`。
++详见 [features.md](features.md) §1.1。归属 `MR04` / `MR06`。
++
++### 2026-10-02 实测基线
++
++Node 前端正式测试 **184 通过 / 0 失败 / 0 跳过**；C# Release 全套 **612 通过 / 0 失败 / 0 跳过**；
++win-x64 单文件发布成功（45,644,552 字节，SHA256 `3B71DCC1…`）；**RID 发布锁定为 KNOWN-UNLOCKED（NU1004）**。
++**真实 GUI / 真实游戏 / CI 实际运行均未验证。**
+ 
+ ## 四、维护规约（必读）
+ 
+ 1. **文档是唯一可信源**：改动代码 / 功能后，同步更新本文档对应章节，避免再次产生过时文档。
+ 2. **新增 API**：在 `api-reference.md` 补端点，并遵守后端 JSON 大小写约定。
++   **⚠️ 要求更长 `seg.Length` 的路由分支绝不能嵌套在要求更短 `seg.Length` 的分支内**；
++   改完必须有打到 HTTP 层的测试——只测服务层发现不了路由不可达。
+ 3. **新增功能**：更新 `features.md` 状态矩阵 + `roadmap.md` 差距清单。
+-4. **涉及 UI 设计**：遵守 `design-system.md` 红线，禁止硬编码色值。
+-5. **历史文档**：一律进 `docs/archive/`，不留在根目录与正文混淆。
++4. **状态词必须分级**：`代码存在` / `自动验证` / `真实场景验证` / `未验证` / `不支持`。
++   **一个绿色勾不能覆盖所有层级**；旧文档用 `✅` 同时表示"写了"和"能用"是主要歧义来源。
++5. **否定性结论要交叉核对**："某功能不存在""某竞品没有"必须两侧材料齐备，
++   否则写"本次材料未证实"。竞品能力未发现 ≠ 不存在。
++6. **涉及 UI 设计**：遵守 `design-system.md` 红线，禁止硬编码色值。
++7. **历史文档**：一律进 `docs/archive/`，不留在根目录与正文混淆。
+ 
+ ---
+ 
+-*知识库 2026-08-16 建立，整合原有 5 份文档并纳入最新分析结论。*
++*知识库 2026-08-16 建立；2026-10-02 由 MR01 刷新功能事实基线、状态分级与已知缺陷。*
+
+==========================================================================================
+docs/features.md
+==========================================================================================
+--- a/docs/features.md  (执行前基线 @ SourceRoot)
++++ b/docs/features.md  (MR01 更新 @ ExecutionRoot)
+@@ -1,88 +1,251 @@
+ # 功能矩阵与能力清单
+ 
+-> 反映 2026-08-16 状态。本文取代旧《技术对比文档》的功能盘点（其逆向结论已过时）。
+-
+-## 一、前端 9 视图真实状态
+-
+-| 视图 | 状态 | 说明 |
+-|---|---|---|
+-| home | ✅ 完整 | 启动/停止真实链路，静态新闻 |
+-| installations | ✅ 完整 | 实例管理 + Mod 弹窗（toggle 已写盘）+ AI 崩溃诊断弹窗（含嫌疑 Mod 一键禁用）+ Mod 二分定位弹窗 |
+-| worlds | ✅ 完整 | 读存档列表 + 备份/恢复/删除 |
+-| servers | ✅ 完整 | 增删/ping 真实 |
+-| content | ✅ 完整 | 搜索真实 + 安装写盘（入队式） |
+-| skins | ✅ 部分 | 预览真实，上传皮肤已可用 |
+-| downloads | ✅ 完整 | 远程版本 + 下载任务轮询 |
+-| news | ✅ 完整 | 独立新闻页 |
+-| settings | ✅ 完整 | 内存/Java/离线账号/日志/更新/微软登录/代理/下载源/AI 提供商管理（多预设：DeepSeek/OpenAI/通义千问/智谱/Ollama，可新增/编辑/删除/设为当前） |
++> **事实基线：2026-10-02（MR01 刷新）。** 本文取代旧《技术对比文档》的功能盘点（其逆向结论已过时），
++> 也取代 2026-08-16 版功能矩阵的结论。
++>
++> **证据版本**：输入为 `D:\松光启动器` 工作区在 HEAD `f145d14eb26b0b7459a28491e764ac8c573085d3`
++> 之上的未提交状态（35 个已修改文件 + 1251 个未跟踪文件中的 53 项显式白名单），
++> 经 `scripts/verify-source-snapshot.ps1` 组装的隔离快照。
++> 完整逐文件 SHA 见 `docs/market-execution/MR00/execution-root.json` 与同 run-id 的 `input-manifest.json`。
++>
++> **本轮实测数字（唯一可引用的当前结果）**：Node 前端正式测试 **184 通过 / 0 失败 / 0 跳过**（11 个 `.test.cjs`）；
++> C# Release 全套 **612 通过 / 0 失败 / 0 跳过**。历史报告中的旧测试数不作为当前结论。
++
++## 〇、状态词定义（本文强制使用）
++
++| 状态 | 含义 |
++|---|---|
++| **代码存在** | 能在源码中定位到实现位置；不等于可用 |
++| **自动验证** | 本轮或既有测试**实际执行过**并通过，且覆盖该层级 |
++| **真实场景验证** | 在真实 GUI / 真实游戏 / 真实文件上跑通并留有日志 |
++| **未验证** | 本轮没有执行，或缺少证据 |
++| **不支持** | 明确没有实现 |
++
++> ⚠️ **一个绿色勾不能覆盖所有层级。** 旧版用 `✅` 同时表示"代码写了"和"验证过"，
++> 这正是本轮要消除的歧义来源。
++
++---
++
++## 一、🔴 本轮新发现的高优先级缺陷（先于功能清单）
++
++### 1.1 Bisect 与 Mod 操作的 HTTP 路由是不可达死代码
++
++**证据（静态 + 真实运行双重确认）**
++
++- `dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.cs:415`
++  的外层分支门控为 `if (seg.Length == 4 && seg[1].Equals("instances", ...))`（**精确等于 4**）。
++- 同一 `if` 块**内部**又出现两个要求更长路径的分支：
++  - `:511` `if (seg.Length == 5 && action.Equals("bisect", ...))` → `start` / `test` / `giveup`
++  - `:531` `if (seg.Length == 6 && action.Equals("mods", ...))` → `toggle` / `delete`
++- 这两个条件要求 `seg.Length` 为 5 / 6，却被包在要求等于 4 的块内，**恒为 false**。
++- 大括号深度可复算：`:415` 深度 3，`:511` 深度 4，`:531` 深度 5。
++- 落到 `:789` 的兜底 `404 未找到接口`。
++
++**真实运行确认**：在隔离沙盒内执行 `VerifyHost.exe --bisect-smoke --port 48130`，
++`POST /api/instances/{id}/bisect/start` 返回 **404**，冒烟自检 `exit=1`。
++（该次调用前 `CreateInstance` 与实例详情查询均已成功、沙盒内 8 个假 Mod 已写入，
++因此失败点确定在第一次 bisect 调用，而非更早的步骤。）
++
++**旁证：同一类 bug 此前已被修过一次**。`:408-409` 的注释写明
++"Phase 3B v3 修复批次：cancel 路由必须先于通用 diagnose。精确 seg.Length 匹配"，
++即 `diagnose/cancel` 正是因为同样的嵌套问题被**提到块外**才恢复可达（其深度为 3，在 `:415` 之前）。
++bisect 与 mods 两组路由没有做同样的提升。
++
++**影响**：UI 侧 `ui/js/api.js`、`ui/js/launcher.js` 已按调研所述接线并有 i18n 文案，
++但这些调用打到的是 404。**Mod 二分定位与 Mod 启停/删除在端到端层面当前不可用。**
++
++**为什么 796 个绿色测试没发现**：
++- `dev/PineglowLauncher.Tests/ModBisectServiceTests.cs` 的 12 个 `[Fact]` 只 `using Pineglow.Launcher.Services`，
++  直接测 `ModBisectService` 服务层，**不经过 HttpListener 路由**。
++- 全仓 **没有任何 C# 测试**引用 `/bisect/` 或 `mods/*/toggle|delete` 路由字符串。
++- `ui/tests/api-contract.test.cjs` 也未对这些路由做断言。
++- 结论：现有测试**在结构上无法**发现"路由不可达"这一类缺陷。
++
++**归属**：`MR06`（Bisect 操作失败必须阻止错误推进）应先修路由可达性；
++Mod 启停/删除路由同源问题归入 `MR04`。本批**只记录，不修**（不在 MR00/MR01 授权范围）。
++
++### 1.2 调研"Bisect 已实现且可靠"需下调
++
++2026-10-02 调研称 Bisect 为"三项目中被文档记录得最准确的断言"，依据是
++12 个单测 + API 三端点齐备 + UI 三处接线。**服务层与 UI 层属实，路由层不属实**，
++因此该结论**不能按"端到端已验证"引用**。这与调研自身第六节"schema 完整度 > 实现完整度"的判断一致：
++本例中 schema（路由声明、UI 接线、i18n）完整，落地（可达性）缺失。
++
++---
++
++## 二、前端 9 视图真实状态
++
++| 视图 | 代码存在 | 自动验证 | 真实场景验证 | 说明 |
++|---|---|---|---|---|
++| home | 是 | 是 | 未验证 | 启动/停止真实链路，静态新闻 |
++| installations | 是 | 部分 | 未验证 | 实例管理 + Mod 弹窗 + AI 诊断弹窗 + **Bisect 弹窗（UI 已接线但路由 404，见 §1.1）** |
++| worlds | 是 | 是 | 未验证 | 读存档列表 + 备份/恢复/删除 |
++| servers | 是 | 是 | 未验证 | 增删/ping 真实 |
++| content | 是 | 是 | 未验证 | 搜索真实 + 安装写盘（入队式） |
++| skins | 是 | 是 | 未验证 | 预览真实，上传皮肤已可用 |
++| downloads | 是 | 是 | 未验证 | 远程版本 + 下载任务轮询 |
++| news | 是 | 是 | 未验证 | 独立新闻页 |
++| settings | 是 | 是 | 未验证 | 内存/Java/离线账号/日志/更新/微软登录/代理/下载源/AI 提供商管理 |
+ 
+ > 注：旧架构说明中"worlds 仅 toast""content 安装仅 toast""skins 上传未实现"等**已过时**，8/10 已全部写盘接通。
+-
+-## 二、能力全景（按模块）
++> **本轮不启动真实 GUI**，故"真实场景验证"一列统一为未验证。
++
++---
++
++## 三、能力全景（按模块）
+ 
+ ### 账号体系
+-- 离线账号（离线 UUID 生成）✅
+-- 微软账号：设备码登录（microsoft.com/link 输码授权，无 redirect_uri 依赖）+ Refresh Token 续期 ✅
+-- Authlib 外置登录（Yggdrasil 协议，自建皮肤站/认证服务器）✅
+-- 多账号并存与切换 ✅
+-- 皮肤上传（pngBase64 + slim）✅、披风查看 ✅
++| 能力 | 状态 | 证据 |
++|---|---|---|
++| 离线账号（离线 UUID 生成） | 代码存在 + 自动验证 | `AccountService.cs` |
++| 微软账号设备码登录 + Refresh Token 续期 | 代码存在 + 自动验证 | `MicrosoftAuthService.cs` / `MicrosoftBrowserAuthorizationService.cs` |
++| Authlib 外置登录（Yggdrasil） | 代码存在 + 自动验证 | `AuthlibInjectorService.cs` |
++| 多账号并存与切换 | 代码存在 | `HandleAddOfflineAccountAsync` / `HandleSelectAccountAsync` |
++| 皮肤上传（pngBase64 + slim）、披风查看 | 代码存在 + 自动验证 | `HandleUploadSkinAsync` / `HandleAccountSkinImageAsync` |
+ 
+ ### 游戏与版本管理
+-- 官方版本清单（piston-meta + 镜像回退）✅
+-- 版本安装/校验（SHA1 全量）/修复/删除 ✅
+-- 下载队列与后台任务 ✅、断点续传 + 可恢复任务 ✅
+-- 库文件/原生库/assets 并行下载 ✅
++| 能力 | 状态 | 备注 |
++|---|---|---|
++| 官方版本清单（piston-meta + 镜像回退） | 代码存在 + 自动验证 | `MinecraftDownloader` / `MirrorHelper` |
++| 版本安装/校验（SHA1）/修复/删除 | 代码存在 + 自动验证 | |
++| 下载队列与后台任务、断点续传 | 代码存在 + 自动验证 | |
++| 库文件/原生库/assets 并行下载 | 代码存在 | |
+ 
+ ### 加载器与整合包
+-- Forge / Fabric / NeoForge / Quilt / OptiFine 安装 ✅
+-- ⚠️ **缺 Cleanroom / Legacy Fabric**（HMCL 已覆盖，生态兼容硬缺口，待补；见 [roadmap.md](roadmap.md) 第七节第 7 项）
+-- Modrinth 整合包导入/安装/增量更新 ✅
+-- CurseForge 整合包导入（内置官方签发 Pineglow Key，**已免 Key**）✅
+-- 实例导出（.mcm 自定义格式，**不与 Modrinth `.mrpack` / Prism `.prisminstance` 互通**）、升级前自动备份 ✅
++| 能力 | 状态 | 证据 / 修正 |
++|---|---|---|
++| **现有加载器共 5 种**：Fabric / Forge / NeoForge / Quilt / OptiFine | 代码存在 + 自动验证 | `Models/ModLoaderKind.cs`、`ModLoaderInfo.SupportedKinds = new ModLoaderKind[5]` |
++| Cleanroom / Legacy Fabric | **不支持** | 二者**不在** `ModLoaderKind` 枚举中，是**尚未实施的候选项**，不是"部分支持"；`MR14` / `MR15` / `MR16` |
++| LiteLoader | **不支持** | 同上，属候选项，未在枚举中 |
++| Quilt 维护等级存疑 | 风险项 | 生态取向待定，`MR14` |
++| **Modrinth `.mrpack` 导入** | 代码存在 + 自动验证 | **修正**：`InstancePackService.ImportModrinthPackAsync`（`:274`）与 `DetectModpackFormat`（`ModpackArchiveFormat.Modrinth`）**已实现**；`LocalApiService.cs:1091-1094` 与 `:3626` 已接线。**不是"从零缺失"** |
++| CurseForge 整合包导入 | 代码存在 | `ImportCurseForgePackAsync` |
++| CurseForge Key | 代码存在 | `ModContentService.cs:21-26` 注释：内置 Key 由 CurseForge 官方 2026-07-15 审批签发给本产品，可在设置页用个人 Key 覆盖。**本批不作新的法律定性**；剩余工作只是分发开关/配额/失败反馈与不暴露 Key（`MR12`） |
++| 实例导出 | 代码存在 | 导出为 `.mcm` 自定义格式，**不与** Modrinth `.mrpack` / Prism `.prisminstance` 互通（导入与导出是两件事） |
++| 升级前自动备份 | 代码存在 | `ModpackLifecycleService` |
++
++> **修正说明**：调研把"实例导出不互通 .mrpack"与"没有 .mrpack 导入"混为一谈。
++> 事实是：**导入已实现（.mrpack），导出仍是 .mcm**。互通性与失败恢复验证属 `MR11`。
+ 
+ ### 实例系统
+-- 新建/复制/重命名/删除，实例级 Java 指定 ✅
+-- 实例隔离：`instances/<name>` 独立目录（完整克隆或仅用户数据）✅
++| 能力 | 状态 | 证据 / 修正 |
++|---|---|---|
++| 新建/复制/重命名、实例级 Java 指定 | 代码存在 + 自动验证 | |
++| 实例隔离目录 | 代码存在 + 自动验证 | `InstanceIsolationService` |
++| **"删除"实例** | **代码存在（语义需修正）** | **修正**：`HandleDeleteInstanceAsync`（`LocalApiService.cs:1045-1057`）**只做 `config.Instances.RemoveAll(...)` + 修正 `SelectedInstanceId` + `SaveConfig`，全程没有任何文件操作，不删除游戏目录、不删存档**。UI 术语与存档提示属 `MR03` |
+ 
+ ### Mod 与内容管理
+-- 本地 Mod 启停/删除/导入，在线搜索（Modrinth + CurseForge）✅
+-- 依赖解析与自动安装（Modrinth 依赖图）✅
+-- Mod 更新检查（单个/批量）✅
+-- Mod 健康检查：重复安装/依赖缺失/版本不匹配/加载器兼容 ✅
+-- Mod 二分定位（Bisect）：分批禁用定位崩溃元凶，结束自动恢复 ✅
+-- 资源包/光影包/存档管理（导入/删除/备份）✅
+-- 服务器收藏 + 状态 Ping ✅
++| 能力 | 状态 | 证据 / 修正 |
++|---|---|---|
++| 本地 Mod 启停/删除 | 路由不可达 | **§1.1**：`/api/instances/{id}/mods/{file}/{toggle,delete}` 恒 404。服务层方法存在 |
++| **Mod 删除** | 代码存在（**不可恢复**） | **修正**：`ModService.DeleteMod`（`ModService.cs:97-113`）直接 `File.Delete(mod.FullPath)`（`:107`）与 `File.Delete(metadataPath)`（`:111`），**无隔离、无回收站、无撤销**。属可恢复删除缺口，`MR04` 本批不实现 |
++| 在线搜索（Modrinth + CurseForge） | 代码存在 + 自动验证 | `ModContentService` |
++| 依赖解析与自动安装 | 代码存在 | |
++| Mod 更新检查 | 代码存在 | |
++| Mod 健康检查 | 代码存在 | `ModHealthService` |
++| **Mod 二分定位（Bisect）** | 服务层自动验证；**端到端不可用** | **修正**：12 个 `[Fact]` 覆盖 `ModBisectService` 状态机（`ModBisectServiceTests.cs`）；API 三端点声明存在但**路由不可达（§1.1）**；UI 已接线。**不能称"结束自动恢复已验证"** |
++| Bisect 失败处理 | **存在缺口** | **修正**：`LocalApiService.cs:1931-1934`（禁用）与 `:1952-1955`（恢复）**均只 `LauncherLog.Error(...)` 后继续**，不阻止错误推进、不反馈给用户；恢复上下文可能在完成路径被移除。属 `MR06` / `MR07` |
++| 资源包/光影包/存档管理 | 代码存在 | `ResourcePackService` / `ShaderPackService` / `SaveService` |
++| 服务器收藏 + 状态 Ping | 代码存在 + 自动验证 | `ServerPingService` |
+ 
+ ### Java 与启动
+-- Java 自动检测（常见路径/环境变量/注册表）✅
+-- Java 自动下载安装（SHA256 校验、版本匹配、按实例分配）✅
+-- 内存自动推荐（MemoryAllocationService）✅
+-- JVM/游戏参数自定义、窗口分辨率、直接加入服务器 ✅
+-- 导出启动脚本（仅离线账号，防令牌泄露）✅
+-- 游戏日志实时显示/过滤/崩溃分析/诊断包导出 ✅
+-- 启动前环境检查（Java 存在/游戏目录/磁盘空间/内存预算）✅
+-- 启动后最小化、退出后自动关闭 ✅
++| 能力 | 状态 |
++|---|---|
++| Java 自动检测（常见路径/环境变量/注册表） | 代码存在 + 自动验证（`JavaLocator`） |
++| Java 自动下载安装（SHA256 校验、版本匹配、按实例分配） | 代码存在 + 自动验证（`JavaRuntimeService` / `JavaVersionMatcher`） |
++| 内存自动推荐 | 代码存在 + 自动验证（`MemoryAllocationService`） |
++| JVM/游戏参数、窗口分辨率、直接加入服务器 | 代码存在 |
++| 导出启动脚本（仅离线账号，防令牌泄露） | 代码存在 |
++| 游戏日志实时显示/过滤/崩溃分析/诊断包导出 | 代码存在 + 自动验证（`CrashAnalyzerService` / `DiagnosticSnapshotService`） |
++| 启动前环境检查 | 代码存在（`HandlePrelaunchCheckAsync`） |
++| 启动后最小化、退出后自动关闭 | 代码存在 |
++
++### 存档 / 皮肤 / 新闻
++| 能力 | 状态 | 备注 |
++|---|---|---|
++| 存档列表 / 备份 / 恢复 / 删除 / 打开目录 | 代码存在 + 自动验证 | `SaveService` / `SaveBackupService` |
++| 皮肤预览 / 上传 / 代理 | 代码存在 + 自动验证 | `SkinImageProxyService` |
++| 新闻列表 / 链接白名单 / 图片代理 | 代码存在 + 自动验证 | 测试覆盖较密（`NewsR2TeredoNat64Tests` 41 项、`NewsImageProxyServiceTests`、`NewsLinkHandlerTests`） |
++| 内容图标服务 | 代码存在 + 自动验证 | `ContentIconService`（130 项 `[Fact]`） |
++
++### AI 崩溃诊断
++| 能力 | 状态 | 备注 |
++|---|---|---|
++| 规则型崩溃分析 | 代码存在 + 自动验证 | `CrashAnalyzerService`（6 项 `[Fact]`） |
++| AI 诊断（OpenAI 兼容、多提供商预设、Key 走 `SecretStore` 不入盘） | 代码存在 + 自动验证 | `AiDiagnoseService` / `AiEndpointPolicy` / `AiOperationRegistry` / `SecretStore`；测试含取消与重定向（24 项）与发布安全（33 项） |
++| **相对规则引擎的增量价值** | **未验证** | 需在冻结案例集上对比"正确建议/实际修复/错误确信/隐私/延迟/成本"，`MR09` |
++| 诊断历史、脱敏与导出 | 部分 | `DiagnosticSnapshotService` 存在；历史管理与脱敏策略待做，`MR08` |
++
++> **对标修正**：不应写成"AI 崩溃诊断无竞品"。HMCL 已有基于规则的启动失败分析
++> （`CrashReportAnalyzer` + 并行日志分析 + 崩溃信息包导出），**真正要对标的是规则型诊断**。
+ 
+ ### 工程与体验
+-- 日志落盘（`%AppData%\MCMiniLauncher\logs\launcher-yyyyMMdd.log`，保留 7 天）✅
+-- 自更新框架（check/download/sha256/apply，Gitee 主源 + GitHub 备用）✅
+-- 多下载源（official/bmclapi/mcbbs + 测速 + 切换）✅
+-- 皮肤站预设 ✅、HTTP 代理设置 ✅
+-- 游玩统计（启动次数/时长，PlayCount/TotalPlaySeconds）✅
+-- 拖拽导入整合包 ✅、i18n 双语 ✅、深色模式 ✅
+-- 崩溃分析（规则引擎 CrashAnalyzerService）✅ + **AI 崩溃诊断**（`instances/{id}/diagnose`，OpenAI 兼容，多提供商预设管理：DeepSeek/OpenAI/通义千问/智谱/Ollama，可新增/编辑/删除/设为当前，Key 走 SecretStore 不入盘）✅
+-
+-## 三、工程加分项
++| 能力 | 状态 | 备注 |
++|---|---|---|
++| 日志落盘（保留 7 天） | 代码存在 | `%AppData%\MCMiniLauncher\logs\launcher-yyyyMMdd.log` |
++| **自更新框架** | 代码存在 + 自动验证 | `UpdateService.cs`：`FetchManifestAsync` / `DownloadUpdateAsync` / `ApplyUpdate`，且已校验 SHA256（`:61-63` 拒绝无效 SHA256）、要求 HTTPS（`:65`）。**产物名硬编码 `-win-x64-single-file.exe`（`:71`），即当前仅支持 Windows x64 更新链路**。签名、回滚与失效恢复属 `MR20`，**本轮未验证** |
++| 多下载源（official/bmclapi/mcbbs + 测速 + 切换） | 代码存在 | |
++| HTTP 代理、皮肤站预设 | 代码存在 | |
++| 游玩统计（`PlayCount` / `TotalPlaySeconds`） | 代码存在 | |
++| 拖拽导入整合包 | 代码存在 | |
++| i18n 双语 | 代码存在 | `ui/js/i18n.js` 语言区块 `zh` / `en` |
++| 深色模式 | 代码存在 | |
++| 内容源失效可解释性 | **未验证** | 属 `MR12` |
++
++### 平台
++| 项 | 状态 | 修正 |
++|---|---|---|
++| **宿主技术栈** | Avalonia / .NET 10 + Web UI（HTML/CSS/JS + WebView2） | **修正**：**不是 Tauri**。全仓 `dev/`、`ui/`、根 `*.md` 对 `tauri` 的检索**零命中**。因此也**不能**照搬 Tauri updater（如 `tauri_plugin_updater`）的方案 |
++| Windows x64 | 代码存在 + 自动验证 | 本轮单文件发布成功（见 §四） |
++| Linux x64 / macOS x64 | **未验证** | CI `build.yml` 矩阵含 `ubuntu-latest/linux-x64`、`macos-latest/osx-x64`，但**本轮未推送、未创建 PR，CI 从未实际执行**。且 `Build VerifyHost` 与 `Run bisect smoke` 步骤标注 `win-x64 only`。**三平台能出产物 ≠ 正式跨平台支持**；真实运行验证属 `MR24` / `MR25` |
++
++---
++
++## 四、本轮可复验的工程事实
++
++| 项 | 结果 |
++|---|---|
++| 隔离执行快照 | 214 文件；tracked 工作区版本 161 + 显式白名单 53；额外/泄漏文件 **0**；`bin`/`obj` **0**；逐文件 SHA 与源**全部一致** |
++| Node 前端正式测试 | **184 通过 / 0 失败 / 0 跳过**（11 个 `.test.cjs`，`node v24.19.0`） |
++| 非 RID 锁定还原 | launcher 与 tests 均 `--locked-mode` **exit 0** |
++| 主程序 Release 构建 | **exit 0** |
++| C# Release 全套测试 | **612 通过 / 0 失败 / 0 跳过** |
++| VerifyHost 构建 | **exit 0** |
++| win-x64 单文件发布 | **exit 0**；`.../net10.0/win-x64/publish/Pineglow.Launcher.exe` = 45,644,552 字节，SHA256 `3B71DCC1DB72A2BC79945F611492BC366402CD455D7DA307BC06BEF33CDA7001` |
++| **RID 发布锁定** | **KNOWN-UNLOCKED（已知边界，非通过）**：`dotnet publish -r win-x64 -p:RestoreLockedMode=true` 必然 **NU1004**（锁定文件只覆盖 `net10.0` 且缺 `Microsoft.NET.ILLink.Tasks`）。**不得传 `dotnet publish --locked-mode`**（它是 `dotnet restore` 专属开关）。锁定策略属 `MR19` |
++| 真实 GUI / 真实游戏 / 真实 AI | **本批未验证**（明确不在 MR00/MR01 范围） |
++| CI 实际运行 | **未验证**（本轮不推送、不建 PR） |
++
++> ⚠️ 上述数字之外，**任何"测试通过"都不代表真实场景通过**。健康接口 200、mock 全绿、
++> DOM 断言成功，都只证明各自覆盖的那一层。
++
++---
++
++## 五、工程加分项
+ 
+ - 断点续传 + 可恢复任务（重启后恢复未完成任务）✅
+-- 凭据安全存储（Windows 凭据管理器，非 Windows 降级 secrets.json）✅
++- 凭据安全存储（Windows 凭据管理器，非 Windows 降级 `secrets.json`）✅
+ - 诊断包导出 ✅
+ - 命名空间统一 `Pineglow.Launcher.*` ✅
+-- 版本号单一来源（程序集 = LauncherService.LauncherVersion = 1.0.0）✅
+-- 单文件自包含发布（测试体系 xUnit + CI）✅
+-
+-## 四、遗留事项（未完成）
+-
+-- 🟢 ~~微软登录 DeviceCode 降级（二期）~~ ✅ 已实现（/api/accounts/microsoft/device + poll + 设置页弹窗）
+-- 🟠 `figma.css` 仍有硬编码色值违反 token 规则（标"当前激活 token"为准）
+-- 🟡 插件/脚本扩展能力（长远，非当前）
++- 版本号单一来源（程序集 = `LauncherService.LauncherVersion`）✅
++- 单文件自包含发布（xUnit + Node 双测试体系）✅
++
++## 六、遗留事项（未完成）
++
++| 级别 | 事项 | 归属 |
++|---|---|---|
++| 🔴 P0 | **Bisect 与 Mod 启停/删除 HTTP 路由不可达（死代码）** | `MR06` / `MR04` |
++| 🔴 P0 | **Bisect 禁用/恢复异常只写日志，不阻止错误推进** | `MR06` / `MR07` |
++| 🔴 P0 | **Mod 删除为不可恢复 `File.Delete`** | `MR04` |
++| 🟠 P1 | 实例"删除"实际只移除配置记录，语义与存档提示需明确 | `MR03` |
++| 🟠 P1 | AI 诊断相对规则引擎的增量价值未证明 | `MR09` |
++| 🟠 P1 | 自更新签名 / 回滚 / 失效恢复未验证，且仅 win-x64 链路 | `MR20` |
++| 🟠 P1 | 内容源（CurseForge/Modrinth）失效的可解释性与恢复 | `MR12` |
++| 🟡 P2 | `.mrpack` 互通性与失败恢复验证（导入已实现） | `MR11` |
++| 🟡 P2 | Cleanroom / Legacy Fabric / LiteLoader 未实现（先核需求） | `MR14` / `MR15` / `MR16` |
++| 🟡 P2 | 旧启动器实例迁移 | `MR13` |
++| 🟡 P2 | 键盘/焦点/缩放无障碍 | `MR17` |
++| 🟡 P2 | 安装/启动性能基线 | `MR21` |
++| 🟡 P2 | 非 Windows 宿主可行性 / 单平台 beta | `MR24` / `MR25` |
++| 🟢 P3 | `figma.css` 仍有硬编码色值违反 token 规则 | — |
++| 🟢 P3 | 插件/脚本扩展能力（长远，非当前） | — |
+
+==========================================================================================
+docs/roadmap.md
+==========================================================================================
+--- a/docs/roadmap.md  (执行前基线 @ SourceRoot)
++++ b/docs/roadmap.md  (MR01 更新 @ ExecutionRoot)
+@@ -1,8 +1,16 @@
+ # 差距分析 · 竞品对照 · 后续方向
+ 
+-> 反映 2026-08-16 状态。整合旧《技术对比文档》的竞品对标参考 + 2026-08-16 对话产出的时间线对照与 AI 诊断方案。
++> **事实基线：2026-10-02（MR01 刷新）。** 整合旧《技术对比文档》的竞品对标参考 + 2026-08-16 对话产出的时间线对照与 AI 诊断方案。
+ >
+-> ⚠️ **2026-10-01 更新**：第二节竞品对照表与第三节对标矩阵的**加载器、跨平台、Mod 可逆删除**三处已按一手材料（HMCL 官方 `docs/README_zh_Hans.md`、PCL2 官网更新日志）核实修正。**第一、五节的时间线与 AI 诊断方案仍反映 2026-08 状态**；且工作区自 2026-08-18 起有大量未提交改动未反映进本文件——使用前请先核对当前代码状态。
++> ⚠️ **2026-10-01 更新**：第二节竞品对照表与第三节对标矩阵的**加载器、跨平台、Mod 可逆删除**三处已按一手材料（HMCL 官方 `docs/README_zh_Hans.md`、PCL2 官网更新日志）核实修正。
++>
++> ⚠️ **2026-10-02 更新（MR01，本轮）**：本节**下调了四条对标结论**，全部经源码级或一手材料核实：
++> 1. **「Bisect 已实现并反超 Prism」不成立**——且更关键的是，本轮发现 **Bisect 的 HTTP 路由当前不可达**（详见 [features.md](features.md) §1.1），端到端不可用。
++> 2. **「AI 崩溃诊断无竞品、领先」需下调**——HMCL 已有规则型启动失败分析（`CrashReportAnalyzer` + 并行日志分析 + 崩溃包导出），**真正对标对象是规则型诊断**。
++> 3. **「唯一/领先 AI」一类表述一律不写**；竞品未发现的能力写"本次材料未证实"，不写"没有"。
++> 4. **三平台 CI 产物 ≠ 正式跨平台支持**；CI 至今未实际执行过。
++>
++> 工作区自 2026-08-18 起有大量未提交改动；本文件的功能状态分级以 [features.md](features.md) 为准。
+ 
+ ## 一、松光启动器时间线（2026）
+ 
+@@ -48,23 +56,39 @@
+ | 皮肤站预设 | ✅ | ✅ | ✅ | ✅ | ❌ |
+ | 代理设置 | ✅ | ✅ | ✅ | ✅ | ❌ |
+ | 崩溃分析 | ✅ 规则引擎 | ✅ | ✅ | ✅ | ❌ |
+-| **Mod 可逆删除（回收站）** | ❌ 直接删除 | ✅ | ✅ | ✅ | ✅ |
++| **Mod 可逆删除（回收站）** | ❌ 直接 `File.Delete`，且路由不可达 | ✅ | ✅ | ✅ | ✅ |
+ | **删除前提醒关联存档** | ❌ | ✅ | ⚠️ | ⚠️ | ⚠️ |
+ | 游玩统计 | ✅ | ✅ | ✅ | ❌ | ❌ |
+ | 拖拽导入 | ✅ | ✅ | ✅ | ✅ | ❌ |
+-| **AI 崩溃诊断** | ✅ 已实现（规则+AI 增强） | ❌ | ⚠️ AE分支试 | ❌ | ❌ |
+-| **Mod Bisect 二分定位** | ✅ 已实现（写盘启停+恢复） | ❌ | ❌ | ✅ | ❌ |
++| **AI 崩溃诊断** | ⚠️ 代码存在+自动验证；**相对规则引擎的增量价值未验证** | ❌ | ⚠️ **已有规则型启动失败分析** | ❌ | ❌ |
++| **Mod Bisect 二分定位** | 🔴 **服务层已实现（12 单测）+ UI 已接线，但 HTTP 路由不可达，端到端不可用** | ⚠️ 有批量启停前提，无自动算法 | ⚠️ 仅官方文档教手动二分 | ⚠️ 本次材料未证实 | ❌ |
++
++> **2026-10-02 修正说明**
++> - **Bisect**：不再是"✅ 已实现"。服务层 `ModBisectService` 有 12 个 `[Fact]` 状态机测试，UI 三处接线，
++>   但 `/api/instances/{id}/bisect/*` 路由被错误嵌套、恒返回 404（[features.md](features.md) §1.1）。
++>   另：Prism 侧"2026 才加入 Bisect"本轮**未独立核实**（7 个版本 changelog 未见条目，但也未穷尽全部版本、未 grep 源码），
++>   按纪律写"本次材料未证实"而非"没有"。
++> - **AI 崩溃诊断**：HMCL 本体已有基于规则的启动失败诊断（`CrashReportAnalyzer` 数百条正则 + 并行日志分析 + 崩溃信息包导出）。
++>   因此松光要对标的是**规则型诊断**，必须证明"AI 能处理规则表覆盖不到的未知问题"（`MR09`），
++>   而不是"AI 诊断 > 没有诊断"。**不写"唯一/领先 AI"。**
+ 
+ ## 四、核心洞察
+ 
+ 1. **技术在追平，方向在趋同**：8/10 补齐的每一项（多源、免Key、token 化、i18n、自更新）都是竞品仍打磨的方向，路线判断正确。
+ 2. **竞品已进入新赛道**：HMCL 试 AI 助手、Prism 做 Mod Bisect、Modrinth 做共享实例协作——松光已跟进 AI 诊断与 Mod Bisect，共享实例协作仍未涉足。
+ 3. **松光的真实优势**：工程底子（断点续传、凭据安全存储、可恢复任务、纯 Web UI 快速迭代）让它能"一天追平多年差距"。
+-4. **（2026-10-01 核实补充）AI 崩溃诊断的领先性仍成立**：HMCL-AE 分支至今仍是试验阶段，无任何竞品做出产品级的「崩溃日志 → AI 解释 + 修复步骤 + 一键禁用嫌疑 Mod」闭环。松光该项是真优势，值得继续投入。
++4. ~~**（2026-10-01 核实补充）AI 崩溃诊断的领先性仍成立**~~ **（2026-10-02 已下调）**
++   原表述"HMCL-AE 分支至今仍是试验阶段，无任何竞品做出产品级 AI 崩溃诊断"**只核对了 HMCL 的 AI 分支，漏了它本体的规则型错误分析**。
++   正确表述：HMCL 有规则型启动失败诊断；松光 AI 诊断的增量价值**尚未用证据证明**（`MR09`）。
++   这是典型的"只验证单侧"——**写"领先"之前必须把对标对象的全部能力都核一遍**。
+ 5. **（2026-10-01 核实补充）两处新暴露的硬缺口**：
+-   - **加载器缺口**：HMCL 已覆盖 Cleanroom 与 Legacy Fabric，松光缺这两项，属生态兼容性硬伤，优先级应高于长期功能。
++   - **加载器缺口**：HMCL 已覆盖 Cleanroom 与 Legacy Fabric，松光缺这两项，属生态兼容性硬伤。**但应先核需求与官方版本要求再实施**（`MR14`/`MR15`/`MR16`）。
+    - **生态取向需重估**：PCL2 已因「Quilt 半身入土」删除 Quilt 支持，而松光仍将其列为五大加载器之一。建议重新评估 Quilt 的投入产出。
+-6. **（2026-10-01 核实补充）可低成本借鉴的两个小改动**：PCL2 的「安装同名 Mod 时旧 Mod 删除至回收站而非永久删除」（#9032）与「删除版本前提醒即将被删除的存档」（#6121）都是低成本的**可逆性/防误删**设计，松光可快速对齐以提升用户信任。
++6. **（2026-10-01 核实补充）可低成本借鉴的两个小改动**：PCL2 的「安装同名 Mod 时旧 Mod 删除至回收站而非永久删除」（#9032）与「删除版本前提醒即将被删除的存档」（#6121）都是低成本的**可逆性/防误删**设计，松光可快速对齐以提升用户信任（`MR03`/`MR04`/`MR05`）。
++7. **（2026-10-02 新增）🔴 路由可达性是当前最高优先级缺口**：Bisect 与 Mod 启停/删除的 HTTP 分支
++   被错误嵌套在 `seg.Length == 4` 的块内，恒返回 404。UI 接线、服务层实现、12 个单测、i18n 文案**全部就位却用不了**。
++   这正是"schema 完整度 > 实现完整度"的又一实例——**schema（路由声明、UI、i18n、测试）齐了，落地没跟上**。
++   教训：**任何"已支持 X"的表述，都应先问"这个入口真的可达吗"**（`MR04`/`MR06`）。
+ 
+ ## 五、后续方向：AI 崩溃诊断（建议优先）
+ 
+@@ -100,13 +124,24 @@
+ 
+ **不做**：多模型切换、会话历史、`/` 命令、RAG 知识库（HMCL-AE 的"待实现"清单，过度设计）。
+ 
+-### Mod Bisect 二分定位（对齐 Prism）
++### Mod Bisect 二分定位
+ 
+-**已实现**：新增 `ModBisectService`（纯逻辑状态机：`Start`/`DisableHalfForNextTest`/`ReportTest`/`GiveUp`，候选收窄到 1 个自动定位元凶），`LocalApiService` 加 `/bisect/start|test|giveup` 路由（写盘禁用半区、结束/放弃自动恢复），前端实例菜单加「二分定位」入口与弹窗（每轮显示禁用列表，「仍然崩溃/没崩了/放弃」三按钮），live + mock + 中英 i18n 齐全。单测 12 个覆盖 8→4→2→1 全流程、元凶锁定、放弃与空会话分支。
++**服务层已实现，端到端当前不可用（2026-10-02 核实）**
++
++- `ModBisectService` 纯逻辑状态机（`Start` / `DisableHalfForNextTest` / `ReportTest` / `GiveUp`）已实现，
++  12 个 `[Fact]` 覆盖 8→4→2→1 全流程、元凶锁定、放弃与空会话分支。
++- 前端实例菜单「二分定位」入口、弹窗、live + mock + 中英 i18n 齐备。
++- 🔴 **但 `/api/instances/{id}/bisect/{start,test,giveup}` 路由不可达**（恒 404），
++  因此 UI 调用打不通；`VerifyHost.exe --bisect-smoke` 实测 `exit=1`。
++  根因是 `LocalApiService.cs:511` 要求 `seg.Length == 5` 的分支被包在 `:415` 的 `seg.Length == 4` 块内。
++  详见 [features.md](features.md) §1.1 与 [architecture.md](architecture.md) §三点五。
++- 🔴 **另**：禁用/恢复的文件操作异常（`LocalApiService.cs:1931-1934` 与 `:1952-1955`）
++  **只写日志不阻止推进、不反馈用户**，恢复上下文可能在完成路径丢失。
+ 
+ **设计**：会话按实例 Id 存 `ConcurrentDictionary`；`EnabledAtStart` 快照用于结束恢复；文件操作幂等（跳过已禁用项）。崩溃仍在 → 嫌疑在未被禁用的另一半；崩溃消失 → 锁定被禁用半区。
+ 
+-**回归**：`VerifyHost.exe --bisect-smoke`（API 级 E2E，自建沙盒不碰真实配置，10 项断言 + 自清理，详见 [development-guide.md](development-guide.md) 第五节）。
++**修复归属**：`MR06`（操作失败必须阻止错误推进 + 路由可达性）、`MR07`（重启恢复、依赖与世界安全）。
++`MR06` 完成前，**不要把 12 个单测通过当作 Bisect 可用的证据**。
+ 
+ ## 六、其他遗留事项
+ 
+@@ -116,20 +151,36 @@
+ 
+ ## 七、建议路线图
+ 
+-> **2026-10-01 核实后新增 7~10 项**，其中第 7 项（Cleanroom / Legacy Fabric）应优先于长期功能。
++> **2026-10-01 核实后新增 7~10 项**；**2026-10-02 按完整流程 MR00~MR27 重新编号**。
++> 完整任务包、依赖、允许修改路径、验收门槛见
++> `docs/market-research-task-workflow-2026-10-02.md`（28 个任务包）。
++
++### 🔴 P0：先修可达性，再谈功能（2026-10-02 新增，优先级高于以下全部）
++
++| 任务 | 内容 | 归属 |
++|---|---|---|
++| 路由可达性 | 修复 bisect / mods 路由嵌套死代码，并补**打到 HTTP 层**的测试 | `MR04` / `MR06` |
++| Bisect 失败反馈 | 禁用/恢复异常必须阻止错误推进并反馈用户 | `MR06` |
++| Bisect 重启恢复 | 会话与恢复上下文在重启后可恢复 | `MR07` |
++| Mod 可恢复删除 | `File.Delete` → 隔离 + 恢复 | `MR04` |
++| 实例移除语义 | "删除"实为"从列表移除"，需明确 UI 语义与存档提示 | `MR03` |
+ 
+ ### 短期（本阶段）
+-1. ~~AI 崩溃诊断（M1~M4）~~ ✅ 已实现（含 M5 多提供商预设 / M6 嫌疑 Mod 结构化输出 + 一键禁用）
++1. ~~AI 崩溃诊断（M1~M4）~~ ✅ 代码已实现（多提供商预设 / 嫌疑 Mod 结构化输出 + 一键禁用）；
++   **增量价值待证明**（`MR09`）
+ 2. figma.css token 化清理
+-7. **【新增·高】补 Cleanroom / Legacy Fabric 加载器** — HMCL 已覆盖这两项，松光缺则是生态兼容硬缺口（`docs/features.md`「加载器与整合包」一节需同步）
+-8. **【新增·高】Mod 删除改「回收站」语义** — 对齐 PCL2 #9032，安装同名 Mod 时旧 Mod 进回收站而非永久删除
+-9. **【新增·中】实例删除前检查并提醒关联存档** — 对齐 PCL2 #6121，防用户误删存档；改动面小
+-10. **【新增·中】评估 Quilt 支持的投入产出** — PCL2 已因「Quilt 半身入土」下线 Quilt，松光需重估
++7. **【高】补 Cleanroom / Legacy Fabric 加载器** — 先核需求与官方版本要求再实施（`MR14`/`MR15`/`MR16`）
++8. **【高】Mod 删除改「回收站」语义** — 对齐 PCL2 #9032（`MR04`）
++9. **【中】实例移除前检查并提醒关联存档** — 对齐 PCL2 #6121（`MR03`）
++10. **【中】评估 Quilt 支持的投入产出** — PCL2 已下线 Quilt（`MR14`）
+ 
+ ### 中期（对标竞品高频）
+-3. ~~微软 DeviceCode 降级~~ ✅ 已实现（设置页「Microsoft 登录」改为设备码弹窗，输入 microsoft.com/link 一次性代码完成授权）
+-4. ~~Mod Bisect 二分定位（对齐 Prism）~~ ✅ 已实现（`ModBisectService` + `/bisect/*` API + 前端弹窗，12 个单测）
+-11. **【新增】刷新 `docs/features.md` 功能基线** — 现反映 2026-08-16 状态，其后大量改动未落文档，决策依据已失真
++3. ~~微软 DeviceCode 降级~~ ✅ 已实现（设置页改为设备码弹窗）
++4. ~~Mod Bisect 二分定位~~ 🔴 服务层完成但**路由不可达**，见上（`MR06`）
++11. ~~刷新 `docs/features.md` 功能基线~~ ✅ 已于 2026-10-02 完成（MR01），含状态分级与缺陷记录
++12. **【中】`.mrpack` 互通性与失败恢复验证** — 导入已实现，需验证兼容与回滚（`MR11`）
++13. **【中】内容源失效可解释性** — CurseForge 分发开关 / 配额 / 失败反馈（`MR12`）
++14. **【中】自更新安全与恢复** — 签名 / 回滚 / 失效；当前仅 win-x64 链路（`MR20`）
+ 
+ ### 长期（生态与架构）
+ 5. 评估插件/脚本接口
+
+==========================================================================================
+docs/architecture.md
+==========================================================================================
+--- a/docs/architecture.md  (执行前基线 @ SourceRoot)
++++ b/docs/architecture.md  (MR01 更新 @ ExecutionRoot)
+@@ -1,6 +1,11 @@
+ # 架构（纯 Web UI）
+ 
+-> 反映 2026-08-16 状态。本文是架构层面的唯一可信源，取代旧的《纯WebUI架构说明》。
++> **事实基线：2026-10-02（MR01 刷新）。** 本文是架构层面的唯一可信源，取代旧的《纯WebUI架构说明》
++> 与 2026-08-16 版结论。功能层面的状态分级见 [features.md](features.md)。
++>
++> **技术栈事实**：宿主是 **Avalonia / .NET 10 + Web UI（HTML/CSS/JS + WebView2）**。
++> 全仓对 `tauri` 的检索零命中——**本项目不是 Tauri**，因此不能直接套用
++> `tauri_plugin_updater` 之类的方案；自更新是自研 `UpdateService`（见 [features.md](features.md)）。
+ 
+ ## 一、总体架构
+ 
+@@ -52,9 +57,38 @@
+ 
+ ### 3. C# 服务层（`Pineglow.Launcher.Services/`）
+ 
+-- 约 67 个服务，静态类/实例类并存，构造注入，无 IoC 容器。
++- **76 个 `.cs` 服务文件**（2026-10-02 实测；旧文档写"约 67 个"已过时），静态类/实例类并存，构造注入，无 IoC 容器。
+ - 均以 `Pineglow.Launcher.*` 命名空间（MCMini 残留已清零，仅剩用户数据路径 `%AppData%\MCMiniLauncher`）。
+ - `LocalApiService` 是唯一对前端暴露的网关（详见 engineering.md / api-reference.md）。
++
++## 三点五、⚠️ 路由门控陷阱（2026-10-02 新发现的架构级缺陷）
++
++`LocalApiService` 用一个超长 `if` 链按 `path.Trim('/').Split('/')` 得到的 `seg[]` 分发路由。
++**当前存在"要求更长路径的分支被嵌在要求更短路径的分支内部"的结构缺陷**：
++
++```
++:415  if (seg.Length == 4 && seg[1] == "instances")   // 门控：精确等于 4
++:419      ... delete / launch / diagnose / saves ...   // 正确（本身就要 4 段）
++:511      if (seg.Length == 5 && action == "bisect")  // ✗ 死代码：5 ≠ 4
++:531      if (seg.Length == 6 && action == "mods")    // ✗ 死代码：6 ≠ 4
++:547  }                                                  // 该块在此闭合
++:789  → 404 未找到接口
++```
++
++**后果**：`/api/instances/{id}/bisect/{start,test,giveup}` 与
++`/api/instances/{id}/mods/{file}/{toggle,delete}` 全部返回 404。
++
++**已有先例证明这是已知类问题**：`:408-409` 的注释写明
++"Phase 3B v3 修复批次：cancel 路由必须先于通用 diagnose。精确 seg.Length 匹配"——
++`diagnose/cancel` 同样需要 5 段，正是因为被嵌在别处才被**提到块外**恢复可达。
++
++**给后续维护的硬规则**：
++1. 每个 `if` 的 `seg.Length == N` 必须与它实际能匹配的最长路径一致；
++2. **要求更长 `seg.Length` 的分支绝不能嵌套在要求更短 `seg.Length` 的分支内**；
++3. 改路由后必须有**打到 HTTP 层的测试**，不能只测服务层。
++
++> 本轮实测：`VerifyHost.exe --bisect-smoke` 在隔离沙盒内 **exit=1**，
++> 首个 bisect 调用即 404。归属 `MR04` / `MR06`，本批只记录不修。
+ 
+ ## 三、通信协议
+ 
+
+==========================================================================================
+docs/development-guide.md
+==========================================================================================
+--- a/docs/development-guide.md  (执行前基线 @ SourceRoot)
++++ b/docs/development-guide.md  (MR01 更新 @ ExecutionRoot)
+@@ -1,12 +1,15 @@
+ # 开发指南（Pineglow Launcher）
+ 
+-> 反映 2026-08-16 状态。面向日常开发 / 构建 / 测试 / 发布，与本知识库其他文档配套阅读。
+-> 技术栈：Avalonia 12（仅作 WebView2 宿主）+ Web 前端（HTML/CSS/JS）+ .NET 10 服务层。
++> **事实基线：2026-10-02（MR01 刷新）。** 面向日常开发 / 构建 / 测试 / 发布，与本知识库其他文档配套阅读。
++> 技术栈：**Avalonia 12（仅作 WebView2 宿主）+ Web 前端（HTML/CSS/JS）+ .NET 10 服务层**。
++> ⚠️ **本项目不是 Tauri**，全仓对 `tauri` 零命中，不要套用 Tauri 生态方案。
++> 功能状态分级见 [features.md](features.md)；架构陷阱见 [architecture.md](architecture.md)。
+ 
+ ## 一、仓库与盘子结构
+ 
+ - **仓库**：`https://github.com/zhangtanze1359/Pineglow-Launcher.git`，主分支 `main`，LICENSE=GPL-3.0。
+ - **CI**：`.github/workflows/build.yml`（三平台构建 + Linux 测试）+ `release.yml`（发布 + Gitee 镜像）。
++  ⚠️ CI **从未在本项目实际执行过**（未推送、未建 PR），三平台产物 ≠ 跨平台正式支持。
+ 
+ ```
+ 松光启动器/
+@@ -14,7 +17,7 @@
+ │   ├── PineglowLauncher/            # 主项目（net10.0, x64, WinExe）
+ │   │   ├── Pineglow.Launcher/       #   入口（App/Program）
+ │   │   ├── Pineglow.Launcher.Models/#   数据模型（约 49 个）
+-│   │   ├── Pineglow.Launcher.Services/# 服务层（约 67 个，核心业务）
++│   │   ├── Pineglow.Launcher.Services/# 服务层（76 个 .cs，核心业务）
+ │   │   ├── Pineglow.Launcher.Views/ #   WebShellWindow（Avalonia 宿主）
+ │   │   ├── Pineglow.Launcher.csproj
+ │   │   └── VerifyHost/              # 轻量控制台宿主：起 LocalApiService + --bisect-smoke 冒烟
+@@ -23,7 +26,10 @@
+ │   ├── index.html
+ │   ├── js/{launcher,api,i18n}.js
+ │   └── css/figma.css
+-├── scripts/mirror-gitee.mjs          # Gitee 镜像发布脚本
++├── scripts/
++│   ├── mirror-gitee.mjs             # Gitee 镜像发布脚本
++│   ├── verify-source-snapshot.ps1   # 候选源码快照与可复现性验证（见 §五）
++│   └── source-snapshot-inputs.txt   # 未跟踪输入白名单（53 项，精确相对路径）
+ ├── docs/                             # 本知识库（唯一可信知识源）
+ └── .github/workflows/
+ ```
+@@ -94,13 +100,71 @@
+ ```
+ 
+ - 进程内自建 **portable 沙盒**（`portable.flag` + 输出目录下 `data/`），绝不读写真实 `%APPDATA%\MCMiniLauncher` 配置；结束后自动清理沙盒并释放端口。
++  沙盒隔离依赖 `PlatformPaths` 的 portable 分支：配置与默认游戏目录都落到 `<BaseDirectory>/data`。
+ - 自动走完 **Mod Bisect 全流程断言**：start 禁用半区并落盘 → 三次 test 收窄 8→4→2→1 → 定位 `mod07-1.0.0.jar` 并自动恢复全部 Mod → giveup 分支恢复 → 无会话调用返回 400。
+ - 改动 `ModBisectService` 或 `/bisect/*` 路由后，以本命令回归。
+ 
++> 🔴 **2026-10-02 实测：该命令当前 `exit=1`，首个 `POST /bisect/start` 即返回 404。**
++> 根因是路由分支嵌套错误（`LocalApiService.cs:511` 要求 `seg.Length == 5`，
++> 却被包在 `:415` 的 `seg.Length == 4` 块内），属不可达死代码。
++> **在 `MR06` 修复前，不要把 `--bisect-smoke` 通过当作已知基线。**
++> 排查技巧：预置 `portable.flag` 与 `data/` 目录可让冒烟**不自动清理**，便于事后读 `config.json` 与日志。
++
++## 五之二、候选源码快照与可复现性验证
++
++`scripts/verify-source-snapshot.ps1` 在系统 TEMP 下组装隔离快照并跑完整验证链。
++工作区在 HEAD 之上有大量未提交改动且依赖**未跟踪**的生产源文件，只带 `git diff` 会漏掉依赖而无法编译；
++该脚本用「全部 tracked 工作区版本 + 显式白名单（`scripts/source-snapshot-inputs.txt`，53 项精确相对路径）」
++解决这一点。
++
++```powershell
++# 完整候选快照（GREEN）
++./scripts/verify-source-snapshot.ps1 -EvidenceDir <证据目录>
++```
++
++- 白名单为**精确相对路径**，禁止通配与整批 `docs`；脚本启动即自检禁止模式。
++- 校验：文件数量、**通用泄漏检测（额外文件必须为 0）**、白名单逐项 SHA256 与源一致、**构建前无 `bin`/`obj`**。
++- 默认**保留**快照与证据目录供独立复验；`-CleanupSnapshot` 删除前做 5 项路径安全校验。
++
++### ⚠️ 2026-10-02 实测发现验证器两个缺陷（已在隔离快照内修复，原件未改）
++
++| 缺陷 | 现象 | 修复 |
++|---|---|---|
++| **假通过** | 临时 `.cmd` 以 `-Encoding ascii` 写出；当 `-EvidenceDir` 路径含非 ASCII 字符（如中文目录名）时被写成 `???`，`cmd.exe` 整行解析失败、**命令从未执行**，但 `%ERRORLEVEL%` 仍为 0 → 8 个步骤全部被记为 `exit=0 PASS`，而 `step*.log` 一个都没生成 | 日志重定向到 `%TEMP%` 下纯 ASCII 路径，再由 PowerShell 搬运；并加**护栏：日志未生成即按失败处理（exit 9001），绝不记 PASS** |
++| **挂死** | `Start-Process -Wait` 会等待**整棵进程树**；`dotnet build` 派生的常驻 `VBCSCompiler.exe`（Roslyn 编译服务器，idle 约 10 分钟）父进程退出后仍存活，导致每个编译步骤空等约 10 分钟 | 去掉 `-Wait`，改用 `$proc.WaitForExit()`（只等 `cmd.exe` 自身） |
++
++> **给后续执行者**：使用该脚本前请确认 `-EvidenceDir` 为纯 ASCII 路径，
++> 或使用已修复的副本。**任何"全部步骤 1 秒 PASS"的结果都应先确认日志文件真的生成了。**
++
++### 锁定边界（勿夸大为"全链锁定"）
++
++- **非 RID 路径可锁定**：`dotnet restore <csproj> --locked-mode` 对 launcher 与 tests 均返回 0。
++- **RID 发布不能锁定**：`dotnet publish -r win-x64 -p:RestoreLockedMode=true` 必然 `NU1004`
++  （`packages.lock.json` 只覆盖 `net10.0`，且 RID 发布会额外引入 `Microsoft.NET.ILLink.Tasks`）。
++  该步骤记为 **KNOWN-UNLOCKED**（未锁定边界），既不算通过，也不掩盖为普通失败。
++- **不要把 `--locked-mode` 直接传给 `dotnet publish`**——它是 `dotnet restore` 专属开关，
++  直接传会报 `MSB1001: 未知开关`；publish/build 阶段必须用 MSBuild 属性 `-p:RestoreLockedMode=true`。
++
++### 2026-10-02 可复验结果
++
++| 项 | 结果 |
++|---|---|
++| 快照 | 214 文件（tracked 161 + 白名单 53），泄漏 0，`bin`/`obj` 0，逐文件 SHA 与源全一致 |
++| Node 正式测试 | 184 通过 / 0 失败 / 0 跳过（11 个 `.test.cjs`） |
++| C# Release 全套 | 612 通过 / 0 失败 / 0 跳过 |
++| 单文件发布 | `.../net10.0/win-x64/publish/Pineglow.Launcher.exe`，45,644,552 字节，SHA256 `3B71DCC1…` |
++| RID 锁定 | **KNOWN-UNLOCKED**（NU1004） |
++| CI / 真实 GUI / 真实游戏 | **未验证** |
++
++> ⚠️ 产物路径务必区分：`<rid>/Pineglow.Launcher.exe` 是 build 输出的 **apphost**（约 335 KB），
++> **不是**单文件发布产物；真正产物在 `<rid>/publish/` 下（约 45 MB）。2026-09-28 曾因此取错对象。
++
+ ## 六、改动纪律（重要）
+ 
+-1. **服务层原样复用，勿重写**：核心逻辑在 `Pineglow.Launcher.Services`（约 67 个），前端 / API / UI 只是"接通 + 写盘"。改功能先改服务，再补 API 端点与前端封装。
++1. **服务层原样复用，勿重写**：核心逻辑在 `Pineglow.Launcher.Services`（76 个 `.cs`），前端 / API / UI 只是"接通 + 写盘"。改功能先改服务，再补 API 端点与前端封装。
+ 2. **新增 API 端点**：在 `LocalApiService.HandleApiAsync` 的手工路由处加分支（`seg` 逐段匹配），并同步更新 `docs/api-reference.md`。
++   **⚠️ 硬规则：要求更长 `seg.Length` 的分支绝不能嵌套在要求更短 `seg.Length` 的分支内**（详见 [architecture.md](architecture.md) 第三节五）。
++   改完必须跑 `--bisect-smoke` 或新增打到 HTTP 层的测试——只测服务层**发现不了**路由不可达。
+ 3. **前后端双写**：`api.js` 的 `live` 与 `_mock` 必须同步（见第四节）。
+ 4. **版本单一来源**：`AssemblyInfo.cs`（`GenerateAssemblyInfo=False` 手动管理）运行时为准，csproj 的 `<Version>` 供发布脚本引用，二者必须一致。
+ 5. **配置改动**：`AppConfig` 增删字段涉及全量落盘 `config.json`；含密钥的字段加 `[JsonIgnore]` 避免明文落盘（先例：`CurseForgeKey`）。
+@@ -117,7 +181,7 @@
+ | 现象 | 排查方向 |
+ |---|---|
+ | 前端改了但运行没变化 | 检查 `ui/` 是否被拷入输出目录（csproj `PreserveNewest`）；确认访问的是 `http://127.0.0.1:48123` 而非缓存旧资源 |
+-| API 请求 404 | `LocalApiService.HandleApiAsync` 手工路由未匹配；对照 `docs/api-reference.md` 检视 `seg` 长度与 action 拼写 |
++| API 请求 404 | `LocalApiService.HandleApiAsync` 手工路由未匹配；对照 `docs/api-reference.md` 检视 `seg` 长度与 action 拼写。**若路由"明明写了"仍 404，先查它是否被嵌在要求更短 `seg.Length` 的分支内**（见 §六 纪律 2 与 architecture.md §三点五） |
+ | 端口被占用 | 换环境变量 `PINEGLOW_API_PORT` 指定端口 |
+ | 测试在本地跑失败 | 确认是本机 .NET 版本差异，还是逻辑改动；CI 只在 Linux 跑 |
+ | 页面串叠 / 渲染竞态 | `launcher.js` 用 `navSeq` 做渲染竞态抑制，改动导航逻辑时勿破坏该机制 |

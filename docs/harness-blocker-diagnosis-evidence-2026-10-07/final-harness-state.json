@@ -1,0 +1,26 @@
+{
+  "cacheModified": "2026-10-07T15:19:31.6424332+08:00",
+  "retry": {},
+  "goalRow": {
+    "ver": 6,
+    "seq": 11405,
+    "val": {
+      "current": null,
+      "seenGoalIds": [
+        "goal-93db6df4-e723-47e6-a8c1-4b5c466ddbdb",
+        "goal-0388dcd6-b7b0-4b59-9bdd-4513efbc0648"
+      ],
+      "failure": null
+    }
+  },
+  "observedHongKong": "2026-10-07T15:20:23.7873261+08:00",
+  "turn": {
+    "openTurnStartSeq": null,
+    "lastStepStartSeq": 11398,
+    "lastStepBoundary": {
+      "kind": "end",
+      "seq": 11401
+    },
+    "lastTurn": 85
+  }
+}

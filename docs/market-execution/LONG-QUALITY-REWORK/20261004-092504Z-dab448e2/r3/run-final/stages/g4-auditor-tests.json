@@ -1,0 +1,38 @@
+{
+    "schemaVersion":  2,
+    "id":  "g4-auditor-tests",
+    "runId":  "20261004-r3rework-dab448e2",
+    "attemptDir":  "attempts/g4-auditor-tests/1",
+    "fingerprint":  "7DC6ED3A0089F14A5EFEDEAF2EE388A2194D2B0071BB87FD62C1A649D5DDA108",
+    "inputManifestSha256":  "812D385A09538183215747737C9F7817A26CEE1DE05B2F2B34E78FC2235F8C22",
+    "inputSetSha256":  "D10CBC26126EA17EC0837F3E2AA95C6D12D075F3986DBA5DC4E8833151282661",
+    "command":  "python scripts/tests/audit-goal-evidence.test.py",
+    "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c",
+    "startUtc":  "2026-10-04T10:08:45Z",
+    "endUtc":  "2026-10-04T10:08:46Z",
+    "exitCode":  0,
+    "timedOut":  false,
+    "stillRunning":  false,
+    "counters":  null,
+    "trx":  "",
+    "artifacts":  [
+
+                  ],
+    "rawEvidence":  [
+                        {
+                            "path":  "g4-auditor-tests.stdout.log",
+                            "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                            "sizeBytes":  0
+                        },
+                        {
+                            "path":  "g4-auditor-tests.stderr.log",
+                            "sha256":  "78095199B40A88965E8B5D9D3A61C98C25540B5F7BB542743B48EB5003ECB1BD",
+                            "sizeBytes":  3374
+                        }
+                    ],
+    "reasons":  [
+
+                ],
+    "status":  "COMPLETED",
+    "reused":  false
+}

@@ -1,0 +1,107 @@
+{
+  "runId": "run-2026-10-10_015215-578dbafb",
+  "phase": "authorized implementation of A and B",
+  "authorization": "user selected 授权修 A+B (recommended) in this session",
+  "timeHK": "2026-10-10T02:20:00+08:00",
+  "scopeNotDone": ["commit", "push", "tag", "release", "online manifest write", "C RID lock work"],
+  "stagedCount": 0,
+  "changedFiles": [
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.cs",
+      "kind": "tracked-modified",
+      "sha256Before": "2E11A2BA54B99B9FAB3A270486F958BC7C1B1B8FB06E015CDA36EF44B6330188",
+      "sha256After": "4180CECBCCAAA6BCAE2BDD454D26F0EA3A158376A889DA06D3E9D8C3FF689D23",
+      "focus": "ResolveUiRoot split into input-gathering wrapper plus testable ResolveUiRootCore; single-file deployment now prefers the embedded bundle over a stale external UI directory"
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/UiSourceSelectionTests.cs",
+      "kind": "new-untracked",
+      "sha256After": "41BED4499769F7739284216B9C5011A48E581FE10F5ED55A2A8937F6C31046BC",
+      "focus": "8 decision-matrix cases for UI source selection"
+    },
+    {
+      "path": "scripts/verify-source-snapshot.ps1",
+      "kind": "untracked-whitelist-input",
+      "sha256After": "3DDAF00B650399B9771C5E839F486364B907F2E659B8ECF54D3A18D336CEC574",
+      "focus": "closure assertion; derived spot-check replacing the hardcoded list; structured failures instead of exceptions"
+    },
+    {
+      "path": "scripts/source-snapshot-inputs.txt",
+      "kind": "untracked-whitelist",
+      "sha256After": "543EAA84C95962EA6C1A0671E09B0982564C7D26B5D4FB9D7A5EE4B871BDD7A2",
+      "focus": "category O: 12 explicit paths (11 recovered product/test/VerifyHost inputs plus the new regression test)"
+    }
+  ],
+  "p1a": {
+    "status": "FIXED_AND_VERIFIED",
+    "pipeline": "scripts/verify-source-snapshot.ps1 -RepoRoot D:\\松光启动器 (GREEN mode)",
+    "finalVerdict": "PASS",
+    "exitCode": 0,
+    "whitelistTotal": 163,
+    "trackedCopied": 139,
+    "snapshotFileCount": 302,
+    "unexpectedFiles": 0,
+    "closureChecked": 298,
+    "closureMissing": 0,
+    "spotCheckItems": 8,
+    "nodeTests": "305/305 pass, 0 fail, 0 skip",
+    "csharpTests": "939/939 pass, 0 fail, 0 skip",
+    "csharpTestsBeforeFix": 931,
+    "verifyHost": "build + bisect smoke PASS",
+    "publishedExe": {
+      "bytes": 53052722,
+      "sha256": "ca8f94c1a6173f23f38f3d2a3c949affc16d5ab67752b662c7806831f350d93e"
+    },
+    "coldStart": "19/19 PASS",
+    "ridLockedProbe": "KNOWN-UNLOCKED (NU1004) - unchanged, recorded as known boundary, not a failure",
+    "evidence": ["green-snapshot/", "green-snapshot-console.log", "green-snapshot-exit.json"]
+  },
+  "p1b": {
+    "status": "FIXED_AND_VERIFIED",
+    "rootCause": "ResolveUiRoot checked AppContext.BaseDirectory/UI before UiBundle.EnsureExtracted, so a stale external UI directory kept being served after an EXE-only upgrade",
+    "redBeforeFix": [
+      { "exe": "3BA605531690D832900280DD29CCEAF1C0102EC71171F8498AFFF234DC47F96F", "mode": "legacy", "exitCode": 1, "externalUiServed": true }
+    ],
+    "redUnitProof": {
+      "method": "single-file preference branch disabled in an isolated copy, tests re-run",
+      "result": "failed 1, passed 7, total 8, exit 1",
+      "failingTest": "SingleFileDeployment_PrefersEmbeddedBundle_OverStaleExternalUi"
+    },
+    "green": [
+      { "exe": "FA367D8DAF71ED633A9355267B1B18FCDEDE28F3F47F89526DD17BDDFD150A8A", "mode": "legacy", "exitCode": 0, "legacyMarkerServed": false, "externalUiServed": false, "servedIndexMatchesCurrentSource": true },
+      { "exe": "FA367D8DAF71ED633A9355267B1B18FCDEDE28F3F47F89526DD17BDDFD150A8A", "mode": "clean", "exitCode": 0, "legacyMarkerServed": false, "externalUiServed": false, "servedIndexMatchesCurrentSource": true },
+      { "exe": "ca8f94c1a6173f23f38f3d2a3c949affc16d5ab67752b662c7806831f350d93e", "mode": "legacy", "exitCode": 0, "legacyMarkerServed": false, "externalUiServed": false, "servedIndexMatchesCurrentSource": true },
+      { "exe": "ca8f94c1a6173f23f38f3d2a3c949affc16d5ab67752b662c7806831f350d93e", "mode": "clean", "exitCode": 0, "legacyMarkerServed": false, "externalUiServed": false, "servedIndexMatchesCurrentSource": true }
+    ],
+    "focusedTests": "39/39 pass (UiSourceSelectionTests, UiBundleTests, LauncherStartupBoundaryTests, UpdateRecoveryTests)",
+    "evidence": ["ui-source-legacy.json", "ui-source-clean.json", "p1b-after/", "p1b-after-official-exe/", "p1b-focused-diff.txt", "red-focused-exit.json", "green-focused-exit.json"]
+  },
+  "selfDefectsFoundAndFixed": [
+    {
+      "issue": "editing scripts/verify-source-snapshot.ps1 stripped its UTF-8 BOM; PowerShell 5.1 on code page 936 would parse the Chinese comments as GBK",
+      "detectedBy": "repo BOM guard convention plus parser check",
+      "fix": "BOM restored; subsequent encoding guard passed"
+    },
+    {
+      "issue": "git diff emitting a CRLF warning on stderr became a NativeCommandError under ErrorActionPreference=Stop and aborted the run",
+      "detectedBy": "first full pipeline run",
+      "fix": "stderr suppressed plus local ErrorActionPreference=Continue for that read-only command only"
+    }
+  ],
+  "notVerified": [
+    "full native WebView interaction sweep",
+    "fresh online install",
+    "loader world entry and long play session",
+    "real Microsoft sign-in, skin apply, third-party AI calls",
+    "download -> self-replace -> restart chain and rollback",
+    "directory-build end-to-end with external UI (covered only by unit decision matrix)"
+  ],
+  "status": {
+    "A": "ready for independent verification",
+    "B": "ready for independent verification",
+    "C": "not started; needs a lock-strategy decision",
+    "TechnicalAcceptance": "NOT_PASSED (release as a whole)",
+    "FormalPhaseApproval": "NOT_GRANTED",
+    "ReleaseApproval": "NOT_GRANTED"
+  }
+}

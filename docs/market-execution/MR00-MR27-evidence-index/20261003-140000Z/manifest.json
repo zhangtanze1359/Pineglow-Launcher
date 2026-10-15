@@ -1,0 +1,85 @@
+﻿{
+    "runId":  "20261003-140000Z",
+    "task":  "证据树入口索引 + 剩余包门槛审计",
+    "generatedUtc":  "2026-10-02T23:24:22Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "deliverable":  "docs/market-execution/README.md (evidence-tree entry index)",
+    "result":  {
+                   "evidenceDirsIndexed":  25,
+                   "verificationPackages":  4,
+                   "scriptsListed":  8,
+                   "scriptsActuallyRunInThisSession":  7,
+                   "scriptRunInMr00RoundOnly":  "verify-source-snapshot.ps1 (evidence cited, NOT re-run this session)",
+                   "claimCheck":  "8/8 scripts exist, 4/4 packages exist, 30/31 cited evidence paths resolve (the 1 FAIL is my checker\u0027s own false positive: the plan ledger lives in the workspace, not the evidence tree)",
+                   "ledgerAudit":  "exit 0 (21 run dirs)",
+                   "toolingDefectFound":  "verify-mg2.ps1 built its latest-record table from MG2 packages only, so files later changed by later packages were reported as UNEXPLAINED drift (6 false positives measured). Fixed to scan all runs like mg0/mg1/mg3; after the fix: match=249, unexplained=1 (already explained in MG2 drift-notes), covered=78, missing=0.",
+                   "currentDriftNumbers":  "mg0: 249/1/80/0 ; mg1: 56/0/60/0 ; mg2: 249/1/78/0 ; mg3: 56/1/59/0 ; ledger audit exit 0",
+                   "workspaceChanges":  "1 (scripts/verify-mg2.ps1 only; the index itself lives in the evidence tree)",
+                   "planPointer":  "docs/market-task-plan-2026-10-03.md now points at docs/market-execution/README.md from its §8 header"
+               },
+    "gateAudit":  {
+                      "conclusion":  "Every remaining package is blocked by one of three things, none by oversight",
+                      "blockers":  [
+                                       "需要你授权（用户研究/内测/外发）：MR13/MR14/MR18/MR22/MR26",
+                                       "需要真实用户：MR22 及其下游",
+                                       "依赖链未解锁：MR15/MR16/MR24/MR25/MR27"
+                                   ],
+                      "packagesAudited":  [
+                                              "MR13",
+                                              "MR14",
+                                              "MR15",
+                                              "MR16",
+                                              "MR18",
+                                              "MR22",
+                                              "MR23",
+                                              "MR24",
+                                              "MR25",
+                                              "MR26",
+                                              "MR27"
+                                          ]
+                  },
+    "deliberatelyNotClaimed":  [
+                                   "没有任何包被写成\"已通过\"——一律\"证据就绪\"",
+                                   "verify-source-snapshot.ps1 没有被写成\"本会话跑过\"（实跑证据在 MR00 那轮）",
+                                   "门槛未达没有被写成\"不需要做\"——每个都写清阻塞点",
+                                   "漂移数没有被写成 0——四个里程碑各自的漂移数与\"已解释\"状态都列出"
+                               ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "5A1FA46ECD51352AC43F46A8A26E5F22A72CE5AFEFC77B13F441434CD485467B",
+                      "sizeBytes":  7053
+                  },
+                  {
+                      "path":  "git-status-after.txt",
+                      "sha256":  "81904A54D62FB90540BC9AEC791B7BBA9E6324B247F07776BE71D65FDF434361",
+                      "sizeBytes":  115134
+                  },
+                  {
+                      "path":  "index-claim-check.log",
+                      "sha256":  "FD31B17A22F0B11AE7A6ED61E2E6007872E95D340ADD762B009E12DCDD99B337",
+                      "sizeBytes":  38
+                  },
+                  {
+                      "path":  "recheck-mg1.log",
+                      "sha256":  "E71FDA70D715F84F86D521B1F56B6373E207CD7E9C28A5F84797867BE4CE6042",
+                      "sizeBytes":  2772
+                  },
+                  {
+                      "path":  "recheck-mg2.log",
+                      "sha256":  "17EA3F80633BE93684B407733C3CE19D00DE2D9AD646A22933ADE646800A4467",
+                      "sizeBytes":  4075
+                  },
+                  {
+                      "path":  "recheck-mg2-fixed.log",
+                      "sha256":  "B26343AE537434B4B7E8F903A31B86E039A76BA5276100D06B5C07BE49E0ACA6",
+                      "sizeBytes":  5144
+                  },
+                  {
+                      "path":  "recheck-mg3.log",
+                      "sha256":  "BE3D03F3F2B50E4857651C6E7EFA3DF8E9A47057B2A53007F2D26FFD6547CEFE",
+                      "sizeBytes":  2945
+                  }
+              ]
+}

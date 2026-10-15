@@ -1,0 +1,394 @@
+{
+  "runner": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-quality-acceptance-17hncq03\\scripts\\run-goal-validation.ps1",
+  "fixtureRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx",
+  "cases": [
+    {
+      "id": "actual-input-changed-manifest-unchanged",
+      "expected": "Reject input drift; no REUSED or PASS",
+      "actual": {
+        "exitCode": 0,
+        "verdict": {
+          "schemaVersion": 1,
+          "runner": "run-goal-validation.ps1",
+          "runId": "same-run-id",
+          "inputManifest": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\actual-input-changed-manifest-unchanged\\input.json",
+          "inputManifestSha256": "B0C7D95E1C1222A7AE0B9058DE2F9D8A550781007E3AEA310AFBC8134DA9B328",
+          "stagesFile": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\actual-input-changed-manifest-unchanged\\stages.json",
+          "generatedUtc": "2026-10-04T09:09:54Z",
+          "resume": true,
+          "stageCount": 1,
+          "failedCount": 0,
+          "stages": [
+            {
+              "schemaVersion": 1,
+              "id": "unit",
+              "runId": "same-run-id",
+              "fingerprint": "C28CEC9248E0D6834C3241A47CF2DAD53447DA4DA176CC4508943F0D1733E801",
+              "inputManifestSha256": "B0C7D95E1C1222A7AE0B9058DE2F9D8A550781007E3AEA310AFBC8134DA9B328",
+              "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\actual-input-changed-manifest-unchanged\\child.cjs write",
+              "workingDirectory": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\actual-input-changed-manifest-unchanged\\run",
+              "counters": {
+                "total": 3,
+                "executed": 3,
+                "passed": 3,
+                "failed": 0,
+                "notExecuted": 0
+              },
+              "artifacts": [
+                {
+                  "path": "unit.trx",
+                  "sha256": "DCB71F29CE52D489A2E82C8E80C7DFF4511DEAF06B5991C233A37600D06326F4",
+                  "sizeBytes": 122
+                }
+              ],
+              "rawEvidence": [
+                {
+                  "path": "unit.stdout.log",
+                  "sha256": "7EDB33FEBB737A06BD6747F3C8255003CC9B9FB908D0BC7B7273539D3D9AC637",
+                  "sizeBytes": 10
+                },
+                {
+                  "path": "unit.stderr.log",
+                  "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                  "sizeBytes": 0
+                }
+              ],
+              "status": "REUSED",
+              "reused": true,
+              "reusedFrom": "stages/unit.json",
+              "reasons": []
+            }
+          ],
+          "verdict": "PASS"
+        }
+      },
+      "details": {
+        "actualSourceSha": "0B07DE62D81D8CD6203EAF31ACB4F06429F057B59E9C2F88EAE2FF59A47B250D",
+        "manifestBytesUnchanged": true
+      },
+      "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\actual-input-changed-manifest-unchanged"
+    },
+    {
+      "id": "stale-trx",
+      "expected": "Reject existing TRX untouched by child",
+      "actual": {
+        "exitCode": 0,
+        "verdict": {
+          "schemaVersion": 1,
+          "runner": "run-goal-validation.ps1",
+          "runId": "same-run-id",
+          "inputManifest": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\stale-trx\\input.json",
+          "inputManifestSha256": "A18A38074C069793A2EAB539EB6EF1F6300F8429CD0FEA150A47CD00FA142417",
+          "stagesFile": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\stale-trx\\stages.json",
+          "generatedUtc": "2026-10-04T09:09:55Z",
+          "resume": false,
+          "stageCount": 1,
+          "failedCount": 0,
+          "stages": [
+            {
+              "schemaVersion": 1,
+              "id": "unit",
+              "runId": "same-run-id",
+              "fingerprint": "C75700AB86586FF9FDF1F0AFEFA102B54F2A51E781BF30483DFBD4EB526A68A3",
+              "inputManifestSha256": "A18A38074C069793A2EAB539EB6EF1F6300F8429CD0FEA150A47CD00FA142417",
+              "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\stale-trx\\child.cjs noop",
+              "workingDirectory": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\stale-trx\\run",
+              "startUtc": "2026-10-04T09:09:55Z",
+              "endUtc": "2026-10-04T09:09:55Z",
+              "exitCode": 0,
+              "timedOut": false,
+              "stillRunning": false,
+              "counters": {
+                "total": 3,
+                "executed": 3,
+                "passed": 3,
+                "failed": 0,
+                "notExecuted": 0
+              },
+              "trx": "unit.trx",
+              "artifacts": [
+                {
+                  "path": "unit.trx",
+                  "sha256": "DCB71F29CE52D489A2E82C8E80C7DFF4511DEAF06B5991C233A37600D06326F4",
+                  "sizeBytes": 122
+                }
+              ],
+              "rawEvidence": [
+                {
+                  "path": "unit.stdout.log",
+                  "sha256": "7EDB33FEBB737A06BD6747F3C8255003CC9B9FB908D0BC7B7273539D3D9AC637",
+                  "sizeBytes": 10
+                },
+                {
+                  "path": "unit.stderr.log",
+                  "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                  "sizeBytes": 0
+                }
+              ],
+              "reasons": [],
+              "status": "COMPLETED",
+              "reused": false
+            }
+          ],
+          "verdict": "PASS"
+        }
+      },
+      "details": {
+        "childDoesNotWriteTrx": true
+      },
+      "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\stale-trx"
+    },
+    {
+      "id": "inconsistent-counters",
+      "expected": "Reject zero executed/passed tests and inconsistent counters",
+      "actual": {
+        "exitCode": 0,
+        "verdict": {
+          "schemaVersion": 1,
+          "runner": "run-goal-validation.ps1",
+          "runId": "same-run-id",
+          "inputManifest": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\inconsistent-counters\\input.json",
+          "inputManifestSha256": "65330D2261C03F360E172FBFEA5A0030A10788EBA8936C04F4F258D08F5D2A57",
+          "stagesFile": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\inconsistent-counters\\stages.json",
+          "generatedUtc": "2026-10-04T09:09:56Z",
+          "resume": false,
+          "stageCount": 1,
+          "failedCount": 0,
+          "stages": [
+            {
+              "schemaVersion": 1,
+              "id": "unit",
+              "runId": "same-run-id",
+              "fingerprint": "17F087C4D505E1CB597A40EC855AE35D256C819921ABF10F72AC2A36B7599C6A",
+              "inputManifestSha256": "65330D2261C03F360E172FBFEA5A0030A10788EBA8936C04F4F258D08F5D2A57",
+              "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\inconsistent-counters\\child.cjs write",
+              "workingDirectory": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\inconsistent-counters\\run",
+              "startUtc": "2026-10-04T09:09:56Z",
+              "endUtc": "2026-10-04T09:09:56Z",
+              "exitCode": 0,
+              "timedOut": false,
+              "stillRunning": false,
+              "counters": {
+                "total": 3,
+                "executed": 0,
+                "passed": 0,
+                "failed": 0,
+                "notExecuted": 0
+              },
+              "trx": "unit.trx",
+              "artifacts": [
+                {
+                  "path": "unit.trx",
+                  "sha256": "39C41FF8E472CAB60C915907BB31D2E312F5DA4021D696554E7C14E3ECFBA529",
+                  "sizeBytes": 122
+                }
+              ],
+              "rawEvidence": [
+                {
+                  "path": "unit.stdout.log",
+                  "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                  "sizeBytes": 0
+                },
+                {
+                  "path": "unit.stderr.log",
+                  "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                  "sizeBytes": 0
+                }
+              ],
+              "reasons": [],
+              "status": "COMPLETED",
+              "reused": false
+            }
+          ],
+          "verdict": "PASS"
+        }
+      },
+      "details": {},
+      "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\inconsistent-counters"
+    },
+    {
+      "id": "produces-list-changed",
+      "expected": "Refuse reuse after required outputs change",
+      "actual": {
+        "exitCode": 0,
+        "verdict": {
+          "schemaVersion": 1,
+          "runner": "run-goal-validation.ps1",
+          "runId": "same-run-id",
+          "inputManifest": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\produces-list-changed\\input.json",
+          "inputManifestSha256": "63B036B77B57A2D6123F5D24E869E4F522804F440A8CFDE9EE0D5D87A190BC4F",
+          "stagesFile": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\produces-list-changed\\stages.json",
+          "generatedUtc": "2026-10-04T09:09:57Z",
+          "resume": true,
+          "stageCount": 1,
+          "failedCount": 0,
+          "stages": [
+            {
+              "schemaVersion": 1,
+              "id": "unit",
+              "runId": "same-run-id",
+              "fingerprint": "001A56B28F983DA7402823E51188807E14DBEE87C5BD823A75C4C520C8422EB8",
+              "inputManifestSha256": "63B036B77B57A2D6123F5D24E869E4F522804F440A8CFDE9EE0D5D87A190BC4F",
+              "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\produces-list-changed\\child.cjs write",
+              "workingDirectory": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\produces-list-changed\\run",
+              "counters": {
+                "total": 3,
+                "executed": 3,
+                "passed": 3,
+                "failed": 0,
+                "notExecuted": 0
+              },
+              "artifacts": [
+                {
+                  "path": "unit.trx",
+                  "sha256": "DCB71F29CE52D489A2E82C8E80C7DFF4511DEAF06B5991C233A37600D06326F4",
+                  "sizeBytes": 122
+                }
+              ],
+              "rawEvidence": [
+                {
+                  "path": "unit.stdout.log",
+                  "sha256": "7EDB33FEBB737A06BD6747F3C8255003CC9B9FB908D0BC7B7273539D3D9AC637",
+                  "sizeBytes": 10
+                },
+                {
+                  "path": "unit.stderr.log",
+                  "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                  "sizeBytes": 0
+                }
+              ],
+              "status": "REUSED",
+              "reused": true,
+              "reusedFrom": "stages/unit.json",
+              "reasons": []
+            }
+          ],
+          "verdict": "PASS"
+        }
+      },
+      "details": {
+        "newArtifactExists": false
+      },
+      "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\produces-list-changed"
+    },
+    {
+      "id": "resume-changed-manifest-same-run-id",
+      "expected": "New runId and preserve prior completed record/evidence",
+      "actual": {
+        "exitCode": 0,
+        "verdict": {
+          "schemaVersion": 1,
+          "runner": "run-goal-validation.ps1",
+          "runId": "same-run-id",
+          "inputManifest": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\resume-changed-manifest-same-run-id\\input.json",
+          "inputManifestSha256": "EE0D2EE713FE16800902A0136340937BA64A957D5DDBA5CB8709E01818C20FC5",
+          "stagesFile": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\resume-changed-manifest-same-run-id\\stages.json",
+          "generatedUtc": "2026-10-04T09:09:59Z",
+          "resume": true,
+          "stageCount": 1,
+          "failedCount": 0,
+          "stages": [
+            {
+              "schemaVersion": 1,
+              "id": "unit",
+              "runId": "same-run-id",
+              "fingerprint": "06EB14B997345CD10147F1DE57F084140DE57751AB2AC159C27EB0A1EBE43C5B",
+              "inputManifestSha256": "EE0D2EE713FE16800902A0136340937BA64A957D5DDBA5CB8709E01818C20FC5",
+              "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\resume-changed-manifest-same-run-id\\child.cjs write",
+              "workingDirectory": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\resume-changed-manifest-same-run-id\\run",
+              "startUtc": "2026-10-04T09:09:58Z",
+              "endUtc": "2026-10-04T09:09:58Z",
+              "exitCode": 0,
+              "timedOut": false,
+              "stillRunning": false,
+              "counters": {
+                "total": 3,
+                "executed": 3,
+                "passed": 3,
+                "failed": 0,
+                "notExecuted": 0
+              },
+              "trx": "unit.trx",
+              "artifacts": [
+                {
+                  "path": "unit.trx",
+                  "sha256": "DCB71F29CE52D489A2E82C8E80C7DFF4511DEAF06B5991C233A37600D06326F4",
+                  "sizeBytes": 122
+                }
+              ],
+              "rawEvidence": [
+                {
+                  "path": "unit.stdout.log",
+                  "sha256": "7EDB33FEBB737A06BD6747F3C8255003CC9B9FB908D0BC7B7273539D3D9AC637",
+                  "sizeBytes": 10
+                },
+                {
+                  "path": "unit.stderr.log",
+                  "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                  "sizeBytes": 0
+                }
+              ],
+              "reasons": [],
+              "status": "COMPLETED",
+              "reused": false
+            }
+          ],
+          "verdict": "PASS"
+        }
+      },
+      "details": {
+        "oldStageRecordRetained": false,
+        "stageFiles": [
+          "unit.json"
+        ]
+      },
+      "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\resume-changed-manifest-same-run-id"
+    },
+    {
+      "id": "empty-stages",
+      "expected": "Reject zero-stage validation",
+      "actual": {
+        "exitCode": 0,
+        "verdict": {
+          "schemaVersion": 1,
+          "runner": "run-goal-validation.ps1",
+          "runId": "same-run-id",
+          "inputManifest": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\empty-stages\\input.json",
+          "inputManifestSha256": "41B79F769FB008313943807C53E1F150A5A8F28C38AA13B117B27012E8308E0F",
+          "stagesFile": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\empty-stages\\stages.json",
+          "generatedUtc": "2026-10-04T09:09:59Z",
+          "resume": false,
+          "stageCount": 0,
+          "failedCount": 0,
+          "stages": [],
+          "verdict": "PASS"
+        }
+      },
+      "details": {},
+      "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\empty-stages"
+    },
+    {
+      "id": "only-unknown",
+      "expected": "Reject unknown Only selection",
+      "actual": {
+        "exitCode": 0,
+        "verdict": {
+          "schemaVersion": 1,
+          "runner": "run-goal-validation.ps1",
+          "runId": "same-run-id",
+          "inputManifest": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\only-unknown\\input.json",
+          "inputManifestSha256": "6C8AE6312BF9B5861AF0CB8B027B7AC8FC65815621D150C74218DDDB9255AAAF",
+          "stagesFile": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\only-unknown\\stages.json",
+          "generatedUtc": "2026-10-04T09:10:00Z",
+          "resume": false,
+          "stageCount": 0,
+          "failedCount": 0,
+          "stages": [],
+          "verdict": "PASS"
+        }
+      },
+      "details": {},
+      "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\only-unknown"
+    }
+  ]
+}

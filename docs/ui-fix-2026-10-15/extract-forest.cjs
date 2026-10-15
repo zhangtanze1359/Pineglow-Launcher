@@ -1,0 +1,8 @@
+const fs=require('fs'),path=require('path'),{pathToFileURL}=require('url');
+const {chromium}=require('C:/Users/Administrator/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+(async()=>{const b=await chromium.launch({channel:'msedge',headless:true});try{const p=await b.newPage();await p.goto(pathToFileURL(path.join(__dirname,'../ui-recheck-2026-10-15/design/pineglow-launcher.html')).href);await p.locator('#nav [data-view="home"]').click();const svg=await p.locator('.art').evaluate(el=>{
+ const copy=el.cloneNode(true),canvas=document.createElement('canvas');canvas.width=canvas.height=1;const ctx=canvas.getContext('2d');
+ const rgb=value=>{ctx.clearRect(0,0,1,1);ctx.fillStyle=value;ctx.fillRect(0,0,1,1);const [r,g,b,a]=ctx.getImageData(0,0,1,1).data;return a===255?`rgb(${r},${g},${b})`:`rgba(${r},${g},${b},${a/255})`;};
+ const originals=el.querySelectorAll('[class]'),clones=copy.querySelectorAll('[class]');originals.forEach((e,i)=>{const style=getComputedStyle(e),c=clones[i];if(e.tagName.toLowerCase()==='stop'){c.setAttribute('stop-color',rgb(style.stopColor));c.setAttribute('stop-opacity',style.stopOpacity);}else{if(!style.fill.startsWith('url(')&&style.fill!=='none')c.setAttribute('fill',rgb(style.fill));c.setAttribute('opacity',style.opacity);}c.removeAttribute('class');});
+ copy.removeAttribute('class');copy.setAttribute('xmlns','http://www.w3.org/2000/svg');return copy.outerHTML;
+ });fs.writeFileSync(path.join(__dirname,'forest-from-reference.svg'),svg);fs.writeFileSync(path.resolve(__dirname,'../../ui/assets/pine-forest-night.svg'),svg);console.log('Exact reference forest geometry exported with fixed RGB colors.');}finally{await b.close();}})().catch(e=>{console.error(e);process.exitCode=1;});

@@ -1,0 +1,87 @@
+﻿{
+    "runId":  "20261003-170000Z",
+    "task":  "MR19 补测之三：路径字符串 vs 路径长度的判别实验",
+    "generatedUtc":  "2026-10-02T23:47:38Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "the \"mechanism not determined\" item named in run 20261003-160000Z",
+    "result":  {
+                   "design":  "one snapshot tree, path changed by RENAME (pgA 95 -\u003e pgB 95 -\u003e pgAAAAAAAA 102); bin/obj cleaned before each publish",
+                   "P1":  "95 chars  SHA 199D6FBA6CFC0FE3506F173DEA8D52A2914B1127373D47BD933C343052389423",
+                   "P2":  "95 chars  SHA D23A45C63C5A1D38BF1633861781FDA15E5E4C3D72F128192DF8035809607073",
+                   "P3":  "102 chars SHA D6958BE36B6B44E107F3046109476B36678CECE952146B539761B796B00DD6CA",
+                   "sameLengthDifferentContentIdentical":  false,
+                   "decisiveStringProof":  "the literal build path is embedded: searching the exe finds \"\\pineglow-pathlen-\" at 0xCEEB0D and the leaf pgA/pgB at 0xCEEB40 (same offset in both)",
+                   "firstDiffSameLength":  "0x9AD088, 85 differing bytes out of 89490941 (0.0001%)",
+                   "lengthOnlyHypothesis":  "FALSIFIED",
+                   "zero1ACCorrection":  "0x1AC is NOT a length effect: this round P1-vs-P2 and P1-vs-P3 both first differ at 0x9AD088 and agree on 0x1A0..0x1C0. 0x1AC appeared only in the earlier D:-in-place vs C:-temp comparison, so its cause (drive/root?) remains UNRESOLVED",
+                   "csharpFull":  "755 passed / 0 failed",
+                   "nodeFull":  "230 passed / 0 failed (18 files)",
+                   "lockFileUntouched":  "yes - this experiment never published in place (8663 bytes, SHA FBBC9AE6...EE0672)",
+                   "productCodeChanged":  false,
+                   "currentDriftNumbers":  "mg0: 253/1/82/0 ; mg1: 60/0/62/0 ; mg2: 253/1/81/0 ; mg3: 60/0/62/0 ; ledger audit exit 0"
+               },
+    "selfFoundIssue":  "the first run failed: Rename-Item was denied because persistent MSBuild worker nodes held handles to the snapshot directory. Fixed with dotnet build-server shutdown after each publish plus a 12-try retry loop; the failing log is kept as evidence.",
+    "stillOpen":  [
+                      "what the 0x1AC difference actually is (candidate: drive letter / root path) - the next experiment would build at a D: path of the same length as a C: snapshot",
+                      "the semantics of the scattered 4-byte differences around 0x9AD088 (they look like a path hash/checksum, but this package does NOT prove that)"
+                  ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "225118685DE155BF8C7FF691BA4837C4285CD3226001DF19F5D6FEEB4C52565F",
+                      "sizeBytes":  6547
+                  },
+                  {
+                      "path":  "green/01-pathlen.log",
+                      "sha256":  "C54351E58D6833F61F98FE68D95F5B22E670722C7CDE6A09014A431FCD6435B3",
+                      "sizeBytes":  2986
+                  },
+                  {
+                      "path":  "green/02-pathlen-retry.log",
+                      "sha256":  "152804ADCCAEE394B6EB87AA7C1C9BF34FB158E642188D2AD0C1F7B7DB164B56",
+                      "sizeBytes":  5428
+                  },
+                  {
+                      "path":  "green/03-csharp-full.log",
+                      "sha256":  "9EC2958F7F58C1190A92D70887B465F13AE0A76F01CDD2871C0124ACC273AFAF",
+                      "sizeBytes":  655
+                  },
+                  {
+                      "path":  "green/04-node-full.log",
+                      "sha256":  "35138F2E49969E3D9B94195476F022DA7F65E502AE50F49D9B06FD171139C602",
+                      "sizeBytes":  23799
+                  },
+                  {
+                      "path":  "green/05-verify-mg0-recheck.log",
+                      "sha256":  "DC92DA612ECA2D8EA0CADEEDE5F930069984884CF4C8A44C113FCD21F3447806",
+                      "sizeBytes":  2451
+                  },
+                  {
+                      "path":  "green/05-verify-mg1-recheck.log",
+                      "sha256":  "2008DDE36D190C16C58229FD708A54C03504C75FDF360931FB05DB7DE253A1F8",
+                      "sizeBytes":  2772
+                  },
+                  {
+                      "path":  "green/05-verify-mg2-recheck.log",
+                      "sha256":  "79859FA09D20F381820C92DD79E5EC181B006754BF49F4F3FAA57398A1045724",
+                      "sizeBytes":  3039
+                  },
+                  {
+                      "path":  "green/05-verify-mg3-recheck.log",
+                      "sha256":  "6919FEB5EF0D430042AF8D7E56B2E53E9B2AF33C28EA9BC209CDB8FF1886D5ED",
+                      "sizeBytes":  2595
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "CA3ACB4A8441760928ADEBE63E246A58ECAC3DAA5EB9B799429DA90F78CE3CC4",
+                      "sizeBytes":  211
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "B04279AE27AEE0A353002DDF84972CF410A15AEBA0CF8BB11A8695CEF8F99109",
+                      "sizeBytes":  115263
+                  }
+              ],
+    "artifactsRetained":  "%TEMP%\\pineglow-pathlen-be7ab932db6e4f14830578b46431c806\\publish-{P1,P2,P3}\\Pineglow.Launcher.exe"
+}

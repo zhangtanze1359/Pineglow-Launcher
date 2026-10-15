@@ -1,0 +1,13 @@
+{
+    "schemaVersion":  1,
+    "runId":  "fixed-id",
+    "inputManifest":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\stale-trx\\input.json",
+    "inputManifestSha256":  "0FBB8FF8E97BCCA83EDAA6DFB0E9A6A6B1061A5619E5DE7F78D888280D174C71",
+    "verifiedInputSetSha256":  "8B61E22B98906A58BCCF598A8597273C39E974CA49E3A725FCEE986A121651DB",
+    "verifiedInputCount":  2,
+    "verifiedInputRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\stale-trx",
+    "stagesFile":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\stale-trx\\stages.json",
+    "stagesFileSha256":  "C358551BBA3733A84546E9718A3A1DD905711CEB957BEA3C16C32E1DFA242D5C",
+    "executionRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\stale-trx",
+    "evidenceRoot":  ""
+}

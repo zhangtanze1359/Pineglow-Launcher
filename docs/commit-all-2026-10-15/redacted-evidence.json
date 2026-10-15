@@ -1,0 +1,30 @@
+[
+  {
+    "original": "docs/current-version-audit-2026-10-13/baseline-ui.json",
+    "sanitized": "docs/current-version-audit-2026-10-13/baseline-ui.commit-sanitized.json"
+  },
+  {
+    "original": "docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/round107-loader-ui-runtime/ui-dom.html",
+    "sanitized": "docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/round107-loader-ui-runtime/ui-dom.commit-sanitized.html"
+  },
+  {
+    "original": "docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/round18-ui-focus-content/ui-nav-sweep.json",
+    "sanitized": "docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/round18-ui-focus-content/ui-nav-sweep.commit-sanitized.json"
+  },
+  {
+    "original": "docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/round18-ui-level/ui-dom.html",
+    "sanitized": "docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/round18-ui-level/ui-dom.commit-sanitized.html"
+  },
+  {
+    "original": "docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/round18-ui-nav-sweep/ui-nav-sweep.json",
+    "sanitized": "docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/round18-ui-nav-sweep/ui-nav-sweep.commit-sanitized.json"
+  },
+  {
+    "original": "docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/round44-ui-level-on-patched/factory-ab/ui-dom.html",
+    "sanitized": "docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/round44-ui-level-on-patched/factory-ab/ui-dom.commit-sanitized.html"
+  },
+  {
+    "original": "docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/round44-ui-level-on-patched/ui-dom.html",
+    "sanitized": "docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/round44-ui-level-on-patched/ui-dom.commit-sanitized.html"
+  }
+]

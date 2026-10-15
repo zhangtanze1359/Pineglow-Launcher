@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "incident": "concurrent-external-drift-in-shared-working-tree",
+  "detectedLocal": "2026-10-03T18:12:00+08:00",
+  "detectedUtc": "2026-10-03T10:12:00Z",
+  "sourceRoot": "D:\\松光启动器",
+  "head": "f145d14eb26b0b7459a28491e764ac8c573085d3",
+  "detector": "source-drift-check.py --label after-g3 (re-hashes the 286 frozen G0 inputs)",
+  "summary": "While this goal was executing G3, files in the shared working tree changed without any write by this goal. The changes are outside this goal's authorised modification list except for two files that this goal also edits (ui/js/launcher.js, ui/js/i18n.js), where the external edit was ADDITIVE and did not revert any of this goal's G2 fix.",
+  "evidence": {
+    "g0CopyMaterialisedLocal": "2026-10-03T17:28:28+08:00",
+    "g3CopyMaterialisedLocal": "2026-10-03T18:06:28+08:00",
+    "note": "Both GUID copies were byte-copied from the working tree and re-hashed; they are the reliable 'what was on disk then' records.",
+    "files": [
+      {
+        "path": "ui/index.html",
+        "frozenSha256AtG0": "BBC0A6196EAC6919C3364BBA3D721193ADA30C9420C4C8AE280DBA63FE07B22C",
+        "atG3CopySha256": "BBC0A6196EAC6919C3364BBA3D721193ADA30C9420C4C8AE280DBA63FE07B22C",
+        "currentSha256": "39933134AD98FAFD51B2D22106B5E692371106610BEB62302A68B6938C72D02F",
+        "frozenSize": 7136,
+        "currentSize": 7221,
+        "currentMtimeLocal": "2026-10-03T18:08:34+08:00",
+        "inThisGoalScope": false,
+        "contentDelta": [
+          "<title>Minecraft Launcher</title> -> <title>Pineglow · 松光启动器</title>",
+          "added <link rel=\"stylesheet\" href=\"css/pineglow.css\">",
+          "brand-name MINECRAFT -> PINEGLOW",
+          "brand-sub LAUNCHER v2.44 -> data-i18n=\"brand.subtitle\">松光启动器"
+        ]
+      },
+      {
+        "path": "ui/js/launcher.js",
+        "g2VerifiedSha256": "06620D4CB3B601CAE170EA8BEC5FBD4B6D7F7BC92433C1E9C8A188FE8BC3A94E",
+        "atG3CopySha256": "DB74ACE67E716E6C",
+        "currentSha256": "FADF76D17797B5AF",
+        "atG3CopySize": 202881,
+        "currentSize": 203051,
+        "currentMtimeLocal": "2026-10-03T18:11:08+08:00",
+        "inThisGoalScope": true,
+        "attribution": "MIXED: this goal's G2 changes are present (verified by locating rRetry / bPendingRetry / dhRetry / delBtn.disabled in the current file); the additional bytes are not from this goal.",
+        "goalChangesStillPresent": true
+      },
+      {
+        "path": "ui/js/i18n.js",
+        "g2VerifiedSha256": "8EC48352F488F50D790B1573A420AC17707E5C53C2A836AB1D519BA35BC02AFF",
+        "atG3CopySha256": "8EC48352F488F50D",
+        "currentSha256": "2F5F02F987F836A5",
+        "atG3CopySize": 60050,
+        "currentSize": 60384,
+        "currentMtimeLocal": "2026-10-03T18:08:34+08:00",
+        "inThisGoalScope": true,
+        "attribution": "MIXED: this goal's five new keys are present (verified); the additional bytes are not from this goal."
+      },
+      {
+        "path": "ui/css/pineglow.css",
+        "status": "new untracked file, not part of the 286 frozen inputs",
+        "currentSize": 14620,
+        "currentMtimeLocal": "2026-10-03T18:10:07+08:00",
+        "inThisGoalScope": false
+      },
+      {
+        "path": "ui/assets/pine-forest.svg",
+        "status": "new untracked file, not part of the 286 frozen inputs",
+        "currentMtimeLocal": "2026-10-03T18:08:34+08:00",
+        "inThisGoalScope": false
+      }
+    ]
+  },
+  "conclusions": [
+    "No write of this goal produced any of these changes: at 18:06:28 the freshly materialised G3 copy still carried the frozen index.html hash, and this goal never writes index.html, pineglow.css or pineglow.svg.",
+    "The concurrent editor is additive: none of this goal's G2 fixes were reverted.",
+    "The frozen-input premise of G0-G4 is nevertheless broken for as long as another writer is active in the same working tree: any input SHA bound before the next edit can drift.",
+    "This goal did NOT revert, restore, checkout or otherwise touch the concurrent changes (no git write operation was performed)."
+  ],
+  "impact": {
+    "g2Verdict": "bound to ui/js/launcher.js 06620D4CB3B6... and i18n.js 8EC48352F488...; must be re-verified against the current tree",
+    "g3Copy": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49 was materialised at 18:06:28 and is already older than the current launcher.js/i18n.js; its C# results stay valid (they do not exercise the UI JS), its node result is bound to that copy's state",
+    "finalSeal": "a final package can only bind an input set that stops changing; the seal must start from a fresh GUID copy and record the input manifest hash it actually used"
+  },
+  "followUpObservations": [
+    {
+      "atLocal": "2026-10-03T18:30:00+08:00",
+      "checker": "source-drift-check.py --label after-g4 -> g4/source-drift-after-g4.json",
+      "unexpectedDriftPaths": [".gitignore", "docs/design-system.md", "ui/index.html"],
+      "counts": { "frozen": 286, "unchanged": 279, "allowedDrift": 4, "unexpectedDrift": 3, "missing": 0, "newInputsDeclaredInWhitelist": 6 },
+      "interpretation": "The external writer is still working through a UI refresh (it also produced docs/evidence/ui-refresh-2026-10-03/* screenshots at 18:16). .gitignore and docs/design-system.md are outside this goal's write scope and were not touched by it. This is the second observation of the same incident, not a new one."
+    }
+  ],
+  "recommendation": "Keep the concurrent changes untouched, re-run the behaviour suite against the current tree so the verdict is not stale, and require the final seal to be taken from one fresh copy with a recorded input-manifest SHA."
+}

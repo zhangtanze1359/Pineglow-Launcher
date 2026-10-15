@@ -1,0 +1,440 @@
+{
+  "kind": "Real WebView2 with live local API; viewport dimensions emulated by CDP",
+  "pages": [
+    {
+      "nav": "home",
+      "width": 1280,
+      "height": 800,
+      "status": "PASS",
+      "text": "当前实例 · PINEGLOW JAVA EDITION\n布局复验 · Fabric\n1.21.5\nFabric\n2 Mod\n开始游戏\n选择实例\n总游玩时长\n8 小时\n次游玩\n8\n个实例\n2\n内存分配\n4 GB\n下载队列\n全部任务\n\n暂无下载任务\n\n最新资讯\n查看全部\nMINECRAFT FOR WINDOWS\nDiscover Planet Earth I",
+      "chars": 405,
+      "visibleViews": [
+        "view-home"
+      ],
+      "current": "home",
+      "overflow": 0,
+      "title": "开始游戏"
+    },
+    {
+      "nav": "installations",
+      "width": 1280,
+      "height": 800,
+      "status": "PASS",
+      "text": "你的游戏实例\n\n2 个实例可用 · 版本与加载器互相独立\n\n全部版本\n模组版\n快照版\n从已有目录添加\n新建实例\n布局复验 · Fabric\nFabric\n默认\n2 Mod\nMinecraft 1.21.5 · 从未游玩 · 游玩 4 次 · 4h 0m\nMod\n启动\n布局复验 · 原版\nVanilla\nMinecraft 1.21.5 · 从未游玩 · 游玩",
+      "chars": 195,
+      "visibleViews": [
+        "view-installations"
+      ],
+      "current": "installations",
+      "overflow": 0,
+      "title": "安装管理"
+    },
+    {
+      "nav": "worlds",
+      "width": 1280,
+      "height": 800,
+      "status": "PASS",
+      "text": "单人存档\n🗺️\n还没有存档，进入游戏创建一个世界吧。",
+      "chars": 27,
+      "visibleViews": [
+        "view-worlds"
+      ],
+      "current": "worlds",
+      "overflow": 0,
+      "title": "世界"
+    },
+    {
+      "nav": "servers",
+      "width": 1280,
+      "height": 800,
+      "status": "PASS",
+      "text": "添加服务器\n收藏的服务器\n🖥️\n还没有添加服务器，点击右上角添加。",
+      "chars": 34,
+      "visibleViews": [
+        "view-servers"
+      ],
+      "current": "servers",
+      "overflow": 0,
+      "title": "服务器"
+    },
+    {
+      "nav": "playtime",
+      "width": 1280,
+      "height": 800,
+      "status": "PASS",
+      "text": "本月 · 总时长\n8 小时\n游玩次数\n8\n活跃天数\n4\n单次最长\n1 小时\n时长分布\n\n悬停或聚焦色块，查看日期、实例与时长。\n\n本周\n本月\n近 7 天\n近 30 天\n自定义\n\n2026-10-01 — 2026-10-15\n\n布局复验 · Fabric · 4h\n1h\n1h\n1h\n1h\n布局复验 · 原版 · 4h\n1h\n1h\n1h\n1h\n\n悬停或聚焦色块",
+      "chars": 408,
+      "visibleViews": [
+        "view-playtime"
+      ],
+      "current": "playtime",
+      "overflow": 0,
+      "title": "游戏时长"
+    },
+    {
+      "nav": "content",
+      "width": 1280,
+      "height": 800,
+      "status": "PASS",
+      "text": "内容库\n\n查找适合当前实例的内容\n\n模组\n整合包\n光影\n资源包\n布局复验 · Fabric · 1.21.5 · Fabric\nModrinth\nCurseForge\nSodium\n安装\n作者：jellysquid3\nA high-performance rendering engine replacement for Minecraft, which gr",
+      "chars": 3584,
+      "visibleViews": [
+        "view-content"
+      ],
+      "current": "content",
+      "overflow": 0,
+      "title": "内容中心"
+    },
+    {
+      "nav": "skins",
+      "width": 1280,
+      "height": 800,
+      "status": "PASS",
+      "text": "皮肤预览\n\nLayoutFixture\n\n经典模型\n无法获取皮肤贴图，请选择本地 PNG 预览。\n拖拽旋转 · 滚轮缩放\n重置视角\n暂停旋转\n模型\n经典模型\nSlim / Alex\n选择本地皮肤\n\n64×64 或 64×32 PNG，不超过 1 MiB。选择后先预览。\n\n已保存皮肤（0）\n当前账户没有已保存的皮肤。\n\n先预览皮肤，确认后再单独应用到账户。\n\n",
+      "chars": 215,
+      "visibleViews": [
+        "view-skins"
+      ],
+      "current": "skins",
+      "overflow": 0,
+      "title": "皮肤"
+    },
+    {
+      "nav": "downloads",
+      "width": 1280,
+      "height": 800,
+      "status": "PASS",
+      "text": "可用版本\n正式版\n快照\n全部\n26.3\n正式版\n2026-09-15\n下载\n26.2\n正式版\n2026-06-16\n下载\n26.1.2\n正式版\n2026-04-09\n下载\n26.1.1\n正式版\n2026-04-01\n下载\n26.1\n正式版\n2026-03-24\n下载\n1.21.11\n正式版\n2025-12-09\n下载\n1.21.10\n正式版\n2025-10-",
+      "chars": 1501,
+      "visibleViews": [
+        "view-downloads"
+      ],
+      "current": "downloads",
+      "overflow": 0,
+      "title": "下载"
+    },
+    {
+      "nav": "news",
+      "width": 1280,
+      "height": 800,
+      "status": "PASS",
+      "text": "刷新\n官方动态\n最新（本次会话缓存） · 最后验证 2026-10-15\nMINECRAFT FOR WINDOWS\n2024-01-16\nDiscover Planet Earth III DLC\n\nStep into a wondrous world inspired by the new landmark series from BBC Studios",
+      "chars": 1865,
+      "visibleViews": [
+        "view-news"
+      ],
+      "current": "news",
+      "overflow": 0,
+      "title": "新闻"
+    },
+    {
+      "nav": "settings",
+      "width": 1280,
+      "height": 800,
+      "status": "PASS",
+      "text": "Java / 系统分配\n内存分配\n调整分配给 Minecraft 进程的内存上限，推荐默认 4GB。\n4.0 GB\n自动内存分配\n让启动器根据你的系统自动选择合适的内存大小。\nJava 运行时路径\n使用内置 Java 运行环境或指定自定义路径。\n使用内置 JRE（默认）\n启动器行为\n下载源\n选择官方源或国内镜像，按实测延迟选择。\n当前：官方源\nTUN/fak",
+      "chars": 499,
+      "visibleViews": [
+        "view-settings"
+      ],
+      "current": "settings",
+      "overflow": 0,
+      "title": "设置"
+    },
+    {
+      "nav": "home",
+      "width": 960,
+      "height": 640,
+      "status": "PASS",
+      "text": "当前实例 · PINEGLOW JAVA EDITION\n布局复验 · Fabric\n1.21.5\nFabric\n2 Mod\n开始游戏\n选择实例\n总游玩时长\n8 小时\n次游玩\n8\n个实例\n2\n内存分配\n4 GB\n下载队列\n全部任务\n\n暂无下载任务\n\n最新资讯\n查看全部\nMINECRAFT FOR WINDOWS\nDiscover Planet Earth I",
+      "chars": 405,
+      "visibleViews": [
+        "view-home"
+      ],
+      "current": "home",
+      "overflow": 0,
+      "title": "开始游戏"
+    },
+    {
+      "nav": "installations",
+      "width": 960,
+      "height": 640,
+      "status": "PASS",
+      "text": "你的游戏实例\n\n2 个实例可用 · 版本与加载器互相独立\n\n全部版本\n模组版\n快照版\n从已有目录添加\n新建实例\n布局复验 · Fabric\nFabric\n默认\n2 Mod\nMinecraft 1.21.5 · 从未游玩 · 游玩 4 次 · 4h 0m\nMod\n启动\n布局复验 · 原版\nVanilla\nMinecraft 1.21.5 · 从未游玩 · 游玩",
+      "chars": 195,
+      "visibleViews": [
+        "view-installations"
+      ],
+      "current": "installations",
+      "overflow": 0,
+      "title": "安装管理"
+    },
+    {
+      "nav": "worlds",
+      "width": 960,
+      "height": 640,
+      "status": "PASS",
+      "text": "单人存档\n🗺️\n还没有存档，进入游戏创建一个世界吧。",
+      "chars": 27,
+      "visibleViews": [
+        "view-worlds"
+      ],
+      "current": "worlds",
+      "overflow": 0,
+      "title": "世界"
+    },
+    {
+      "nav": "servers",
+      "width": 960,
+      "height": 640,
+      "status": "PASS",
+      "text": "添加服务器\n收藏的服务器\n🖥️\n还没有添加服务器，点击右上角添加。",
+      "chars": 34,
+      "visibleViews": [
+        "view-servers"
+      ],
+      "current": "servers",
+      "overflow": 0,
+      "title": "服务器"
+    },
+    {
+      "nav": "playtime",
+      "width": 960,
+      "height": 640,
+      "status": "PASS",
+      "text": "本月 · 总时长\n8 小时\n游玩次数\n8\n活跃天数\n4\n单次最长\n1 小时\n时长分布\n\n悬停或聚焦色块，查看日期、实例与时长。\n\n本周\n本月\n近 7 天\n近 30 天\n自定义\n\n2026-10-01 — 2026-10-15\n\n布局复验 · Fabric · 4h\n1h\n1h\n1h\n1h\n布局复验 · 原版 · 4h\n1h\n1h\n1h\n1h\n\n悬停或聚焦色块",
+      "chars": 408,
+      "visibleViews": [
+        "view-playtime"
+      ],
+      "current": "playtime",
+      "overflow": 0,
+      "title": "游戏时长"
+    },
+    {
+      "nav": "content",
+      "width": 960,
+      "height": 640,
+      "status": "PASS",
+      "text": "内容库\n\n查找适合当前实例的内容\n\n模组\n整合包\n光影\n资源包\n布局复验 · Fabric · 1.21.5 · Fabric\nModrinth\nCurseForge\nSodium\n安装\n作者：jellysquid3\nA high-performance rendering engine replacement for Minecraft, which gr",
+      "chars": 3584,
+      "visibleViews": [
+        "view-content"
+      ],
+      "current": "content",
+      "overflow": 0,
+      "title": "内容中心"
+    },
+    {
+      "nav": "skins",
+      "width": 960,
+      "height": 640,
+      "status": "PASS",
+      "text": "皮肤预览\n\nLayoutFixture\n\n经典模型\n无法获取皮肤贴图，请选择本地 PNG 预览。\n拖拽旋转 · 滚轮缩放\n重置视角\n暂停旋转\n模型\n经典模型\nSlim / Alex\n选择本地皮肤\n\n64×64 或 64×32 PNG，不超过 1 MiB。选择后先预览。\n\n已保存皮肤（0）\n当前账户没有已保存的皮肤。\n\n先预览皮肤，确认后再单独应用到账户。\n\n",
+      "chars": 215,
+      "visibleViews": [
+        "view-skins"
+      ],
+      "current": "skins",
+      "overflow": 0,
+      "title": "皮肤"
+    },
+    {
+      "nav": "downloads",
+      "width": 960,
+      "height": 640,
+      "status": "PASS",
+      "text": "可用版本\n正式版\n快照\n全部\n26.3\n正式版\n2026-09-15\n下载\n26.2\n正式版\n2026-06-16\n下载\n26.1.2\n正式版\n2026-04-09\n下载\n26.1.1\n正式版\n2026-04-01\n下载\n26.1\n正式版\n2026-03-24\n下载\n1.21.11\n正式版\n2025-12-09\n下载\n1.21.10\n正式版\n2025-10-",
+      "chars": 1501,
+      "visibleViews": [
+        "view-downloads"
+      ],
+      "current": "downloads",
+      "overflow": 0,
+      "title": "下载"
+    },
+    {
+      "nav": "news",
+      "width": 960,
+      "height": 640,
+      "status": "PASS",
+      "text": "刷新\n官方动态\n最新（本次会话缓存） · 最后验证 2026-10-15\nMINECRAFT FOR WINDOWS\n2024-01-16\nDiscover Planet Earth III DLC\n\nStep into a wondrous world inspired by the new landmark series from BBC Studios",
+      "chars": 1865,
+      "visibleViews": [
+        "view-news"
+      ],
+      "current": "news",
+      "overflow": 0,
+      "title": "新闻"
+    },
+    {
+      "nav": "settings",
+      "width": 960,
+      "height": 640,
+      "status": "PASS",
+      "text": "Java / 系统分配\n内存分配\n调整分配给 Minecraft 进程的内存上限，推荐默认 4GB。\n4.0 GB\n自动内存分配\n让启动器根据你的系统自动选择合适的内存大小。\nJava 运行时路径\n使用内置 Java 运行环境或指定自定义路径。\n使用内置 JRE（默认）\n启动器行为\n下载源\n选择官方源或国内镜像，按实测延迟选择。\n当前：官方源\nTUN/fak",
+      "chars": 579,
+      "visibleViews": [
+        "view-settings"
+      ],
+      "current": "settings",
+      "overflow": 0,
+      "title": "设置"
+    },
+    {
+      "nav": "home",
+      "width": 1600,
+      "height": 900,
+      "status": "PASS",
+      "text": "当前实例 · PINEGLOW JAVA EDITION\n布局复验 · Fabric\n1.21.5\nFabric\n2 Mod\n开始游戏\n选择实例\n总游玩时长\n8 小时\n次游玩\n8\n个实例\n2\n内存分配\n4 GB\n下载队列\n全部任务\n\n暂无下载任务\n\n最新资讯\n查看全部\nMINECRAFT FOR WINDOWS\nDiscover Planet Earth I",
+      "chars": 405,
+      "visibleViews": [
+        "view-home"
+      ],
+      "current": "home",
+      "overflow": 0,
+      "title": "开始游戏"
+    },
+    {
+      "nav": "installations",
+      "width": 1600,
+      "height": 900,
+      "status": "PASS",
+      "text": "你的游戏实例\n\n2 个实例可用 · 版本与加载器互相独立\n\n全部版本\n模组版\n快照版\n从已有目录添加\n新建实例\n布局复验 · Fabric\nFabric\n默认\n2 Mod\nMinecraft 1.21.5 · 从未游玩 · 游玩 4 次 · 4h 0m\nMod\n启动\n布局复验 · 原版\nVanilla\nMinecraft 1.21.5 · 从未游玩 · 游玩",
+      "chars": 195,
+      "visibleViews": [
+        "view-installations"
+      ],
+      "current": "installations",
+      "overflow": 0,
+      "title": "安装管理"
+    },
+    {
+      "nav": "worlds",
+      "width": 1600,
+      "height": 900,
+      "status": "PASS",
+      "text": "单人存档\n🗺️\n还没有存档，进入游戏创建一个世界吧。",
+      "chars": 27,
+      "visibleViews": [
+        "view-worlds"
+      ],
+      "current": "worlds",
+      "overflow": 0,
+      "title": "世界"
+    },
+    {
+      "nav": "servers",
+      "width": 1600,
+      "height": 900,
+      "status": "PASS",
+      "text": "添加服务器\n收藏的服务器\n🖥️\n还没有添加服务器，点击右上角添加。",
+      "chars": 34,
+      "visibleViews": [
+        "view-servers"
+      ],
+      "current": "servers",
+      "overflow": 0,
+      "title": "服务器"
+    },
+    {
+      "nav": "playtime",
+      "width": 1600,
+      "height": 900,
+      "status": "PASS",
+      "text": "本月 · 总时长\n8 小时\n游玩次数\n8\n活跃天数\n4\n单次最长\n1 小时\n时长分布\n\n悬停或聚焦色块，查看日期、实例与时长。\n\n本周\n本月\n近 7 天\n近 30 天\n自定义\n\n2026-10-01 — 2026-10-15\n\n布局复验 · Fabric · 4h\n1h\n1h\n1h\n1h\n布局复验 · 原版 · 4h\n1h\n1h\n1h\n1h\n\n悬停或聚焦色块",
+      "chars": 408,
+      "visibleViews": [
+        "view-playtime"
+      ],
+      "current": "playtime",
+      "overflow": 0,
+      "title": "游戏时长"
+    },
+    {
+      "nav": "content",
+      "width": 1600,
+      "height": 900,
+      "status": "PASS",
+      "text": "内容库\n\n查找适合当前实例的内容\n\n模组\n整合包\n光影\n资源包\n布局复验 · Fabric · 1.21.5 · Fabric\nModrinth\nCurseForge\nSodium\n安装\n作者：jellysquid3\nA high-performance rendering engine replacement for Minecraft, which gr",
+      "chars": 3584,
+      "visibleViews": [
+        "view-content"
+      ],
+      "current": "content",
+      "overflow": 0,
+      "title": "内容中心"
+    },
+    {
+      "nav": "skins",
+      "width": 1600,
+      "height": 900,
+      "status": "PASS",
+      "text": "皮肤预览\n\nLayoutFixture\n\n经典模型\n无法获取皮肤贴图，请选择本地 PNG 预览。\n拖拽旋转 · 滚轮缩放\n重置视角\n暂停旋转\n模型\n经典模型\nSlim / Alex\n选择本地皮肤\n\n64×64 或 64×32 PNG，不超过 1 MiB。选择后先预览。\n\n已保存皮肤（0）\n当前账户没有已保存的皮肤。\n\n先预览皮肤，确认后再单独应用到账户。\n\n",
+      "chars": 215,
+      "visibleViews": [
+        "view-skins"
+      ],
+      "current": "skins",
+      "overflow": 0,
+      "title": "皮肤"
+    },
+    {
+      "nav": "downloads",
+      "width": 1600,
+      "height": 900,
+      "status": "PASS",
+      "text": "可用版本\n正式版\n快照\n全部\n26.3\n正式版\n2026-09-15\n下载\n26.2\n正式版\n2026-06-16\n下载\n26.1.2\n正式版\n2026-04-09\n下载\n26.1.1\n正式版\n2026-04-01\n下载\n26.1\n正式版\n2026-03-24\n下载\n1.21.11\n正式版\n2025-12-09\n下载\n1.21.10\n正式版\n2025-10-",
+      "chars": 1501,
+      "visibleViews": [
+        "view-downloads"
+      ],
+      "current": "downloads",
+      "overflow": 0,
+      "title": "下载"
+    },
+    {
+      "nav": "news",
+      "width": 1600,
+      "height": 900,
+      "status": "PASS",
+      "text": "刷新\n官方动态\n最新（本次会话缓存） · 最后验证 2026-10-15\nMINECRAFT FOR WINDOWS\n2024-01-16\nDiscover Planet Earth III DLC\n\nStep into a wondrous world inspired by the new landmark series from BBC Studios",
+      "chars": 1865,
+      "visibleViews": [
+        "view-news"
+      ],
+      "current": "news",
+      "overflow": 0,
+      "title": "新闻"
+    },
+    {
+      "nav": "settings",
+      "width": 1600,
+      "height": 900,
+      "status": "PASS",
+      "text": "Java / 系统分配\n内存分配\n调整分配给 Minecraft 进程的内存上限，推荐默认 4GB。\n4.0 GB\n自动内存分配\n让启动器根据你的系统自动选择合适的内存大小。\nJava 运行时路径\n使用内置 Java 运行环境或指定自定义路径。\n使用内置 JRE（默认）\n启动器行为\n下载源\n选择官方源或国内镜像，按实测延迟选择。\n当前：官方源\nTUN/fak",
+      "chars": 579,
+      "visibleViews": [
+        "view-settings"
+      ],
+      "current": "settings",
+      "overflow": 0,
+      "title": "设置"
+    }
+  ],
+  "errors": [],
+  "interactions": [
+    {
+      "name": "Quick actions search and Enter navigate",
+      "status": "PASS"
+    },
+    {
+      "name": "English rerenders the current page and pressed state",
+      "status": "PASS"
+    },
+    {
+      "name": "Escape restores quick action trigger focus",
+      "status": "PASS"
+    }
+  ]
+}

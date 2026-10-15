@@ -1,0 +1,34 @@
+[
+  {
+    "path": "ui/js/launcher.js",
+    "sha256": "9B3D937EC9A8CA1CDB3A7ADC4F80BF2ADDD4B88CF24E8CCE111C6B70CE4B0815"
+  },
+  {
+    "path": "ui/js/i18n.js",
+    "sha256": "0D59DE26677F8324A23CB897C3FD2A56D82CA889B5913FFFE6B8298C43853F10"
+  },
+  {
+    "path": "ui/css/pineglow.css",
+    "sha256": "002D76A630BAC963AD1D7F9A0B8589A4444F06FB2D2556B814D534987A19B73D"
+  },
+  {
+    "path": "scripts/verify-ui-pages-live.cjs",
+    "sha256": "B2665D185EACECFA32CFDDE1B6BACD7E0D081F2454F04D6AD1602A5EA29C9A60"
+  },
+  {
+    "path": "ui/tests/current-version-errors.test.cjs",
+    "sha256": "8A3BFF1C5EB36BC8C867497B5AC4378717225057D917D3ADF62B77AD29A288DF"
+  },
+  {
+    "path": "scripts/tests/ui-live-cdp.test.cjs",
+    "sha256": "7C925C199C11BF86E764A9196A1B59C67C7C8E12586FD22F4E0B1BA4AE9A8AD1"
+  },
+  {
+    "path": "scripts/test-inventory.txt",
+    "sha256": "887E63FF6C64202369D963B1C1E9012044234F052375979AABCAA039B38A4C07"
+  },
+  {
+    "path": "scripts/source-snapshot-inputs.txt",
+    "sha256": "4DFC3726A53279E80451E7B9F653296AF0A17206016C4E6928631909169BFF1C"
+  }
+]

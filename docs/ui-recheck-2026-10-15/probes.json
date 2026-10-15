@@ -1,0 +1,180 @@
+{
+  "stats": {
+    "before": "累计游玩时长\n214h 0m\n游玩次数\n194\n实例\n4\n已记录会话\n8",
+    "after": "累计游玩时长\n214h 0m\n游玩次数\n194\n实例\n4\n已记录会话\n8",
+    "cells": 4,
+    "range": "2026-10-15",
+    "expectedRangeSeconds": 14400,
+    "expectedRangeCount": 4
+  },
+  "slider": {
+    "before": {
+      "html": "<div class=\"slider\" id=\"memSlider\" style=\"opacity:.4;pointer-events:none\">\n\t\t\t\t\t\t\t<div class=\"slider-fill\" style=\"width:14.285714285714285%\"></div>\n\t\t\t\t\t\t\t<div class=\"slider-knob\" style=\"left:14.285714285714285%\"></div>\n\t\t\t\t\t\t</div>",
+      "value": "4.0 GB"
+    },
+    "after": {
+      "html": "<div class=\"slider\" id=\"memSlider\" style=\"opacity:.4;pointer-events:none\">\n\t\t\t\t\t\t\t<div class=\"slider-fill\" style=\"width:14.285714285714285%\"></div>\n\t\t\t\t\t\t\t<div class=\"slider-knob\" style=\"left:14.285714285714285%\"></div>\n\t\t\t\t\t\t</div>",
+      "value": "4.0 GB"
+    },
+    "enabled": {
+      "active": "",
+      "role": null,
+      "tabindex": null,
+      "value": "4.0 GB"
+    }
+  },
+  "skip": {
+    "hash": "#view-home",
+    "active": "<body>\n<!-- MR17：键盘用户可跳过标题栏直达主内容（WCAG 2.4.1）；平时隐藏，获得焦点时出现。\n     文案走 data-i18n（applyStaticI18n 会在 init 与语言切换时填充），静态文字仅作 JS 之前的兜底。 -->\n<a class=\"skip-link\" href=\"#view-home\" data-i18n=\"a11y.skipToContent\">跳到主内容</a>\n<div class=\"win\">\n\t<!-- ============ 标题栏 ============ -->\n\t<header class=\"title-bar\" id=\"titleBar\">\n\t\t<div class=\"brand\">\n\t\t\t<span class=",
+    "targetVisible": false,
+    "current": "settings"
+  },
+  "mods": {
+    "modList": "管理 Mod · 生电整合 · 1.21.5\n\n1.21.5 · Fabric\n\n关闭\n全部已启用已禁用\n恢复区\nFabric API\n0.119.2 · 2.1 MB\n×\nSodium\n0.6.13 · 1.1 MB\n×\nLithium\n0.15.1 · 780 KB\n×\nIris Shaders\n1.8.8 · 3.4 MB\n×\nJust Enough Items\n19.8.0.215 · 1.3 MB\n×\nXaero's Minimap\n25.1.0 · 1.6 MB\n×\nMod Menu\n11.0.3 · 210 KB\n×\nCloth Config API\n17.0.144 · 1.0 MB\n×\nEntityCulling\n1.7.3 · 96 KB\n×\nFerriteCore\n7.0.2 · 120 KB\n已禁用\n×\nLitematica\n0.21.4 · 890 KB\n已禁用\n×\nReplay Mod\n2.6.21 · 5.2 MB\n已禁用\n×",
+    "recoveryBefore": {
+      "drawer": "true",
+      "text": "恢复区 · 生电整合 · 1.21.5\n读取恢复区失败，无法判断有哪些文件可以恢复：Controlled audit recovery failure (/api/instances/fabric-1215/recovery)\n重新读取恢复区\n完成",
+      "rect": {
+        "x": 660,
+        "y": 5.94471549987793,
+        "width": 620,
+        "height": 800,
+        "top": 5.94471549987793,
+        "right": 1280,
+        "bottom": 805.9447154998779,
+        "left": 660
+      }
+    },
+    "recoveryAfter": {
+      "drawer": null,
+      "text": "恢复区 · 生电整合 · 1.21.5\n这里保存被移除的文件，默认保留 30 天。恢复不会覆盖原位置的同名文件。\n恢复区为空\n完成",
+      "rect": {
+        "x": 405,
+        "y": 239.70021057128906,
+        "width": 470,
+        "height": 321.171875,
+        "top": 239.70021057128906,
+        "right": 875,
+        "bottom": 560.8720855712891,
+        "left": 405
+      }
+    }
+  },
+  "rawReference": {
+    "text": "树状图渲染失败\n\nCannot read properties of undefined (reading 'sessions')",
+    "cells": 0
+  },
+  "errors": [],
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/api/accounts",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/news",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/state",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/stats",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/downloads",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/worlds",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/instances",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/servers",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/stats",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/content/search",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/accounts",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/versions",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/downloads",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/versions/remote",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/accounts",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/update",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/stats",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/stats",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "path": "/api/config",
+      "body": "{\"useAutoMemory\":false}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/instances/fabric-1215/mods",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/instances/fabric-1215/recovery",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/instances/fabric-1215/recovery",
+      "body": null
+    }
+  ]
+}

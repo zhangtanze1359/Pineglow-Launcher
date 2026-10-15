@@ -1,0 +1,14 @@
+[
+  {
+    "pid": 3296,
+    "root": "D:\\松光启动器\\docs\\ui-fix-2026-10-15\\native",
+    "stoppedNow": false,
+    "alreadyExited": true
+  },
+  {
+    "pid": 27736,
+    "root": "D:\\松光启动器\\docs\\ui-fix-2026-10-15\\native-final",
+    "stoppedNow": true,
+    "alreadyExited": false
+  }
+]

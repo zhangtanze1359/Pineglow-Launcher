@@ -1,0 +1,13 @@
+{
+    "schemaVersion":  1,
+    "runId":  "fixed-id",
+    "inputManifest":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\legal-partial-then-full\\input.json",
+    "inputManifestSha256":  "8C0E13E3F4D42847F61E1C0A09D7543763EB5A7C38DFC201659FDA8D1DB98FBE",
+    "verifiedInputSetSha256":  "8B61E22B98906A58BCCF598A8597273C39E974CA49E3A725FCEE986A121651DB",
+    "verifiedInputCount":  2,
+    "verifiedInputRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\legal-partial-then-full",
+    "stagesFile":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\legal-partial-then-full\\stages.json",
+    "stagesFileSha256":  "F0E940836A45C3C82719104E4427650C488781273FC06CC19DF71B87B14587E5",
+    "executionRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\legal-partial-then-full",
+    "evidenceRoot":  ""
+}

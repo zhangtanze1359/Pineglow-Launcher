@@ -1,0 +1,36 @@
+{
+    "schemaVersion":  1,
+    "id":  "g4-build-tests",
+    "runId":  "20261003-092612Z-b4d896a8",
+    "fingerprint":  "A5B4B37140D35653C2EB1AF10D33F00A20D03D5A5AEA7AC536309F99C567D1C7",
+    "inputManifestSha256":  "7F1A71FCD47541C2055E58DC2BC840FDE0670B013DC1ED923E2263BB1D1A0FF0",
+    "command":  "dotnet build dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release",
+    "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-seal-39dfd2b90cbb4689b7fbad1c8ab10ba9",
+    "startUtc":  "2026-10-03T10:37:06Z",
+    "endUtc":  "2026-10-03T10:37:13Z",
+    "exitCode":  0,
+    "timedOut":  false,
+    "stillRunning":  false,
+    "counters":  null,
+    "trx":  "",
+    "artifacts":  [
+
+                  ],
+    "rawEvidence":  [
+                        {
+                            "path":  "g4-build-tests.stdout.log",
+                            "sha256":  "C74FAED4197F64DBD95AE33A1DFAFD04FADBE75FDE4C1A3A3D8A6B256010CEAE",
+                            "sizeBytes":  18636
+                        },
+                        {
+                            "path":  "g4-build-tests.stderr.log",
+                            "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                            "sizeBytes":  0
+                        }
+                    ],
+    "reasons":  [
+
+                ],
+    "status":  "COMPLETED",
+    "reused":  false
+}

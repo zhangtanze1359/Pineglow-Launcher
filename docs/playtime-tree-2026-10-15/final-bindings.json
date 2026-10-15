@@ -1,0 +1,24 @@
+{
+  "head": "ea6d1cbf145bd4ae479d9f4774dba468351a91a8",
+  "previewPid": 25120,
+  "bindings": [
+    {
+      "path": "js/playtime.js",
+      "source": "8ba66acc93386234fc1f010d1030cb5b33d5b9f0208eb236a922b51154dcdd3a",
+      "build": "8ba66acc93386234fc1f010d1030cb5b33d5b9f0208eb236a922b51154dcdd3a",
+      "execution": "8ba66acc93386234fc1f010d1030cb5b33d5b9f0208eb236a922b51154dcdd3a"
+    },
+    {
+      "path": "css/redesign.css",
+      "source": "23d316e730a1dcfe70e78d2f6f3cc644bc258640d96665ccbac33d5f8b93c0a9",
+      "build": "23d316e730a1dcfe70e78d2f6f3cc644bc258640d96665ccbac33d5f8b93c0a9",
+      "execution": "23d316e730a1dcfe70e78d2f6f3cc644bc258640d96665ccbac33d5f8b93c0a9"
+    },
+    {
+      "path": "js/i18n.js",
+      "source": "80bc15ecd65fc076cd91ee5dbba5a724e7dd96434a643fb4d35898af8ce876b8",
+      "build": "80bc15ecd65fc076cd91ee5dbba5a724e7dd96434a643fb4d35898af8ce876b8",
+      "execution": "80bc15ecd65fc076cd91ee5dbba5a724e7dd96434a643fb4d35898af8ce876b8"
+    }
+  ]
+}

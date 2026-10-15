@@ -1,0 +1,15 @@
+'use strict';
+const fs=require('fs'),path=require('path'),os=require('os'),cp=require('child_process'),crypto=require('crypto');
+const base=__dirname,root=JSON.parse(fs.readFileSync(path.join(base,'independent-inputs.json'),'utf8')).executionRoot;
+const dir=fs.mkdtempSync(path.join(os.tmpdir(),'codex-runner-output-budget-')),run=path.join(dir,'run');fs.mkdirSync(run);
+const source=path.join(dir,'source.txt');fs.writeFileSync(source,'frozen input');
+const parent=path.join(dir,'parent.cjs');
+fs.writeFileSync(parent,`const fs=require('fs'),cp=require('child_process');fs.writeFileSync(process.argv[2],'<TestRun><ResultSummary><Counters total="1" executed="1" passed="1" failed="0" notExecuted="0"/></ResultSummary><Results><UnitTestResult outcome="Passed"/></Results></TestRun>');const c=cp.spawn(process.execPath,['-e','setTimeout(()=>{process.stdout.write("ordinary delayed child finished\\n");},3500)'],{stdio:['ignore','inherit','inherit']});console.log('delayedChildPid='+c.pid);c.unref();process.exit(0);`);
+const hash=p=>crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex').toUpperCase();
+const manifest=path.join(dir,'input.json');fs.writeFileSync(manifest,JSON.stringify({schemaVersion:1,executionRoot:dir,inputs:[source,parent].map(p=>({path:path.basename(p),sizeBytes:fs.statSync(p).size,sha256:hash(p)}))}));
+const defs=path.join(dir,'stages.json');fs.writeFileSync(defs,JSON.stringify({schemaVersion:1,runId:'output-budget',requiredStages:['unit'],stages:[{id:'unit',file:process.execPath,argv:[parent,'{attemptDir}/unit.trx'],cwd:dir,produces:['unit.trx'],expect:{trx:'unit.trx',minTests:1,maxSkipped:0}}]}));
+const args=['-NoProfile','-ExecutionPolicy','Bypass','-File',path.join(root,'scripts/run-goal-validation.ps1'),'-InputManifest',manifest,'-StagesFile',defs,'-RunDir',run,'-ExecutionRoot',dir,'-TimeoutSeconds','1'];
+const start=Date.now();const p=cp.spawnSync('C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe',args,{encoding:'utf8',timeout:20000,env:{...process.env,PSModulePath:'C:/Windows/System32/WindowsPowerShell/v1.0/Modules'}});const elapsedMs=Date.now()-start;
+const vp=path.join(run,'runner-verdict.json'),verdict=fs.existsSync(vp)?JSON.parse(fs.readFileSync(vp,'utf8')):null;
+const r={fixture:dir,args,timeoutSeconds:1,elapsedMs,exitCode:p.status,stdout:p.stdout,stderr:p.stderr,verdict,expected:'FAIL on wall-clock output collection over budget',accepted:p.status!==0};
+fs.writeFileSync(path.join(base,'runner-output-timeout-result.json'),JSON.stringify(r,null,2));console.log(JSON.stringify({elapsedMs,exitCode:p.status,verdict:verdict?.verdict,timedOut:verdict?.stages[0]?.timedOut,startUtc:verdict?.stages[0]?.startUtc,endUtc:verdict?.stages[0]?.endUtc,accepted:r.accepted}));process.exit(r.accepted?0:1);

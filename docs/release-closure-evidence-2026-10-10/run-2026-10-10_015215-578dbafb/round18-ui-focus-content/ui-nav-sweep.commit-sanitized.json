@@ -1,0 +1,123 @@
+{
+  "probe": "cdp-ui-nav-sweep",
+  "appUrl": "http://127.0.0.1:63877/",
+  "debugPort": 63878,
+  "timeHK": "2026-10-11T07:02:28.568Z",
+  "ok": false,
+  "navLabels": [
+    "内容中心",
+    "下载"
+  ],
+  "views": [
+    {
+      "label": "内容中心",
+      "clicked": {
+        "clicked": true,
+        "x": 84,
+        "y": 416
+      },
+      "heading": "PINEGLOW\n\t\t\t松光启动器",
+      "activeNav": [
+        "跳到主内容",
+        "模组"
+      ],
+      "mainTextHead": "内容中心\n搜索并安装模组、整合包、光影与资源包\nModrinth\nCurseForge\n模组\n整合包\n光影\n资源包\n默认游戏 ·\nSodium\n安装\n作者：jellysquid3\nA high-performance rendering engine replacement for Minecraft, which greatly improves frame rates and reduces micro-stutter.\n241.7M\n1.16.3\n1.16.4\nSodium Extra\n安装\n作者：FlashyReese\nA Sodium addon that adds features that shouldn't be in Sodium.\n101.6M\n1.16.2\n1.16.3\nReese's Sodium Options\n安装\n作者：FlashyReese\nAlternat",
+      "readyState": "complete",
+      "bodyTextLength": 3383,
+      "distinctiveLine": [
+        "跳到主内容",
+        "PINEGLOW",
+        "松光启动器",
+        "d6tester",
+        "离线模式",
+        "开始游戏",
+        "安装管理",
+        "内容中心",
+        "独立世界，自由探索",
+        "内容中心",
+        "搜索并安装模组、整合包、光影与资源包",
+        "Modrinth",
+        "CurseForge",
+        "默认游戏 ·"
+      ],
+      "screenshotBytes": 167738,
+      "exceptions": 0,
+      "consoleErrors": 0,
+      "httpErrors": [
+        "404 http://127.0.0.1:63877/api/content/icon?source=modrinth&category=mod&projectId=ysHf2zCJ&token=REDACTED_LOCAL_SESSION_TOKEN"
+      ]
+    },
+    {
+      "label": "下载",
+      "clicked": {
+        "clicked": true,
+        "x": 71,
+        "y": 504
+      },
+      "heading": "PINEGLOW\n\t\t\t松光启动器",
+      "activeNav": [
+        "跳到主内容",
+        "下载"
+      ],
+      "mainTextHead": "下载\n下载 Minecraft 版本并查看进度\n可用版本\n正式版\n快照\n全部\n26.3\n正式版\n2026-09-15\n下载\n26.2\n正式版\n2026-06-16\n下载\n26.1.2\n正式版\n2026-04-09\n下载\n26.1.1\n正式版\n2026-04-01\n下载\n26.1\n正式版\n2026-03-24\n下载\n1.21.11\n正式版\n2025-12-09\n已安装\n1.21.10\n正式版\n2025-10-07\n下载\n1.21.9\n正式版\n2025-09-30\n下载\n1.21.8\n正式版\n2025-07-17\n下载\n1.21.7\n正式版\n2025-06-30\n下载\n1.21.6\n正式版\n2025-06-17\n下载\n1.21.5\n正式版\n2025-03-25\n下载\n1.21.4\n正式版\n2024-12-03\n下载\n1.21.3\n正式版\n2024-10-23\n下载\n1.21.2\n正式版\n202",
+      "readyState": "complete",
+      "bodyTextLength": 1615,
+      "distinctiveLine": [
+        "跳到主内容",
+        "PINEGLOW",
+        "松光启动器",
+        "d6tester",
+        "离线模式",
+        "开始游戏",
+        "安装管理",
+        "内容中心",
+        "独立世界，自由探索",
+        "下载 Minecraft 版本并查看进度",
+        "可用版本",
+        "26.3",
+        "2026-09-15",
+        "26.2"
+      ],
+      "screenshotBytes": 60582,
+      "exceptions": 0,
+      "consoleErrors": 0,
+      "httpErrors": []
+    }
+  ],
+  "exceptions": [],
+  "consoleErrors": [],
+  "httpErrors": [
+    "400 http://127.0.0.1:63877/api/news-image?id=c9d34179034d0d1364810e764d2ca94718ec5b6d6de10456e4f6aa347ccc85fc",
+    "400 http://127.0.0.1:63877/api/news-image?id=7944cc61c2da5060a00bb2ac451f89b6665275f63e0f9d7c3110d7e668e91fe7",
+    "400 http://127.0.0.1:63877/api/news-image?id=2a43e476ad908c5c61650b73a93bd4f08ade9c4041f48aa319e12e866db9f236",
+    "400 http://127.0.0.1:63877/api/news-image?id=a8175b8f712374be10b24a2a45f284a5a619d02954213a5731c412d0590237e8",
+    "404 http://127.0.0.1:63877/api/content/icon?source=modrinth&category=mod&projectId=ysHf2zCJ&token=REDACTED_LOCAL_SESSION_TOKEN"
+  ],
+  "sidebarCandidates": [
+    "跳到主内容",
+    "PINEGLOW",
+    "松光启动器",
+    "d6tester",
+    "离线模式",
+    "游戏",
+    "开始游戏",
+    "安装管理",
+    "世界",
+    "服务器",
+    "资源库",
+    "内容中心",
+    "皮肤",
+    "下载",
+    "新闻",
+    "设置",
+    "独立世界，自由探索",
+    "回到你的方块世界。",
+    "9m 总游玩时长",
+    "9m",
+    "当前版本",
+    "Java 版",
+    "最新资讯"
+  ],
+  "visitedViewCount": 2,
+  "viewsWithJsErrors": 0
+}

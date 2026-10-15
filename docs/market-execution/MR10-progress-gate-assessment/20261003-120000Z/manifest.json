@@ -1,0 +1,90 @@
+﻿{
+    "runId":  "20261003-120000Z",
+    "task":  "MR10 真实进度协议 —— 门槛判定",
+    "generatedUtc":  "2026-10-02T23:09:09Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "verdict":  "NOT NEEDED - recorded as \"无需实现\" per the card criterion (if latency is acceptable, keep the explicit wait/cancel state and record no-implementation)",
+    "result":  {
+                   "productCodeChanged":  false,
+                   "gateFixture":  "DiagnoseProgressGateTests (new)",
+                   "csharpFull":  "755 passed / 0 failed",
+                   "nodeFull":  "230 passed / 0 failed (18 files)",
+                   "workspaceDelta":  "+1 file (the new test only)",
+                   "gitStatus":  1331
+               },
+    "evidence":  {
+                     "localDiagnoseEndToEnd":  "p50 327.303 ms / p95 357.388 ms (60 mods + 1.2 MB log, local mode, no network)",
+                     "stageJavaFind":  "p50 311.535 ms = 95.2% of end-to-end",
+                     "stageSanitize":  "p50 11.822 ms = 3.6%",
+                     "stageModScan":  "p50 1.447 ms = 0.4%",
+                     "stageRuleEngine":  "p50 1.300 ms = 0.4%",
+                     "aiWaitBound":  "60 s (AiHttpClientFactory.DefaultTimeoutSeconds; client timeout, not a frontend timer)",
+                     "uiWaitState":  "shows \"正在分析崩溃日志…\" + cancel button; contract-tested that the wait block contains NO fake percentage",
+                     "realPhaseEvents":  "the AI call is a single blocking HTTP request; MR08 already records the only observable event (aiDispatch.sentAtUtc)",
+                     "userEvidence":  "none - MR02 is a preparation package with 0 interviews, so a waiting-experience problem cannot be claimed"
+                 },
+    "flipConditions":  [
+                           "真实 provider 延迟经常 \u003e 30 s，或超时/重试频繁（需要 MR09 真实模型评测授权，当前无数据）",
+                           "诊断链路出现真正多阶段的工作（下载内容、多轮分析、逐 Mod 检查）",
+                           "用户研究（MR22）报告等待焦虑（需要招募授权，当前无样本）",
+                           "单次诊断超过约 2 s 且无可取消入口（本包夹具可直接复用做回归测量）"
+                       ],
+    "sideFinding":  {
+                        "statement":  "JavaLocator.FindAsync() costs 311 ms on EVERY diagnosis, purely to fill javaVersion in the report",
+                        "measured":  "3 runs: 306.1 / 324.7 / 311.5 ms",
+                        "relationToMR21":  "MR21 judged sanitize (11-30 ms) the slowest among its chosen service-layer metrics, but it never measured the diagnose end-to-end, so it did not see this 311 ms. MR21\u0027s conclusion holds within its scope but is NOT the dominant cost on this user-visible path.",
+                        "suggestedFix":  "cache the Java probe (invalidated by java path + mtime), or let diagnosis proceed without javaVersion (report \"unknown\"); either cuts local diagnosis from ~327 ms to ~16 ms (-95%)",
+                        "risk":  "a cache would show a stale Java version right after the user switches Java; path+mtime invalidation avoids it but needs invalidation test cases",
+                        "implemented":  false,
+                        "authorizationRequired":  "yes - the plan requires bottleneck fixes to go through a separate precise sub-package"
+                    },
+    "knownGaps":  [
+                      "真实 provider 的 AI 往返延迟未测（需授权外发与费用）；只能给出等待上界 60 s 与界面状态",
+                      "真实 WebView2 里的等待观感未验证（只有契约断言与静态检查）",
+                      "未定义 requestId/阶段枚举/单调序列 —— 因为判定为不需要；若翻转条件触发再按卡片设计",
+                      "Java 查找的缓存修复未实施（需独立子包授权）"
+                  ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "166296E9C3FB83FF116D34299A9AF4B5E396DCAA05729B59C45D626E6F8B23D8",
+                      "sizeBytes":  6819
+                  },
+                  {
+                      "path":  "git-status-after.txt",
+                      "sha256":  "53062AE085EBFA35BF4209AF5665350AE2C1D48662DDF6281686E7D166A11740",
+                      "sizeBytes":  115073
+                  },
+                  {
+                      "path":  "green/01-gate-measurement.log",
+                      "sha256":  "5C67E0897FA695B0CFCDC60086B62DF62730B4501A0F7C8D9C49272C82058467",
+                      "sizeBytes":  12378
+                  },
+                  {
+                      "path":  "green/02-gate-measurement-with-java.log",
+                      "sha256":  "3AF8FAB72B4E91F8A64F8D58AF99EFC892FC36274F6231355B5B4C87D658777E",
+                      "sizeBytes":  13378
+                  },
+                  {
+                      "path":  "green/03-csharp-full.log",
+                      "sha256":  "BD35EBBD8FAB222A8006CB097B6B1CF6D24AB079C86A6095C55BFA5669E7A6A2",
+                      "sizeBytes":  655
+                  },
+                  {
+                      "path":  "green/04-node-full.log",
+                      "sha256":  "1BF7A2CD531858C5E606363C999A7C33674F6D4493BD921F9F7EADE61FD29BFB",
+                      "sizeBytes":  23796
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "900C5D3F8AA577CBADCE074A114E1F5896CF9D101A667BC853EA09DD9A2DA885",
+                      "sizeBytes":  126
+                  },
+                  {
+                      "path":  "raw/diagnose-latency.jsonl",
+                      "sha256":  "E02A1ADCD2F7C3E55D5219BE111C464F59ECDC7A134F3E330D20A4DC54AFE3D7",
+                      "sizeBytes":  1537
+                  }
+              ]
+}

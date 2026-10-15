@@ -1,0 +1,1934 @@
+[
+  {
+    "width": 1280,
+    "name": "home",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n开始游戏\n\n选好实例，下一段旅程从这里开始\n\n快速操作\nCtrl\nK\n当前实例 · PINEGLOW JAVA EDITION\n生电整合 · 1.21.5\n1.21.5\nFabric 0.16.9\n12 个 Mod\n启动游戏\n选择实例\n总游玩时长\n214 小时\n游玩次数\n194\n实例\n4\n内存分配\n4 GB\n\n原型说明：启动、下载与登录均为模拟流程，不会真实运行游戏或写入任何目录。\n\n下载队列\n\n进度与速率为模拟值\n\n全部任务\n1.21.5 · 客户端与资源\n68%\nFabric Loader 0.16.9\n24%\nSodium 0.6.13 · 1.21.5\n排队中\n最新资讯\n\n示例内容 · 非实时源\n\n查看全部\nMinecraft 大电影预告片发布\n社区 · 3 天前\n基岩版与 Java 版皮肤互通\n更新 · 1 周前\n全新周边上架：苦力怕系列\n周边 · 2 周前",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".art-strip",
+          "x": 269,
+          "y": 140.1875,
+          "w": 978,
+          "h": 120,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "12px 12px 0px 0px"
+        },
+        {
+          "s": "[data-od-id=\"launch-card\"]",
+          "x": 268,
+          "y": 139.1875,
+          "w": 980,
+          "h": 360.359375,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "12px"
+        },
+        {
+          "s": ".btn-lg",
+          "x": 886.59375,
+          "y": 300.171875,
+          "w": 141.203125,
+          "h": 44,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "600",
+          "borderRadius": "12px"
+        },
+        {
+          "s": ".btn-lg",
+          "x": 1035.796875,
+          "y": 300.171875,
+          "w": 115.203125,
+          "h": 44,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "600",
+          "borderRadius": "12px"
+        },
+        {
+          "s": ".btn-lg",
+          "x": 1159,
+          "y": 300.171875,
+          "w": 68,
+          "h": 44,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "600",
+          "borderRadius": "12px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n服务器\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n开始游戏\n\n选择实例，开始你的下一段旅程\n\n快速操作\nCtrl\nK\n当前实例 · PINEGLOW JAVA EDITION\n生电整合 · 1.21.5\n1.21.5\nFabric\n12 Mod\n开始游戏\n选择实例\n总游玩时长\n214 小时\n次游玩\n194\n个实例\n4\n内存分配\n4 GB\n下载队列\n全部任务\n1.21.5 · 客户端与资源\n下载中 · 68%\nFabric Loader 0.16.9\n下载中 · 24%\nSodium 0.6.13 · 1.21.5\n排队中 · 0%\n资源包 Faithful 32x\n已完成 · 100%\n最新资讯\n查看全部\n社区\nMinecraft 大电影预告片发布\n2026-10-12\n更新\n基岩版与 Java 版皮肤互通\n2026-10-12\n周边\n全新周边上架：苦力怕系列\n2026-10-12",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        },
+        {
+          "s": ".home-hero-art",
+          "x": 269,
+          "y": 140.1875,
+          "w": 978,
+          "h": 120,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".home-hero",
+          "x": 268,
+          "y": 139.1875,
+          "w": 980,
+          "h": 322.375,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "12px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 1280,
+    "name": "installations",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n安装管理\n\n每个世界，都有自己的版本与模组\n\n快速操作\nCtrl\nK\n你的游戏实例\n\n4 个实例可用 · 版本与加载器互相独立\n\n全部版本\n模组版\n快照版\n从已有目录添加\n新建实例\n生电整合 · 1.21.5\n模组版\n默认\n12 个 Mod\nMinecraft 1.21.5 · Fabric 0.16.9 · 游玩 132 次 · 2 小时前\n启动\nMod\n更多\n原版 1.21.5\n正式版\nMinecraft 1.21.5 · 原版 · 游玩 18 次 · 3 天前\n启动\n更多\n机械动力 · 1.20.1\n模组版\n8 个 Mod\nMinecraft 1.20.1 · Forge 47.2.0 · 游玩 41 次 · 2 周前\n启动\nMod\n更多\n快照测试\n快照版\nMinecraft 25w14a · 原版 · 游玩 3 次 · 1 个月前\n启动\n更多\n\n「从列表移除」只删除列表记录，不会删除游戏目录与存档。",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n服务器\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n安装管理\n\n每个世界，都有自己的版本与模组。\n\n快速操作\nCtrl\nK\n你的游戏实例\n\n4 个实例可用 · 版本与加载器互相独立\n\n全部版本\n模组版\n快照版\n从已有目录添加\n新建实例\n生电整合 · 1.21.5\nFabric\n默认\n12 Mod\nMinecraft 1.21.5 · 今天游玩 · 游玩 132 次 · 7d 18h\nMod\n启动\n原版 1.21.5\nVanilla\nMinecraft 1.21.5 · 今天游玩 · 游玩 18 次 · 12h 0m\n启动\n机械动力 · 1.20.1\nForge\n8 Mod\nMinecraft 1.20.1 · 今天游玩 · 游玩 41 次 · 14h 0m\nMod\n启动\n快照测试\nVanilla\nMinecraft 25w14a · 今天游玩 · 游玩 3 次 · 2h 0m\n启动",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 1280,
+    "name": "worlds",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n世界\n\n你所有实例中的单人存档\n\n快速操作\nCtrl\nK\n单人存档\n\n备份保存在实例目录下的 backups 文件夹\n\n新世界\n2 份备份\n原版 1.21.5 · 48.6 MB · 最后游玩 2 小时前\n管理存档\n空岛生存\n1 份备份\n生电整合 · 1.21.5 · 126 MB · 最后游玩 昨天\n管理存档\n红石实验场\n无备份\n机械动力 · 1.20.1 · 310 MB · 最后游玩 2 周前\n管理存档",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n世界\n\n你所有实例中的单人存档\n\n快速操作\nCtrl\nK\n单人存档\n新世界\n原版 1.21.5 · 今天游玩\n48.6 MB\n管理存档\n空岛生存\n生电整合 · 1.21.5 · 今天游玩\n126 MB\n管理存档\n红石实验场\n机械动力 · 1.20.1 · 今天游玩\n310 MB\n管理存档",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 1280,
+    "name": "servers",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n服务器\n\n你收藏的多人服务器\n\n快速操作\nCtrl\nK\n收藏的服务器\n\n延迟与在线人数为模拟值，不会真实连接服务器\n\n添加服务器\nHypixel\n已收藏\n1.8 – 1.21\nmc.hypixel.net\n38 ms\n42,318 / 200,000 在线\n刷新延迟\n2B2T\n1.21\n2b2t.org\n186 ms\n612 / 1,000 在线\n刷新延迟\nWynncraft\n1.20.2\nplay.wynncraft.com\n离线\n—\n刷新延迟",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n服务器\n\n你收藏的多人服务器\n\n快速操作\nCtrl\nK\n添加服务器\n收藏的服务器\nHypixel\nmc.hypixel.net · 1.8 – 1.21\n42318 / 200000\n38 ms\n刷新延迟\n2B2T\n2b2t.org · 1.21\n612 / 1000\n186 ms\n刷新延迟\nWynncraft\nplay.wynncraft.com · 1.20.2\n—\n离线\n刷新延迟",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 1280,
+    "name": "stats",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n游戏时长\n\n游玩记录与时间分布\n\n快速操作\nCtrl\nK\n本月总时长\n27 小时 16 分\n游玩次数\n13\n活跃天数\n10\n单次最长\n4 小时 57 分\n时长树状图\n\n每个方块是一次游玩，面积按时长分配 · 示例数据，仅覆盖最近 120 天\n\n本周\n本月\n近 7 天\n近 30 天\n自定义\n本月 · 共 27 小时 16 分 · 13 次游玩 · 覆盖 4 个实例\n\n树状图渲染失败\n\nCannot read properties of undefined (reading 'sessions')\n\n生电整合 · 1.21.5\n10 小时 26 分\n38%\n4 次\n原版 1.21.5\n7 小时 55 分\n29%\n4 次\n机械动力 · 1.20.1\n6 小时 51 分\n25%\n4 次\n快照测试\n2 小时 4 分\n8%\n1 次\n日历\n\n有记录的日期可点击，作为筛选条件\n\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2h02\n2\n3\n4h49\n4\n2h06\n5\n4h01\n6\n7\n6h36\n8\n9\n34m\n10\n11\n24m\n12\n3h50\n13\n2h04\n14\n50m\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n本月合计\n27 小时 16 分\n活跃天数\n10 天",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n游戏时长\n\n查看真实游玩记录、时长分布与日历\n\n快速操作\nCtrl\nK\n本月 · 总时长\n8 小时\n游玩次数\n8\n活跃天数\n2\n单次最长\n1 小时\n时长分布\n\n悬停或聚焦色块，查看日期、实例与时长。\n\n本周\n本月\n近 7 天\n近 30 天\n自定义\n\n2026-10-01 — 2026-10-15\n\n生电整合 · 1.21.5 · 2h\n1h\n1h\n原版 1.21.5 · 2h\n1h\n1h\n机械动力 · 1.20.1 · 2h\n1h\n1h\n快照测试 · 2h\n1h\n1h\n\n悬停或聚焦色块，查看日期、实例与时长。\n\n生电整合 · 1.21.5 · 2h\n原版 1.21.5 · 2h\n机械动力 · 1.20.1 · 2h\n快照测试 · 2h\n日历\n\n底部填充高度表示当日时长；点击有记录的日期筛选当前范围。\n\n‹\n2026年10月\n›\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n4h\n11\n12\n13\n14\n15\n4h\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n本月合计\n8 小时\n活跃天数\n2\n关于游玩记录",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        },
+        {
+          "s": ".pt-grid",
+          "x": 268,
+          "y": 243.765625,
+          "w": 980,
+          "h": 691.140625,
+          "grid": "597.734px 362.25px",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 1280,
+    "name": "content",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n内容中心\n\n搜索并安装模组、整合包、光影与资源包\n\n快速操作\nCtrl\nK\n内容库\n\n示例条目 · 项目名与作者取自真实项目\n\n模组\n整合包\n光影\n资源包\n目标实例 · 生电整合 · 1.21.5\n来源 · Modrinth\nSodium\n\n作者：CaffeineMC\n\n安装\n\n重写区块渲染管线，显著提升帧率并消除卡顿。\n\n1.21.5\nFabric\nLithium\n\n作者：CaffeineMC\n\n已安装\n\n不改变原版行为的通用逻辑与物理优化。\n\n1.21.5\nFabric\nIris Shaders\n\n作者：IrisShaders\n\n安装\n\n光影加载器，兼容主流 OptiFine 光影包。\n\n1.21.5\nFabric\nJust Enough Items\n\n作者：mezz\n\n安装\n\n在物品栏内查询配方与用途。\n\n1.21.5\nFabric\nForge\nXaero's Minimap\n\n作者：xaero96\n\n安装\n\n小地图、路径点与实体雷达。\n\n1.21.5\nFabric\nCreate\n\n作者：simibubi\n\n安装\n\n机械动力：齿轮、传送带与自动化产线。\n\n1.20.1\nForge",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".grid-3",
+          "x": 285,
+          "y": 260.765625,
+          "w": 946,
+          "h": 296.34375,
+          "grid": "304.656px 304.672px 304.656px",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n内容中心\n\n搜索并安装模组、整合包、光影与资源包\n\n快速操作\nCtrl\nK\n内容库\n\n查找适合当前实例的内容\n\n模组\n整合包\n光影\n资源包\n生电整合 · 1.21.5 · 1.21.5 · Fabric\nModrinth\nCurseForge\nSodium\n作者：CaffeineMC\n安装\n重写区块渲染管线，显著提升帧率并消除卡顿。\n1.21.5\nFabric\nLithium\n作者：CaffeineMC\n安装\n不改变原版行为的通用逻辑与物理优化。\n1.21.5\nFabric\nIris Shaders\n作者：IrisShaders\n安装\n光影加载器，兼容主流 OptiFine 光影包。\n1.21.5\nFabric\nJust Enough Items\n作者：mezz\n安装\n在物品栏内查询配方与用途。\n1.21.5\nFabric\nXaero's Minimap\n作者：xaero96\n安装\n小地图、路径点与实体雷达。\n1.21.5\nFabric\nCreate\n作者：simibubi\n安装\n机械动力：齿轮、传送带与自动化产线。\n1.20.1\nForge",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        },
+        {
+          "s": ".content-grid",
+          "x": 285,
+          "y": 255.765625,
+          "w": 946,
+          "h": 290.75,
+          "grid": "304.656px 304.672px 304.656px",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 1280,
+    "name": "skins",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n皮肤\n\n预览、上传并切换你的皮肤\n\n快速操作\nCtrl\nK\n\n预览贴图来自 Mojang 会话服务，需要 Microsoft 正版账号；原型不联网，也不内置 64×64 贴图。\n\n原型不内置皮肤贴图\n当前使用的皮肤\n\n未登录 · 无法获取皮肤贴图\n\n经典模型\n\n尚未登录账号\n\n皮肤贴图需要 Microsoft 正版账号，原型内不联网、不内置 64×64 贴图，因此此处不显示替身模型。\n\n登录 Microsoft 账户\n拖拽旋转 · 滚轮缩放（登录后可用）\n重置视角\n暂停旋转\n模型\n经典模型\nSlim / Alex\n\n经典模型为 4px 宽手臂，Slim 模型为 3px 宽手臂。\n\n皮肤文件\n上传皮肤文件\n\n仅支持 64×64 或 64×32 PNG，且不超过 1 MiB。需先登录 Microsoft 正版账号。\n\n已保存皮肤（0）\n\n登录后显示已保存皮肤\n\n浏览资源库",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".skins-layout",
+          "x": 268,
+          "y": 179.1875,
+          "w": 980,
+          "h": 449.125,
+          "grid": "644px 320px",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n皮肤\n\n先预览皮肤，确认后再单独应用到账户。\n\n快速操作\nCtrl\nK\n皮肤预览\n\n未登录 · 可选择本地皮肤预览\n\n经典模型\n无法获取皮肤贴图，请选择本地 PNG 预览。\n登录 Microsoft 账户\n拖拽旋转 · 滚轮缩放\n重置视角\n暂停旋转\n模型\n经典模型\nSlim / Alex\n选择本地皮肤\n\n64×64 或 64×32 PNG，不超过 1 MiB。选择后先预览。\n\n已保存皮肤（0）\n当前账户没有已保存的皮肤。\n\n先预览皮肤，确认后再单独应用到账户。\n\n应用到账户\n\n本地预览适用于所有账户；应用需要微软账户。\n\n浏览资源库",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        },
+        {
+          "s": ".skins-view",
+          "x": 268,
+          "y": 139.1875,
+          "w": 980,
+          "h": 612.8125,
+          "grid": "644px 320px",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 1280,
+    "name": "downloads",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n下载\n\n下载 Minecraft 版本并查看进度\n\n快速操作\nCtrl\nK\n可用版本\n\n版本号与发布日期取自 Minecraft 官方版本清单；体积为模拟值\n\n全部\n正式版\n快照\n重新获取\n1.21.5\n正式版\n最新\n2025-03-25 · 312 MB\n下载\n1.21.4\n正式版\n2024-12-03 · 298 MB\n下载\n1.21.1\n正式版\n2024-08-08 · 286 MB\n已安装\n1.20.6\n正式版\n2024-05-29 · 281 MB\n下载\n1.20.1\n正式版\n2023-06-12 · 264 MB\n已安装\n25w14a\n快照\n2025-04-01 · 318 MB\n下载\n下载任务\n\n进度、速率与剩余时间为模拟值\n\n清除已完成\n1.21.5 · 客户端与资源\n78%\n4.2 MB/s\n剩余 00:42\n312 MB\nFabric Loader 0.16.9\n34%\n1.1 MB/s\n剩余 00:18\n2.4 MB\nSodium 0.6.13 · 1.21.5\n排队中\n—\n1.1 MB\n资源包 Faithful 32x\n已完成\n—\n48 MB\n\n任务区与版本列表相互独立：版本源请求失败时，这里的任务不会被清空。",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n下载\n\n下载 Minecraft 版本并查看进度\n\n快速操作\nCtrl\nK\n可用版本\n正式版\n快照\n全部\n1.21.5\n正式版\n已安装\n1.21.4\n正式版\n下载\n1.21.1\n正式版\n已安装\n1.20.6\n正式版\n下载\n1.20.1\n正式版\n已安装\n下载任务\n1.21.5 · 客户端与资源\n下载中 68%\nFabric Loader 0.16.9\n下载中 24%\nSodium 0.6.13 · 1.21.5\n排队中\n资源包 Faithful 32x\n已完成 100%",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 1280,
+    "name": "news",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n新闻\n\nMinecraft 官方动态与公告\n\n快速操作\nCtrl\nK\n官方动态\n\n示例内容 · 原型不联网，文章为本地示例\n\n已同步官方最新\n最后验证 18:02\n刷新\n社区\n3 天前\nMinecraft 大电影预告片发布\n\n《Minecraft 大电影》官方预告片已发布，影片由 Jared Hess 执导，讲述四个异类玩家被吸入主世界的冒险故事。\n\n查看详情\n查看原文\n更新\n1 周前\n基岩版与 Java 版皮肤互通\n\n最新版本更新中，基岩版与 Java 版玩家可以在两个版本之间共享皮肤与披风，跨平台体验更加统一。\n\n查看详情\n查看原文\n周边\n2 周前\n全新周边上架：苦力怕系列\n\n苦力怕主题 T 恤、像素方块积木套装与限量版手办已在官方商城上架。\n\n查看详情\n查看原文",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n新闻\n\nMinecraft 官方动态与公告\n\n快速操作\nCtrl\nK\n刷新\n官方动态\n已同步官方最新 · 最后验证 2026-10-15\n社区\n2026-10-12\nMinecraft 大电影预告片发布\n\n《Minecraft 大电影》官方预告片已发布，影片由 Jared Hess 执导，讲述四个异类玩家被吸入主世界的冒险故事。\n\n查看详情\n更新\n2026-10-12\n基岩版与 Java 版皮肤互通\n\n最新版本更新中，基岩版与 Java 版玩家可以在两个版本之间共享皮肤与披风，跨平台体验更加统一。\n\n查看详情\n周边\n2026-10-12\n全新周边上架：苦力怕系列\n\n苦力怕主题 T 恤、像素方块积木套装与限量版手办已在官方商城上架。\n\n查看详情",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 1280,
+    "name": "settings",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n设置\n\nJava、行为、账户、更新与 AI 诊断\n\n快速操作\nCtrl\nK\nJava / 系统分配\n\n影响游戏进程的内存与运行时\n\n内存分配\n4 GB\n\n调整分配给 Minecraft 进程的内存上限，推荐默认 4 GB。当前为自动分配，滑块已锁定。\n\n自动内存分配\n由启动器根据系统内存自动选择合适的大小。\nJava 运行时路径\n内置 JRE 21.0.5（默认）\n\n点击在内置 JRE、自动检测与自定义路径之间切换。\n\n启动器行为\n\n下载源与网络\n\n使用下载镜像（国内加速）\n通过 BMCLAPI 镜像加速下载。\nTUN/fake-IP 新闻图片兼容\n默认关闭，仅影响官方新闻图片。\n下载源\n官方源\nMCBBS 镜像\n\n当前：官方源（延迟为模拟值）\n\nHTTP 代理\n未启用\n\n下载与登录请求走代理，适合配合网络工具使用。\n\n快捷操作\n\n游戏启动与退出时的行为\n\n启动游戏后最小化启动器\n游戏退出后自动关闭启动器\n\n原型内不会真实最小化或关闭窗口。\n\n运行日志\n\n按天落盘到 logs 目录\n\n日志用于诊断启动失败、Mod 冲突与网络问题。日志中可能包含用户名与绝对路径。\n\n打开日志目录\n更新\n\n当前版本 v1.4.2\n\n更新源与校验信息来自 config.json；原型内不会真实下载或替换文件。\n\n检查更新\nAI 崩溃诊断\n\n崩溃后用大模型解释原因\n\n启用 AI 崩溃诊断\n需要配置 API Key；崩溃日志可能包含用户名与绝对路径。\n管理 AI 提供商（1）\n账户\n\n离线账户可直接进入游戏；正版功能需要 Microsoft 账户\n\n未登录\n点击添加账户；也可以直接以离线模式启动\n添加账户\n离线模式（原型：模拟断网）\n开启后，下载源、内容中心与新闻会返回失败，用于查看错误态。",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".grid-2",
+          "x": 268,
+          "y": 139.1875,
+          "w": 980,
+          "h": 828.40625,
+          "grid": "482px 482px",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n设置\n\n账户、运行环境与启动器偏好\n\n快速操作\nCtrl\nK\nJava / 系统分配\n内存分配\n调整分配给 Minecraft 进程的内存上限，推荐默认 4GB。\n4.0 GB\n自动内存分配\n让启动器根据你的系统自动选择合适的内存大小。\nJava 运行时路径\n使用内置 Java 运行环境或指定自定义路径。\n使用内置 JRE（默认）\n启动器行为\n下载源\n选择官方源或国内镜像，按实测延迟选择。\n当前：官方源\nTUN/fake-IP 新闻图片兼容\n默认关闭，仅影响官方新闻图片；仅当 Clash 类 TUN/fake-ip 模式导致官方新闻图片无法加载时开启。\nHTTP 代理\n下载与登录请求走代理（适合配合科学上网工具）。\n配置代理\n快捷操作\n\n游戏启动与退出时的启动器行为。\n\n配置快捷操作\n运行日志\n\n日志按天落盘到 logs 目录，用于诊断问题。\n\n打开日志目录\n更新\n当前版本\n…\n检查更新\nAI 诊断\n启用 AI 崩溃诊断\n崩溃后用大模型解释原因并给出修复步骤（需配置 API Key）。\nAI 诊断\n未配置\n管理 AI 提供商\n账户\nMicrosoft 登录\n外置登录\n添加账户\n点击添加账户",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        },
+        {
+          "s": ".settings-view",
+          "x": 268,
+          "y": 139.1875,
+          "w": 980,
+          "h": 947.015625,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 960,
+    "name": "home",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n开始游戏\n\n选好实例，下一段旅程从这里开始\n\n快速操作\nCtrl\nK\n当前实例 · PINEGLOW JAVA EDITION\n生电整合 · 1.21.5\n1.21.5\nFabric 0.16.9\n12 个 Mod\n启动游戏\n选择实例\n总游玩时长\n214 小时\n游玩次数\n194\n实例\n4\n内存分配\n4 GB\n\n原型说明：启动、下载与登录均为模拟流程，不会真实运行游戏或写入任何目录。\n\n下载队列\n\n进度与速率为模拟值\n\n全部任务\n1.21.5 · 客户端与资源\n82%\nFabric Loader 0.16.9\n38%\nSodium 0.6.13 · 1.21.5\n排队中\n最新资讯\n\n示例内容 · 非实时源\n\n查看全部\nMinecraft 大电影预告片发布\n社区 · 3 天前\n基岩版与 Java 版皮肤互通\n更新 · 1 周前\n全新周边上架：苦力怕系列\n周边 · 2 周前",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".art-strip",
+          "x": 261,
+          "y": 140.1875,
+          "w": 674,
+          "h": 120,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "12px 12px 0px 0px"
+        },
+        {
+          "s": "[data-od-id=\"launch-card\"]",
+          "x": 260,
+          "y": 139.1875,
+          "w": 676,
+          "h": 491.546875,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "12px"
+        },
+        {
+          "s": ".btn-lg",
+          "x": 281,
+          "y": 384.171875,
+          "w": 141.203125,
+          "h": 44,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "600",
+          "borderRadius": "12px"
+        },
+        {
+          "s": ".btn-lg",
+          "x": 430.203125,
+          "y": 384.171875,
+          "w": 115.203125,
+          "h": 44,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "600",
+          "borderRadius": "12px"
+        },
+        {
+          "s": ".btn-lg",
+          "x": 553.40625,
+          "y": 384.171875,
+          "w": 68,
+          "h": 44,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "600",
+          "borderRadius": "12px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n开始游戏\n\n选择实例，开始你的下一段旅程\n\n快速操作\nCtrl\nK\n当前实例 · PINEGLOW JAVA EDITION\n生电整合 · 1.21.5\n1.21.5\nFabric\n12 Mod\n开始游戏\n选择实例\n总游玩时长\n214 小时\n次游玩\n194\n个实例\n4\n内存分配\n4 GB\n下载队列\n全部任务\n1.21.5 · 客户端与资源\n下载中 · 68%\nFabric Loader 0.16.9\n下载中 · 24%\nSodium 0.6.13 · 1.21.5\n排队中 · 0%\n资源包 Faithful 32x\n已完成 · 100%\n最新资讯\n查看全部\n社区\nMinecraft 大电影预告片发布\n2026-10-12\n更新\n基岩版与 Java 版皮肤互通\n2026-10-12\n周边\n全新周边上架：苦力怕系列\n2026-10-12",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        },
+        {
+          "s": ".home-hero-art",
+          "x": 261,
+          "y": 140.1875,
+          "w": 674,
+          "h": 120,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".home-hero",
+          "x": 260,
+          "y": 139.1875,
+          "w": 676,
+          "h": 322.375,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "12px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 960,
+    "name": "installations",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n安装管理\n\n每个世界，都有自己的版本与模组\n\n快速操作\nCtrl\nK\n你的游戏实例\n\n4 个实例可用 · 版本与加载器互相独立\n\n全部版本\n模组版\n快照版\n从已有目录添加\n新建实例\n生电整合 · 1.21.5\n模组版\n默认\n12 个 Mod\nMinecraft 1.21.5 · Fabric 0.16.9 · 游玩 132 次 · 2 小时前\n启动\nMod\n更多\n原版 1.21.5\n正式版\nMinecraft 1.21.5 · 原版 · 游玩 18 次 · 3 天前\n启动\n更多\n机械动力 · 1.20.1\n模组版\n8 个 Mod\nMinecraft 1.20.1 · Forge 47.2.0 · 游玩 41 次 · 2 周前\n启动\nMod\n更多\n快照测试\n快照版\nMinecraft 25w14a · 原版 · 游玩 3 次 · 1 个月前\n启动\n更多\n\n「从列表移除」只删除列表记录，不会删除游戏目录与存档。",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n安装管理\n\n每个世界，都有自己的版本与模组。\n\n快速操作\nCtrl\nK\n你的游戏实例\n\n4 个实例可用 · 版本与加载器互相独立\n\n全部版本\n模组版\n快照版\n从已有目录添加\n新建实例\n生电整合 · 1.21.5\nFabric\n默认\n12 Mod\nMinecraft 1.21.5 · 今天游玩 · 游玩 132 次 · 7d 18h\nMod\n启动\n原版 1.21.5\nVanilla\nMinecraft 1.21.5 · 今天游玩 · 游玩 18 次 · 12h 0m\n启动\n机械动力 · 1.20.1\nForge\n8 Mod\nMinecraft 1.20.1 · 今天游玩 · 游玩 41 次 · 14h 0m\nMod\n启动\n快照测试\nVanilla\nMinecraft 25w14a · 今天游玩 · 游玩 3 次 · 2h 0m\n启动",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 960,
+    "name": "worlds",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n世界\n\n你所有实例中的单人存档\n\n快速操作\nCtrl\nK\n单人存档\n\n备份保存在实例目录下的 backups 文件夹\n\n新世界\n2 份备份\n原版 1.21.5 · 48.6 MB · 最后游玩 2 小时前\n管理存档\n空岛生存\n1 份备份\n生电整合 · 1.21.5 · 126 MB · 最后游玩 昨天\n管理存档\n红石实验场\n无备份\n机械动力 · 1.20.1 · 310 MB · 最后游玩 2 周前\n管理存档",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n世界\n\n你所有实例中的单人存档\n\n快速操作\nCtrl\nK\n单人存档\n新世界\n原版 1.21.5 · 今天游玩\n48.6 MB\n管理存档\n空岛生存\n生电整合 · 1.21.5 · 今天游玩\n126 MB\n管理存档\n红石实验场\n机械动力 · 1.20.1 · 今天游玩\n310 MB\n管理存档",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 960,
+    "name": "servers",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n服务器\n\n你收藏的多人服务器\n\n快速操作\nCtrl\nK\n收藏的服务器\n\n延迟与在线人数为模拟值，不会真实连接服务器\n\n添加服务器\nHypixel\n已收藏\n1.8 – 1.21\nmc.hypixel.net\n38 ms\n42,318 / 200,000 在线\n刷新延迟\n2B2T\n1.21\n2b2t.org\n186 ms\n612 / 1,000 在线\n刷新延迟\nWynncraft\n1.20.2\nplay.wynncraft.com\n离线\n—\n刷新延迟",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n服务器\n\n你收藏的多人服务器\n\n快速操作\nCtrl\nK\n添加服务器\n收藏的服务器\nHypixel\nmc.hypixel.net · 1.8 – 1.21\n42318 / 200000\n38 ms\n刷新延迟\n2B2T\n2b2t.org · 1.21\n612 / 1000\n186 ms\n刷新延迟\nWynncraft\nplay.wynncraft.com · 1.20.2\n—\n离线\n刷新延迟",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 960,
+    "name": "stats",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n游戏时长\n\n游玩记录与时间分布\n\n快速操作\nCtrl\nK\n本月总时长\n27 小时 16 分\n游玩次数\n13\n活跃天数\n10\n单次最长\n4 小时 57 分\n时长树状图\n\n每个方块是一次游玩，面积按时长分配 · 示例数据，仅覆盖最近 120 天\n\n本周\n本月\n近 7 天\n近 30 天\n自定义\n本月 · 共 27 小时 16 分 · 13 次游玩 · 覆盖 4 个实例\n\n树状图渲染失败\n\nCannot read properties of undefined (reading 'sessions')\n\n生电整合 · 1.21.5\n10 小时 26 分\n38%\n4 次\n原版 1.21.5\n7 小时 55 分\n29%\n4 次\n机械动力 · 1.20.1\n6 小时 51 分\n25%\n4 次\n快照测试\n2 小时 4 分\n8%\n1 次\n日历\n\n有记录的日期可点击，作为筛选条件\n\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2h02\n2\n3\n4h49\n4\n2h06\n5\n4h01\n6\n7\n6h36\n8\n9\n34m\n10\n11\n24m\n12\n3h50\n13\n2h04\n14\n50m\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n本月合计\n27 小时 16 分\n活跃天数\n10 天",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n游戏时长\n\n查看真实游玩记录、时长分布与日历\n\n快速操作\nCtrl\nK\n本月 · 总时长\n8 小时\n游玩次数\n8\n活跃天数\n2\n单次最长\n1 小时\n时长分布\n\n悬停或聚焦色块，查看日期、实例与时长。\n\n本周\n本月\n近 7 天\n近 30 天\n自定义\n\n2026-10-01 — 2026-10-15\n\n生电整合 · 1.21.5 · 2h\n1h\n1h\n原版 1.21.5 · 2h\n1h\n1h\n机械动力 · 1.20.1 · 2h\n1h\n1h\n快照测试 · 2h\n1h\n1h\n\n悬停或聚焦色块，查看日期、实例与时长。\n\n生电整合 · 1.21.5 · 2h\n原版 1.21.5 · 2h\n机械动力 · 1.20.1 · 2h\n快照测试 · 2h\n日历\n\n底部填充高度表示当日时长；点击有记录的日期筛选当前范围。\n\n‹\n2026年10月\n›\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n4h\n11\n12\n13\n14\n15\n4h\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n本月合计\n8 小时\n活跃天数\n2\n关于游玩记录",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        },
+        {
+          "s": ".pt-grid",
+          "x": 260,
+          "y": 243.765625,
+          "w": 676,
+          "h": 691.140625,
+          "grid": "408.438px 247.547px",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 960,
+    "name": "content",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n内容中心\n\n搜索并安装模组、整合包、光影与资源包\n\n快速操作\nCtrl\nK\n内容库\n\n示例条目 · 项目名与作者取自真实项目\n\n模组\n整合包\n光影\n资源包\n目标实例 · 生电整合 · 1.21.5\n来源 · Modrinth\nSodium\n\n作者：CaffeineMC\n\n安装\n\n重写区块渲染管线，显著提升帧率并消除卡顿。\n\n1.21.5\nFabric\nLithium\n\n作者：CaffeineMC\n\n已安装\n\n不改变原版行为的通用逻辑与物理优化。\n\n1.21.5\nFabric\nIris Shaders\n\n作者：IrisShaders\n\n安装\n\n光影加载器，兼容主流 OptiFine 光影包。\n\n1.21.5\nFabric\nJust Enough Items\n\n作者：mezz\n\n安装\n\n在物品栏内查询配方与用途。\n\n1.21.5\nFabric\nForge\nXaero's Minimap\n\n作者：xaero96\n\n安装\n\n小地图、路径点与实体雷达。\n\n1.21.5\nFabric\nCreate\n\n作者：simibubi\n\n安装\n\n机械动力：齿轮、传送带与自动化产线。\n\n1.20.1\nForge",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".grid-3",
+          "x": 277,
+          "y": 260.765625,
+          "w": 642,
+          "h": 381.3125,
+          "grid": "203.328px 203.328px 203.328px",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n内容中心\n\n搜索并安装模组、整合包、光影与资源包\n\n快速操作\nCtrl\nK\n内容库\n\n查找适合当前实例的内容\n\n模组\n整合包\n光影\n资源包\n生电整合 · 1.21.5 · 1.21.5 · Fabric\nModrinth\nCurseForge\nSodium\n作者：CaffeineMC\n安装\n重写区块渲染管线，显著提升帧率并消除卡顿。\n1.21.5\nFabric\nLithium\n作者：CaffeineMC\n安装\n不改变原版行为的通用逻辑与物理优化。\n1.21.5\nFabric\nIris Shaders\n作者：IrisShaders\n安装\n光影加载器，兼容主流 OptiFine 光影包。\n1.21.5\nFabric\nJust Enough Items\n作者：mezz\n安装\n在物品栏内查询配方与用途。\n1.21.5\nFabric\nXaero's Minimap\n作者：xaero96\n安装\n小地图、路径点与实体雷达。\n1.21.5\nFabric\nCreate\n作者：simibubi\n安装\n机械动力：齿轮、传送带与自动化产线。\n1.20.1\nForge",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        },
+        {
+          "s": ".content-grid",
+          "x": 277,
+          "y": 255.765625,
+          "w": 642,
+          "h": 351.9375,
+          "grid": "203.328px 203.328px 203.328px",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 960,
+    "name": "skins",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n皮肤\n\n预览、上传并切换你的皮肤\n\n快速操作\nCtrl\nK\n\n预览贴图来自 Mojang 会话服务，需要 Microsoft 正版账号；原型不联网，也不内置 64×64 贴图。\n\n原型不内置皮肤贴图\n当前使用的皮肤\n\n未登录 · 无法获取皮肤贴图\n\n经典模型\n\n尚未登录账号\n\n皮肤贴图需要 Microsoft 正版账号，原型内不联网、不内置 64×64 贴图，因此此处不显示替身模型。\n\n登录 Microsoft 账户\n拖拽旋转 · 滚轮缩放（登录后可用）\n重置视角\n暂停旋转\n模型\n经典模型\nSlim / Alex\n\n经典模型为 4px 宽手臂，Slim 模型为 3px 宽手臂。\n\n皮肤文件\n上传皮肤文件\n\n仅支持 64×64 或 64×32 PNG，且不超过 1 MiB。需先登录 Microsoft 正版账号。\n\n已保存皮肤（0）\n\n登录后显示已保存皮肤\n\n浏览资源库",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".skins-layout",
+          "x": 260,
+          "y": 179.1875,
+          "w": 676,
+          "h": 867.3125,
+          "grid": "676px",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n皮肤\n\n先预览皮肤，确认后再单独应用到账户。\n\n快速操作\nCtrl\nK\n皮肤预览\n\n未登录 · 可选择本地皮肤预览\n\n经典模型\n无法获取皮肤贴图，请选择本地 PNG 预览。\n登录 Microsoft 账户\n拖拽旋转 · 滚轮缩放\n重置视角\n暂停旋转\n模型\n经典模型\nSlim / Alex\n选择本地皮肤\n\n64×64 或 64×32 PNG，不超过 1 MiB。选择后先预览。\n\n已保存皮肤（0）\n当前账户没有已保存的皮肤。\n\n先预览皮肤，确认后再单独应用到账户。\n\n应用到账户\n\n本地预览适用于所有账户；应用需要微软账户。\n\n浏览资源库",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        },
+        {
+          "s": ".skins-view",
+          "x": 260,
+          "y": 139.1875,
+          "w": 676,
+          "h": 943.515625,
+          "grid": "676px",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 960,
+    "name": "downloads",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n下载\n\n下载 Minecraft 版本并查看进度\n\n快速操作\nCtrl\nK\n可用版本\n\n版本号与发布日期取自 Minecraft 官方版本清单；体积为模拟值\n\n全部\n正式版\n快照\n重新获取\n1.21.5\n正式版\n最新\n2025-03-25 · 312 MB\n下载\n1.21.4\n正式版\n2024-12-03 · 298 MB\n下载\n1.21.1\n正式版\n2024-08-08 · 286 MB\n已安装\n1.20.6\n正式版\n2024-05-29 · 281 MB\n下载\n1.20.1\n正式版\n2023-06-12 · 264 MB\n已安装\n25w14a\n快照\n2025-04-01 · 318 MB\n下载\n下载任务\n\n进度、速率与剩余时间为模拟值\n\n清除已完成\n1.21.5 · 客户端与资源\n87%\n4.2 MB/s\n剩余 00:42\n312 MB\nFabric Loader 0.16.9\n48%\n1.1 MB/s\n剩余 00:18\n2.4 MB\nSodium 0.6.13 · 1.21.5\n排队中\n—\n1.1 MB\n资源包 Faithful 32x\n已完成\n—\n48 MB\n\n任务区与版本列表相互独立：版本源请求失败时，这里的任务不会被清空。",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n下载\n\n下载 Minecraft 版本并查看进度\n\n快速操作\nCtrl\nK\n可用版本\n正式版\n快照\n全部\n1.21.5\n正式版\n已安装\n1.21.4\n正式版\n下载\n1.21.1\n正式版\n已安装\n1.20.6\n正式版\n下载\n1.20.1\n正式版\n已安装\n下载任务\n1.21.5 · 客户端与资源\n下载中 68%\nFabric Loader 0.16.9\n下载中 24%\nSodium 0.6.13 · 1.21.5\n排队中\n资源包 Faithful 32x\n已完成 100%",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 960,
+    "name": "news",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n新闻\n\nMinecraft 官方动态与公告\n\n快速操作\nCtrl\nK\n官方动态\n\n示例内容 · 原型不联网，文章为本地示例\n\n已同步官方最新\n最后验证 18:03\n刷新\n社区\n3 天前\nMinecraft 大电影预告片发布\n\n《Minecraft 大电影》官方预告片已发布，影片由 Jared Hess 执导，讲述四个异类玩家被吸入主世界的冒险故事。\n\n查看详情\n查看原文\n更新\n1 周前\n基岩版与 Java 版皮肤互通\n\n最新版本更新中，基岩版与 Java 版玩家可以在两个版本之间共享皮肤与披风，跨平台体验更加统一。\n\n查看详情\n查看原文\n周边\n2 周前\n全新周边上架：苦力怕系列\n\n苦力怕主题 T 恤、像素方块积木套装与限量版手办已在官方商城上架。\n\n查看详情\n查看原文",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n新闻\n\nMinecraft 官方动态与公告\n\n快速操作\nCtrl\nK\n刷新\n官方动态\n已同步官方最新 · 最后验证 2026-10-15\n社区\n2026-10-12\nMinecraft 大电影预告片发布\n\n《Minecraft 大电影》官方预告片已发布，影片由 Jared Hess 执导，讲述四个异类玩家被吸入主世界的冒险故事。\n\n查看详情\n更新\n2026-10-12\n基岩版与 Java 版皮肤互通\n\n最新版本更新中，基岩版与 Java 版玩家可以在两个版本之间共享皮肤与披风，跨平台体验更加统一。\n\n查看详情\n周边\n2026-10-12\n全新周边上架：苦力怕系列\n\n苦力怕主题 T 恤、像素方块积木套装与限量版手办已在官方商城上架。\n\n查看详情",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 960,
+    "name": "settings",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n设置\n\nJava、行为、账户、更新与 AI 诊断\n\n快速操作\nCtrl\nK\nJava / 系统分配\n\n影响游戏进程的内存与运行时\n\n内存分配\n4 GB\n\n调整分配给 Minecraft 进程的内存上限，推荐默认 4 GB。当前为自动分配，滑块已锁定。\n\n自动内存分配\n由启动器根据系统内存自动选择合适的大小。\nJava 运行时路径\n内置 JRE 21.0.5（默认）\n\n点击在内置 JRE、自动检测与自定义路径之间切换。\n\n启动器行为\n\n下载源与网络\n\n使用下载镜像（国内加速）\n通过 BMCLAPI 镜像加速下载。\nTUN/fake-IP 新闻图片兼容\n默认关闭，仅影响官方新闻图片。\n下载源\n官方源\nMCBBS 镜像\n\n当前：官方源（延迟为模拟值）\n\nHTTP 代理\n未启用\n\n下载与登录请求走代理，适合配合网络工具使用。\n\n快捷操作\n\n游戏启动与退出时的行为\n\n启动游戏后最小化启动器\n游戏退出后自动关闭启动器\n\n原型内不会真实最小化或关闭窗口。\n\n运行日志\n\n按天落盘到 logs 目录\n\n日志用于诊断启动失败、Mod 冲突与网络问题。日志中可能包含用户名与绝对路径。\n\n打开日志目录\n更新\n\n当前版本 v1.4.2\n\n更新源与校验信息来自 config.json；原型内不会真实下载或替换文件。\n\n检查更新\nAI 崩溃诊断\n\n崩溃后用大模型解释原因\n\n启用 AI 崩溃诊断\n需要配置 API Key；崩溃日志可能包含用户名与绝对路径。\n管理 AI 提供商（1）\n账户\n\n离线账户可直接进入游戏；正版功能需要 Microsoft 账户\n\n未登录\n点击添加账户；也可以直接以离线模式启动\n添加账户\n离线模式（原型：模拟断网）\n开启后，下载源、内容中心与新闻会返回失败，用于查看错误态。",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".grid-2",
+          "x": 260,
+          "y": 139.1875,
+          "w": 676,
+          "h": 848.796875,
+          "grid": "330px 330px",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n设置\n\n账户、运行环境与启动器偏好\n\n快速操作\nCtrl\nK\nJava / 系统分配\n内存分配\n调整分配给 Minecraft 进程的内存上限，推荐默认 4GB。\n4.0 GB\n自动内存分配\n让启动器根据你的系统自动选择合适的内存大小。\nJava 运行时路径\n使用内置 Java 运行环境或指定自定义路径。\n使用内置 JRE（默认）\n启动器行为\n下载源\n选择官方源或国内镜像，按实测延迟选择。\n当前：官方源\nTUN/fake-IP 新闻图片兼容\n默认关闭，仅影响官方新闻图片；仅当 Clash 类 TUN/fake-ip 模式导致官方新闻图片无法加载时开启。\nHTTP 代理\n下载与登录请求走代理（适合配合科学上网工具）。\n配置代理\n快捷操作\n\n游戏启动与退出时的启动器行为。\n\n配置快捷操作\n运行日志\n\n日志按天落盘到 logs 目录，用于诊断问题。\n\n打开日志目录\n更新\n当前版本\n…\n检查更新\nAI 诊断\n启用 AI 崩溃诊断\n崩溃后用大模型解释原因并给出修复步骤（需配置 API Key）。\nAI 诊断\n未配置\n管理 AI 提供商\n账户\nMicrosoft 登录\n外置登录\n添加账户\n点击添加账户",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        },
+        {
+          "s": ".settings-view",
+          "x": 260,
+          "y": 139.1875,
+          "w": 676,
+          "h": 985.390625,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 1600,
+    "name": "home",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n开始游戏\n\n选好实例，下一段旅程从这里开始\n\n快速操作\nCtrl\nK\n当前实例 · PINEGLOW JAVA EDITION\n生电整合 · 1.21.5\n1.21.5\nFabric 0.16.9\n12 个 Mod\n启动游戏\n选择实例\n总游玩时长\n214 小时\n游玩次数\n194\n实例\n4\n内存分配\n4 GB\n\n原型说明：启动、下载与登录均为模拟流程，不会真实运行游戏或写入任何目录。\n\n下载队列\n\n进度与速率为模拟值\n\n全部任务\n1.21.5 · 客户端与资源\n89%\nFabric Loader 0.16.9\n52%\nSodium 0.6.13 · 1.21.5\n排队中\n最新资讯\n\n示例内容 · 非实时源\n\n查看全部\nMinecraft 大电影预告片发布\n社区 · 3 天前\n基岩版与 Java 版皮肤互通\n更新 · 1 周前\n全新周边上架：苦力怕系列\n周边 · 2 周前",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".art-strip",
+          "x": 319,
+          "y": 140.1875,
+          "w": 1198,
+          "h": 120,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "12px 12px 0px 0px"
+        },
+        {
+          "s": "[data-od-id=\"launch-card\"]",
+          "x": 318,
+          "y": 139.1875,
+          "w": 1200,
+          "h": 360.359375,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "12px"
+        },
+        {
+          "s": ".btn-lg",
+          "x": 1156.59375,
+          "y": 300.171875,
+          "w": 141.203125,
+          "h": 44,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "600",
+          "borderRadius": "12px"
+        },
+        {
+          "s": ".btn-lg",
+          "x": 1305.796875,
+          "y": 300.171875,
+          "w": 115.203125,
+          "h": 44,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "600",
+          "borderRadius": "12px"
+        },
+        {
+          "s": ".btn-lg",
+          "x": 1429,
+          "y": 300.171875,
+          "w": 68,
+          "h": 44,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "600",
+          "borderRadius": "12px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n开始游戏\n\n选择实例，开始你的下一段旅程\n\n快速操作\nCtrl\nK\n当前实例 · PINEGLOW JAVA EDITION\n生电整合 · 1.21.5\n1.21.5\nFabric\n12 Mod\n开始游戏\n选择实例\n总游玩时长\n214 小时\n次游玩\n194\n个实例\n4\n内存分配\n4 GB\n下载队列\n全部任务\n1.21.5 · 客户端与资源\n下载中 · 68%\nFabric Loader 0.16.9\n下载中 · 24%\nSodium 0.6.13 · 1.21.5\n排队中 · 0%\n资源包 Faithful 32x\n已完成 · 100%\n最新资讯\n查看全部\n社区\nMinecraft 大电影预告片发布\n2026-10-12\n更新\n基岩版与 Java 版皮肤互通\n2026-10-12\n周边\n全新周边上架：苦力怕系列\n2026-10-12",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        },
+        {
+          "s": ".home-hero-art",
+          "x": 319,
+          "y": 140.1875,
+          "w": 1198,
+          "h": 120,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".home-hero",
+          "x": 318,
+          "y": 139.1875,
+          "w": 1200,
+          "h": 322.375,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "12px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 1600,
+    "name": "installations",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n安装管理\n\n每个世界，都有自己的版本与模组\n\n快速操作\nCtrl\nK\n你的游戏实例\n\n4 个实例可用 · 版本与加载器互相独立\n\n全部版本\n模组版\n快照版\n从已有目录添加\n新建实例\n生电整合 · 1.21.5\n模组版\n默认\n12 个 Mod\nMinecraft 1.21.5 · Fabric 0.16.9 · 游玩 132 次 · 2 小时前\n启动\nMod\n更多\n原版 1.21.5\n正式版\nMinecraft 1.21.5 · 原版 · 游玩 18 次 · 3 天前\n启动\n更多\n机械动力 · 1.20.1\n模组版\n8 个 Mod\nMinecraft 1.20.1 · Forge 47.2.0 · 游玩 41 次 · 2 周前\n启动\nMod\n更多\n快照测试\n快照版\nMinecraft 25w14a · 原版 · 游玩 3 次 · 1 个月前\n启动\n更多\n\n「从列表移除」只删除列表记录，不会删除游戏目录与存档。",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n安装管理\n\n每个世界，都有自己的版本与模组。\n\n快速操作\nCtrl\nK\n你的游戏实例\n\n4 个实例可用 · 版本与加载器互相独立\n\n全部版本\n模组版\n快照版\n从已有目录添加\n新建实例\n生电整合 · 1.21.5\nFabric\n默认\n12 Mod\nMinecraft 1.21.5 · 今天游玩 · 游玩 132 次 · 7d 18h\nMod\n启动\n原版 1.21.5\nVanilla\nMinecraft 1.21.5 · 今天游玩 · 游玩 18 次 · 12h 0m\n启动\n机械动力 · 1.20.1\nForge\n8 Mod\nMinecraft 1.20.1 · 今天游玩 · 游玩 41 次 · 14h 0m\nMod\n启动\n快照测试\nVanilla\nMinecraft 25w14a · 今天游玩 · 游玩 3 次 · 2h 0m\n启动",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 1600,
+    "name": "worlds",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n世界\n\n你所有实例中的单人存档\n\n快速操作\nCtrl\nK\n单人存档\n\n备份保存在实例目录下的 backups 文件夹\n\n新世界\n2 份备份\n原版 1.21.5 · 48.6 MB · 最后游玩 2 小时前\n管理存档\n空岛生存\n1 份备份\n生电整合 · 1.21.5 · 126 MB · 最后游玩 昨天\n管理存档\n红石实验场\n无备份\n机械动力 · 1.20.1 · 310 MB · 最后游玩 2 周前\n管理存档",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n世界\n\n你所有实例中的单人存档\n\n快速操作\nCtrl\nK\n单人存档\n新世界\n原版 1.21.5 · 今天游玩\n48.6 MB\n管理存档\n空岛生存\n生电整合 · 1.21.5 · 今天游玩\n126 MB\n管理存档\n红石实验场\n机械动力 · 1.20.1 · 今天游玩\n310 MB\n管理存档",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 1600,
+    "name": "servers",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n服务器\n\n你收藏的多人服务器\n\n快速操作\nCtrl\nK\n收藏的服务器\n\n延迟与在线人数为模拟值，不会真实连接服务器\n\n添加服务器\nHypixel\n已收藏\n1.8 – 1.21\nmc.hypixel.net\n38 ms\n42,318 / 200,000 在线\n刷新延迟\n2B2T\n1.21\n2b2t.org\n186 ms\n612 / 1,000 在线\n刷新延迟\nWynncraft\n1.20.2\nplay.wynncraft.com\n离线\n—\n刷新延迟",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n服务器\n\n你收藏的多人服务器\n\n快速操作\nCtrl\nK\n添加服务器\n收藏的服务器\nHypixel\nmc.hypixel.net · 1.8 – 1.21\n42318 / 200000\n38 ms\n刷新延迟\n2B2T\n2b2t.org · 1.21\n612 / 1000\n186 ms\n刷新延迟\nWynncraft\nplay.wynncraft.com · 1.20.2\n—\n离线\n刷新延迟",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 1600,
+    "name": "stats",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n游戏时长\n\n游玩记录与时间分布\n\n快速操作\nCtrl\nK\n本月总时长\n27 小时 16 分\n游玩次数\n13\n活跃天数\n10\n单次最长\n4 小时 57 分\n时长树状图\n\n每个方块是一次游玩，面积按时长分配 · 示例数据，仅覆盖最近 120 天\n\n本周\n本月\n近 7 天\n近 30 天\n自定义\n本月 · 共 27 小时 16 分 · 13 次游玩 · 覆盖 4 个实例\n\n树状图渲染失败\n\nCannot read properties of undefined (reading 'sessions')\n\n生电整合 · 1.21.5\n10 小时 26 分\n38%\n4 次\n原版 1.21.5\n7 小时 55 分\n29%\n4 次\n机械动力 · 1.20.1\n6 小时 51 分\n25%\n4 次\n快照测试\n2 小时 4 分\n8%\n1 次\n日历\n\n有记录的日期可点击，作为筛选条件\n\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2h02\n2\n3\n4h49\n4\n2h06\n5\n4h01\n6\n7\n6h36\n8\n9\n34m\n10\n11\n24m\n12\n3h50\n13\n2h04\n14\n50m\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n本月合计\n27 小时 16 分\n活跃天数\n10 天",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n游戏时长\n\n查看真实游玩记录、时长分布与日历\n\n快速操作\nCtrl\nK\n本月 · 总时长\n8 小时\n游玩次数\n8\n活跃天数\n2\n单次最长\n1 小时\n时长分布\n\n悬停或聚焦色块，查看日期、实例与时长。\n\n本周\n本月\n近 7 天\n近 30 天\n自定义\n\n2026-10-01 — 2026-10-15\n\n生电整合 · 1.21.5 · 2h\n1h\n1h\n原版 1.21.5 · 2h\n1h\n1h\n机械动力 · 1.20.1 · 2h\n1h\n1h\n快照测试 · 2h\n1h\n1h\n\n悬停或聚焦色块，查看日期、实例与时长。\n\n生电整合 · 1.21.5 · 2h\n原版 1.21.5 · 2h\n机械动力 · 1.20.1 · 2h\n快照测试 · 2h\n日历\n\n底部填充高度表示当日时长；点击有记录的日期筛选当前范围。\n\n‹\n2026年10月\n›\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n4h\n11\n12\n13\n14\n15\n4h\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n本月合计\n8 小时\n活跃天数\n2\n关于游玩记录",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        },
+        {
+          "s": ".pt-grid",
+          "x": 318,
+          "y": 243.765625,
+          "w": 1200,
+          "h": 691.140625,
+          "grid": "734.703px 445.281px",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 1600,
+    "name": "content",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n内容中心\n\n搜索并安装模组、整合包、光影与资源包\n\n快速操作\nCtrl\nK\n内容库\n\n示例条目 · 项目名与作者取自真实项目\n\n模组\n整合包\n光影\n资源包\n目标实例 · 生电整合 · 1.21.5\n来源 · Modrinth\nSodium\n\n作者：CaffeineMC\n\n安装\n\n重写区块渲染管线，显著提升帧率并消除卡顿。\n\n1.21.5\nFabric\nLithium\n\n作者：CaffeineMC\n\n已安装\n\n不改变原版行为的通用逻辑与物理优化。\n\n1.21.5\nFabric\nIris Shaders\n\n作者：IrisShaders\n\n安装\n\n光影加载器，兼容主流 OptiFine 光影包。\n\n1.21.5\nFabric\nJust Enough Items\n\n作者：mezz\n\n安装\n\n在物品栏内查询配方与用途。\n\n1.21.5\nFabric\nForge\nXaero's Minimap\n\n作者：xaero96\n\n安装\n\n小地图、路径点与实体雷达。\n\n1.21.5\nFabric\nCreate\n\n作者：simibubi\n\n安装\n\n机械动力：齿轮、传送带与自动化产线。\n\n1.20.1\nForge",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".grid-3",
+          "x": 335,
+          "y": 260.765625,
+          "w": 1166,
+          "h": 296.34375,
+          "grid": "378px 378px 378px",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n内容中心\n\n搜索并安装模组、整合包、光影与资源包\n\n快速操作\nCtrl\nK\n内容库\n\n查找适合当前实例的内容\n\n模组\n整合包\n光影\n资源包\n生电整合 · 1.21.5 · 1.21.5 · Fabric\nModrinth\nCurseForge\nSodium\n作者：CaffeineMC\n安装\n重写区块渲染管线，显著提升帧率并消除卡顿。\n1.21.5\nFabric\nLithium\n作者：CaffeineMC\n安装\n不改变原版行为的通用逻辑与物理优化。\n1.21.5\nFabric\nIris Shaders\n作者：IrisShaders\n安装\n光影加载器，兼容主流 OptiFine 光影包。\n1.21.5\nFabric\nJust Enough Items\n作者：mezz\n安装\n在物品栏内查询配方与用途。\n1.21.5\nFabric\nXaero's Minimap\n作者：xaero96\n安装\n小地图、路径点与实体雷达。\n1.21.5\nFabric\nCreate\n作者：simibubi\n安装\n机械动力：齿轮、传送带与自动化产线。\n1.20.1\nForge",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        },
+        {
+          "s": ".content-grid",
+          "x": 335,
+          "y": 255.765625,
+          "w": 1166,
+          "h": 290.75,
+          "grid": "378px 378px 378px",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 1600,
+    "name": "skins",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n皮肤\n\n预览、上传并切换你的皮肤\n\n快速操作\nCtrl\nK\n\n预览贴图来自 Mojang 会话服务，需要 Microsoft 正版账号；原型不联网，也不内置 64×64 贴图。\n\n原型不内置皮肤贴图\n当前使用的皮肤\n\n未登录 · 无法获取皮肤贴图\n\n经典模型\n\n尚未登录账号\n\n皮肤贴图需要 Microsoft 正版账号，原型内不联网、不内置 64×64 贴图，因此此处不显示替身模型。\n\n登录 Microsoft 账户\n拖拽旋转 · 滚轮缩放（登录后可用）\n重置视角\n暂停旋转\n模型\n经典模型\nSlim / Alex\n\n经典模型为 4px 宽手臂，Slim 模型为 3px 宽手臂。\n\n皮肤文件\n上传皮肤文件\n\n仅支持 64×64 或 64×32 PNG，且不超过 1 MiB。需先登录 Microsoft 正版账号。\n\n已保存皮肤（0）\n\n登录后显示已保存皮肤\n\n浏览资源库",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".skins-layout",
+          "x": 318,
+          "y": 179.1875,
+          "w": 1200,
+          "h": 449.125,
+          "grid": "864px 320px",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n皮肤\n\n先预览皮肤，确认后再单独应用到账户。\n\n快速操作\nCtrl\nK\n皮肤预览\n\n未登录 · 可选择本地皮肤预览\n\n经典模型\n无法获取皮肤贴图，请选择本地 PNG 预览。\n登录 Microsoft 账户\n拖拽旋转 · 滚轮缩放\n重置视角\n暂停旋转\n模型\n经典模型\nSlim / Alex\n选择本地皮肤\n\n64×64 或 64×32 PNG，不超过 1 MiB。选择后先预览。\n\n已保存皮肤（0）\n当前账户没有已保存的皮肤。\n\n先预览皮肤，确认后再单独应用到账户。\n\n应用到账户\n\n本地预览适用于所有账户；应用需要微软账户。\n\n浏览资源库",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        },
+        {
+          "s": ".skins-view",
+          "x": 318,
+          "y": 139.1875,
+          "w": 1200,
+          "h": 612.8125,
+          "grid": "864px 320px",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 1600,
+    "name": "downloads",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n下载\n\n下载 Minecraft 版本并查看进度\n\n快速操作\nCtrl\nK\n可用版本\n\n版本号与发布日期取自 Minecraft 官方版本清单；体积为模拟值\n\n全部\n正式版\n快照\n重新获取\n1.21.5\n正式版\n最新\n2025-03-25 · 312 MB\n下载\n1.21.4\n正式版\n2024-12-03 · 298 MB\n下载\n1.21.1\n正式版\n2024-08-08 · 286 MB\n已安装\n1.20.6\n正式版\n2024-05-29 · 281 MB\n下载\n1.20.1\n正式版\n2023-06-12 · 264 MB\n已安装\n25w14a\n快照\n2025-04-01 · 318 MB\n下载\n下载任务\n\n进度、速率与剩余时间为模拟值\n\n清除已完成\n1.21.5 · 客户端与资源\n93%\n4.2 MB/s\n剩余 00:42\n312 MB\nFabric Loader 0.16.9\n60%\n1.1 MB/s\n剩余 00:18\n2.4 MB\nSodium 0.6.13 · 1.21.5\n排队中\n—\n1.1 MB\n资源包 Faithful 32x\n已完成\n—\n48 MB\n\n任务区与版本列表相互独立：版本源请求失败时，这里的任务不会被清空。",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n下载\n\n下载 Minecraft 版本并查看进度\n\n快速操作\nCtrl\nK\n可用版本\n正式版\n快照\n全部\n1.21.5\n正式版\n已安装\n1.21.4\n正式版\n下载\n1.21.1\n正式版\n已安装\n1.20.6\n正式版\n下载\n1.20.1\n正式版\n已安装\n下载任务\n1.21.5 · 客户端与资源\n下载中 68%\nFabric Loader 0.16.9\n下载中 24%\nSodium 0.6.13 · 1.21.5\n排队中\n资源包 Faithful 32x\n已完成 100%",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 1600,
+    "name": "news",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n新闻\n\nMinecraft 官方动态与公告\n\n快速操作\nCtrl\nK\n官方动态\n\n示例内容 · 原型不联网，文章为本地示例\n\n已同步官方最新\n最后验证 18:03\n刷新\n社区\n3 天前\nMinecraft 大电影预告片发布\n\n《Minecraft 大电影》官方预告片已发布，影片由 Jared Hess 执导，讲述四个异类玩家被吸入主世界的冒险故事。\n\n查看详情\n查看原文\n更新\n1 周前\n基岩版与 Java 版皮肤互通\n\n最新版本更新中，基岩版与 Java 版玩家可以在两个版本之间共享皮肤与披风，跨平台体验更加统一。\n\n查看详情\n查看原文\n周边\n2 周前\n全新周边上架：苦力怕系列\n\n苦力怕主题 T 恤、像素方块积木套装与限量版手办已在官方商城上架。\n\n查看详情\n查看原文",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n新闻\n\nMinecraft 官方动态与公告\n\n快速操作\nCtrl\nK\n刷新\n官方动态\n已同步官方最新 · 最后验证 2026-10-15\n社区\n2026-10-12\nMinecraft 大电影预告片发布\n\n《Minecraft 大电影》官方预告片已发布，影片由 Jared Hess 执导，讲述四个异类玩家被吸入主世界的冒险故事。\n\n查看详情\n更新\n2026-10-12\n基岩版与 Java 版皮肤互通\n\n最新版本更新中，基岩版与 Java 版玩家可以在两个版本之间共享皮肤与披风，跨平台体验更加统一。\n\n查看详情\n周边\n2026-10-12\n全新周边上架：苦力怕系列\n\n苦力怕主题 T 恤、像素方块积木套装与限量版手办已在官方商城上架。\n\n查看详情",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        }
+      ]
+    }
+  },
+  {
+    "width": 1600,
+    "name": "settings",
+    "reference": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nv1.4.2 · 原型\n模拟数据\n设置\n\nJava、行为、账户、更新与 AI 诊断\n\n快速操作\nCtrl\nK\nJava / 系统分配\n\n影响游戏进程的内存与运行时\n\n内存分配\n4 GB\n\n调整分配给 Minecraft 进程的内存上限，推荐默认 4 GB。当前为自动分配，滑块已锁定。\n\n自动内存分配\n由启动器根据系统内存自动选择合适的大小。\nJava 运行时路径\n内置 JRE 21.0.5（默认）\n\n点击在内置 JRE、自动检测与自定义路径之间切换。\n\n启动器行为\n\n下载源与网络\n\n使用下载镜像（国内加速）\n通过 BMCLAPI 镜像加速下载。\nTUN/fake-IP 新闻图片兼容\n默认关闭，仅影响官方新闻图片。\n下载源\n官方源\nMCBBS 镜像\n\n当前：官方源（延迟为模拟值）\n\nHTTP 代理\n未启用\n\n下载与登录请求走代理，适合配合网络工具使用。\n\n快捷操作\n\n游戏启动与退出时的行为\n\n启动游戏后最小化启动器\n游戏退出后自动关闭启动器\n\n原型内不会真实最小化或关闭窗口。\n\n运行日志\n\n按天落盘到 logs 目录\n\n日志用于诊断启动失败、Mod 冲突与网络问题。日志中可能包含用户名与绝对路径。\n\n打开日志目录\n更新\n\n当前版本 v1.4.2\n\n更新源与校验信息来自 config.json；原型内不会真实下载或替换文件。\n\n检查更新\nAI 崩溃诊断\n\n崩溃后用大模型解释原因\n\n启用 AI 崩溃诊断\n需要配置 API Key；崩溃日志可能包含用户名与绝对路径。\n管理 AI 提供商（1）\n账户\n\n离线账户可直接进入游戏；正版功能需要 Microsoft 账户\n\n未登录\n点击添加账户；也可以直接以离线模式启动\n添加账户\n离线模式（原型：模拟断网）\n开启后，下载源、内容中心与新闻会返回失败，用于查看错误态。",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".grid-2",
+          "x": 318,
+          "y": 139.1875,
+          "w": 1200,
+          "h": 828.40625,
+          "grid": "592px 592px",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    "product": {
+      "text": "跳到主内容\nPINEGLOW\n松光启动器\n未登录\n离线模式\n游戏\n开始游戏\n安装管理\n4\n世界\n3\n服务器\n3\n游戏时长\n资源库\n内容中心\n皮肤\n下载\n3\n新闻\n系统\n设置\n中文\nEN\nPINEGLOW\n新版界面\n设置\n\n账户、运行环境与启动器偏好\n\n快速操作\nCtrl\nK\nJava / 系统分配\n内存分配\n调整分配给 Minecraft 进程的内存上限，推荐默认 4GB。\n4.0 GB\n自动内存分配\n让启动器根据你的系统自动选择合适的内存大小。\nJava 运行时路径\n使用内置 Java 运行环境或指定自定义路径。\n使用内置 JRE（默认）\n启动器行为\n下载源\n选择官方源或国内镜像，按实测延迟选择。\n当前：官方源\nTUN/fake-IP 新闻图片兼容\n默认关闭，仅影响官方新闻图片；仅当 Clash 类 TUN/fake-ip 模式导致官方新闻图片无法加载时开启。\nHTTP 代理\n下载与登录请求走代理（适合配合科学上网工具）。\n配置代理\n快捷操作\n\n游戏启动与退出时的启动器行为。\n\n配置快捷操作\n运行日志\n\n日志按天落盘到 logs 目录，用于诊断问题。\n\n打开日志目录\n更新\n当前版本\n…\n检查更新\nAI 诊断\n启用 AI 崩溃诊断\n崩溃后用大模型解释原因并给出修复步骤（需配置 API Key）。\nAI 诊断\n未配置\n管理 AI 提供商\n账户\nMicrosoft 登录\n外置登录\n添加账户\n点击添加账户",
+      "overflow": false,
+      "nodes": [
+        {
+          "s": ".sidebar",
+          "x": 0,
+          "y": 40,
+          "w": 236,
+          "h": 760,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        },
+        {
+          "s": ".profile",
+          "x": 12,
+          "y": 56,
+          "w": 211,
+          "h": 60,
+          "grid": "none",
+          "font": "13px Inter, \"Inter Fallback\", \"SF Pro Text\", -apple-system, system-ui, \"Segoe UI\", sans-serif",
+          "fontWeight": "400",
+          "borderRadius": "12px"
+        },
+        {
+          "s": ".settings-view",
+          "x": 318,
+          "y": 139.1875,
+          "w": 1200,
+          "h": 947.015625,
+          "grid": "none",
+          "font": "",
+          "fontWeight": "500",
+          "borderRadius": "0px"
+        }
+      ]
+    }
+  }
+]

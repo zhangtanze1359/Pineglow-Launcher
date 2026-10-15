@@ -1,0 +1,108 @@
+﻿{
+    "runId":  "20261003-180000Z",
+    "task":  "MR19 补测之四：托管程序集是否也受路径影响（头条结论的跨路径检验）",
+    "generatedUtc":  "2026-10-02T23:53:31Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "the fact that MR19 headline claim (managed assembly byte-reproducible) was only ever tested at ONE path",
+    "verdict":  "NEGATIVE - the managed assembly is ALSO path-dependent; the milestone headline must be narrowed to \"same path\"",
+    "result":  {
+                   "design":  "one snapshot copied to three EQUAL-LENGTH (98 char) paths: C: pgA, C: pgB (one char different), D: 95 d\u0027s; bin/obj cleaned before each publish",
+                   "dllA":  "E79EA7421221804E3FB7BB6ECB9512F8F2C5D50742EE789AF78D6515A6EA121A",
+                   "dllB":  "4F369572687BEE5D872F3BEFCF1081B111B4D2DA850EE4F78AAFB9DBE968D428",
+                   "dllC":  "5F4D75ACC87CD1847A4D6CD265ECB2FD892CEB3750DE01E9232FC78BBA8913D5",
+                   "dllSamePathDifferentContentIdentical":  false,
+                   "control":  "rebuilding at the SAME path about 2 minutes later reproduced both the DLL and the exe byte-for-byte, so TIME is ruled out as the cause - the difference is attributable to the PATH",
+                   "exeFirstDiff":  "A vs B (same drive, content differs) 0x9AD088 with 85 differing bytes; A vs C (cross-drive, same length) 0x9AD088 with 176 differing bytes",
+                   "zero1ACDriveHypothesis":  "NOT SUPPORTED - the cross-drive same-length comparison first differs at 0x9AD088, not 0x1AC; 0x1AC appeared only once (round 27 D:-in-place vs C:-temp) and was not reproduced",
+                   "pdb":  "differs across all three paths - embedding source paths in a PDB is expected behaviour and is a separate matter from binary reproducibility",
+                   "csharpFull":  "755 passed / 0 failed",
+                   "nodeFull":  "230 passed / 0 failed (18 files)",
+                   "lockFileUntouched":  "yes (8663 bytes)",
+                   "productCodeChanged":  false,
+                   "currentDriftNumbers":  "mg0: 254/1/83/0 ; mg1: 61/0/63/0 ; mg2: 254/1/82/0 ; mg3: 61/0/63/0 ; ledger audit exit 0"
+               },
+    "impactOnMR19":  [
+                         "NOT USABLE: \"managed assembly is byte-reproducible\" without qualification",
+                         "USABLE: managed assembly and single-file exe are byte-reproducible AT THE SAME PATH",
+                         "USABLE: cross-path is NOT reproducible (for BOTH the managed assembly and the single-file exe)",
+                         "NOT SUPPORTED: 0x1AC is a drive effect"
+                     ],
+    "selfFoundIssues":  [
+                            "moving the snapshot tree was denied 11 times even after dotnet build-server shutdown (MSBuild nodes held the project directory) -\u003e switched to COPYING three snapshots (5.3 MB each before build) and added /nodeReuse:false",
+                            "Copy-Item -LiteralPath does not expand wildcards, so the first copy produced 0 files (\"0.0 MB\") -\u003e switched to -Path"
+                        ],
+    "stillOpen":  [
+                      "the cause of the 0x1AC difference (appeared once in round 27, not reproduced since)",
+                      "the semantics of the scattered bytes around 0x9AD088",
+                      "where the path string appears inside the managed assembly (the same string-search method from round 28 was NOT applied here)"
+                  ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "AD40E7E4CD338BEFBB81310DE4B1AADE43582EE2EECB6C035857B1274BD08219",
+                      "sizeBytes":  6224
+                  },
+                  {
+                      "path":  "green/01-drivecheck.log",
+                      "sha256":  "D0F7DD6F8BC70A646F9B96DC2E39413FA0AB6EA279C9133A50E88C4D53C55ACF",
+                      "sizeBytes":  4582
+                  },
+                  {
+                      "path":  "green/02-drivecheck-copy.log",
+                      "sha256":  "41979ADEF5283B6FEE59ACEBD33A7D27B9C8F8DC7233B4E21C8CE91885A02CD4",
+                      "sizeBytes":  3164
+                  },
+                  {
+                      "path":  "green/03-drivecheck-final.log",
+                      "sha256":  "76F28D80DEF0566582A8D3079C952E0C23FF2F69E4838BE3CC608B442C9447CD",
+                      "sizeBytes":  6152
+                  },
+                  {
+                      "path":  "green/04-control-samepath-rebuild.log",
+                      "sha256":  "4AFF3439CA23E47811B15F635269BF86384AE971ABD6D3E3CEF6B284374AA80C",
+                      "sizeBytes":  546
+                  },
+                  {
+                      "path":  "green/05-csharp-full.log",
+                      "sha256":  "BD35EBBD8FAB222A8006CB097B6B1CF6D24AB079C86A6095C55BFA5669E7A6A2",
+                      "sizeBytes":  655
+                  },
+                  {
+                      "path":  "green/06-node-full.log",
+                      "sha256":  "CFA345B7D4F1A7C9EE752E6352892AAB60DECCB54224C1D4287EDDA9C9152EC1",
+                      "sizeBytes":  23798
+                  },
+                  {
+                      "path":  "green/07-verify-mg0-recheck.log",
+                      "sha256":  "58BD156D98884FC2DC13696377795699EF86EC7E6641E608F8043AD2CF117256",
+                      "sizeBytes":  2451
+                  },
+                  {
+                      "path":  "green/07-verify-mg1-recheck.log",
+                      "sha256":  "D6A41A84DEA2FF170D022500E4B64F0DA63041998EAB7CDEB39450A5BDA8D8B9",
+                      "sizeBytes":  2772
+                  },
+                  {
+                      "path":  "green/07-verify-mg2-recheck.log",
+                      "sha256":  "220F62A2763117B57406B8FD72403C438200698F963AC1D6A7141F23F5650027",
+                      "sizeBytes":  3039
+                  },
+                  {
+                      "path":  "green/07-verify-mg3-recheck.log",
+                      "sha256":  "013D38AA53EC5B243F88826EBB70A69FDC34E697C66152C0D8B05EF151E01730",
+                      "sizeBytes":  2595
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "DC1686A58A7200970DA4AF822C03F4009539724615E404CD24E95BA0BC7E9ED0",
+                      "sizeBytes":  214
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "8687B86F8D978B5E127CD526C7C8307954CAA3066D4F1CB68D022351D7BEA921",
+                      "sizeBytes":  115309
+                  }
+              ],
+    "artifactsRetained":  "%TEMP%\\pineglow-drivecheck-99b5d552fac14442b2009a43401593d8\\publish-{A,B,C,A2}\\"
+}

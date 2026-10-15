@@ -1,0 +1,13 @@
+﻿{
+    "probe":  "dirbuild-external-ui-preference",
+    "exePath":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\\dev\\PineglowLauncher\\bin\\Release\\net10.0\\Pineglow.Launcher.exe",
+    "artifactSha256":  "102B398A8067A637EBDDEA9A35B37F82FC322CDDF389BDD21B8A5E0B28B4D52F",
+    "externalUiSha256":  "3A203BC5368819B3B96F8B4796FA2207FE1B6D341EADCEFF7C9530694CCF3793",
+    "apiPort":  63543,
+    "healthReady":  true,
+    "externalMarkerServed":  true,
+    "servedIndexSha256":  "4F3E1CE8171E409C61B12DAFAF3CCF2618E0DFF14A4B7C69AD5955A6B7625113",
+    "servedEqualsExternalUi":  false,
+    "ownedProcessStopped":  true,
+    "timeHK":  "2026-10-10T02:26:43.4898203"
+}

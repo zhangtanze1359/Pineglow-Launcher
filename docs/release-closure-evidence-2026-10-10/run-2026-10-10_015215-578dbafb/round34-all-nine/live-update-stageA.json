@@ -1,0 +1,44 @@
+﻿{
+    "generatedUtc":  "2026-10-11T10:46:44Z",
+    "exePath":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-updgate-3be0e249332341e989721897283eda06\\Pineglow.Launcher.exe",
+    "exeSha256":  "c98064664dc53b55bac8c010014edfc58ea3250a78b5dc70d3c29ca420ec4c81",
+    "assetUrl":  "",
+    "assetSize":  0,
+    "assetSha256":  "",
+    "runDir":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-updgate-3be0e249332341e989721897283eda06\\run\\松光 更新 真实验收 a3cf63cc2399427194fd0801d2d05792",
+    "checks":  [
+                   {
+                       "name":  "阶段A：更新功能处于开启状态",
+                       "ok":  true,
+                       "detail":  "enabled=True"
+                   },
+                   {
+                       "name":  "阶段A：默认地址链要么取到清单，要么逐源说明失败原因",
+                       "ok":  true,
+                       "detail":  "gotManifest=True perSourceFailure=False"
+                   },
+                   {
+                       "name":  "阶段A：取到清单时来源可辨认（manifestSource 非空）",
+                       "ok":  true,
+                       "detail":  "manifestSource=https://github.com/zhangtanze1359/Pineglow-Launcher/releases/latest/download/manifest.json usedFallback=True"
+                   }
+               ],
+    "failures":  [
+
+                 ],
+    "results":  {
+                    "stageA":  {
+                                   "enabled":  true,
+                                   "currentVersion":  "1.0.0",
+                                   "updateAvailable":  false,
+                                   "latestVersion":  "1.0.0",
+                                   "notes":  "Pineglow Launcher 1.0.0",
+                                   "mandatory":  false,
+                                   "downloadUrl":  "https://github.com/zhangtanze1359/Pineglow-Launcher/releases/download/v1.0.0/Pineglow-Launcher-win-x64-single-file.exe",
+                                   "manifestSource":  "https://github.com/zhangtanze1359/Pineglow-Launcher/releases/latest/download/manifest.json",
+                                   "usedFallback":  true
+                               },
+                    "stageANote":  "primary-failed（已按设计降级到备用源: https://github.com/zhangtanze1359/Pineglow-Launcher/releases/latest/download/manifest.json）"
+                },
+    "verdict":  "PASS"
+}

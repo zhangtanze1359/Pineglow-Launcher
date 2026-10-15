@@ -1,0 +1,27 @@
+﻿{
+    "name":  "02-restore-launcher-locked",
+    "command":  "dotnet restore dev/PineglowLauncher/Pineglow.Launcher.csproj --locked-mode",
+    "cwd":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-810a28bd0d3d456c9e28201fb6fdf158",
+    "startUtc":  "2026-10-02T07:29:46Z",
+    "endUtc":  "2026-10-02T07:29:46Z",
+    "durationSec":  0.9,
+    "exitCode":  0,
+    "status":  "PASS",
+    "logProduced":  true,
+    "verifierDefect":  false,
+    "logBytes":  212,
+    "decodeMode":  "utf-8",
+    "stdoutPath":  "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR00\\20261002-072004Z\\logs\\formal\\02-restore-launcher-locked.stdout.txt",
+    "nodeTests":  null,
+    "nodePass":  null,
+    "nodeFail":  null,
+    "nodeSkipped":  null,
+    "csPassed":  null,
+    "csFailed":  null,
+    "csSkipped":  null,
+    "csTotal":  null,
+    "buildErrors":  null,
+    "expectHits":  [
+
+                   ]
+}

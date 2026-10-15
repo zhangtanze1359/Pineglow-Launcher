@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="8d6436eb-9346-42b8-ae73-bcd557f08e9d" name="Administrator@PC-20260705RBJQ 2026-10-13 12:06:56" runUser="PC-20260705RBJQ\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-13T12:06:56.7165632+08:00" queuing="2026-10-13T12:06:56.7165637+08:00" start="2026-10-13T12:06:55.7287475+08:00" finish="2026-10-13T12:06:56.7230329+08:00" />
+  <TestSettings name="default" id="e96f35e6-01aa-419f-a58e-d1a2a50f81db">
+    <Deployment runDeploymentRoot="Administrator_PC-20260705RBJQ_2026-10-13_12_06_56" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="8b1de261-29f9-4012-89e1-6fa8bb76be36" testId="972ed192-72f2-3d27-b27d-c9e88bf75a05" testName="Pineglow.Launcher.Tests.InstancePackTests.ParseModrinthIndex_DefaultsMissingFormatVersionToOne" computerName="PC-20260705RBJQ" duration="00:00:00.0228767" startTime="2026-10-13T12:06:56.5675151+08:00" endTime="2026-10-13T12:06:56.5967121+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8b1de261-29f9-4012-89e1-6fa8bb76be36" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Pineglow.Launcher.Tests.InstancePackTests.ParseModrinthIndex_DefaultsMissingFormatVersionToOne" storage="c:\users\administrator\appdata\local\temp\pineglow-snapshot-50bd5b23b53e4ef4bd71baa5cabeca2d\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="972ed192-72f2-3d27-b27d-c9e88bf75a05">
+      <Execution id="8b1de261-29f9-4012-89e1-6fa8bb76be36" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-snapshot-50bd5b23b53e4ef4bd71baa5cabeca2d\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.InstancePackTests" name="ParseModrinthIndex_DefaultsMissingFormatVersionToOne" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="972ed192-72f2-3d27-b27d-c9e88bf75a05" executionId="8b1de261-29f9-4012-89e1-6fa8bb76be36" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="1" executed="1" passed="1" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.9)&#xD;
+[xUnit.net 00:00:00.12]   Discovering: Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.24]   Discovered:  Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.26]   Starting:    Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.33]   Finished:    Pineglow.Launcher.Tests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

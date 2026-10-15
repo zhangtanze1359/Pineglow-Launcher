@@ -1,0 +1,15 @@
+﻿{
+    "probe":  "ui-level-cdp",
+    "fixture":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\install",
+    "exe":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\install\\Pineglow.Launcher.exe",
+    "apiPort":  50929,
+    "debugPort":  50930,
+    "chrome":  "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "healthReady":  true,
+    "tokenFound":  true,
+    "probeExit":  1,
+    "probeStdout":  "{\r\n  \"ok\": false,\r\n  \"visitedViewCount\": 5,\r\n  \"viewsWithJsErrors\": 0,\r\n  \"exceptions\": 0,\r\n  \"views\": [\r\n    {\r\n      \"label\": \"开始游戏\",\r\n      \"clicked\": true,\r\n      \"heading\": \"PINEGLOW\\n\\t\\t\\t松光启动器\",\r\n      \"textLen\": 700,\r\n      \"shot\": 219600,\r\n      \"jsErr\": 0,\r\n      \"httpErr\": 0\r\n    },\r\n    {\r\n      \"label\": \"安装管理\",\r\n      \"clicked\": true,\r\n      \"heading\": \"PINEGLOW\\n\\t\\t\\t松光启动器\",\r\n      \"textLen\": 637,\r\n      \"shot\": 89785,\r\n      \"jsErr\": 0,\r\n      \"httpErr\": 0\r\n    },\r\n    {\r\n      \"label\": \"世界\",\r\n      \"clicked\": true,\r\n      \"heading\": \"PINEGLOW\\n\\t\\t\\t松光启动器\",\r\n      \"textLen\": 126,\r\n      \"shot\": 37627,\r\n      \"jsErr\": 0,\r\n      \"httpErr\": 0\r\n    },\r\n    {\r\n      \"label\": \"服务器\",\r\n      \"clicked\": true,\r\n      \"heading\": \"PINEGLOW\\n\\t\\t\\t松光启动器\",\r\n      \"textLen\": 130,\r\n      \"shot\": 39181,\r\n      \"jsErr\": 0,\r\n      \"httpErr\": 0\r\n    },\r\n    {\r\n      \"label\": \"内容中心\",\r\n      \"clicked\": true,\r\n      \"heading\": \"PINEGLOW\\n\\t\\t\\t松光启动器\",\r\n      \"textLen\": 88,\r\n      \"shot\": 26426,\r\n      \"jsErr\": 0,\r\n      \"httpErr\": 0\r\n    },\r\n    {\r\n      \"label\": \"皮肤\",\r\n      \"clicked\": true,\r\n      \"heading\": \"PINEGLOW\\n\\t\\t\\t松光启动器\",\r\n      \"textLen\": 212,\r\n      \"shot\": 47917,\r\n      \"jsErr\": 0,\r\n      \"httpErr\": 1\r\n    },\r\n    {\r\n      \"label\": \"下载\",\r\n      \"clicked\": true,\r\n      \"heading\": \"PINEGLOW\\n\\t\\t\\t松光启动器\",\r\n      \"textLen\": 88,\r\n      \"shot\": 26437,\r\n      \"jsErr\": 0,\r\n      \"httpErr\": 0\r\n    },\r\n    {\r\n      \"label\": \"新闻\",\r\n      \"clicked\": true,\r\n      \"heading\": \"PINEGLOW\\n\\t\\t\\t松光启动器\",\r\n      \"textLen\": 1909,\r\n      \"shot\": 94181,\r\n      \"jsErr\": 0,\r\n      \"httpErr\": 12\r\n    },\r\n    {\r\n      \"label\": \"设置\",\r\n      \"clicked\": true,\r\n      \"heading\": \"PINEGLOW\\n\\t\\t\\t松光启动器\",\r\n      \"textLen\": 796,\r\n      \"shot\": 89023,\r\n      \"jsErr\": 0,\r\n      \"httpErr\": 0\r\n    }\r\n  ]\r\n}\r\n",
+    "probeStderr":  "",
+    "ownedProcessesStopped":  true,
+    "timeHK":  "2026-10-11T14:59:28.1110326"
+}

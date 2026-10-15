@@ -1,0 +1,364 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="64cc6ccb-91da-42bc-a224-7aacf7017369" name="Administrator@PC-20260705RBJQ 2026-10-06 13:41:33" runUser="PC-20260705RBJQ\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-06T13:41:33.8975653+08:00" queuing="2026-10-06T13:41:33.8975658+08:00" start="2026-10-06T13:41:33.2301708+08:00" finish="2026-10-06T13:41:33.9750132+08:00" />
+  <TestSettings name="default" id="b313c9d1-0201-4b66-9c6a-f27252871161">
+    <Deployment runDeploymentRoot="Administrator_PC-20260705RBJQ_2026-10-06_13_41_33" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="acb07660-c34e-4f42-8981-5407d6789237" testId="e8dc8fb6-cad7-6027-356f-f455c0f1a9c7" testName="Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(loader: &quot;neoforge&quot;)" computerName="PC-20260705RBJQ" duration="00:00:00.0028804" startTime="2026-10-06T13:41:33.8325030+08:00" endTime="2026-10-06T13:41:33.8325796+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="acb07660-c34e-4f42-8981-5407d6789237">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Strings differ&#xD;
+             ↓ (pos 2)&#xD;
+Expected: "-Djava.library.path=${natives_directory}"&#xD;
+Actual:   "-Dloader=neoforge"&#xD;
+             ↑ (pos 2)</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(String loader) in C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs:line 28&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="d7ed42a1-1e2d-481c-b973-6b8e1f46e6a3" testId="7bb07e3e-15eb-18bf-f978-f96af3181f3a" testName="Pineglow.Launcher.Tests.LoaderInstallerContractTests.RunInstallerAsync_PreparesMissingProfileAndPreservesExistingBytes(existing: True)" computerName="PC-20260705RBJQ" duration="00:00:00.0330478" startTime="2026-10-06T13:41:33.7768898+08:00" endTime="2026-10-06T13:41:33.8179233+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d7ed42a1-1e2d-481c-b973-6b8e1f46e6a3" />
+    <UnitTestResult executionId="02df3e8f-8ba9-49e3-964b-ddc71f624e24" testId="881cce3a-6442-c88a-ae28-03f06a0a1fe7" testName="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_ExistingConfigWithoutInstance_PersistsGeneratedId" computerName="PC-20260705RBJQ" duration="00:00:00.0516922" startTime="2026-10-06T13:41:33.8750207+08:00" endTime="2026-10-06T13:41:33.9190037+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="02df3e8f-8ba9-49e3-964b-ddc71f624e24">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Strings differ&#xD;
+           ↓ (pos 0)&#xD;
+Expected: "33a9220e853a41f289e24e2e1cd1b04f"&#xD;
+Actual:   "5c0b0cf76eb24b5c8e4136611944e736"&#xD;
+           ↑ (pos 0)</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_ExistingConfigWithoutInstance_PersistsGeneratedId() in C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\ConfigDefaultIdentityTests.cs:line 64&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="cf380bea-6745-407c-af62-b7b944c94983" testId="f2cccd5c-8a2e-2308-09b8-104582f2dfb0" testName="Pineglow.Launcher.Tests.LoaderInstallerContractTests.GetLoaderVersionEntriesAsync_OfficialMavenLayout_DoesNotDuplicateArtifact(neo: False, mc: &quot;1.20.1&quot;, version: &quot;1.20.1-47.4.0&quot;, expected: &quot;https://maven.minecraftforge.net/net/minecraftforg&quot;···)" computerName="PC-20260705RBJQ" duration="00:00:00.0095208" startTime="2026-10-06T13:41:33.8402307+08:00" endTime="2026-10-06T13:41:33.8496183+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cf380bea-6745-407c-af62-b7b944c94983">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Strings differ&#xD;
+                                  ↓ (pos 58)&#xD;
+Expected: ···"inecraftforge/forge/1.20.1-47.4.0/forge-1"···&#xD;
+Actual:   ···"inecraftforge/forge/forge/1.20.1-47.4.0/f"···&#xD;
+                                  ↑ (pos 58)</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.LoaderInstallerContractTests.GetLoaderVersionEntriesAsync_OfficialMavenLayout_DoesNotDuplicateArtifact(Boolean neo, String mc, String version, String expected) in C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\LoaderInstallerContractTests.cs:line 25&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="9ee20dbd-ea21-4b8f-9ccc-f9c34f1e605e" testId="34783197-acf3-1c06-d6bb-795c2be4426e" testName="Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_MultipleLevelsAndGameOnlyChild_KeepsAllAncestorJvmArguments" computerName="PC-20260705RBJQ" duration="00:00:00.0047412" startTime="2026-10-06T13:41:33.8366989+08:00" endTime="2026-10-06T13:41:33.8419188+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9ee20dbd-ea21-4b8f-9ccc-f9c34f1e605e">
+      <Output>
+        <ErrorInfo>
+          <Message>System.Collections.Generic.KeyNotFoundException : The given key was not present in the dictionary.</Message>
+          <StackTrace>   at System.Text.Json.JsonElement.GetProperty(String propertyName)&#xD;
+   at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_MultipleLevelsAndGameOnlyChild_KeepsAllAncestorJvmArguments() in C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs:line 45&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="e79c7aa5-6651-4f9b-bec7-c9aed2361c7e" testId="6b13b58a-47f2-2ee2-3463-b5fb175a5b37" testName="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_FirstRun_DoesNotWriteOrDeleteExistingCredentials" computerName="PC-20260705RBJQ" duration="00:00:00.0153079" startTime="2026-10-06T13:41:33.8746605+08:00" endTime="2026-10-06T13:41:33.8747662+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e79c7aa5-6651-4f9b-bec7-c9aed2361c7e" />
+    <UnitTestResult executionId="96c1a5e0-7b4d-4bf5-a35d-7c335df2d37b" testId="7e3ff40c-7a8a-44b9-93ff-fae1970c5a30" testName="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_FirstRun_PersistsStableInstanceAndAccountIds" computerName="PC-20260705RBJQ" duration="00:00:00.0011382" startTime="2026-10-06T13:41:33.9195485+08:00" endTime="2026-10-06T13:41:33.9203942+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="96c1a5e0-7b4d-4bf5-a35d-7c335df2d37b">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.True() Failure&#xD;
+Expected: True&#xD;
+Actual:   False</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_FirstRun_PersistsStableInstanceAndAccountIds() in C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\ConfigDefaultIdentityTests.cs:line 25&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="6123162d-73fd-4cc2-bdc6-e032103ce538" testId="4a58f076-3fa4-469f-a5db-11d50f28dc57" testName="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_ConcurrentFirstRun_ReturnsOneIdentity" computerName="PC-20260705RBJQ" duration="00:00:00.0041916" startTime="2026-10-06T13:41:33.9244859+08:00" endTime="2026-10-06T13:41:33.9287167+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6123162d-73fd-4cc2-bdc6-e032103ce538">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Single() Failure: The collection contained 12 items&#xD;
+Collection: ["f822487bfaa8488e95dfe9a6cb05de58", "c8d547e2d72a4b33880fa0e6d0d463f5", "68622d72f1da4b6982f784269f2dd6c8", "fa16ce1c1f634e3e848f765a5e4947c3", "ceed8c7ab0624cc8a0bce36a17829611", ···]</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_ConcurrentFirstRun_ReturnsOneIdentity() in C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\ConfigDefaultIdentityTests.cs:line 50&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="cbf32da6-f314-466e-8213-cc11f670bcbe" testId="f9864526-6429-adc4-f54d-c69146154e42" testName="Pineglow.Launcher.Tests.LoaderInstallerContractTests.RunInstallerAsync_PreparesMissingProfileAndPreservesExistingBytes(existing: False)" computerName="PC-20260705RBJQ" duration="00:00:00.0203648" startTime="2026-10-06T13:41:33.8264590+08:00" endTime="2026-10-06T13:41:33.8396010+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cbf32da6-f314-466e-8213-cc11f670bcbe">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.True() Failure&#xD;
+Expected: True&#xD;
+Actual:   False</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.LoaderInstallerContractTests.RunInstallerAsync_PreparesMissingProfileAndPreservesExistingBytes(Boolean existing) in C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\LoaderInstallerContractTests.cs:line 42&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="6da3a3f6-928f-4465-9ec3-a9586e5d6fa9" testId="b30ede0f-fddf-ab0d-9c85-82634e86d4df" testName="Pineglow.Launcher.Tests.LoaderInstallerContractTests.GetLoaderVersionEntriesAsync_OfficialMavenLayout_DoesNotDuplicateArtifact(neo: True, mc: &quot;1.21.1&quot;, version: &quot;21.1.219&quot;, expected: &quot;https://maven.neoforged.net/releases/net/neoforged&quot;···)" computerName="PC-20260705RBJQ" duration="00:00:00.0009222" startTime="2026-10-06T13:41:33.8504258+08:00" endTime="2026-10-06T13:41:33.8507494+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6da3a3f6-928f-4465-9ec3-a9586e5d6fa9">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Strings differ&#xD;
+                                  ↓ (pos 60)&#xD;
+Expected: ···"/neoforged/neoforge/21.1.219/neoforge-21."···&#xD;
+Actual:   ···"/neoforged/neoforge/neoforge/21.1.219/neo"···&#xD;
+                                  ↑ (pos 60)</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.LoaderInstallerContractTests.GetLoaderVersionEntriesAsync_OfficialMavenLayout_DoesNotDuplicateArtifact(Boolean neo, String mc, String version, String expected) in C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\LoaderInstallerContractTests.cs:line 25&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="3dbd2d91-e853-40a8-8874-e2705945e41c" testId="a6d87aab-2f97-6736-409e-d8005fd5cb95" testName="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_UnwritableInitialPath_ReportsFailureInsteadOfTransientIdentity" computerName="PC-20260705RBJQ" duration="00:00:00.0028956" startTime="2026-10-06T13:41:33.9208322+08:00" endTime="2026-10-06T13:41:33.9240089+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3dbd2d91-e853-40a8-8874-e2705945e41c">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.ThrowsAny() Failure: No exception was thrown&#xD;
+Expected: typeof(System.IO.IOException)</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_UnwritableInitialPath_ReportsFailureInsteadOfTransientIdentity() in C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\ConfigDefaultIdentityTests.cs:line 73&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="645b3579-7dee-41b8-a50c-2fd96082f474" testId="2f33b9a3-7324-bb08-f733-e7fab5fec0d5" testName="Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(loader: &quot;fabric&quot;)" computerName="PC-20260705RBJQ" duration="00:00:00.0028757" startTime="2026-10-06T13:41:33.8317517+08:00" endTime="2026-10-06T13:41:33.8318436+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="645b3579-7dee-41b8-a50c-2fd96082f474">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Strings differ&#xD;
+             ↓ (pos 2)&#xD;
+Expected: "-Djava.library.path=${natives_directory}"&#xD;
+Actual:   "-Dloader=fabric"&#xD;
+             ↑ (pos 2)</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(String loader) in C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs:line 28&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="fdbc0cbe-0ca5-45fd-841a-541152ce3e4b" testId="ad38cc70-1709-f287-8570-ca6cf07abe78" testName="Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(loader: &quot;forge&quot;)" computerName="PC-20260705RBJQ" duration="00:00:00.0353701" startTime="2026-10-06T13:41:33.7780694+08:00" endTime="2026-10-06T13:41:33.8269156+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fdbc0cbe-0ca5-45fd-841a-541152ce3e4b">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Strings differ&#xD;
+             ↓ (pos 2)&#xD;
+Expected: "-Djava.library.path=${natives_directory}"&#xD;
+Actual:   "-Dloader=forge"&#xD;
+             ↑ (pos 2)</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(String loader) in C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs:line 28&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="59932132-0dd1-43b6-be80-2600d07feeaf" testId="50148cb2-e9ff-571f-f66b-db645fd1fbab" testName="Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(loader: &quot;quilt&quot;)" computerName="PC-20260705RBJQ" duration="00:00:00.0026286" startTime="2026-10-06T13:41:33.8331185+08:00" endTime="2026-10-06T13:41:33.8351004+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="59932132-0dd1-43b6-be80-2600d07feeaf">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Strings differ&#xD;
+             ↓ (pos 2)&#xD;
+Expected: "-Djava.library.path=${natives_directory}"&#xD;
+Actual:   "-Dloader=quilt"&#xD;
+             ↑ (pos 2)</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(String loader) in C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs:line 28&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Pineglow.Launcher.Tests.LoaderInstallerContractTests.GetLoaderVersionEntriesAsync_OfficialMavenLayout_DoesNotDuplicateArtifact(neo: True, mc: &quot;1.21.1&quot;, version: &quot;21.1.219&quot;, expected: &quot;https://maven.neoforged.net/releases/net/neoforged&quot;···)" storage="c:\users\administrator\appdata\local\temp\pg-codex-fix-red\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="b30ede0f-fddf-ab0d-9c85-82634e86d4df">
+      <Execution id="6da3a3f6-928f-4465-9ec3-a9586e5d6fa9" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.LoaderInstallerContractTests" name="GetLoaderVersionEntriesAsync_OfficialMavenLayout_DoesNotDuplicateArtifact" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.LoaderInstallerContractTests.RunInstallerAsync_PreparesMissingProfileAndPreservesExistingBytes(existing: True)" storage="c:\users\administrator\appdata\local\temp\pg-codex-fix-red\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="7bb07e3e-15eb-18bf-f978-f96af3181f3a">
+      <Execution id="d7ed42a1-1e2d-481c-b973-6b8e1f46e6a3" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.LoaderInstallerContractTests" name="RunInstallerAsync_PreparesMissingProfileAndPreservesExistingBytes" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_FirstRun_PersistsStableInstanceAndAccountIds" storage="c:\users\administrator\appdata\local\temp\pg-codex-fix-red\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="7e3ff40c-7a8a-44b9-93ff-fae1970c5a30">
+      <Execution id="96c1a5e0-7b4d-4bf5-a35d-7c335df2d37b" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests" name="LoadAsync_FirstRun_PersistsStableInstanceAndAccountIds" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_FirstRun_DoesNotWriteOrDeleteExistingCredentials" storage="c:\users\administrator\appdata\local\temp\pg-codex-fix-red\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="6b13b58a-47f2-2ee2-3463-b5fb175a5b37">
+      <Execution id="e79c7aa5-6651-4f9b-bec7-c9aed2361c7e" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests" name="LoadAsync_FirstRun_DoesNotWriteOrDeleteExistingCredentials" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_UnwritableInitialPath_ReportsFailureInsteadOfTransientIdentity" storage="c:\users\administrator\appdata\local\temp\pg-codex-fix-red\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="a6d87aab-2f97-6736-409e-d8005fd5cb95">
+      <Execution id="3dbd2d91-e853-40a8-8874-e2705945e41c" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests" name="LoadAsync_UnwritableInitialPath_ReportsFailureInsteadOfTransientIdentity" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(loader: &quot;neoforge&quot;)" storage="c:\users\administrator\appdata\local\temp\pg-codex-fix-red\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="e8dc8fb6-cad7-6027-356f-f455c0f1a9c7">
+      <Execution id="acb07660-c34e-4f42-8981-5407d6789237" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.VersionResolverInheritanceTests" name="ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(loader: &quot;quilt&quot;)" storage="c:\users\administrator\appdata\local\temp\pg-codex-fix-red\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="50148cb2-e9ff-571f-f66b-db645fd1fbab">
+      <Execution id="59932132-0dd1-43b6-be80-2600d07feeaf" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.VersionResolverInheritanceTests" name="ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(loader: &quot;forge&quot;)" storage="c:\users\administrator\appdata\local\temp\pg-codex-fix-red\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="ad38cc70-1709-f287-8570-ca6cf07abe78">
+      <Execution id="fdbc0cbe-0ca5-45fd-841a-541152ce3e4b" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.VersionResolverInheritanceTests" name="ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_MultipleLevelsAndGameOnlyChild_KeepsAllAncestorJvmArguments" storage="c:\users\administrator\appdata\local\temp\pg-codex-fix-red\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="34783197-acf3-1c06-d6bb-795c2be4426e">
+      <Execution id="9ee20dbd-ea21-4b8f-9ccc-f9c34f1e605e" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.VersionResolverInheritanceTests" name="ResolveAsync_MultipleLevelsAndGameOnlyChild_KeepsAllAncestorJvmArguments" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.LoaderInstallerContractTests.GetLoaderVersionEntriesAsync_OfficialMavenLayout_DoesNotDuplicateArtifact(neo: False, mc: &quot;1.20.1&quot;, version: &quot;1.20.1-47.4.0&quot;, expected: &quot;https://maven.minecraftforge.net/net/minecraftforg&quot;···)" storage="c:\users\administrator\appdata\local\temp\pg-codex-fix-red\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="f2cccd5c-8a2e-2308-09b8-104582f2dfb0">
+      <Execution id="cf380bea-6745-407c-af62-b7b944c94983" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.LoaderInstallerContractTests" name="GetLoaderVersionEntriesAsync_OfficialMavenLayout_DoesNotDuplicateArtifact" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(loader: &quot;fabric&quot;)" storage="c:\users\administrator\appdata\local\temp\pg-codex-fix-red\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="2f33b9a3-7324-bb08-f733-e7fab5fec0d5">
+      <Execution id="645b3579-7dee-41b8-a50c-2fd96082f474" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.VersionResolverInheritanceTests" name="ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_ExistingConfigWithoutInstance_PersistsGeneratedId" storage="c:\users\administrator\appdata\local\temp\pg-codex-fix-red\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="881cce3a-6442-c88a-ae28-03f06a0a1fe7">
+      <Execution id="02df3e8f-8ba9-49e3-964b-ddc71f624e24" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests" name="LoadAsync_ExistingConfigWithoutInstance_PersistsGeneratedId" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.LoaderInstallerContractTests.RunInstallerAsync_PreparesMissingProfileAndPreservesExistingBytes(existing: False)" storage="c:\users\administrator\appdata\local\temp\pg-codex-fix-red\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="f9864526-6429-adc4-f54d-c69146154e42">
+      <Execution id="cbf32da6-f314-466e-8213-cc11f670bcbe" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.LoaderInstallerContractTests" name="RunInstallerAsync_PreparesMissingProfileAndPreservesExistingBytes" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_ConcurrentFirstRun_ReturnsOneIdentity" storage="c:\users\administrator\appdata\local\temp\pg-codex-fix-red\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="4a58f076-3fa4-469f-a5db-11d50f28dc57">
+      <Execution id="6123162d-73fd-4cc2-bdc6-e032103ce538" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.ConfigDefaultIdentityTests" name="LoadAsync_ConcurrentFirstRun_ReturnsOneIdentity" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="e8dc8fb6-cad7-6027-356f-f455c0f1a9c7" executionId="acb07660-c34e-4f42-8981-5407d6789237" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7bb07e3e-15eb-18bf-f978-f96af3181f3a" executionId="d7ed42a1-1e2d-481c-b973-6b8e1f46e6a3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="881cce3a-6442-c88a-ae28-03f06a0a1fe7" executionId="02df3e8f-8ba9-49e3-964b-ddc71f624e24" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f2cccd5c-8a2e-2308-09b8-104582f2dfb0" executionId="cf380bea-6745-407c-af62-b7b944c94983" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="34783197-acf3-1c06-d6bb-795c2be4426e" executionId="9ee20dbd-ea21-4b8f-9ccc-f9c34f1e605e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6b13b58a-47f2-2ee2-3463-b5fb175a5b37" executionId="e79c7aa5-6651-4f9b-bec7-c9aed2361c7e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7e3ff40c-7a8a-44b9-93ff-fae1970c5a30" executionId="96c1a5e0-7b4d-4bf5-a35d-7c335df2d37b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4a58f076-3fa4-469f-a5db-11d50f28dc57" executionId="6123162d-73fd-4cc2-bdc6-e032103ce538" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f9864526-6429-adc4-f54d-c69146154e42" executionId="cbf32da6-f314-466e-8213-cc11f670bcbe" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b30ede0f-fddf-ab0d-9c85-82634e86d4df" executionId="6da3a3f6-928f-4465-9ec3-a9586e5d6fa9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a6d87aab-2f97-6736-409e-d8005fd5cb95" executionId="3dbd2d91-e853-40a8-8874-e2705945e41c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2f33b9a3-7324-bb08-f733-e7fab5fec0d5" executionId="645b3579-7dee-41b8-a50c-2fd96082f474" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ad38cc70-1709-f287-8570-ca6cf07abe78" executionId="fdbc0cbe-0ca5-45fd-841a-541152ce3e4b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="50148cb2-e9ff-571f-f66b-db645fd1fbab" executionId="59932132-0dd1-43b6-be80-2600d07feeaf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="14" executed="14" passed="2" failed="12" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.9)&#xD;
+[xUnit.net 00:00:00.08]   Discovering: Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.16]   Discovered:  Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.19]   Starting:    Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.26]       Assert.Equal() Failure: Strings differ&#xD;
+[xUnit.net 00:00:00.26]                    ↓ (pos 2)&#xD;
+[xUnit.net 00:00:00.26]       Expected: "-Djava.library.path=${natives_directory}"&#xD;
+[xUnit.net 00:00:00.26]       Actual:   "-Dloader=forge"&#xD;
+[xUnit.net 00:00:00.26]                    ↑ (pos 2)&#xD;
+[xUnit.net 00:00:00.26]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.26]         C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs(28,0): at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(String loader)&#xD;
+[xUnit.net 00:00:00.26]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.26]       Assert.Equal() Failure: Strings differ&#xD;
+[xUnit.net 00:00:00.26]                    ↓ (pos 2)&#xD;
+[xUnit.net 00:00:00.26]       Expected: "-Djava.library.path=${natives_directory}"&#xD;
+[xUnit.net 00:00:00.26]       Actual:   "-Dloader=fabric"&#xD;
+[xUnit.net 00:00:00.26]                    ↑ (pos 2)&#xD;
+[xUnit.net 00:00:00.26]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.26]         C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs(28,0): at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(String loader)&#xD;
+[xUnit.net 00:00:00.26]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.26]       Assert.Equal() Failure: Strings differ&#xD;
+[xUnit.net 00:00:00.26]                    ↓ (pos 2)&#xD;
+[xUnit.net 00:00:00.26]       Expected: "-Djava.library.path=${natives_directory}"&#xD;
+[xUnit.net 00:00:00.26]       Actual:   "-Dloader=neoforge"&#xD;
+[xUnit.net 00:00:00.26]                    ↑ (pos 2)&#xD;
+[xUnit.net 00:00:00.26]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.26]         C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs(28,0): at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(String loader)&#xD;
+[xUnit.net 00:00:00.26]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.26]       Assert.Equal() Failure: Strings differ&#xD;
+[xUnit.net 00:00:00.26]                    ↓ (pos 2)&#xD;
+[xUnit.net 00:00:00.26]       Expected: "-Djava.library.path=${natives_directory}"&#xD;
+[xUnit.net 00:00:00.26]       Actual:   "-Dloader=quilt"&#xD;
+[xUnit.net 00:00:00.26]                    ↑ (pos 2)&#xD;
+[xUnit.net 00:00:00.26]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.26]         C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs(28,0): at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(String loader)&#xD;
+[xUnit.net 00:00:00.26]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.27]       Assert.True() Failure&#xD;
+[xUnit.net 00:00:00.27]       Expected: True&#xD;
+[xUnit.net 00:00:00.27]       Actual:   False&#xD;
+[xUnit.net 00:00:00.27]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.27]         C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\LoaderInstallerContractTests.cs(42,0): at Pineglow.Launcher.Tests.LoaderInstallerContractTests.RunInstallerAsync_PreparesMissingProfileAndPreservesExistingBytes(Boolean existing)&#xD;
+[xUnit.net 00:00:00.27]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.27]       System.Collections.Generic.KeyNotFoundException : The given key was not present in the dictionary.&#xD;
+[xUnit.net 00:00:00.27]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.27]            at System.Text.Json.JsonElement.GetProperty(String propertyName)&#xD;
+[xUnit.net 00:00:00.27]         C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\VersionResolverInheritanceTests.cs(45,0): at Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_MultipleLevelsAndGameOnlyChild_KeepsAllAncestorJvmArguments()&#xD;
+[xUnit.net 00:00:00.27]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.28]       Assert.Equal() Failure: Strings differ&#xD;
+[xUnit.net 00:00:00.28]                                         ↓ (pos 58)&#xD;
+[xUnit.net 00:00:00.28]       Expected: ···"inecraftforge/forge/1.20.1-47.4.0/forge-1"···&#xD;
+[xUnit.net 00:00:00.28]       Actual:   ···"inecraftforge/forge/forge/1.20.1-47.4.0/f"···&#xD;
+[xUnit.net 00:00:00.28]                                         ↑ (pos 58)&#xD;
+[xUnit.net 00:00:00.28]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.28]         C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\LoaderInstallerContractTests.cs(25,0): at Pineglow.Launcher.Tests.LoaderInstallerContractTests.GetLoaderVersionEntriesAsync_OfficialMavenLayout_DoesNotDuplicateArtifact(Boolean neo, String mc, String version, String expected)&#xD;
+[xUnit.net 00:00:00.28]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.28]       Assert.Equal() Failure: Strings differ&#xD;
+[xUnit.net 00:00:00.28]                                         ↓ (pos 60)&#xD;
+[xUnit.net 00:00:00.28]       Expected: ···"/neoforged/neoforge/21.1.219/neoforge-21."···&#xD;
+[xUnit.net 00:00:00.28]       Actual:   ···"/neoforged/neoforge/neoforge/21.1.219/neo"···&#xD;
+[xUnit.net 00:00:00.28]                                         ↑ (pos 60)&#xD;
+[xUnit.net 00:00:00.28]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.28]         C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\LoaderInstallerContractTests.cs(25,0): at Pineglow.Launcher.Tests.LoaderInstallerContractTests.GetLoaderVersionEntriesAsync_OfficialMavenLayout_DoesNotDuplicateArtifact(Boolean neo, String mc, String version, String expected)&#xD;
+[xUnit.net 00:00:00.28]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.35]       Assert.Equal() Failure: Strings differ&#xD;
+[xUnit.net 00:00:00.35]                  ↓ (pos 0)&#xD;
+[xUnit.net 00:00:00.35]       Expected: "33a9220e853a41f289e24e2e1cd1b04f"&#xD;
+[xUnit.net 00:00:00.35]       Actual:   "5c0b0cf76eb24b5c8e4136611944e736"&#xD;
+[xUnit.net 00:00:00.35]                  ↑ (pos 0)&#xD;
+[xUnit.net 00:00:00.35]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.35]         C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\ConfigDefaultIdentityTests.cs(64,0): at Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_ExistingConfigWithoutInstance_PersistsGeneratedId()&#xD;
+[xUnit.net 00:00:00.35]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.35]       Assert.True() Failure&#xD;
+[xUnit.net 00:00:00.35]       Expected: True&#xD;
+[xUnit.net 00:00:00.35]       Actual:   False&#xD;
+[xUnit.net 00:00:00.35]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.35]         C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\ConfigDefaultIdentityTests.cs(25,0): at Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_FirstRun_PersistsStableInstanceAndAccountIds()&#xD;
+[xUnit.net 00:00:00.35]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.35]       Assert.ThrowsAny() Failure: No exception was thrown&#xD;
+[xUnit.net 00:00:00.35]       Expected: typeof(System.IO.IOException)&#xD;
+[xUnit.net 00:00:00.35]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.35]         C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\ConfigDefaultIdentityTests.cs(73,0): at Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_UnwritableInitialPath_ReportsFailureInsteadOfTransientIdentity()&#xD;
+[xUnit.net 00:00:00.35]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.36]       Assert.Single() Failure: The collection contained 12 items&#xD;
+[xUnit.net 00:00:00.36]       Collection: ["f822487bfaa8488e95dfe9a6cb05de58", "c8d547e2d72a4b33880fa0e6d0d463f5", "68622d72f1da4b6982f784269f2dd6c8", "fa16ce1c1f634e3e848f765a5e4947c3", "ceed8c7ab0624cc8a0bce36a17829611", ···]&#xD;
+[xUnit.net 00:00:00.36]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.36]         C:\Users\Administrator\AppData\Local\Temp\pg-codex-fix-red\dev\PineglowLauncher.Tests\ConfigDefaultIdentityTests.cs(50,0): at Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_ConcurrentFirstRun_ReturnsOneIdentity()&#xD;
+[xUnit.net 00:00:00.36]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.36]   Finished:    Pineglow.Launcher.Tests&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:41:33.8290159+08:00">
+        <Text>[xUnit.net 00:00:00.26]     Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(loader: "forge") [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:41:33.8321783+08:00">
+        <Text>[xUnit.net 00:00:00.26]     Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(loader: "fabric") [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:41:33.8327628+08:00">
+        <Text>[xUnit.net 00:00:00.26]     Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(loader: "neoforge") [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:41:33.8355592+08:00">
+        <Text>[xUnit.net 00:00:00.26]     Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_LoaderChild_RetainsNativeClasspathGameAndRuleArguments(loader: "quilt") [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:41:33.8399658+08:00">
+        <Text>[xUnit.net 00:00:00.27]     Pineglow.Launcher.Tests.LoaderInstallerContractTests.RunInstallerAsync_PreparesMissingProfileAndPreservesExistingBytes(existing: False) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:41:33.8422495+08:00">
+        <Text>[xUnit.net 00:00:00.27]     Pineglow.Launcher.Tests.VersionResolverInheritanceTests.ResolveAsync_MultipleLevelsAndGameOnlyChild_KeepsAllAncestorJvmArguments [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:41:33.8499943+08:00">
+        <Text>[xUnit.net 00:00:00.28]     Pineglow.Launcher.Tests.LoaderInstallerContractTests.GetLoaderVersionEntriesAsync_OfficialMavenLayout_DoesNotDuplicateArtifact(neo: False, mc: "1.20.1", version: "1.20.1-47.4.0", expected: "https://maven.minecraftforge.net/net/minecraftforg"···) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:41:33.8509474+08:00">
+        <Text>[xUnit.net 00:00:00.28]     Pineglow.Launcher.Tests.LoaderInstallerContractTests.GetLoaderVersionEntriesAsync_OfficialMavenLayout_DoesNotDuplicateArtifact(neo: True, mc: "1.21.1", version: "21.1.219", expected: "https://maven.neoforged.net/releases/net/neoforged"···) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:41:33.9193341+08:00">
+        <Text>[xUnit.net 00:00:00.35]     Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_ExistingConfigWithoutInstance_PersistsGeneratedId [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:41:33.9206911+08:00">
+        <Text>[xUnit.net 00:00:00.35]     Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_FirstRun_PersistsStableInstanceAndAccountIds [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:41:33.9243317+08:00">
+        <Text>[xUnit.net 00:00:00.35]     Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_UnwritableInitialPath_ReportsFailureInsteadOfTransientIdentity [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:41:33.9290481+08:00">
+        <Text>[xUnit.net 00:00:00.36]     Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_ConcurrentFirstRun_ReturnsOneIdentity [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

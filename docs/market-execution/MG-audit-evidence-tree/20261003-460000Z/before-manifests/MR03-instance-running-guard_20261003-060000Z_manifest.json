@@ -1,0 +1,92 @@
+﻿{
+    "runId":  "20261003-060000Z",
+    "task":  "MR03 收尾：实例正在运行不得从列表移除",
+    "generatedUtc":  "2026-10-02T22:06:24Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "MR03 报告 §六 的未达成项「\"实例正在运行\"守卫未实现」",
+    "result":  {
+                   "csharp":  "7 passed / 0 failed (RED baseline: 4 failed / 3 passed)",
+                   "csharpFull":  "725 passed / 0 failed",
+                   "nodeFull":  "216 passed / 0 failed (16 files)",
+                   "gitStatus":  "1321 -\u003e 1323"
+               },
+    "design":  {
+                   "registry":  "RunningInstanceRegistry (process-wide, in-memory)",
+                   "selfHealing":  "IsRunning re-checks liveness every call; dead process or missing PID clears the entry so a stale entry can never permanently block removal",
+                   "conservative":  "when liveness cannot be determined (permissions), it keeps blocking",
+                   "guard":  "HandleDeleteInstanceAsync returns 400 on the same error channel as the neighbouring Bisect guard"
+               },
+    "knownGaps":  [
+                      "真实启动 Minecraft 未验证（需要真实游戏与 Java），属 MR22 内测范围",
+                      "同一实例重复启动没有并发守卫（注册表以最后一次为准）",
+                      "运行态是进程内内存态：启动器重启后不知道游戏还在跑（本包没有持久化运行态）",
+                      "自愈依赖 Process.GetProcessById，仅在 Windows 验证"
+                  ],
+    "selfFoundIssues":  [
+                            ".ps1 被 edit 工具剥掉 UTF-8 BOM -\u003e Windows PowerShell 5.1 按 ANSI 解码 -\u003e 中文乱码并解析失败（第二次踩到）；规则：edit 改过的 .ps1 跑前必须补 BOM",
+                            "MG1 复验脚本的包清单需同步新增 run，否则会漏掉本次收尾"
+                        ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "D6DD2C84DC1ACCF54F88CE94C7ABE19A89B2C97CCCD0E3925C85BDCBD1B9419E",
+                      "sizeBytes":  7457
+                  },
+                  {
+                      "path":  "green/01-running-guard-first.log",
+                      "sha256":  "F0C4DF9CD398EE72C421701B05A819AD0D87209E72E4559E039211A530C3E62F",
+                      "sizeBytes":  11912
+                  },
+                  {
+                      "path":  "green/02-running-guard-after.log",
+                      "sha256":  "93A2A43E22A1C9A31C955B1E66CCC59B6F06D708A1DB5BE1D85907F903B55786",
+                      "sizeBytes":  11912
+                  },
+                  {
+                      "path":  "green/03-csharp-full.log",
+                      "sha256":  "D12FF7F9B245E9079224E2538BB96E3931B925C99F5952A8AAA955CD25C6FBA8",
+                      "sizeBytes":  652
+                  },
+                  {
+                      "path":  "green/04-node-full.log",
+                      "sha256":  "526016937103C12856845BD7DFAD067C6DCCA28EB01DDBADB82AA6DF182C50BA",
+                      "sizeBytes":  22562
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "250D9C443580F3C961D8A0F449E7618B83BF24A7BA927C52F61E87D772C9D6AB",
+                      "sizeBytes":  594
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "004960DD162FA159105CB117EDDA88E62F37C57BEEE82C4BC7511A61241F477D",
+                      "sizeBytes":  114713
+                  },
+                  {
+                      "path":  "green/LocalApiService.cs.mr03b",
+                      "sha256":  "81F68FFB54989E895089562A41FCD69C3FEC0ABFE725C60275C146D053F3D44D",
+                      "sizeBytes":  189921
+                  },
+                  {
+                      "path":  "green/LocalApiService.cs.mr03b.sha256.txt",
+                      "sha256":  "CE9A037143472E755BFE7B5A60A4D944BBACF28C2866F309011BD7836E173438",
+                      "sizeBytes":  69
+                  },
+                  {
+                      "path":  "green/RunningInstanceRegistry.cs.mr03b",
+                      "sha256":  "16269BEAAFF199D81ABD942E3EA67D7A9A721B7A2FE544D6C06F9DF99EF7472D",
+                      "sizeBytes":  3777
+                  },
+                  {
+                      "path":  "green/RunningInstanceRegistry.cs.mr03b.sha256.txt",
+                      "sha256":  "77006E9827252484C154EC5ACC626D9BB4F4B7BA310263F7655984F301F5B925",
+                      "sizeBytes":  69
+                  },
+                  {
+                      "path":  "red/01-running-guard-before.log",
+                      "sha256":  "9A9E6AAE918C276ADAEAEBB91AC24D23F4AB13728108061C1AC427CAAA688CE9",
+                      "sizeBytes":  23316
+                  }
+              ]
+}

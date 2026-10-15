@@ -1,0 +1,84 @@
+﻿{
+    "runId":  "20261003-340000Z",
+    "task":  "MR19 补测：DLL 跨路径差异的机制（A10）",
+    "generatedUtc":  "2026-10-03T02:02:42Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "gap-register A10 (0x1AC cause unreproduced; 0x9AD088 semantics; where the path string lives in the DLL)",
+    "headlineFinding":  {
+                            "claimNarrowed":  "MR19 states the managed assembly is byte-reproducible ONLY at the same path. MEASURED: with /p:DebugType=None /p:DebugSymbols=false, builds at TWO DIFFERENT PATHS are byte-identical (SHA F329323BB1FDB85394C11B1E0DCF28346405F9AF7A3BF6408F8E49D688560AC5), reproduced over two independent rebuild rounds.",
+                            "control":  "With debug info the same two trees differ by exactly 73 bytes (E79EA742... vs 4F369572...).",
+                            "implication":  "The cross-path irreproducibility is a BUILD-FLAG artefact, not a fundamental limit - for the managed assembly. The single-file exe was NOT re-measured and likely still embeds the build path (a different mechanism, located by MR19 at 0xCEEB0D).",
+                            "actionTaken":  "I did NOT rewrite the ledger conclusion; I annotated the MR19 row with a \"needs narrowing\" note pointing at this package, pending your confirmation."
+                        },
+    "mechanism":  {
+                      "differingRuns":  6,
+                      "differingBytes":  73,
+                      "runs":  "0x88 len4 = PE TimeDateStamp; 0x32D43C len16 = GUID (MVID area, next to Avalonia.Themes.Fluent type names); 0x341A7C len4 = GUID; 0x341AD0 len16 = GUID; 0x341B43 = PDB absolute path (UTF-8); 0x341B95 len32 = PDB SHA256 checksum",
+                      "pathStringLocation":  "The embedded path is the PDB ABSOLUTE PATH, encoded UTF-8 (a UTF-16 search found 0 hits). pgA build: 0x341B43. Current build: 0x3426EB. The 41/42 byte at 0x341B45 is literally A vs B in \\\\pgA\\\\ vs \\\\pgB\\\\.",
+                      "pdbStringCount":  "\"Pineglow.Launcher.pdb\" appears 1 time with debug info, 0 times after DebugType=None",
+                      "offset0x1AC":  "NOT reproduced: this configuration differs by 73 bytes, not 428. That observation must have come from a different comparison whose artefacts are gone - recorded as unreproduced, but the current mechanism now has a complete run table with no unexplained differences."
+                  },
+    "method":  {
+                   "artifacts":  "Reused the surviving MR19 drivecheck trees (pgA / pgB, two different paths, same source state) from %TEMP%",
+                   "comparison":  "fc /b plus a self-written byte scan; differing bytes grouped into runs and each run decoded as UTF-16 and ASCII/UTF-8 windows"
+               },
+    "verification":  {
+                         "noDebugTwoPathsIdentical":  true,
+                         "independentRebuildRounds":  2,
+                         "controlStillDiffers":  "73 bytes",
+                         "originalAndNewArtifactsPreserved":  "orig-pgA/B.dll and nodebug-pgA/B.dll are in green/ with their SHAs recorded",
+                         "productCodeChanged":  false,
+                         "workflowsChanged":  false
+                     },
+    "stillNotCovered":  [
+                            "the single-file exe was NOT re-measured (this round focused on the managed assembly)",
+                            "0x1AC remains unreproduced",
+                            "cross-machine / cross-SDK reproducibility not verified",
+                            "the two reused trees are MR19 leftovers; I did not re-verify that their source state matches the current checkout"
+                        ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "2C31ED8245DB148D83B5F0BF4EFF49F4861E838BACF0742CEB508601F937BA9B",
+                      "sizeBytes":  6567
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "C35DD49881A406C0BFDBCA0655D9E9DAAB3499C81FD32EFCDB52B0025CE2AD87",
+                      "sizeBytes":  14711
+                  },
+                  {
+                      "path":  "green/artifacts.sha256.txt",
+                      "sha256":  "F2DE2F4A43F4CEEE46B112A306E23DF35BE31FDAFAC6265436382450E8B70671",
+                      "sizeBytes":  329
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "D8E85D475178CB5552158D8C7F36748733DBDC71BC21398947F04EEE7C1EA7F0",
+                      "sizeBytes":  116014
+                  },
+                  {
+                      "path":  "green/nodebug-pgA.dll",
+                      "sha256":  "F329323BB1FDB85394C11B1E0DCF28346405F9AF7A3BF6408F8E49D688560AC5",
+                      "sizeBytes":  3590144
+                  },
+                  {
+                      "path":  "green/nodebug-pgB.dll",
+                      "sha256":  "F329323BB1FDB85394C11B1E0DCF28346405F9AF7A3BF6408F8E49D688560AC5",
+                      "sizeBytes":  3590144
+                  },
+                  {
+                      "path":  "green/orig-pgA.dll",
+                      "sha256":  "E79EA7421221804E3FB7BB6ECB9512F8F2C5D50742EE789AF78D6515A6EA121A",
+                      "sizeBytes":  3590144
+                  },
+                  {
+                      "path":  "green/orig-pgB.dll",
+                      "sha256":  "4F369572687BEE5D872F3BEFCF1081B111B4D2DA850EE4F78AAFB9DBE968D428",
+                      "sizeBytes":  3590144
+                  }
+              ],
+    "selfFoundIssue":  "My changed-files.sha256.txt used PACKAGE-relative paths (green/...) while that file is checked against the milestone root, so the drift scanner reported 4 missing files. This package changes NO workspace source, so I removed that file and recorded the artifact hashes in green/artifacts.sha256.txt instead. Drift is back to 0 missing.",
+    "currentDriftNumbers":  "mg0: 265/1/106/0 ; mg1: 75/0/83/0 ; mg2: 265/1/105/0 ; mg3: 75/0/83/0 ; all four exit 0 ; ledger audit exit 0"
+}

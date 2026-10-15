@@ -1,0 +1,1 @@
+require('fs').writeFileSync('unit.trx','<TestRun><ResultSummary><Counters total="3" executed="0" passed="0" failed="0" notExecuted="0"/></ResultSummary></TestRun>');

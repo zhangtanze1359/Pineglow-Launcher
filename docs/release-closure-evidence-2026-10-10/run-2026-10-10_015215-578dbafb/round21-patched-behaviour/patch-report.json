@@ -1,0 +1,102 @@
+﻿[
+    {
+        "label":  "P-UA download/metadata client User-Agent",
+        "file":  "dev\\PineglowLauncher\\Pineglow.Launcher.Services\\LocalApiService.cs",
+        "ok":  true
+    },
+    {
+        "label":  "P-FABRICMETA Fabric meta mirror prefix",
+        "file":  "dev\\PineglowLauncher\\Pineglow.Launcher.Services\\MirrorHelper.cs",
+        "ok":  true
+    },
+    {
+        "label":  "P-PROXYJVM 1/6 helper ctor",
+        "file":  "dev\\PineglowLauncher\\Pineglow.Launcher.Services\\LoaderInstallHelper.cs",
+        "ok":  true
+    },
+    {
+        "label":  "P-PROXYJVM 2/6 helper before -jar",
+        "file":  "dev\\PineglowLauncher\\Pineglow.Launcher.Services\\LoaderInstallHelper.cs",
+        "ok":  true
+    },
+    {
+        "label":  "P-PROXYJVM 3/6 installer base ctor",
+        "file":  "dev\\PineglowLauncher\\Pineglow.Launcher.Services\\InstallerLoaderService.cs",
+        "ok":  true
+    },
+    {
+        "label":  "P-PROXYJVM ForgeService.cs",
+        "file":  "ForgeService.cs",
+        "ok":  true
+    },
+    {
+        "label":  "P-PROXYJVM NeoForgeService.cs",
+        "file":  "NeoForgeService.cs",
+        "ok":  true
+    },
+    {
+        "label":  "P-PROXYJVM 6a/8 InstancePackService ctor",
+        "file":  "dev\\PineglowLauncher\\Pineglow.Launcher.Services\\InstancePackService.cs",
+        "ok":  true
+    },
+    {
+        "label":  "P-PROXYJVM 6b/8 InstancePackService field init",
+        "file":  "dev\\PineglowLauncher\\Pineglow.Launcher.Services\\InstancePackService.cs",
+        "ok":  true
+    },
+    {
+        "label":  "P-PROXYJVM 7/8 ForgeService call",
+        "file":  "dev\\PineglowLauncher\\Pineglow.Launcher.Services\\InstancePackService.cs",
+        "ok":  true
+    },
+    {
+        "label":  "P-PROXYJVM 8/8 NeoForgeService call",
+        "file":  "dev\\PineglowLauncher\\Pineglow.Launcher.Services\\InstancePackService.cs",
+        "ok":  true
+    },
+    {
+        "label":  "P-PROXYJVM site A (instance pack import)",
+        "file":  "dev\\PineglowLauncher\\Pineglow.Launcher.Services\\LocalApiService.cs",
+        "ok":  true
+    },
+    {
+        "label":  "P-PROXYJVM site B (modrinth modpack import)",
+        "file":  "dev\\PineglowLauncher\\Pineglow.Launcher.Services\\LocalApiService.cs",
+        "ok":  true
+    },
+    {
+        "label":  "P-PROXYJVM helper method",
+        "file":  "dev\\PineglowLauncher\\Pineglow.Launcher.Services\\LocalApiService.cs",
+        "ok":  true
+    },
+    {
+        "label":  "P-TEST Fabric meta mapping",
+        "file":  "MirrorFabricMetaMappingTests.cs",
+        "ok":  true
+    },
+    {
+        "label":  "P-FAKEIP 1/2 recognise 2001:2::/48",
+        "file":  "dev\\PineglowLauncher\\Pineglow.Launcher.Services\\NewsImageProxyService.cs",
+        "ok":  true
+    },
+    {
+        "label":  "P-FAKEIP 2/2 prefer the IPv4 fake-ip address",
+        "file":  "dev\\PineglowLauncher\\Pineglow.Launcher.Services\\NewsImageProxyService.cs",
+        "ok":  true
+    },
+    {
+        "label":  "P-IMPORTLOG 1/2 logger for instance-pack import",
+        "file":  "dev\\PineglowLauncher\\Pineglow.Launcher.Services\\LocalApiService.cs",
+        "ok":  true
+    },
+    {
+        "label":  "P-IMPORTLOG 2/2 logger for uploaded-pack progress",
+        "file":  "dev\\PineglowLauncher\\Pineglow.Launcher.Services\\LocalApiService.cs",
+        "ok":  true
+    },
+    {
+        "label":  "P-TEST fake-ip dual stack",
+        "file":  "NewsFakeIpDualStackTests.cs",
+        "ok":  true
+    }
+]

@@ -1,0 +1,86 @@
+﻿[
+    {
+        "name":  "02-restore-launcher-locked",
+        "command":  "dotnet restore dev/PineglowLauncher/Pineglow.Launcher.csproj --locked-mode",
+        "exitCode":  0,
+        "logProduced":  true,
+        "verifierDefect":  false,
+        "durationSec":  0.9,
+        "csPassed":  null,
+        "csFailed":  null,
+        "csTotal":  null,
+        "buildErrors":  null
+    },
+    {
+        "name":  "03-restore-tests-locked",
+        "command":  "dotnet restore dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj --locked-mode",
+        "exitCode":  0,
+        "logProduced":  true,
+        "verifierDefect":  false,
+        "durationSec":  1,
+        "csPassed":  null,
+        "csFailed":  null,
+        "csTotal":  null,
+        "buildErrors":  null
+    },
+    {
+        "name":  "04-build-launcher-release",
+        "command":  "dotnet build dev/PineglowLauncher/Pineglow.Launcher.csproj -c Release --no-restore",
+        "exitCode":  0,
+        "logProduced":  true,
+        "verifierDefect":  false,
+        "durationSec":  2.8,
+        "csPassed":  null,
+        "csFailed":  null,
+        "csTotal":  null,
+        "buildErrors":  null
+    },
+    {
+        "name":  "05-dotnet-test-release",
+        "command":  "dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --no-restore --logger \"console;verbosity=minimal\"",
+        "exitCode":  0,
+        "logProduced":  true,
+        "verifierDefect":  false,
+        "durationSec":  60.2,
+        "csPassed":  null,
+        "csFailed":  null,
+        "csTotal":  null,
+        "buildErrors":  null
+    },
+    {
+        "name":  "06-build-verifyhost",
+        "command":  "dotnet build dev/PineglowLauncher/VerifyHost/VerifyHost.csproj -c Release",
+        "exitCode":  0,
+        "logProduced":  true,
+        "verifierDefect":  false,
+        "durationSec":  2.2,
+        "csPassed":  null,
+        "csFailed":  null,
+        "csTotal":  null,
+        "buildErrors":  null
+    },
+    {
+        "name":  "07-publish-locked-probe",
+        "command":  "dotnet publish dev/PineglowLauncher/Pineglow.Launcher.csproj -c Release -r win-x64 --self-contained /p:PublishSingleFile=true /p:EnableCompressionInSingleFile=true /p:DebugType=None /p:DebugSymbols=false -p:RestoreLockedMode=true",
+        "exitCode":  1,
+        "logProduced":  true,
+        "verifierDefect":  false,
+        "durationSec":  0.9,
+        "csPassed":  null,
+        "csFailed":  null,
+        "csTotal":  null,
+        "buildErrors":  null
+    },
+    {
+        "name":  "08-publish-single-file",
+        "command":  "dotnet publish dev/PineglowLauncher/Pineglow.Launcher.csproj -c Release -r win-x64 --self-contained /p:PublishSingleFile=true /p:EnableCompressionInSingleFile=true /p:DebugType=None /p:DebugSymbols=false",
+        "exitCode":  0,
+        "logProduced":  true,
+        "verifierDefect":  false,
+        "durationSec":  7,
+        "csPassed":  null,
+        "csFailed":  null,
+        "csTotal":  null,
+        "buildErrors":  null
+    }
+]

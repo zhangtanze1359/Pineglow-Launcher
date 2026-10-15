@@ -1,0 +1,40 @@
+const fs=require('fs'),path=require('path'),assert=require('assert/strict'),crypto=require('crypto');
+const {chromium}=require('C:/Users/Administrator/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const dir=__dirname,repo=path.resolve(dir,'../..');
+const owned=JSON.parse(fs.readFileSync(path.join(dir,'../ui-fix-2026-10-15/native-final/owned-process.json'),'utf8').replace(/^\uFEFF/,''));
+const report={kind:'Native WebView2, actual local API, existing isolated preview data',checks:[],errors:[],pages:[]};
+const save=()=>fs.writeFileSync(path.join(dir,'native-report.json'),JSON.stringify(report,null,2));
+let browser;
+(async()=>{browser=await chromium.connectOverCDP('http://127.0.0.1:'+owned.debugPort);const page=browser.contexts()[0].pages()[0];page.setDefaultTimeout(10000);page.on('pageerror',e=>{report.errors.push(e.message);save();});
+ const check=(name,condition)=>{report.checks.push({name,status:condition?'PASS':'FAIL'});save();assert.ok(condition,name);};
+ await page.locator('[data-nav="playtime"]').click();await page.locator('#ptTreemap').waitFor({state:'visible'});if(!fs.existsSync(path.join(dir,'before.png')))await page.screenshot({path:path.join(dir,'before.png'),animations:'disabled'});
+ const bindings=[];for(const rel of ['js/playtime.js','css/redesign.css','js/i18n.js']){const from=path.join(repo,'ui',rel),to=path.join(owned.executionRoot,'UI',rel);fs.copyFileSync(from,to);const sha=p=>crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');bindings.push({path:rel,source:sha(from),execution:sha(to)});}
+ report.bindings=bindings;check('Preview loads this source candidate',bindings.every(x=>x.source===x.execution));
+ await page.reload();await page.locator('[data-nav="playtime"]').click();await page.locator('.pt-tree-root').waitFor();
+ const api=await page.evaluate(()=>SG.api.getStats());check('Fixture has 8 actual persisted sessions',api.sessions.length===8);
+ for(const [width,height]of [[1280,800],[960,800],[1600,900]]){
+  await page.setViewportSize({width,height});await page.locator('[data-pt-expand="true"]').click();
+  check('All sessions appear as tree leaves at '+width,await page.locator('.pt-session-node').count()===8);
+  const metrics=await page.evaluate(()=>{const c=document.querySelector('#ptTreemap'),p=document.querySelector('#contentPanel');return {treeOverflow:c.scrollWidth-c.clientWidth,pageOverflow:p.scrollWidth-p.clientWidth,instances:document.querySelectorAll('.pt-tree-instance').length,dates:document.querySelectorAll('.pt-date-node').length,oldRectangles:document.querySelectorAll('.tm-group,.tm-cell').length};});
+  check('Tree and page fit viewport at '+width,metrics.treeOverflow<=1&&metrics.pageOverflow<=1&&metrics.instances===2&&metrics.dates===8&&metrics.oldRectangles===0);report.pages.push({width,height,...metrics});
+  await page.screenshot({path:path.join(dir,`tree-${width}.png`),animations:'disabled'});
+ }
+ await page.setViewportSize({width:1280,height:800});
+ await page.locator('[data-pt-expand="false"]').click();check('Collapse all closes instance branches',await page.locator('.pt-tree-instance > details[open]').count()===0);
+ const first=page.locator('.pt-instance-node').first();await first.focus();await first.press('Enter');check('Keyboard expands the focused instance',await page.locator('.pt-tree-instance > details[open]').count()===1);
+ const date=page.locator('.pt-date-node:visible').first();await date.focus();await date.press('Enter');check('Keyboard expands a date branch',await page.locator('.pt-session-node:visible').count()>0);
+ const leaf=page.locator('.pt-session-node:visible').first();await leaf.focus();check('Focus reads date, instance and duration',/\d{4}-\d{2}-\d{2}/.test(await page.locator('#ptReadout').textContent()));
+ await leaf.press('Enter');check('Session activation applies its date filter',await page.locator('[data-pt-clear]').isVisible());check('Filtered summary and tree agree',await page.locator('.pt-session-node').count()===2&&await page.locator('#ptSummary b').nth(1).textContent()==='2');
+ await page.locator('[data-pt-clear]').click();await page.locator('[data-pt-expand="true"]').click();
+ await page.locator('[data-pt-range="custom"]').click();const previous=await page.locator('#ptSummary').innerText();const previousLeaves=await page.locator('.pt-session-node').count();await page.locator('#ptFrom').fill('2026-10-15');await page.locator('#ptTo').fill('2026-10-14');await page.locator('[data-pt-apply]').click();check('Invalid range retains last valid tree and summary',await page.locator('.pt-session-node').count()===previousLeaves&&await page.locator('#ptSummary').innerText()===previous&&!!(await page.locator('#ptError').textContent()));
+ await page.locator('#ptFrom').fill('2001-01-01');await page.locator('#ptTo').fill('2001-01-02');await page.locator('[data-pt-apply]').click();check('Empty range shows honest empty state',await page.locator('.pt-session-node').count()===0&&(await page.locator('.play-tree .pt-empty').innerText()).length>0);
+ await page.locator('[data-pt-range="month"]').click();await page.locator('#btnLangEn').click();await page.getByRole('heading',{name:'Play time tree',exact:true}).waitFor();check('Tree labels are localized',await page.locator('[data-pt-expand="true"]').innerText()==='Expand all');
+ await page.locator('#btnLangZh').click();await page.getByRole('heading',{name:'时长树状图',exact:true}).waitFor();
+ const stress={...api,sessions:Array.from({length:200},(_,n)=>({...api.sessions[0],id:'stress-'+n,instanceId:'stress',instanceName:'长实例名称'.repeat(30)}))};
+ await page.route('**/api/stats',route=>route.fulfill({json:stress}));await page.locator('#btnRefreshView').click();await page.waitForFunction(()=>document.querySelectorAll('.pt-session-node').length===200);await page.locator('[data-pt-expand="true"]').click();
+ check('Long names and 200 sessions stay inside the scrollable tree',await page.locator('.play-tree').evaluate(e=>e.scrollWidth<=e.clientWidth+1&&e.clientHeight<=460));
+ await page.unroute('**/api/stats');await page.locator('#btnRefreshView').click();await page.waitForFunction(()=>document.querySelectorAll('.pt-session-node').length===8);
+ await page.locator('[data-pt-expand="false"]').click();await page.locator('.pt-instance-node').first().click();await page.locator('.pt-date-node:visible').first().click();
+ const cdp=await browser.contexts()[0].newCDPSession(page);await cdp.send('Emulation.clearDeviceMetricsOverride');await page.screenshot({path:path.join(dir,'tree-final-open.png'),animations:'disabled'});
+ check('No uncaught page errors',report.errors.length===0);save();console.log(JSON.stringify({checks:report.checks.length,pages:report.pages.length,errors:report.errors}));
+})().catch(e=>{report.fatal=e.stack;save();console.error(e);process.exitCode=1;}).finally(async()=>{if(browser)await browser.close();});

@@ -1,0 +1,95 @@
+{
+  "scope": "OpenDesign prototype only; simulated data",
+  "results": [
+    {
+      "screen": "downloads",
+      "size": {
+        "width": 1280,
+        "height": 800
+      },
+      "metrics": {
+        "viewport": 1280,
+        "doc": 1280,
+        "main": 1072,
+        "mainClient": 1072
+      },
+      "status": "PASS"
+    },
+    {
+      "screen": "content",
+      "size": {
+        "width": 1280,
+        "height": 800
+      },
+      "metrics": {
+        "viewport": 1280,
+        "doc": 1280,
+        "main": 1072,
+        "mainClient": 1072
+      },
+      "status": "PASS"
+    },
+    {
+      "screen": "news",
+      "size": {
+        "width": 1280,
+        "height": 800
+      },
+      "metrics": {
+        "viewport": 1280,
+        "doc": 1280,
+        "main": 1072,
+        "mainClient": 1072
+      },
+      "status": "PASS"
+    },
+    {
+      "screen": "downloads",
+      "size": {
+        "width": 960,
+        "height": 640
+      },
+      "metrics": {
+        "viewport": 960,
+        "doc": 960,
+        "main": 772,
+        "mainClient": 772
+      },
+      "status": "PASS"
+    },
+    {
+      "screen": "content",
+      "size": {
+        "width": 960,
+        "height": 640
+      },
+      "metrics": {
+        "viewport": 960,
+        "doc": 960,
+        "main": 772,
+        "mainClient": 772
+      },
+      "status": "PASS"
+    },
+    {
+      "screen": "news",
+      "size": {
+        "width": 960,
+        "height": 640
+      },
+      "metrics": {
+        "viewport": 960,
+        "doc": 960,
+        "main": 772,
+        "mainClient": 772
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "retry failure then recovery, independent retained tasks",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "status": "PASS"
+}

@@ -1,0 +1,8 @@
+﻿{
+    "generatedAtUtc":  "2026-10-02T21:03:13Z",
+    "caseSet":  "D:\\松光启动器\\dev\\PineglowLauncher.Tests\\TestAssets\\Diagnostics\\diagnostic-cases.json",
+    "caseSetSha256":  "038A01DADEED6D697F6A4081BE9838833F4A31DAB1A257A896ED89744236537D",
+    "caseCount":  30,
+    "realModelRan":  false,
+    "note":  "合成提供方干跑；真实模型评测需另行授权。"
+}

@@ -1,0 +1,34 @@
+{
+  "roots": [
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-audit-coverage-rm8phxwi\\duplicate"
+  ],
+  "manifestCount": 1,
+  "fileEntries": 1,
+  "selfEntries": [],
+  "duplicateEntries": [
+    {
+      "manifest": "RUN-OK/manifest.json",
+      "path": "evidence.txt"
+    }
+  ],
+  "historicalExceptionsRetained": true,
+  "historicalExceptionCount": 0,
+  "knownMismatches": [],
+  "missingDetached": [],
+  "failures": [
+    {
+      "manifest": "RUN-OK/manifest.json",
+      "path": "evidence.txt",
+      "reason": "duplicate entry"
+    }
+  ],
+  "runs": [
+    {
+      "manifest": "RUN-OK/manifest.json",
+      "root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-audit-coverage-rm8phxwi\\duplicate",
+      "package": "RUN-OK",
+      "filesChecked": 1,
+      "declaredRunId": "RUN-OK"
+    }
+  ]
+}

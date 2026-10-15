@@ -1,0 +1,108 @@
+﻿{
+    "runId":  "20261003-290000Z",
+    "task":  "MR21 补测：启动与环境边界（A12）+ 端口硬编码缺陷修复",
+    "generatedUtc":  "2026-10-03T01:15:25Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "gap-register A12 (port conflict / unwritable dir were unmeasured; WebView2-missing copy unobserved)",
+    "result":  {
+                   "testsAdded":  4,
+                   "green":  "4 passed / 0 failed",
+                   "csharpFull":  "801 passed / 0 failed / 0 skipped (797 + 4)",
+                   "nodeFull":  "230 passed / 0 failed (18 files)",
+                   "launcherProjectBuild":  "exit 0",
+                   "productionCodeChanged":  true,
+                   "productionChange":  "WebShellWindow.axaml.cs: the API port now comes from LocalApiService.Port instead of the hard-coded 48123 (+ a missing using Pineglow.Launcher.Services)",
+                   "currentDriftNumbers":  "mg0: 263/1/97/0 ; mg1: 73/0/74/0 ; mg2: 263/1/96/0 ; mg3: 73/0/74/0 ; ledger audit exit 0"
+               },
+    "measured":  {
+                     "portConflict":  "LocalApiService.Start(busyPort) throws HttpListenerException (no internal handling). App.cs:31-39 catches it, so the app does NOT crash; IsRunning stays false; a retry on a free port succeeds and /api/health returns 200.",
+                     "portConflictUx":  "WEAK: the user only sees a generic \"API unavailable\"; the shell window silently falls back to the static UI/index.html. There is no actionable \"port in use\" message.",
+                     "missingUiDir":  "ResolveUiRoot falls back through three candidates; with PINEGLOW_UI_DIR pointing at a non-existent directory the service still starts (by design).",
+                     "webView2Missing":  "STILL UNVERIFIED - WebView2 154.0.4258.48 is installed here. Code-level: the shell window catch swallows everything and falls back to the static file or about:blank; there is NO explicit WebView2-runtime-missing detection or copy."
+                 },
+    "defectFixed":  {
+                        "statement":  "The shell window hard-coded port 48123 while PINEGLOW_API_PORT is a supported override (LocalApiService.cs:169). Overriding the port made the health check probe the wrong port, so the catch fired and the window silently loaded the static UI - the UI looked usable but had NO API, with no error shown.",
+                        "fix":  "read LocalApiService.Port once and use it for both the health check and the WebView URL",
+                        "red":  "the static guard test failed before the fix (listing both hard-coded lines)"
+                    },
+    "selfFoundIssues":  [
+                            "my first fix did not compile (CS0103 LocalApiService) because WebShellWindow.axaml.cs lacked using Pineglow.Launcher.Services - caught immediately because I checked the build exit code (round 36 lesson applied)",
+                            "a PRE-EXISTING flaky test surfaced in the first full run: NewsLinkHandlerTests.NewsOpen_ValidToken_TamperedId_... asserted a tampered linkId must return 400/404 but got 200 {\"ok\":true}. It passes alone (16/16) and on full-suite retry (801/0). Root cause: the tamper swaps first/last characters, which is a NO-OP when they are equal (link ids are 32-hex Guid, ~1/16 = 6% chance). Fixed by guaranteeing a different id plus Assert.NotEqual(realId, tampered); the class then passed 5/5 runs.",
+                            "conclusion: that flake was a TEST bug, NOT a product/security defect - stated explicitly because the assertion was security-adjacent"
+                        ],
+    "stillNotCovered":  [
+                            "WebView2-missing path (installed on this machine)",
+                            "real desktop rendering",
+                            "unwritable game directory was NOT tested this round (still listed)",
+                            "an actionable \"port in use\" message was NOT implemented (product decision)",
+                            "real launch/login/game"
+                        ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "2DE44EBFA45C1E88EE80D0DB1EC6D12506115397A3C8EC56F328B4597C6F662C",
+                      "sizeBytes":  9007
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "FEA688CFDCCC38E54D57A41D73694856A13C713F35DA578887F322192B39B117",
+                      "sizeBytes":  13503
+                  },
+                  {
+                      "path":  "green/01-startup-after-fix.log",
+                      "sha256":  "8ACE5491DADF8DE910585F17D7FA638328B910160D8B994B30D82A82821DE455",
+                      "sizeBytes":  1620
+                  },
+                  {
+                      "path":  "green/02-startup-final.log",
+                      "sha256":  "C9022F94C7C94D87718B2AA8C1DF4DB6A034D45808204D386D7CFBEC598330BE",
+                      "sizeBytes":  1620
+                  },
+                  {
+                      "path":  "green/03-csharp-full.log",
+                      "sha256":  "703EF72C79206D8F8DFEB13B106CB3C828E1A5AFFD2039152C2702CD6D9B77EF",
+                      "sizeBytes":  3066
+                  },
+                  {
+                      "path":  "green/04-node-full.log",
+                      "sha256":  "3E23F2978D361E3EB6F0AA3F087C3A37718F23D05FD7BC729199B00845EEE130",
+                      "sizeBytes":  23801
+                  },
+                  {
+                      "path":  "green/05-news-alone.log",
+                      "sha256":  "CAEDD20C90DA83DDEDEAEFF12E589CBCB0B771C25A4B7FE298C6D3F6971FAA8B",
+                      "sizeBytes":  338
+                  },
+                  {
+                      "path":  "green/06-csharp-full-retry.log",
+                      "sha256":  "A89C73D914642FFFF68F67ACBE58860C0E6A037C75F47F68D91C1FE4792B8CFD",
+                      "sizeBytes":  339
+                  },
+                  {
+                      "path":  "green/07-csharp-full-final.log",
+                      "sha256":  "0C6B56DAEA1DEB5223962478AEA76E69234F9B5C8CC0D34F8F5DE3D18E7CF0EF",
+                      "sizeBytes":  490
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "49A1ACD8D97A2E8BDD37786A6495B90D7588172C115F02D5801B5023D5B542DB",
+                      "sizeBytes":  491
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "C5D78EC14F57F1C4C5FB7338B560785EDDF2A86885AE7F385CB5D0B4CE5BCE4C",
+                      "sizeBytes":  115896
+                  },
+                  {
+                      "path":  "red/01-startup-before-fix.log",
+                      "sha256":  "8139194580D7C2B1379B0BB73A6BF7D08FFCCD69C39B95D8AED08A2844E91A0D",
+                      "sizeBytes":  3129
+                  },
+                  {
+                      "path":  "red/WebShellWindow.axaml.cs.before",
+                      "sha256":  "CE7FB287063027B290ABF4298712DF2FF76966488E03547415674C83A7E44FE2",
+                      "sizeBytes":  7828
+                  }
+              ]
+}

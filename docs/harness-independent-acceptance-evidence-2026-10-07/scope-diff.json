@@ -1,0 +1,20 @@
+{
+  "baseline": "Independent 2026-10-06 frozen 310-input snapshot",
+  "changes": [
+    {
+      "newHash": "6CC9AC01533300C1E76686D3BD13049A85C3D1A99C3EB0B1772D991F9F704EC5",
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/LauncherService.cs",
+      "oldHash": "EEDC971B95362B72F956C0D776DBC6BE2593A62FA34C6CFD82E0F654752917B9"
+    },
+    {
+      "newHash": "2E11A2BA54B99B9FAB3A270486F958BC7C1B1B8FB06E015CDA36EF44B6330188",
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.cs",
+      "oldHash": "596F2A800D63FB5162A3C2E231C9F99828A710BE1E0655A2822036B329AE32C0"
+    },
+    {
+      "newHash": "CD922F01DAA386E3EF1B7BE9B6C5D5EDDD3246CF363DF80074B74F28668A7591",
+      "path": "scripts/source-snapshot-inputs.txt",
+      "oldHash": "BC0D0AEC7B38A9BFD9E233888A69FA9E5DBB9280426BF77F2F0F18FD0AE9B3D8"
+    }
+  ]
+}

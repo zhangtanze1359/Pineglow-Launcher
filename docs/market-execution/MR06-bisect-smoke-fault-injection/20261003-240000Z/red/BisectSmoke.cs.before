@@ -1,0 +1,282 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net.Http;
+using System.Text.Json;
+using System.Threading;
+using Pineglow.Launcher.Services;
+
+namespace VerifyHost
+{
+	/// <summary>
+	/// Mod Bisect 端到端冒烟自检：--bisect-smoke [--port N]
+	/// 自建 portable 沙盒（不回写真实配置），走完二分定位全流程（定位 + 放弃 + 无会话拦截），
+	/// 结束后清理沙盒，退出码 0=通过 / 1=失败。
+	/// </summary>
+	internal static class BisectSmoke
+	{
+		private sealed class Session
+		{
+			public List<string> Candidates = new List<string>();
+			public List<string> DisabledHalf = new List<string>();
+			public int Step;
+			public bool WaitingForReport;
+			public bool Finished;
+			public string Culprit = string.Empty;
+			public string FinishReason = string.Empty;
+		}
+
+		public static int Run(string[] args)
+		{
+			int port = 48123;
+			for (int i = 1; i < args.Length; i++)
+			{
+				if (args[i] == "--port" && i + 1 < args.Length && int.TryParse(args[i + 1], out int parsed))
+				{
+					port = parsed;
+					i++;
+				}
+			}
+
+			string baseDir = AppContext.BaseDirectory;
+			string flagPath = Path.Combine(baseDir, "portable.flag");
+			string dataDir = Path.Combine(baseDir, "data");
+			bool hadFlag = File.Exists(flagPath);
+			bool hadData = Directory.Exists(dataDir);
+			int failures = 0;
+
+			Console.WriteLine("[BisectSmoke] start, portable sandbox=" + dataDir);
+			try
+			{
+				if (!hadFlag)
+				{
+					File.WriteAllText(flagPath, "portable");
+				}
+
+				LocalApiService.Start(port);
+				using (HttpClient http = new HttpClient { BaseAddress = new Uri("http://127.0.0.1:" + port + "/"), Timeout = TimeSpan.FromSeconds(10) })
+				{
+					WaitHealthy(http);
+					http.DefaultRequestHeaders.Add("X-Pineglow-Token", LocalApiService.SessionTokenForTests);
+
+					string instanceId = CreateInstance(http);
+					string gameDir = GetInstanceGameDirectory(http, instanceId);
+					string modsDir = Path.Combine(gameDir, "mods");
+					Directory.CreateDirectory(modsDir);
+					for (int i = 1; i <= 8; i++)
+					{
+						File.WriteAllText(Path.Combine(modsDir, string.Format("mod{0:D2}-1.0.0.jar", i)), "fake mod placeholder");
+					}
+
+					// 定位全流程：8 -> 4 -> 2 -> 1
+					Session s = StartBisect(http, instanceId);
+					Check(ref failures, s.Step == 1 && s.DisabledHalf.Count == 4 && s.WaitingForReport, "start: step=1, disabled half=4, waiting for report");
+					Check(ref failures, DisabledOnDisk(modsDir) == 4, "start: 4 jars disabled on disk");
+
+					s = TestBisect(http, instanceId, crashed: true);
+					Check(ref failures, s.Candidates.Count == 4 && s.Candidates[0].StartsWith("mod05"), "test(crashed=true): candidates narrowed to mod05-08");
+					Check(ref failures, s.DisabledHalf.Count == 2 && DisabledOnDisk(modsDir) == 6, "round2: disable mod05-06, 6 disabled on disk");
+
+					s = TestBisect(http, instanceId, crashed: true);
+					Check(ref failures, s.Candidates.Count == 2 && s.DisabledHalf.Count == 1 && DisabledOnDisk(modsDir) == 7, "round3: candidates mod07-08, disable mod07, 7 disabled on disk");
+
+					s = TestBisect(http, instanceId, crashed: false);
+					Check(ref failures, s.Finished && s.Culprit == "mod07-1.0.0.jar", "test(crashed=false): culprit=mod07-1.0.0.jar");
+					Check(ref failures, DisabledOnDisk(modsDir) == 0, "finish: all mods restored");
+
+					// 放弃分支
+					StartBisect(http, instanceId);
+					s = GiveUpBisect(http, instanceId);
+					Check(ref failures, s.Finished && s.FinishReason == "用户放弃", "giveup: session finished with reason");
+					Check(ref failures, DisabledOnDisk(modsDir) == 0, "giveup: all mods restored");
+
+					// 无会话拦截
+					Check(ref failures, ExpectBadRequest(http, instanceId), "test without session rejected with 400");
+				}
+			}
+			catch (Exception ex)
+			{
+				failures++;
+				Console.WriteLine("[BisectSmoke] exception: " + ex.Message);
+			}
+			finally
+			{
+				try
+				{
+					LocalApiService.Stop();
+				}
+				catch
+				{
+				}
+
+				try
+				{
+					if (!hadFlag && File.Exists(flagPath))
+					{
+						File.Delete(flagPath);
+					}
+					if (!hadData && Directory.Exists(dataDir))
+					{
+						Directory.Delete(dataDir, recursive: true);
+					}
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine("[BisectSmoke] cleanup warning: " + ex.Message);
+				}
+			}
+
+			Console.WriteLine(failures == 0 ? "[BisectSmoke] PASS" : "[BisectSmoke] FAIL (" + failures + " checks failed)");
+			return failures == 0 ? 0 : 1;
+		}
+
+
+		private static void Check(ref int failures, bool ok, string label)
+		{
+			Console.WriteLine(ok ? "  [PASS] " + label : "  [FAIL] " + label);
+			if (!ok)
+			{
+				failures++;
+			}
+		}
+
+		private static void WaitHealthy(HttpClient http)
+		{
+			for (int i = 0; i < 50; i++)
+			{
+				try
+				{
+					using HttpResponseMessage res = http.GetAsync("api/health").GetAwaiter().GetResult();
+					if (res.IsSuccessStatusCode)
+					{
+						return;
+					}
+				}
+				catch
+				{
+				}
+				Thread.Sleep(100);
+			}
+			throw new InvalidOperationException("API health check timed out");
+		}
+
+		private static string CreateInstance(HttpClient http)
+		{
+			using JsonDocument doc = PostJson(http, "api/instances", "{\"name\":\"Bisect Smoke\",\"version\":\"1.21.1\"}");
+			JsonElement root = doc.RootElement;
+			if (!root.TryGetProperty("ok", out JsonElement ok) || ok.ValueKind != JsonValueKind.True)
+			{
+				throw new InvalidOperationException("create instance failed: " + root.GetRawText());
+			}
+			return root.GetProperty("instance").GetProperty("id").GetString() ?? string.Empty;
+		}
+
+		private static string GetInstanceGameDirectory(HttpClient http, string instanceId)
+		{
+			using JsonDocument doc = GetJson(http, "api/instances/" + instanceId);
+			return doc.RootElement.GetProperty("instance").GetProperty("gameDirectory").GetString() ?? string.Empty;
+		}
+
+		private static Session StartBisect(HttpClient http, string instanceId)
+		{
+			using JsonDocument doc = PostJson(http, "api/instances/" + instanceId + "/bisect/start", "{}");
+			return ParseSession(doc.RootElement);
+		}
+
+		private static Session TestBisect(HttpClient http, string instanceId, bool crashed)
+		{
+			string body = crashed ? "{\"crashed\":true}" : "{\"crashed\":false}";
+			using JsonDocument doc = PostJson(http, "api/instances/" + instanceId + "/bisect/test", body);
+			return ParseSession(doc.RootElement);
+		}
+
+		private static Session GiveUpBisect(HttpClient http, string instanceId)
+		{
+			using JsonDocument doc = PostJson(http, "api/instances/" + instanceId + "/bisect/giveup", "{}");
+			return ParseSession(doc.RootElement);
+		}
+
+		private static bool ExpectBadRequest(HttpClient http, string instanceId)
+		{
+			try
+			{
+				HttpResponseMessage res = http.PostAsync("api/instances/" + instanceId + "/bisect/test", new StringContent("{\"crashed\":false}", System.Text.Encoding.UTF8, "application/json")).GetAwaiter().GetResult();
+				using (res)
+				{
+					return (int)res.StatusCode == 400;
+				}
+			}
+			catch
+			{
+				return false;
+			}
+		}
+
+		private static Session ParseSession(JsonElement root)
+		{
+			Session s = new Session();
+			if (root.TryGetProperty("candidates", out JsonElement candidates) && candidates.ValueKind == JsonValueKind.Array)
+			{
+				foreach (JsonElement item in candidates.EnumerateArray())
+				{
+					s.Candidates.Add(item.GetString() ?? string.Empty);
+				}
+			}
+			if (root.TryGetProperty("disabledHalf", out JsonElement half) && half.ValueKind == JsonValueKind.Array)
+			{
+				foreach (JsonElement item in half.EnumerateArray())
+				{
+					s.DisabledHalf.Add(item.GetString() ?? string.Empty);
+				}
+			}
+			if (root.TryGetProperty("step", out JsonElement step))
+			{
+				s.Step = step.GetInt32();
+			}
+			if (root.TryGetProperty("waitingForReport", out JsonElement waiting))
+			{
+				s.WaitingForReport = waiting.ValueKind == JsonValueKind.True;
+			}
+			if (root.TryGetProperty("finished", out JsonElement finished))
+			{
+				s.Finished = finished.ValueKind == JsonValueKind.True;
+			}
+			if (root.TryGetProperty("culprit", out JsonElement culprit) && culprit.ValueKind == JsonValueKind.String)
+			{
+				s.Culprit = culprit.GetString() ?? string.Empty;
+			}
+			if (root.TryGetProperty("finishReason", out JsonElement reason) && reason.ValueKind == JsonValueKind.String)
+			{
+				s.FinishReason = reason.GetString() ?? string.Empty;
+			}
+			return s;
+		}
+
+		private static JsonDocument GetJson(HttpClient http, string uri)
+		{
+			HttpResponseMessage res = http.GetAsync(uri).GetAwaiter().GetResult();
+			using (res)
+			{
+				res.EnsureSuccessStatusCode();
+				string json = res.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+				return JsonDocument.Parse(json);
+			}
+		}
+
+		private static JsonDocument PostJson(HttpClient http, string uri, string body)
+		{
+			HttpResponseMessage res = http.PostAsync(uri, new StringContent(body, System.Text.Encoding.UTF8, "application/json")).GetAwaiter().GetResult();
+			using (res)
+			{
+				res.EnsureSuccessStatusCode();
+				string json = res.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+				return JsonDocument.Parse(json);
+			}
+		}
+
+		private static int DisabledOnDisk(string modsDir)
+		{
+			return Directory.GetFiles(modsDir, "*.jar.disabled").Length;
+		}
+	}
+}

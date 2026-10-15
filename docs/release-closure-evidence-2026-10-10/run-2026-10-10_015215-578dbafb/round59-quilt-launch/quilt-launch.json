@@ -1,0 +1,11 @@
+﻿{
+    "launchOk":  true,
+    "marker":  "Sound engine started",
+    "loader":  "Quilt",
+    "reachedTitle":  true,
+    "mc":  "quilt-loader-0.30.1-1.21.11",
+    "exe":  "141942AA5D1DCB1618936D676188FF3A5586C2EA5146A35D11C9CABEDC235369",
+    "prelaunchOk":  true,
+    "instance":  "d7-quilt 导入",
+    "probe":  "quilt-launch"
+}

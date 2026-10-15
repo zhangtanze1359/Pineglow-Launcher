@@ -1,0 +1,31 @@
+{
+  "label": "04-node",
+  "command": [
+    "node",
+    "--test",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\\ui\\tests\\a11y-keyboard.test.cjs",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\\ui\\tests\\a13-doubles-and-taborder.test.cjs",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\\ui\\tests\\a6-bisect-safety-guidance.test.cjs",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\\ui\\tests\\ai-diagnose.test.cjs",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\\ui\\tests\\api-contract.test.cjs",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\\ui\\tests\\bisect-recovery.test.cjs",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\\ui\\tests\\content-icon.test.cjs",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\\ui\\tests\\diagnostic-history.test.cjs",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\\ui\\tests\\file-recovery.test.cjs",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\\ui\\tests\\import-cancel.test.cjs",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\\ui\\tests\\instance-removal.test.cjs",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\\ui\\tests\\launcher-behavior.test.cjs",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\\ui\\tests\\launcher-content.test.cjs",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\\ui\\tests\\launcher-v3.test.cjs",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\\ui\\tests\\launcher-v4.test.cjs",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\\ui\\tests\\launcher-v5.test.cjs",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\\ui\\tests\\news-behavior.test.cjs",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\\ui\\tests\\news-link.test.cjs",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\\ui\\tests\\skin3d-core.test.cjs",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\\ui\\tests\\update-recovery.test.cjs"
+  ],
+  "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d",
+  "startUTC": "2026-10-03T06:58:06.940933+00:00",
+  "endUTC": "2026-10-03T06:58:10.121499+00:00",
+  "exitCode": 0
+}

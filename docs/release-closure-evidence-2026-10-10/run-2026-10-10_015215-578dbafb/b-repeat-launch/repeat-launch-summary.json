@@ -1,0 +1,18 @@
+﻿[
+    {
+        "launch":  1,
+        "exitCode":  0,
+        "healthReady":  true,
+        "servedSha256":  "39933134AD98FAFD51B2D22106B5E692371106610BEB62302A68B6938C72D02F",
+        "matchesSource":  true,
+        "stopped":  true
+    },
+    {
+        "launch":  2,
+        "exitCode":  0,
+        "healthReady":  true,
+        "servedSha256":  "39933134AD98FAFD51B2D22106B5E692371106610BEB62302A68B6938C72D02F",
+        "matchesSource":  true,
+        "stopped":  true
+    }
+]

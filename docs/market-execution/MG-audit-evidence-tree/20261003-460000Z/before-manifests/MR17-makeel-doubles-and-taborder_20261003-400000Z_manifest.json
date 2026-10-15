@@ -1,0 +1,136 @@
+﻿{
+    "runId":  "20261003-400000Z",
+    "task":  "MR17 补测：makeEl 替身补齐与 Tab 顺序静态清单（A13）",
+    "generatedUtc":  "2026-10-03T02:56:58Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "gap-register A13 (other makeEl doubles not filled in; tab order not recorded screen by screen)",
+    "finding":  "Turning the criterion into a machine-checked guard immediately exposed TWO files MR17 had not recorded: launcher-behavior.test.cjs (missing focus, removeAttribute) and news-behavior.test.cjs (also missing closest). The gap was wider than the register said. Five doubles were completed in total.",
+    "evidenceForRequirement":  "The guard includes a reverse check that the product code really calls these members: focus at launcher.js:817/818/834/884 and removeAttribute at launcher.js:877/878/879.",
+    "tabOrderInventory":  {
+                              "navOrder":  "home -\u003e installations -\u003e worlds -\u003e servers -\u003e content -\u003e skins -\u003e downloads -\u003e news -\u003e settings (pinned)",
+                              "staticChrome":  "skip-link -\u003e btnMinimize -\u003e btnMaximize -\u003e btnClose ... btnLangToggle after the sidebar",
+                              "staticFocusableCount":  15,
+                              "nature":  "STATIC inventory pinned by a test; the Node environment has a minimal fake DOM with no layout or focus engine, so a real per-screen tab traversal would need a browser."
+                          },
+    "redBaselines":  {
+                         "red1":  "delete focus() from the launcher-v3 double -\u003e A13-1 fails with \"缺少 focus\"",
+                         "red2":  "swap worlds and servers in index.html -\u003e A13-2 fails with \"侧栏导航的 Tab 顺序变了\"",
+                         "restore":  "index.html and launcher-v3 restored byte-identically and re-verified 4/4"
+                     },
+    "verification":  {
+                         "a13Guard":  "4 passed / 0 failed",
+                         "nodeFull":  "234 passed / 0 failed (19 files, was 18)",
+                         "csharpFull":  "817 passed / 0 failed / 0 skipped",
+                         "productionCodeChanged":  false
+                     },
+    "selfFoundIssue":  "I forgot to write changed-files.sha256.txt for this package, so the five edited doubles were not attributable to a later package and the MG0 drift count jumped from 1 to 5 (and MG3 from 0 to 1). Added it with workspace-relative paths and the drift returned to 1/0.",
+    "stillNotCovered":  [
+                            "a real browser per-screen tab traversal",
+                            "the tab order of dynamically rendered per-screen content (only the sidebar and static chrome are pinned)",
+                            "behavioural equivalence of the doubles (this round only guarantees the members EXIST)"
+                        ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "81339D1F612EDE31AFEF90B611836AD358A162F4B41469393519681F69A34FFF",
+                      "sizeBytes":  5190
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "A129D51BEB86DB039A922694621D344D9FDFB149E73D81EF67058E3930F00666",
+                      "sizeBytes":  17836
+                  },
+                  {
+                      "path":  "green/01-a13.log",
+                      "sha256":  "6D964F80DD04AA0852EDCBC59357DDB0F21DC3F44ADE6359BC79492C40643F2C",
+                      "sizeBytes":  5646
+                  },
+                  {
+                      "path":  "green/02-node-full.log",
+                      "sha256":  "07CD37657FDA14E250F345AE00B0B627DF8BB542D559FC56311AC7FE3B65450A",
+                      "sizeBytes":  42310
+                  },
+                  {
+                      "path":  "green/03-a13-fixed.log",
+                      "sha256":  "C269EE882A08489F1FEDD5C603885EBD5B73E32BEE2AFF9119A35C644F8B259C",
+                      "sizeBytes":  3562
+                  },
+                  {
+                      "path":  "green/04-node-full.log",
+                      "sha256":  "1DE51B0277396DAB89C20EFEF0E2BCAE89620761D768C155961F3559C36E7BE4",
+                      "sizeBytes":  40222
+                  },
+                  {
+                      "path":  "green/05-csharp-full.log",
+                      "sha256":  "BEC0327C885CA487F923E2C1626642C1CEFA43F8243792522BC6736236943F4E",
+                      "sizeBytes":  978
+                  },
+                  {
+                      "path":  "green/06-a13-after-more-fixes.log",
+                      "sha256":  "10B74A8C8A65FD049E2E5FB32725D4E578E6DDEA53F07C00AD78BCBA4CF23EA3",
+                      "sizeBytes":  664
+                  },
+                  {
+                      "path":  "green/07-node-full.log",
+                      "sha256":  "8AD4039B4F4FDC5DA99416658CC64CFEA934A021989DF8DBB95D012DFBCCA1B4",
+                      "sizeBytes":  37338
+                  },
+                  {
+                      "path":  "green/a13-doubles-and-taborder.test.cjs.fixed",
+                      "sha256":  "A44B9C1A30537453B6133A5CE1D7F386B7E6BE1B6CCE76DFF5C5F0110D807691",
+                      "sizeBytes":  5230
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "150D08F299FB0331DDF6D2D31F2215B6F636510CC501DEF369CACC75BDA03A20",
+                      "sizeBytes":  708
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "323CE370F05EA76DEA7BB9E2E23F48BE1E08B390A9094B74FAC56BD6519007B4",
+                      "sizeBytes":  116172
+                  },
+                  {
+                      "path":  "green/index.html.fixed",
+                      "sha256":  "BBC0A6196EAC6919C3364BBA3D721193ADA30C9420C4C8AE280DBA63FE07B22C",
+                      "sizeBytes":  7136
+                  },
+                  {
+                      "path":  "green/launcher-behavior.test.cjs.fixed",
+                      "sha256":  "A61FE77CDED38A94F2B987DF0334F3C08DBFFF9D398CBD9598680662271849AF",
+                      "sizeBytes":  36926
+                  },
+                  {
+                      "path":  "green/launcher-v3.test.cjs.fixed",
+                      "sha256":  "38976F23D0CC47A8BFF159B22A3BE9FDA5E7F84ED0D75103948CBCD5B7FF75AE",
+                      "sizeBytes":  22566
+                  },
+                  {
+                      "path":  "green/launcher-v4.test.cjs.fixed",
+                      "sha256":  "CE235CD6EA898F65119391FF4F3015165FBA6922BDEC62E139EDF53088331B28",
+                      "sizeBytes":  42133
+                  },
+                  {
+                      "path":  "green/launcher-v5.test.cjs.fixed",
+                      "sha256":  "AD7E4BBF5AAA39F9CD729D03370D7632E48EC51162FA7249E989B86EFE421A6F",
+                      "sizeBytes":  35758
+                  },
+                  {
+                      "path":  "green/news-behavior.test.cjs.fixed",
+                      "sha256":  "4F34678CAD271AA781346A32A76D47A0A4A6BA6E44C5580C62B35480EDD0751C",
+                      "sizeBytes":  32657
+                  },
+                  {
+                      "path":  "red/01-red-missing-focus.log",
+                      "sha256":  "A2DCCBD21966D7B43B620C5FA1D4CAC868881595C2298906FEABBFEFCA40C2EC",
+                      "sizeBytes":  3502
+                  },
+                  {
+                      "path":  "red/02-red-taborder-swapped.log",
+                      "sha256":  "C96DEB152A8DC1CBD46A9F78F3D51905A6A16AB05D153E9EB2B2389172AC37E3",
+                      "sizeBytes":  1973
+                  }
+              ],
+    "currentDriftNumbers":  "mg0: 268/1/122/0 ; mg1: 85/0/92/0 ; mg2: 268/1/121/0 ; mg3: 85/0/92/0 ; all exit 0 ; ledger audit exit 0"
+}

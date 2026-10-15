@@ -1,0 +1,5 @@
+{
+  "reason": "Bounded full regression exceeded 10 minutes without completing; preserve evidence, do not claim pass",
+  "time": "2026-10-15T16:37:37.4614825+08:00",
+  "pid": 31956
+}

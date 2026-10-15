@@ -1,0 +1,19 @@
+{
+  "label": "03-full-csharp",
+  "command": [
+    "dotnet",
+    "test",
+    "dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj",
+    "-c",
+    "Release",
+    "--results-directory",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\0f45\\松光启动器\\docs\\market-acceptance\\20261003-remediation-recheck\\test-results",
+    "--no-restore",
+    "--logger",
+    "trx;LogFileName=full.trx"
+  ],
+  "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d",
+  "startUTC": "2026-10-03T06:56:56.636812+00:00",
+  "endUTC": "2026-10-03T06:58:06.939933+00:00",
+  "exitCode": 0
+}

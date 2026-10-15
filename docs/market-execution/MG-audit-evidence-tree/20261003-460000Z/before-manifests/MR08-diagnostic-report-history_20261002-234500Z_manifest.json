@@ -1,0 +1,114 @@
+﻿{
+    "runId":  "20261002-234500Z",
+    "task":  "MR08 诊断历史、脱敏与报告导出（含第 7 轮收尾：UI + Node + 分支覆盖）",
+    "generatedUtc":  "2026-10-02T20:56:30Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "result":  {
+                   "csharp":  "9 passed / 0 failed (before implementation: 6 failed / 1 passed)",
+                   "node":  "diagnostic-history.test.cjs 5 passed / 0 failed",
+                   "csharpFull":  "681 passed / 0 failed",
+                   "nodeFull":  "211 passed / 0 failed (15 files)",
+                   "gitStatus":  "1305 -\u003e 1309 (+4 new files)",
+                   "completion":  "COMPLETE (service + API + UI + tests); real WebView2 still unverified"
+               },
+    "contract":  {
+                     "frozenReportStructure":  true,
+                     "historyDefault":  "sanitized summary only; raw log not stored by default",
+                     "redaction":  "api_key/token/session/provider_url/url_credential/url_secret/address/path with per-category counts; class names and mod names preserved",
+                     "retention":  "50 entries / 30 days advisory only - nothing auto-deleted",
+                     "export":  "markdown + json; evidence excerpt requires includeEvidence=1 and DiagnosticKeepEvidence",
+                     "oncePerOperation":  "ReportId = operationId",
+                     "localMode":  "zero external requests (fake sender call count asserted 0)",
+                     "statusMapping":  "cancelled \u003e failed(aiResult not ok or no result) \u003e rule_only \u003e completed",
+                     "safeActions":  "only registered action types are marked Safe"
+                 },
+    "knownGaps":  [
+                      "真实 WebView2 的历史面板渲染、按钮点击与文件落盘未验证",
+                      "导出物内容正确性由 C# 侧断言；界面只负责搬运文本",
+                      "超期自动清理未实现（按计划只做提示）"
+                  ],
+    "selfFoundIssues":  [
+                            "状态映射缺陷 1：AI 返回 Ok=false 时被错记成 completed -\u003e 已改为计入 failed",
+                            "状态映射缺陷 2：取消时只留失败消息，被错记成 failed -\u003e 已用 operationCts.IsCancellationRequested 判定 cancelled 且取消优先",
+                            "自写 path 脱敏正则过度吞噬，会连类名与 Mod 名一起删掉 -\u003e 已改为以空白为界并由测试锁定",
+                            "测试夹具把敏感串放在 INFO 行而证据只挑 ERROR 行，脱敏断言空转 -\u003e 已修正"
+                        ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "CF993B25C021C458C0A3282192F3C64BD83BAFEC275F8530BB385A45359383B1",
+                      "sizeBytes":  12116
+                  },
+                  {
+                      "path":  "green/01-diag-report-first.log",
+                      "sha256":  "555C95A3604574AC347E5479DDCBF942008CF512B41ECACB37DC40EAB1921077",
+                      "sizeBytes":  23204
+                  },
+                  {
+                      "path":  "green/02-diag-report-after.log",
+                      "sha256":  "A8075A82F5B091C6E0301B9F865D189C4749E6200E82BE47E81EDDE67E5ED329",
+                      "sizeBytes":  13276
+                  },
+                  {
+                      "path":  "green/03-csharp-full.log",
+                      "sha256":  "13330E3489E784C5AFA4E76EE8BEBFE9F09AEE5076068314F8806D1E749F2CD5",
+                      "sizeBytes":  652
+                  },
+                  {
+                      "path":  "green/04-node-full.log",
+                      "sha256":  "E3FA3BBAC1F32F576EBA963CE4351E5FD3B4C4635C00778C518DE6C1D6BDA7C9",
+                      "sizeBytes":  21623
+                  },
+                  {
+                      "path":  "green/05-diag-branches.log",
+                      "sha256":  "C18FFC14D669F5FDDAA9F1C0CD0F02538167CA21F69DD0D13DC87A2133F597D6",
+                      "sizeBytes":  13844
+                  },
+                  {
+                      "path":  "green/06-node-diagnostic-history.log",
+                      "sha256":  "D99080A111E97087CD9B5A2484A5EB2D6B01C203804AB151B4876A33250E83BE",
+                      "sizeBytes":  814
+                  },
+                  {
+                      "path":  "green/07-csharp-full.log",
+                      "sha256":  "D7D9AFE53278C37E4C0B5BEBBD06CBC9787105EF684A3836DC5DB249EDFCE405",
+                      "sizeBytes":  4457
+                  },
+                  {
+                      "path":  "green/08-node-full.log",
+                      "sha256":  "681DAABD2446C709C476D24A9292676B8E24D0631B3E3B826B01FF5DCBCFEFB5",
+                      "sizeBytes":  22084
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "AA92B9FDD0CC4917AB25BF123175BB68645D3EBF5B89FE8CA3E32954F97B4E3E",
+                      "sizeBytes":  1315
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "3001420F01192A06AED1286D693FEF78E2976A2853FCA456B649F37290858CE5",
+                      "sizeBytes":  113921
+                  },
+                  {
+                      "path":  "green/LocalApiService.cs.mr08",
+                      "sha256":  "A05D05FFC2134998C5FA4D9CCD9EE88F18C7409E2CB37783F39AB808D7C95AAD",
+                      "sizeBytes":  184179
+                  },
+                  {
+                      "path":  "green/LocalApiService.cs.mr08.sha256.txt",
+                      "sha256":  "02A757CB96AE08427FFD5D8D0C620A2387226C519A9F5EA8622D3245CE301CA8",
+                      "sizeBytes":  69
+                  },
+                  {
+                      "path":  "manifest.json",
+                      "sha256":  "B0A8D5DB593A6B1366DB3132F6FCA521F166821F6A14E636B13E73584E2F504A",
+                      "sizeBytes":  5064
+                  },
+                  {
+                      "path":  "red/01-diag-report-before.log",
+                      "sha256":  "F4CAD7B4DB81F8DC1F2DCC0CDB4AF10AD2597604F1867553843510C7E7A75F31",
+                      "sizeBytes":  30344
+                  }
+              ]
+}

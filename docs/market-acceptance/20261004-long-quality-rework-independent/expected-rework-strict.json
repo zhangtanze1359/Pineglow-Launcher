@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "roots": [
+    {
+      "id": "rework-final",
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r4\\FINAL-LOCAL-QUALITY",
+      "required": true,
+      "schemaPolicy": "strict-new",
+      "packageCount": 1,
+      "packages": [
+        {
+          "relativePath": "20261004-092504Z-dab448e2-rework",
+          "runId": "20261004-092504Z-dab448e2-rework",
+          "required": true,
+          "schemaPolicy": "strict-new",
+          "manifestSha256": "7996AE0CBF6B78F5E523834DC0E7CCC5A7AF55C13357EB5D1653CDF69CDC3DAE"
+        }
+      ]
+    }
+  ],
+  "exceptions": []
+}

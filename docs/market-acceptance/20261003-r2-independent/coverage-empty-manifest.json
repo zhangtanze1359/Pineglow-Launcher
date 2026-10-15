@@ -1,0 +1,23 @@
+{
+  "roots": [
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-audit-coverage-rm8phxwi\\empty-manifest"
+  ],
+  "manifestCount": 1,
+  "fileEntries": 0,
+  "selfEntries": [],
+  "duplicateEntries": [],
+  "historicalExceptionsRetained": true,
+  "historicalExceptionCount": 0,
+  "knownMismatches": [],
+  "missingDetached": [],
+  "failures": [],
+  "runs": [
+    {
+      "manifest": "RUN-OK/manifest.json",
+      "root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-audit-coverage-rm8phxwi\\empty-manifest",
+      "package": "RUN-OK",
+      "filesChecked": 0,
+      "declaredRunId": "RUN-OK"
+    }
+  ]
+}

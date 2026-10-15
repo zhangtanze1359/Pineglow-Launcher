@@ -1,0 +1,32 @@
+﻿{
+    "probe":  "loader-matrix-via-modpack-import",
+    "fixture":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\install",
+    "proxyKnob":  "",
+    "javaToolOptionsKnob":  "",
+    "apiPort":  51670,
+    "healthReady":  true,
+    "rows":  [
+                 {
+                     "loader":  null,
+                     "mc":  null,
+                     "dep":  null,
+                     "depVersion":  null,
+                     "importOk":  false,
+                     "instanceId":  "",
+                     "importSeconds":  0,
+                     "importResponse":  "{\"error\":\"\\u6574\\u5408\\u5305 dependencies \\u7F3A\\u5C11 minecraft \\u7248\\u672C\\u3002\"}",
+                     "instanceLoader":  "",
+                     "instanceVersion":  "",
+                     "loaderProfileOnDisk":  false,
+                     "prelaunchOk":  false,
+                     "prelaunchVerdict":  "",
+                     "launchResponse":  "",
+                     "javaStarted":  false,
+                     "reachedTitle":  false,
+                     "gameLogMarker":  "",
+                     "gameLogPath":  "",
+                     "error":  ""
+                 }
+             ],
+    "timeHK":  "2026-10-11T14:15:00.8963076"
+}

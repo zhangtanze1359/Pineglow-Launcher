@@ -1,0 +1,89 @@
+﻿{
+    "runId":  "20261003-230000Z",
+    "task":  "MR04 修复：A16 加锁文件在哈希阶段抛出",
+    "generatedUtc":  "2026-10-03T00:21:31Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "gap-register A16 (found by this session in round 33)",
+    "result":  {
+                   "productionCodeChanged":  true,
+                   "change":  "wrapped the hashing step in FileRecoveryService.QuarantineOne in the SAME try/catch (IOException | UnauthorizedAccessException) as the adjacent move stage; on failure it records State=failed + a readable Error instead of letting the exception escape QuarantineAsync",
+                   "lines":  "488 -\u003e 501 (+13, single hunk)",
+                   "shaBefore":  "6926200706E0CD97DDCFC2CC7C577310B82E66309E65547F159E987FEA3ACDD3",
+                   "shaAfter":  "3ADB6CA4F96F37FDD477EA62382D6726641E66A4A1E25902F27ABC9543FD3796",
+                   "red":  "revert the fix -\u003e the target test fails with System.IO.IOException",
+                   "green":  "4 passed / 0 failed / 0 skipped",
+                   "csharpFull":  "769 passed / 0 failed / 0 skipped (skip count went from 1 to 0)",
+                   "nodeFull":  "230 passed / 0 failed (18 files)",
+                   "revert":  "copy red/FileRecoveryService.cs.before back (one line); then restore the skipped test on the test side",
+                   "currentDriftNumbers":  "mg0: 258/1/88/0 ; mg1: 65/0/68/0 ; mg2: 258/1/87/0 ; mg3: 65/0/68/0 ; ledger audit exit 0"
+               },
+    "justification":  "This restores behaviour MR04 ALREADY documented (per-item errors on a locked file), does not add new behaviour, catches exactly the same exception types as the adjacent stage, and moves no files. Verified, not assumed: the caller at LocalApiService.cs:2501 judges by per-item State and builds its message from x.Error - so before the fix that carefully written per-item error path was unreachable.",
+    "stillNotCovered":  [
+                            "read-only files: the same branch now yields a readable reason but has no dedicated test",
+                            "disk-full: still no real case",
+                            "the real GUI delete/restore panel"
+                        ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "AFB0018257729E14284C5037D588178B0478F2AA610A5546F3AE3B6B0E15FC81",
+                      "sizeBytes":  8112
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "0F12186750511F1B568580D1AD221E20E0C5A8F1BE95C9FF407FEEDC56B54ADC",
+                      "sizeBytes":  10266
+                  },
+                  {
+                      "path":  "green/01-edge-after-fix.log",
+                      "sha256":  "27170A2BA4FB4E4153647A94158592264D6CCCFEE975C432118C595123A8197D",
+                      "sizeBytes":  11244
+                  },
+                  {
+                      "path":  "green/02-edge-final.log",
+                      "sha256":  "274DD9E70E4EC73DF36A5E2E264FCB9164E951419A41CB882F93DE8A9844E3A1",
+                      "sizeBytes":  11244
+                  },
+                  {
+                      "path":  "green/03-csharp-full.log",
+                      "sha256":  "55DEF7B257C0C1705116035A72468386E89D1B50E2B06F01A3FC7D2370C5041A",
+                      "sizeBytes":  655
+                  },
+                  {
+                      "path":  "green/04-node-full.log",
+                      "sha256":  "1426F799BBAB30FDC974E02EA4F15F55846FE7E84AE655631CB17B7CC0ABF4A0",
+                      "sizeBytes":  23811
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "CB06B64149DD441BA00FA6D7F49AC620F6CC6165A8F2FEF1B8EA601C1BD7FAF9",
+                      "sizeBytes":  264
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "48AF415ED57FE99CE0E57A1EEED05E4A2E434C1666336ED425CEDF9F70AACE5E",
+                      "sizeBytes":  115498
+                  },
+                  {
+                      "path":  "green/production-diff.txt",
+                      "sha256":  "774DE9A35FA948F2F2CDC379F7AC961C6F286F71134E0600C82884FE2CCD7912",
+                      "sizeBytes":  32566
+                  },
+                  {
+                      "path":  "red/01-after-fix-before-test-update.log",
+                      "sha256":  "DB6AD9E8485C61CC61C1559804EBFD348F25F212EBA5446C408A59B14F64684E",
+                      "sizeBytes":  6632
+                  },
+                  {
+                      "path":  "red/02-a16-red.log",
+                      "sha256":  "B706DBDCA6AD834A5A5B4DDDA1A04928ED2CB57C360F88E51DF64DA4FD66439E",
+                      "sizeBytes":  12338
+                  },
+                  {
+                      "path":  "red/FileRecoveryService.cs.before",
+                      "sha256":  "6926200706E0CD97DDCFC2CC7C577310B82E66309E65547F159E987FEA3ACDD3",
+                      "sizeBytes":  13956
+                  }
+              ]
+}

@@ -1,0 +1,30 @@
+﻿# P-PROXYJVM A/B: what the loader installer child process actually receives
+# Method: reflect into the built Launcher assembly, construct LoaderInstallHelper, call
+# RunInstallerAsync() with javaPath pointed at a fake java.exe that echoes its argv.
+# No network, no installer download - this isolates the command-line construction.
+
+===== PATCHED build (P-PROXYJVM applied) =====
+=== BuildLoaderInstallerJvmArgs(config) ===
+proxyEnabled=true  -> -Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=7897 -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=7897
+proxyEnabled=false -> (empty)
+
+=== child command line WITH the args BuildLoaderInstallerJvmArgs produced ===
+  ARG|-Dhttp.proxyHost=127.0.0.1
+  ARG|-Dhttp.proxyPort=7897
+  ARG|-Dhttps.proxyHost=127.0.0.1
+  ARG|-Dhttps.proxyPort=7897
+  ARG|-jar
+  ARG|dummy-installer.jar
+  ARG|--installClient
+  ARG|C:\Users\Administrator\AppData\Local\Temp\pineglow-proxyjvm-948041fa3b69465b8b82adcb1cba6fed
+
+=== child command line with NO extra args (pre-fix behaviour) ===
+  ARG|-jar
+  ARG|dummy-installer.jar
+  ARG|--installClient
+  ARG|C:\Users\Administrator\AppData\Local\Temp\pineglow-proxyjvm-bfecf318bc9041bfb254dcf53f14c37c
+
+
+===== UNPATCHED build (baseline) =====
+BuildLoaderInstallerJvmArgs: ABSENT (pre-fix build)
+

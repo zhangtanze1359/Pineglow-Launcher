@@ -1,0 +1,679 @@
+'use strict';
+/*
+ * Phase 3A 新闻前端行为测试（先红后绿）
+ * --------------------------------------------------------------------------
+ * 覆盖：
+ *   1. 上游失败/空数据时不显示静态假新闻（生产 fallback 已删除）
+ *   2. renderHome 不等待新闻请求（骨架先行）
+ *   3. cached 状态显示离线缓存横幅与最后验证时间
+ *   4. error 状态显示分类错误文案与重试入口
+ *   5. 手动刷新防连点
+ *   6. 请求代际：迟到的旧响应不得覆盖新响应
+ *   7. 未通过后端校验的外链不可点击（linkOk=false）
+ *   8. 图片走服务端 ID（/api/news-image?id=），不再传任意 url
+ *   9. i18n 中英文关键文案齐全（真实词典，无 raw key）
+ *
+ * harness 与 launcher-behavior.test.cjs 同源（vm + 受控 DOM 桩）。
+ */
+
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const vm = require('node:vm');
+
+const ROOT = path.resolve(__dirname, '..', '..');
+const LAUNCHER_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'launcher.js'), 'utf8');
+const I18N_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'i18n.js'), 'utf8');
+
+/* ============== 受控 DOM 桩（与 launcher-behavior 同源，精简自用） ============== */
+function makeDomStub() {
+	const kebabAttr = k => String(k).replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+	const elementsById = new Map();
+
+	function makeEl(tag) {
+		const listeners = {};
+		const el = {
+			ownerDocument: null,
+			tagName: (tag || 'div').toUpperCase(),
+			id: '',
+			className: '',
+			_connected: false,
+			classList: {
+				_add: new Set(), _remove: new Set(),
+				add(...c) { c.forEach(x => { this._add.add(x); this._remove.delete(x); if (x && !el.className.split(/\s+/).includes(x)) el.className = (el.className + ' ' + x).trim(); }); },
+				remove(...c) { c.forEach(x => { this._remove.add(x); this._add.delete(x); el.className = el.className.split(/\s+/).filter(n => n && n !== x).join(' '); }); },
+				contains(c) { return el.className.split(/\s+/).includes(c); },
+				toggle(c, force) { if (force === undefined) { this.contains(c) ? this.remove(c) : this.add(c); } else if (force) { this.add(c); } else { this.remove(c); } },
+			},
+			attributes: {},
+			dataset: {},
+			style: {},
+			children: [],
+			parent: null,
+			hidden: false,
+			disabled: false,
+			textContent: '',
+			value: '',
+			_listeners: listeners,
+			setAttribute(k, v) { this.attributes[k] = v; if (k === 'id') this.id = v; if (k === 'class') this.className = v; if (k.startsWith('data-')) this.dataset[k.slice(5)] = v; },
+			getAttribute(k) { return this.attributes[k]; },
+			addEventListener(type, fn, capture) { (listeners[type] = listeners[type] || []).push({ fn, capture: !!capture }); },
+			removeEventListener(type, fn) { const arr = listeners[type] || []; const i = arr.findIndex(e => e.fn === fn); if (i >= 0) arr.splice(i, 1); },
+			dispatchEvent(type, eventObj) {
+				eventObj = eventObj || { type, target: this, preventDefault() {}, stopPropagation() {} };
+				eventObj.target = this; eventObj.currentTarget = this;
+				for (const { fn } of (listeners[type] || [])) { if (eventObj._stopped) break; fn.call(this, eventObj); }
+			},
+			appendChild(child) { child.parent = this; this.children.push(child); if (child.id) elementsById.set(child.id, child); child._connected = true; return child; },
+			remove() { if (this.parent) { const i = this.parent.children.indexOf(this); if (i >= 0) this.parent.children.splice(i, 1); } if (this.id) elementsById.delete(this.id); this._connected = false; },
+			querySelector(sel) { return querySelectorIn(this, sel); },
+			querySelectorAll(sel) { return querySelectorAllIn(this, sel); },
+			getBoundingClientRect() { return { top: 0, left: 0, width: 100, height: 30 }; },
+			cloneNode() { return makeEl(tag); },
+		};
+		el.dataset = new Proxy({}, {
+			set(t, k, v) { t[k] = v; el.attributes['data-' + kebabAttr(k)] = v; return true; },
+			get(t, k) { if (k in t) return t[k]; return el.attributes['data-' + kebabAttr(k)]; },
+			has(t, k) { return k in t || ('data-' + kebabAttr(k)) in el.attributes; },
+			deleteProperty(t, k) { delete t[k]; delete el.attributes['data-' + kebabAttr(k)]; return true; },
+		});
+		let _innerHTML = '';
+		Object.defineProperty(el, 'innerHTML', {
+			get() { return _innerHTML; },
+			set(v) {
+				_innerHTML = String(v == null ? '' : v);
+				for (const c of el.children) { c.parent = null; disconnect(c); }
+				el.children = [];
+				if (_innerHTML !== '') parseInto(el, _innerHTML);
+			},
+			configurable: true,
+		});
+		Object.defineProperty(el, 'isConnected', { get() { return el._connected === true; }, configurable: true });
+		allElements.push(el);
+		return el;
+	}
+	const allElements = [];
+
+	function disconnect(node) { node._connected = false; for (const c of (node.children || [])) disconnect(c); }
+
+	function matchOne(el, token) {
+		if (!token) return false;
+		let rest = token;
+		const tagMatch = rest.match(/^([a-zA-Z][a-zA-Z0-9]*)/);
+		if (tagMatch && /^[a-zA-Z]/.test(rest)) {
+			if (!el.tagName || el.tagName.toLowerCase() !== tagMatch[1].toLowerCase()) return false;
+			rest = rest.slice(tagMatch[1].length);
+		}
+		while (rest.length) {
+			if (rest[0] === '.') {
+				const m = rest.match(/^\.([a-zA-Z_][\w-]*)/);
+				if (!m || !el.classList || !el.classList.contains(m[1])) return false;
+				rest = rest.slice(m[0].length);
+			} else if (rest[0] === '#') {
+				const m = rest.match(/^#([a-zA-Z_][\w-]*)/);
+				if (!m || el.id !== m[1]) return false;
+				rest = rest.slice(m[0].length);
+			} else if (rest[0] === '[') {
+				const m = rest.match(/^\[([^=\]]+)(?:=([^\]]+))?\]/);
+				if (!m) return false;
+				const actual = el.attributes[m[1]];
+				if (m[2] == null) { if (actual === undefined) return false; }
+				else if (actual !== m[2].replace(/^['"]|['"]$/g, '')) return false;
+				rest = rest.slice(m[0].length);
+			} else return false;
+		}
+		return true;
+	}
+	function matches(el, sel) {
+		const tokens = sel.trim().split(/\s+/);
+		if (!matchOne(el, tokens[tokens.length - 1])) return false;
+		for (let i = tokens.length - 2; i >= 0; i--) {
+			let p = el.parent, ok = false;
+			while (p) { if (matchOne(p, tokens[i])) { ok = true; break; } p = p.parent; }
+			if (!ok) return false;
+		}
+		return true;
+	}
+	function collectAll(root, out) { for (const c of root.children) { out.push(c); collectAll(c, out); } }
+	function querySelectorIn(root, sel) { const all = []; collectAll(root, all); return all.find(el => matches(el, sel)) || null; }
+	function querySelectorAllIn(root, sel) { const all = []; collectAll(root, all); return all.filter(el => matches(el, sel)); }
+
+	const document = {
+		readyState: 'loading',
+		hidden: false,
+		documentElement: makeEl('html'),
+		head: makeEl('head'),
+		body: makeEl('body'),
+		getElementById(id) { return elementsById.get(id) || null; },
+		getElementsByTagName() { return []; },
+		querySelector(sel) { return querySelectorIn(document.body, sel); },
+		querySelectorAll(sel) { return querySelectorAllIn(document.body, sel); },
+		createElement(tag) { const e = makeEl(tag); e.ownerDocument = document; return e; },
+		createTextNode(text) { const n = makeEl('#text'); n.textContent = String(text == null ? '' : text); n.ownerDocument = document; return n; },
+		createDocumentFragment() { return makeEl('#fragment'); },
+		// MR17：launcher.js 会在模块加载时注册 keydown（role=button 键盘激活）。
+		// 真实 document 的 _listeners 不需要预建，这里补上初始化，否则读 document.body._listeners[type] 会抛错。
+		addEventListener(type, fn, capture) {
+			if (type === 'DOMContentLoaded') return;
+			if (!document.body._listeners) document.body._listeners = {};
+			(document.body._listeners[type] = document.body._listeners[type] || []).push({ fn, capture: !!capture });
+		},
+		removeEventListener(type, fn) {
+			if (!document.body._listeners || !document.body._listeners[type]) return;
+			const arr = document.body._listeners[type];
+			const i = arr.findIndex(e => e.fn === fn);
+			if (i >= 0) arr.splice(i, 1);
+		},
+		dispatchEvent(type, obj) { document.body.dispatchEvent(type, obj); },
+	};
+	return { document, elementsById, makeEl };
+}
+
+/* ============== HTML 解析 ============== */
+const VOID_TAGS = new Set(['br', 'hr', 'img', 'input', 'meta', 'link']);
+function parseInto(targetEl, html) {
+	const doc = targetEl.ownerDocument || { createElement: () => makeEl('div'), createTextNode: t => ({ textContent: t, children: [], appendChild() {} }) };
+	const tokenRe = /<\/?([a-zA-Z][a-zA-Z0-9-]*)\s*([^>]*?)\/?>|([^<]+)|<!--[\s\S]*?-->/g;
+	const attrRe = /([a-zA-Z_:][\w:-]*)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'>]+)))?/g;
+	const stack = [targetEl];
+	html.replace(tokenRe, (match, tagName, attrs, text) => {
+		if (text !== undefined) {
+			const cur = stack[stack.length - 1];
+			const t = doc.createTextNode(text);
+			cur.appendChild(t);
+			return '';
+		}
+		if (match.startsWith('<!--')) return '';
+		const isClose = match.startsWith('</');
+		if (isClose) { if (stack.length > 1) stack.pop(); return ''; }
+		const isSelfClose = match.endsWith('/>') || VOID_TAGS.has(tagName.toLowerCase());
+		const el = doc.createElement(tagName);
+		if (attrs) {
+			let m;
+			attrRe.lastIndex = 0;
+			while ((m = attrRe.exec(attrs)) !== null) {
+				const k = m[1], v = m[2] !== undefined ? m[2] : (m[3] !== undefined ? m[3] : (m[4] !== undefined ? m[4] : ''));
+				el.setAttribute(k, v);
+			}
+		}
+		const cur = stack[stack.length - 1];
+		cur.appendChild(el);
+		if (!isSelfClose) stack.push(el);
+		return '';
+	});
+}
+
+function makeApiStub(newsHandler) {
+	const api = {
+		_newsCalls: [],
+		async getState() { return { config: { selectedInstanceId: '' }, instances: [], accounts: [], java: [] }; },
+		async getAccounts() { return { accounts: [], capes: [] }; },
+		async getStats() { return { totalPlaySeconds: 0, totalPlayCount: 0 }; },
+		async getNews(options) {
+			api._newsCalls.push(options && options.refresh ? 'refresh' : 'auto');
+			if (!newsHandler) return { items: [], meta: { source: 'launchercontent.mojang.com', state: 'empty', validatedAt: null, isStale: true, canRetry: true, errorKind: null, error: null } };
+			return newsHandler(options);
+		},
+		async getNewsImage(id) { (api._imageCalls = api._imageCalls || []).push(id); return 'blob:fake-' + id; },
+	};
+	return api;
+}
+
+function loadLauncher(newsHandler) {
+	const { document, elementsById, makeEl } = makeDomStub();
+	const ctx = {
+		SG: {},
+		location: { protocol: 'http:', hash: '' },
+		history: { replaceState() {}, pushState() {} },
+		navigator: { language: 'zh-CN', userLanguage: 'zh-CN', platform: 'Win32' },
+		localStorage: { getItem() { return null; }, setItem() {}, removeItem() {} },
+		document,
+		setTimeout, clearTimeout, setInterval, clearInterval,
+		Promise, URLSearchParams, console, Date, JSON, Math, Object, Array, String, Number, Boolean, Error, Symbol,
+		Image: function () { return { addEventListener() {}, src: '' }; },
+		Blob: function () {},
+		FileReader: function () { this.readAsDataURL = () => {}; this.onload = null; this.onerror = null; },
+		// 真实 URL 构造器（前端第二层校验需要解析 URL），附加 createObjectURL 桩
+		URL: Object.assign(globalThis.URL, { createObjectURL: () => 'blob:fake', revokeObjectURL() {} }),
+		window: null,
+		open: (url) => { ctx.openCalls.push(String(url)); return {}; },
+		fetch: () => Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve({ results: [] }) }),
+	};
+	ctx.openCalls = [];
+	ctx.window = ctx;
+	const apiStub = makeApiStub(newsHandler);
+	ctx.SG.api = apiStub;
+	vm.createContext(ctx);
+	vm.runInContext(I18N_JS, ctx);   // 真实 i18n（SG.t / SG.setLocale）
+	vm.runInContext('SG.apiMode = "live"; SG.apiToken = "test-token";', ctx);
+	vm.runInContext(LAUNCHER_JS, ctx);
+	const T = ctx.SG.__test__;
+	if (!T) throw new Error('SG.__test__ 未注入；launcher.js 加载失败');
+	return { ctx, document, T, api: apiStub, elementsById, makeEl };
+}
+
+/* ============== 工具 ============== */
+const NEWS_LIVE = {
+	items: [
+		{ id: 'n1', title: '官方新闻一', category: 'Minecraft', date: '2026-08-30T00:00:00Z', text: '内容一', imageId: 'img-1', link: 'https://www.minecraft.net/article/one', linkOk: true },
+		{ id: 'n2', title: '官方新闻二', category: 'Java Edition', date: '2026-08-29T00:00:00Z', text: '内容二', imageId: null, link: 'https://evil.com/x', linkOk: false },
+	],
+	meta: { source: 'launchercontent.mojang.com', state: 'live', validatedAt: '2026-09-05T12:00:00+00:00', fetchedAt: '2026-09-05T12:00:00+00:00', isStale: false, canRetry: false, errorKind: null, error: null },
+};
+const waitMicro = () => new Promise(r => setTimeout(r, 10));
+
+/* ============== 1. 无假新闻 fallback ============== */
+test('上游失败且无缓存时显示错误/空态，绝不显示静态假新闻', async () => {
+	const { T, api } = loadLauncher(() => Promise.reject(new Error('HTTP 500')));
+	await T.loadNews();
+	const html = await T.renderNews();
+	assert.doesNotMatch(html, /Minecraft Live 内容汇总|新生物投票/, '不得出现内置 2024 假新闻');
+	assert.match(html, /data-news-retry="1"/, '错误态应提供重试入口');
+	assert.equal(api._newsCalls.length, 1);
+});
+
+test('getNews 返回 empty 状态时显示空态而不是假新闻', async () => {
+	const { T } = loadLauncher(() => Promise.resolve({ items: [], meta: { source: 'launchercontent.mojang.com', state: 'empty', validatedAt: null, isStale: true, canRetry: true, errorKind: 'empty_response', error: null } }));
+	await T.loadNews();
+	const html = await T.renderNews();
+	assert.doesNotMatch(html, /Minecraft Live 内容汇总/, '空态不得回退假新闻');
+	assert.match(html, /data-news-state="empty"/, '应标记空态');
+});
+
+/* ============== 2. 首屏非阻塞 ============== */
+test('renderHome 不等待新闻：请求 pending 时先渲染骨架', async () => {
+	let resolveNews;
+	const pending = new Promise(r => { resolveNews = r; });
+	const { T } = loadLauncher(() => pending);
+	const html = await T.renderHome();
+	assert.match(html, /data-news-skeleton="1"/, '新闻区应先渲染骨架');
+	assert.doesNotMatch(html, /Minecraft Live 内容汇总/, '骨架期不得出现假新闻');
+	resolveNews({ items: NEWS_LIVE.items, meta: NEWS_LIVE.meta });
+	await waitMicro();
+});
+
+/* ============== 3. cached 状态横幅 ============== */
+test('cached 状态显示离线缓存横幅与最后验证时间', async () => {
+	const { T } = loadLauncher(() => Promise.resolve({
+		items: NEWS_LIVE.items,
+		meta: { source: 'launchercontent.mojang.com', state: 'cached', validatedAt: '2026-09-05T08:00:00+00:00', fetchedAt: '2026-09-05T08:00:00+00:00', isStale: true, canRetry: true, errorKind: 'network', error: 'network down' },
+	}));
+	await T.loadNews();
+	const html = await T.renderNews();
+	assert.match(html, /data-news-banner="cached"/, '应有离线缓存横幅');
+	assert.match(html, /2026-09-05/, '应显示最后验证日期');
+	assert.match(html, /data-news-state="cached"/, '应标记 cached 状态');
+});
+
+/* ============== 4. error 状态分类与重试 ============== */
+test('error 状态显示分类错误文案（限流）与重试入口', async () => {
+	const { T } = loadLauncher(() => Promise.resolve({ items: [], meta: { source: 'launchercontent.mojang.com', state: 'error', validatedAt: null, isStale: true, canRetry: true, errorKind: 'rate_limited', error: 'HTTP 429' } }));
+	await T.loadNews();
+	const html = await T.renderNews();
+	assert.match(html, /data-news-state="error"/, '应标记 error 状态');
+	assert.match(html, /data-news-retry="1"/, '应提供重试按钮');
+	assert.match(html, /限流|请求过于频繁/, '应显示限流分类文案');
+});
+
+/* ============== 5. 刷新防连点 ============== */
+test('refreshNews 进行中重复调用不产生第二次请求', async () => {
+	let resolveNews;
+	const pending = new Promise(r => { resolveNews = r; });
+	const { T, api } = loadLauncher(() => pending);
+	const first = T.refreshNews();
+	await waitMicro();
+	const second = await T.refreshNews();
+	assert.equal(api._newsCalls.length, 1, '防连点：进行中不得发起第二次请求');
+	assert.equal(second.ok, false);
+	resolveNews({ items: NEWS_LIVE.items, meta: NEWS_LIVE.meta });
+	const result = await first;
+	assert.equal(result.ok, true);
+});
+
+/* ============== 6. 请求代际（乱序保护） ============== */
+test('迟到的旧响应不得覆盖新响应', async () => {
+	let resolveA, resolveB;
+	const promiseA = new Promise(r => { resolveA = r; });
+	const promiseB = new Promise(r => { resolveB = r; });
+	let call = 0;
+	const { T } = loadLauncher(() => { call++; return call === 1 ? promiseA : promiseB; });
+	const a = T.loadNews();           // 旧
+	const b = T.loadNews();           // 新（代际更新）
+	await waitMicro();
+	resolveB({ items: [{ id: 'b1', title: '新版新闻', category: 'M', date: '2026-08-30', text: '', imageId: null, link: '', linkOk: true }], meta: NEWS_LIVE.meta });
+	await b;
+	resolveA({ items: [{ id: 'a1', title: '旧版新闻', category: 'M', date: '2024-01-01', text: '', imageId: null, link: '', linkOk: false }], meta: { state: 'error', isStale: true, canRetry: true, errorKind: 'timeout', error: 'late' } });
+	await a;
+	await waitMicro();
+	const items = T.getNewsItems() || [];
+	assert.ok(items.some(i => i.title === '新版新闻'), '新响应内容应在');
+	assert.ok(!items.some(i => i.title === '旧版新闻'), '旧响应内容不得覆盖新响应');
+	assert.equal(T.getNewsMeta().state, 'live', '旧响应的 error meta 不得覆盖新 live meta');
+});
+
+/* ============== 7. 外链白名单降级 ============== */
+test('linkOk=false 的新闻卡不渲染可点击外链，点击不打开', async () => {
+	const { T, ctx } = loadLauncher(() => Promise.resolve({ items: NEWS_LIVE.items, meta: NEWS_LIVE.meta }));
+	await T.loadNews();
+	const html = await T.renderNews();
+	assert.match(html, /data-link-ok="1"/, '合法官方链应有标记');
+	assert.match(html, /data-link-ok="0"/, '未通过校验的链应有标记');
+	assert.doesNotMatch(html, /href="https:\/\/evil\.com\/x"/, '未通过校验的链接不得渲染 href');
+	// 绑定后点击第二条卡片不应调用 window.open
+	const { document } = loadDomFor(T, html);
+	const cards = document.querySelectorAll('.news-full-card');
+	assert.ok(cards.length >= 2);
+	cards[1].dispatchEvent('click', {});
+	await waitMicro();
+	assert.deepEqual(ctx.openCalls.filter(u => u.includes('evil.com')), [], '不可信链接不得被打开');
+});
+
+/* ============== 8. 图片走服务端 ID + 令牌安全加载 ============== */
+test('图片使用服务端 ID 经 fetch+blob 加载（带令牌），HTML 不直出 /api/news-image URL', async () => {
+	const { T, api, document } = loadLauncher(() => Promise.resolve({ items: NEWS_LIVE.items, meta: NEWS_LIVE.meta }));
+	await T.loadNews();
+	const html = await T.renderNews();
+	assert.match(html, /data-news-art-id="img-1"/, '应渲染图片 ID 占位');
+	assert.doesNotMatch(html, /\/api\/news-image/, '不得在 HTML 直出图片代理 URL（img 标签带不了令牌，实测 401）');
+	const root = document.createElement('div');
+	parseInto(root, html);
+	document.body.appendChild(root);
+	T.bindNews(root);
+	await waitMicro();
+	assert.deepEqual(api._imageCalls || [], ['img-1'], 'bindNews 应通过 getNewsImage（fetch+blob 带令牌）请求图片');
+});
+
+/* ============== 9. i18n 中英文 ============== */
+test('新闻状态文案中英文齐全（真实词典）', () => {
+	const { ctx } = loadLauncher(null);
+	const zh = ctx.SG.t;
+	ctx.SG.setLocale('zh');
+	const keys = ['news.stateLive', 'news.stateRevalidated', 'news.stateMemory', 'news.stateCached', 'news.stateEmpty', 'news.stateError', 'news.retry', 'news.cachedBanner', 'news.errRateLimited', 'news.errTimeout', 'news.errNetwork', 'news.errParse', 'news.errHttp', 'news.errInternal', 'news.loadFailed'];
+	for (const k of keys) {
+		const v = ctx.SG.t(k);
+		assert.notEqual(v, k, 'zh 缺少 key: ' + k);
+	}
+	ctx.SG.setLocale('en');
+	for (const k of keys) {
+		const v = ctx.SG.t(k);
+		assert.notEqual(v, k, 'en 缺少 key: ' + k);
+	}
+});
+
+/* ============== 辅助：把 renderNews 输出挂到 DOM 以便事件测试 ============== */
+function loadDomFor(_T, html) {
+	const { document } = makeDomStub();
+	const root = document.createElement('div');
+	parseInto(root, html);
+	document.body.appendChild(root);
+	return { document };
+}
+
+/* ============== R-03：前端第二层外链校验（后端权威 + 前端纵深防御） ============== */
+
+test('R-03: 前端第二层校验 isFrontendAllowedNewsLink：官方精确主机放行，危险形态全部拒绝', () => {
+	const { T } = loadLauncher(null);
+	const allowed = T.isFrontendAllowedNewsLink;
+	assert.equal(typeof allowed, 'function', 'isFrontendAllowedNewsLink 必须暴露于 __test__');
+	assert.equal(allowed('https://www.minecraft.net/article/x'), true);
+	assert.equal(allowed('https://aka.ms/mce-x'), true);
+	assert.equal(allowed('https://minecraft.net/article/x'), true);
+	assert.equal(allowed('https://www.youtube.com/watch?v=1'), true);
+	const rejected = [
+		'javascript:alert(1)',
+		'data:text/html,<script>',
+		'file:///C:/Windows/System32/drivers/etc/hosts',
+		'http://www.minecraft.net/article/x',
+		'https://user:pass@www.minecraft.net/article/x',
+		'https://www.minecraft.net:8443/article/x',
+		'https://www.minecraft.net./article/x',
+		'https://evil.www.minecraft.net/article/x',
+		'https://www.minecraft.net.evil.com/article/x',
+		'https://evil.com/x',
+		'https://93.184.216.34/article/x',
+		'',
+	];
+	for (const url of rejected) {
+		assert.equal(allowed(url), false, '必须拒绝: ' + url);
+	}
+});
+
+test('R-03: linkOk=true 但非官方域时，首页卡点击不得打开（第二层拦截）', async () => {
+	const { T, ctx, document } = loadLauncher(null);
+	// 构造 linkOk=true + evil.com 的卡片（模拟后端被绕过的最坏情况）
+	const root = document.createElement('div');
+	parseInto(root, '<button class="news-card" data-news="Evil" data-link="https://evil.com/x" data-link-ok="1"></button>');
+	document.body.appendChild(root);
+	T.bindHomeNewsCards(root);
+	root.querySelector('.news-card').dispatchEvent('click', {});
+	await waitMicro();
+	assert.deepEqual(ctx.openCalls.filter(u => u.includes('evil.com')), [], '非官方域即使 linkOk=true 也不得打开');
+});
+
+test('R-03: linkOk=true 且 javascript: 协议时，首页卡点击不得打开', async () => {
+	const { T, ctx, document } = loadLauncher(null);
+	const root = document.createElement('div');
+	parseInto(root, '<button class="news-card" data-news="Js" data-link="javascript:alert(1)" data-link-ok="1"></button>');
+	document.body.appendChild(root);
+	T.bindHomeNewsCards(root);
+	root.querySelector('.news-card').dispatchEvent('click', {});
+	await waitMicro();
+	assert.equal(ctx.openCalls.filter(u => u.toLowerCase().includes('javascript')).length, 0, 'javascript: 不得被打开');
+});
+
+test('R-03b: 详情弹窗锚点须同时通过后端 linkOk 与前端第二层校验（真实 WebView 抓到的漏洞回归）', () => {
+	const { T } = loadLauncher(null);
+	const fn = T.newsModalAnchorAllowed;
+	assert.equal(typeof fn, 'function', 'newsModalAnchorAllowed 必须暴露');
+	// 官方精确主机 + linkOk → 允许
+	assert.equal(fn({ linkOk: true, link: 'https://www.minecraft.net/article/x' }), true);
+	// linkOk=true 但危险链接 → 一律拒绝（后端被绕过的最坏情况）
+	for (const link of [
+		'javascript:alert(1)',
+		'data:text/html,<h1>x</h1>',
+		'file:///C:/Windows/win.ini',
+		'http://www.minecraft.net/article/x',
+		'https://user:pass@www.minecraft.net/article/x',
+		'https://www.minecraft.net:8443/article/x',
+		'https://www.minecraft.net./article/x',
+		'https://evil.www.minecraft.net/article/x',
+		'https://evil.com/x',
+	]) {
+		assert.equal(fn({ linkOk: true, link }), false, '必须拒绝: ' + link);
+	}
+	// linkOk=false → 无论链接如何都拒绝
+	assert.equal(fn({ linkOk: false, link: 'https://www.minecraft.net/article/x' }), false);
+});
+
+/* ============== R2-02：NewsFakeIpCompat 设置行（前端 RED） ==============
+ * 覆盖：
+ *   1. 设置行存在且使用 role="switch" + aria-checked
+ *   2. 初始状态来自 cfg.newsFakeIpCompat（默认 false / 显式 true）
+ *   3. 点击触发 SG.api.updateConfig({newsFakeIpCompat: <boolean>})
+ *   4. 成功 → STATE.config 同步 + 提示；失败 → 回滚 class/ARIA/状态 + 错误提示
+ *   5. 连点去重：进行中的请求只发一次
+ *   6. i18n 中英文 + mock 默认 false
+ *
+ * 设计原则（与 C# 测试一致）：
+ *   - 不引用 launcher.js 内部私有变量；仅用 __test__ 暴露的接口
+ *   - 不引用任何不存在的 SG.t key；key 缺失时 SG.t 返回 key 本身，断言失败
+ *   - 不假设 mock.settings.newsFakeIpCompat 默认值；通过 JSON 比较验证
+ */
+
+function loadLauncherWithApi(setup) {
+	const { T, ctx, document, elementsById, makeEl } = loadLauncher(null);
+	const api = ctx.SG.api;
+	// 扩展 api：覆盖 bindSettings 路径上所有会被调用的方法
+	api._updateCalls = [];
+	api._inflight = 0;
+	api.updateConfig = async (patch) => {
+		api._updateCalls.push(patch);
+		api._inflight++;
+		try {
+			const result = setup ? await setup(patch) : { ok: true };
+			return result;
+		} finally {
+			api._inflight--;
+		}
+	};
+	api.getUpdateStatus = async () => ({ state: 'idle', currentVersion: '1.0.0' });
+	api.checkUpdate = async () => ({ enabled: false, currentVersion: '1.0.0' });
+	api.getSources = async () => ({ sources: [] });
+	api.selectSource = async (k) => ({ ok: true, selected: k });
+	api.openLogDirectory = async () => ({ ok: true });
+	api.getAiProviders = async () => ({ providers: [], selectedId: '' });
+	api.getStats = async () => ({ totalPlaySeconds: 0, totalPlayCount: 0 });
+	api.getAccounts = async () => ({ accounts: [], capes: [] });
+	return { T, ctx, document, elementsById, makeEl, api };
+}
+
+test('R2-02: 设置页包含 NewsFakeIpCompat 开关（data-toggle="newsFakeIp"）', async () => {
+	const { T } = loadLauncher(null);
+	T.setState({ config: { newsFakeIpCompat: false } });
+	const html = await T.renderSettings();
+	assert.match(html, /data-toggle="newsFakeIp"/, '设置页必须包含 data-toggle="newsFakeIp" 的开关。html 前 200: ' + html.slice(0, 200));
+});
+
+test('R2-02: 默认 cfg.newsFakeIpCompat 未设置时，开关初始为 unchecked', async () => {
+	const { T } = loadLauncher(null);
+	T.setState({ config: {} });
+	const html = await T.renderSettings();
+	const toggle = html.match(/<button[^>]*data-toggle="newsFakeIp"[^>]*>/);
+	assert.ok(toggle, '必须渲染 newsFakeIp 开关');
+	const tag = toggle[0];
+	assert.match(tag, /aria-checked="false"/, '默认必须为未选中（aria-checked="false"）');
+	assert.doesNotMatch(tag, /\sclass="toggle on"/, '默认 class 不得含 "on"');
+});
+
+test('R2-02: cfg.newsFakeIpCompat=true 时，开关初始为 checked', async () => {
+	const { T } = loadLauncher(null);
+	T.setState({ config: { newsFakeIpCompat: true } });
+	const html = await T.renderSettings();
+	const toggle = html.match(/<button[^>]*data-toggle="newsFakeIp"[^>]*>/);
+	assert.ok(toggle, 'cfg=true 时仍必须渲染开关');
+	const tag = toggle[0];
+	assert.match(tag, /aria-checked="true"/, 'cfg=true 时必须 aria-checked="true"');
+	assert.match(tag, /\sclass="toggle on"/, 'cfg=true 时 class 必须含 "on"');
+});
+
+test('R2-02: 点击开关触发 SG.api.updateConfig({newsFakeIpCompat: true})', async () => {
+	const { T, api, document } = loadLauncherWithApi(null);
+	T.setState({ config: { newsFakeIpCompat: false } });
+	const html = await T.renderSettings();
+	const root = document.createElement('div');
+	parseInto(root, html);
+	document.body.appendChild(root);
+	T.bindSettings(root);
+
+	const toggle = root.querySelector('[data-toggle="newsFakeIp"]');
+	assert.ok(toggle, '必须能找到 newsFakeIp 开关');
+	toggle.dispatchEvent('click', {});
+	await waitMicro();
+
+	assert.equal(api._updateCalls.length, 1, '点击必须只触发一次 updateConfig');
+	const payload = api._updateCalls[0];
+	assert.ok('newsFakeIpCompat' in payload, 'updateConfig payload 必须包含 newsFakeIpCompat');
+	assert.equal(payload.newsFakeIpCompat, true, '默认 false → 点击后必须传 true');
+});
+
+test('R2-02: cfg=true 时再点击应传 false', async () => {
+	const { T, api, document } = loadLauncherWithApi(null);
+	T.setState({ config: { newsFakeIpCompat: true } });
+	const html = await T.renderSettings();
+	const root = document.createElement('div');
+	parseInto(root, html);
+	document.body.appendChild(root);
+	T.bindSettings(root);
+
+	const toggle = root.querySelector('[data-toggle="newsFakeIp"]');
+	toggle.dispatchEvent('click', {});
+	await waitMicro();
+
+	assert.equal(api._updateCalls.length, 1);
+	assert.equal(api._updateCalls[0].newsFakeIpCompat, false, 'cfg=true → 点击后必须传 false');
+});
+
+test('R2-02: 成功响应同步 STATE.config.newsFakeIpCompat', async () => {
+	const { T, api, document } = loadLauncherWithApi(null);
+	T.setState({ config: { newsFakeIpCompat: false } });
+	const html = await T.renderSettings();
+	const root = document.createElement('div');
+	parseInto(root, html);
+	document.body.appendChild(root);
+	T.bindSettings(root);
+
+	const toggle = root.querySelector('[data-toggle="newsFakeIp"]');
+	toggle.dispatchEvent('click', {});
+	// 等待 promise 完成
+	await new Promise(r => setTimeout(r, 20));
+	const cfg = T.getState().config || {};
+	assert.equal(cfg.newsFakeIpCompat, true, '成功响应后 STATE.config.newsFakeIpCompat 必须同步为 true');
+});
+
+test('R2-02: 失败响应回滚开关 class/ARIA 到点击前', async () => {
+	const { T, api, document } = loadLauncherWithApi(async () => { throw new Error('HTTP 500'); });
+	T.setState({ config: { newsFakeIpCompat: false } });
+	const html = await T.renderSettings();
+	const root = document.createElement('div');
+	parseInto(root, html);
+	document.body.appendChild(root);
+	T.bindSettings(root);
+
+	const toggle = root.querySelector('[data-toggle="newsFakeIp"]');
+	toggle.dispatchEvent('click', {});
+	await new Promise(r => setTimeout(r, 20));
+
+	// 视觉状态回滚：class 不应保留 "on"，aria-checked 应为 false
+	assert.doesNotMatch(toggle.getAttribute('class') || '', /\bon\b/, '失败后 class 上的 on 必须被回滚');
+	assert.equal(toggle.getAttribute('aria-checked'), 'false', '失败后 aria-checked 必须回滚为 false');
+	// STATE.config 也不应被修改
+	const cfg = T.getState().config || {};
+	assert.equal(cfg.newsFakeIpCompat, false, '失败后 STATE.config.newsFakeIpCompat 必须仍为 false');
+});
+
+test('R2-02: 连点去重：第二次点击必须不发送第二次 updateConfig', async () => {
+	const { T, api, document } = loadLauncherWithApi(() => new Promise(() => {})); // 永不 resolve
+	T.setState({ config: { newsFakeIpCompat: false } });
+	const html = await T.renderSettings();
+	const root = document.createElement('div');
+	parseInto(root, html);
+	document.body.appendChild(root);
+	T.bindSettings(root);
+
+	const toggle = root.querySelector('[data-toggle="newsFakeIp"]');
+	toggle.dispatchEvent('click', {});
+	toggle.dispatchEvent('click', {});
+	toggle.dispatchEvent('click', {});
+	await waitMicro();
+
+	assert.equal(api._updateCalls.length, 1, '进行中重复点击必须只发一次请求；实际 ' + api._updateCalls.length);
+	assert.equal(api._inflight, 1, '应只有一个 in-flight 请求');
+});
+
+test('R2-02: i18n 中文词典必须包含 set.fakeIpName / set.fakeIpDesc', () => {
+	const { ctx } = loadLauncher(null);
+	ctx.SG.setLocale('zh');
+	const nameKey = 'set.fakeIpName';
+	const descKey = 'set.fakeIpDesc';
+	const v1 = ctx.SG.t(nameKey);
+	const v2 = ctx.SG.t(descKey);
+	assert.notEqual(v1, nameKey, 'zh 缺少 key: ' + nameKey);
+	assert.notEqual(v2, descKey, 'zh 缺少 key: ' + descKey);
+	// 文案必须明确 opt-in + 仅官方图片 + 默认关闭（关键提示）
+	assert.match(v1, /TUN|fake-?ip/i, '中文名称必须含 TUN / fake-ip 关键字');
+	assert.match(v2, /官方|opt-?in|默认.*关闭|仅.*官方/i, '中文描述必须提示 opt-in / 默认关闭 / 仅官方');
+});
+
+test('R2-02: i18n 英文词典必须包含 set.fakeIpName / set.fakeIpDesc', () => {
+	const { ctx } = loadLauncher(null);
+	ctx.SG.setLocale('en');
+	const nameKey = 'set.fakeIpName';
+	const descKey = 'set.fakeIpDesc';
+	const v1 = ctx.SG.t(nameKey);
+	const v2 = ctx.SG.t(descKey);
+	assert.notEqual(v1, nameKey, 'en 缺少 key: ' + nameKey);
+	assert.notEqual(v2, descKey, 'en 缺少 key: ' + descKey);
+	assert.match(v1, /TUN|fake-?ip/i, 'English name must contain TUN / fake-ip');
+	assert.match(v2, /opt-?in|official|default.*off/i, 'English desc must mention opt-in / official / default off');
+});

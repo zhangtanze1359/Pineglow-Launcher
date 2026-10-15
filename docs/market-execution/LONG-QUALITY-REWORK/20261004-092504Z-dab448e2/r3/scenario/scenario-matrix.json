@@ -1,0 +1,536 @@
+{
+  "schemaVersion": 2,
+  "generatedUtc": "2026-10-04T10:14:40.467Z",
+  "executionRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c",
+  "testFile": "ui/tests/goal-core-flow.test.cjs",
+  "testFileSha256": "59B8FC0F43CDAC6BCFBBD1F7BA98CD5556D6C791644199961A4A6741F61F3B50",
+  "rawLog": "node-goal-core-flow.log",
+  "rawLogSha256": "8F7F78DCAAAAE0440F3AC7106B2E1D23B848E4C3E8025128B13379D72228D581",
+  "nodeTallies": {
+    "tests": 31,
+    "pass": 31,
+    "fail": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "scenarioCount": 28,
+  "requiredScenarioCount": 28,
+  "requiredPass": 28,
+  "requiredFail": 0,
+  "scenarios": [
+    {
+      "id": "INSTANCE-01",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "openInstanceMenu -> '#mDel' with confirm=false",
+      "expected": "cancelling the confirmation issues no delete request at all",
+      "tests": [
+        {
+          "testId": "INSTANCE-01 cancel does not issue a delete request",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    },
+    {
+      "id": "INSTANCE-02",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "openInstanceMenu -> '#mDel' with confirm=true",
+      "expected": "the instance disappears from the re-rendered list and the others stay",
+      "tests": [
+        {
+          "testId": "INSTANCE-02 confirm removes the instance from the list and re-renders",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    },
+    {
+      "id": "INSTANCE-03",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "removing the currently selected instance",
+      "expected": "the stale selection id does not survive; selection falls back to a surviving instance",
+      "tests": [
+        {
+          "testId": "INSTANCE-03 removing the selected instance clears the stale selection",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    },
+    {
+      "id": "INSTANCE-04",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "repeated '#mDel' clicks while the delete request is in flight",
+      "expected": "exactly one delete request is issued",
+      "tests": [
+        {
+          "testId": "INSTANCE-04 repeated clicks during the request issue one request",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    },
+    {
+      "id": "RECOVERY-01",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "openRecoveryPanel with listRecoveries rejecting",
+      "expected": "an explicit error and a retry action; no restore action",
+      "tests": [
+        {
+          "testId": "RECOVERY-01 recovery query failure shows an error and a retry action",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    },
+    {
+      "id": "RECOVERY-02",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "openRecoveryPanel with an empty recovery list",
+      "expected": "the empty state is shown and no restore action exists",
+      "tests": [
+        {
+          "testId": "RECOVERY-02 empty recovery list shows the empty state",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    },
+    {
+      "id": "RECOVERY-03",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "restore a quarantined record (ok=true)",
+      "expected": "success is reported and the panel is refreshed",
+      "tests": [
+        {
+          "testId": "RECOVERY-03 normal restore reports success and refreshes the panel",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    },
+    {
+      "id": "RECOVERY-04",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "restore result with per-file states",
+      "expected": "each file and its state/error is listed",
+      "tests": [
+        {
+          "testId": "RECOVERY-04 partial results list each file with its state",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    },
+    {
+      "id": "RECOVERY-05",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "restore with conflicts=2 (ok=false)",
+      "expected": "the conflict notice is shown and no success/undo is claimed",
+      "tests": [
+        {
+          "testId": "RECOVERY-05 conflict result never claims a successful overwrite",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    },
+    {
+      "id": "RECOVERY-06",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "restore request in flight, then rejected",
+      "expected": "the button is disabled in flight and re-enabled on failure, with the error reported",
+      "tests": [
+        {
+          "testId": "RECOVERY-06 submit disables the button and failure restores it",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    },
+    {
+      "id": "BISECT-01",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "openModBisect with no pending session",
+      "expected": "the normal start entry and the safety guidance are shown",
+      "tests": [
+        {
+          "testId": "BISECT-01 no pending session shows the normal start entry",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    },
+    {
+      "id": "BISECT-02",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "openModBisect with a pending session (canContinue true/false)",
+      "expected": "restore/continue entries appear and continue is disabled when the server says it cannot continue",
+      "tests": [
+        {
+          "testId": "BISECT-02 pending session offers restore or continue",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    },
+    {
+      "id": "BISECT-03",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "bisectPending rejecting",
+      "expected": "an explicit error with retry; the normal start button must not be offered while the state is unknown",
+      "tests": [
+        {
+          "testId": "BISECT-03 pending query failure shows an explicit error and retry",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    },
+    {
+      "id": "BISECT-04",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "drawBisect with needsRecovery and a file-lock failure",
+      "expected": "the retry-recovery action stays and no all-complete claim is made",
+      "tests": [
+        {
+          "testId": "BISECT-04 file-lock failure keeps the needs-recovery state",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    },
+    {
+      "id": "BISECT-05",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "bisectGiveUp failing with a structured recovery body",
+      "expected": "the panel stays in needs-recovery and never shows all-complete",
+      "tests": [
+        {
+          "testId": "BISECT-05 failed recovery never shows all-complete",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    },
+    {
+      "id": "IMPORT-01",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "handleImportFiles -> SG.api.importInstance(fileName, base64, operationId)",
+      "expected": "a non-empty operationId is bound to the request before any cancel entry is offered",
+      "tests": [
+        {
+          "testId": "IMPORT-01 operationId is bound before cancel is offered",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    },
+    {
+      "id": "IMPORT-02",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "the import request rejects with err.cancelled=true",
+      "expected": "the cancelled wording is shown and it is not reported as a failure",
+      "tests": [
+        {
+          "testId": "IMPORT-02 cancel before acceptance reports the cancelled result",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    },
+    {
+      "id": "IMPORT-03",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "handleImportFiles: cancelImport resolves {pendingCancel:true, ok:false}, THEN importInstance rejects for an ordinary reason; the assertion is taken AFTER 'await running'",
+      "expected": "the terminal state is a failure that explicitly says the outcome is unconfirmed; it must never say the import was cancelled and must never claim no instance was created",
+      "tests": [
+        {
+          "testId": "IMPORT-03 cancel after acceptance reports the real server result",
+          "testInFile": true,
+          "testPassed": true
+        },
+        {
+          "testId": "INDEPENDENT IMPORT-03 pending cancel followed by ordinary import failure must keep outcome unconfirmed",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    },
+    {
+      "id": "IMPORT-04",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "handleImportFiles: cancelImport REJECTS (unknown operation), THEN importInstance rejects for an ordinary reason; the assertion is taken AFTER 'await running'",
+      "expected": "the terminal state is a failure that explicitly says the outcome is unconfirmed; the cancel intent alone must never be upgraded to a confirmed cancellation",
+      "tests": [
+        {
+          "testId": "IMPORT-04 unknown or failed cancel never claims the import was cancelled",
+          "testInFile": true,
+          "testPassed": true
+        },
+        {
+          "testId": "INDEPENDENT IMPORT-04 failed cancel followed by ordinary import failure must not claim cancelled",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    },
+    {
+      "id": "IMPORT-05",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "handleImportFiles: the cancel button is clicked while the import request is in flight",
+      "expected": "cancelImport is called with exactly the operationId the import request was started with",
+      "tests": [
+        {
+          "testId": "INDEPENDENT IMPORT-01 cancel uses the active import operationId",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    },
+    {
+      "id": "DIAGNOSIS-01",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "api.diagnoseInstance with localOnly=true",
+      "expected": "the local-only flag reaches the server with confirmAiSend=false and no API key",
+      "tests": [
+        {
+          "testId": "DIAGNOSIS-01 local diagnosis works without an API key",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    },
+    {
+      "id": "DIAGNOSIS-02",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "openDiagnoseHistory with an empty history",
+      "expected": "the empty state is shown and no export action exists",
+      "tests": [
+        {
+          "testId": "DIAGNOSIS-02 empty history shows the empty state",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    },
+    {
+      "id": "DIAGNOSIS-03",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "diagnoseHistory rejecting",
+      "expected": "an explicit error with retry and the real message",
+      "tests": [
+        {
+          "testId": "DIAGNOSIS-03 history query failure shows an error and retry",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    },
+    {
+      "id": "DIAGNOSIS-04",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "openDiagnoseHistory with a non-empty history and export",
+      "expected": "the report row and export action render; original evidence is excluded by default",
+      "tests": [
+        {
+          "testId": "DIAGNOSIS-04 a non-empty history renders and export states the evidence scope",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    },
+    {
+      "id": "UPDATE-01",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "initUpdateSection with an idle status and no previous apply result",
+      "expected": "no false alarm and no success claim",
+      "tests": [
+        {
+          "testId": "UPDATE-01 no previous apply result shows no false alarm",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    },
+    {
+      "id": "UPDATE-02",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "initUpdateSection with lastApplyResult.applied=false",
+      "expected": "a warning naming the failed version and the still-old hint",
+      "tests": [
+        {
+          "testId": "UPDATE-02 a previous non-applied update is reported as still old",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    },
+    {
+      "id": "UPDATE-03",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "api.getUpdateStatus with missing compatibility fields",
+      "expected": "defaults are applied instead of crashing",
+      "tests": [
+        {
+          "testId": "UPDATE-03 missing compatibility fields do not crash",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    },
+    {
+      "id": "UPDATE-04",
+      "required": true,
+      "layer": "node-behavior",
+      "entry": "getUpdateStatus rejecting",
+      "expected": "no success claim and no trust block",
+      "tests": [
+        {
+          "testId": "UPDATE-04 status query failure never shows update success",
+          "testInFile": true,
+          "testPassed": true
+        }
+      ],
+      "missingTests": [],
+      "failedTests": [],
+      "verdict": "PASS",
+      "evidence": "node-goal-core-flow.log"
+    }
+  ]
+}

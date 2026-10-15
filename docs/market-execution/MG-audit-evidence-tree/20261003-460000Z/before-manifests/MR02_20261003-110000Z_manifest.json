@@ -1,0 +1,77 @@
+﻿{
+    "runId":  "20261003-110000Z",
+    "task":  "MR02 用户需求研究准备（准备包）",
+    "generatedUtc":  "2026-10-02T23:02:56Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "result":  {
+                   "packageType":  "preparation only",
+                   "interviewsConducted":  0,
+                   "usersContacted":  0,
+                   "externalFormsPublished":  0,
+                   "fabricatedRecords":  0,
+                   "personas":  "all hypotheses, unverified",
+                   "workspaceCodeChanges":  0,
+                   "workspaceDocChanges":  "1 (plan ledger row only)",
+                   "deliverables":  [
+                                        "interview-guide.md",
+                                        "task-scripts.md",
+                                        "followup-and-privacy.md",
+                                        "recruiting-plan.md",
+                                        "recording-templates.md",
+                                        "README.md"
+                                    ]
+               },
+    "cardChecklist":  {
+                          "8-12 人分层提纲（每类≥2）":  "delivered: 5 categories with quotas, bias recording required",
+                          "行为式问题（不问\"你想要 AI 吗\"）":  "delivered: 22 past-behaviour questions + explicit forbidden list",
+                          "统一任务 + 计时/卡点/结果表":  "delivered: 4 tasks grounded in actually-implemented flows, with blank timing and blocker tables",
+                          "7/14 天跟进 + 放弃原因分类 + 最小隐私说明":  "delivered: followup-and-privacy.md (D1-D8 taxonomy, local/manual by default)",
+                          "招募/联系/外部表单列为需授权动作":  "delivered: recruiting-plan.md §四 authorization checklist (must be ticked before starting)"
+                      },
+    "groundingNote":  "Task scripts deliberately use only flows that exist and were verified this session: register-existing-instance (MR03), .mrpack import (MR11), recovery area (MR04/MR05), bisect (MR06/MR07). The card\u0027s \"迁移合成实例\" is NOT a product feature - MR13 is conditional and unimplemented - so task 1 observes how users currently attach an existing instance.",
+    "knownGaps":  [
+                      "实际访谈 0 人：未招募、未联系、未访谈、未发布任何外部表单",
+                      "所有表格均为空白模板，无任何真实计时/卡点/原话数据",
+                      "用户画像 H1-H8 全部是假设，未经用户验证",
+                      "报酬与合规（书面同意、保留期）未设计，需用户决定",
+                      "隐私说明为建议文本，发布前需用户确认"
+                  ],
+    "files":  [
+                  {
+                      "path":  "followup-and-privacy.md",
+                      "sha256":  "D8291F341E71897E1ED26F8E6C05AB46B5A2903E785C093846030E457C3B2476",
+                      "sizeBytes":  4300
+                  },
+                  {
+                      "path":  "git-status-after.txt",
+                      "sha256":  "B7F981D950828D329CC5684A7E40827244EC0F63726E723111FE6068C684E22E",
+                      "sizeBytes":  115013
+                  },
+                  {
+                      "path":  "interview-guide.md",
+                      "sha256":  "5104175861140203DC1F027C92046F69F531322FCCA74E2995A71CD74FF49375",
+                      "sizeBytes":  5340
+                  },
+                  {
+                      "path":  "README.md",
+                      "sha256":  "BB4485559D64FF3228D213DC134E820E07D5FBEFC14FA0AEED05D1A843960B02",
+                      "sizeBytes":  6093
+                  },
+                  {
+                      "path":  "recording-templates.md",
+                      "sha256":  "CE94730C1378986C859ABA19A68D054BEFD20E7CF530D3857F80A0B4D14E7144",
+                      "sizeBytes":  3988
+                  },
+                  {
+                      "path":  "recruiting-plan.md",
+                      "sha256":  "8AFEA0ACE35CCD3ACE0503AF4BF8C4983A6EE27739806F7D96B5D6363AA589CA",
+                      "sizeBytes":  3588
+                  },
+                  {
+                      "path":  "task-scripts.md",
+                      "sha256":  "713A0B327EADC944E6197B5A03131E8A0CBFFBA6F5E9C59C22ADEC0E67D21F44",
+                      "sizeBytes":  4928
+                  }
+              ]
+}

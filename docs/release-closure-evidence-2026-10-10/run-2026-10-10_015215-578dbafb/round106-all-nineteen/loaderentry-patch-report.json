@@ -1,0 +1,14 @@
+﻿[
+    {
+        "label":  "P-LOADERENTRY 1/3 InstallLoaderAsync becomes public",
+        "ok":  true
+    },
+    {
+        "label":  "P-LOADERENTRY 2/3 route POST /api/instances/{id}/loader",
+        "ok":  true
+    },
+    {
+        "label":  "P-LOADERENTRY 3/3 the handler",
+        "ok":  true
+    }
+]

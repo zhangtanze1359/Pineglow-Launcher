@@ -1,0 +1,15 @@
+{
+    "schemaVersion":  1,
+    "generatedUtc":  "2026-10-03T10:09:40Z",
+    "executionRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49",
+    "resultsDir":  "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\g3\\test-results",
+    "id":  "g3-flows",
+    "command":  "dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --no-build --filter \"(FullyQualifiedName~InstanceRemovalTests|FullyQualifiedName~ImportCancellationTests|FullyQualifiedName~DiagnosticReportTests|FullyQualifiedName~BisectRecoveryTests|FullyQualifiedName~UpdateRecoveryTests|FullyQualifiedName~RecoveryVersionDisplayEndToEndTests)\u0026FullyQualifiedName!~ImportWithALiveTokenButCancelledMidway\"",
+    "startedUtc":  "2026-10-03T10:09:34Z",
+    "exitCode":  0,
+    "expected":  "exit 0, non-zero tests, zero skipped",
+    "rawEvidence":  "g3/g3-flows.log",
+    "excluded":  [
+                     "ImportWithALiveTokenButCancelledMidway_StillCleansUp (NOT_RUN: mid-flight cancellation race probe, outside this goal)"
+                 ]
+}

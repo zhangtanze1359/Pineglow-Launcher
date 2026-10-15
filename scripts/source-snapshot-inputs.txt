@@ -260,3 +260,11 @@ dev/PineglowLauncher.Tests/UiSourceSelectionTests.cs
 ui/tests/current-version-errors.test.cjs
 # CV-07 的聚焦回归（verify-ui-pages-live.cjs 单文件；纯函数 + 受控 WebSocket 替身，不联网不开窗口）。
 scripts/tests/ui-live-cdp.test.cjs
+
+# ---- 新版 UI 集成（2026-10-15）----
+ui/css/redesign.css
+ui/js/playtime.js
+ui/assets/pine-forest-night.svg
+ui/tests/playtime.test.cjs
+dev/PineglowLauncher.Tests/GamePlaySessionTests.cs
+scripts/start-new-ui.ps1

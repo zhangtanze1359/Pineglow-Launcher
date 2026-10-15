@@ -1,0 +1,95 @@
+{
+  "date": "2026-10-05",
+  "timezone": "Asia/Hong_Kong",
+  "generatedHongKong": "2026-10-05 16:57:06 +08:00",
+  "sourceRoot": "D:\\松光启动器",
+  "deliveryRoot": "C:\\Users\\Administrator\\.codex\\worktrees\\e423\\松光启动器\\docs",
+  "executionRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-66830ccdb8284f699212aa1a04f44ced",
+  "head": "f145d14eb26b0b7459a28491e764ac8c573085d3",
+  "candidateInputCount": 292,
+  "node": {
+    "files": 21,
+    "executed": 269,
+    "passed": 269,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "csharp": {
+    "executed": 870,
+    "passed": 870,
+    "failed": 0,
+    "notExecuted": 0,
+    "exitCode": 0
+  },
+  "actionlint": {
+    "version": "1.7.7",
+    "exitCode": 0
+  },
+  "publish": {
+    "assemblyVersion": "1.0.1.0",
+    "exeSize": 45828872,
+    "exeSha256": "2AA42A06E7134088CD77A66B88CD3C5369694E063402D2528872BD79405D1A03",
+    "uiIndexExternal": true,
+    "pineglowCss": false,
+    "forestSvg": false
+  },
+  "exeOnly": {
+    "root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-exe-only-b3530d01c3204567bace5f14623622bf",
+    "arguments": "--no-api",
+    "portable": true,
+    "exitedWithin8Seconds": true,
+    "exitCode": -532462766,
+    "terminatedByAuditor": false,
+    "crashLogPresent": true
+  },
+  "sourceProtection": {
+    "whitelistCount": 131,
+    "whitelistChanges": 0,
+    "trackedCount": 161,
+    "trackedDifferences": 0
+  },
+  "gates": [
+    {
+      "id": "R01",
+      "reason": "EXE-only fails native Skia loading",
+      "status": "FAIL",
+      "class": "product"
+    },
+    {
+      "id": "R02",
+      "reason": "Latest CSS/SVG absent in candidate inputs",
+      "status": "FAIL",
+      "class": "delivery"
+    },
+    {
+      "id": "R03",
+      "reason": "Default manifest returned HTTP 404",
+      "status": "FAIL",
+      "class": "external-endpoint"
+    },
+    {
+      "id": "R04",
+      "reason": "Build Node list incomplete and Release has no test prerequisite",
+      "status": "FAIL",
+      "class": "release-process"
+    },
+    {
+      "id": "R05",
+      "reason": "ASCII CMD loses Unicode evidence path and steps report PASS without execution",
+      "status": "FAIL",
+      "class": "verification-tooling"
+    },
+    {
+      "id": "R06",
+      "reason": "Final full-package GUI/game/upgrade acceptance missing",
+      "status": "NOT_RUN",
+      "class": "evidence-gap"
+    }
+  ],
+  "TechnicalAcceptance": "NOT_PASSED",
+  "FormalPhaseApproval": "NOT_GRANTED",
+  "ReleaseApproval": "NOT_GRANTED",
+  "productFilesModified": false,
+  "published": false
+}

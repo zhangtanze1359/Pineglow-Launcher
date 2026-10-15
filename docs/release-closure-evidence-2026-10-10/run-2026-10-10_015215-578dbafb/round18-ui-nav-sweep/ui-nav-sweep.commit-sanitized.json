@@ -1,0 +1,338 @@
+{
+  "probe": "cdp-ui-nav-sweep",
+  "appUrl": "http://127.0.0.1:50929/",
+  "debugPort": 50930,
+  "timeHK": "2026-10-11T06:59:31.995Z",
+  "ok": false,
+  "navLabels": [
+    "开始游戏",
+    "安装管理",
+    "世界",
+    "服务器",
+    "内容中心",
+    "皮肤",
+    "下载",
+    "新闻",
+    "设置"
+  ],
+  "views": [
+    {
+      "label": "开始游戏",
+      "clicked": {
+        "clicked": true,
+        "x": 84,
+        "y": 200
+      },
+      "heading": "PINEGLOW\n\t\t\t松光启动器",
+      "bodyTextLength": 700,
+      "distinctiveLine": [
+        "跳到主内容",
+        "PINEGLOW",
+        "松光启动器",
+        "d6tester",
+        "离线模式",
+        "开始游戏",
+        "安装管理",
+        "内容中心",
+        "独立世界，自由探索",
+        "PINEGLOW · JAVA EDITION",
+        "回到你的方块世界。",
+        "熟悉的存档，新的冒险。选好实例，下一段旅程从这里开始。",
+        "总游玩时长",
+        "当前版本"
+      ],
+      "screenshotBytes": 219600,
+      "exceptions": 0,
+      "consoleErrors": 0,
+      "httpErrors": []
+    },
+    {
+      "label": "安装管理",
+      "clicked": {
+        "clicked": true,
+        "x": 84,
+        "y": 244
+      },
+      "heading": "PINEGLOW\n\t\t\t松光启动器",
+      "bodyTextLength": 637,
+      "distinctiveLine": [
+        "跳到主内容",
+        "PINEGLOW",
+        "松光启动器",
+        "d6tester",
+        "离线模式",
+        "开始游戏",
+        "安装管理",
+        "内容中心",
+        "独立世界，自由探索",
+        "你的游戏实例",
+        "每个世界，都有自己的版本与模组。",
+        "全部版本",
+        "从已有目录添加",
+        "新建实例"
+      ],
+      "screenshotBytes": 89785,
+      "exceptions": 0,
+      "consoleErrors": 0,
+      "httpErrors": []
+    },
+    {
+      "label": "世界",
+      "clicked": {
+        "clicked": true,
+        "x": 71,
+        "y": 288
+      },
+      "heading": "PINEGLOW\n\t\t\t松光启动器",
+      "bodyTextLength": 126,
+      "distinctiveLine": [
+        "跳到主内容",
+        "PINEGLOW",
+        "松光启动器",
+        "d6tester",
+        "离线模式",
+        "开始游戏",
+        "安装管理",
+        "内容中心",
+        "独立世界，自由探索",
+        "你所有实例中的单人存档",
+        "还没有存档，进入游戏创建一个世界吧。"
+      ],
+      "screenshotBytes": 37627,
+      "exceptions": 0,
+      "consoleErrors": 0,
+      "httpErrors": []
+    },
+    {
+      "label": "服务器",
+      "clicked": {
+        "clicked": true,
+        "x": 78,
+        "y": 332
+      },
+      "heading": "PINEGLOW\n\t\t\t松光启动器",
+      "bodyTextLength": 130,
+      "distinctiveLine": [
+        "跳到主内容",
+        "PINEGLOW",
+        "松光启动器",
+        "d6tester",
+        "离线模式",
+        "开始游戏",
+        "安装管理",
+        "内容中心",
+        "独立世界，自由探索",
+        "你收藏的多人服务器",
+        "添加服务器",
+        "还没有添加服务器，点击右上角添加。"
+      ],
+      "screenshotBytes": 39181,
+      "exceptions": 0,
+      "consoleErrors": 0,
+      "httpErrors": []
+    },
+    {
+      "label": "内容中心",
+      "clicked": {
+        "clicked": true,
+        "x": 84,
+        "y": 416
+      },
+      "heading": "PINEGLOW\n\t\t\t松光启动器",
+      "bodyTextLength": 88,
+      "distinctiveLine": [
+        "跳到主内容",
+        "PINEGLOW",
+        "松光启动器",
+        "d6tester",
+        "离线模式",
+        "开始游戏",
+        "安装管理",
+        "内容中心",
+        "独立世界，自由探索"
+      ],
+      "screenshotBytes": 26426,
+      "exceptions": 0,
+      "consoleErrors": 0,
+      "httpErrors": []
+    },
+    {
+      "label": "皮肤",
+      "clicked": {
+        "clicked": true,
+        "x": 71,
+        "y": 460
+      },
+      "heading": "PINEGLOW\n\t\t\t松光启动器",
+      "bodyTextLength": 212,
+      "distinctiveLine": [
+        "跳到主内容",
+        "PINEGLOW",
+        "松光启动器",
+        "d6tester",
+        "离线模式",
+        "开始游戏",
+        "安装管理",
+        "内容中心",
+        "独立世界，自由探索",
+        "当前使用的皮肤",
+        "皮肤图片加载失败，已显示配色模型",
+        "拖拽旋转 · 滚轮缩放",
+        "重置视角",
+        "暂停旋转"
+      ],
+      "screenshotBytes": 47917,
+      "exceptions": 0,
+      "consoleErrors": 0,
+      "httpErrors": [
+        "404 http://127.0.0.1:50929/api/accounts/6ca2fdfad0d0443e939999dec2f70f0a/skin-image?token=REDACTED_LOCAL_SESSION_TOKEN"
+      ]
+    },
+    {
+      "label": "下载",
+      "clicked": {
+        "clicked": true,
+        "x": 71,
+        "y": 504
+      },
+      "heading": "PINEGLOW\n\t\t\t松光启动器",
+      "bodyTextLength": 88,
+      "distinctiveLine": [
+        "跳到主内容",
+        "PINEGLOW",
+        "松光启动器",
+        "d6tester",
+        "离线模式",
+        "开始游戏",
+        "安装管理",
+        "内容中心",
+        "独立世界，自由探索"
+      ],
+      "screenshotBytes": 26437,
+      "exceptions": 0,
+      "consoleErrors": 0,
+      "httpErrors": []
+    },
+    {
+      "label": "新闻",
+      "clicked": {
+        "clicked": true,
+        "x": 71,
+        "y": 548
+      },
+      "heading": "PINEGLOW\n\t\t\t松光启动器",
+      "bodyTextLength": 1909,
+      "distinctiveLine": [
+        "跳到主内容",
+        "PINEGLOW",
+        "松光启动器",
+        "d6tester",
+        "离线模式",
+        "开始游戏",
+        "安装管理",
+        "内容中心",
+        "独立世界，自由探索",
+        "Minecraft 官方动态与公告",
+        "已验证（内容未变） · 最后验证 2026-10-11",
+        "MINECRAFT FOR WINDOWS",
+        "Discover Planet Earth III DLC",
+        "Step into a wondrous world inspired by the new landmark series from BBC Studios’ Natural History Unit, Planet Earth III."
+      ],
+      "screenshotBytes": 94181,
+      "exceptions": 0,
+      "consoleErrors": 0,
+      "httpErrors": [
+        "400 http://127.0.0.1:50929/api/news-image?id=c9d34179034d0d1364810e764d2ca94718ec5b6d6de10456e4f6aa347ccc85fc",
+        "400 http://127.0.0.1:50929/api/news-image?id=51719dd57bd27f2c4187fad69dd8845cea600654c38a1acd27a9f64944a7a2dd",
+        "400 http://127.0.0.1:50929/api/news-image?id=2a43e476ad908c5c61650b73a93bd4f08ade9c4041f48aa319e12e866db9f236",
+        "400 http://127.0.0.1:50929/api/news-image?id=a8175b8f712374be10b24a2a45f284a5a619d02954213a5731c412d0590237e8",
+        "400 http://127.0.0.1:50929/api/news-image?id=7944cc61c2da5060a00bb2ac451f89b6665275f63e0f9d7c3110d7e668e91fe7",
+        "400 http://127.0.0.1:50929/api/news-image?id=6531923c0a0ecfe78378e0a87c1965f357b49ee90184ce41b7590760cbf2169d",
+        "400 http://127.0.0.1:50929/api/news-image?id=db1b235ad96ddf2f09392672ae608c48a82df53e13febe5c8f742de0dd8fa5fd",
+        "400 http://127.0.0.1:50929/api/news-image?id=8ffa144805a69023371ee1802ce81d6917b0fdcb64b5672dd9f033592fcfa4ab",
+        "400 http://127.0.0.1:50929/api/news-image?id=d61c7fd23f138f4d8fe9d9ca077a32f1e7e5ad3cf2e4f14d0b055ee9ea75e49a",
+        "400 http://127.0.0.1:50929/api/news-image?id=a7c3fdba537e8abbd85c7c5c46ffeebdcd2fdd464bf0c2a861fb86961e7e14ef",
+        "400 http://127.0.0.1:50929/api/news-image?id=6f7f8e67fe0e93dcc39aef310fe76f8e78a28f12853265aaff5709c7a6eb7b4d",
+        "400 http://127.0.0.1:50929/api/news-image?id=ef99915f739318bf9e628c54140dbeeadd7acecfa62c2127ae51da18fee7975a"
+      ]
+    },
+    {
+      "label": "设置",
+      "clicked": {
+        "clicked": true,
+        "x": 71,
+        "y": 592
+      },
+      "heading": "PINEGLOW\n\t\t\t松光启动器",
+      "bodyTextLength": 796,
+      "distinctiveLine": [
+        "跳到主内容",
+        "PINEGLOW",
+        "松光启动器",
+        "d6tester",
+        "离线模式",
+        "开始游戏",
+        "安装管理",
+        "内容中心",
+        "独立世界，自由探索",
+        "JAVA / 系统分配",
+        "内存分配",
+        "调整分配给 Minecraft 进程的内存上限，推荐默认 4GB。",
+        "4.0 GB",
+        "自动内存分配"
+      ],
+      "screenshotBytes": 89023,
+      "exceptions": 0,
+      "consoleErrors": 0,
+      "httpErrors": []
+    }
+  ],
+  "exceptions": [],
+  "consoleErrors": [],
+  "httpErrors": [
+    "400 http://127.0.0.1:50929/api/news-image?id=7944cc61c2da5060a00bb2ac451f89b6665275f63e0f9d7c3110d7e668e91fe7",
+    "400 http://127.0.0.1:50929/api/news-image?id=2a43e476ad908c5c61650b73a93bd4f08ade9c4041f48aa319e12e866db9f236",
+    "400 http://127.0.0.1:50929/api/news-image?id=c9d34179034d0d1364810e764d2ca94718ec5b6d6de10456e4f6aa347ccc85fc",
+    "400 http://127.0.0.1:50929/api/news-image?id=a8175b8f712374be10b24a2a45f284a5a619d02954213a5731c412d0590237e8",
+    "404 http://127.0.0.1:50929/api/accounts/6ca2fdfad0d0443e939999dec2f70f0a/skin-image?token=REDACTED_LOCAL_SESSION_TOKEN",
+    "400 http://127.0.0.1:50929/api/news-image?id=c9d34179034d0d1364810e764d2ca94718ec5b6d6de10456e4f6aa347ccc85fc",
+    "400 http://127.0.0.1:50929/api/news-image?id=51719dd57bd27f2c4187fad69dd8845cea600654c38a1acd27a9f64944a7a2dd",
+    "400 http://127.0.0.1:50929/api/news-image?id=2a43e476ad908c5c61650b73a93bd4f08ade9c4041f48aa319e12e866db9f236",
+    "400 http://127.0.0.1:50929/api/news-image?id=a8175b8f712374be10b24a2a45f284a5a619d02954213a5731c412d0590237e8",
+    "400 http://127.0.0.1:50929/api/news-image?id=7944cc61c2da5060a00bb2ac451f89b6665275f63e0f9d7c3110d7e668e91fe7",
+    "400 http://127.0.0.1:50929/api/news-image?id=6531923c0a0ecfe78378e0a87c1965f357b49ee90184ce41b7590760cbf2169d",
+    "400 http://127.0.0.1:50929/api/news-image?id=db1b235ad96ddf2f09392672ae608c48a82df53e13febe5c8f742de0dd8fa5fd",
+    "400 http://127.0.0.1:50929/api/news-image?id=8ffa144805a69023371ee1802ce81d6917b0fdcb64b5672dd9f033592fcfa4ab",
+    "400 http://127.0.0.1:50929/api/news-image?id=d61c7fd23f138f4d8fe9d9ca077a32f1e7e5ad3cf2e4f14d0b055ee9ea75e49a",
+    "400 http://127.0.0.1:50929/api/news-image?id=a7c3fdba537e8abbd85c7c5c46ffeebdcd2fdd464bf0c2a861fb86961e7e14ef",
+    "400 http://127.0.0.1:50929/api/news-image?id=6f7f8e67fe0e93dcc39aef310fe76f8e78a28f12853265aaff5709c7a6eb7b4d",
+    "400 http://127.0.0.1:50929/api/news-image?id=ef99915f739318bf9e628c54140dbeeadd7acecfa62c2127ae51da18fee7975a"
+  ],
+  "sidebarCandidates": [
+    "跳到主内容",
+    "PINEGLOW",
+    "松光启动器",
+    "d6tester",
+    "离线模式",
+    "游戏",
+    "开始游戏",
+    "安装管理",
+    "世界",
+    "服务器",
+    "资源库",
+    "内容中心",
+    "皮肤",
+    "下载",
+    "新闻",
+    "设置",
+    "独立世界，自由探索",
+    "回到你的方块世界。",
+    "9m 总游玩时长",
+    "9m",
+    "当前版本",
+    "Java 版",
+    "最新资讯"
+  ],
+  "visitedViewCount": 5,
+  "viewsWithJsErrors": 0
+}

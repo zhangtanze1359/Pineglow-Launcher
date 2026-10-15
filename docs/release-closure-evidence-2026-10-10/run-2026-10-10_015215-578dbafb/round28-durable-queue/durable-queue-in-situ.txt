@@ -1,0 +1,24 @@
+﻿phase1 token = 7E7BF19A...
+download accepted: {"ok":true,"id":"dlv1791712343852","versionId":"1.21.11","status":"queued"}
+queue before kill: {"tasks":[{"id":"dlv1791712343852","versionId":"1.21.11","name":"Minecraft 1.21.11 客户端","status":"downloading","progress":0.05,"message":"下载：1.21.11.jar","startedAt":"2026-10-11T17:52:23.8523566+08:00"}]}
+persisted DownloadQueue BEFORE kill = 1 entries
+   state=1 version=1.21.11 msg=正在获取版本元数据
+=== HARD KILL (no graceful shutdown) ===
+launcher alive after kill = False
+phase2 token = F14F74C1...
+=== AFTER RESTART: GET /api/downloads ===
+{
+    "tasks":  [
+                  {
+                      "id":  "dlv1791712343852",
+                      "versionId":  "1.21.11",
+                      "name":  "Minecraft 1.21.11 客户端",
+                      "status":  "failed",
+                      "progress":  0,
+                      "message":  "上次运行被中断，可重新下载",
+                      "startedAt":  "2026-10-11T17:52:23.8523566+08:00"
+                  }
+              ]
+}
+=== product log: restore line ===
+   2026-10-11 17:53:08.628 [INFO] [Downloads] 已恢复 1 条下载队列记录

@@ -1,0 +1,106 @@
+{
+    "runId":  "20261003-160000Z",
+    "task":  "MR19 补测之二：单文件 exe 是否受构建路径影响",
+    "generatedUtc":  "2026-10-02T23:38:12Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "the cross-PATH limitation that run 20261003-150000Z explicitly named as untested",
+    "verdict":  "NEGATIVE - the single-file exe is NOT byte-reproducible across build paths; the reproducibility claim must be narrowed",
+    "result":  {
+                   "method":  "same source, three publishes at three different path lengths",
+                   "inPlace":  "8 chars  D:\\松光启动器  -> 89490941 bytes  SHA C99101C8672D7861B6FEF2F29E20F144350771DD9E92F1ABB4DD8987BBA0EC13",
+                   "snapShort":  "45 chars  %TEMP%\\pgA -> 89490941 bytes  SHA 3AFE016BBB80B5A686056DAD95A04A4BAE4B4EE7ED4859C3D2213300163B62F5",
+                   "snapLong":  "93 chars  %TEMP%\\pg-long-path-check-0123... -> 89490941 bytes  SHA F1C10F08670C7D0FC9FAE0C4A612F1E49450F021FE7FD20507FC2474B92DA002",
+                   "differingBytes":  "1691-1725 / 89490941 (0.0019%); first differing offset 428 (0x1AC)",
+                   "decisiveComparison":  "excluding bin/obj the two snapshots have 256 identical source inputs (input-list SHA 4B73958C... for both); all 14 content differences are under bin/obj and the single extra file is obj/.../PublishOutputs.<path-hash>.txt - so the ONLY variable was the path",
+                   "samePathStabilityReplicated":  "the in-place SHA equals both publishes from run 150000Z, whose artifacts are still present and unchanged",
+                   "lockFileSideEffect":  "restored byte-identically (8663 bytes, SHA FBBC9AE6...EE0672)",
+                   "lockGuard":  "3 passed / 0 failed",
+                   "csharpFull":  "755 passed / 0 failed",
+                   "nodeFull":  "230 passed / 0 failed (18 files)",
+                   "productCodeChanged":  false,
+                   "currentDriftNumbers":  "mg0: 252/1/81/0 ; mg1: 59/0/61/0 ; mg2: 252/1/80/0 ; mg3: 59/0/61/0 ; ledger audit exit 0 (measured at the end of this round; numbers shift as new packages record hashes - that is normal)"
+               },
+    "mechanismNotDetermined":  [
+                                   "PE TimeDateStamp / CheckSum",
+                                   ".NET single-file bundle manifest (embedded offsets/sizes or original paths)",
+                                   "apphost / native section carrying the build path or a length-derived value",
+                                   "the report deliberately draws NO mechanism conclusion; a follow-up would need e.g. a same-length-different-content path test"
+                               ],
+    "impactOnMR19":  [
+                         "USABLE: managed assembly is byte-reproducible across forced full rebuilds",
+                         "USABLE: single-file exe is byte-reproducible AT THE SAME PATH",
+                         "NOT USABLE: \"single-file exe is reproducible\" without qualification",
+                         "NOT USABLE: \"full-chain / cross-environment reproducible build\"",
+                         "SHOULD BE STATED: cross-path is NOT reproducible (measured)"
+                     ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "5C69D69DFBD1C76BEB6FA684E7968CE73BC7BC4D7AC2FB54324AF1137AD92AAE",
+                      "sizeBytes":  8429
+                  },
+                  {
+                      "path":  "green/01-pathcheck.log",
+                      "sha256":  "E5D092ABDBD15F8DD56B9C3FF00AC6CE64D52857367A3E6DC1912E2029560615",
+                      "sizeBytes":  5574
+                  },
+                  {
+                      "path":  "green/02-snapshot-short-inputs.sha256.txt",
+                      "sha256":  "4B73958C1D7D3BAF0E0D7767D8D12D20116E875C4DE2C31CA036BAA5B7FDDE12",
+                      "sizeBytes":  30803
+                  },
+                  {
+                      "path":  "green/03-snapshot-long-inputs.sha256.txt",
+                      "sha256":  "4B73958C1D7D3BAF0E0D7767D8D12D20116E875C4DE2C31CA036BAA5B7FDDE12",
+                      "sizeBytes":  30803
+                  },
+                  {
+                      "path":  "green/04-lock-guard.log",
+                      "sha256":  "0B2A52564B1CC34048E75577D0FBB1C22BCC4717BB83BC5BC3D6DAE0FA30AABD",
+                      "sizeBytes":  4816
+                  },
+                  {
+                      "path":  "green/05-csharp-full.log",
+                      "sha256":  "BD35EBBD8FAB222A8006CB097B6B1CF6D24AB079C86A6095C55BFA5669E7A6A2",
+                      "sizeBytes":  655
+                  },
+                  {
+                      "path":  "green/06-node-full.log",
+                      "sha256":  "3D9CEEFEF0594C7724D250604C0FE7962F03CF920D999AFBE4BE9B0CB57EFE90",
+                      "sizeBytes":  23802
+                  },
+                  {
+                      "path":  "green/07-verify-mg0-recheck.log",
+                      "sha256":  "5F2B65F25B0D1220E3EFFF71D6BF14888EE3E18D02C0D82DC4D228A657E0E40B",
+                      "sizeBytes":  2451
+                  },
+                  {
+                      "path":  "green/07-verify-mg1-recheck.log",
+                      "sha256":  "3BF929EE321DA2BF7B59DED3CAAAA81737590E29AA862184E68C9EC9F8FB0359",
+                      "sizeBytes":  2772
+                  },
+                  {
+                      "path":  "green/07-verify-mg2-recheck.log",
+                      "sha256":  "FAF5C977A9B51B35A7268F5FD26A74E1281D7FF1678FB6378F7651114B909EBC",
+                      "sizeBytes":  3039
+                  },
+                  {
+                      "path":  "green/07-verify-mg3-recheck.log",
+                      "sha256":  "7758DF853A42D6E5FF7A11FB1BC0B08E9B54EFAE6B01CFD89AA686CB21E493A8",
+                      "sizeBytes":  2595
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "D73B006CD2145072A4AAE641FAC63B34244C7B288D0A5C39863E8B3DDCA708FD",
+                      "sizeBytes":  213
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "B031BE2AF012784C5C436188AABBF7B6D5C1DC758B606591DEF8F388850B84DE",
+                      "sizeBytes":  115220
+                  }
+              ],
+    "artifactsRetained":  "%TEMP%\\pineglow-pathcheck-61cf0bdecf784014943a24ae08d1dd98\\publish-{inplace,snap-short,snap-long}\\Pineglow.Launcher.exe",
+    "cleanup":  "the two snapshot source trees (233.3 MB each) were deleted after verifying the resolved paths were under %TEMP% and name-matched"
+}

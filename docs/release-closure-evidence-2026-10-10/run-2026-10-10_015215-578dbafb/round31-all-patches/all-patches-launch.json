@@ -1,0 +1,12 @@
+﻿{
+    "probe":  "all-patches-launch",
+    "exe":  "20B72167201A2ADE341FE30CB93F7E95CCA04041E3515ACEBA925F8B5649D711",
+    "instance":  "d7-fabric 导入",
+    "loader":  "Fabric",
+    "mcVersion":  "fabric-loader-0.19.5-1.21.11",
+    "prelaunchOk":  true,
+    "launchOk":  true,
+    "gamePid":  28560,
+    "reachedTitle":  true,
+    "marker":  "Sound engine started"
+}

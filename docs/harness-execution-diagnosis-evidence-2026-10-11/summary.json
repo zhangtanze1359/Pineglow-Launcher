@@ -1,0 +1,479 @@
+{
+  "collectedAtUtc": "2026-10-11T06:07:29.373Z",
+  "scope": "Read-only Harness diagnosis; evidence writes only",
+  "session": "session-98527af6-2b06-4bf8-9c00-e4bc727dd861",
+  "raw": {
+    "path": "C:/Users/Administrator/.dsh/sessions/--D-~677E~5149~542F~52A8~5668--/session-98527af6-2b06-4bf8-9c00-e4bc727dd861/session.v4.jsonl.zstd",
+    "bytes": 2511608,
+    "sha256": "774469598c9c0691dcbaa3bec37b2825b0e5ad7c2c527a68ad8c142886fc2192"
+  },
+  "rawRecordCount": 1796,
+  "lastRawEvent": {
+    "seq": 1794,
+    "type": "session/end-seed",
+    "timeUtc": "2026-10-10T14:06:39.187Z",
+    "timeHongKong": "2026-10-10T22:06:39.187+08:00"
+  },
+  "fatal400Count": 5,
+  "fatal400": [
+    {
+      "seq": 1739,
+      "type": "assistant/attempt",
+      "timeUtc": "2026-10-09T20:48:11.334Z",
+      "timeHongKong": "2026-10-10T04:48:11.334+08:00",
+      "turn": 11,
+      "step": 23,
+      "failure": {
+        "message": "400 status code (no body)",
+        "code": "INVALID_REQUEST"
+      }
+    },
+    {
+      "seq": 1751,
+      "type": "assistant/attempt",
+      "timeUtc": "2026-10-10T04:24:14.522Z",
+      "timeHongKong": "2026-10-10T12:24:14.522+08:00",
+      "turn": 12,
+      "step": 1,
+      "failure": {
+        "message": "400 status code (no body)",
+        "code": "INVALID_REQUEST"
+      }
+    },
+    {
+      "seq": 1761,
+      "type": "assistant/attempt",
+      "timeUtc": "2026-10-10T04:28:09.870Z",
+      "timeHongKong": "2026-10-10T12:28:09.870+08:00",
+      "turn": 13,
+      "step": 1,
+      "failure": {
+        "message": "400 status code (no body)",
+        "code": "INVALID_REQUEST"
+      }
+    },
+    {
+      "seq": 1772,
+      "type": "assistant/attempt",
+      "timeUtc": "2026-10-10T04:45:19.470Z",
+      "timeHongKong": "2026-10-10T12:45:19.470+08:00",
+      "turn": 14,
+      "step": 1,
+      "failure": {
+        "message": "400 status code (no body)",
+        "code": "INVALID_REQUEST"
+      }
+    },
+    {
+      "seq": 1784,
+      "type": "assistant/attempt",
+      "timeUtc": "2026-10-10T05:03:57.617Z",
+      "timeHongKong": "2026-10-10T13:03:57.617+08:00",
+      "turn": 15,
+      "step": 1,
+      "failure": {
+        "message": "400 status code (no body)",
+        "code": "INVALID_REQUEST"
+      }
+    }
+  ],
+  "lastSuccessfulResponse": {
+    "seq": 1734,
+    "type": "assistant/message",
+    "timeUtc": "2026-10-09T20:48:02.132Z",
+    "timeHongKong": "2026-10-10T04:48:02.132+08:00",
+    "turn": 11,
+    "step": 22,
+    "usage": {
+      "inputTokens": 837,
+      "outputTokens": 715,
+      "totalTokens": 664848,
+      "cacheReadTokens": 663296
+    }
+  },
+  "compactions": [
+    {
+      "seq": 1793,
+      "type": "command/done",
+      "timeUtc": "2026-10-10T05:05:18.756Z",
+      "timeHongKong": "2026-10-10T13:05:18.756+08:00",
+      "commandId": "cmd-561307d9-1",
+      "kind": "success",
+      "text": "Compacted 674 history items (~477837 tokens).",
+      "sourceEventSeq": 1790
+    }
+  ],
+  "assistantAttemptsAfterCompaction": 0,
+  "goalChangesAfterFirst400": [
+    {
+      "seq": 1743,
+      "type": "goal/change",
+      "timeUtc": "2026-10-10T04:24:03.164Z",
+      "timeHongKong": "2026-10-10T12:24:03.164+08:00",
+      "kind": "goal/change",
+      "version": 1,
+      "operation": "resume",
+      "goal": {
+        "id": "goal-0b630990-ed41-4a00-a1f9-d6e62e07d3b8",
+        "revision": 2,
+        "objective": "codex://threads/01a121b5-415f-7271-996c-2ce784c128f2",
+        "phase": "active",
+        "maxGoalRounds": 256
+      },
+      "roundsStarted": 11,
+      "createdAt": 1791568070436,
+      "updatedAt": 1791606243164
+    },
+    {
+      "seq": 1754,
+      "type": "goal/change",
+      "timeUtc": "2026-10-10T04:27:57.680Z",
+      "timeHongKong": "2026-10-10T12:27:57.680+08:00",
+      "kind": "goal/change",
+      "version": 1,
+      "operation": "resume",
+      "goal": {
+        "id": "goal-0b630990-ed41-4a00-a1f9-d6e62e07d3b8",
+        "revision": 3,
+        "objective": "codex://threads/01a121b5-415f-7271-996c-2ce784c128f2",
+        "phase": "active",
+        "maxGoalRounds": 256
+      },
+      "roundsStarted": 12,
+      "createdAt": 1791568070436,
+      "updatedAt": 1791606477680
+    },
+    {
+      "seq": 1764,
+      "type": "goal/change",
+      "timeUtc": "2026-10-10T04:45:06.072Z",
+      "timeHongKong": "2026-10-10T12:45:06.072+08:00",
+      "kind": "goal/change",
+      "version": 1,
+      "operation": "resume",
+      "goal": {
+        "id": "goal-0b630990-ed41-4a00-a1f9-d6e62e07d3b8",
+        "revision": 4,
+        "objective": "codex://threads/01a121b5-415f-7271-996c-2ce784c128f2",
+        "phase": "active",
+        "maxGoalRounds": 256
+      },
+      "roundsStarted": 13,
+      "createdAt": 1791568070436,
+      "updatedAt": 1791607506072
+    },
+    {
+      "seq": 1776,
+      "type": "goal/change",
+      "timeUtc": "2026-10-10T05:03:48.364Z",
+      "timeHongKong": "2026-10-10T13:03:48.364+08:00",
+      "kind": "goal/change",
+      "version": 1,
+      "operation": "resume",
+      "goal": {
+        "id": "goal-0b630990-ed41-4a00-a1f9-d6e62e07d3b8",
+        "revision": 5,
+        "objective": "codex://threads/01a121b5-415f-7271-996c-2ce784c128f2",
+        "phase": "active",
+        "maxGoalRounds": 256
+      },
+      "roundsStarted": 14,
+      "createdAt": 1791568070436,
+      "updatedAt": 1791608628363
+    },
+    {
+      "seq": 1787,
+      "type": "goal/change",
+      "timeUtc": "2026-10-10T05:04:01.414Z",
+      "timeHongKong": "2026-10-10T13:04:01.414+08:00",
+      "kind": "goal/change",
+      "version": 1,
+      "operation": "clear",
+      "cleared": {
+        "id": "goal-0b630990-ed41-4a00-a1f9-d6e62e07d3b8",
+        "revision": 6
+      },
+      "clearedAt": 1791608641414
+    }
+  ],
+  "safeCache": {
+    "goal": {
+      "current": null,
+      "seenGoalIds": [
+        "goal-0b630990-ed41-4a00-a1f9-d6e62e07d3b8"
+      ],
+      "failure": null
+    },
+    "contextPressure": {
+      "surfaceTokens": 7679,
+      "contextWindow": 1000000,
+      "pressureTokens": 0,
+      "sampledSurfaceTokens": 481197
+    },
+    "contextBreakdown": {
+      "systemTokens": 3287,
+      "toolsTokens": 20669,
+      "messageTokens": 4392
+    },
+    "sessionStats": {
+      "turns": 15,
+      "steps": 309,
+      "llmMs": 4550071,
+      "toolMs": 6216086,
+      "ttftMs": 2822109,
+      "ttftSteps": 304,
+      "decodeMs": 1727962,
+      "decodeTokens": 345893,
+      "lastTurn": 15,
+      "openStep": null,
+      "pendingCalls": {}
+    },
+    "turnBoundary": {
+      "openTurnStartSeq": null,
+      "lastStepStartSeq": 1780,
+      "lastStepBoundary": {
+        "kind": "end",
+        "seq": 1785
+      },
+      "lastTurn": 15
+    },
+    "modelSelection": {
+      "lastUsed": {
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "reasoningEffort": "max"
+      },
+      "pending": null
+    }
+  },
+  "pairCheck": {
+    "calls": 335,
+    "results": 335,
+    "callsWithoutResult": [],
+    "resultsWithoutCall": []
+  },
+  "headerInventory": [
+    {
+      "seq": 1624,
+      "type": "request/header",
+      "timeUtc": "2026-10-09T20:32:06.080Z",
+      "timeHongKong": "2026-10-10T04:32:06.080+08:00",
+      "configSha256": "3da6655c78389006e291b4644ad0ed41f8f8e589f8b89226156316ea5b2554aa",
+      "toolsCount": 79,
+      "toolsSha256": "bc906f52972175351aba5f319ae6a823695f1e3eae1b40547c32596c47e641ae"
+    },
+    {
+      "seq": 1750,
+      "type": "request/header",
+      "timeUtc": "2026-10-10T04:24:03.214Z",
+      "timeHongKong": "2026-10-10T12:24:03.214+08:00",
+      "configSha256": "3da6655c78389006e291b4644ad0ed41f8f8e589f8b89226156316ea5b2554aa",
+      "toolsCount": 79,
+      "toolsSha256": "bc906f52972175351aba5f319ae6a823695f1e3eae1b40547c32596c47e641ae"
+    },
+    {
+      "seq": 1760,
+      "type": "request/header",
+      "timeUtc": "2026-10-10T04:27:57.745Z",
+      "timeHongKong": "2026-10-10T12:27:57.745+08:00",
+      "configSha256": "3da6655c78389006e291b4644ad0ed41f8f8e589f8b89226156316ea5b2554aa",
+      "toolsCount": 79,
+      "toolsSha256": "bc906f52972175351aba5f319ae6a823695f1e3eae1b40547c32596c47e641ae"
+    },
+    {
+      "seq": 1771,
+      "type": "request/header",
+      "timeUtc": "2026-10-10T04:45:06.132Z",
+      "timeHongKong": "2026-10-10T12:45:06.132+08:00",
+      "configSha256": "3da6655c78389006e291b4644ad0ed41f8f8e589f8b89226156316ea5b2554aa",
+      "toolsCount": 79,
+      "toolsSha256": "bc906f52972175351aba5f319ae6a823695f1e3eae1b40547c32596c47e641ae"
+    },
+    {
+      "seq": 1783,
+      "type": "request/header",
+      "timeUtc": "2026-10-10T05:03:48.405Z",
+      "timeHongKong": "2026-10-10T13:03:48.405+08:00",
+      "configSha256": "3da6655c78389006e291b4644ad0ed41f8f8e589f8b89226156316ea5b2554aa",
+      "toolsCount": 79,
+      "toolsSha256": "bc906f52972175351aba5f319ae6a823695f1e3eae1b40547c32596c47e641ae"
+    }
+  ],
+  "toolCallsInTurns12To15": 0,
+  "profileModelPolicy": [
+    {
+      "line": 61,
+      "text": "# Earlier compaction for long OpenCode Go DeepSeek sessions (2026-10-05)."
+    },
+    {
+      "line": 62,
+      "text": "- id: compaction-basic"
+    },
+    {
+      "line": 63,
+      "text": "  name: \"@deepseek-ai/dsh-compaction-basic\""
+    },
+    {
+      "line": 64,
+      "text": "  config:"
+    },
+    {
+      "line": 65,
+      "text": "    modelPolicies:"
+    },
+    {
+      "line": 66,
+      "text": "      - provider: opencode-go"
+    },
+    {
+      "line": 67,
+      "text": "        model: deepseek-v4.1-flash"
+    },
+    {
+      "line": 68,
+      "text": "        thresholdRatio: 0.30"
+    },
+    {
+      "line": 69,
+      "text": "        retainRatio: 0.08"
+    }
+  ],
+  "profileLiveLoadingVerified": false,
+  "probe": {
+    "path": "D:/松光启动器/docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/probe-range-resume.ps1",
+    "bytes": 7488,
+    "sha256": "cf7bc5d99a35ff26c8506d26ef2378b97719dffc514b5c2bcb701a3d4eca3afd",
+    "bom": "ef-bb-bf",
+    "assertions": [
+      {
+        "line": 57,
+        "text": "  messagesSeen = @()"
+      },
+      {
+        "line": 58,
+        "text": "  resumeLogLines = @(); finalJarSha1 = ''; jarMatchesOriginal = $false"
+      },
+      {
+        "line": 122,
+        "text": "  $result.messagesSeen = $messages.ToArray()"
+      },
+      {
+        "line": 136,
+        "text": "    $result.resumeLogLines = @($lines | Where-Object { $_ -match '继续下载|已完成' } | Select-Object -Last 6)"
+      },
+      {
+        "line": 141,
+        "text": "if (-not $result.jarMatchesOriginal) { exit 3 }"
+      },
+      {
+        "line": 142,
+        "text": "if (@($result.resumeLogLines).Count -eq 0) { exit 4 }"
+      }
+    ]
+  },
+  "rangeEvidence": {
+    "probe": "range-resume-proof",
+    "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-resume-ae6617c18e7f4b1880305f18be85aa1d\\install",
+    "version": "1.21.11",
+    "jarPath": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-resume-ae6617c18e7f4b1880305f18be85aa1d\\install\\data\\.minecraft\\versions\\1.21.11\\1.21.11.jar",
+    "tempPath": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-resume-ae6617c18e7f4b1880305f18be85aa1d\\install\\data\\.minecraft\\versions\\1.21.11\\1.21.11.jar.download",
+    "originalJarSha1": "ba2df812c2d12e0219c489c4cd9a5e1f0760f5bd",
+    "tempBytesWritten": 1048576,
+    "logLineCountBefore": 6,
+    "messagesSeen": [
+      "正在获取 Minecraft 1.21.11 元数据...",
+      "下载：1.21.11.jar",
+      "继续下载：1.21.11.jar（已完成 1.0 MB）",
+      "正在下载游戏资源：3000/4591"
+    ],
+    "resumeLogLines": [],
+    "finalJarSha1": "ba2df812c2d12e0219c489c4cd9a5e1f0760f5bd",
+    "jarMatchesOriginal": true,
+    "downloadStatus": "downloading",
+    "seconds": 12,
+    "leftoverTemp": false,
+    "ownedProcessesStopped": true,
+    "timeHK": "2026-10-10T04:47:28.5347870"
+  },
+  "git": {
+    "head": "c8aa286f65ad13433129fe0a9e86e2d3b0e9020b",
+    "trackedChanged": 41,
+    "untracked": 2258,
+    "staged": 0
+  },
+  "guardedBefore": [
+    {
+      "path": "C:/Users/Administrator/.dsh/sessions/--D-~677E~5149~542F~52A8~5668--/session-98527af6-2b06-4bf8-9c00-e4bc727dd861/session.v4.jsonl.zstd",
+      "bytes": 2511608,
+      "sha256": "774469598c9c0691dcbaa3bec37b2825b0e5ad7c2c527a68ad8c142886fc2192"
+    },
+    {
+      "path": "C:/Users/Administrator/.dsh/profiles/desktop/cordis.patch.yml",
+      "bytes": 2925,
+      "sha256": "367a9085cb1237801da37c1f22c679bfd8860c3071c93c185720b424c3ed5cd9"
+    },
+    {
+      "path": "D:/松光启动器/docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/probe-range-resume.ps1",
+      "bytes": 7488,
+      "sha256": "cf7bc5d99a35ff26c8506d26ef2378b97719dffc514b5c2bcb701a3d4eca3afd"
+    },
+    {
+      "path": "D:/松光启动器/docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/d-range-resume2/range-resume.json",
+      "bytes": 1339,
+      "sha256": "81cc11a1135d22a90731aae8d2307341f60042d52ba0160e7868de04b0f7c76c"
+    },
+    {
+      "path": "D:/松光启动器/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.cs",
+      "bytes": 212450,
+      "sha256": "4180cecbccaaa6bcae2bdd454d26f0ea3a158376a889da06d3e9d8c3ff689d23"
+    },
+    {
+      "path": "D:/松光启动器/scripts/verify-source-snapshot.ps1",
+      "bytes": 47796,
+      "sha256": "3ddaf00b650399b9771c5e839f486364b907f2e659b8ecf54d3a18d336cec574"
+    },
+    {
+      "path": "D:/松光启动器/scripts/source-snapshot-inputs.txt",
+      "bytes": 14544,
+      "sha256": "543eaa84c95962ea6c1a0671e09b0982564c7d26b5d4fb9d7a5ee4b871bdd7a2"
+    }
+  ],
+  "guardedAfter": [
+    {
+      "path": "C:/Users/Administrator/.dsh/sessions/--D-~677E~5149~542F~52A8~5668--/session-98527af6-2b06-4bf8-9c00-e4bc727dd861/session.v4.jsonl.zstd",
+      "bytes": 2511608,
+      "sha256": "774469598c9c0691dcbaa3bec37b2825b0e5ad7c2c527a68ad8c142886fc2192"
+    },
+    {
+      "path": "C:/Users/Administrator/.dsh/profiles/desktop/cordis.patch.yml",
+      "bytes": 2925,
+      "sha256": "367a9085cb1237801da37c1f22c679bfd8860c3071c93c185720b424c3ed5cd9"
+    },
+    {
+      "path": "D:/松光启动器/docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/probe-range-resume.ps1",
+      "bytes": 7488,
+      "sha256": "cf7bc5d99a35ff26c8506d26ef2378b97719dffc514b5c2bcb701a3d4eca3afd"
+    },
+    {
+      "path": "D:/松光启动器/docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/d-range-resume2/range-resume.json",
+      "bytes": 1339,
+      "sha256": "81cc11a1135d22a90731aae8d2307341f60042d52ba0160e7868de04b0f7c76c"
+    },
+    {
+      "path": "D:/松光启动器/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.cs",
+      "bytes": 212450,
+      "sha256": "4180cecbccaaa6bcae2bdd454d26f0ea3a158376a889da06d3e9d8c3ff689d23"
+    },
+    {
+      "path": "D:/松光启动器/scripts/verify-source-snapshot.ps1",
+      "bytes": 47796,
+      "sha256": "3ddaf00b650399b9771c5e839f486364b907f2e659b8ecf54d3a18d336cec574"
+    },
+    {
+      "path": "D:/松光启动器/scripts/source-snapshot-inputs.txt",
+      "bytes": 14544,
+      "sha256": "543eaa84c95962ea6c1a0671e09b0982564c7d26b5d4fb9d7a5ee4b871bdd7a2"
+    }
+  ],
+  "guardedUnchanged": true
+}

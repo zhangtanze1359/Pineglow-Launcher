@@ -1,0 +1,448 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="2f0cca05-a75d-4629-9f08-cbaba78ca7b6" name="Administrator@PC-20260705RBJQ 2026-10-03 03:02:36" runUser="PC-20260705RBJQ\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-03T03:02:36.3323109+08:00" queuing="2026-10-03T03:02:36.3323122+08:00" start="2026-10-03T03:02:35.5381336+08:00" finish="2026-10-03T03:02:36.3942101+08:00" />
+  <TestSettings name="default" id="74190afb-b180-4c3a-99f8-ff1922a7d900">
+    <Deployment runDeploymentRoot="Administrator_PC-20260705RBJQ_2026-10-03_03_02_36" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="d9f29910-cc05-4e80-8692-5d69c48efce5" testId="ba7642b3-60ef-1edc-9810-c8d181e0b344" testName="Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: &quot;POST&quot;, suffix: &quot;/mods/a.jar/toggle&quot;, isPost: True)" computerName="PC-20260705RBJQ" duration="00:00:00.0057931" startTime="2026-10-03T03:02:36.2594797+08:00" endTime="2026-10-03T03:02:36.2652355+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d9f29910-cc05-4e80-8692-5d69c48efce5">
+      <Output>
+        <StdOut>[route] POST /api/instances/inst-e1a3459a/mods/a.jar/toggle -&gt; 404 | error=未找到接口：POST /api/instances/inst-e1a3459a/mods/a.jar/toggle | body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-e1a3459a/mods/a.jar/toggle"}</StdOut>
+        <ErrorInfo>
+          <Message>路由不可达：POST /api/instances/inst-e1a3459a/mods/a.jar/toggle 命中了路由器兜底 404（status=404）。这说明该守卫仍被嵌套在互斥的 seg.Length 作用域内。body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-e1a3459a/mods/a.jar/toggle"}</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost) in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 148&#xD;
+   at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost) in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 154&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="647ef925-a495-43d4-84aa-d8f33c195264" testId="8917bc19-34f6-c8be-9adc-4dd7add66388" testName="Pineglow.Launcher.Tests.RouteReachabilityTests.RouterFallbackMarker_HasTeeth_UnknownPathReturnsFallback404" computerName="PC-20260705RBJQ" duration="00:00:00.0059651" startTime="2026-10-03T03:02:36.3333676+08:00" endTime="2026-10-03T03:02:36.3394008+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="647ef925-a495-43d4-84aa-d8f33c195264">
+      <Output>
+        <StdOut>[teeth] POST /api/instances/inst-f7b30283/bogus/xyz -&gt; 404 body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-f7b30283/bogus/xyz"}</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="197019bd-4d95-411e-8ef0-fe8e81a03788" testId="16441b80-af64-3bb4-685a-b048cc46656e" testName="Pineglow.Launcher.Tests.RouteReachabilityTests.Saves_BackupListRestoreDelete_ReachHandler" computerName="PC-20260705RBJQ" duration="00:00:00.0065078" startTime="2026-10-03T03:02:36.3263234+08:00" endTime="2026-10-03T03:02:36.3328070+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="197019bd-4d95-411e-8ef0-fe8e81a03788">
+      <Output>
+        <StdOut>[saves] backups(empty) -&gt; 404 body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1AGET /api/instances/inst-12d72d07/saves/world1/backups"}</StdOut>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Values differ&#xD;
+Expected: 200&#xD;
+Actual:   404</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.RouteReachabilityTests.Saves_BackupListRestoreDelete_ReachHandler() in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 251&#xD;
+   at Pineglow.Launcher.Tests.RouteReachabilityTests.Saves_BackupListRestoreDelete_ReachHandler() in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 274&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="fb8f9bee-da13-4e26-8482-a194a1135b2e" testId="64fc793d-e8c1-ff34-b79a-0f29cfc4579d" testName="Pineglow.Launcher.Tests.RouteReachabilityTests.Bisect_StartThenGiveUp_ReachesHandlerAndRestoresMods" computerName="PC-20260705RBJQ" duration="00:00:00.1088063" startTime="2026-10-03T03:02:36.1052077+08:00" endTime="2026-10-03T03:02:36.2253107+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fb8f9bee-da13-4e26-8482-a194a1135b2e">
+      <Output>
+        <StdOut>[bisect] start -&gt; 404 body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-dd05fc4a/bisect/start"}</StdOut>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Values differ&#xD;
+Expected: 200&#xD;
+Actual:   404</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.RouteReachabilityTests.Bisect_StartThenGiveUp_ReachesHandlerAndRestoresMods() in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 210&#xD;
+   at Pineglow.Launcher.Tests.RouteReachabilityTests.Bisect_StartThenGiveUp_ReachesHandlerAndRestoresMods() in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 218&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="1596795f-c7db-4cff-aabb-9d0c7f20270f" testId="db9ead6d-9e50-2fac-5417-0420e7cdd493" testName="Pineglow.Launcher.Tests.RouteReachabilityTests.NoConflictingNestedSegLengthGuards_InHandleApiAsync" computerName="PC-20260705RBJQ" duration="00:00:00.0163028" startTime="2026-10-03T03:02:36.3077706+08:00" endTime="2026-10-03T03:02:36.3114967+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1596795f-c7db-4cff-aabb-9d0c7f20270f">
+      <Output>
+        <ErrorInfo>
+          <Message>检测到互斥嵌套的长度守卫，相关路由将永远不可达：
+    第 97 行：if (seg.Length == 6 &amp;&amp; action.Equals("saves", StringComparison.OrdinalIgnoreCase))   ← 被嵌套在 seg.Length == 4 的作用域内，条件恒假
+    第 127 行：if (seg.Length == 8 &amp;&amp; action.Equals("saves", StringComparison.OrdinalIgnoreCase) &amp;&amp; method == "POST")   ← 被嵌套在 seg.Length == 4 的作用域内，条件恒假
+    第 158 行：if (seg.Length == 5 &amp;&amp; action.Equals("bisect", StringComparison.OrdinalIgnoreCase))   ← 被嵌套在 seg.Length == 4 的作用域内，条件恒假
+    第 178 行：}				if (seg.Length == 6 &amp;&amp; action.Equals("mods", StringComparison.OrdinalIgnoreCase))   ← 被嵌套在 seg.Length == 4 的作用域内，条件恒假</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.RouteReachabilityTests.NoConflictingNestedSegLengthGuards_InHandleApiAsync() in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 282&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="97686c01-efab-4216-8556-a516e10a9774" testId="2c19517b-f664-1f54-0597-09ec921a490d" testName="Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: &quot;POST&quot;, suffix: &quot;/saves/nosuch/open&quot;, isPost: True)" computerName="PC-20260705RBJQ" duration="00:00:00.0056098" startTime="2026-10-03T03:02:36.2419667+08:00" endTime="2026-10-03T03:02:36.2469964+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="97686c01-efab-4216-8556-a516e10a9774">
+      <Output>
+        <StdOut>[route] POST /api/instances/inst-7f315fb3/saves/nosuch/open -&gt; 404 | error=未找到接口：POST /api/instances/inst-7f315fb3/saves/nosuch/open | body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-7f315fb3/saves/nosuch/open"}</StdOut>
+        <ErrorInfo>
+          <Message>路由不可达：POST /api/instances/inst-7f315fb3/saves/nosuch/open 命中了路由器兜底 404（status=404）。这说明该守卫仍被嵌套在互斥的 seg.Length 作用域内。body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-7f315fb3/saves/nosuch/open"}</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost) in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 148&#xD;
+   at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost) in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 154&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="7e5acdbf-2855-45a6-8750-395636815768" testId="9a50275f-57f3-4b74-6336-c431adae7fdd" testName="Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: &quot;POST&quot;, suffix: &quot;/saves/world1/backup&quot;, isPost: True)" computerName="PC-20260705RBJQ" duration="00:00:00.0058088" startTime="2026-10-03T03:02:36.2714024+08:00" endTime="2026-10-03T03:02:36.2772624+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7e5acdbf-2855-45a6-8750-395636815768">
+      <Output>
+        <StdOut>[route] POST /api/instances/inst-bc567c24/saves/world1/backup -&gt; 404 | error=未找到接口：POST /api/instances/inst-bc567c24/saves/world1/backup | body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-bc567c24/saves/world1/backup"}</StdOut>
+        <ErrorInfo>
+          <Message>路由不可达：POST /api/instances/inst-bc567c24/saves/world1/backup 命中了路由器兜底 404（status=404）。这说明该守卫仍被嵌套在互斥的 seg.Length 作用域内。body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-bc567c24/saves/world1/backup"}</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost) in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 148&#xD;
+   at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost) in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 154&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="439dface-28c6-40e8-8368-c5283f045ce3" testId="bcc77916-da8c-46a3-ef8f-dad6039eb443" testName="Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: &quot;POST&quot;, suffix: &quot;/bisect/giveup&quot;, isPost: True)" computerName="PC-20260705RBJQ" duration="00:00:00.0049847" startTime="2026-10-03T03:02:36.2778844+08:00" endTime="2026-10-03T03:02:36.2826872+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="439dface-28c6-40e8-8368-c5283f045ce3">
+      <Output>
+        <StdOut>[route] POST /api/instances/inst-a527ca6e/bisect/giveup -&gt; 404 | error=未找到接口：POST /api/instances/inst-a527ca6e/bisect/giveup | body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-a527ca6e/bisect/giveup"}</StdOut>
+        <ErrorInfo>
+          <Message>路由不可达：POST /api/instances/inst-a527ca6e/bisect/giveup 命中了路由器兜底 404（status=404）。这说明该守卫仍被嵌套在互斥的 seg.Length 作用域内。body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-a527ca6e/bisect/giveup"}</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost) in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 148&#xD;
+   at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost) in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 154&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="d051bfe6-a7b0-4df1-b846-3e8bb3644870" testId="8c63bdd9-9213-970f-0455-455f9a6fe4b6" testName="Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: &quot;POST&quot;, suffix: &quot;/saves/world1/delete&quot;, isPost: True)" computerName="PC-20260705RBJQ" duration="00:00:00.0054334" startTime="2026-10-03T03:02:36.3072542+08:00" endTime="2026-10-03T03:02:36.3072972+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d051bfe6-a7b0-4df1-b846-3e8bb3644870">
+      <Output>
+        <StdOut>[route] POST /api/instances/inst-318ab91a/saves/world1/delete -&gt; 404 | error=未找到接口：POST /api/instances/inst-318ab91a/saves/world1/delete | body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-318ab91a/saves/world1/delete"}</StdOut>
+        <ErrorInfo>
+          <Message>路由不可达：POST /api/instances/inst-318ab91a/saves/world1/delete 命中了路由器兜底 404（status=404）。这说明该守卫仍被嵌套在互斥的 seg.Length 作用域内。body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-318ab91a/saves/world1/delete"}</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost) in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 148&#xD;
+   at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost) in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 154&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="9bfc0328-aa9c-417b-8994-0e0d153cb4d1" testId="91beeacf-3d0b-6ddc-8867-202d1d28a30d" testName="Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: &quot;POST&quot;, suffix: &quot;/bisect/start&quot;, isPost: True)" computerName="PC-20260705RBJQ" duration="00:00:00.0050554" startTime="2026-10-03T03:02:36.2657354+08:00" endTime="2026-10-03T03:02:36.2708111+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9bfc0328-aa9c-417b-8994-0e0d153cb4d1">
+      <Output>
+        <StdOut>[route] POST /api/instances/inst-f82f0ad5/bisect/start -&gt; 404 | error=未找到接口：POST /api/instances/inst-f82f0ad5/bisect/start | body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-f82f0ad5/bisect/start"}</StdOut>
+        <ErrorInfo>
+          <Message>路由不可达：POST /api/instances/inst-f82f0ad5/bisect/start 命中了路由器兜底 404（status=404）。这说明该守卫仍被嵌套在互斥的 seg.Length 作用域内。body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-f82f0ad5/bisect/start"}</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost) in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 148&#xD;
+   at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost) in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 154&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="67cb25ec-7903-4981-9d61-57b8138706c5" testId="2ad3c7dd-2aad-346a-3156-89d247c42cf8" testName="Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: &quot;POST&quot;, suffix: &quot;/bisect/test&quot;, isPost: True)" computerName="PC-20260705RBJQ" duration="00:00:00.0054146" startTime="2026-10-03T03:02:36.2475181+08:00" endTime="2026-10-03T03:02:36.2528823+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="67cb25ec-7903-4981-9d61-57b8138706c5">
+      <Output>
+        <StdOut>[route] POST /api/instances/inst-f65838d0/bisect/test -&gt; 404 | error=未找到接口：POST /api/instances/inst-f65838d0/bisect/test | body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-f65838d0/bisect/test"}</StdOut>
+        <ErrorInfo>
+          <Message>路由不可达：POST /api/instances/inst-f65838d0/bisect/test 命中了路由器兜底 404（status=404）。这说明该守卫仍被嵌套在互斥的 seg.Length 作用域内。body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-f65838d0/bisect/test"}</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost) in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 148&#xD;
+   at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost) in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 154&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="c060d606-62d0-4372-bd87-cafa6bd42140" testId="10c7235d-5640-62cf-e01b-86759ea2bb58" testName="Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: &quot;GET&quot;, suffix: &quot;/saves/world1/backups&quot;, isPost: False)" computerName="PC-20260705RBJQ" duration="00:00:00.0054837" startTime="2026-10-03T03:02:36.2534966+08:00" endTime="2026-10-03T03:02:36.2589569+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c060d606-62d0-4372-bd87-cafa6bd42140">
+      <Output>
+        <StdOut>[route] GET /api/instances/inst-7a77304b/saves/world1/backups -&gt; 404 | error=未找到接口：GET /api/instances/inst-7a77304b/saves/world1/backups | body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1AGET /api/instances/inst-7a77304b/saves/world1/backups"}</StdOut>
+        <ErrorInfo>
+          <Message>路由不可达：GET /api/instances/inst-7a77304b/saves/world1/backups 命中了路由器兜底 404（status=404）。这说明该守卫仍被嵌套在互斥的 seg.Length 作用域内。body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1AGET /api/instances/inst-7a77304b/saves/world1/backups"}</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost) in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 148&#xD;
+   at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost) in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 154&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ef770cc8-f2bc-434a-8728-093777421524" testId="4c025d49-eb07-05c8-f423-d6c4436c2677" testName="Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: &quot;POST&quot;, suffix: &quot;/saves/world1/backups/nosuch-backup.zip/restore&quot;, isPost: True)" computerName="PC-20260705RBJQ" duration="00:00:00.0134454" startTime="2026-10-03T03:02:36.2386768+08:00" endTime="2026-10-03T03:02:36.2409381+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ef770cc8-f2bc-434a-8728-093777421524">
+      <Output>
+        <StdOut>[route] POST /api/instances/inst-64ba1b2d/saves/world1/backups/nosuch-backup.zip/restore -&gt; 404 | error=未找到接口：POST /api/instances/inst-64ba1b2d/saves/world1/backups/nosuch-backup.zip/restore | body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-64ba1b2d/saves/world1/backups/nosuch-backup.zip/restore"}</StdOut>
+        <ErrorInfo>
+          <Message>路由不可达：POST /api/instances/inst-64ba1b2d/saves/world1/backups/nosuch-backup.zip/restore 命中了路由器兜底 404（status=404）。这说明该守卫仍被嵌套在互斥的 seg.Length 作用域内。body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-64ba1b2d/saves/world1/backups/nosuch-backup.zip/restore"}</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost) in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 148&#xD;
+   at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost) in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 154&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="7cbfb8cc-39ce-4a4e-ae70-2c74d943c67f" testId="c018b4bd-bb9b-2017-cfc7-4b9585833ec5" testName="Pineglow.Launcher.Tests.RouteReachabilityTests.Mods_ToggleAndDelete_ReachHandlerAndChangeDisk" computerName="PC-20260705RBJQ" duration="00:00:00.0059764" startTime="2026-10-03T03:02:36.3198270+08:00" endTime="2026-10-03T03:02:36.3257687+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7cbfb8cc-39ce-4a4e-ae70-2c74d943c67f">
+      <Output>
+        <StdOut>[mods] toggle -&gt; 404 body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-11cb2d54/mods/a.jar/toggle"}</StdOut>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Values differ&#xD;
+Expected: 200&#xD;
+Actual:   404</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.RouteReachabilityTests.Mods_ToggleAndDelete_ReachHandlerAndChangeDisk() in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 189&#xD;
+   at Pineglow.Launcher.Tests.RouteReachabilityTests.Mods_ToggleAndDelete_ReachHandlerAndChangeDisk() in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 198&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="8d7ca8c7-fe02-4005-8d17-3d7205d00c77" testId="5de0a8ef-900d-dec6-c232-7b0675e24132" testName="Pineglow.Launcher.Tests.RouteReachabilityTests.Bisect_StartThenTest_LocksCulpritAndRestoresMods" computerName="PC-20260705RBJQ" duration="00:00:00.0070459" startTime="2026-10-03T03:02:36.3120290+08:00" endTime="2026-10-03T03:02:36.3191966+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8d7ca8c7-fe02-4005-8d17-3d7205d00c77">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Values differ&#xD;
+Expected: 200&#xD;
+Actual:   404</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.RouteReachabilityTests.Bisect_StartThenTest_LocksCulpritAndRestoresMods() in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 229&#xD;
+   at Pineglow.Launcher.Tests.RouteReachabilityTests.Bisect_StartThenTest_LocksCulpritAndRestoresMods() in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 239&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="a7a2c11f-4b7c-464e-901d-4dd4f33d9bb3" testId="39fba9ad-3ee7-b0a9-8b72-dbc9b3e805a7" testName="Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: &quot;POST&quot;, suffix: &quot;/mods/a.jar/delete&quot;, isPost: True)" computerName="PC-20260705RBJQ" duration="00:00:00.0055343" startTime="2026-10-03T03:02:36.3066157+08:00" endTime="2026-10-03T03:02:36.3066797+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a7a2c11f-4b7c-464e-901d-4dd4f33d9bb3">
+      <Output>
+        <StdOut>[route] POST /api/instances/inst-ba95e5fc/mods/a.jar/delete -&gt; 404 | error=未找到接口：POST /api/instances/inst-ba95e5fc/mods/a.jar/delete | body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-ba95e5fc/mods/a.jar/delete"}</StdOut>
+        <ErrorInfo>
+          <Message>路由不可达：POST /api/instances/inst-ba95e5fc/mods/a.jar/delete 命中了路由器兜底 404（status=404）。这说明该守卫仍被嵌套在互斥的 seg.Length 作用域内。body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-ba95e5fc/mods/a.jar/delete"}</Message>
+          <StackTrace>   at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost) in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 148&#xD;
+   at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost) in C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 154&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: &quot;POST&quot;, suffix: &quot;/saves/world1/backups/nosuch-backup.zip/restore&quot;, isPost: True)" storage="c:\users\administrator\appdata\local\temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="4c025d49-eb07-05c8-f423-d6c4436c2677">
+      <Execution id="ef770cc8-f2bc-434a-8728-093777421524" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RouteReachabilityTests" name="Route_IsReachable_NotRouterFallback" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: &quot;POST&quot;, suffix: &quot;/mods/a.jar/toggle&quot;, isPost: True)" storage="c:\users\administrator\appdata\local\temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="ba7642b3-60ef-1edc-9810-c8d181e0b344">
+      <Execution id="d9f29910-cc05-4e80-8692-5d69c48efce5" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RouteReachabilityTests" name="Route_IsReachable_NotRouterFallback" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: &quot;GET&quot;, suffix: &quot;/saves/world1/backups&quot;, isPost: False)" storage="c:\users\administrator\appdata\local\temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="10c7235d-5640-62cf-e01b-86759ea2bb58">
+      <Execution id="c060d606-62d0-4372-bd87-cafa6bd42140" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RouteReachabilityTests" name="Route_IsReachable_NotRouterFallback" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RouteReachabilityTests.RouterFallbackMarker_HasTeeth_UnknownPathReturnsFallback404" storage="c:\users\administrator\appdata\local\temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="8917bc19-34f6-c8be-9adc-4dd7add66388">
+      <Execution id="647ef925-a495-43d4-84aa-d8f33c195264" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RouteReachabilityTests" name="RouterFallbackMarker_HasTeeth_UnknownPathReturnsFallback404" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RouteReachabilityTests.NoConflictingNestedSegLengthGuards_InHandleApiAsync" storage="c:\users\administrator\appdata\local\temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="db9ead6d-9e50-2fac-5417-0420e7cdd493">
+      <Execution id="1596795f-c7db-4cff-aabb-9d0c7f20270f" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RouteReachabilityTests" name="NoConflictingNestedSegLengthGuards_InHandleApiAsync" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: &quot;POST&quot;, suffix: &quot;/saves/world1/backup&quot;, isPost: True)" storage="c:\users\administrator\appdata\local\temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="9a50275f-57f3-4b74-6336-c431adae7fdd">
+      <Execution id="7e5acdbf-2855-45a6-8750-395636815768" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RouteReachabilityTests" name="Route_IsReachable_NotRouterFallback" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: &quot;POST&quot;, suffix: &quot;/mods/a.jar/delete&quot;, isPost: True)" storage="c:\users\administrator\appdata\local\temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="39fba9ad-3ee7-b0a9-8b72-dbc9b3e805a7">
+      <Execution id="a7a2c11f-4b7c-464e-901d-4dd4f33d9bb3" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RouteReachabilityTests" name="Route_IsReachable_NotRouterFallback" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: &quot;POST&quot;, suffix: &quot;/saves/nosuch/open&quot;, isPost: True)" storage="c:\users\administrator\appdata\local\temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="2c19517b-f664-1f54-0597-09ec921a490d">
+      <Execution id="97686c01-efab-4216-8556-a516e10a9774" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RouteReachabilityTests" name="Route_IsReachable_NotRouterFallback" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RouteReachabilityTests.Bisect_StartThenTest_LocksCulpritAndRestoresMods" storage="c:\users\administrator\appdata\local\temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="5de0a8ef-900d-dec6-c232-7b0675e24132">
+      <Execution id="8d7ca8c7-fe02-4005-8d17-3d7205d00c77" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RouteReachabilityTests" name="Bisect_StartThenTest_LocksCulpritAndRestoresMods" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RouteReachabilityTests.Mods_ToggleAndDelete_ReachHandlerAndChangeDisk" storage="c:\users\administrator\appdata\local\temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="c018b4bd-bb9b-2017-cfc7-4b9585833ec5">
+      <Execution id="7cbfb8cc-39ce-4a4e-ae70-2c74d943c67f" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RouteReachabilityTests" name="Mods_ToggleAndDelete_ReachHandlerAndChangeDisk" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RouteReachabilityTests.Saves_BackupListRestoreDelete_ReachHandler" storage="c:\users\administrator\appdata\local\temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="16441b80-af64-3bb4-685a-b048cc46656e">
+      <Execution id="197019bd-4d95-411e-8ef0-fe8e81a03788" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RouteReachabilityTests" name="Saves_BackupListRestoreDelete_ReachHandler" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: &quot;POST&quot;, suffix: &quot;/bisect/test&quot;, isPost: True)" storage="c:\users\administrator\appdata\local\temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="2ad3c7dd-2aad-346a-3156-89d247c42cf8">
+      <Execution id="67cb25ec-7903-4981-9d61-57b8138706c5" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RouteReachabilityTests" name="Route_IsReachable_NotRouterFallback" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RouteReachabilityTests.Bisect_StartThenGiveUp_ReachesHandlerAndRestoresMods" storage="c:\users\administrator\appdata\local\temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="64fc793d-e8c1-ff34-b79a-0f29cfc4579d">
+      <Execution id="fb8f9bee-da13-4e26-8482-a194a1135b2e" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RouteReachabilityTests" name="Bisect_StartThenGiveUp_ReachesHandlerAndRestoresMods" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: &quot;POST&quot;, suffix: &quot;/bisect/giveup&quot;, isPost: True)" storage="c:\users\administrator\appdata\local\temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="bcc77916-da8c-46a3-ef8f-dad6039eb443">
+      <Execution id="439dface-28c6-40e8-8368-c5283f045ce3" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RouteReachabilityTests" name="Route_IsReachable_NotRouterFallback" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: &quot;POST&quot;, suffix: &quot;/bisect/start&quot;, isPost: True)" storage="c:\users\administrator\appdata\local\temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="91beeacf-3d0b-6ddc-8867-202d1d28a30d">
+      <Execution id="9bfc0328-aa9c-417b-8994-0e0d153cb4d1" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RouteReachabilityTests" name="Route_IsReachable_NotRouterFallback" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: &quot;POST&quot;, suffix: &quot;/saves/world1/delete&quot;, isPost: True)" storage="c:\users\administrator\appdata\local\temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="8c63bdd9-9213-970f-0455-455f9a6fe4b6">
+      <Execution id="d051bfe6-a7b0-4df1-b846-3e8bb3644870" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RouteReachabilityTests" name="Route_IsReachable_NotRouterFallback" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="ba7642b3-60ef-1edc-9810-c8d181e0b344" executionId="d9f29910-cc05-4e80-8692-5d69c48efce5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8917bc19-34f6-c8be-9adc-4dd7add66388" executionId="647ef925-a495-43d4-84aa-d8f33c195264" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="16441b80-af64-3bb4-685a-b048cc46656e" executionId="197019bd-4d95-411e-8ef0-fe8e81a03788" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="64fc793d-e8c1-ff34-b79a-0f29cfc4579d" executionId="fb8f9bee-da13-4e26-8482-a194a1135b2e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="db9ead6d-9e50-2fac-5417-0420e7cdd493" executionId="1596795f-c7db-4cff-aabb-9d0c7f20270f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2c19517b-f664-1f54-0597-09ec921a490d" executionId="97686c01-efab-4216-8556-a516e10a9774" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9a50275f-57f3-4b74-6336-c431adae7fdd" executionId="7e5acdbf-2855-45a6-8750-395636815768" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bcc77916-da8c-46a3-ef8f-dad6039eb443" executionId="439dface-28c6-40e8-8368-c5283f045ce3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8c63bdd9-9213-970f-0455-455f9a6fe4b6" executionId="d051bfe6-a7b0-4df1-b846-3e8bb3644870" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="91beeacf-3d0b-6ddc-8867-202d1d28a30d" executionId="9bfc0328-aa9c-417b-8994-0e0d153cb4d1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2ad3c7dd-2aad-346a-3156-89d247c42cf8" executionId="67cb25ec-7903-4981-9d61-57b8138706c5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="10c7235d-5640-62cf-e01b-86759ea2bb58" executionId="c060d606-62d0-4372-bd87-cafa6bd42140" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4c025d49-eb07-05c8-f423-d6c4436c2677" executionId="ef770cc8-f2bc-434a-8728-093777421524" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c018b4bd-bb9b-2017-cfc7-4b9585833ec5" executionId="7cbfb8cc-39ce-4a4e-ae70-2c74d943c67f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5de0a8ef-900d-dec6-c232-7b0675e24132" executionId="8d7ca8c7-fe02-4005-8d17-3d7205d00c77" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="39fba9ad-3ee7-b0a9-8b72-dbc9b3e805a7" executionId="a7a2c11f-4b7c-464e-901d-4dd4f33d9bb3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="16" executed="16" passed="1" failed="15" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.9)&#xD;
+[xUnit.net 00:00:00.08]   Discovering: Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.16]   Discovered:  Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.18]   Starting:    Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.32]       Assert.Equal() Failure: Values differ&#xD;
+[xUnit.net 00:00:00.32]       Expected: 200&#xD;
+[xUnit.net 00:00:00.32]       Actual:   404&#xD;
+[xUnit.net 00:00:00.32]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.33]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(210,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Bisect_StartThenGiveUp_ReachesHandlerAndRestoresMods()&#xD;
+[xUnit.net 00:00:00.33]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(218,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Bisect_StartThenGiveUp_ReachesHandlerAndRestoresMods()&#xD;
+[xUnit.net 00:00:00.33]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.33]       Output:&#xD;
+[xUnit.net 00:00:00.33]         [bisect] start -&gt; 404 body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-dd05fc4a/bisect/start"}&#xD;
+[xUnit.net 00:00:00.34]       路由不可达：POST /api/instances/inst-64ba1b2d/saves/world1/backups/nosuch-backup.zip/restore 命中了路由器兜底 404（status=404）。这说明该守卫仍被嵌套在互斥的 seg.Length 作用域内。body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-64ba1b2d/saves/world1/backups/nosuch-backup.zip/restore"}&#xD;
+[xUnit.net 00:00:00.34]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.34]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(148,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost)&#xD;
+[xUnit.net 00:00:00.34]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(154,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost)&#xD;
+[xUnit.net 00:00:00.34]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.34]       Output:&#xD;
+[xUnit.net 00:00:00.34]         [route] POST /api/instances/inst-64ba1b2d/saves/world1/backups/nosuch-backup.zip/restore -&gt; 404 | error=未找到接口：POST /api/instances/inst-64ba1b2d/saves/world1/backups/nosuch-backup.zip/restore | body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-64ba1b2d/saves/world1/backups/nosuch-backup.zip/restore"}&#xD;
+[xUnit.net 00:00:00.34]       路由不可达：POST /api/instances/inst-7f315fb3/saves/nosuch/open 命中了路由器兜底 404（status=404）。这说明该守卫仍被嵌套在互斥的 seg.Length 作用域内。body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-7f315fb3/saves/nosuch/open"}&#xD;
+[xUnit.net 00:00:00.34]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.34]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(148,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost)&#xD;
+[xUnit.net 00:00:00.34]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(154,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost)&#xD;
+[xUnit.net 00:00:00.34]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.34]       Output:&#xD;
+[xUnit.net 00:00:00.34]         [route] POST /api/instances/inst-7f315fb3/saves/nosuch/open -&gt; 404 | error=未找到接口：POST /api/instances/inst-7f315fb3/saves/nosuch/open | body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-7f315fb3/saves/nosuch/open"}&#xD;
+[xUnit.net 00:00:00.35]       路由不可达：POST /api/instances/inst-f65838d0/bisect/test 命中了路由器兜底 404（status=404）。这说明该守卫仍被嵌套在互斥的 seg.Length 作用域内。body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-f65838d0/bisect/test"}&#xD;
+[xUnit.net 00:00:00.35]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.35]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(148,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost)&#xD;
+[xUnit.net 00:00:00.35]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(154,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost)&#xD;
+[xUnit.net 00:00:00.35]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.35]       Output:&#xD;
+[xUnit.net 00:00:00.35]         [route] POST /api/instances/inst-f65838d0/bisect/test -&gt; 404 | error=未找到接口：POST /api/instances/inst-f65838d0/bisect/test | body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-f65838d0/bisect/test"}&#xD;
+[xUnit.net 00:00:00.36]       路由不可达：GET /api/instances/inst-7a77304b/saves/world1/backups 命中了路由器兜底 404（status=404）。这说明该守卫仍被嵌套在互斥的 seg.Length 作用域内。body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1AGET /api/instances/inst-7a77304b/saves/world1/backups"}&#xD;
+[xUnit.net 00:00:00.36]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.36]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(148,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost)&#xD;
+[xUnit.net 00:00:00.36]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(154,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost)&#xD;
+[xUnit.net 00:00:00.36]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.36]       Output:&#xD;
+[xUnit.net 00:00:00.36]         [route] GET /api/instances/inst-7a77304b/saves/world1/backups -&gt; 404 | error=未找到接口：GET /api/instances/inst-7a77304b/saves/world1/backups | body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1AGET /api/instances/inst-7a77304b/saves/world1/backups"}&#xD;
+[xUnit.net 00:00:00.36]       路由不可达：POST /api/instances/inst-e1a3459a/mods/a.jar/toggle 命中了路由器兜底 404（status=404）。这说明该守卫仍被嵌套在互斥的 seg.Length 作用域内。body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-e1a3459a/mods/a.jar/toggle"}&#xD;
+[xUnit.net 00:00:00.36]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.36]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(148,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost)&#xD;
+[xUnit.net 00:00:00.36]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(154,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost)&#xD;
+[xUnit.net 00:00:00.36]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.36]       Output:&#xD;
+[xUnit.net 00:00:00.36]         [route] POST /api/instances/inst-e1a3459a/mods/a.jar/toggle -&gt; 404 | error=未找到接口：POST /api/instances/inst-e1a3459a/mods/a.jar/toggle | body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-e1a3459a/mods/a.jar/toggle"}&#xD;
+[xUnit.net 00:00:00.37]       路由不可达：POST /api/instances/inst-f82f0ad5/bisect/start 命中了路由器兜底 404（status=404）。这说明该守卫仍被嵌套在互斥的 seg.Length 作用域内。body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-f82f0ad5/bisect/start"}&#xD;
+[xUnit.net 00:00:00.37]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.37]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(148,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost)&#xD;
+[xUnit.net 00:00:00.37]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(154,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost)&#xD;
+[xUnit.net 00:00:00.37]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.37]       Output:&#xD;
+[xUnit.net 00:00:00.37]         [route] POST /api/instances/inst-f82f0ad5/bisect/start -&gt; 404 | error=未找到接口：POST /api/instances/inst-f82f0ad5/bisect/start | body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-f82f0ad5/bisect/start"}&#xD;
+[xUnit.net 00:00:00.37]       路由不可达：POST /api/instances/inst-bc567c24/saves/world1/backup 命中了路由器兜底 404（status=404）。这说明该守卫仍被嵌套在互斥的 seg.Length 作用域内。body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-bc567c24/saves/world1/backup"}&#xD;
+[xUnit.net 00:00:00.37]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.37]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(148,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost)&#xD;
+[xUnit.net 00:00:00.37]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(154,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost)&#xD;
+[xUnit.net 00:00:00.37]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.37]       Output:&#xD;
+[xUnit.net 00:00:00.37]         [route] POST /api/instances/inst-bc567c24/saves/world1/backup -&gt; 404 | error=未找到接口：POST /api/instances/inst-bc567c24/saves/world1/backup | body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-bc567c24/saves/world1/backup"}&#xD;
+[xUnit.net 00:00:00.38]       路由不可达：POST /api/instances/inst-a527ca6e/bisect/giveup 命中了路由器兜底 404（status=404）。这说明该守卫仍被嵌套在互斥的 seg.Length 作用域内。body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-a527ca6e/bisect/giveup"}&#xD;
+[xUnit.net 00:00:00.38]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.38]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(148,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost)&#xD;
+[xUnit.net 00:00:00.38]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(154,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost)&#xD;
+[xUnit.net 00:00:00.38]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.38]       Output:&#xD;
+[xUnit.net 00:00:00.38]         [route] POST /api/instances/inst-a527ca6e/bisect/giveup -&gt; 404 | error=未找到接口：POST /api/instances/inst-a527ca6e/bisect/giveup | body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-a527ca6e/bisect/giveup"}&#xD;
+[xUnit.net 00:00:00.40]       路由不可达：POST /api/instances/inst-ba95e5fc/mods/a.jar/delete 命中了路由器兜底 404（status=404）。这说明该守卫仍被嵌套在互斥的 seg.Length 作用域内。body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-ba95e5fc/mods/a.jar/delete"}&#xD;
+[xUnit.net 00:00:00.40]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.40]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(148,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost)&#xD;
+[xUnit.net 00:00:00.40]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(154,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost)&#xD;
+[xUnit.net 00:00:00.40]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.40]       Output:&#xD;
+[xUnit.net 00:00:00.40]         [route] POST /api/instances/inst-ba95e5fc/mods/a.jar/delete -&gt; 404 | error=未找到接口：POST /api/instances/inst-ba95e5fc/mods/a.jar/delete | body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-ba95e5fc/mods/a.jar/delete"}&#xD;
+[xUnit.net 00:00:00.40]       路由不可达：POST /api/instances/inst-318ab91a/saves/world1/delete 命中了路由器兜底 404（status=404）。这说明该守卫仍被嵌套在互斥的 seg.Length 作用域内。body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-318ab91a/saves/world1/delete"}&#xD;
+[xUnit.net 00:00:00.40]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.40]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(148,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost)&#xD;
+[xUnit.net 00:00:00.40]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(154,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost)&#xD;
+[xUnit.net 00:00:00.40]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.40]       Output:&#xD;
+[xUnit.net 00:00:00.40]         [route] POST /api/instances/inst-318ab91a/saves/world1/delete -&gt; 404 | error=未找到接口：POST /api/instances/inst-318ab91a/saves/world1/delete | body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-318ab91a/saves/world1/delete"}&#xD;
+[xUnit.net 00:00:00.41]       检测到互斥嵌套的长度守卫，相关路由将永远不可达：
+    第 97 行：if (seg.Length == 6 &amp;&amp; action.Equals("saves", StringComparison.OrdinalIgnoreCase))   ← 被嵌套在 seg.Length == 4 的作用域内，条件恒假
+    第 127 行：if (seg.Length == 8 &amp;&amp; action.Equals("saves", StringComparison.OrdinalIgnoreCase) &amp;&amp; method == "POST")   ← 被嵌套在 seg.Length == 4 的作用域内，条件恒假
+    第 158 行：if (seg.Length == 5 &amp;&amp; action.Equals("bisect", StringComparison.OrdinalIgnoreCase))   ← 被嵌套在 seg.Length == 4 的作用域内，条件恒假
+    第 178 行：}				if (seg.Length == 6 &amp;&amp; action.Equals("mods", StringComparison.OrdinalIgnoreCase))   ← 被嵌套在 seg.Length == 4 的作用域内，条件恒假&#xD;
+[xUnit.net 00:00:00.41]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.41]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(282,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.NoConflictingNestedSegLengthGuards_InHandleApiAsync()&#xD;
+[xUnit.net 00:00:00.41]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.41]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.42]       Assert.Equal() Failure: Values differ&#xD;
+[xUnit.net 00:00:00.42]       Expected: 200&#xD;
+[xUnit.net 00:00:00.42]       Actual:   404&#xD;
+[xUnit.net 00:00:00.42]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.42]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(229,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Bisect_StartThenTest_LocksCulpritAndRestoresMods()&#xD;
+[xUnit.net 00:00:00.42]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(239,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Bisect_StartThenTest_LocksCulpritAndRestoresMods()&#xD;
+[xUnit.net 00:00:00.42]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.42]       Assert.Equal() Failure: Values differ&#xD;
+[xUnit.net 00:00:00.42]       Expected: 200&#xD;
+[xUnit.net 00:00:00.42]       Actual:   404&#xD;
+[xUnit.net 00:00:00.42]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.42]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(189,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Mods_ToggleAndDelete_ReachHandlerAndChangeDisk()&#xD;
+[xUnit.net 00:00:00.42]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(198,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Mods_ToggleAndDelete_ReachHandlerAndChangeDisk()&#xD;
+[xUnit.net 00:00:00.42]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.42]       Output:&#xD;
+[xUnit.net 00:00:00.42]         [mods] toggle -&gt; 404 body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-11cb2d54/mods/a.jar/toggle"}&#xD;
+[xUnit.net 00:00:00.43]       Assert.Equal() Failure: Values differ&#xD;
+[xUnit.net 00:00:00.43]       Expected: 200&#xD;
+[xUnit.net 00:00:00.43]       Actual:   404&#xD;
+[xUnit.net 00:00:00.43]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.43]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(251,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Saves_BackupListRestoreDelete_ReachHandler()&#xD;
+[xUnit.net 00:00:00.43]         C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-red-fcc206fbe4cf4d19b9f8636c4c290c24\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs(274,0): at Pineglow.Launcher.Tests.RouteReachabilityTests.Saves_BackupListRestoreDelete_ReachHandler()&#xD;
+[xUnit.net 00:00:00.43]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.43]       Output:&#xD;
+[xUnit.net 00:00:00.43]         [saves] backups(empty) -&gt; 404 body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1AGET /api/instances/inst-12d72d07/saves/world1/backups"}&#xD;
+[xUnit.net 00:00:00.44]   Finished:    Pineglow.Launcher.Tests&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-03T03:02:36.2282533+08:00">
+        <Text>[xUnit.net 00:00:00.32]     Pineglow.Launcher.Tests.RouteReachabilityTests.Bisect_StartThenGiveUp_ReachesHandlerAndRestoresMods [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-03T03:02:36.2413950+08:00">
+        <Text>[xUnit.net 00:00:00.34]     Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: "POST", suffix: "/saves/world1/backups/nosuch-backup.zip/restore", isPost: True) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-03T03:02:36.2474039+08:00">
+        <Text>[xUnit.net 00:00:00.34]     Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: "POST", suffix: "/saves/nosuch/open", isPost: True) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-03T03:02:36.2533039+08:00">
+        <Text>[xUnit.net 00:00:00.35]     Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: "POST", suffix: "/bisect/test", isPost: True) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-03T03:02:36.2593741+08:00">
+        <Text>[xUnit.net 00:00:00.36]     Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: "GET", suffix: "/saves/world1/backups", isPost: False) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-03T03:02:36.2656437+08:00">
+        <Text>[xUnit.net 00:00:00.36]     Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: "POST", suffix: "/mods/a.jar/toggle", isPost: True) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-03T03:02:36.2712378+08:00">
+        <Text>[xUnit.net 00:00:00.37]     Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: "POST", suffix: "/bisect/start", isPost: True) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-03T03:02:36.2777034+08:00">
+        <Text>[xUnit.net 00:00:00.37]     Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: "POST", suffix: "/saves/world1/backup", isPost: True) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-03T03:02:36.2830523+08:00">
+        <Text>[xUnit.net 00:00:00.38]     Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: "POST", suffix: "/bisect/giveup", isPost: True) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-03T03:02:36.3386404+08:00">
+        <Text>[xUnit.net 00:00:00.40]     Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: "POST", suffix: "/mods/a.jar/delete", isPost: True) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-03T03:02:36.3386687+08:00">
+        <Text>[xUnit.net 00:00:00.40]     Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: "POST", suffix: "/saves/world1/delete", isPost: True) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-03T03:02:36.3386895+08:00">
+        <Text>[xUnit.net 00:00:00.41]     Pineglow.Launcher.Tests.RouteReachabilityTests.NoConflictingNestedSegLengthGuards_InHandleApiAsync [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-03T03:02:36.3387163+08:00">
+        <Text>[xUnit.net 00:00:00.42]     Pineglow.Launcher.Tests.RouteReachabilityTests.Bisect_StartThenTest_LocksCulpritAndRestoresMods [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-03T03:02:36.3387378+08:00">
+        <Text>[xUnit.net 00:00:00.42]     Pineglow.Launcher.Tests.RouteReachabilityTests.Mods_ToggleAndDelete_ReachHandlerAndChangeDisk [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-03T03:02:36.3387620+08:00">
+        <Text>[xUnit.net 00:00:00.43]     Pineglow.Launcher.Tests.RouteReachabilityTests.Saves_BackupListRestoreDelete_ReachHandler [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

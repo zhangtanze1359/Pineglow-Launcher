@@ -1,0 +1,240 @@
+{
+    "runId":  "20261003-052200Z",
+    "title":  "FINAL-REMEDIATION R0-R4 (F-01..F-05)",
+    "utc":  "2026-10-03T06:16:10.9738481Z",
+    "root":  "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\FINAL-REMEDIATION\\20261003-052200Z",
+    "generator":  "FINAL-REMEDIATION/20261003-052200Z seal-evidence.ps1",
+    "count":  46,
+    "files":  [
+                  {
+                      "path":  "audit-all-manifests.py",
+                      "sizeBytes":  6298,
+                      "sha256":  "3EA60359F77082ED40BA2D970B72962945256B78F666B12D6282F99DECC22E44"
+                  },
+                  {
+                      "path":  "capture-baseline.ps1",
+                      "sizeBytes":  2404,
+                      "sha256":  "7900A8E7C3D9CCFE5C4004A572455E7DF36B003EECD0D579F07EC4FD14FF1C75"
+                  },
+                  {
+                      "path":  "deliverable.md",
+                      "sizeBytes":  17342,
+                      "sha256":  "B6364B57F9CDDADA3B912A5A38E117860C14B44AEC3551FC2AD08D346D850FA4"
+                  },
+                  {
+                      "path":  "dirty-protection.json",
+                      "sizeBytes":  1202,
+                      "sha256":  "C5EC1F7718524122A807BC52023A64BED1D8CF3B6ACF04AF6FA69C9CAD1BA450"
+                  },
+                  {
+                      "path":  "evidence-corrections.md",
+                      "sizeBytes":  5087,
+                      "sha256":  "4478C46693202E957D1E0FD2E077511055A8FC682CEDD8D1351475FA0EDCD95C"
+                  },
+                  {
+                      "path":  "green/green-bisect-smoke.log",
+                      "sizeBytes":  2037,
+                      "sha256":  "595329E64C42AD68D6301A7B6136F7CE5AABB8CAC52AD674E3565476A3006780"
+                  },
+                  {
+                      "path":  "green/green-comparable-full.log",
+                      "sizeBytes":  1393,
+                      "sha256":  "8D8AEFDA91499CC0DA97AC682B0349E8DC9AD519CAE4186AD98EA864EF91B33C"
+                  },
+                  {
+                      "path":  "green/green-full-csharp.log",
+                      "sizeBytes":  1134,
+                      "sha256":  "90B8653C96227286E30F0744ED95D27AA65084651F27AC14E2A161906EC15010"
+                  },
+                  {
+                      "path":  "green/green-full-csharp-final.log",
+                      "sizeBytes":  1788,
+                      "sha256":  "7C308BF9A496F7C3C2FEA57ED3B20601677FF8CE2913699E9C256B4D831DED1F"
+                  },
+                  {
+                      "path":  "green/green-independent-probes.log",
+                      "sizeBytes":  1439,
+                      "sha256":  "FE2DE5343D6A4204863F9EA224DD931348128A454E5B56D93738B7D77C3AA267"
+                  },
+                  {
+                      "path":  "green/green-node.log",
+                      "sizeBytes":  25014,
+                      "sha256":  "291437E4E2EBEE2D35F9C20471DD2FB5E1B24BAA7B9410D490D6EFD15D7FF57F"
+                  },
+                  {
+                      "path":  "green/green-r0-secrets.log",
+                      "sizeBytes":  12017,
+                      "sha256":  "EA142AC5026F71A6EDF63152F8C94426A20DA71B5ACB3E773C89EA47B7D5260E"
+                  },
+                  {
+                      "path":  "green/green-r1-r3-focused.log",
+                      "sizeBytes":  1490,
+                      "sha256":  "3B8B2F0BBC91AB76F37432CB3211368E6669940A7AD0791EFF0ED750C2079E05"
+                  },
+                  {
+                      "path":  "green/green-verifyhost-build.log",
+                      "sizeBytes":  5257,
+                      "sha256":  "EC65B0CEEA2DCC09F70A7EEEE965E95D3813E864A6736072AB8D48AF7414AC8C"
+                  },
+                  {
+                      "path":  "green/node-inputs.txt",
+                      "sizeBytes":  2569,
+                      "sha256":  "FEF24B2D37E5E00E15B9CBF727DB5B998D77AE8AD69EB2F0D626DE4FFBA0250F"
+                  },
+                  {
+                      "path":  "green/test-results/green-comparable-full.trx",
+                      "sizeBytes":  1416125,
+                      "sha256":  "98E0BE4A32F93CC924FEF57E0942772F452CD38C06D9FF77D04D6C0F53376ED1"
+                  },
+                  {
+                      "path":  "green/test-results/green-full-csharp.trx",
+                      "sizeBytes":  1414118,
+                      "sha256":  "25AA4B2D376D1E9C9CA9820D46ED582E6CE5BFA176FF59852D5F201ACF3C8E4F"
+                  },
+                  {
+                      "path":  "green/test-results/green-full-csharp-final.trx",
+                      "sizeBytes":  1424616,
+                      "sha256":  "89E75B7ACE12A5DCE518A40440875620EB31E4DBC9D050F89B4EA518D5A5DD3D"
+                  },
+                  {
+                      "path":  "green/test-results/green-independent-probes.trx",
+                      "sizeBytes":  38184,
+                      "sha256":  "934AC5390BDFF11C3761DE923E36F99D52F9CC1AA64A7C93A5D19B3CB897BFDC"
+                  },
+                  {
+                      "path":  "green/test-results/green-r0-secrets.trx",
+                      "sizeBytes":  23130,
+                      "sha256":  "A6BF62B285191C1E6528892BAF01AE4BDFBA160533A665C02212667F1EFDB19F"
+                  },
+                  {
+                      "path":  "green/test-results/green-r1-r3-focused.trx",
+                      "sizeBytes":  76837,
+                      "sha256":  "C7C279230FE52B4EF9362EA4623C7F1C76AE85AF1503372837D3FD3A69D15320"
+                  },
+                  {
+                      "path":  "green-copy-root.txt",
+                      "sizeBytes":  98,
+                      "sha256":  "F6DFB9E5B883BABE705EA745CCE79BF1116A4A4AD1FAD378153B190AB4638BEA"
+                  },
+                  {
+                      "path":  "green-run.ps1",
+                      "sizeBytes":  2488,
+                      "sha256":  "AE947F72DB500D30D39FC5ACAAD85551928731BD9E4D41F34FCC6F44271F6576"
+                  },
+                  {
+                      "path":  "green-snapshot-manifest.json",
+                      "sizeBytes":  79927,
+                      "sha256":  "DE3C6E470A96563FBB3A3E2A579481E0460023B775AC92E7BAA0B61402F94185"
+                  },
+                  {
+                      "path":  "invoke-test.ps1",
+                      "sizeBytes":  1506,
+                      "sha256":  "D23EB50AE652D151C9F13F2EB576F0214843331F249DFF8CBFB179FB03AABBEE"
+                  },
+                  {
+                      "path":  "known-mismatches.json",
+                      "sizeBytes":  1613,
+                      "sha256":  "AD3B5156504140AD0B0CFFF15A71620565894A46AE30D9A6C243AC6B1C009ACB"
+                  },
+                  {
+                      "path":  "make-snapshot.ps1",
+                      "sizeBytes":  4056,
+                      "sha256":  "46B58E6B4AF63646FCD302AA5C59BA08CD00C8391CEE78858A82FBB1394577E6"
+                  },
+                  {
+                      "path":  "minimal-diff-numstat.txt",
+                      "sizeBytes":  2244,
+                      "sha256":  "EA61690333BD0E0D8B168C51903168185B9FBC6A93B22D94F93F4F7808A5B21F"
+                  },
+                  {
+                      "path":  "pre-fix-source-root.txt",
+                      "sizeBytes":  105,
+                      "sha256":  "2E96F217AFD85F8F59366588DBF54A33A812046E4B017516ED9478D6BC0E60CC"
+                  },
+                  {
+                      "path":  "r0-red.ps1",
+                      "sizeBytes":  4169,
+                      "sha256":  "7A066DAE68386B71F5491EB222CDCA5F1ECE412009566F43144ECC132EF2988C"
+                  },
+                  {
+                      "path":  "red/credential-intents.jsonl",
+                      "sizeBytes":  1915,
+                      "sha256":  "9441D88238A1E75BBAE541810E83AEE91105398C0162BF98DE52160517DADB11"
+                  },
+                  {
+                      "path":  "red/red-baseline-safe-full.log",
+                      "sizeBytes":  6088,
+                      "sha256":  "A812BAAE88F99DF3E84D71C0A32379A88D5D4C2A515FC2AAD6182F2ACE43B678"
+                  },
+                  {
+                      "path":  "red/red-credential-proof.log",
+                      "sizeBytes":  12055,
+                      "sha256":  "351B5BA50485B9880405784FFA137FA917F9CD7FFEDE9F2B051412D9C3412F23"
+                  },
+                  {
+                      "path":  "red/red-indep-probes.log",
+                      "sizeBytes":  16178,
+                      "sha256":  "32E134D1DE946BE213AA0BF574226976C9315303C10D48785546BD3774450526"
+                  },
+                  {
+                      "path":  "red/red-summary.json",
+                      "sizeBytes":  288,
+                      "sha256":  "FDF1DB006503FCB45B4B1453259320777998E2DAEA5DE5FD34D13FDF55AE7343"
+                  },
+                  {
+                      "path":  "red/SecretStore.instrumented-copy.cs",
+                      "sizeBytes":  6869,
+                      "sha256":  "A1A4365C593CEBB8EA5B675AA1F46592119D514EDF32D74F562CB4F7690BE684"
+                  },
+                  {
+                      "path":  "red/test-results/red-baseline-safe-full.trx",
+                      "sizeBytes":  1381622,
+                      "sha256":  "1759B46FD4929FCCE791CB9ABC325222FCAEE59B93F8A39BC1D860634D4FE883"
+                  },
+                  {
+                      "path":  "red/test-results/red-credential-proof.trx",
+                      "sizeBytes":  10056,
+                      "sha256":  "CB9CAB4F6E888B7A89DAD1ECB3FCAFE4CD04C03F5DA404CB0DCA098A6D7F86A9"
+                  },
+                  {
+                      "path":  "red/test-results/red-indep-probes.trx",
+                      "sizeBytes":  44163,
+                      "sha256":  "570C7C922AE27D5FA39DA0076F544F1FE45D53E12CD660C332D55CA7148D32B0"
+                  },
+                  {
+                      "path":  "red-copy-root.txt",
+                      "sizeBytes":  96,
+                      "sha256":  "B1B5CD0D9C854FDCCC0763EE917BE8C24B0CC9B6375E9D7773E0B274E46FF019"
+                  },
+                  {
+                      "path":  "run-node-and-host.ps1",
+                      "sizeBytes":  1955,
+                      "sha256":  "8E6787DDC112FA11A84D343836EAF229C435D3737D9BF533C1A0AB342081F162"
+                  },
+                  {
+                      "path":  "seal-evidence.ps1",
+                      "sizeBytes":  1664,
+                      "sha256":  "2892C4C17D67D084A5A62EFB0A0C2A77DE39E8454E3670CD60FE94BEFB986869"
+                  },
+                  {
+                      "path":  "source-after.json",
+                      "sizeBytes":  4192,
+                      "sha256":  "C572D441528A43BA3233954628AE740031638C73E14445282E8B2BBB64676431"
+                  },
+                  {
+                      "path":  "source-before.json",
+                      "sizeBytes":  4190,
+                      "sha256":  "74484251A2E3A893B03AAC9E8580035B5EF832DF63A66E08696C86A1220E7D1F"
+                  },
+                  {
+                      "path":  "source-status-after.txt",
+                      "sizeBytes":  115474,
+                      "sha256":  "F3934F3B1336C46A8A63C8493E20AA21F1DF1D506445A85E3B3C7D78941D607A"
+                  },
+                  {
+                      "path":  "source-status-before.txt",
+                      "sizeBytes":  115280,
+                      "sha256":  "B14F49F61F55549178CD501B1572A7DB9C57251B7A2AEDA31F9FD1D17A53B84B"
+                  }
+              ]
+}

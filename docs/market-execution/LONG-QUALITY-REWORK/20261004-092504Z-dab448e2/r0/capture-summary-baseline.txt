@@ -1,0 +1,8 @@
+stage=baseline
+generatedLocal=2026-10-04T17:25:19+08:00
+head=f145d14eb26b0b7459a28491e764ac8c573085d3 branch=main
+inputs=292 tracked=161 whitelist=125 goalTooling=6 missing=0
+totalBytes=6054378
+gitStatusLines=1425 -> C:\Users\Administrator\.codex\worktrees\34ca\松光启动器\docs\market-execution\LONG-QUALITY-REWORK\20261004-092504Z-dab448e2\r0\source-status-baseline.txt
+manifest=C:\Users\Administrator\.codex\worktrees\34ca\松光启动器\docs\market-execution\LONG-QUALITY-REWORK\20261004-092504Z-dab448e2\r0\input-manifest.json
+materializedExecutionRoot=C:\Users\Administrator\AppData\Local\Temp\dsr-rework-r0-685bb8d5 copied=292

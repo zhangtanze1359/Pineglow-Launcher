@@ -1,0 +1,106 @@
+{
+  "probe": "cdp-ui-probe",
+  "appUrl": "http://127.0.0.1:49919/",
+  "debugPort": 49920,
+  "timeHK": "2026-10-11T15:28:48.376Z",
+  "ok": false,
+  "steps": [
+    {
+      "name": "页面 load 事件",
+      "ok": true,
+      "detail": "Page.loadEventFired received"
+    },
+    {
+      "name": "页面标题非空",
+      "ok": true,
+      "detail": "Pineglow · 松光启动器"
+    },
+    {
+      "name": "DOM 已渲染元素",
+      "ok": true,
+      "detail": "elements=188"
+    },
+    {
+      "name": "SPA 已把内容渲染进 DOM",
+      "ok": true,
+      "detail": "bodyTextLength=700"
+    },
+    {
+      "name": "会话令牌 meta 存在",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "无未捕获异常",
+      "ok": true,
+      "detail": "exceptions=0"
+    },
+    {
+      "name": "无 console.error",
+      "ok": true,
+      "detail": "consoleErrors=0"
+    },
+    {
+      "name": "无 HTTP 4xx/5xx",
+      "ok": false,
+      "detail": "httpErrors=5"
+    }
+  ],
+  "exceptions": [],
+  "consoleErrors": [],
+  "consoleWarnings": [
+    "Scripts \"build/three.js\" and \"build/three.min.js\" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation"
+  ],
+  "failedRequests": [],
+  "httpErrors": [
+    {
+      "status": 404,
+      "url": "http://127.0.0.1:49919/favicon.ico"
+    },
+    {
+      "status": 400,
+      "url": "http://127.0.0.1:49919/api/news-image?id=2a43e476ad908c5c61650b73a93bd4f08ade9c4041f48aa319e12e866db9f236"
+    },
+    {
+      "status": 400,
+      "url": "http://127.0.0.1:49919/api/news-image?id=c9d34179034d0d1364810e764d2ca94718ec5b6d6de10456e4f6aa347ccc85fc"
+    },
+    {
+      "status": 400,
+      "url": "http://127.0.0.1:49919/api/news-image?id=a8175b8f712374be10b24a2a45f284a5a619d02954213a5731c412d0590237e8"
+    },
+    {
+      "status": 400,
+      "url": "http://127.0.0.1:49919/api/news-image?id=7944cc61c2da5060a00bb2ac451f89b6665275f63e0f9d7c3110d7e668e91fe7"
+    }
+  ],
+  "targetUrl": "about:blank",
+  "title": "Pineglow · 松光启动器",
+  "readyState": "complete",
+  "bodyTextLength": 700,
+  "bodyTextHead": "跳到主内容\nPINEGLOW\n松光启动器\nd6tester\n离线模式\n游戏\n开始游戏\n安装管理\n世界\n服务器\n资源库\n内容中心\n皮肤\n下载\n新闻\n设置\nEN\n独立世界，自由探索\nPINEGLOW · JAVA EDITION\n回到你的方块世界。\n\n熟悉的存档，新的冒险。选好实例，下一段旅程从这里开始。\n\n9m\n总游玩时长\n6\n次游玩\n7\n个实例\n当前版本\n默认游戏 · —\nd6-launch-1.21.11 · 1.21.11\nd6-launch-1.21.11 · 1.21.11\nd7-quilt 导入 · quilt-loader-0.30.1-1.21.11\nd7-forge 导入 · 1.21.11-forge-61.2.1\nd7-neoforge 导入 · neoforge-21.11.45\nd7-fabric 导入 · fabric-loader-0.19.5-1.21.11\n开始游戏\nJava 版\n7 个实例可用\n最新资讯\n查看全部\nMINECRAFT FOR WINDOWS\nDiscover Planet Earth III DLC\n2024-01-16\nMINECRAFT: JAVA EDITION\nSoothing Minecraft Stories\n2023-12-22\nMINECRAFT: JAVA EDITION\nNew on Realms: The 8 Maps Of Java Realms Day\n2023-12-21\nMINECRAFT FOR WINDOWS\nUniversal New Year’s Celebration\n2023-12-12",
+  "elementCount": 188,
+  "hasTokenMeta": true,
+  "apiHelperPresent": true,
+  "navItems": [
+    "开始游戏",
+    "安装管理",
+    "世界",
+    "服务器",
+    "内容中心",
+    "皮肤",
+    "下载",
+    "新闻",
+    "设置"
+  ],
+  "dynamicMarkers": {
+    "hasVersionNumber": true,
+    "hasMCVersionList": true,
+    "hasInstanceName": true,
+    "hasDownloadText": true,
+    "hasSettingsText": true,
+    "hasAccountText": false
+  },
+  "htmlLength": 11565,
+  "screenshotBytes": 215690
+}

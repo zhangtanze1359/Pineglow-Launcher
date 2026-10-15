@@ -105,9 +105,9 @@ test('MR17 HTML: lang、跳转链接与可聚焦目标、toast live region', () 
 
 	const skip = HTML.match(/<a[^>]*class="skip-link"[^>]*>/);
 	assert.ok(skip, '必须有跳转链接');
-	assert.ok(/href="#view-home"/.test(skip[0]), '跳转链接必须指向主内容');
+	assert.ok(/href="#contentPanel"/.test(skip[0]), '跳转链接必须指向所有页面共享的可见主内容');
 	assert.ok(/data-i18n="a11y\.skipToContent"/.test(skip[0]), '跳转链接文案必须可本地化');
-	assert.ok(/id="view-home"[^>]*tabindex="-1"/.test(HTML), '跳转目标必须可编程聚焦（tabindex="-1"）');
+	assert.ok(/id="contentPanel"[^>]*tabindex="-1"/.test(HTML), '稳定跳转目标必须可编程聚焦（tabindex="-1"）');
 
 	const toast = HTML.match(/<div[^>]*id="toast"[^>]*>/);
 	assert.ok(toast, '必须存在 toast 元素');

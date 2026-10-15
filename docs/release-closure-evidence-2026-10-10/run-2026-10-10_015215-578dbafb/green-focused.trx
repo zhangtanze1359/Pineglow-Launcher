@@ -1,0 +1,330 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="bf5fbaee-5985-4d59-8128-8e59b2b0290e" name="Administrator@PC-20260705RBJQ 2026-10-10 02:12:44" runUser="PC-20260705RBJQ\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-10T02:12:44.8543933+08:00" queuing="2026-10-10T02:12:44.8543940+08:00" start="2026-10-10T02:12:43.5907604+08:00" finish="2026-10-10T02:12:46.2934963+08:00" />
+  <TestSettings name="default" id="b707d66c-781b-43d0-af75-34eda941088b">
+    <Deployment runDeploymentRoot="Administrator_PC-20260705RBJQ_2026-10-10_02_12_44" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="7ce6a661-66b8-45f3-b6e5-6f241cc765a0" testId="4f3d318e-c7dd-f64a-2e2e-0ae0a2c51750" testName="Pineglow.Launcher.Tests.LauncherStartupBoundaryTests.Start_OnBusyPort_Throws_AndLeavesTheServiceNotRunning" computerName="PC-20260705RBJQ" duration="00:00:00.0036263" startTime="2026-10-10T02:12:46.0657183+08:00" endTime="2026-10-10T02:12:46.0691506+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7ce6a661-66b8-45f3-b6e5-6f241cc765a0">
+      <Output>
+        <StdOut>[A12] 占用端口 60919 上 Start 的结果：HttpListenerException / 另一个程序正在使用此文件，进程无法访问。</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="8c6d4640-21bf-4e86-ad42-fc8bc7739ab7" testId="7fa8ce5a-9566-71a6-2323-24e3562f2835" testName="Pineglow.Launcher.Tests.UpdateRecoveryTests.AssetCompatibility_RejectsForeignPlatform" computerName="PC-20260705RBJQ" duration="00:00:00.0002542" startTime="2026-10-10T02:12:45.2160960+08:00" endTime="2026-10-10T02:12:45.2162034+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8c6d4640-21bf-4e86-ad42-fc8bc7739ab7">
+      <Output>
+        <StdOut>[foreign] 更新资产与当前平台不匹配：资产名包含 linux-x64，当前平台是 win-x64。</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="502ca91a-2542-4aa8-a9bc-ea6a582bddd1" testId="275dac58-f5f1-39f6-4880-0287b34088f1" testName="Pineglow.Launcher.Tests.UiBundleTests.ReadResource_UnknownName_Throws" computerName="PC-20260705RBJQ" duration="00:00:00.0016091" startTime="2026-10-10T02:12:44.8107369+08:00" endTime="2026-10-10T02:12:44.8108192+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="502ca91a-2542-4aa8-a9bc-ea6a582bddd1" />
+    <UnitTestResult executionId="275381a4-15d1-4a19-a0d7-c4d24620d36f" testId="72655803-04b0-defa-4af8-04332f326d3a" testName="Pineglow.Launcher.Tests.UpdateRecoveryTests.ForeignPlatformAsset_IsRejectedBeforeDownloading" computerName="PC-20260705RBJQ" duration="00:00:00.0012033" startTime="2026-10-10T02:12:46.0247286+08:00" endTime="2026-10-10T02:12:46.0248139+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="275381a4-15d1-4a19-a0d7-c4d24620d36f">
+      <Output>
+        <StdOut>[foreign asset] 更新资产与当前平台不匹配：资产名包含 linux-x64，当前平台是 win-x64。</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="6dac4cb9-e54e-4d08-8664-00c1c2388b9d" testId="47e9539b-8c69-b6a5-4f20-6e357a808f6a" testName="Pineglow.Launcher.Tests.UpdateRecoveryTests.TruncatedDownload_IsRejectedWithAPreciseReason" computerName="PC-20260705RBJQ" duration="00:00:00.0252853" startTime="2026-10-10T02:12:45.9890597+08:00" endTime="2026-10-10T02:12:46.0197841+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6dac4cb9-e54e-4d08-8664-00c1c2388b9d">
+      <Output>
+        <StdOut>[truncated] 更新包下载失败：下载不完整：https://cdn.example.com/Pineglow-Launcher-9.9.9-win-x64-single-file.exe（声明 4096 字节，实际 1000 字节）</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="6320854b-66bb-4fa6-a16b-72900e574576" testId="248e2782-77e4-8ec2-6067-ad5eba225c14" testName="Pineglow.Launcher.Tests.LauncherStartupBoundaryTests.ShellWindow_MustUseTheConfiguredPort_NotAHardCodedOne" computerName="PC-20260705RBJQ" duration="00:00:00.0035740" startTime="2026-10-10T02:12:46.0621821+08:00" endTime="2026-10-10T02:12:46.0653518+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6320854b-66bb-4fa6-a16b-72900e574576">
+      <Output>
+        <StdOut>[A12] 外壳窗口使用 LocalApiService.Port，未硬编码端口</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ac973a09-7555-4323-9f24-fe4907f2b180" testId="e7672be2-40ee-89ea-f66a-eccb6fdcbcf0" testName="Pineglow.Launcher.Tests.UpdateRecoveryTests.AssetCompatibility_AcceptsButFlagsWhenNoPlatformTokenIsPresent" computerName="PC-20260705RBJQ" duration="00:00:00.0014125" startTime="2026-10-10T02:12:45.2085392+08:00" endTime="2026-10-10T02:12:45.2094038+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ac973a09-7555-4323-9f24-fe4907f2b180">
+      <Output>
+        <StdOut>[no token] 资产名未包含平台记号（当前 win-x64），无法断言平台匹配；按兼容处理。</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="d9eb4690-9966-41ff-aea3-fe8fb70208e5" testId="eb16a636-4325-263c-030a-12843b7e855f" testName="Pineglow.Launcher.Tests.UiSourceSelectionTests.DirectoryBuild_KeepsExternalUiFirst_AndDoesNotExtract" computerName="PC-20260705RBJQ" duration="00:00:00.0098873" startTime="2026-10-10T02:12:44.7416415+08:00" endTime="2026-10-10T02:12:44.7430927+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d9eb4690-9966-41ff-aea3-fe8fb70208e5">
+      <Output>
+        <StdOut>[R02] 目录构建 → 选中 C:\Users\Administrator\AppData\Local\Temp\pineglow-uiselect-2beabdbf284a45a4b0e8d2a5010b813e\dev-tree-UI；解包调用 0 次</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="05778a32-dc6d-426f-acfa-528d4cd9e64a" testId="67272a22-5c87-30ad-ee44-464b351f9a26" testName="Pineglow.Launcher.Tests.UpdateRecoveryTests.ApplyScript_WhenReplaceFails_RollsBackToTheOldContent" computerName="PC-20260705RBJQ" duration="00:00:00.4848855" startTime="2026-10-10T02:12:44.7413546+08:00" endTime="2026-10-10T02:12:45.2078778+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="05778a32-dc6d-426f-acfa-528d4cd9e64a">
+      <Output>
+        <StdOut>[replace_failed] state=replace_failed target=OLD-CONTENT backup=OLD-CONTENT</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="1c187587-5125-4cf2-a5c7-fce70ea07545" testId="4f67e9ca-e591-44c7-4113-46f9c7b12761" testName="Pineglow.Launcher.Tests.UiSourceSelectionTests.NothingAvailable_ReturnsExternalPathWithoutThrowing" computerName="PC-20260705RBJQ" duration="00:00:00.0017242" startTime="2026-10-10T02:12:44.8106008+08:00" endTime="2026-10-10T02:12:44.8107707+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1c187587-5125-4cf2-a5c7-fce70ea07545" />
+    <UnitTestResult executionId="47e8f4df-3ed1-4f5e-ac1d-46f6e772161a" testId="ea80153e-9229-bbce-4a70-946dce62d066" testName="Pineglow.Launcher.Tests.LauncherStartupBoundaryTests.Start_AfterBusyPortFailure_SucceedsOnAFreePort" computerName="PC-20260705RBJQ" duration="00:00:00.1257492" startTime="2026-10-10T02:12:46.0693475+08:00" endTime="2026-10-10T02:12:46.1959379+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="47e8f4df-3ed1-4f5e-ac1d-46f6e772161a">
+      <Output>
+        <StdOut>[A12] 重新启动后 /api/health -&gt; 200</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="db07edc1-d077-4174-a2c0-a641432d9727" testId="b115d45a-acb0-5f2a-9a21-2a2520f22456" testName="Pineglow.Launcher.Tests.UiBundleTests.ExtractTo_IsIdempotent_AndRepairsDamagedExtraction" computerName="PC-20260705RBJQ" duration="00:00:00.0566404" startTime="2026-10-10T02:12:44.6979942+08:00" endTime="2026-10-10T02:12:44.8106413+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="db07edc1-d077-4174-a2c0-a641432d9727" />
+    <UnitTestResult executionId="56187897-0e72-4388-a7ce-172601a4f3d5" testId="0a7ecfe0-8146-6e5e-bbde-eea78cbd1e30" testName="Pineglow.Launcher.Tests.UiSourceSelectionTests.ExplicitUiDir_WinsInBothDeploymentShapes(singleFile: False)" computerName="PC-20260705RBJQ" duration="00:00:00.0162266" startTime="2026-10-10T02:12:44.6979500+08:00" endTime="2026-10-10T02:12:44.7282554+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="56187897-0e72-4388-a7ce-172601a4f3d5" />
+    <UnitTestResult executionId="7e93e6c6-e261-4245-b4c5-ef70c28eb272" testId="a8ae2507-6c0c-7f66-1297-35c897fb79f6" testName="Pineglow.Launcher.Tests.UiSourceSelectionTests.NothingElseAvailable_UsesConfigDirUi" computerName="PC-20260705RBJQ" duration="00:00:00.0023898" startTime="2026-10-10T02:12:44.8101327+08:00" endTime="2026-10-10T02:12:44.8101976+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7e93e6c6-e261-4245-b4c5-ef70c28eb272" />
+    <UnitTestResult executionId="60d43a07-32e8-4e0b-84a1-bba92c8acf22" testId="f23a5e07-c91c-5d3c-e9f9-f9cdf66c9863" testName="Pineglow.Launcher.Tests.UpdateRecoveryTests.TrustModelNote_StatesThatSha256IsNotIdentityAuthentication" computerName="PC-20260705RBJQ" duration="00:00:00.0002632" startTime="2026-10-10T02:12:45.2156069+08:00" endTime="2026-10-10T02:12:45.2156975+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="60d43a07-32e8-4e0b-84a1-bba92c8acf22">
+      <Output>
+        <StdOut>[trust] SHA256 校验用于发现下载损坏或截断，不提供发布者身份认证；清单与产物同源时，两者可被同时篡改。正式分发应使用签名清单或已审查的信任源。</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="dee0ad5a-9caa-4009-a851-54c23d4c4dd2" testId="6688f8de-c65e-fb3a-6d10-4d0309d662cb" testName="Pineglow.Launcher.Tests.UiBundleTests.EmbeddedBundle_LocalReferenceClosureIsSatisfiable" computerName="PC-20260705RBJQ" duration="00:00:00.0020093" startTime="2026-10-10T02:12:44.8108906+08:00" endTime="2026-10-10T02:12:44.8119016+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dee0ad5a-9caa-4009-a851-54c23d4c4dd2" />
+    <UnitTestResult executionId="933ea611-420e-4dbe-81dc-9e11fd8f31e2" testId="2107f740-1e0b-b7e1-1b99-a00005436c07" testName="Pineglow.Launcher.Tests.UiBundleTests.EnsureExtracted_WithForcedRoot_ExtractsIntoThatRoot" computerName="PC-20260705RBJQ" duration="00:00:00.0106518" startTime="2026-10-10T02:12:44.8157700+08:00" endTime="2026-10-10T02:12:44.8158302+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="933ea611-420e-4dbe-81dc-9e11fd8f31e2" />
+    <UnitTestResult executionId="37c88f0b-0d61-4b84-a6bb-14115009c035" testId="ae2f15f6-1367-ba52-75dc-956fbea0dd87" testName="Pineglow.Launcher.Tests.UiBundleTests.EmbeddedBundle_ContainsReleaseCriticalResources" computerName="PC-20260705RBJQ" duration="00:00:00.0013457" startTime="2026-10-10T02:12:44.8120193+08:00" endTime="2026-10-10T02:12:44.8128637+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="37c88f0b-0d61-4b84-a6bb-14115009c035">
+      <Output>
+        <StdOut>[R01] 嵌入资源 12 项: assets/pine-forest.svg, css/figma.css, css/pineglow.css, index.html, js/api.js, js/i18n.js, js/launcher.js, js/skin3d-core.js, js/skin3d.js, vendor/README.md, vendor/THREE-LICENSE.txt, vendor/three.min.js</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="4a1d1f8b-8cc6-4877-b588-15a27ab7771a" testId="52697aec-34d6-12d6-49cc-2adc0241e986" testName="Pineglow.Launcher.Tests.UpdateRecoveryTests.IsNewerVersion_NeverDowngrades(latest: &quot;1.0&quot;, current: &quot;1.0.0&quot;, expected: False)" computerName="PC-20260705RBJQ" duration="00:00:00.0000044" startTime="2026-10-10T02:12:45.2132378+08:00" endTime="2026-10-10T02:12:45.2132822+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4a1d1f8b-8cc6-4877-b588-15a27ab7771a" />
+    <UnitTestResult executionId="acb31b38-c822-4d12-898e-a8f604607869" testId="572ec028-93f5-b097-ca66-e0a6e93d2f7f" testName="Pineglow.Launcher.Tests.LauncherStartupBoundaryTests.Start_WithNonExistentUiDir_StillStarts" computerName="PC-20260705RBJQ" duration="00:00:00.0335349" startTime="2026-10-10T02:12:46.0279388+08:00" endTime="2026-10-10T02:12:46.0619590+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="acb31b38-c822-4d12-898e-a8f604607869">
+      <Output>
+        <StdOut>[A12] UI 目录不存在时仍启动成功，端口 60918</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="a10690cf-1d0a-4544-acbe-bc82bb046b52" testId="f34ca5fd-cf57-8f37-1ec3-208b37a6515e" testName="Pineglow.Launcher.Tests.UpdateRecoveryTests.ApplyScript_WhenBackupFails_DoesNothingAndRecordsBackupFailed" computerName="PC-20260705RBJQ" duration="00:00:00.3793176" startTime="2026-10-10T02:12:45.2163833+08:00" endTime="2026-10-10T02:12:45.5946083+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a10690cf-1d0a-4544-acbe-bc82bb046b52">
+      <Output>
+        <StdOut>[backup_failed] state=backup_failed target=OLD-CONTENT</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="563ebc24-5a19-4b7f-86e9-01056078a10b" testId="b8449584-e9e5-7007-f791-16906e5d6067" testName="Pineglow.Launcher.Tests.UpdateRecoveryTests.AssetCompatibility_AcceptsMatchingPlatform" computerName="PC-20260705RBJQ" duration="00:00:00.0002073" startTime="2026-10-10T02:12:45.2096901+08:00" endTime="2026-10-10T02:12:45.2097768+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="563ebc24-5a19-4b7f-86e9-01056078a10b" />
+    <UnitTestResult executionId="4911130b-0a2d-4cc7-92ec-c9af5957f086" testId="bd4f2956-bc12-33f8-5a9c-19cf91f8c9c7" testName="Pineglow.Launcher.Tests.UpdateRecoveryTests.ApplyScript_ContainsBackupVerifyAndRollbackSteps" computerName="PC-20260705RBJQ" duration="00:00:00.0010800" startTime="2026-10-10T02:12:45.2158697+08:00" endTime="2026-10-10T02:12:45.2159322+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4911130b-0a2d-4cc7-92ec-c9af5957f086" />
+    <UnitTestResult executionId="fc47f9f7-8983-47a8-87c5-7dbc71e17e7a" testId="ba119dc0-6627-f816-6e4f-dc937776501d" testName="Pineglow.Launcher.Tests.UiBundleTests.EnsureExtracted_WithoutForcedRoot_DoesNotExtractOnNonSingleFileHost" computerName="PC-20260705RBJQ" duration="00:00:00.0010003" startTime="2026-10-10T02:12:44.8131183+08:00" endTime="2026-10-10T02:12:44.8131500+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fc47f9f7-8983-47a8-87c5-7dbc71e17e7a" />
+    <UnitTestResult executionId="4a0811df-b33d-482e-ac86-717300a759f3" testId="2b8cc9f5-d2f4-d7cd-6ce0-7913e82901fb" testName="Pineglow.Launcher.Tests.UpdateRecoveryTests.IsNewerVersion_NeverDowngrades(latest: &quot;2.0.0&quot;, current: &quot;1.9.9&quot;, expected: True)" computerName="PC-20260705RBJQ" duration="00:00:00.0000097" startTime="2026-10-10T02:12:45.2131336+08:00" endTime="2026-10-10T02:12:45.2131732+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4a0811df-b33d-482e-ac86-717300a759f3" />
+    <UnitTestResult executionId="dfac3231-f6c9-40e8-87d8-d61709154d02" testId="7e829def-cc79-1783-feac-c1759db8f5c3" testName="Pineglow.Launcher.Tests.UpdateRecoveryTests.IsNewerVersion_NeverDowngrades(latest: &quot;1.0.0&quot;, current: &quot;1.0.1&quot;, expected: False)" computerName="PC-20260705RBJQ" duration="00:00:00.0000051" startTime="2026-10-10T02:12:45.2153431+08:00" endTime="2026-10-10T02:12:45.2154095+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dfac3231-f6c9-40e8-87d8-d61709154d02" />
+    <UnitTestResult executionId="4cd3010c-428f-4a5f-a2fd-458d9e558ec9" testId="539cafa5-eac0-1b60-c989-2ebf3dae033a" testName="Pineglow.Launcher.Tests.UiBundleTests.BundleKey_CarriesVersionAndContentFingerprint" computerName="PC-20260705RBJQ" duration="00:00:00.0011655" startTime="2026-10-10T02:12:44.8129914+08:00" endTime="2026-10-10T02:12:44.8130406+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4cd3010c-428f-4a5f-a2fd-458d9e558ec9">
+      <Output>
+        <StdOut>[R01] BundleKey=1.0.0-41346c7082cb</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ceb8b7ec-af8d-444f-a466-74a471d7175b" testId="c778100a-f4cc-a7ef-e990-71b1b0fd3ff5" testName="Pineglow.Launcher.Tests.UiSourceSelectionTests.ExplicitUiDir_WinsInBothDeploymentShapes(singleFile: True)" computerName="PC-20260705RBJQ" duration="00:00:00.0056610" startTime="2026-10-10T02:12:44.7397126+08:00" endTime="2026-10-10T02:12:44.7414042+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ceb8b7ec-af8d-444f-a466-74a471d7175b" />
+    <UnitTestResult executionId="f3491974-3d2b-460a-b402-b57e7dd25907" testId="03572afe-fb7a-8cf7-5da5-f1564889f1fd" testName="Pineglow.Launcher.Tests.UiSourceSelectionTests.SingleFileDeployment_FallsBackToExternalUi_WhenEmbeddedUnavailable" computerName="PC-20260705RBJQ" duration="00:00:00.0030166" startTime="2026-10-10T02:12:44.7437105+08:00" endTime="2026-10-10T02:12:44.7438054+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f3491974-3d2b-460a-b402-b57e7dd25907">
+      <Output>
+        <StdOut>[R02] 单文件 + 解包失败 → 回退 C:\Users\Administrator\AppData\Local\Temp\pineglow-uiselect-35c7188433a74d09862a535ecb8a45dd\old-install-UI</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="7ae37695-289c-4cca-9202-4db47cdae224" testId="e7f09da7-c033-09ba-a124-9a253dc6b78a" testName="Pineglow.Launcher.Tests.UpdateRecoveryTests.ReadApplyResult_ParsesAppliedAndFailedRecords" computerName="PC-20260705RBJQ" duration="00:00:00.0023260" startTime="2026-10-10T02:12:45.5949061+08:00" endTime="2026-10-10T02:12:45.5972136+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7ae37695-289c-4cca-9202-4db47cdae224" />
+    <UnitTestResult executionId="0857a196-1bbb-4719-bea7-847e2a359c15" testId="eb12fa37-b068-fa00-776f-8da9728cc9e5" testName="Pineglow.Launcher.Tests.UpdateRecoveryTests.IsNewerVersion_NeverDowngrades(latest: &quot;1.0.0&quot;, current: &quot;1.0.0&quot;, expected: False)" computerName="PC-20260705RBJQ" duration="00:00:00.0028525" startTime="2026-10-10T02:12:45.2100079+08:00" endTime="2026-10-10T02:12:45.2127140+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0857a196-1bbb-4719-bea7-847e2a359c15" />
+    <UnitTestResult executionId="36a99424-c49e-4a7d-9c2a-3f582fbe2332" testId="784d6358-c7d7-415f-1037-ad8a9ff4ddbe" testName="Pineglow.Launcher.Tests.UiSourceSelectionTests.NoExternalUi_UsesEmbeddedBundle" computerName="PC-20260705RBJQ" duration="00:00:00.0025819" startTime="2026-10-10T02:12:44.7438975+08:00" endTime="2026-10-10T02:12:44.7439407+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="36a99424-c49e-4a7d-9c2a-3f582fbe2332" />
+    <UnitTestResult executionId="cccfd7ee-e884-4cb4-8083-fa84a8a380ee" testId="b9b88889-8fc0-f3d9-9d60-352eecc37cab" testName="Pineglow.Launcher.Tests.UpdateRecoveryTests.IsNewerVersion_NeverDowngrades(latest: &quot;1.0.10&quot;, current: &quot;1.0.9&quot;, expected: True)" computerName="PC-20260705RBJQ" duration="00:00:00.0003262" startTime="2026-10-10T02:12:45.2128809+08:00" endTime="2026-10-10T02:12:45.2130518+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cccfd7ee-e884-4cb4-8083-fa84a8a380ee" />
+    <UnitTestResult executionId="74efc954-ec6b-4b74-b7bf-6c10e94028fc" testId="982012f1-1777-9f9d-8854-723c04ea5f72" testName="Pineglow.Launcher.Tests.UpdateRecoveryTests.ReadApplyResult_IsNullForMissingOrCorruptFiles" computerName="PC-20260705RBJQ" duration="00:00:00.0130119" startTime="2026-10-10T02:12:44.6958385+08:00" endTime="2026-10-10T02:12:44.7218377+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="74efc954-ec6b-4b74-b7bf-6c10e94028fc" />
+    <UnitTestResult executionId="9be0d5ff-cb1a-4383-bbb2-59636d20a7fe" testId="08f0d84c-258e-d00b-e461-0ae8b3dde4d4" testName="Pineglow.Launcher.Tests.UpdateRecoveryTests.ApplyScript_HappyPath_BacksUpReplacesVerifiesAndRecordsApplied" computerName="PC-20260705RBJQ" duration="00:00:00.3905024" startTime="2026-10-10T02:12:45.5975045+08:00" endTime="2026-10-10T02:12:45.9878526+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9be0d5ff-cb1a-4383-bbb2-59636d20a7fe">
+      <Output>
+        <StdOut>[happy] state=applied target=NEW-CONTENT backup=OLD-CONTENT</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="b15d1511-1e35-4876-8c2c-1d691fd7417e" testId="d0b6ff02-2ccc-996d-a9d2-3799d6b7f17c" testName="Pineglow.Launcher.Tests.UpdateRecoveryTests.IsNewerVersion_NeverDowngrades(latest: &quot;1.0.1&quot;, current: &quot;1.0.0&quot;, expected: True)" computerName="PC-20260705RBJQ" duration="00:00:00.0000026" startTime="2026-10-10T02:12:45.2134051+08:00" endTime="2026-10-10T02:12:45.2134642+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b15d1511-1e35-4876-8c2c-1d691fd7417e" />
+    <UnitTestResult executionId="7c00f700-cccf-4cd2-b6ee-3bf7a0693901" testId="c54d9951-575d-4e56-4c76-559c031de2ec" testName="Pineglow.Launcher.Tests.UiBundleTests.ExtractTo_WritesEveryEmbeddedResourceByteIdentical" computerName="PC-20260705RBJQ" duration="00:00:00.0262368" startTime="2026-10-10T02:12:44.8132217+08:00" endTime="2026-10-10T02:12:44.8132615+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7c00f700-cccf-4cd2-b6ee-3bf7a0693901" />
+    <UnitTestResult executionId="ac436483-c841-46a8-bf14-b14e703888d5" testId="b3d7f727-daa1-a579-4a61-4e8afd2975f0" testName="Pineglow.Launcher.Tests.UpdateRecoveryTests.IsNewerVersion_NeverDowngrades(latest: &quot;1.0.1-beta&quot;, current: &quot;1.0.0&quot;, expected: False)" computerName="PC-20260705RBJQ" duration="00:00:00.0000903" startTime="2026-10-10T02:12:45.2150716+08:00" endTime="2026-10-10T02:12:45.2151686+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ac436483-c841-46a8-bf14-b14e703888d5" />
+    <UnitTestResult executionId="c4d0b7d5-9d65-4c76-8a87-57bf02cc0981" testId="6be5621d-d5f3-f819-888c-dfcaa9329458" testName="Pineglow.Launcher.Tests.UiSourceSelectionTests.SingleFileDeployment_PrefersEmbeddedBundle_OverStaleExternalUi" computerName="PC-20260705RBJQ" duration="00:00:00.0136118" startTime="2026-10-10T02:12:44.7440250+08:00" endTime="2026-10-10T02:12:44.7573940+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c4d0b7d5-9d65-4c76-8a87-57bf02cc0981">
+      <Output>
+        <StdOut>[R02] 单文件 + 残留旧 UI → 选中 C:\Users\Administrator\AppData\Local\Temp\pineglow-uiselect-84b0c814a482469287e094ab936829b2\embedded-extract</StdOut>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Pineglow.Launcher.Tests.UiSourceSelectionTests.DirectoryBuild_KeepsExternalUiFirst_AndDoesNotExtract" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="eb16a636-4325-263c-030a-12843b7e855f">
+      <Execution id="d9eb4690-9966-41ff-aea3-fe8fb70208e5" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UiSourceSelectionTests" name="DirectoryBuild_KeepsExternalUiFirst_AndDoesNotExtract" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.LauncherStartupBoundaryTests.Start_AfterBusyPortFailure_SucceedsOnAFreePort" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="ea80153e-9229-bbce-4a70-946dce62d066">
+      <Execution id="47e8f4df-3ed1-4f5e-ac1d-46f6e772161a" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.LauncherStartupBoundaryTests" name="Start_AfterBusyPortFailure_SucceedsOnAFreePort" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateRecoveryTests.AssetCompatibility_AcceptsMatchingPlatform" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="b8449584-e9e5-7007-f791-16906e5d6067">
+      <Execution id="563ebc24-5a19-4b7f-86e9-01056078a10b" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateRecoveryTests" name="AssetCompatibility_AcceptsMatchingPlatform" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UiSourceSelectionTests.ExplicitUiDir_WinsInBothDeploymentShapes(singleFile: False)" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="0a7ecfe0-8146-6e5e-bbde-eea78cbd1e30">
+      <Execution id="56187897-0e72-4388-a7ce-172601a4f3d5" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UiSourceSelectionTests" name="ExplicitUiDir_WinsInBothDeploymentShapes" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UiBundleTests.ExtractTo_IsIdempotent_AndRepairsDamagedExtraction" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="b115d45a-acb0-5f2a-9a21-2a2520f22456">
+      <Execution id="db07edc1-d077-4174-a2c0-a641432d9727" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UiBundleTests" name="ExtractTo_IsIdempotent_AndRepairsDamagedExtraction" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UiBundleTests.EnsureExtracted_WithForcedRoot_ExtractsIntoThatRoot" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="2107f740-1e0b-b7e1-1b99-a00005436c07">
+      <Execution id="933ea611-420e-4dbe-81dc-9e11fd8f31e2" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UiBundleTests" name="EnsureExtracted_WithForcedRoot_ExtractsIntoThatRoot" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateRecoveryTests.TrustModelNote_StatesThatSha256IsNotIdentityAuthentication" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="f23a5e07-c91c-5d3c-e9f9-f9cdf66c9863">
+      <Execution id="60d43a07-32e8-4e0b-84a1-bba92c8acf22" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateRecoveryTests" name="TrustModelNote_StatesThatSha256IsNotIdentityAuthentication" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UiBundleTests.EnsureExtracted_WithoutForcedRoot_DoesNotExtractOnNonSingleFileHost" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="ba119dc0-6627-f816-6e4f-dc937776501d">
+      <Execution id="fc47f9f7-8983-47a8-87c5-7dbc71e17e7a" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UiBundleTests" name="EnsureExtracted_WithoutForcedRoot_DoesNotExtractOnNonSingleFileHost" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateRecoveryTests.IsNewerVersion_NeverDowngrades(latest: &quot;1.0.0&quot;, current: &quot;1.0.0&quot;, expected: False)" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="eb12fa37-b068-fa00-776f-8da9728cc9e5">
+      <Execution id="0857a196-1bbb-4719-bea7-847e2a359c15" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateRecoveryTests" name="IsNewerVersion_NeverDowngrades" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.LauncherStartupBoundaryTests.ShellWindow_MustUseTheConfiguredPort_NotAHardCodedOne" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="248e2782-77e4-8ec2-6067-ad5eba225c14">
+      <Execution id="6320854b-66bb-4fa6-a16b-72900e574576" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.LauncherStartupBoundaryTests" name="ShellWindow_MustUseTheConfiguredPort_NotAHardCodedOne" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateRecoveryTests.IsNewerVersion_NeverDowngrades(latest: &quot;1.0.0&quot;, current: &quot;1.0.1&quot;, expected: False)" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="7e829def-cc79-1783-feac-c1759db8f5c3">
+      <Execution id="dfac3231-f6c9-40e8-87d8-d61709154d02" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateRecoveryTests" name="IsNewerVersion_NeverDowngrades" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateRecoveryTests.AssetCompatibility_AcceptsButFlagsWhenNoPlatformTokenIsPresent" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="e7672be2-40ee-89ea-f66a-eccb6fdcbcf0">
+      <Execution id="ac973a09-7555-4323-9f24-fe4907f2b180" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateRecoveryTests" name="AssetCompatibility_AcceptsButFlagsWhenNoPlatformTokenIsPresent" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateRecoveryTests.ApplyScript_ContainsBackupVerifyAndRollbackSteps" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="bd4f2956-bc12-33f8-5a9c-19cf91f8c9c7">
+      <Execution id="4911130b-0a2d-4cc7-92ec-c9af5957f086" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateRecoveryTests" name="ApplyScript_ContainsBackupVerifyAndRollbackSteps" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UiBundleTests.BundleKey_CarriesVersionAndContentFingerprint" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="539cafa5-eac0-1b60-c989-2ebf3dae033a">
+      <Execution id="4cd3010c-428f-4a5f-a2fd-458d9e558ec9" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UiBundleTests" name="BundleKey_CarriesVersionAndContentFingerprint" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateRecoveryTests.IsNewerVersion_NeverDowngrades(latest: &quot;2.0.0&quot;, current: &quot;1.9.9&quot;, expected: True)" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="2b8cc9f5-d2f4-d7cd-6ce0-7913e82901fb">
+      <Execution id="4a0811df-b33d-482e-ac86-717300a759f3" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateRecoveryTests" name="IsNewerVersion_NeverDowngrades" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UiSourceSelectionTests.ExplicitUiDir_WinsInBothDeploymentShapes(singleFile: True)" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="c778100a-f4cc-a7ef-e990-71b1b0fd3ff5">
+      <Execution id="ceb8b7ec-af8d-444f-a466-74a471d7175b" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UiSourceSelectionTests" name="ExplicitUiDir_WinsInBothDeploymentShapes" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UiSourceSelectionTests.NothingElseAvailable_UsesConfigDirUi" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="a8ae2507-6c0c-7f66-1297-35c897fb79f6">
+      <Execution id="7e93e6c6-e261-4245-b4c5-ef70c28eb272" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UiSourceSelectionTests" name="NothingElseAvailable_UsesConfigDirUi" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UiSourceSelectionTests.NoExternalUi_UsesEmbeddedBundle" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="784d6358-c7d7-415f-1037-ad8a9ff4ddbe">
+      <Execution id="36a99424-c49e-4a7d-9c2a-3f582fbe2332" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UiSourceSelectionTests" name="NoExternalUi_UsesEmbeddedBundle" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateRecoveryTests.ReadApplyResult_IsNullForMissingOrCorruptFiles" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="982012f1-1777-9f9d-8854-723c04ea5f72">
+      <Execution id="74efc954-ec6b-4b74-b7bf-6c10e94028fc" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateRecoveryTests" name="ReadApplyResult_IsNullForMissingOrCorruptFiles" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateRecoveryTests.IsNewerVersion_NeverDowngrades(latest: &quot;1.0.1&quot;, current: &quot;1.0.0&quot;, expected: True)" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="d0b6ff02-2ccc-996d-a9d2-3799d6b7f17c">
+      <Execution id="b15d1511-1e35-4876-8c2c-1d691fd7417e" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateRecoveryTests" name="IsNewerVersion_NeverDowngrades" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateRecoveryTests.IsNewerVersion_NeverDowngrades(latest: &quot;1.0.10&quot;, current: &quot;1.0.9&quot;, expected: True)" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="b9b88889-8fc0-f3d9-9d60-352eecc37cab">
+      <Execution id="cccfd7ee-e884-4cb4-8083-fa84a8a380ee" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateRecoveryTests" name="IsNewerVersion_NeverDowngrades" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.LauncherStartupBoundaryTests.Start_OnBusyPort_Throws_AndLeavesTheServiceNotRunning" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="4f3d318e-c7dd-f64a-2e2e-0ae0a2c51750">
+      <Execution id="7ce6a661-66b8-45f3-b6e5-6f241cc765a0" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.LauncherStartupBoundaryTests" name="Start_OnBusyPort_Throws_AndLeavesTheServiceNotRunning" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateRecoveryTests.ApplyScript_WhenReplaceFails_RollsBackToTheOldContent" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="67272a22-5c87-30ad-ee44-464b351f9a26">
+      <Execution id="05778a32-dc6d-426f-acfa-528d4cd9e64a" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateRecoveryTests" name="ApplyScript_WhenReplaceFails_RollsBackToTheOldContent" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateRecoveryTests.TruncatedDownload_IsRejectedWithAPreciseReason" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="47e9539b-8c69-b6a5-4f20-6e357a808f6a">
+      <Execution id="6dac4cb9-e54e-4d08-8664-00c1c2388b9d" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateRecoveryTests" name="TruncatedDownload_IsRejectedWithAPreciseReason" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UiBundleTests.ReadResource_UnknownName_Throws" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="275dac58-f5f1-39f6-4880-0287b34088f1">
+      <Execution id="502ca91a-2542-4aa8-a9bc-ea6a582bddd1" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UiBundleTests" name="ReadResource_UnknownName_Throws" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateRecoveryTests.ForeignPlatformAsset_IsRejectedBeforeDownloading" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="72655803-04b0-defa-4af8-04332f326d3a">
+      <Execution id="275381a4-15d1-4a19-a0d7-c4d24620d36f" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateRecoveryTests" name="ForeignPlatformAsset_IsRejectedBeforeDownloading" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UiBundleTests.ExtractTo_WritesEveryEmbeddedResourceByteIdentical" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="c54d9951-575d-4e56-4c76-559c031de2ec">
+      <Execution id="7c00f700-cccf-4cd2-b6ee-3bf7a0693901" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UiBundleTests" name="ExtractTo_WritesEveryEmbeddedResourceByteIdentical" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.LauncherStartupBoundaryTests.Start_WithNonExistentUiDir_StillStarts" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="572ec028-93f5-b097-ca66-e0a6e93d2f7f">
+      <Execution id="acb31b38-c822-4d12-898e-a8f604607869" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.LauncherStartupBoundaryTests" name="Start_WithNonExistentUiDir_StillStarts" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateRecoveryTests.ApplyScript_HappyPath_BacksUpReplacesVerifiesAndRecordsApplied" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="08f0d84c-258e-d00b-e461-0ae8b3dde4d4">
+      <Execution id="9be0d5ff-cb1a-4383-bbb2-59636d20a7fe" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateRecoveryTests" name="ApplyScript_HappyPath_BacksUpReplacesVerifiesAndRecordsApplied" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UiBundleTests.EmbeddedBundle_ContainsReleaseCriticalResources" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="ae2f15f6-1367-ba52-75dc-956fbea0dd87">
+      <Execution id="37c88f0b-0d61-4b84-a6bb-14115009c035" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UiBundleTests" name="EmbeddedBundle_ContainsReleaseCriticalResources" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateRecoveryTests.AssetCompatibility_RejectsForeignPlatform" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="7fa8ce5a-9566-71a6-2323-24e3562f2835">
+      <Execution id="8c6d4640-21bf-4e86-ad42-fc8bc7739ab7" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateRecoveryTests" name="AssetCompatibility_RejectsForeignPlatform" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateRecoveryTests.IsNewerVersion_NeverDowngrades(latest: &quot;1.0.1-beta&quot;, current: &quot;1.0.0&quot;, expected: False)" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="b3d7f727-daa1-a579-4a61-4e8afd2975f0">
+      <Execution id="ac436483-c841-46a8-bf14-b14e703888d5" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateRecoveryTests" name="IsNewerVersion_NeverDowngrades" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UiSourceSelectionTests.SingleFileDeployment_PrefersEmbeddedBundle_OverStaleExternalUi" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="6be5621d-d5f3-f819-888c-dfcaa9329458">
+      <Execution id="c4d0b7d5-9d65-4c76-8a87-57bf02cc0981" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UiSourceSelectionTests" name="SingleFileDeployment_PrefersEmbeddedBundle_OverStaleExternalUi" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateRecoveryTests.ReadApplyResult_ParsesAppliedAndFailedRecords" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="e7f09da7-c033-09ba-a124-9a253dc6b78a">
+      <Execution id="7ae37695-289c-4cca-9202-4db47cdae224" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateRecoveryTests" name="ReadApplyResult_ParsesAppliedAndFailedRecords" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UiSourceSelectionTests.NothingAvailable_ReturnsExternalPathWithoutThrowing" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="4f67e9ca-e591-44c7-4113-46f9c7b12761">
+      <Execution id="1c187587-5125-4cf2-a5c7-fce70ea07545" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UiSourceSelectionTests" name="NothingAvailable_ReturnsExternalPathWithoutThrowing" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UiSourceSelectionTests.SingleFileDeployment_FallsBackToExternalUi_WhenEmbeddedUnavailable" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="03572afe-fb7a-8cf7-5da5-f1564889f1fd">
+      <Execution id="f3491974-3d2b-460a-b402-b57e7dd25907" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UiSourceSelectionTests" name="SingleFileDeployment_FallsBackToExternalUi_WhenEmbeddedUnavailable" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateRecoveryTests.IsNewerVersion_NeverDowngrades(latest: &quot;1.0&quot;, current: &quot;1.0.0&quot;, expected: False)" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="52697aec-34d6-12d6-49cc-2adc0241e986">
+      <Execution id="4a1d1f8b-8cc6-4877-b588-15a27ab7771a" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateRecoveryTests" name="IsNewerVersion_NeverDowngrades" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateRecoveryTests.ApplyScript_WhenBackupFails_DoesNothingAndRecordsBackupFailed" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="f34ca5fd-cf57-8f37-1ec3-208b37a6515e">
+      <Execution id="a10690cf-1d0a-4544-acbe-bc82bb046b52" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateRecoveryTests" name="ApplyScript_WhenBackupFails_DoesNothingAndRecordsBackupFailed" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UiBundleTests.EmbeddedBundle_LocalReferenceClosureIsSatisfiable" storage="c:\users\administrator\appdata\local\temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="6688f8de-c65e-fb3a-6d10-4d0309d662cb">
+      <Execution id="dee0ad5a-9caa-4009-a851-54c23d4c4dd2" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-dsh-abfix-f54941d57eb9458a8b42ee2b3d6bbfa7\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UiBundleTests" name="EmbeddedBundle_LocalReferenceClosureIsSatisfiable" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="4f3d318e-c7dd-f64a-2e2e-0ae0a2c51750" executionId="7ce6a661-66b8-45f3-b6e5-6f241cc765a0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7fa8ce5a-9566-71a6-2323-24e3562f2835" executionId="8c6d4640-21bf-4e86-ad42-fc8bc7739ab7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="275dac58-f5f1-39f6-4880-0287b34088f1" executionId="502ca91a-2542-4aa8-a9bc-ea6a582bddd1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="72655803-04b0-defa-4af8-04332f326d3a" executionId="275381a4-15d1-4a19-a0d7-c4d24620d36f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="47e9539b-8c69-b6a5-4f20-6e357a808f6a" executionId="6dac4cb9-e54e-4d08-8664-00c1c2388b9d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="248e2782-77e4-8ec2-6067-ad5eba225c14" executionId="6320854b-66bb-4fa6-a16b-72900e574576" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e7672be2-40ee-89ea-f66a-eccb6fdcbcf0" executionId="ac973a09-7555-4323-9f24-fe4907f2b180" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="eb16a636-4325-263c-030a-12843b7e855f" executionId="d9eb4690-9966-41ff-aea3-fe8fb70208e5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="67272a22-5c87-30ad-ee44-464b351f9a26" executionId="05778a32-dc6d-426f-acfa-528d4cd9e64a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4f67e9ca-e591-44c7-4113-46f9c7b12761" executionId="1c187587-5125-4cf2-a5c7-fce70ea07545" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ea80153e-9229-bbce-4a70-946dce62d066" executionId="47e8f4df-3ed1-4f5e-ac1d-46f6e772161a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b115d45a-acb0-5f2a-9a21-2a2520f22456" executionId="db07edc1-d077-4174-a2c0-a641432d9727" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0a7ecfe0-8146-6e5e-bbde-eea78cbd1e30" executionId="56187897-0e72-4388-a7ce-172601a4f3d5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a8ae2507-6c0c-7f66-1297-35c897fb79f6" executionId="7e93e6c6-e261-4245-b4c5-ef70c28eb272" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f23a5e07-c91c-5d3c-e9f9-f9cdf66c9863" executionId="60d43a07-32e8-4e0b-84a1-bba92c8acf22" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6688f8de-c65e-fb3a-6d10-4d0309d662cb" executionId="dee0ad5a-9caa-4009-a851-54c23d4c4dd2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2107f740-1e0b-b7e1-1b99-a00005436c07" executionId="933ea611-420e-4dbe-81dc-9e11fd8f31e2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ae2f15f6-1367-ba52-75dc-956fbea0dd87" executionId="37c88f0b-0d61-4b84-a6bb-14115009c035" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="52697aec-34d6-12d6-49cc-2adc0241e986" executionId="4a1d1f8b-8cc6-4877-b588-15a27ab7771a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="572ec028-93f5-b097-ca66-e0a6e93d2f7f" executionId="acb31b38-c822-4d12-898e-a8f604607869" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f34ca5fd-cf57-8f37-1ec3-208b37a6515e" executionId="a10690cf-1d0a-4544-acbe-bc82bb046b52" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b8449584-e9e5-7007-f791-16906e5d6067" executionId="563ebc24-5a19-4b7f-86e9-01056078a10b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bd4f2956-bc12-33f8-5a9c-19cf91f8c9c7" executionId="4911130b-0a2d-4cc7-92ec-c9af5957f086" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ba119dc0-6627-f816-6e4f-dc937776501d" executionId="fc47f9f7-8983-47a8-87c5-7dbc71e17e7a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2b8cc9f5-d2f4-d7cd-6ce0-7913e82901fb" executionId="4a0811df-b33d-482e-ac86-717300a759f3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7e829def-cc79-1783-feac-c1759db8f5c3" executionId="dfac3231-f6c9-40e8-87d8-d61709154d02" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="539cafa5-eac0-1b60-c989-2ebf3dae033a" executionId="4cd3010c-428f-4a5f-a2fd-458d9e558ec9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c778100a-f4cc-a7ef-e990-71b1b0fd3ff5" executionId="ceb8b7ec-af8d-444f-a466-74a471d7175b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="03572afe-fb7a-8cf7-5da5-f1564889f1fd" executionId="f3491974-3d2b-460a-b402-b57e7dd25907" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e7f09da7-c033-09ba-a124-9a253dc6b78a" executionId="7ae37695-289c-4cca-9202-4db47cdae224" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="eb12fa37-b068-fa00-776f-8da9728cc9e5" executionId="0857a196-1bbb-4719-bea7-847e2a359c15" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="784d6358-c7d7-415f-1037-ad8a9ff4ddbe" executionId="36a99424-c49e-4a7d-9c2a-3f582fbe2332" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b9b88889-8fc0-f3d9-9d60-352eecc37cab" executionId="cccfd7ee-e884-4cb4-8083-fa84a8a380ee" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="982012f1-1777-9f9d-8854-723c04ea5f72" executionId="74efc954-ec6b-4b74-b7bf-6c10e94028fc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="08f0d84c-258e-d00b-e461-0ae8b3dde4d4" executionId="9be0d5ff-cb1a-4383-bbb2-59636d20a7fe" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d0b6ff02-2ccc-996d-a9d2-3799d6b7f17c" executionId="b15d1511-1e35-4876-8c2c-1d691fd7417e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c54d9951-575d-4e56-4c76-559c031de2ec" executionId="7c00f700-cccf-4cd2-b6ee-3bf7a0693901" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b3d7f727-daa1-a579-4a61-4e8afd2975f0" executionId="ac436483-c841-46a8-bf14-b14e703888d5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6be5621d-d5f3-f819-888c-dfcaa9329458" executionId="c4d0b7d5-9d65-4c76-8a87-57bf02cc0981" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="39" executed="39" passed="39" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.9)&#xD;
+[xUnit.net 00:00:00.18]   Discovering: Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.37]   Discovered:  Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.42]   Starting:    Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:01.97]   Finished:    Pineglow.Launcher.Tests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

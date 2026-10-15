@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="52da0b6e-6ed4-44ce-9620-314300f39c47" name="Administrator@PC-20260705RBJQ 2026-10-03 14:56:53" runUser="PC-20260705RBJQ\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-03T14:56:53.3014002+08:00" queuing="2026-10-03T14:56:53.3014006+08:00" start="2026-10-03T14:56:52.6177826+08:00" finish="2026-10-03T14:56:53.3314264+08:00" />
+  <TestSettings name="default" id="c5bfc5c1-58d8-4f80-a586-7c80498c6e22">
+    <Deployment runDeploymentRoot="Administrator_PC-20260705RBJQ_2026-10-03_14_56_53" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="f4965d04-1c93-4ca1-94f4-c21c54efa8db" testId="30aa412f-c320-801f-dc12-c7eebe325e98" testName="Pineglow.Launcher.Tests.ConfigPreservationTests.LoadAsync_DoesNotInjectADefaultInstance_WhenInstancesExist" computerName="PC-20260705RBJQ" duration="00:00:00.0043391" startTime="2026-10-03T14:56:53.2781060+08:00" endTime="2026-10-03T14:56:53.2781470+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f4965d04-1c93-4ca1-94f4-c21c54efa8db" />
+    <UnitTestResult executionId="9009654a-762e-4d1d-822f-09eb38674336" testId="21b0dfb1-655b-4015-3e5e-4371a273ccc2" testName="Pineglow.Launcher.Tests.ConfigPreservationTests.LoadAsync_FillsUpdateUrl_OnlyWhenItIsBlank" computerName="PC-20260705RBJQ" duration="00:00:00.0744882" startTime="2026-10-03T14:56:53.1750829+08:00" endTime="2026-10-03T14:56:53.2534533+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9009654a-762e-4d1d-822f-09eb38674336">
+      <Output>
+        <StdOut>[A15] 空 updateUrl 被补为默认值（这是**唯一**被允许的覆盖之一）</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="965678f6-3fd0-4e51-967c-8bd7f29629e8" testId="579f8342-3b4c-389f-1d64-6b5b533b24d2" testName="Pineglow.Launcher.Tests.SecretStoreBackendTests.ProductionBackend_IsNeverEntered_WhenTheIsolatedBackendIsArmed" computerName="PC-20260705RBJQ" duration="00:00:00.0076130" startTime="2026-10-03T14:56:53.1739749+08:00" endTime="2026-10-03T14:56:53.1873591+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="965678f6-3fd0-4e51-967c-8bd7f29629e8">
+      <Output>
+        <StdOut>[R0] 生产后端 delta=0；内存后端受理 4 次操作</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="204f2da8-3f88-4b3a-a4ed-5028d79bb438" testId="10c2c0e3-6886-782d-050e-0b60edc0deb6" testName="Pineglow.Launcher.Tests.SecretStoreBackendTests.Load_MissingName_ReturnsEmptyString_AndGoesThroughTheInjectedBackend" computerName="PC-20260705RBJQ" duration="00:00:00.0016313" startTime="2026-10-03T14:56:53.1973725+08:00" endTime="2026-10-03T14:56:53.1974012+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="204f2da8-3f88-4b3a-a4ed-5028d79bb438" />
+    <UnitTestResult executionId="285ea164-26a1-4e8e-bb2e-ea4855744407" testId="36a143c4-e949-7c99-1324-ad215e979473" testName="Pineglow.Launcher.Tests.SecretStoreBackendTests.WriteThenRead_RoundTrips_WithTheSameKeyNamesAsProduction" computerName="PC-20260705RBJQ" duration="00:00:00.0002896" startTime="2026-10-03T14:56:53.2013157+08:00" endTime="2026-10-03T14:56:53.2015735+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="285ea164-26a1-4e8e-bb2e-ea4855744407">
+      <Output>
+        <StdOut>[R0] 后端收到的键名：write:CurseForgeApiKey | write:ProxyPassword | write:AccountToken_acct-1 | read:CurseForgeApiKey | read:ProxyPassword | read:AccountToken_acct-1</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="d56b2e88-dc4f-42f7-ac3d-c94162e242f2" testId="23049ca0-14dd-9d11-b1f9-4964c23b651a" testName="Pineglow.Launcher.Tests.SecretStoreBackendTests.BackendFailures_Propagate_InsteadOfBeingSwallowed" computerName="PC-20260705RBJQ" duration="00:00:00.0060996" startTime="2026-10-03T14:56:53.1975932+08:00" endTime="2026-10-03T14:56:53.2009291+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d56b2e88-dc4f-42f7-ac3d-c94162e242f2">
+      <Output>
+        <StdOut>[R0] 三类后端异常都如实向上抛出：合成后端故障（read） / 合成后端故障（write） / 合成后端故障（delete）</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="329dbb69-af31-464a-b504-cc9d3a9968ba" testId="2b4839ca-84d2-2c11-8050-c45aca650cd9" testName="Pineglow.Launcher.Tests.SecretStoreBackendTests.ProcessDefaultBackend_IsTheInMemoryTestBackend_NotTheNativeOne" computerName="PC-20260705RBJQ" duration="00:00:00.0003350" startTime="2026-10-03T14:56:53.2010495+08:00" endTime="2026-10-03T14:56:53.2012546+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="329dbb69-af31-464a-b504-cc9d3a9968ba" />
+    <UnitTestResult executionId="a6867a94-3bfb-4041-ae18-546b05e8973c" testId="34f504a8-7341-e4b4-c1f9-c6cf7d4ef4cd" testName="Pineglow.Launcher.Tests.ConfigPreservationTests.LoadAsync_MustNotCreateOrModifyTheRealCredentialStore" computerName="PC-20260705RBJQ" duration="00:00:00.0056518" startTime="2026-10-03T14:56:53.2775548+08:00" endTime="2026-10-03T14:56:53.2776523+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a6867a94-3bfb-4041-ae18-546b05e8973c">
+      <Output>
+        <StdOut>[A15] 真实 secrets.json：存在 False → False；路径 = C:\Users\Administrator\AppData\Roaming\MCMiniLauncher\secrets.json&#xD;
+[A15] 生产后端调用 delta=0；内存后端受理操作=7；其中 delete=4 read=3 write=0</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="2ef2b810-79f1-4dea-9584-db021e9e9321" testId="fb70e066-79de-c8b8-ebf8-75122e83172c" testName="Pineglow.Launcher.Tests.SecretStoreBackendTests.OverrideScope_NestsAndRestores_ThePreviousBackend" computerName="PC-20260705RBJQ" duration="00:00:00.0031105" startTime="2026-10-03T14:56:53.1968205+08:00" endTime="2026-10-03T14:56:53.1968737+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2ef2b810-79f1-4dea-9584-db021e9e9321" />
+    <UnitTestResult executionId="8a6dc5a0-6a16-4cc6-8fe8-fbb0d1def18f" testId="3c356eb3-f29f-f5b1-c0d7-e9baa48aad85" testName="Pineglow.Launcher.Tests.ConfigPreservationTests.LoadAsync_IfItWritesBack_StillPreservesExistingFields" computerName="PC-20260705RBJQ" duration="00:00:00.0055198" startTime="2026-10-03T14:56:53.2779962+08:00" endTime="2026-10-03T14:56:53.2780498+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8a6dc5a0-6a16-4cc6-8fe8-fbb0d1def18f">
+      <Output>
+        <StdOut>[A15] 回写后盘上 updateUrl=https://example.invalid/keep.json  player=KeepMe</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="62ab6c1c-f4fa-49d5-ab78-5fd24063d50e" testId="bc193d16-9bb9-2ea9-6d9c-a4675d69a8e4" testName="Pineglow.Launcher.Tests.ConfigPreservationTests.LoadAsync_PreservesEveryNonSecretField_FromAnExistingConfig" computerName="PC-20260705RBJQ" duration="00:00:00.0057990" startTime="2026-10-03T14:56:53.2778786+08:00" endTime="2026-10-03T14:56:53.2779293+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="62ab6c1c-f4fa-49d5-ab78-5fd24063d50e">
+      <Output>
+        <StdOut>[A15] updateUrl=https://example.invalid/custom-update.json  downloadSource=bmclapi  player=PreservedPlayer</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="3e95ee23-3815-447e-8d3c-0c4a6b9e917b" testId="b2c69d58-3e08-6f11-3a79-7a5b5cb0e4a1" testName="Pineglow.Launcher.Tests.SecretStoreBackendTests.Save_EmptyOrNull_DeletesThroughTheInjectedBackend" computerName="PC-20260705RBJQ" duration="00:00:00.0007366" startTime="2026-10-03T14:56:53.1975302+08:00" endTime="2026-10-03T14:56:53.1975490+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3e95ee23-3815-447e-8d3c-0c4a6b9e917b" />
+    <UnitTestResult executionId="0554dc9e-8cb4-4f9a-9d7a-0fef5c15b770" testId="7bc4d967-fea3-ce16-5ec9-3c525fa7ebea" testName="Pineglow.Launcher.Tests.SecretStoreBackendTests.InvalidNames_AreRejectedBeforeReachingAnyBackend" computerName="PC-20260705RBJQ" duration="00:00:00.0014480" startTime="2026-10-03T14:56:53.1974625+08:00" endTime="2026-10-03T14:56:53.1974830+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0554dc9e-8cb4-4f9a-9d7a-0fef5c15b770" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Pineglow.Launcher.Tests.SecretStoreBackendTests.Load_MissingName_ReturnsEmptyString_AndGoesThroughTheInjectedBackend" storage="c:\users\administrator\appdata\local\temp\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="10c2c0e3-6886-782d-050e-0b60edc0deb6">
+      <Execution id="204f2da8-3f88-4b3a-a4ed-5028d79bb438" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.SecretStoreBackendTests" name="Load_MissingName_ReturnsEmptyString_AndGoesThroughTheInjectedBackend" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.ConfigPreservationTests.LoadAsync_DoesNotInjectADefaultInstance_WhenInstancesExist" storage="c:\users\administrator\appdata\local\temp\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="30aa412f-c320-801f-dc12-c7eebe325e98">
+      <Execution id="f4965d04-1c93-4ca1-94f4-c21c54efa8db" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.ConfigPreservationTests" name="LoadAsync_DoesNotInjectADefaultInstance_WhenInstancesExist" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.SecretStoreBackendTests.ProcessDefaultBackend_IsTheInMemoryTestBackend_NotTheNativeOne" storage="c:\users\administrator\appdata\local\temp\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="2b4839ca-84d2-2c11-8050-c45aca650cd9">
+      <Execution id="329dbb69-af31-464a-b504-cc9d3a9968ba" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.SecretStoreBackendTests" name="ProcessDefaultBackend_IsTheInMemoryTestBackend_NotTheNativeOne" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.SecretStoreBackendTests.BackendFailures_Propagate_InsteadOfBeingSwallowed" storage="c:\users\administrator\appdata\local\temp\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="23049ca0-14dd-9d11-b1f9-4964c23b651a">
+      <Execution id="d56b2e88-dc4f-42f7-ac3d-c94162e242f2" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.SecretStoreBackendTests" name="BackendFailures_Propagate_InsteadOfBeingSwallowed" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.SecretStoreBackendTests.InvalidNames_AreRejectedBeforeReachingAnyBackend" storage="c:\users\administrator\appdata\local\temp\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="7bc4d967-fea3-ce16-5ec9-3c525fa7ebea">
+      <Execution id="0554dc9e-8cb4-4f9a-9d7a-0fef5c15b770" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.SecretStoreBackendTests" name="InvalidNames_AreRejectedBeforeReachingAnyBackend" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.SecretStoreBackendTests.Save_EmptyOrNull_DeletesThroughTheInjectedBackend" storage="c:\users\administrator\appdata\local\temp\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="b2c69d58-3e08-6f11-3a79-7a5b5cb0e4a1">
+      <Execution id="3e95ee23-3815-447e-8d3c-0c4a6b9e917b" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.SecretStoreBackendTests" name="Save_EmptyOrNull_DeletesThroughTheInjectedBackend" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.SecretStoreBackendTests.ProductionBackend_IsNeverEntered_WhenTheIsolatedBackendIsArmed" storage="c:\users\administrator\appdata\local\temp\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="579f8342-3b4c-389f-1d64-6b5b533b24d2">
+      <Execution id="965678f6-3fd0-4e51-967c-8bd7f29629e8" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.SecretStoreBackendTests" name="ProductionBackend_IsNeverEntered_WhenTheIsolatedBackendIsArmed" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.ConfigPreservationTests.LoadAsync_MustNotCreateOrModifyTheRealCredentialStore" storage="c:\users\administrator\appdata\local\temp\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="34f504a8-7341-e4b4-c1f9-c6cf7d4ef4cd">
+      <Execution id="a6867a94-3bfb-4041-ae18-546b05e8973c" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.ConfigPreservationTests" name="LoadAsync_MustNotCreateOrModifyTheRealCredentialStore" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.ConfigPreservationTests.LoadAsync_IfItWritesBack_StillPreservesExistingFields" storage="c:\users\administrator\appdata\local\temp\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="3c356eb3-f29f-f5b1-c0d7-e9baa48aad85">
+      <Execution id="8a6dc5a0-6a16-4cc6-8fe8-fbb0d1def18f" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.ConfigPreservationTests" name="LoadAsync_IfItWritesBack_StillPreservesExistingFields" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.ConfigPreservationTests.LoadAsync_PreservesEveryNonSecretField_FromAnExistingConfig" storage="c:\users\administrator\appdata\local\temp\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="bc193d16-9bb9-2ea9-6d9c-a4675d69a8e4">
+      <Execution id="62ab6c1c-f4fa-49d5-ab78-5fd24063d50e" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.ConfigPreservationTests" name="LoadAsync_PreservesEveryNonSecretField_FromAnExistingConfig" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.SecretStoreBackendTests.WriteThenRead_RoundTrips_WithTheSameKeyNamesAsProduction" storage="c:\users\administrator\appdata\local\temp\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="36a143c4-e949-7c99-1324-ad215e979473">
+      <Execution id="285ea164-26a1-4e8e-bb2e-ea4855744407" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.SecretStoreBackendTests" name="WriteThenRead_RoundTrips_WithTheSameKeyNamesAsProduction" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.ConfigPreservationTests.LoadAsync_FillsUpdateUrl_OnlyWhenItIsBlank" storage="c:\users\administrator\appdata\local\temp\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="21b0dfb1-655b-4015-3e5e-4371a273ccc2">
+      <Execution id="9009654a-762e-4d1d-822f-09eb38674336" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.ConfigPreservationTests" name="LoadAsync_FillsUpdateUrl_OnlyWhenItIsBlank" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.SecretStoreBackendTests.OverrideScope_NestsAndRestores_ThePreviousBackend" storage="c:\users\administrator\appdata\local\temp\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="fb70e066-79de-c8b8-ebf8-75122e83172c">
+      <Execution id="2ef2b810-79f1-4dea-9584-db021e9e9321" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-codex-recheck-5a304f4403c544e9be92d9e452fd619d\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.SecretStoreBackendTests" name="OverrideScope_NestsAndRestores_ThePreviousBackend" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="30aa412f-c320-801f-dc12-c7eebe325e98" executionId="f4965d04-1c93-4ca1-94f4-c21c54efa8db" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="21b0dfb1-655b-4015-3e5e-4371a273ccc2" executionId="9009654a-762e-4d1d-822f-09eb38674336" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="579f8342-3b4c-389f-1d64-6b5b533b24d2" executionId="965678f6-3fd0-4e51-967c-8bd7f29629e8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="10c2c0e3-6886-782d-050e-0b60edc0deb6" executionId="204f2da8-3f88-4b3a-a4ed-5028d79bb438" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="36a143c4-e949-7c99-1324-ad215e979473" executionId="285ea164-26a1-4e8e-bb2e-ea4855744407" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="23049ca0-14dd-9d11-b1f9-4964c23b651a" executionId="d56b2e88-dc4f-42f7-ac3d-c94162e242f2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2b4839ca-84d2-2c11-8050-c45aca650cd9" executionId="329dbb69-af31-464a-b504-cc9d3a9968ba" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="34f504a8-7341-e4b4-c1f9-c6cf7d4ef4cd" executionId="a6867a94-3bfb-4041-ae18-546b05e8973c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fb70e066-79de-c8b8-ebf8-75122e83172c" executionId="2ef2b810-79f1-4dea-9584-db021e9e9321" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3c356eb3-f29f-f5b1-c0d7-e9baa48aad85" executionId="8a6dc5a0-6a16-4cc6-8fe8-fbb0d1def18f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bc193d16-9bb9-2ea9-6d9c-a4675d69a8e4" executionId="62ab6c1c-f4fa-49d5-ab78-5fd24063d50e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b2c69d58-3e08-6f11-3a79-7a5b5cb0e4a1" executionId="3e95ee23-3815-447e-8d3c-0c4a6b9e917b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7bc4d967-fea3-ce16-5ec9-3c525fa7ebea" executionId="0554dc9e-8cb4-4f9a-9d7a-0fef5c15b770" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="13" executed="13" passed="13" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.9)&#xD;
+[xUnit.net 00:00:00.08]   Discovering: Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.17]   Discovered:  Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.19]   Starting:    Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.32]   Finished:    Pineglow.Launcher.Tests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

@@ -1,0 +1,42 @@
+Checking home at 1280
+Checking installations at 1280
+Checking worlds at 1280
+Checking servers at 1280
+Checking playtime at 1280
+Checking content at 1280
+Checking skins at 1280
+Checking downloads at 1280
+Checking news at 1280
+Checking settings at 1280
+Checking home at 960
+Checking installations at 960
+Checking worlds at 960
+Checking servers at 960
+Checking playtime at 960
+Checking content at 960
+Checking skins at 960
+Checking downloads at 960
+Checking news at 960
+Checking settings at 960
+Checking home at 1600
+Checking installations at 1600
+Checking worlds at 1600
+Checking servers at 1600
+Checking playtime at 1600
+Checking content at 1600
+Checking skins at 1600
+Checking downloads at 1600
+Checking news at 1600
+Checking settings at 1600
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert.ok(fs.existsSync(path.join(modsDir,'layout_alpha.jar.disabled')))
+
+    at D:\松光启动器\docs\ui-fix-2026-10-15\verify-native-final.cjs:68:235 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

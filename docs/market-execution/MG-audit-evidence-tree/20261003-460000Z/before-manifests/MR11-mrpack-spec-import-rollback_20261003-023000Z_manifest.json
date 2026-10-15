@@ -1,0 +1,139 @@
+﻿{
+    "runId":  "20261003-023000Z",
+    "task":  "MR11 .mrpack 导入的规范、互通与回滚（含第 10 轮补齐：导入取消）",
+    "generatedUtc":  "2026-10-02T21:37:22Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "result":  {
+                   "csharp":  "21 passed / 0 failed (InstancePackTests 15 + ImportCancellationTests 6)",
+                   "node":  "import-cancel.test.cjs 5 passed / 0 failed",
+                   "csharpFull":  "708 passed / 0 failed",
+                   "nodeFull":  "216 passed / 0 failed (16 files)",
+                   "gitStatus":  "1315 -\u003e 1317 (+2)",
+                   "completion":  "COMPLETE (backend + frontend + tests); real end-to-end import still unverified"
+               },
+    "alreadyExistedBeforeThisPackage":  [
+                                            "zip-slip protection (verified by tests only, NOT credited to this package)",
+                                            "sha512 + sha1 hash verification (only the failure handling was changed)",
+                                            "delete half-created game directory on failure (exception masking was fixed)",
+                                            "env.client == unsupported filtering"
+                                        ],
+    "fixedByThisPackage":  {
+                               "formatVersion":  "validated; missing defaults to 1; !=1 rejected",
+                               "requiredFields":  "dependencies + minecraft + files errors are explicit Chinese messages",
+                               "hashMirrorFallback":  "hash mismatch retries the next mirror instead of failing the whole import",
+                               "rollback":  "cleanup failure no longer masks the original import exception",
+                               "importCancellation":  "POST /api/instances/import/cancel + optional operationId + prompt cancellation checks around the slow Java resolution",
+                               "frontend":  "cancel button + operationId generation + \"cancelled, no instance created\" wording distinct from failure"
+                           },
+    "selfFoundIssues":  [
+                            "我自己的短路 bug：cancelled = wasActive \u0026\u0026 Cancel(...) 使未知 operationId 根本不登记墓碑，导致\"取消先到\"失效（表现为 90 秒超时）",
+                            "CancellationTokenSource has been disposed.：注册表墓碑分支会 Cancel+Dispose CTS，之后读 Token 抛异常 -\u003e 改为先取 token 再注册",
+                            "取消被当成可重试的网络错误（TaskCanceledException 落在重试分支）",
+                            "RED 构造脚本按 CRLF 拼串而文件是 LF，7 处替换全未命中 -\u003e 改 LF 后 7/7"
+                        ],
+    "knownGaps":  [
+                      "真实端到端 .mrpack 导入未验证（必然联网安装 Minecraft/加载器并写真实游戏目录），属 MR22 内测范围",
+                      "真实 WebView2 的取消按钮点击链路未验证",
+                      "真实联网导入的中途取消未验证（本包验证的是接线与回滚）",
+                      "InstallLoaderAsync 的加载器安装分支未改动也未测试",
+                      "overrides 与 client-overrides 的应用顺序/冲突语义没有测试"
+                  ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "32E19BAB9C0ECDC2105F572BD6137E36F482F13CDD919AF1341B6E9C38DF0635",
+                      "sizeBytes":  13761
+                  },
+                  {
+                      "path":  "green/01-mrpack-first.log",
+                      "sha256":  "C8100E1FE4EFCAE63C9F134139948C149334173E5D83536E0DA3F75B64E68D5E",
+                      "sizeBytes":  12934
+                  },
+                  {
+                      "path":  "green/02-mrpack-after.log",
+                      "sha256":  "FC989D32DD440E5038EB0D1E9F164ED98318D9A3543C4CF377A1482D11E40D63",
+                      "sizeBytes":  12934
+                  },
+                  {
+                      "path":  "green/03-csharp-full.log",
+                      "sha256":  "AC92160A8453559CE8725A0C1C90F9E15410BF6B8DF70B1C4BBEF8E9BE1B9CFD",
+                      "sizeBytes":  652
+                  },
+                  {
+                      "path":  "green/04-node-full.log",
+                      "sha256":  "CAF51A509C1A52CDBF02780943CD18E6A7298781DDA9C745323C775E352C313B",
+                      "sizeBytes":  22085
+                  },
+                  {
+                      "path":  "green/05-import-cancel-after.log",
+                      "sha256":  "B483449E1840DA3001C512EDF322242862E4DBF4560CB5FDC1B5C247C2220087",
+                      "sizeBytes":  16062
+                  },
+                  {
+                      "path":  "green/05-import-cancel-first.log",
+                      "sha256":  "0F0EEEC5D51C15E96BF9DBF01BB46F0BF3AB9312D1A65120BB9FA1084BB69118",
+                      "sizeBytes":  15858
+                  },
+                  {
+                      "path":  "green/06-cancel-race-probe.log",
+                      "sha256":  "5742EBA8145BAF519AF0FB297D60C95E62550E93C9461B602CF7E12E0ECB86BD",
+                      "sizeBytes":  22944
+                  },
+                  {
+                      "path":  "green/07-csharp-full.log",
+                      "sha256":  "725B012C094C8476340BE6474266FACA1FFB7CBDB1EC07EDB115A5A2F1F25ED0",
+                      "sizeBytes":  652
+                  },
+                  {
+                      "path":  "green/08-node-full.log",
+                      "sha256":  "A3DA29FD27A29DB225AD260FD0A06DE8FCC4CE93101215F322CB1EBA51B57DEB",
+                      "sizeBytes":  22071
+                  },
+                  {
+                      "path":  "green/09-node-import-cancel.log",
+                      "sha256":  "9D0491A072B2F5789E34E5E10519EEA4151F1ECD8E524FA9BFD1454B75692EEB",
+                      "sizeBytes":  854
+                  },
+                  {
+                      "path":  "green/10-csharp-full-final.log",
+                      "sha256":  "725B012C094C8476340BE6474266FACA1FFB7CBDB1EC07EDB115A5A2F1F25ED0",
+                      "sizeBytes":  652
+                  },
+                  {
+                      "path":  "green/11-node-full-final.log",
+                      "sha256":  "52918902B249D712C632D5BBDC2E86EDF955FAA8468A1BBBCCC46A4E945415A9",
+                      "sizeBytes":  22547
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "11E0BA7F4BACC73F00F502697B8FE7EF3E601F953EAFC490287EA66F46DDD56B",
+                      "sizeBytes":  958
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "059F25C2882B0D5A33782AFDBA8979BDD7FE93F6088E8D82BBB0A1F1A5907E58",
+                      "sizeBytes":  114382
+                  },
+                  {
+                      "path":  "green/InstancePackService.cs.mr11",
+                      "sha256":  "BD98B4F3E00883A26009BF9DF4ACD7BE6B06BFDD0E9FB11D5CFE31F50A8542B2",
+                      "sizeBytes":  32389
+                  },
+                  {
+                      "path":  "green/InstancePackService.cs.mr11.sha256.txt",
+                      "sha256":  "83160A997C74B39ACCFD1E25356B8D4C920265783A5E65193B31DFE535F07F20",
+                      "sizeBytes":  69
+                  },
+                  {
+                      "path":  "manifest.json",
+                      "sha256":  "AAD283B33C517638CEEC725461D8439ED708647132D562DCBB41D721C1BD5E92",
+                      "sizeBytes":  5834
+                  },
+                  {
+                      "path":  "red/01-mrpack-before.log",
+                      "sha256":  "FEB3A0637C5AB9457E23AD74CF206A3B40A3704F49574409567F13FE041F2277",
+                      "sizeBytes":  33206
+                  }
+              ]
+}

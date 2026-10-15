@@ -1,0 +1,50 @@
+{
+    "schemaVersion":  1,
+    "runId":  "demo",
+    "stages":  [
+                   {
+                       "id":  "demo-ok",
+                       "file":  "C:\\Program Files\\nodejs\\node.exe",
+                       "argv":  [
+                                    "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\g4\\demo\\synth-stage.cjs",
+                                    "results/demo-ok.trx",
+                                    "0",
+                                    "4",
+                                    "4",
+                                    "0",
+                                    "0"
+                                ],
+                       "cwd":  "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\g4\\demo\\run",
+                       "produces":  [
+                                        "results/demo-ok.trx"
+                                    ],
+                       "expect":  {
+                                      "trx":  "results/demo-ok.trx",
+                                      "minTests":  1,
+                                      "maxSkipped":  0
+                                  }
+                   },
+                   {
+                       "id":  "demo-fail",
+                       "file":  "C:\\Program Files\\nodejs\\node.exe",
+                       "argv":  [
+                                    "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\g4\\demo\\synth-stage.cjs",
+                                    "results/demo-fail.trx",
+                                    "0",
+                                    "4",
+                                    "4",
+                                    "0",
+                                    "0"
+                                ],
+                       "cwd":  "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\g4\\demo\\run",
+                       "produces":  [
+                                        "results/demo-fail.trx"
+                                    ],
+                       "expect":  {
+                                      "trx":  "results/demo-fail.trx",
+                                      "minTests":  1,
+                                      "maxSkipped":  0
+                                  }
+                   }
+               ]
+}

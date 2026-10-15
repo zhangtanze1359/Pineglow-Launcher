@@ -1,0 +1,22 @@
+﻿{
+    "probe":  "real-launch",
+    "fixture":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\install",
+    "javaConfigured":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-jre-92310fa5235b45c9bd1b4690811899bc\\jdk-21.0.12.1+1-jre\\bin\\javaw.exe",
+    "requestedVersion":  "1.21.11",
+    "apiPort":  51585,
+    "healthReady":  true,
+    "javaReport":  "{\"javaPath\":\"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pineglow-jre-92310fa5235b45c9bd1b4690811899bc\\\\jdk-21.0.12.1+1-jre\\\\bin\\\\javaw.exe\",\"installations\":[]}",
+    "offlineAccount":  "{\"ok\":true,\"account\":{\"id\":\"6ca2fdfad0d0443e939999dec2f70f0a\",\"type\":\"offline\",\"userName\":\"d6tester\",\"uuid\":\"\",\"xuid\":\"\",\"authServerUrl\":\"\",\"skinUrl\":\"\",\"skinModel\":\"classic\",\"skinCount\":0,\"capeCount\":0,\"capes\":[],\"accessTokenExpiresAt\":\"0001-01-01T00:00:00+00:00\",\"isMicrosoft\":false,\"isThirdParty\":false}}",
+    "instanceId":  "74bafbde946d40d382c01ccb1bb23022",
+    "prelaunchVerdict":  "{\"ok\":true,\"errors\":[],\"warnings\":[],\"maxMemoryMb\":4096,\"gameDir\":\"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\\\install\\\\data\\\\.minecraft\"}",
+    "prelaunchOk":  true,
+    "launchResponse":  "{\"ok\":true,\"pid\":13504,\"minimizeOnLaunch\":false}",
+    "javaProcessStarted":  true,
+    "javaProcessCmdline":  "\"C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-jre-92310fa5235b45c9bd1b4690811899bc\\jdk-21.0.12.1+1-jre\\bin\\javaw.exe\" -Xmx4096M -Dfile.encoding=UTF-8 -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump -Djava.library.path=C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\install\\data\\.minecraft\\versions\\1.21.11\\natives -Djna.tmpdir=C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\install\\data\\.minecraft\\versions\\1.21.11\\natives -Dorg.lwjgl.system.SharedLibraryEx",
+    "gameLogPath":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\install\\data\\.minecraft\\logs\\latest.log",
+    "gameLogTail":  "[03:05:28] [Datafixer Bootstrap/INFO]: 287 Datafixer optimizations took 551 milliseconds\n[03:05:34] [Render thread/INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, profilesHost=https://api.mojang.com, name=PROD]\n[03:05:34] [Render thread/INFO]: Setting user: d6tester\n[03:05:34] [Render thread/INFO]: Backend library: LWJGL version 3.3.3+5\n[03:05:35] [Render thread/INFO]: Using optional rendering extensions: GL_ARB_buffer_storage, GL_KHR_debug, GL_ARB_vertex_attrib_binding, GL_ARB_direct_state_access, GL_EXT_texture_filter_anisotropic\n[03:05:36] [Render thread/INFO]: Reloading ResourceManager: vanilla\n[03:05:36] [Worker-Main-3/INFO]: Found unifont_pua-17.0.01.hex, loading\n[03:05:36] [Worker-Main-11/INFO]: Found unifont_all_no_pua-17.0.01.hex, loading\n[03:05:37] [Worker-Main-7/INFO]: Found unifont_jp_patch-17.0.01.hex, loading\n",
+    "launcherLogTail":  "2026-10-10 02:56:56.904 [INFO] === Pineglow Launcher 启动 v1.0.0 ===\n2026-10-10 02:56:57.032 [INFO] [LocalApi] 监听 127.0.0.1:50418, ui=C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\install\\data\\UI\\1.0.0-41346c7082cb\n2026-10-10 03:04:38.668 [INFO] === Pineglow Launcher 启动 v1.0.0 ===\n2026-10-10 03:04:38.785 [INFO] [LocalApi] 监听 127.0.0.1:55230, ui=C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\install\\data\\UI\\1.0.0-41346c7082cb\n2026-10-10 03:05:24.457 [INFO] === Pineglow Launcher 启动 v1.0.0 ===\n2026-10-10 03:05:24.559 [INFO] [LocalApi] 监听 127.0.0.1:51585, ui=C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\install\\data\\UI\\1.0.0-41346c7082cb\n",
+    "gameReachedMainMenu":  true,
+    "ownedProcessesStopped":  true,
+    "timeHK":  "2026-10-10T03:05:23.3801741"
+}

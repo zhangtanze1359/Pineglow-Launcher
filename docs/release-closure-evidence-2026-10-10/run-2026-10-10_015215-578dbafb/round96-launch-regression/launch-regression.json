@@ -1,0 +1,9 @@
+﻿{
+    "probe":  "launch-regression-after-javaauto",
+    "javaPath":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-importlog-0c785d826dc04ab0a90746c19cc043ca\\data\\runtimes\\java-21-windows-x64\\jdk-21.0.12.1+1-jre\\bin\\javaw.exe",
+    "exe":  "674CC84D14A49F4819E6D22F562E45FDBEFE21287F2AF20C1011F3017DB16D7E",
+    "marker":  "Sound engine started",
+    "prelaunchOk":  true,
+    "reachedTitle":  true,
+    "launchOk":  true
+}

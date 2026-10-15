@@ -1,0 +1,97 @@
+﻿{
+    "runId":  "20261003-210000Z",
+    "task":  "MR05 补测之二：依赖递归安装的测试（A1 剩余部分）",
+    "generatedUtc":  "2026-10-03T00:09:21Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "gap-register A1 remainder - InstallWithDependenciesAsync had no coverage",
+    "result":  {
+                   "newTests":  6,
+                   "green":  "6 passed / 0 failed",
+                   "csharpFull":  "765 passed / 0 failed (755 + 4 + 6)",
+                   "nodeFull":  "230 passed / 0 failed (18 files)",
+                   "implementationFileFinal":  "ModContentService.cs SHA256 D39A5A2102049795940602D2071DAFFBF4C8A1F3DE3317705201ADC860FB55CC, byte-identical to the pre-RED backup, no RED- markers left",
+                   "productCodeNetChanges":  false
+               },
+    "redBaselines":  {
+                         "firstAttempt":  "5/5 STILL PASSED - the RED did not go red, which exposed a real defect in MY test design",
+                         "rootCause":  "the diamond dedup is enforced by the DEPENDENCY-level guard (line 186 !installedProjects.Contains(item2)), not by visited (line 181). visited actually guards CYCLIC graphs (A-\u003eB-\u003eA) where the project is not yet installed",
+                         "fix":  "added a cyclic-graph test (case 6) and rebuilt the RED to target the two real guards separately",
+                         "redA":  "neutralize line 186 -\u003e 2 failed / 4 passed (DiamondGraph, SkipsAlreadyInstalledDependency)",
+                         "redB":  "neutralize line 181 (visited) -\u003e test host StackOverflow crash (0 passed / 0 failed; log contains \"Stack overflow\" and the test run was aborted; frames show InstallRecursiveAsync \u003c-\u003e ResolveDependencyAsync recursing)",
+                         "redBsignificance":  "proves visited is what prevents infinite recursion, and that case 6 can detect its removal - without that case, deleting visited would not have been caught by any test"
+                     },
+    "stillNotCovered":  [
+                            "real network download and real Modrinth version JSON (fake handler only)",
+                            "CurseForge dependency branch",
+                            "multi-version selection in dependency resolution (ReleaseType==release preference) - that goes through GetVersionsAsync (project-scoped query); this package used the VersionId direct-lookup branch",
+                            "the dependency install flow in the real GUI"
+                        ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "32EF6A887CD22FC4BED99A8F42FCCD78DC44693C3AF57D91AB3588E90B3C2B24",
+                      "sizeBytes":  6414
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "FE71077B08E70F98C6A07116B6ACFEF0F472B6A38ED86241B4E389F97AE70F59",
+                      "sizeBytes":  9760
+                  },
+                  {
+                      "path":  "green/01-deps-first.log",
+                      "sha256":  "69813E593FAFF07F598CE3515C99C4AE9B3802B5F300C556CF29E4CE80518154",
+                      "sizeBytes":  10584
+                  },
+                  {
+                      "path":  "green/02-deps-with-cycle.log",
+                      "sha256":  "874CEF1F907B3088F3CC8749B2CD3C40E46427272BA9C8F95D2A842FEC9AC51C",
+                      "sizeBytes":  10944
+                  },
+                  {
+                      "path":  "green/03-deps-final.log",
+                      "sha256":  "ACB99B2B8BF31A9D7450FEB7586274B33BD78092975C48998527A9FDC0C3C45C",
+                      "sizeBytes":  10944
+                  },
+                  {
+                      "path":  "green/04-csharp-full.log",
+                      "sha256":  "3231776C9EA07825FD2F70D444A6B8C736F9C91DE986337ACBA3F9756E57228F",
+                      "sizeBytes":  655
+                  },
+                  {
+                      "path":  "green/05-node-full.log",
+                      "sha256":  "65A261C34700628216CB95F1B3C0EC41E1A5D4524E4A9AB3A20999A6A9188176",
+                      "sizeBytes":  23802
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "B5BF07CED12470C2869965B0762FD0A6592D007384D39FFB375821E93F0B7727",
+                      "sizeBytes":  235
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "CE63FEFD855F7F6E9BD6FEA0FD55983DE882CD4B32129C3AC269510ACA9F68BA",
+                      "sizeBytes":  115438
+                  },
+                  {
+                      "path":  "green/ModContentService.cs.mr05b",
+                      "sha256":  "D39A5A2102049795940602D2071DAFFBF4C8A1F3DE3317705201ADC860FB55CC",
+                      "sizeBytes":  23291
+                  },
+                  {
+                      "path":  "red/01-deps-before.log",
+                      "sha256":  "99D9ACD1894AA3F03FA58E9416178800A7A106679B7144C2C26A59D6C699FA14",
+                      "sizeBytes":  10584
+                  },
+                  {
+                      "path":  "red/02-red-a-deplevel.log",
+                      "sha256":  "EDF281D3165907D076F9F90615C3B81DA4985F4346FAB9F5A589FA65D0A41037",
+                      "sizeBytes":  8630
+                  },
+                  {
+                      "path":  "red/03-red-b-visited.log",
+                      "sha256":  "493A5705958F827A7554DB0A212509959D0448DBBA7DE0A2E3BCD29218CBEEA9",
+                      "sizeBytes":  1712574
+                  }
+              ]
+}

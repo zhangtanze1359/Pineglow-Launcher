@@ -1,0 +1,354 @@
+ M .github/workflows/build.yml
+ M .github/workflows/release.yml
+ M .gitignore
+ M README.md
+ M dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj
+ M dev/PineglowLauncher/Assets/AppIcon.ico
+ M dev/PineglowLauncher/Assets/AppIcon.png
+ M dev/PineglowLauncher/Pineglow.Launcher.Models/AppConfig.cs
+ M dev/PineglowLauncher/Pineglow.Launcher.Models/LauncherAccount.cs
+ M dev/PineglowLauncher/Pineglow.Launcher.Services/AccountService.cs
+ M dev/PineglowLauncher/Pineglow.Launcher.Services/AiDiagnoseService.cs
+ M dev/PineglowLauncher/Pineglow.Launcher.Services/AuthlibAccount.cs
+ M dev/PineglowLauncher/Pineglow.Launcher.Services/AuthlibInjectorService.cs
+ M dev/PineglowLauncher/Pineglow.Launcher.Services/ConfigStore.cs
+ M dev/PineglowLauncher/Pineglow.Launcher.Services/InstallerLoaderService.cs
+ M dev/PineglowLauncher/Pineglow.Launcher.Services/InstancePackService.cs
+ M dev/PineglowLauncher/Pineglow.Launcher.Services/LauncherService.cs
+ M dev/PineglowLauncher/Pineglow.Launcher.Services/LoaderInstallHelper.cs
+ M dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.cs
+ M dev/PineglowLauncher/Pineglow.Launcher.Services/MicrosoftAuthService.cs
+ M dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftAccount.cs
+ M dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftAppearance.cs
+ M dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftNewsService.cs
+ M dev/PineglowLauncher/Pineglow.Launcher.Services/ModBisectService.cs
+ M dev/PineglowLauncher/Pineglow.Launcher.Services/ModContentService.cs
+ M dev/PineglowLauncher/Pineglow.Launcher.Services/ModService.cs
+ M dev/PineglowLauncher/Pineglow.Launcher.Services/SecretStore.cs
+ M dev/PineglowLauncher/Pineglow.Launcher.Services/UpdateService.cs
+ M dev/PineglowLauncher/Pineglow.Launcher.Services/VersionResolver.cs
+ M dev/PineglowLauncher/Pineglow.Launcher.Views/Shell/WebShellWindow.axaml.cs
+ M dev/PineglowLauncher/Pineglow.Launcher.csproj
+ M dev/PineglowLauncher/Properties/AssemblyInfo.cs
+ M dev/PineglowLauncher/VerifyHost/BisectSmoke.cs
+ M dev/PineglowLauncher/VerifyHost/Program.cs
+ M dev/PineglowLauncher/VerifyHost/VerifyHost.csproj
+ M dev/PineglowLauncher/app.ico
+ M docs/api-reference.md
+ M docs/archive/archive-README.md
+ M docs/design-system.md
+ M docs/development-guide.md
+ M docs/features.md
+ M docs/roadmap.md
+ M ui/css/figma.css
+ M ui/index.html
+ M ui/js/api.js
+ M ui/js/i18n.js
+ M ui/js/launcher.js
+?? .cindy-worktrees/
+?? .test-tmp/
+?? .testagent/
+?? .trae/
+?? dev/PineglowLauncher.Tests/AiCancelAndRedirectTests.cs
+?? dev/PineglowLauncher.Tests/AiDiagnoseReleaseSafetyTests.cs
+?? dev/PineglowLauncher.Tests/AiDispatchMetadataTests.cs
+?? dev/PineglowLauncher.Tests/BisectFileOperationTests.cs
+?? dev/PineglowLauncher.Tests/BisectRecoveryTests.cs
+?? dev/PineglowLauncher.Tests/BuildLockFileTests.cs
+?? dev/PineglowLauncher.Tests/ConfigBackupRotationTests.cs
+?? dev/PineglowLauncher.Tests/ConfigDefaultIdentityTests.cs
+?? dev/PineglowLauncher.Tests/ConfigPreservationTests.cs
+?? dev/PineglowLauncher.Tests/ContentIconServiceTests.cs
+?? dev/PineglowLauncher.Tests/CurseForgeRateLimitTests.cs
+?? dev/PineglowLauncher.Tests/DiagnoseProgressGateTests.cs
+?? dev/PineglowLauncher.Tests/DiagnosticBenchmarkTests.cs
+?? dev/PineglowLauncher.Tests/DiagnosticCaseSetInvariantTests.cs
+?? dev/PineglowLauncher.Tests/DiagnosticReportTests.cs
+?? dev/PineglowLauncher.Tests/DiagnosticSnapshotServiceTests.cs
+?? dev/PineglowLauncher.Tests/DownloadResumeTests.cs
+?? dev/PineglowLauncher.Tests/FileRecoveryEdgeCaseTests.cs
+?? dev/PineglowLauncher.Tests/FileRecoveryTests.cs
+?? dev/PineglowLauncher.Tests/FinalAcceptanceRegressionTests.cs
+?? dev/PineglowLauncher.Tests/ImportCancellationTests.cs
+?? dev/PineglowLauncher.Tests/InstanceDefaultInstanceBoundaryTests.cs
+?? dev/PineglowLauncher.Tests/InstanceLaunchGuardTests.cs
+?? dev/PineglowLauncher.Tests/InstancePackTests.cs
+?? dev/PineglowLauncher.Tests/InstanceRemovalTests.cs
+?? dev/PineglowLauncher.Tests/InstanceRunningGuardTests.cs
+?? dev/PineglowLauncher.Tests/LauncherPerfMeasurementTests.cs
+?? dev/PineglowLauncher.Tests/LauncherStartupBoundaryTests.cs
+?? dev/PineglowLauncher.Tests/LoaderInstallerContractTests.cs
+?? dev/PineglowLauncher.Tests/LocalApiServiceTestCollection.cs
+?? dev/PineglowLauncher.Tests/LocalApiTestHarness.cs
+?? dev/PineglowLauncher.Tests/MinecraftNewsServiceTests.cs
+?? dev/PineglowLauncher.Tests/ModContentDependencyInstallTests.cs
+?? dev/PineglowLauncher.Tests/ModContentUpdateWiringTests.cs
+?? dev/PineglowLauncher.Tests/ModReplaceFileInUseTests.cs
+?? dev/PineglowLauncher.Tests/ModReplacementTests.cs
+?? dev/PineglowLauncher.Tests/NewsEndpointPolicyTests.cs
+?? dev/PineglowLauncher.Tests/NewsFakeIpConfigTests.cs
+?? dev/PineglowLauncher.Tests/NewsFakeIpPolicyTests.cs
+?? dev/PineglowLauncher.Tests/NewsImageProxyServiceTests.cs
+?? dev/PineglowLauncher.Tests/NewsLinkHandlerTests.cs
+?? dev/PineglowLauncher.Tests/NewsLinkServiceTests.cs
+?? dev/PineglowLauncher.Tests/NewsR2TeredoNat64Tests.cs
+?? dev/PineglowLauncher.Tests/OutboundEndpointPolicyTests.cs
+?? dev/PineglowLauncher.Tests/RecoveryVersionDisplayEndToEndTests.cs
+?? dev/PineglowLauncher.Tests/RemediationBoundaryRegressionTests.cs
+?? dev/PineglowLauncher.Tests/RouteReachabilityTests.cs
+?? dev/PineglowLauncher.Tests/SecretPersistenceContractTests.cs
+?? dev/PineglowLauncher.Tests/SecretStoreBackendTests.cs
+?? dev/PineglowLauncher.Tests/SecurityRegressionTests.cs
+?? dev/PineglowLauncher.Tests/SkinImageProxyServiceTests.cs
+?? dev/PineglowLauncher.Tests/TestAssets/
+?? dev/PineglowLauncher.Tests/TestIsolationRoots.cs
+?? dev/PineglowLauncher.Tests/TestResults/
+?? dev/PineglowLauncher.Tests/UiBundleTests.cs
+?? dev/PineglowLauncher.Tests/UnwritableDirectoryTests.cs
+?? dev/PineglowLauncher.Tests/UpdateApplyScriptPathTests.cs
+?? dev/PineglowLauncher.Tests/UpdateManifestFallbackTests.cs
+?? dev/PineglowLauncher.Tests/UpdateRecoveryTests.cs
+?? dev/PineglowLauncher.Tests/VersionResolverInheritanceTests.cs
+?? dev/PineglowLauncher.Tests/WorkflowInvariantTests.cs
+?? dev/PineglowLauncher.Tests/WorldBackupScopeTests.cs
+?? dev/PineglowLauncher.Tests/packages.lock.json
+?? dev/PineglowLauncher/Pineglow.Launcher.Models/DiagnosticReport.cs
+?? dev/PineglowLauncher/Pineglow.Launcher.Models/FileRecoveryRecord.cs
+?? dev/PineglowLauncher/Pineglow.Launcher.Services/AiEndpointPolicy.cs
+?? dev/PineglowLauncher/Pineglow.Launcher.Services/AiHttpClientFactory.cs
+?? dev/PineglowLauncher/Pineglow.Launcher.Services/AiOperationRegistry.cs
+?? dev/PineglowLauncher/Pineglow.Launcher.Services/BisectRecoveryStore.cs
+?? dev/PineglowLauncher/Pineglow.Launcher.Services/ContentIconResult.cs
+?? dev/PineglowLauncher/Pineglow.Launcher.Services/ContentIconService.cs
+?? dev/PineglowLauncher/Pineglow.Launcher.Services/CurseForgeRequestPolicy.cs
+?? dev/PineglowLauncher/Pineglow.Launcher.Services/DiagnosticReportService.cs
+?? dev/PineglowLauncher/Pineglow.Launcher.Services/DiagnosticSnapshotService.cs
+?? dev/PineglowLauncher/Pineglow.Launcher.Services/FileRecoveryService.cs
+?? dev/PineglowLauncher/Pineglow.Launcher.Services/ModReplacementService.cs
+?? dev/PineglowLauncher/Pineglow.Launcher.Services/NewsEndpointPolicy.cs
+?? dev/PineglowLauncher/Pineglow.Launcher.Services/NewsImageProxyService.cs
+?? dev/PineglowLauncher/Pineglow.Launcher.Services/NewsLinkService.cs
+?? dev/PineglowLauncher/Pineglow.Launcher.Services/PathSafetyGuard.cs
+?? dev/PineglowLauncher/Pineglow.Launcher.Services/RunningInstanceRegistry.cs
+?? dev/PineglowLauncher/Pineglow.Launcher.Services/SecretStoreBackend.cs
+?? dev/PineglowLauncher/Pineglow.Launcher.Services/SkinImageProxyService.cs
+?? dev/PineglowLauncher/Pineglow.Launcher.Services/UiBundle.cs
+?? dev/PineglowLauncher/packages.lock.json
+?? dev/icon-tests-red.txt
+?? docs/archive/phase2-content-icons-implementation-2026-09-04.round1.bak.md
+?? docs/archive/phase2-content-icons-implementation-2026-09-04.round2.bak.md
+?? docs/codex-skill-invocation-rules-prompt-2026-09-10.md
+?? docs/codex-skill-selection-plan-2026-09-10.md
+?? docs/content-news-ai-improvement-prompt-2026-09-01.md
+?? docs/contenticon-dispose-default-dns-isolation-deliverable-2026-09-16.md
+?? docs/contenticon-dispose-default-dns-isolation-evidence-2026-09-16/
+?? docs/dify-minimax-workflow-evidence-20260922-120711/
+?? docs/dify-minimax-workflow-evidence-20260922-120844/
+?? docs/dify-minimax-workflow-evidence-20260922-121220/
+?? docs/dify-minimax-workflow-evidence-20260922-215528/
+?? docs/dify-minimax-workflow-evidence-20260922-220714/
+?? docs/evidence/
+?? docs/fastest-remaining-issues-workflow-2026-09-18.md
+?? docs/harness-blocker-remediation-workflow-2026-10-06.md
+?? docs/market-task-plan-2026-10-03.md
+?? docs/minimax-cn-live-validation-plan-2026-09-24.md
+?? docs/minimax-cn-next-verification-prompt-2026-09-24.md
+?? docs/minimax-cn-runtime-evidence-2026-09-25/
+?? docs/minimax-contenticon-dispose-default-dns-isolation-prompt-2026-09-16.md
+?? docs/minimax-fastest-phase3b-release-safety-prompt-2026-09-18.md
+?? docs/minimax-harness-continuation-prompt-2026-10-06.md
+?? docs/minimax-phase1-v3-workflow-2026-09-03.md
+?? docs/minimax-phase1-v4-workflow-2026-09-03.md
+?? docs/minimax-phase1-v5-workflow-2026-09-03.md
+?? docs/minimax-phase2-content-icons-workflow-2026-09-04.md
+?? docs/minimax-phase2-final-remediation-v2-workflow-2026-09-05.md
+?? docs/minimax-phase2-final-remediation-workflow-2026-09-05.md
+?? docs/minimax-phase2-release-closure-workflow-2026-09-05.md
+?? docs/minimax-phase2-security-remediation-workflow-2026-09-04.md
+?? docs/minimax-phase3a-news-execution-prompt-2026-09-05.md
+?? docs/minimax-phase3a-news-final-rework-prompt-2026-09-06.md
+?? docs/minimax-phase3a-news-implementation-prompt-2026-09-05.md
+?? docs/minimax-phase3a-news-second-final-rework-prompt-2026-09-06.md
+?? docs/minimax-phase3a-r201-evidence-consistency-remediation-prompt-2026-09-07.md
+?? docs/minimax-phase3a-r201-nat64-boundary-remediation-prompt-2026-09-06.md
+?? docs/minimax-phase3a-r202-fake-ip-compat-execution-prompt-2026-09-07.md
+?? docs/minimax-phase3a-r202-red-independent-review-rework-prompt-2026-09-07.md
+?? docs/minimax-phase3a-r202-step43-fullsuite-isolation-rework-prompt-2026-09-07.md
+?? docs/minimax-phase3a-r202-step43-minimal-implementation-prompt-2026-09-07.md
+?? docs/minimax-phase3a-r203-entry-contract-rework-prompt-2026-09-07.md
+?? docs/minimax-phase3a-r203-independent-acceptance-closure-prompt-2026-09-10.md
+?? docs/minimax-phase3a-r203-minimal-green-prompt-2026-09-10.md
+?? docs/minimax-phase3a-r203-news-link-red-prompt-2026-09-07.md
+?? docs/minimax-phase3a-r203-opener-failure-contract-rework-prompt-2026-09-10.md
+?? docs/minimax-phase3a-r203-red-quality-rework-prompt-2026-09-07.md
+?? docs/minimax-phase3a-r203-success-button-reenable-remediation-prompt-2026-09-10.md
+?? docs/minimax-phase3a-r203-tryopen-result-race-rework-prompt-2026-09-10.md
+?? docs/minimax-phase3a-r203-webview-evidence-integrity-remediation-prompt-2026-09-17.md
+?? docs/minimax-phase3a-r203-webview-final-reacceptance-and-conditional-remediation-prompt-2026-09-16.md
+?? docs/minimax-phase3a-r204-acceptance-evidence-consistency-remediation-prompt-2026-09-18.md
+?? docs/minimax-phase3a-r204-evidence-index-and-closure-prompt-2026-09-17.md
+?? docs/minimax-phase3b-gate0-evidence-closure-prompt-2026-09-23.md
+?? docs/minimax-phase3b-release-safety-remediation-prompt-2026-09-18.md
+?? docs/minimax-phase3b-release-safety-remediation-v2-prompt-2026-09-19.md
+?? docs/minimax-phase3b-release-safety-remediation-v3-prompt-2026-09-19.md
+?? docs/minimax-phase3b-release-safety-remediation-v4-prompt-2026-09-19.md
+?? docs/minimax-phase3c-1-runtime-closure-prompt-2026-09-24.md
+?? docs/minimax-phase3c-2-bounded-finish-2026-09-24.md
+?? docs/minimax-phase3c-2-correction-2026-09-24.md
+?? docs/minimax-phase3c-2-final-closure-prompt-2026-09-24.md
+?? docs/minimax-phase3c-2-metadata-and-progress-prompt-2026-09-24.md
+?? docs/minimax-phase3c-2-positive-http-gate-2026-09-24.md
+?? docs/minimax-phase3c-2-webview-closure-2026-09-24.md
+?? docs/minimax-phase3c-ai-diagnosis-experience-prompt-2026-09-23.md
+?? docs/minimax-source-reproducibility-prompt-2026-09-28.md
+?? docs/minimax-v4-0-evidence-followup-prompt-2026-09-19.md
+?? docs/outstanding-tasks-priority-and-contenticon-dns-isolation-workflow-2026-09-16.md
+?? docs/phase1-resource-search-fixes-2026-09-02.md
+?? docs/phase2-content-icons-implementation-2026-09-04.md
+?? docs/phase2-release-evidence-2026-09-05/
+?? docs/phase2-smoke-2026-09-05/
+?? docs/phase3-news-ai-audit-and-plan-2026-09-05.md
+?? docs/phase3a-gate0-independent-acceptance-2026-09-18.md
+?? docs/phase3a-news-detailed-workflow-2026-09-05.md
+?? docs/phase3a-news-evidence-2026-09-05/
+?? docs/phase3a-news-implementation-2026-09-05.md
+?? docs/phase3a-news-independent-review-rework-2026-09-06.md
+?? docs/phase3a-news-second-final-rework-workflow-2026-09-06.md
+?? docs/phase3a-r201-evidence-consistency-remediation-workflow-2026-09-07.md
+?? docs/phase3a-r201-nat64-boundary-remediation-workflow-2026-09-06.md
+?? docs/phase3a-r202-fake-ip-compat-detailed-workflow-2026-09-07.md
+?? docs/phase3a-r202-red-independent-reverification-2026-09-07.md
+?? docs/phase3a-r202-red-independent-review-rework-2026-09-07.md
+?? docs/phase3a-r202-step43-fullsuite-isolation-rework-2026-09-07.md
+?? docs/phase3a-r202-step43-minimal-implementation-workflow-2026-09-07.md
+?? docs/phase3a-r203-current-status-and-live-reacceptance-plan-2026-09-12.md
+?? docs/phase3a-r203-entry-contract-rework-2026-09-07.md
+?? docs/phase3a-r203-entry-contract-rework-deliverable-2026-09-07.md
+?? docs/phase3a-r203-independent-acceptance-closure-deliverable-2026-09-10.md
+?? docs/phase3a-r203-independent-acceptance-closure-workflow-2026-09-10.md
+?? docs/phase3a-r203-live-reacceptance-execution-prompt-2026-09-12.md
+?? docs/phase3a-r203-minimal-green-deliverable-2026-09-10.md
+?? docs/phase3a-r203-minimal-green-workflow-2026-09-10.md
+?? docs/phase3a-r203-news-link-red-deliverable-2026-09-07.md
+?? docs/phase3a-r203-news-link-red-workflow-2026-09-07.md
+?? docs/phase3a-r203-opener-failure-contract-rework-2026-09-10.md
+?? docs/phase3a-r203-opener-failure-contract-rework-deliverable-2026-09-10.md
+?? docs/phase3a-r203-red-quality-rework-2026-09-07.md
+?? docs/phase3a-r203-red-quality-rework-deliverable-2026-09-07.md
+?? docs/phase3a-r203-success-button-live-reacceptance-deliverable-2026-09-12.md
+?? docs/phase3a-r203-success-button-reenable-deliverable-2026-09-10.md
+?? docs/phase3a-r203-success-button-reenable-remediation-workflow-2026-09-10.md
+?? docs/phase3a-r203-tryopen-result-race-rework-2026-09-10.md
+?? docs/phase3a-r203-tryopen-result-race-rework-deliverable-2026-09-10.md
+?? docs/phase3a-r203-webview-evidence-integrity-remediation-workflow-2026-09-17.md
+?? docs/phase3a-r203-webview-evidence-remediation-deliverable-2026-09-17.md
+?? docs/phase3a-r203-webview-final-reacceptance-and-conditional-remediation-workflow-2026-09-16.md
+?? docs/phase3a-r203-webview-final-reacceptance-deliverable-2026-09-16.md
+?? docs/phase3a-r204-acceptance-evidence-consistency-remediation-deliverable-2026-09-18.md
+?? docs/phase3a-r204-acceptance-evidence-consistency-remediation-workflow-2026-09-18.md
+?? docs/phase3a-r204-evidence-index-and-closure-workflow-2026-09-17.md
+?? docs/phase3a-r204-evidence-index-closure-deliverable-2026-09-17.md
+?? docs/phase3b-gate0-evidence-closure-workflow-2026-09-23.md
+?? docs/phase3b-gate0-independent-acceptance-2026-09-23.md
+?? docs/phase3b-independent-acceptance-evidence-2026-09-18/
+?? docs/phase3b-release-safety-deliverable-2026-09-18.md
+?? docs/phase3b-release-safety-evidence-2026-09-18/
+?? docs/phase3b-release-safety-independent-acceptance-2026-09-18.md
+?? docs/phase3b-release-safety-remediation-deliverable-2026-09-18.md
+?? docs/phase3b-release-safety-remediation-evidence-2026-09-18/
+?? docs/phase3b-release-safety-remediation-independent-acceptance-2026-09-19.md
+?? docs/phase3b-release-safety-remediation-v2-deliverable-2026-09-19.md
+?? docs/phase3b-release-safety-remediation-v2-evidence-2026-09-19/
+?? docs/phase3b-release-safety-remediation-v2-independent-acceptance-2026-09-19.md
+?? docs/phase3b-release-safety-remediation-v2-workflow-2026-09-19.md
+?? docs/phase3b-release-safety-remediation-v3-deliverable-2026-09-19.md
+?? docs/phase3b-release-safety-remediation-v3-evidence-2026-09-19/
+?? docs/phase3b-release-safety-remediation-v3-independent-acceptance-2026-09-19.md
+?? docs/phase3b-release-safety-remediation-v3-workflow-2026-09-19.md
+?? docs/phase3b-release-safety-remediation-v4-evidence-2026-09-19/
+?? docs/phase3b-release-safety-remediation-v4-independent-review-2026-09-22.md
+?? docs/phase3b-release-safety-remediation-v4-workflow-2026-09-19.md
+?? docs/phase3b-release-safety-remediation-workflow-2026-09-18.md
+?? docs/phase3b-remediation-independent-acceptance-evidence-2026-09-19/
+?? docs/phase3b-v4-0-independent-acceptance-2026-09-19.md
+?? docs/phase3c-1-independent-handoff-status-2026-09-23.md
+?? docs/phase3c-1-independent-runtime-acceptance-2026-09-24.md
+?? docs/phase3c-1-runtime-closure-deliverable-2026-09-24.md
+?? docs/phase3c-1-runtime-closure-evidence-2026-09-24/
+?? docs/phase3c-2-independent-acceptance-2026-09-24.md
+?? docs/phase3c-2-metadata-deliverable-2026-09-24.md
+?? docs/phase3c-2-metadata-evidence-2026-09-24/
+?? docs/phase3c-2-stage-protocol-design-2026-09-24.md
+?? docs/phase3c-ai-diagnosis-experience-deliverable-2026-09-23.md
+?? docs/phase3c-ai-diagnosis-experience-evidence-2026-09-23/
+?? docs/phase3c-ai-diagnosis-experience-workflow-2026-09-23.md
+?? docs/phase3c-language-link-evidence-2026-09-25/
+?? docs/project-audit-2026-08-31.md
+?? docs/release-remediation-evidence-2026-10-05/
+?? docs/skin3d-remediation-plan-2026-08-31.md
+?? docs/source-reproducibility-evidence-2026-09-28/
+?? docs/source-reproducibility-workflow-2026-09-28.md
+?? docs/ui-refresh-report-2026-10-03.md
+?? "docs/\346\272\220\347\240\201\346\211\223\345\214\205-deliverable-2026-10-01.md"
+?? global.json
+?? scripts/_assetgen/
+?? scripts/_migration_mime_tests.py
+?? scripts/_mimeprobe/
+?? scripts/_phase2-cf-host-probe.cjs
+?? scripts/_phase2-icon-host-probe.cjs
+?? scripts/_phase2-icon-shape-probe.cjs
+?? scripts/_phase3a-debug-imgkind.py
+?? scripts/_phase3a-debug-pages.py
+?? scripts/_phase3a-debug-state.py
+?? scripts/_phase3a-news-smoke1.py
+?? scripts/_phase3a-news-smoke1b.py
+?? scripts/_phase3a-news-smoke2-304.py
+?? scripts/_phase3a-news-smoke3-offline.py
+?? scripts/_phase3a-news-smoke3b-banner.py
+?? scripts/_phase3a-news-smoke5-ui.py
+?? scripts/_phase3a-news-smoke8-rest.py
+?? scripts/_phase3a-news-smoke8b.py
+?? scripts/_phase3a-news-smoke9-malicious.py
+?? scripts/_phase3a-rework-click-home.py
+?? scripts/_phase3a-rework-click.py
+?? scripts/_rework-docs.py
+?? scripts/_rework-frontend-tests.py
+?? scripts/_rework-patch-impl.py
+?? scripts/_rework-patch-tests.py
+?? scripts/_rework-split-tests.py
+?? scripts/_uri-test.cs
+?? scripts/_uritest/
+?? scripts/audit-claimed-tests.ps1
+?? scripts/audit-evidence-tree.ps1
+?? scripts/audit-goal-evidence.py
+?? scripts/audit-plan-ledger.ps1
+?? scripts/capture-goal-baseline.ps1
+?? scripts/check-ui-resource-closure.cjs
+?? scripts/lib/
+?? scripts/measure-mr21.ps1
+?? scripts/measure-singlefile-drivecheck.ps1
+?? scripts/measure-singlefile-pathcheck.ps1
+?? scripts/measure-singlefile-pathlen.ps1
+?? scripts/measure-singlefile-repro.ps1
+?? scripts/repair-evidence-manifests.ps1
+?? scripts/run-diagnostic-benchmark.ps1
+?? scripts/run-dify-minimax-workflow.ps1
+?? scripts/run-goal-validation.ps1
+?? scripts/run-inventory-tests.cjs
+?? scripts/source-snapshot-inputs.txt
+?? scripts/test-inventory.txt
+?? scripts/tests/
+?? scripts/verify-mg0.ps1
+?? scripts/verify-mg1.ps1
+?? scripts/verify-mg2.ps1
+?? scripts/verify-mg3.ps1
+?? scripts/verify-single-file-standalone.ps1
+?? scripts/verify-source-snapshot.ps1
+?? scripts/verify-ui-pages-live.cjs
+?? scripts/verify-update-live-download.ps1
+?? ui/assets/
+?? ui/css/pineglow.css
+?? ui/js/skin3d-core.js
+?? ui/js/skin3d.js
+?? ui/tests/
+?? ui/vendor/

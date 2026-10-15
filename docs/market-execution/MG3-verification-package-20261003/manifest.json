@@ -1,0 +1,69 @@
+﻿{
+    "package":  "MG3 独立复验包（Windows 候选：无障碍 / 构建 / 更新 / 性能）",
+    "generatedUtc":  "2026-10-02T22:58:11Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "scope":  [
+                  "MR17",
+                  "MR19",
+                  "MR20",
+                  "MR21"
+              ],
+    "oneCommand":  "powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\verify-mg3.ps1",
+    "automatedResult":  {
+                            "scriptExit":  0,
+                            "csharp":  "752 passed / 0 failed",
+                            "node":  "230 passed / 0 failed (18 files)",
+                            "evidenceDrift":  "scannedRecords=114 across 15 runs; match=54, unexplainedWithinThisMilestone=1 (EXPLAINED: this package registered verify-mg3.ps1 into the shared whitelist), supersededByLaterMilestones=59, missing=0",
+                            "mr21ProductCodeChanged":  false,
+                            "gitStatus":  1330
+                        },
+    "riskMapping":  {
+                        "updateCannotRollBack":  "MR20 backup -\u003e replace -\u003e byte-compare -\u003e rollback, with 3 real script executions",
+                        "platformIdentityError":  "MR19 freezes the RID boundary with an experiment; MR20 rejects foreign-platform assets before download",
+                        "buildTestFailure":  "MR19 lock-file invariant guard (3 tests + 2 CI steps, actionlint 1.7.7 clean) and byte-identical managed assembly across rebuilds",
+                        "criticalUiUnusable":  "MR17 fixes six real a11y gaps (focus visibility, modal keyboard contract, role=button activation, live region, sticky actions, 24x24 targets)",
+                        "releaseTrustBoundary":  "MR20 states the trust model accurately (SHA256 is not identity authentication); MR19 freezes RID locking as an accepted trade-off"
+                    },
+    "notCovered":  [
+                       "MR17：真实键盘操作、屏幕阅读器宣读、125%/150%/200% 缩放、800x600、文字裁切、焦点色对比度",
+                       "MR19：真实 GitHub Actions 运行、单文件自包含 exe 的逐字节可复现性、linux/osx RID 发布",
+                       "MR20：真实安装目录替换、真实重启、Unix .sh 分支",
+                       "MR21：真实 GUI 首屏、WebView2 渲染、真实账号流程、WebView2 缺失路径（本机已安装）"
+                   ],
+    "evidenceLayoutFix":  "MR17/MR21 had changed-files.sha256.txt at the run root instead of green/; normalized to the existing convention (MR21 run had no green/ at all - created). MR21 also had no changed-files record at all; one was created, deliberately omitting the whitelist hash because MR17 later modified that file.",
+    "status":  "evidence-ready; independent verification NOT yet performed; user approval NOT given",
+    "note":  "脚本只证明证据齐全、漂移已分类、两套全量测试通过；不读代码、不覆盖真实环境。",
+    "files":  [
+                  {
+                      "path":  "git-status-after.txt",
+                      "sha256":  "B7F981D950828D329CC5684A7E40827244EC0F63726E723111FE6068C684E22E",
+                      "sizeBytes":  115013
+                  },
+                  {
+                      "path":  "README.md",
+                      "sha256":  "6C3744C84A35B252C3C9F6367C63AACA03801C06EFFEB5CA88F898919D7B0684",
+                      "sizeBytes":  7046
+                  },
+                  {
+                      "path":  "verification-checklist.md",
+                      "sha256":  "103CCF5993511E3B38F751910C6A511E4436289CA168B5EFA8260E52D23B81EC",
+                      "sizeBytes":  6076
+                  },
+                  {
+                      "path":  "verify-mg3-drift-check.log",
+                      "sha256":  "3191E76A3131FE81C3F16C10DC89D6398728A77649743D08043E395AE59A14CE",
+                      "sizeBytes":  4550
+                  },
+                  {
+                      "path":  "verify-mg3-full.log",
+                      "sha256":  "00E02D7D4FE46B35F65EE9B98EBDCE91579885B57E6D9FEF1F524B71F48A5C15",
+                      "sizeBytes":  42544
+                  }
+              ],
+    "verifierScript":  {
+                           "path":  "scripts/verify-mg3.ps1",
+                           "sha256":  "2296F5DCC4E46BB520D422D48D406CD10483940BD075D3A732C64819E9BCDF68",
+                           "sizeBytes":  6133
+                       }
+}

@@ -1,0 +1,104 @@
+{
+  "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-output-budget-XcpwfP",
+  "args": [
+    "-NoProfile",
+    "-ExecutionPolicy",
+    "Bypass",
+    "-File",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-acceptance-ap4aublk\\scripts\\run-goal-validation.ps1",
+    "-InputManifest",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-output-budget-XcpwfP\\input.json",
+    "-StagesFile",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-output-budget-XcpwfP\\stages.json",
+    "-RunDir",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-output-budget-XcpwfP\\run",
+    "-ExecutionRoot",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-output-budget-XcpwfP",
+    "-TimeoutSeconds",
+    "1"
+  ],
+  "timeoutSeconds": 1,
+  "elapsedMs": 944,
+  "exitCode": 0,
+  "stdout": "[unit] COMPLETED exit=0\nrunner verdict: PASS (stages 1, failed 0, partial False)\n",
+  "stderr": "",
+  "verdict": {
+    "schemaVersion": 2,
+    "runner": "run-goal-validation.ps1",
+    "runId": "output-budget",
+    "inputManifest": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-output-budget-XcpwfP\\input.json",
+    "inputManifestSha256": "39A5A02C57F404D4FB91BE97300B56888741BF800A0E8E093354C40CED4B293A",
+    "verifiedInputSetSha256": "2D473D83456DF079B748DEF7BB6F817CAA731F1B4B744F5AA8375560D3739923",
+    "verifiedInputCount": 2,
+    "verifiedInputRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-output-budget-XcpwfP",
+    "stagesFile": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-output-budget-XcpwfP\\stages.json",
+    "stagesFileSha256": "B2264E28CE8F71C8C47F7B3A3C22AC3EB5C14E1E94DBC86760F9A39ABBB28862",
+    "generatedUtc": "2026-10-04T10:41:59Z",
+    "resume": false,
+    "only": "",
+    "partial": false,
+    "requiredStages": [
+      "unit"
+    ],
+    "requiredNotCompleted": [],
+    "partialNotRun": {},
+    "stageCount": 1,
+    "failedCount": 0,
+    "stages": [
+      {
+        "schemaVersion": 2,
+        "id": "unit",
+        "runId": "output-budget",
+        "attemptDir": "attempts/unit/1",
+        "fingerprint": "67CBCAEE09230D2814CC00949A699539E929B523C197139DA2D7C67399D023A9",
+        "inputManifestSha256": "39A5A02C57F404D4FB91BE97300B56888741BF800A0E8E093354C40CED4B293A",
+        "inputSetSha256": "2D473D83456DF079B748DEF7BB6F817CAA731F1B4B744F5AA8375560D3739923",
+        "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-output-budget-XcpwfP\\parent.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-output-budget-XcpwfP\\run\\attempts\\unit\\1/unit.trx",
+        "workingDirectory": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-output-budget-XcpwfP",
+        "startUtc": "2026-10-04T10:41:59Z",
+        "endUtc": "2026-10-04T10:41:59Z",
+        "exitCode": 0,
+        "timedOut": false,
+        "stillRunning": false,
+        "counters": {
+          "total": 1,
+          "executed": 1,
+          "passed": 1,
+          "failed": 0,
+          "notExecuted": 0,
+          "resultRows": 1,
+          "passedRows": 1,
+          "failedRows": 0,
+          "notExecutedRows": 0,
+          "otherRows": 0
+        },
+        "trx": "unit.trx",
+        "artifacts": [
+          {
+            "path": "unit.trx",
+            "sha256": "043741ECC0DBB8C74576C5488A7B970B110FA09E071B4FBDF0C9A25F9CD6BD5D",
+            "sizeBytes": 175
+          }
+        ],
+        "rawEvidence": [
+          {
+            "path": "unit.stdout.log",
+            "sha256": "22760DB111983B26FCD48D7AD242F13F4586E0498D28118CE2C86A4615BE799C",
+            "sizeBytes": 22
+          },
+          {
+            "path": "unit.stderr.log",
+            "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+            "sizeBytes": 0
+          }
+        ],
+        "reasons": [],
+        "status": "COMPLETED",
+        "reused": false
+      }
+    ],
+    "verdict": "PASS"
+  },
+  "expected": "FAIL on wall-clock output collection over budget",
+  "accepted": false
+}

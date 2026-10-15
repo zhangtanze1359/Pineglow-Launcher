@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="f3ecb09d-6691-4cae-a091-a05e854a2f19" name="Administrator@PC-20260705RBJQ 2026-10-06 13:40:56" runUser="PC-20260705RBJQ\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-06T13:40:56.7386129+08:00" queuing="2026-10-06T13:40:56.7386134+08:00" start="2026-10-06T13:40:56.1218224+08:00" finish="2026-10-06T13:40:56.7429486+08:00" />
+  <TestSettings name="default" id="cbd7d128-1233-4031-8e17-c01691822659">
+    <Deployment runDeploymentRoot="Administrator_PC-20260705RBJQ_2026-10-06_13_40_56" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="a8354cd1-d57f-4b9d-8195-4402bf63c74c" testId="539ffec9-1ee0-8a16-d6f0-240899cff815" testName="Pineglow.Launcher.Tests.ConfigBackupRotationTests.ThirdRotation_KeepsOnlyTheTwoMostRecentGenerations" computerName="PC-20260705RBJQ" duration="00:00:00.0010000" startTime="2026-10-06T13:40:56.6617045+08:00" endTime="2026-10-06T13:40:56.6617253+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a8354cd1-d57f-4b9d-8195-4402bf63c74c">
+      <Output>
+        <ErrorInfo>
+          <Message>System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-a15b-cd254e566d5e4281a87bacebeb9c68e7' is denied.</Message>
+          <StackTrace>   at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+   at System.IO.Directory.CreateDirectory(String path)&#xD;
+   at Pineglow.Launcher.Tests.ConfigBackupRotationTests..ctor(ITestOutputHelper output) in D:\松光启动器\dev\PineglowLauncher.Tests\ConfigBackupRotationTests.cs:line 32&#xD;
+   at InvokeStub_ConfigBackupRotationTests..ctor(Object, Span`1)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="47199202-c51a-43d0-ab02-624703c35e4b" testId="26249ecf-4355-d6b3-10e8-64fee8313b78" testName="Pineglow.Launcher.Tests.ConfigBackupRotationTests.Rotation_WhenBackupTargetIsUnusable_DoesNotThrow" computerName="PC-20260705RBJQ" duration="00:00:00.0010000" startTime="2026-10-06T13:40:56.6601384+08:00" endTime="2026-10-06T13:40:56.6601936+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="47199202-c51a-43d0-ab02-624703c35e4b">
+      <Output>
+        <ErrorInfo>
+          <Message>System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-a15b-16b5590c15d6470fa4560f24e90dc5d4' is denied.</Message>
+          <StackTrace>   at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+   at System.IO.Directory.CreateDirectory(String path)&#xD;
+   at Pineglow.Launcher.Tests.ConfigBackupRotationTests..ctor(ITestOutputHelper output) in D:\松光启动器\dev\PineglowLauncher.Tests\ConfigBackupRotationTests.cs:line 32&#xD;
+   at InvokeStub_ConfigBackupRotationTests..ctor(Object, Span`1)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="d49b6596-7700-404b-a549-b5a00e5e5b05" testId="e6abb5c6-5e53-bbf6-e8c3-ed8659a32d09" testName="Pineglow.Launcher.Tests.ConfigBackupRotationTests.Rotation_WithoutConfigFile_CreatesNothing" computerName="PC-20260705RBJQ" duration="00:00:00.0010000" startTime="2026-10-06T13:40:56.6613830+08:00" endTime="2026-10-06T13:40:56.6614051+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d49b6596-7700-404b-a549-b5a00e5e5b05">
+      <Output>
+        <ErrorInfo>
+          <Message>System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-a15b-f07c0f4a6c4f4ec4a2f2c664a4b480c8' is denied.</Message>
+          <StackTrace>   at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+   at System.IO.Directory.CreateDirectory(String path)&#xD;
+   at Pineglow.Launcher.Tests.ConfigBackupRotationTests..ctor(ITestOutputHelper output) in D:\松光启动器\dev\PineglowLauncher.Tests\ConfigBackupRotationTests.cs:line 32&#xD;
+   at InvokeStub_ConfigBackupRotationTests..ctor(Object, Span`1)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="0ac99d2d-36a2-4e7c-a8d3-a2603d2ff42e" testId="c2a6f5ad-582d-f2d1-e784-a06a4e27a998" testName="Pineglow.Launcher.Tests.ConfigBackupRotationTests.FirstRotation_CreatesBakOnly_WithTheCurrentContent" computerName="PC-20260705RBJQ" duration="00:00:00.0010000" startTime="2026-10-06T13:40:56.6610232+08:00" endTime="2026-10-06T13:40:56.6610522+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0ac99d2d-36a2-4e7c-a8d3-a2603d2ff42e">
+      <Output>
+        <ErrorInfo>
+          <Message>System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-a15b-567d6e8efe354091aa9514d0a64f70ae' is denied.</Message>
+          <StackTrace>   at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+   at System.IO.Directory.CreateDirectory(String path)&#xD;
+   at Pineglow.Launcher.Tests.ConfigBackupRotationTests..ctor(ITestOutputHelper output) in D:\松光启动器\dev\PineglowLauncher.Tests\ConfigBackupRotationTests.cs:line 32&#xD;
+   at InvokeStub_ConfigBackupRotationTests..ctor(Object, Span`1)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="8a16f31c-ca76-4091-b220-4e68fea6b25f" testId="9a1a6c88-dacb-4e45-113c-a0d07f6a8216" testName="Pineglow.Launcher.Tests.ConfigBackupRotationTests.SecondRotation_KeepsBothGenerations" computerName="PC-20260705RBJQ" duration="00:00:00.0010000" startTime="2026-10-06T13:40:56.6418080+08:00" endTime="2026-10-06T13:40:56.6496351+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8a16f31c-ca76-4091-b220-4e68fea6b25f">
+      <Output>
+        <ErrorInfo>
+          <Message>System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-a15b-1c1352847298492b95deb31fa1c944cf' is denied.</Message>
+          <StackTrace>   at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+   at System.IO.Directory.CreateDirectory(String path)&#xD;
+   at Pineglow.Launcher.Tests.ConfigBackupRotationTests..ctor(ITestOutputHelper output) in D:\松光启动器\dev\PineglowLauncher.Tests\ConfigBackupRotationTests.cs:line 32&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Constructor(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Pineglow.Launcher.Tests.ConfigBackupRotationTests.FirstRotation_CreatesBakOnly_WithTheCurrentContent" storage="d:\松光启动器\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="c2a6f5ad-582d-f2d1-e784-a06a4e27a998">
+      <Execution id="0ac99d2d-36a2-4e7c-a8d3-a2603d2ff42e" />
+      <TestMethod codeBase="D:\松光启动器\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.ConfigBackupRotationTests" name="FirstRotation_CreatesBakOnly_WithTheCurrentContent" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.ConfigBackupRotationTests.ThirdRotation_KeepsOnlyTheTwoMostRecentGenerations" storage="d:\松光启动器\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="539ffec9-1ee0-8a16-d6f0-240899cff815">
+      <Execution id="a8354cd1-d57f-4b9d-8195-4402bf63c74c" />
+      <TestMethod codeBase="D:\松光启动器\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.ConfigBackupRotationTests" name="ThirdRotation_KeepsOnlyTheTwoMostRecentGenerations" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.ConfigBackupRotationTests.SecondRotation_KeepsBothGenerations" storage="d:\松光启动器\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="9a1a6c88-dacb-4e45-113c-a0d07f6a8216">
+      <Execution id="8a16f31c-ca76-4091-b220-4e68fea6b25f" />
+      <TestMethod codeBase="D:\松光启动器\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.ConfigBackupRotationTests" name="SecondRotation_KeepsBothGenerations" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.ConfigBackupRotationTests.Rotation_WithoutConfigFile_CreatesNothing" storage="d:\松光启动器\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="e6abb5c6-5e53-bbf6-e8c3-ed8659a32d09">
+      <Execution id="d49b6596-7700-404b-a549-b5a00e5e5b05" />
+      <TestMethod codeBase="D:\松光启动器\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.ConfigBackupRotationTests" name="Rotation_WithoutConfigFile_CreatesNothing" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.ConfigBackupRotationTests.Rotation_WhenBackupTargetIsUnusable_DoesNotThrow" storage="d:\松光启动器\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="26249ecf-4355-d6b3-10e8-64fee8313b78">
+      <Execution id="47199202-c51a-43d0-ab02-624703c35e4b" />
+      <TestMethod codeBase="D:\松光启动器\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.ConfigBackupRotationTests" name="Rotation_WhenBackupTargetIsUnusable_DoesNotThrow" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="539ffec9-1ee0-8a16-d6f0-240899cff815" executionId="a8354cd1-d57f-4b9d-8195-4402bf63c74c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="26249ecf-4355-d6b3-10e8-64fee8313b78" executionId="47199202-c51a-43d0-ab02-624703c35e4b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e6abb5c6-5e53-bbf6-e8c3-ed8659a32d09" executionId="d49b6596-7700-404b-a549-b5a00e5e5b05" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c2a6f5ad-582d-f2d1-e784-a06a4e27a998" executionId="0ac99d2d-36a2-4e7c-a8d3-a2603d2ff42e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9a1a6c88-dacb-4e45-113c-a0d07f6a8216" executionId="8a16f31c-ca76-4091-b220-4e68fea6b25f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="5" executed="5" passed="0" failed="5" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.9)&#xD;
+[xUnit.net 00:00:00.07]   Discovering: Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.16]   Discovered:  Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.18]   Starting:    Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.21]       System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-a15b-1c1352847298492b95deb31fa1c944cf' is denied.&#xD;
+[xUnit.net 00:00:00.21]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.21]            at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+[xUnit.net 00:00:00.21]            at System.IO.Directory.CreateDirectory(String path)&#xD;
+[xUnit.net 00:00:00.21]         D:\松光启动器\dev\PineglowLauncher.Tests\ConfigBackupRotationTests.cs(32,0): at Pineglow.Launcher.Tests.ConfigBackupRotationTests..ctor(ITestOutputHelper output)&#xD;
+[xUnit.net 00:00:00.21]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Constructor(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.21]            at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.22]       System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-a15b-16b5590c15d6470fa4560f24e90dc5d4' is denied.&#xD;
+[xUnit.net 00:00:00.22]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.22]            at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+[xUnit.net 00:00:00.22]            at System.IO.Directory.CreateDirectory(String path)&#xD;
+[xUnit.net 00:00:00.22]         D:\松光启动器\dev\PineglowLauncher.Tests\ConfigBackupRotationTests.cs(32,0): at Pineglow.Launcher.Tests.ConfigBackupRotationTests..ctor(ITestOutputHelper output)&#xD;
+[xUnit.net 00:00:00.22]            at InvokeStub_ConfigBackupRotationTests..ctor(Object, Span`1)&#xD;
+[xUnit.net 00:00:00.22]            at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
+[xUnit.net 00:00:00.22]       System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-a15b-567d6e8efe354091aa9514d0a64f70ae' is denied.&#xD;
+[xUnit.net 00:00:00.22]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.22]            at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+[xUnit.net 00:00:00.22]            at System.IO.Directory.CreateDirectory(String path)&#xD;
+[xUnit.net 00:00:00.22]         D:\松光启动器\dev\PineglowLauncher.Tests\ConfigBackupRotationTests.cs(32,0): at Pineglow.Launcher.Tests.ConfigBackupRotationTests..ctor(ITestOutputHelper output)&#xD;
+[xUnit.net 00:00:00.22]            at InvokeStub_ConfigBackupRotationTests..ctor(Object, Span`1)&#xD;
+[xUnit.net 00:00:00.22]            at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
+[xUnit.net 00:00:00.22]       System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-a15b-f07c0f4a6c4f4ec4a2f2c664a4b480c8' is denied.&#xD;
+[xUnit.net 00:00:00.22]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.22]            at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+[xUnit.net 00:00:00.22]            at System.IO.Directory.CreateDirectory(String path)&#xD;
+[xUnit.net 00:00:00.22]         D:\松光启动器\dev\PineglowLauncher.Tests\ConfigBackupRotationTests.cs(32,0): at Pineglow.Launcher.Tests.ConfigBackupRotationTests..ctor(ITestOutputHelper output)&#xD;
+[xUnit.net 00:00:00.22]            at InvokeStub_ConfigBackupRotationTests..ctor(Object, Span`1)&#xD;
+[xUnit.net 00:00:00.22]            at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
+[xUnit.net 00:00:00.22]       System.UnauthorizedAccessException : Access to the path 'C:\Users\Administrator\AppData\Local\Temp\pineglow-a15b-cd254e566d5e4281a87bacebeb9c68e7' is denied.&#xD;
+[xUnit.net 00:00:00.22]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.22]            at System.IO.FileSystem.CreateDirectory(String fullPath, Byte[] securityDescriptor)&#xD;
+[xUnit.net 00:00:00.22]            at System.IO.Directory.CreateDirectory(String path)&#xD;
+[xUnit.net 00:00:00.22]         D:\松光启动器\dev\PineglowLauncher.Tests\ConfigBackupRotationTests.cs(32,0): at Pineglow.Launcher.Tests.ConfigBackupRotationTests..ctor(ITestOutputHelper output)&#xD;
+[xUnit.net 00:00:00.22]            at InvokeStub_ConfigBackupRotationTests..ctor(Object, Span`1)&#xD;
+[xUnit.net 00:00:00.22]            at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
+[xUnit.net 00:00:00.22]   Finished:    Pineglow.Launcher.Tests&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:40:56.6516205+08:00">
+        <Text>[xUnit.net 00:00:00.21]     Pineglow.Launcher.Tests.ConfigBackupRotationTests.SecondRotation_KeepsBothGenerations [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:40:56.6605353+08:00">
+        <Text>[xUnit.net 00:00:00.22]     Pineglow.Launcher.Tests.ConfigBackupRotationTests.Rotation_WhenBackupTargetIsUnusable_DoesNotThrow [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:40:56.6611826+08:00">
+        <Text>[xUnit.net 00:00:00.22]     Pineglow.Launcher.Tests.ConfigBackupRotationTests.FirstRotation_CreatesBakOnly_WithTheCurrentContent [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:40:56.6614769+08:00">
+        <Text>[xUnit.net 00:00:00.22]     Pineglow.Launcher.Tests.ConfigBackupRotationTests.Rotation_WithoutConfigFile_CreatesNothing [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="PC-20260705RBJQ" outcome="Error" timestamp="2026-10-06T13:40:56.6617851+08:00">
+        <Text>[xUnit.net 00:00:00.22]     Pineglow.Launcher.Tests.ConfigBackupRotationTests.ThirdRotation_KeepsOnlyTheTwoMostRecentGenerations [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

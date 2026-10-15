@@ -1,0 +1,71 @@
+﻿{
+    "package":  "MG1 独立复验包（数据安全与 Bisect 恢复）",
+    "generatedUtc":  "2026-10-02T21:57:30Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "scope":  [
+                  "MR03",
+                  "MR03b (收尾: 运行守卫)",
+                  "MR04",
+                  "MR05",
+                  "MR06",
+                  "MR07"
+              ],
+    "oneCommand":  "powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\verify-mg1.ps1",
+    "automatedResult":  {
+                            "scriptExit":  0,
+                            "csharp":  "725 passed / 0 failed",
+                            "node":  "216 passed / 0 failed (16 files)",
+                            "bisectSmoke":  "PASS",
+                            "evidenceDrift":  "scannedRecords=90 across 11 runs; match=42, unexplainedWithinThisMilestone=0, supersededByLaterMilestones=49, missing=0",
+                            "gitStatus":  "1290 (MG1 start) -\u003e 1305 (MG1 end); 1323 as of this package"
+                        },
+    "driftSemantics":  {
+                           "scans":  "ALL runs (not just this milestone) so later-milestone supersessions are distinguished from real drift",
+                           "mg2Drifts":  "the 2 drifts reported by the MG2 package have their latest records in MG2, so this script classifies them as superseded; they are explained in MG2-verification-package-20261003/drift-notes.md",
+                           "intentionallyNotShared":  "verify-mg1.ps1 and verify-mg2.ps1 are parallel on purpose, so each milestone\u0027s recorded hashes stay stable",
+                           "whitelistChurn":  "scripts/source-snapshot-inputs.txt 是共享索引，被 MG2 与 MG1 复验包先后编辑；它的最新记录来自 MG2，因此本脚本归为\"被后续里程碑覆盖\"，由 MG2 的 drift-notes.md 负责解释。当前哈希=DED291F3198F9DDE0981A47836E9235D71A76DC58F7A2879935A5BDC34E58FD6"
+                       },
+    "status":  "evidence-ready; independent verification NOT yet performed; user approval NOT given",
+    "knownLimitations":  [
+                             "MR03 的\"实例运行中不得移除\"已在收尾 run MR03-instance-running-guard/20261003-060000Z 补上（RunningInstanceRegistry，带自愈）；真实启动 Minecraft 的完整链路与启动器重启后的运行态仍未验证",
+                             "MR04 的 30 天保留没有自动清理，只记录到期时间",
+                             "MR05 的在线更新接线（ModContentService）没有自动化测试，需要 fake HTTP 通道",
+                             "MR06 的 VerifyHost --bisect-smoke 故障注入扩展未做（该包欠交付）",
+                             "MR07 的\"临时测试世界/实例副本\"引导未做；\"真实进程中断\"是模拟的（清空内存会话），不是真杀进程",
+                             "真实 GUI / 真实游戏 / 真实跨卷之外的行为未验证"
+                         ],
+    "note":  "脚本只证明证据齐全、漂移已分类、全量测试与 bisect 冒烟通过；不读代码、不覆盖真实环境。",
+    "files":  [
+                  {
+                      "path":  "git-status-after.txt",
+                      "sha256":  "DD8A2694B006325865563EC4F632822EAD3A322FDE9C37641171127854A0199F",
+                      "sizeBytes":  114574
+                  },
+                  {
+                      "path":  "README.md",
+                      "sha256":  "51C13A3C72287A3CF6E1DD49F2A31D8042ED104AA30F888CDCD4A86972EEA58A",
+                      "sizeBytes":  5354
+                  },
+                  {
+                      "path":  "verification-checklist.md",
+                      "sha256":  "C3FEBD438BAD70455DAA47C48E386E4389C68F249A6A34C1AF200706D33C34FC",
+                      "sizeBytes":  7065
+                  },
+                  {
+                      "path":  "verify-mg1-drift-check.log",
+                      "sha256":  "4AC6D9C50FCAAB39BEA6FA61DC8E065BE6CBB4E78855C0CCC2F19C57FF662FE3",
+                      "sizeBytes":  4114
+                  },
+                  {
+                      "path":  "verify-mg1-full.log",
+                      "sha256":  "68A92A9D7A1A0A5D6BFDDB8C170307EC75987DE679F3BA24F69431D33EB1805E",
+                      "sizeBytes":  49256
+                  }
+              ],
+    "verifierScript":  {
+                           "path":  "scripts/verify-mg1.ps1",
+                           "sha256":  "BD49A473078F358DF8C6BD4A72827516B1F56E966357CE6CABF8B16C137652D6",
+                           "sizeBytes":  6436
+                       }
+}

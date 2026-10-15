@@ -1,0 +1,10 @@
+﻿[
+    {
+        "mode":  "legacy",
+        "exitCode":  1
+    },
+    {
+        "mode":  "clean",
+        "exitCode":  0
+    }
+]

@@ -1,0 +1,267 @@
+{
+  "schemaVersion": 1,
+  "generatedHongKong": "2026-10-04T18:44:35.525043+08:00",
+  "sourceRoot": "D:\\松光启动器",
+  "executionRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-acceptance-ap4aublk",
+  "head": "f145d14eb26b0b7459a28491e764ac8c573085d3",
+  "sourceInputCount": 292,
+  "sourceDriftDuringAcceptance": [],
+  "executionInputDriftAfterTests": [],
+  "sourceStatusUnchanged": true,
+  "packageIntegrity": {
+    "entries": 121,
+    "issues": [],
+    "unlisted": [],
+    "manifestSha256": "7996AE0CBF6B78F5E523834DC0E7CCC5A7AF55C13357EB5D1653CDF69CDC3DAE",
+    "actualDetached": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r4\\20261004-092504Z-dab448e2-rework.manifest.sha256",
+    "actualDetachedMatches": true,
+    "internalDetachedPresent": false,
+    "documentedRelativeDetachedExists": false
+  },
+  "strictPackageAudit": {
+    "roots": 1,
+    "packages": 1,
+    "manifestEntries": 121,
+    "filesVerified": 121,
+    "failures": 1,
+    "knownDrift": 0,
+    "notes": 0
+  },
+  "strictPackageFailureCodes": [
+    "MISSING_DETACHED"
+  ],
+  "historyAudit": {
+    "roots": 3,
+    "packages": 62,
+    "manifestEntries": 1022,
+    "filesVerified": 1022,
+    "failures": 0,
+    "knownDrift": 3,
+    "notes": 0
+  },
+  "trx": [
+    {
+      "path": "results/csharp-flows.trx",
+      "counters": {
+        "total": "49",
+        "executed": "49",
+        "passed": "49",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "resultCount": 49,
+      "passedRows": 49,
+      "sha256": "94248A589DCB80CC1A40ADC1359DAB3C577422EF404AA9370C03DB407DDB104A"
+    },
+    {
+      "path": "results/csharp-r2.trx",
+      "counters": {
+        "total": "5",
+        "executed": "5",
+        "passed": "5",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "resultCount": 5,
+      "passedRows": 5,
+      "sha256": "B3072DFB22CEBA531D7BAAC6626AA880E148FBC0352B9C08F94A9C15EA0D2EAC"
+    },
+    {
+      "path": "results/csharp-recovery-normal.trx",
+      "counters": {
+        "total": "6",
+        "executed": "6",
+        "passed": "6",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "resultCount": 6,
+      "passedRows": 6,
+      "sha256": "D8DE9E3165D7929087B7A3E1CE0FA697136A266CC2390B704CFA18A547C25E76"
+    },
+    {
+      "path": "results/csharp-secrets.trx",
+      "counters": {
+        "total": "13",
+        "executed": "13",
+        "passed": "13",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "resultCount": 13,
+      "passedRows": 13,
+      "sha256": "10DCDDD68538848608CFCCE74BF994377C8B994B92C8586106A39337EF940742"
+    }
+  ],
+  "csharpExecuted": 73,
+  "csharpPassed": 73,
+  "csharpSkipped": 0,
+  "node": {
+    "tests": 269,
+    "passCount": 269,
+    "failed": 0,
+    "skipped": 0
+  },
+  "runnerExistingTests": {
+    "tests": 28,
+    "passed": 28,
+    "failed": 0,
+    "skipped": 0
+  },
+  "auditorTests": {
+    "tests": 26,
+    "passed": 26
+  },
+  "importIndependentTests": {
+    "tests": 3,
+    "passed": 3,
+    "failed": 0,
+    "skipped": 0
+  },
+  "runnerIndependentCases": {
+    "total": 13,
+    "passed": 10,
+    "failed": 3,
+    "failedIds": [
+      "execution-root-misbinding",
+      "input-mutated-during-run",
+      "expected-trx-omitted-from-produces"
+    ]
+  },
+  "bisectPassed": 19,
+  "implementerCascade": {
+    "stageCount": 10,
+    "stageExitCodes": [
+      {
+        "id": "g4-build-tests",
+        "exitCode": 0,
+        "status": "COMPLETED"
+      },
+      {
+        "id": "g4-secrets",
+        "exitCode": 0,
+        "status": "COMPLETED"
+      },
+      {
+        "id": "g4-ordinary-r2",
+        "exitCode": 0,
+        "status": "COMPLETED"
+      },
+      {
+        "id": "g4-recovery-normal",
+        "exitCode": 0,
+        "status": "COMPLETED"
+      },
+      {
+        "id": "g4-flows",
+        "exitCode": 0,
+        "status": "COMPLETED"
+      },
+      {
+        "id": "g4-node-all",
+        "exitCode": 0,
+        "status": "COMPLETED"
+      },
+      {
+        "id": "g4-runner-tests",
+        "exitCode": 0,
+        "status": "COMPLETED"
+      },
+      {
+        "id": "g4-auditor-tests",
+        "exitCode": 0,
+        "status": "COMPLETED"
+      },
+      {
+        "id": "g4-verifyhost-build",
+        "exitCode": 0,
+        "status": "COMPLETED"
+      },
+      {
+        "id": "g4-bisect-smoke",
+        "exitCode": 0,
+        "status": "COMPLETED"
+      }
+    ],
+    "resumeStageCount": 10,
+    "resumeStatuses": [
+      "REUSED",
+      "REUSED",
+      "REUSED",
+      "REUSED",
+      "REUSED",
+      "REUSED",
+      "REUSED",
+      "REUSED",
+      "REUSED",
+      "REUSED"
+    ],
+    "note": "Source and raw original cascade records inspected; independent execution used separate checks and its own contract suite."
+  },
+  "technicalAcceptance": "FAIL",
+  "gates": {
+    "R0": "PASS",
+    "R1": "PASS",
+    "R2": "FAIL",
+    "R3": "PASS_SELECTED_REGRESSION",
+    "R4": "FAIL_STRICT_NEW_SCHEMA"
+  },
+  "formalPhaseApproval": "NOT_GRANTED",
+  "releaseApproval": "NOT_GRANTED",
+  "findings": [
+    "RW-01 executionRoot differs from manifest verified inputRoot yet PASS",
+    "RW-02 input changes during stage yet whole-run PASS",
+    "RW-03 expected TRX not bound unless caller also lists it in produces; changed TRX REUSED",
+    "RW-04 sealed rework package missing strict-new internal manifest.sha256"
+  ],
+  "limitations": [
+    "controlled DOM not real WebView",
+    "73 selected C# excludes ImportWithALiveTokenButCancelledMidway",
+    "RA01/02 excluded; no restricted counterexamples",
+    "real games/native credentials/update handover/cross-platform/CI/release unverified"
+  ]
+}

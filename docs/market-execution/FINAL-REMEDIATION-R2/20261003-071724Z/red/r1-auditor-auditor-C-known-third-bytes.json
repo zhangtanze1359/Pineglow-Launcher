@@ -1,0 +1,28 @@
+{
+  "root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsh-audit-fixtures-ac314d5531c141f1a23c9a2757d8bfa2\\known-third-bytes",
+  "manifestCount": 1,
+  "fileEntries": 1,
+  "selfEntries": [],
+  "knownMismatches": [
+    {
+      "manifest": "MG0-verification-package-20261003/manifest.json",
+      "path": "drift-notes.md",
+      "hashMatches": false,
+      "sizeMatches": false,
+      "actualSha256": "D7B0785CC546037D6128F4C1536EBFAC484A11EA58229295262BD54828DF6607",
+      "recordedSha256": "1F7197B34E86025D32C0B8DDB6DE0A136F1CB3489FD4927AEEDAA97698F0BE88",
+      "actualSize": 28,
+      "recordedSize": 3114,
+      "reason": "F-05 (known): bytes changed after the manifest was sealed - actual 4088 bytes / C55CE93981D8D078CD66450D91AAF5571145731049B024433301EB955277CF6B, recorded 3114 bytes / 1F7197B34E86025D32C0B8DDB6DE0A136F1CB3489FD4927AEEDAA97698F0BE88. Old manifest kept read-only; see evidence-corrections.md."
+    }
+  ],
+  "failures": [],
+  "runs": [
+    {
+      "manifest": "MG0-verification-package-20261003/manifest.json",
+      "package": "MG0-verification-package-20261003",
+      "filesChecked": 1,
+      "declaredRunId": "MG0-verification-package-20261003"
+    }
+  ]
+}

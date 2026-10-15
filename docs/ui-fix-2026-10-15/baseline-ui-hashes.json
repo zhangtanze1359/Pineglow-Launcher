@@ -1,0 +1,154 @@
+[
+  {
+    "path": "D:\\松光启动器\\ui\\index.html",
+    "sha256": "632E9A0102C957B614F940D5AAF70B782F988E7E4CE8B1EECDC96CC8E94FAC3F"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\assets\\pine-forest-night.svg",
+    "sha256": "32A0981E0A77FC824D1B604E307CF02530CFA9F1131DC5AC860278B38E19E4A2"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\assets\\pine-forest.svg",
+    "sha256": "23FD38619008D5291661F941FFE1262B726AD51BC128394FD5FB02778F206C46"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\css\\figma.css",
+    "sha256": "7DD6B77DCE06920A58B89CE57DB7FCA6A33C0E64404B6117A7C78CDDDEA62F2E"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\css\\pineglow.css",
+    "sha256": "002D76A630BAC963AD1D7F9A0B8589A4444F06FB2D2556B814D534987A19B73D"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\css\\redesign.css",
+    "sha256": "DF8FCD53DAB4796C2D918F7DDF98553BAC29CA967D4BED8B93522CAE945AE75B"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\js\\api.js",
+    "sha256": "D367558D0C837E21673C77BA446E2E3FD0FAE99F33DD7073235D4A43516D149A"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\js\\i18n.js",
+    "sha256": "4AB439BD47F97AD5E829ACE645DDB9F2D9750512B04B127777EEAA9D7E6EFAFB"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\js\\launcher.js",
+    "sha256": "4A2CA780D48672BBD0746B60898B56087E9D6E552F79D951F75B40832E6B6E16"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\js\\playtime.js",
+    "sha256": "01FC1F7A51EABF51B403F8880488537F2A8AA61AD21FC5E0F6D1D09F4CACAE0F"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\js\\skin3d-core.js",
+    "sha256": "3852F56DFC9C178BCBCFA98F453E07A1767F254875917836D64F45F5EB287FE9"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\js\\skin3d.js",
+    "sha256": "F60F3400A619CBAF037E78601B4EBD896E58AE25F63CF1D7E4F54C974D40DEF9"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\tests\\a11y-keyboard.test.cjs",
+    "sha256": "81157BD9300BD0C82A046B9CD6ECBB6EE3CD3EBAC4E66E6A6D34528B8A160999"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\tests\\a13-doubles-and-taborder.test.cjs",
+    "sha256": "35B2E50061B0AB51EAE4658775FBECA82BF786FF928849E5CCBD9B80DD407AF0"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\tests\\a6-bisect-safety-guidance.test.cjs",
+    "sha256": "4B3146E14C0EEF68DDC82B761D9662DB1F930A9C82169AEA298DE858993EA5A7"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\tests\\ai-diagnose.test.cjs",
+    "sha256": "169081E6C267E4629FB8AA6ADF3597F3F6E5D1A2B5F452425551839DA5D267E1"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\tests\\api-contract.test.cjs",
+    "sha256": "30CC8C9B22422C66B533723E5309B00EC6CA0A9B3740820E8419C44C511EF549"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\tests\\bisect-recovery.test.cjs",
+    "sha256": "50D9169FF38D6513E85AA4EE268D2BA4595A3F534984B702D9267DCFF47AFF66"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\tests\\content-icon.test.cjs",
+    "sha256": "CD6164B925734370307BC2F3C9E248A8876B559CC2CE9D8BEDC4DC4F90B1BC88"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\tests\\current-version-errors.test.cjs",
+    "sha256": "F02D59FA8A0CD3FC0D9B90E4E49001DFD3E2E0572984137EC9DB4E5069E023EB"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\tests\\diagnostic-history.test.cjs",
+    "sha256": "F8047A5A40F161F6BC5BDFA0ADF0C78E9F5122E4A8350F6D7DAE10658CB7020F"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\tests\\file-recovery.test.cjs",
+    "sha256": "39826083E5E28BDA0B71E8A5CDA965F887F6F28CBD4FA399AB48AE26BFCD887F"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\tests\\goal-core-flow.test.cjs",
+    "sha256": "59B8FC0F43CDAC6BCFBBD1F7BA98CD5556D6C791644199961A4A6741F61F3B50"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\tests\\import-cancel.test.cjs",
+    "sha256": "CFBA075674DCD3E1EB38F3D8C8411DA5785C2984D8F9491758CA573C161C0A3F"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\tests\\instance-removal.test.cjs",
+    "sha256": "2F0AE7ECB477176A64E22263239F25CBF31A45F391487494975D89AF86621556"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\tests\\launcher-behavior.test.cjs",
+    "sha256": "60C33214736364488EE21D8D8C517BB6370909CEE331312B349AF846869AEEB1"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\tests\\launcher-content.test.cjs",
+    "sha256": "969A85A53FD5B3C02A0135AE954118010E3E05D65DAD93975025B2920ECB33AE"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\tests\\launcher-v3.test.cjs",
+    "sha256": "38976F23D0CC47A8BFF159B22A3BE9FDA5E7F84ED0D75103948CBCD5B7FF75AE"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\tests\\launcher-v4.test.cjs",
+    "sha256": "CE235CD6EA898F65119391FF4F3015165FBA6922BDEC62E139EDF53088331B28"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\tests\\launcher-v5.test.cjs",
+    "sha256": "AD7E4BBF5AAA39F9CD729D03370D7632E48EC51162FA7249E989B86EFE421A6F"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\tests\\news-behavior.test.cjs",
+    "sha256": "44932878B9B8AB1321FDC0F2A6B3BFF6F43A383BD721F6708BE5BF4D906A8FA8"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\tests\\news-link.test.cjs",
+    "sha256": "BB760F7FBC69CAA429D02BAD3E68DCA3CB6A59DFC99D9D2E095F818CE1143EE8"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\tests\\playtime.test.cjs",
+    "sha256": "946B7C4810B0705A75DA566C2AA72D4967C87F87BA2E16763D4A56CF6D88279D"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\tests\\skin3d-core.test.cjs",
+    "sha256": "077CF4CDB657E196171E21A1E45AD4EBBB9EE2C3DC055CFCD3C7BE9077E0B246"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\tests\\update-recovery.test.cjs",
+    "sha256": "F630701CFF2E0C0C03097889A28B26C992DC81FAF375FD50763EC852B4EA26F8"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\vendor\\README.md",
+    "sha256": "9D4A3B1BAA6A5A10CA003283FEA15C7B4608AB501F11A75AF6180E2CA13C5F2C"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\vendor\\THREE-LICENSE.txt",
+    "sha256": "78396B5FE83D62267384403D46DA1009747088000DEA0C02D4ABFA4EFDC99098"
+  },
+  {
+    "path": "D:\\松光启动器\\ui\\vendor\\three.min.js",
+    "sha256": "170C6789F43217C96B3170F4B42FAFE135DE7F7CD48497A4218F9757EE1D49FA"
+  }
+]

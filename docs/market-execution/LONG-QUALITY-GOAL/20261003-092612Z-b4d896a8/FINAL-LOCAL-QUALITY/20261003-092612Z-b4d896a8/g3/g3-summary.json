@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "stage": "G3",
+  "goal": "ordinary API and disk closed loop in an isolated GUID copy",
+  "generatedLocal": "2026-10-03T18:15:00+08:00",
+  "generatedUtc": "2026-10-03T10:15:00Z",
+  "executionRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49",
+  "copyMaterialisedLocal": "2026-10-03T18:06:28+08:00",
+  "inputs": { "total": 290, "tracked": 161, "whitelist": 125, "goalTooling": 4, "missing": 0, "copied": 290, "copyMismatches": 0 },
+  "authorisedSet": {
+    "baseCsharp": [
+      { "stage": "g3-secrets", "trx": "g3/test-results/secrets.trx", "total": 13, "passed": 13, "failed": 0, "skipped": 0, "exitCode": 0, "rawEvidence": "g3/g3-secrets.log" },
+      { "stage": "g3-ordinary-r2", "trx": "g3/test-results/ordinary-r2.trx", "total": 5, "passed": 5, "failed": 0, "skipped": 0, "exitCode": 0, "rawEvidence": "g3/g3-ordinary-r2.log" },
+      { "stage": "g3-recovery-normal", "trx": "g3/test-results/recovery-normal.trx", "total": 6, "passed": 6, "failed": 0, "skipped": 0, "exitCode": 0, "rawEvidence": "g3/g3-recovery-normal.log" }
+    ],
+    "flowCsharp": [
+      { "stage": "g3-flows", "trx": "g3/test-results/flows.trx", "total": 49, "passed": 49, "failed": 0, "skipped": 0, "exitCode": 0,
+        "classes": ["InstanceRemovalTests", "ImportCancellationTests", "DiagnosticReportTests", "BisectRecoveryTests", "UpdateRecoveryTests", "RecoveryVersionDisplayEndToEndTests"],
+        "rawEvidence": "g3/g3-flows.log",
+        "excluded": ["ImportCancellationTests.ImportWithALiveTokenButCancelledMidway_StillCleansUp -> NOT_RUN (mid-flight cancellation race probe; outside this goal, test left untouched)"] }
+    ],
+    "node": { "stage": "g3-node-all", "entries": 21, "tests": 266, "passed": 266, "failed": 0, "skipped": 0, "exitCode": 0, "rawEvidence": "g3/g3-node-all.log", "reverifiedOnCurrentTree": { "tests": 266, "passed": 266, "failed": 0, "skipped": 0, "rawEvidence": "g2/node-all-tests-current.log" } },
+    "host": [
+      { "stage": "g3-build-tests", "command": "dotnet build dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release", "exitCode": 0, "errors": 0, "warnings": 19, "rawEvidence": "g3/g3-build-tests.log" },
+      { "stage": "g3-verifyhost-build", "command": "dotnet build dev/PineglowLauncher/VerifyHost/VerifyHost.csproj -c Release", "exitCode": 0, "errors": 0, "warnings": 5, "rawEvidence": "g3/g3-verifyhost-build.log" },
+      { "stage": "g3-bisect-smoke", "command": "VerifyHost.exe --bisect-smoke", "exitCode": 0, "passLines": 19, "failLines": 0, "rawEvidence": "g3/g3-bisect-smoke.log" }
+    ]
+  },
+  "totals": {
+    "csharpTestsThisGoal": 73,
+    "csharpFailed": 0,
+    "csharpSkipped": 0,
+    "nodeTests": 266,
+    "nodeFailed": 0,
+    "nodeSkipped": 0,
+    "r2IndependentBaseline": { "csharp": 24, "node": 238, "bisectSmoke": 19 },
+    "explanation": "24 of the 73 C# tests are exactly the R2 independent baseline set; the extra 49 are the per-flow ordinary classes this goal adds to the authorised regression. Node grew from 238 to 266 because this goal adds 28 behaviour tests. Counts are read from the TRX counters and the node reporter, not from intent."
+  },
+  "isolation": {
+    "runRoots": "LocalApiTestHarness redirects the recovery / bisect / diagnostic roots to %TEMP%\\pineglow-*-test-<guid32>; RouteTestMemoryConfigStore replaces the config store",
+    "credentialBackend": "SecretStoreBackendTests.ProcessDefaultBackend_IsTheInMemoryTestBackend_NotTheNativeOne passed in this run: the process default backend during tests is InMemorySecretStoreBackend, not the native one",
+    "leftoverRootsCreatedByThisRun": 0,
+    "note": "native credential round-trip stays NOT_VERIFIED; the goal did not call it"
+  },
+  "notRun": [
+    "ImportCancellationTests.ImportWithALiveTokenButCancelledMidway_StillCleansUp",
+    "the platform-terminated recovery-safety counter-proof range (malicious recovery records, cross-instance consumption, join-bypass/race probes): not executed, not delegated, no substitute executor",
+    "real Avalonia/WebView2 GUI, Minecraft, native credential round-trip, real update handover, cross-platform, remote CI"
+  ],
+  "newCsharpTestFileAdded": false,
+  "newCsharpTestFileReason": "The per-flow ordinary classes already assert real loopback HTTP plus disk/record consistency for INSTANCE / IMPORT / DIAGNOSIS / BISECT / UPDATE / RECOVERY in isolated GUID roots, so GoalOrdinaryFlowTests.cs was NOT added: the plan forbids adding duplicate tests just to grow the count.",
+  "concurrentDrift": "g3/concurrent-drift-ui-index-html.json (ui/index.html, ui/css/pineglow.css, ui/assets/pine-forest.svg and additive edits to ui/js/launcher.js + ui/js/i18n.js were made by a writer outside this goal between 18:02 and 18:11 local; nothing was reverted; the behaviour suite and the full node suite still pass on the current tree)"
+}

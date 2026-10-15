@@ -1,0 +1,74 @@
+﻿[
+    {
+        "script":  "apply-proposed-fixes.ps1",
+        "exists":  true,
+        "bom":  true,
+        "parse":  "OK",
+        "bytes":  21078,
+        "purpose":  "5 条产品修复：P-UA / P-FABRICMETA / P-PROXYJVM / P-FAKEIP / P-IMPORTLOG"
+    },
+    {
+        "script":  "apply-durable-queue.ps1",
+        "exists":  true,
+        "bom":  true,
+        "parse":  "OK",
+        "bytes":  9919,
+        "purpose":  "P-DURABLEQUEUE（可恢复任务队列）"
+    },
+    {
+        "script":  "apply-deadlock-fix.ps1",
+        "exists":  true,
+        "bom":  true,
+        "parse":  "OK",
+        "bytes":  3531,
+        "purpose":  "P-DEADLOCK（UI 线程死锁，3 行）"
+    },
+    {
+        "script":  "apply-logshare-fix.ps1",
+        "exists":  true,
+        "bom":  true,
+        "parse":  "OK",
+        "bytes":  3283,
+        "purpose":  "P-LOGSHARE（第二个实例无日志，1 行）"
+    },
+    {
+        "script":  "apply-runsync.ps1",
+        "exists":  true,
+        "bom":  true,
+        "parse":  "OK",
+        "bytes":  7860,
+        "purpose":  "P-RUNSYNC（同类风险的另外 10 个调用点）"
+    },
+    {
+        "script":  "apply-java-label.ps1",
+        "exists":  true,
+        "bom":  true,
+        "parse":  "OK",
+        "bytes":  2727,
+        "purpose":  "P-JAVALABEL（\"使用内置 JRE\" 谎话）"
+    },
+    {
+        "script":  "apply-optifine-doc.ps1",
+        "exists":  true,
+        "bom":  true,
+        "parse":  "OK",
+        "bytes":  3419,
+        "purpose":  "P-OPTIFINE（README 过度承诺）"
+    },
+    {
+        "script":  "apply-deadlock-test.ps1",
+        "exists":  true,
+        "bom":  true,
+        "parse":  "OK",
+        "bytes":  5080,
+        "purpose":  "死锁回归测试（新增测试文件）"
+    },
+    {
+        "script":  "apply-c-rid-lock.ps1",
+        "exists":  true,
+        "bom":  true,
+        "parse":  "OK",
+        "bytes":  11027,
+        "purpose":  "C（三份 RID lock + 工作流 + 不变量）"
+    }
+]

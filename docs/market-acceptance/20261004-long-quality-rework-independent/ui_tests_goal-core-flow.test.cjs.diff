@@ -1,0 +1,82 @@
+--- previous/ui/tests/goal-core-flow.test.cjs
++++ current/ui/tests/goal-core-flow.test.cjs
+@@ -906,6 +906,15 @@
+ 	assert.ok(!h.toastLog.includes(h.t('import.cancelled')), 'it must not claim the import was already cancelled');
+ 	rejectImport(new Error('server still working'));
+ 	await running;
++	// LQ-01：终态必须在 await running 之后断言。服务端只登记了取消意图时，随后发生的导入普通
++	// 失败不能升级成"导入已取消/没有生成实例"——那会把未确认的结果说成已中止。
++	assert.ok(!h.toastLog.includes(h.t('import.cancelled')),
++		'a recorded cancellation intent must not be upgraded to a confirmed cancel by a later ordinary failure; actual ' + JSON.stringify(h.toastLog));
++	const loading03 = h.document.querySelector('.modal .loading-state');
++	if (loading03) {
++		assert.notEqual(loading03.textContent, h.t('import.cancelledHint'),
++			'the cancelled hint must not be shown when cancellation was never confirmed');
++	}
+ });
+ 
+ test('IMPORT-04 unknown or failed cancel never claims the import was cancelled', async () => {
+@@ -923,6 +932,15 @@
+ 	assert.ok(!h.toastLog.includes(h.t('import.cancelled')), 'a failed cancel must never claim the import was cancelled');
+ 	rejectImport(new Error('stop'));
+ 	await running;
++	// LQ-01：取消 API 失败后，导入请求再发生普通错误，最终提示必须仍然是失败/未确认，
++	// 而不是"导入已取消"。真实终态在 await running 之后，不是在点击那一刻。
++	assert.ok(!h.toastLog.includes(h.t('import.cancelled')),
++		'a failed cancel request must not be upgraded to a confirmed cancel by a later ordinary failure; actual ' + JSON.stringify(h.toastLog));
++	const loading04 = h.document.querySelector('.modal .loading-state');
++	if (loading04) {
++		assert.notEqual(loading04.textContent, h.t('import.cancelledHint'),
++			'the cancelled hint must not be shown after a failed cancel request');
++	}
+ });
+ 
+ /* ===================== DIAGNOSIS-01/02 ===================== */
+@@ -1015,3 +1033,47 @@
+ function document_text_of(h) {
+ 	return h.document.getElementById('updateStatus').textContent + ' ' + h.document.getElementById('updateTrust').innerHTML;
+ }
++
++/* =========================================================================
++ * LQ-01 导入终态反证（本轮从 Codex 独立验收的 import-terminal-disproof 提取）
++ * ---------------------------------------------------------------------------
++ * 原始 IMPORT-03/04 在点击取消的瞬间就断言，`await running` 之后没有终态断言，
++ * 因此 266 项全绿也没能发现"取消意图被当成服务端确认取消"这个缺陷。
++ * 下面三条在真实生产入口 handleImportFiles 上、在 await running 结束后断言终态：
++ *   INDEPENDENT IMPORT-01 对照：取消与导入使用同一个 operationId（夹具可用性对照）
++ *   INDEPENDENT IMPORT-04 取消 API 失败 → 导入普通失败，绝不能宣称已取消
++ *   INDEPENDENT IMPORT-03 仅 pendingCancel → 导入普通失败，结果仍未确认
++ * ========================================================================= */
++
++test('INDEPENDENT IMPORT-01 cancel uses the active import operationId', async () => {
++	let rejectImport; const pending = new Promise((_r, j) => { rejectImport = j; });
++	const h = loadGoalLauncher({ importInstance: () => pending, cancelImport: async () => ({ pendingCancel: true, ok: false }) });
++	mountView(h, 'view-home', ''); const running = h.T.handleImportFiles([{ name: 'pack.zip' }]); await settle(4);
++	const importCall = h.calls.find(c => c.name === 'importInstance'); assert.ok(importCall);
++	await activate(h.document.getElementById('impCancel'));
++	const cancelCall = h.calls.find(c => c.name === 'cancelImport'); assert.ok(cancelCall);
++	assert.equal(cancelCall.args[0], importCall.args[2], 'cancel must target the same operationId the import was started with');
++	rejectImport(new Error('terminal error')); await running;
++});
++
++test('INDEPENDENT IMPORT-04 failed cancel followed by ordinary import failure must not claim cancelled', async () => {
++	let rejectImport; const pending = new Promise((_r, j) => { rejectImport = j; });
++	const h = loadGoalLauncher({ importInstance: () => pending, cancelImport: async () => { throw new Error('unknown-operation'); } });
++	mountView(h, 'view-home', ''); const running = h.T.handleImportFiles([{ name: 'pack.zip' }]); await settle(4);
++	await activate(h.document.getElementById('impCancel'));
++	assert.ok(!h.toastLog.includes(h.t('import.cancelled')), 'precondition: cancel failure itself is correctly reported');
++	rejectImport(new Error('ordinary transport failure')); await running;
++	assert.ok(!h.toastLog.includes(h.t('import.cancelled')),
++		'failed cancel plus unrelated import failure must not claim confirmed cancellation; actual ' + JSON.stringify(h.toastLog));
++});
++
++test('INDEPENDENT IMPORT-03 pending cancel followed by ordinary import failure must keep outcome unconfirmed', async () => {
++	let rejectImport; const pending = new Promise((_r, j) => { rejectImport = j; });
++	const h = loadGoalLauncher({ importInstance: () => pending, cancelImport: async () => ({ pendingCancel: true, ok: false }) });
++	mountView(h, 'view-home', ''); const running = h.T.handleImportFiles([{ name: 'pack.zip' }]); await settle(4);
++	await activate(h.document.getElementById('impCancel'));
++	assert.ok(h.toastLog.includes(h.t('import.cancelRecorded')));
++	rejectImport(new Error('server still working')); await running;
++	assert.ok(!h.toastLog.includes(h.t('import.cancelled')),
++		'recorded cancellation intent does not prove cancelled when the final request fails for an ordinary reason; actual ' + JSON.stringify(h.toastLog));
++});

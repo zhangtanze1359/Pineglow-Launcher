@@ -1,0 +1,47 @@
+{
+    "schemaVersion":  2,
+    "id":  "g4-verifyhost-build",
+    "runId":  "20261004-r3rework-dab448e2",
+    "attemptDir":  "attempts/g4-verifyhost-build/1",
+    "fingerprint":  "41780B6747D204595570872A50339D23CEEE0D5B1B34FB198220F01AC27E685D",
+    "inputManifestSha256":  "812D385A09538183215747737C9F7817A26CEE1DE05B2F2B34E78FC2235F8C22",
+    "inputSetSha256":  "D10CBC26126EA17EC0837F3E2AA95C6D12D075F3986DBA5DC4E8833151282661",
+    "command":  "dotnet build dev/PineglowLauncher/VerifyHost/VerifyHost.csproj -c Release",
+    "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c",
+    "startUtc":  "2026-10-04T10:08:46Z",
+    "endUtc":  "2026-10-04T10:08:49Z",
+    "exitCode":  0,
+    "timedOut":  false,
+    "stillRunning":  false,
+    "counters":  null,
+    "trx":  "",
+    "artifacts":  [
+                      {
+                          "path":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c/dev/PineglowLauncher/VerifyHost/bin/Release/net10.0/VerifyHost.exe",
+                          "sha256":  "57CEA40B10006E4AD08AFAF044E1F50CD8432D0CC97445F838BC81D2622D6690",
+                          "sizeBytes":  162304
+                      },
+                      {
+                          "path":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c/dev/PineglowLauncher/VerifyHost/bin/Release/net10.0/VerifyHost.dll",
+                          "sha256":  "2E0D73F6231756792E03439A3700A33F73DFBC44B6EE4A167DC99D68C401D316",
+                          "sizeBytes":  1103872
+                      }
+                  ],
+    "rawEvidence":  [
+                        {
+                            "path":  "g4-verifyhost-build.stdout.log",
+                            "sha256":  "15521B0E07A9F0C00DD9A3FDFDC771DBDC91B11E55192CBC3EA4DBE00827B528",
+                            "sizeBytes":  4351
+                        },
+                        {
+                            "path":  "g4-verifyhost-build.stderr.log",
+                            "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                            "sizeBytes":  0
+                        }
+                    ],
+    "reasons":  [
+
+                ],
+    "status":  "COMPLETED",
+    "reused":  false
+}

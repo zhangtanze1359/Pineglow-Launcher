@@ -1,0 +1,308 @@
+{
+    "schemaVersion":  1,
+    "runner":  "run-goal-validation.ps1",
+    "runId":  "20261003-092612Z-b4d896a8",
+    "inputManifest":  "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\g4-terminal\\source-after-manifest.json",
+    "inputManifestSha256":  "7F1A71FCD47541C2055E58DC2BC840FDE0670B013DC1ED923E2263BB1D1A0FF0",
+    "stagesFile":  "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\g4\\goal-stages.json",
+    "generatedUtc":  "2026-10-03T10:38:51Z",
+    "resume":  true,
+    "stageCount":  8,
+    "failedCount":  0,
+    "stages":  [
+                   {
+                       "schemaVersion":  1,
+                       "id":  "g4-build-tests",
+                       "runId":  "20261003-092612Z-b4d896a8",
+                       "fingerprint":  "A5B4B37140D35653C2EB1AF10D33F00A20D03D5A5AEA7AC536309F99C567D1C7",
+                       "inputManifestSha256":  "7F1A71FCD47541C2055E58DC2BC840FDE0670B013DC1ED923E2263BB1D1A0FF0",
+                       "command":  "dotnet build dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release",
+                       "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-seal-39dfd2b90cbb4689b7fbad1c8ab10ba9",
+                       "counters":  null,
+                       "artifacts":  [
+
+                                     ],
+                       "rawEvidence":  [
+                                           {
+                                               "path":  "g4-build-tests.stdout.log",
+                                               "sha256":  "C74FAED4197F64DBD95AE33A1DFAFD04FADBE75FDE4C1A3A3D8A6B256010CEAE",
+                                               "sizeBytes":  18636
+                                           },
+                                           {
+                                               "path":  "g4-build-tests.stderr.log",
+                                               "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                                               "sizeBytes":  0
+                                           }
+                                       ],
+                       "status":  "REUSED",
+                       "reused":  true,
+                       "reusedFrom":  "stages/g4-build-tests.json",
+                       "reasons":  [
+
+                                   ]
+                   },
+                   {
+                       "schemaVersion":  1,
+                       "id":  "g4-secrets",
+                       "runId":  "20261003-092612Z-b4d896a8",
+                       "fingerprint":  "482751AA37A9C3A7102B3D2FA9268718128ABC4A98126FF799DDF1AA8C0901C6",
+                       "inputManifestSha256":  "7F1A71FCD47541C2055E58DC2BC840FDE0670B013DC1ED923E2263BB1D1A0FF0",
+                       "command":  "dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --no-build --filter FullyQualifiedName~ConfigPreservationTests|FullyQualifiedName~SecretStoreBackendTests --logger trx;LogFileName=secrets.trx --results-directory C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\g4\\run-20261003-092612Z-b4d896a8/results",
+                       "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-seal-39dfd2b90cbb4689b7fbad1c8ab10ba9",
+                       "counters":  {
+                                        "total":  13,
+                                        "executed":  13,
+                                        "passed":  13,
+                                        "failed":  0,
+                                        "notExecuted":  0
+                                    },
+                       "artifacts":  [
+                                         {
+                                             "path":  "results/secrets.trx",
+                                             "sha256":  "77C131145FE50D9D97EC7618B9B0AFD57C4A32A821548ECDDDBF4A2D76DD5200",
+                                             "sizeBytes":  23130
+                                         }
+                                     ],
+                       "rawEvidence":  [
+                                           {
+                                               "path":  "g4-secrets.stdout.log",
+                                               "sha256":  "0F17FC91D8ECA58AE9E7287ADC6E9192801EA5135754CB221DA98AFB8B9D8AB4",
+                                               "sizeBytes":  605
+                                           },
+                                           {
+                                               "path":  "g4-secrets.stderr.log",
+                                               "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                                               "sizeBytes":  0
+                                           }
+                                       ],
+                       "status":  "REUSED",
+                       "reused":  true,
+                       "reusedFrom":  "stages/g4-secrets.json",
+                       "reasons":  [
+
+                                   ]
+                   },
+                   {
+                       "schemaVersion":  1,
+                       "id":  "g4-ordinary-r2",
+                       "runId":  "20261003-092612Z-b4d896a8",
+                       "fingerprint":  "387F18823EAD24A09FB42FDDAC8B079838852942D62A7597D7BC191B9232A4F5",
+                       "inputManifestSha256":  "7F1A71FCD47541C2055E58DC2BC840FDE0670B013DC1ED923E2263BB1D1A0FF0",
+                       "command":  "dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --no-build --filter FullyQualifiedName~RollbackFailure_HttpExposesStructuredRecoveryFields|FullyQualifiedName~RollbackSuccess_HttpReportsNoRecoveryNeeded|FullyQualifiedName~MetadataFailure_HttpExposesStructuredFields|FullyQualifiedName~ModReplaceUndo_NormalRestore_StillWorksWithTrustedRoot|FullyQualifiedName~SecretBackend_ConcurrentAsyncFlowsStayIsolated --logger trx;LogFileName=ordinary-r2.trx --results-directory C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\g4\\run-20261003-092612Z-b4d896a8/results",
+                       "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-seal-39dfd2b90cbb4689b7fbad1c8ab10ba9",
+                       "counters":  {
+                                        "total":  5,
+                                        "executed":  5,
+                                        "passed":  5,
+                                        "failed":  0,
+                                        "notExecuted":  0
+                                    },
+                       "artifacts":  [
+                                         {
+                                             "path":  "results/ordinary-r2.trx",
+                                             "sha256":  "227423724FB11CF6CD436E0D86BE2A222444C27EBAC60721525796E838EF0EBB",
+                                             "sizeBytes":  11952
+                                         }
+                                     ],
+                       "rawEvidence":  [
+                                           {
+                                               "path":  "g4-ordinary-r2.stdout.log",
+                                               "sha256":  "D83779CD3A6D65509E0FC0F7A1165CF9A5D85F399AC51244CCEFEF92ECB72600",
+                                               "sizeBytes":  609
+                                           },
+                                           {
+                                               "path":  "g4-ordinary-r2.stderr.log",
+                                               "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                                               "sizeBytes":  0
+                                           }
+                                       ],
+                       "status":  "REUSED",
+                       "reused":  true,
+                       "reusedFrom":  "stages/g4-ordinary-r2.json",
+                       "reasons":  [
+
+                                   ]
+                   },
+                   {
+                       "schemaVersion":  1,
+                       "id":  "g4-recovery-normal",
+                       "runId":  "20261003-092612Z-b4d896a8",
+                       "fingerprint":  "6991062B07092CD865C5193D20D11DC1FD430DDD917C5679D41896E0346C6234",
+                       "inputManifestSha256":  "7F1A71FCD47541C2055E58DC2BC840FDE0670B013DC1ED923E2263BB1D1A0FF0",
+                       "command":  "dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --no-build --filter FullyQualifiedName~DeleteMod_QuarantinesJarAndSidecar_KeepsByteIdenticalCopies|FullyQualifiedName~DeleteMod_DisabledMod_QuarantinesDotDisabledName|FullyQualifiedName~Restore_PutsJarAndSidecarBackByteIdentical|FullyQualifiedName~Restore_Twice_IsIdempotent_AndKeepsFileContent|FullyQualifiedName~Restore_WithDifferentFileAtOriginalPath_ReportsConflictAndDoesNotOverwrite|FullyQualifiedName~DeleteMod_LeavesEveryOtherFileUntouched --logger trx;LogFileName=recovery-normal.trx --results-directory C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\g4\\run-20261003-092612Z-b4d896a8/results",
+                       "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-seal-39dfd2b90cbb4689b7fbad1c8ab10ba9",
+                       "counters":  {
+                                        "total":  6,
+                                        "executed":  6,
+                                        "passed":  6,
+                                        "failed":  0,
+                                        "notExecuted":  0
+                                    },
+                       "artifacts":  [
+                                         {
+                                             "path":  "results/recovery-normal.trx",
+                                             "sha256":  "45C44617DA0168AB3D86E170D6A3A2F45B116B8DF9D3E2443AF13644353CCB14",
+                                             "sizeBytes":  13531
+                                         }
+                                     ],
+                       "rawEvidence":  [
+                                           {
+                                               "path":  "g4-recovery-normal.stdout.log",
+                                               "sha256":  "303C3123128A65AD2E149762413E8C0D024EDCB99BA0E35A8A99973EA2E29C20",
+                                               "sizeBytes":  613
+                                           },
+                                           {
+                                               "path":  "g4-recovery-normal.stderr.log",
+                                               "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                                               "sizeBytes":  0
+                                           }
+                                       ],
+                       "status":  "REUSED",
+                       "reused":  true,
+                       "reusedFrom":  "stages/g4-recovery-normal.json",
+                       "reasons":  [
+
+                                   ]
+                   },
+                   {
+                       "schemaVersion":  1,
+                       "id":  "g4-flows",
+                       "runId":  "20261003-092612Z-b4d896a8",
+                       "fingerprint":  "465B56B97C8D13CBF0A3A5AECCBD560FAC125A9EB14487BB5407CC182C645978",
+                       "inputManifestSha256":  "7F1A71FCD47541C2055E58DC2BC840FDE0670B013DC1ED923E2263BB1D1A0FF0",
+                       "command":  "dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --no-build --filter (FullyQualifiedName~InstanceRemovalTests|FullyQualifiedName~ImportCancellationTests|FullyQualifiedName~DiagnosticReportTests|FullyQualifiedName~BisectRecoveryTests|FullyQualifiedName~UpdateRecoveryTests|FullyQualifiedName~RecoveryVersionDisplayEndToEndTests)\u0026FullyQualifiedName!~ImportWithALiveTokenButCancelledMidway --logger trx;LogFileName=flows.trx --results-directory C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\g4\\run-20261003-092612Z-b4d896a8/results",
+                       "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-seal-39dfd2b90cbb4689b7fbad1c8ab10ba9",
+                       "counters":  {
+                                        "total":  49,
+                                        "executed":  49,
+                                        "passed":  49,
+                                        "failed":  0,
+                                        "notExecuted":  0
+                                    },
+                       "artifacts":  [
+                                         {
+                                             "path":  "results/flows.trx",
+                                             "sha256":  "0E05EF80F23B705C249FC88607F0A700237C008889503B19C7211BF74ACD42C9",
+                                             "sizeBytes":  88857
+                                         }
+                                     ],
+                       "rawEvidence":  [
+                                           {
+                                               "path":  "g4-flows.stdout.log",
+                                               "sha256":  "AF2E9B70679597F6AC847DB3D731292D943F609EAD9388D686C3D35C44FB68A9",
+                                               "sizeBytes":  600
+                                           },
+                                           {
+                                               "path":  "g4-flows.stderr.log",
+                                               "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                                               "sizeBytes":  0
+                                           }
+                                       ],
+                       "status":  "REUSED",
+                       "reused":  true,
+                       "reusedFrom":  "stages/g4-flows.json",
+                       "reasons":  [
+
+                                   ]
+                   },
+                   {
+                       "schemaVersion":  1,
+                       "id":  "g4-node-all",
+                       "runId":  "20261003-092612Z-b4d896a8",
+                       "fingerprint":  "4442A084C4C635A1D05A10BDC93C841012D4ACBED28C3D7B198FC3C5786D42D0",
+                       "inputManifestSha256":  "7F1A71FCD47541C2055E58DC2BC840FDE0670B013DC1ED923E2263BB1D1A0FF0",
+                       "command":  "node --test --test-reporter=tap ui/tests/*.test.cjs",
+                       "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-seal-39dfd2b90cbb4689b7fbad1c8ab10ba9",
+                       "startUtc":  "2026-10-03T10:38:47Z",
+                       "endUtc":  "2026-10-03T10:38:51Z",
+                       "exitCode":  0,
+                       "timedOut":  false,
+                       "stillRunning":  false,
+                       "counters":  null,
+                       "trx":  "",
+                       "artifacts":  [
+
+                                     ],
+                       "rawEvidence":  [
+                                           {
+                                               "path":  "g4-node-all.stdout.log",
+                                               "sha256":  "FFC68A011E2F6BC6E0D2F5A7D6D6423EF26C837063454E68D8B3673B1430EB88",
+                                               "sizeBytes":  61450
+                                           },
+                                           {
+                                               "path":  "g4-node-all.stderr.log",
+                                               "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                                               "sizeBytes":  0
+                                           }
+                                       ],
+                       "reasons":  [
+
+                                   ],
+                       "status":  "COMPLETED",
+                       "reused":  false
+                   },
+                   {
+                       "schemaVersion":  1,
+                       "id":  "g4-verifyhost-build",
+                       "runId":  "20261003-092612Z-b4d896a8",
+                       "fingerprint":  "02BAA020C173EFAC780656B24B892E3416DC8BB5B3179B8F1404F487B1FD57CC",
+                       "inputManifestSha256":  "7F1A71FCD47541C2055E58DC2BC840FDE0670B013DC1ED923E2263BB1D1A0FF0",
+                       "command":  "dotnet build dev/PineglowLauncher/VerifyHost/VerifyHost.csproj -c Release",
+                       "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-seal-39dfd2b90cbb4689b7fbad1c8ab10ba9",
+                       "counters":  null,
+                       "artifacts":  [
+
+                                     ],
+                       "rawEvidence":  [
+                                           {
+                                               "path":  "g4-verifyhost-build.stdout.log",
+                                               "sha256":  "E9C0EBEA02E06A6A26E1FFD4296397DBF40DE8B02AD77B287E31D9B50A6B542B",
+                                               "sizeBytes":  4965
+                                           },
+                                           {
+                                               "path":  "g4-verifyhost-build.stderr.log",
+                                               "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                                               "sizeBytes":  0
+                                           }
+                                       ],
+                       "status":  "REUSED",
+                       "reused":  true,
+                       "reusedFrom":  "stages/g4-verifyhost-build.json",
+                       "reasons":  [
+
+                                   ]
+                   },
+                   {
+                       "schemaVersion":  1,
+                       "id":  "g4-bisect-smoke",
+                       "runId":  "20261003-092612Z-b4d896a8",
+                       "fingerprint":  "DB0B3EA607789FB8959A6CA1699A440E990DAFCA2BE259A032E4B8E82E23F45C",
+                       "inputManifestSha256":  "7F1A71FCD47541C2055E58DC2BC840FDE0670B013DC1ED923E2263BB1D1A0FF0",
+                       "command":  "dev/PineglowLauncher/VerifyHost/bin/Release/net10.0/VerifyHost.exe --bisect-smoke",
+                       "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-seal-39dfd2b90cbb4689b7fbad1c8ab10ba9",
+                       "counters":  null,
+                       "artifacts":  [
+
+                                     ],
+                       "rawEvidence":  [
+                                           {
+                                               "path":  "g4-bisect-smoke.stdout.log",
+                                               "sha256":  "1CFD32FD08843173E49A12C633CA5AB1C4952D89BC2F8807494CCE9B9C153227",
+                                               "sizeBytes":  1572
+                                           },
+                                           {
+                                               "path":  "g4-bisect-smoke.stderr.log",
+                                               "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                                               "sizeBytes":  0
+                                           }
+                                       ],
+                       "status":  "REUSED",
+                       "reused":  true,
+                       "reusedFrom":  "stages/g4-bisect-smoke.json",
+                       "reasons":  [
+
+                                   ]
+                   }
+               ],
+    "verdict":  "PASS"
+}

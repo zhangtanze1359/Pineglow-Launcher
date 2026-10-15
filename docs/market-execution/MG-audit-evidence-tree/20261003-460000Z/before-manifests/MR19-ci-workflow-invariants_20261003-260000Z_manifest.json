@@ -1,0 +1,117 @@
+﻿{
+    "runId":  "20261003-260000Z",
+    "task":  "MR19 补测：CI 工作流不变量（A11）",
+    "generatedUtc":  "2026-10-03T00:50:10Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "gap-register A11 - actionlint CI gate missing; whether CI YAML belongs in the snapshot whitelist",
+    "result":  {
+                   "invariantTests":  13,
+                   "green":  "13 passed / 0 failed",
+                   "csharpFull":  "786 passed / 0 failed / 0 skipped (773 + 13)",
+                   "nodeFull":  "230 passed / 0 failed (18 files)",
+                   "actionlint":  "1.7.7, exit 0 on both workflows; binary SHA256 6D470A52039A433BCCDF57BD65170885A5B23E511155D0DE587C2C3CE0EB1C24",
+                   "workflowFilesUnchanged":  "byte-identical after all three REDs",
+                   "productCodeNetChanges":  false,
+                   "currentDriftNumbers":  "mg0: 260/1/92/0 ; mg1: 68/0/71/0 ; mg2: 260/1/91/0 ; mg3: 68/0/71/0 ; ledger audit exit 0"
+               },
+    "findings":  {
+                     "whitelistQuestionClosed":  "git ls-files shows .github/workflows/build.yml and release.yml are TRACKED, so they enter the snapshot via git ls-files and need NO whitelist entry - that half of A11 is void",
+                     "whyNotACIstep":  "This machine has no runner. Adding a CI step that is never executed would put unverified content into the pipeline. Instead the invariants are pinned as local tests (13 cases) that run in the normal suite, plus actionlint was actually executed and logged."
+                 },
+    "invariantsPinned":  [
+                             "both workflows have the lock guard and it checks the RID section (net10.0/) and Microsoft.NET.ILLink.Tasks",
+                             "the guard covers BOTH lock files (launcher + tests)",
+                             "the guard FAILS (exit 1 / throw) rather than only warning",
+                             "both workflows have a non-RID --locked-mode restore",
+                             "the guard appears BEFORE the RID publish step",
+                             "the RID publish must NOT use RestoreLockedMode (measured NU1004 mutual exclusion) and the reason is in a comment",
+                             "no workflow references a RID-specific lock file",
+                             "build.yml keeps --bisect-smoke wired",
+                             "both workflows pin the SDK from global.json"
+                         ],
+    "redBaselines":  {
+                         "red1":  "rename the guard step -\u003e 2 failed (guard existence + ordering)",
+                         "red2firstAttempt":  "renaming only did NOT move the step, so 0 failed - my RED construction was wrong, not the test",
+                         "red2":  "physically move the guard block after Publish -\u003e 1 failed with the exact message (guard line 113 must precede publish line 111)",
+                         "red3":  "add /p:RestoreLockedMode=true to the RID publish -\u003e 1 failed"
+                     },
+    "selfFoundIssue":  "First run: 12 passed / 1 failed. The RID-publish check scanned COMMENT lines too, and build.yml line 121 legitimately explains that RestoreLockedMode fails with NU1004 - so the test flagged its own documentation. Fixed by checking only executable lines (excluding lines starting with #).",
+    "stillNotCovered":  [
+                            "a real GitHub Actions run (no runner here): this package proves the workflow TEXT satisfies the invariants and passes actionlint, NOT that GitHub would execute it that way",
+                            "the invariants were deliberately NOT wired into CI (that would add an unverifiable step); if desired, add a step running dotnet test --filter WorkflowInvariantTests",
+                            "release.yml Gitee mirror step not reviewed (needs credentials and a real release)"
+                        ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "A97459A9F77DD97528DDFEA7E50EEBDD0756CDAF2C9B14027C2101A50B1A848F",
+                      "sizeBytes":  7748
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "246EFBBBA9873E94002D0704666752B7232DFBBE87E761058F7E70C8FF0D30DC",
+                      "sizeBytes":  11699
+                  },
+                  {
+                      "path":  "green/01-invariants-first.log",
+                      "sha256":  "3BDFE1DBBFCC23835EB2FAE411DC6DDCEEE73CD0EC86913CD48E6E8241F98707",
+                      "sizeBytes":  5047
+                  },
+                  {
+                      "path":  "green/02-invariants-fixed.log",
+                      "sha256":  "B616E7D7F855F7B088923E8086769359146A5133A9F5836361E2B206EFE2D4C9",
+                      "sizeBytes":  3579
+                  },
+                  {
+                      "path":  "green/03-invariants-final.log",
+                      "sha256":  "4E0C8CF91A081BB33C46739F0AA01BDEF0AE00CEFF5F40B6C3B1974165E4F5B9",
+                      "sizeBytes":  3579
+                  },
+                  {
+                      "path":  "green/04-csharp-full.log",
+                      "sha256":  "196BB8C9B9B73989178245F5D30B76A5C5D8662AD8A2272D4F461253E97142EC",
+                      "sizeBytes":  978
+                  },
+                  {
+                      "path":  "green/05-node-full.log",
+                      "sha256":  "2640A483A163E178DCDE6F095C9D503CF0AA744E8B862E547DC0166DE0DF7B34",
+                      "sizeBytes":  23799
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "3130B4EF112A82E4DF696E704807739D29CEDF5BC6A81D1800906BB1CA1DF9C7",
+                      "sizeBytes":  225
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "0257E8B47D80F7C39B9D950DE53DB40745E745241EAC5CBC20CD5B1D833C56AA",
+                      "sizeBytes":  115626
+                  },
+                  {
+                      "path":  "red/01-red-no-guard.log",
+                      "sha256":  "395B36CF23D50310AAB2D8CFE9A021EF961D523C52B266A5981B0C3C315317C9",
+                      "sizeBytes":  6258
+                  },
+                  {
+                      "path":  "red/02-red-renamed.log",
+                      "sha256":  "F306A636D9F9F269E61A6F696CCE11085759B0FA14B99D617FF5B9BC7208DECF",
+                      "sizeBytes":  3895
+                  },
+                  {
+                      "path":  "red/03-red-locked-publish.log",
+                      "sha256":  "F5EA9BC7F58DAC1E2B9502ADEE93A4C3EB7F100BD8C16AEF9F729AB100931112",
+                      "sizeBytes":  5679
+                  },
+                  {
+                      "path":  "red/04-red-guard-moved.log",
+                      "sha256":  "33442266F69A934014B681C5778FF62C56F3F09602F83956534E82BDB30CA4B0",
+                      "sizeBytes":  5214
+                  },
+                  {
+                      "path":  "red/build.yml.before",
+                      "sha256":  "32D6E5DD1DEBC9E01F6CC4C1C9182BAD04820B8FDDB29E8C7840286540DB2FA3",
+                      "sizeBytes":  6765
+                  }
+              ]
+}

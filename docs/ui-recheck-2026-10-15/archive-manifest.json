@@ -1,0 +1,36 @@
+{
+  "zip": "C:\\Users\\Administrator\\Desktop\\松光启动器-UI-重构.zip",
+  "sha256": "76808137ae7a54428aadb881c32e7b97d156201effc353cff226ded18184d28b",
+  "files": [
+    {
+      "name": "brand-spec.md",
+      "bytes": 3749,
+      "sha256": "b1e04bb2d709a968da67cc51f6c9f83c23a39c04c192ef0ed05521cdb7a8f519"
+    },
+    {
+      "name": "integration-notes.md",
+      "bytes": 12879,
+      "sha256": "121cebcbb2dee1e1a5b7bb9399094e5ff2dfd536928f0a2bc0824f3b3ee91a0a"
+    },
+    {
+      "name": "pineglow-launcher.html",
+      "bytes": 187909,
+      "sha256": "82e3a73ebd7f2082e6558e816be05cf8f84202886025dfd9e6c3cc1c88b6dabc"
+    },
+    {
+      "name": "屏幕截图-2026-10-14-231858.png",
+      "bytes": 31504,
+      "sha256": "b6681509581b51fda9d2e3fb1a93e2fdc601147edbb2c2253b84d2def7c37320"
+    },
+    {
+      "name": "DESIGN-HANDOFF.md",
+      "bytes": 7058,
+      "sha256": "ab431e0abed85d16a1cb7dc777a41c361f09e850f998b1451725b0e191a964bc"
+    },
+    {
+      "name": "DESIGN-MANIFEST.json",
+      "bytes": 5291,
+      "sha256": "0de76d9c5431013537a0e52c1b3453d5312388f37a5c5625ef38edb401a06388"
+    }
+  ]
+}

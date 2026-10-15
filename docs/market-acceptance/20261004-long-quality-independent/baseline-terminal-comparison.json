@@ -1,0 +1,36 @@
+{
+  "baselineCounts": {
+    "total": 286,
+    "tracked": 161,
+    "whitelist": 125,
+    "goalTooling": 0,
+    "missing": 0,
+    "whitelistSkipped": 0
+  },
+  "terminalCounts": {
+    "total": 292,
+    "tracked": 161,
+    "whitelist": 125,
+    "goalTooling": 6,
+    "missing": 0,
+    "whitelistSkipped": 0
+  },
+  "added": [
+    "scripts/audit-goal-evidence.py",
+    "scripts/capture-goal-baseline.ps1",
+    "scripts/run-goal-validation.ps1",
+    "scripts/tests/audit-goal-evidence.test.py",
+    "scripts/tests/goal-validation.test.cjs",
+    "ui/tests/goal-core-flow.test.cjs"
+  ],
+  "removed": [],
+  "changed": [
+    "ui/js/launcher.js",
+    "ui/index.html",
+    "scripts/source-snapshot-inputs.txt",
+    "docs/design-system.md",
+    "ui/css/figma.css",
+    ".gitignore",
+    "ui/js/i18n.js"
+  ]
+}

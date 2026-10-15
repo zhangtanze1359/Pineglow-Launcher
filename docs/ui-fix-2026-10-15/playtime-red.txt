@@ -1,0 +1,24 @@
+✖ playtime: range summary counts unique sessions, active days and clipped longest duration (1.5608ms)
+✔ playtime: ISO calendar dates reject rollover and custom range preserves 120 day limit (0.7105ms)
+✔ playtime: Monday based week and rolling range include today exactly once (0.103ms)
+✔ playtime: midnight sessions split actual seconds across dates without inventing history (0.9756ms)
+✔ playtime: treemap conserves area, contains rectangles and has no overlaps (1.0598ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 4
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 68.9476
+
+✖ failing tests:
+
+test at ui\tests\playtime.test.cjs:4:1
+✖ playtime: range summary counts unique sessions, active days and clipped longest duration (1.5608ms)
+  TypeError: summarizeParts is not a function
+      at TestContext.<anonymous> (D:\松光启动器\ui\tests\playtime.test.cjs:9:19)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17)

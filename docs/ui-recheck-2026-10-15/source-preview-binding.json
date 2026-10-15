@@ -1,0 +1,38 @@
+[
+  {
+    "path": "ui/index.html",
+    "source": "632e9a0102c957b614f940d5aaf70b782f988e7e4ce8b1eecdc96cc8e94fac3f",
+    "preview": "632e9a0102c957b614f940d5aaf70b782f988e7e4ce8b1eecdc96cc8e94fac3f",
+    "matches": true
+  },
+  {
+    "path": "ui/css/redesign.css",
+    "source": "df8fcd53dab4796c2d918f7ddf98553bac29ca967d4bed8b93522cae945ae75b",
+    "preview": "df8fcd53dab4796c2d918f7ddf98553bac29ca967d4bed8b93522cae945ae75b",
+    "matches": true
+  },
+  {
+    "path": "ui/js/launcher.js",
+    "source": "4a2ca780d48672bbd0746b60898b56087e9d6e552f79d951f75b40832e6b6e16",
+    "preview": "4a2ca780d48672bbd0746b60898b56087e9d6e552f79d951f75b40832e6b6e16",
+    "matches": true
+  },
+  {
+    "path": "ui/js/playtime.js",
+    "source": "01fc1f7a51eabf51b403f8880488537f2a8aa61ad21fc5e0f6d1d09f4cacae0f",
+    "preview": "01fc1f7a51eabf51b403f8880488537f2a8aa61ad21fc5e0f6d1d09f4cacae0f",
+    "matches": true
+  },
+  {
+    "path": "ui/js/i18n.js",
+    "source": "4ab439bd47f97ad5e829ace645ddb9f2d9750512b04b127777eeaa9d7e6efafb",
+    "preview": "4ab439bd47f97ad5e829ace645ddb9f2d9750512b04b127777eeaa9d7e6efafb",
+    "matches": true
+  },
+  {
+    "path": "ui/js/api.js",
+    "source": "d367558d0c837e21673c77ba446e2e3fd0fae99f33dd7073235d4a43516d149a",
+    "preview": "d367558d0c837e21673c77ba446e2e3fd0fae99f33dd7073235d4a43516d149a",
+    "matches": true
+  }
+]

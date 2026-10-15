@@ -1,0 +1,18 @@
+﻿[
+    {
+        "mode":  "legacy",
+        "exitCode":  0,
+        "legacyMarker":  false,
+        "externalUiServed":  false,
+        "matchesCurrentSource":  true,
+        "stopped":  true
+    },
+    {
+        "mode":  "clean",
+        "exitCode":  0,
+        "legacyMarker":  false,
+        "externalUiServed":  false,
+        "matchesCurrentSource":  true,
+        "stopped":  true
+    }
+]

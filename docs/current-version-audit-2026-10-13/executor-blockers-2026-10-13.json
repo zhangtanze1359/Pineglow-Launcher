@@ -1,0 +1,24 @@
+[
+  {
+    "file": "harness-boundary-focused-run.jsonl",
+    "phase": "turn_end",
+    "reason": {
+      "kind": "error",
+      "error": {
+        "message": "Connection error.",
+        "code": "TRANSPORT"
+      }
+    }
+  },
+  {
+    "file": "harness-minimax-boundary-run.jsonl",
+    "phase": "turn_end",
+    "reason": {
+      "kind": "error",
+      "error": {
+        "message": "Request timed out.",
+        "code": "TIMEOUT"
+      }
+    }
+  }
+]

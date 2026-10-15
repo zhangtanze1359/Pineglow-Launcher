@@ -1,0 +1,9 @@
+Seeded isolated, synthetic game directories; no user game data read or modified.
+{
+  "sourceRoot": "D:\\松光启动器",
+  "runtime": "10.0.0",
+  "executionRoot": "D:\\松光启动器\\docs\\ui-fix-2026-10-15\\native",
+  "apiPort": 50580,
+  "debugPort": 50581,
+  "pid": 3296
+}

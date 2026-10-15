@@ -1,0 +1,85 @@
+{
+    "schemaVersion":  2,
+    "runner":  "run-goal-validation.ps1",
+    "runId":  "demo-run-1",
+    "inputManifest":  "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\demo\\fixture\\input.json",
+    "inputManifestSha256":  "C2A5F3FDF1F6B187479855B6FDBD49B32F4FCE91C67EF5305F6AB8DF9B299952",
+    "verifiedInputSetSha256":  "CA2B2C1D77DB387520C39E7A3991BC17974DA62FFE215AD2304A1488FA7C68CE",
+    "verifiedInputCount":  1,
+    "verifiedInputRoot":  "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\demo\\fixture",
+    "stagesFile":  "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\demo\\fixture\\stages.json",
+    "stagesFileSha256":  "83A2838FDF83D87F6002C84DC1475E66C1ADA4683E7D0270A5647AB0890C41BD",
+    "generatedUtc":  "2026-10-04T10:13:32Z",
+    "resume":  false,
+    "only":  "",
+    "partial":  false,
+    "requiredStages":  [
+                           "demo"
+                       ],
+    "requiredNotCompleted":  [
+                                 "demo"
+                             ],
+    "partialNotRun":  {
+
+                      },
+    "stageCount":  1,
+    "failedCount":  1,
+    "stages":  [
+                   {
+                       "schemaVersion":  2,
+                       "id":  "demo",
+                       "runId":  "demo-run-1",
+                       "attemptDir":  "attempts/demo/1",
+                       "fingerprint":  "C0CF0AFAB515F996769ADF3316323562E7123ED8B9EBACAF9BDD80DE86A53E33",
+                       "inputManifestSha256":  "C2A5F3FDF1F6B187479855B6FDBD49B32F4FCE91C67EF5305F6AB8DF9B299952",
+                       "inputSetSha256":  "CA2B2C1D77DB387520C39E7A3991BC17974DA62FFE215AD2304A1488FA7C68CE",
+                       "command":  "C:\\Program Files\\nodejs\\node.exe C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\demo\\fixture\\child.cjs C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\demo\\fixture\\run-a\\attempts\\demo\\1/results/demo.trx C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\demo\\fixture\\make-it-fail.flag",
+                       "workingDirectory":  "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\demo\\fixture\\run-a",
+                       "startUtc":  "2026-10-04T10:13:32Z",
+                       "endUtc":  "2026-10-04T10:13:32Z",
+                       "exitCode":  1,
+                       "timedOut":  false,
+                       "stillRunning":  false,
+                       "counters":  {
+                                        "total":  2,
+                                        "executed":  2,
+                                        "passed":  1,
+                                        "failed":  1,
+                                        "notExecuted":  0,
+                                        "resultRows":  2,
+                                        "passedRows":  1,
+                                        "failedRows":  1,
+                                        "notExecutedRows":  0,
+                                        "otherRows":  0
+                                    },
+                       "trx":  "results/demo.trx",
+                       "artifacts":  [
+                                         {
+                                             "path":  "results/demo.trx",
+                                             "sha256":  "71BE0E4E3402FE5C91C67F9E9F09071899ECCF19BE76FB9365B0320FAE5D09C6",
+                                             "sizeBytes":  276
+                                         }
+                                     ],
+                       "rawEvidence":  [
+                                           {
+                                               "path":  "demo.stdout.log",
+                                               "sha256":  "0A94A8DFF8F2C65B549291BD90CBCAB810BE74636B2B432A3BD9A6E952254AB0",
+                                               "sizeBytes":  29
+                                           },
+                                           {
+                                               "path":  "demo.stderr.log",
+                                               "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                                               "sizeBytes":  0
+                                           }
+                                       ],
+                       "reasons":  [
+                                       "EXIT_NONZERO",
+                                       "TESTS_BELOW_MIN",
+                                       "TESTS_FAILED"
+                                   ],
+                       "status":  "FAILED",
+                       "reused":  false
+                   }
+               ],
+    "verdict":  "FAIL"
+}

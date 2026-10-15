@@ -1,0 +1,37 @@
+﻿[
+    {
+        "label":  "P-DURABLEQUEUE 0/6 using System (DateTimeOffset)",
+        "file":  "dev\\PineglowLauncher\\Pineglow.Launcher.Models\\VersionDownloadQueueItem.cs",
+        "ok":  true
+    },
+    {
+        "label":  "P-DURABLEQUEUE 1/6 model fields",
+        "file":  "dev\\PineglowLauncher\\Pineglow.Launcher.Models\\VersionDownloadQueueItem.cs",
+        "ok":  true
+    },
+    {
+        "label":  "P-DURABLEQUEUE 2/6 persistence helpers",
+        "file":  "dev\\PineglowLauncher\\Pineglow.Launcher.Services\\LocalApiService.cs",
+        "ok":  true
+    },
+    {
+        "label":  "P-DURABLEQUEUE 3/6 restore on Start() (UI thread)",
+        "file":  "dev\\PineglowLauncher\\Pineglow.Launcher.Services\\LocalApiService.cs",
+        "ok":  true
+    },
+    {
+        "label":  "P-DURABLEQUEUE 4/6 persist when queued",
+        "file":  "dev\\PineglowLauncher\\Pineglow.Launcher.Services\\LocalApiService.cs",
+        "ok":  true
+    },
+    {
+        "label":  "P-DURABLEQUEUE 5/6 persist when it starts running",
+        "file":  "dev\\PineglowLauncher\\Pineglow.Launcher.Services\\LocalApiService.cs",
+        "ok":  true
+    },
+    {
+        "label":  "P-DURABLEQUEUE 6/6 persist on terminal states",
+        "file":  "dev\\PineglowLauncher\\Pineglow.Launcher.Services\\LocalApiService.cs",
+        "ok":  true
+    }
+]

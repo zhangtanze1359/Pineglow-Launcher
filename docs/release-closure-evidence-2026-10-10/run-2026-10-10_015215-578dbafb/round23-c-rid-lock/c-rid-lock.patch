@@ -1,0 +1,965 @@
+﻿# C: publish dependency locking for all three RIDs (proposal option 2).
+# Validated in an isolated copy:
+#   - shared packages.lock.json UNCHANGED (FBBC9AE6...) before, during and after
+#   - dotnet build: 0 warnings, 0 errors
+#   - full test suite: 941 pass / 0 fail (the two workflow invariants are rewritten)
+#   - LOCKED win-x64 publish -> CA8F94C1A6173F23F38F3D2A3C949AFFC16D5AB67752B662C7806831F350D93E
+#     (byte-identical to the already-verified artifact: the fix adds the guarantee, not a new binary)
+# NOT applied to the product tree.
+diff --git "a/C:\\Users\\Administrator\\AppData\\Local\\Temp\\empty-f18de1ef7d154ce3b5f7feb26f6e4e3c" "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-c2-f325aa28c64845888141dc7835085bd9\\dev\\PineglowLauncher\\packages.win-x64.lock.json"
+index e69de29..fbff9f3 100644
+--- "a/C:\\Users\\Administrator\\AppData\\Local\\Temp\\empty-f18de1ef7d154ce3b5f7feb26f6e4e3c"
++++ "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-c2-f325aa28c64845888141dc7835085bd9\\dev\\PineglowLauncher\\packages.win-x64.lock.json"
+@@ -0,0 +1,269 @@
++{
++  "version": 1,
++  "dependencies": {
++    "net10.0": {
++      "Avalonia": {
++        "type": "Direct",
++        "requested": "[12.0.5, )",
++        "resolved": "12.0.5",
++        "contentHash": "eGDbwos1AMlOaXnGN5IQ+JGG3RViFFuyN3GP70irOSbqZt4H9A6quIP6uVFVni/bBczmt5ELGuHzN+lkLQSD1A==",
++        "dependencies": {
++          "Avalonia.BuildServices": "11.3.2",
++          "Avalonia.Remote.Protocol": "12.0.5",
++          "MicroCom.Runtime": "0.11.4"
++        }
++      },
++      "Avalonia.Controls.WebView": {
++        "type": "Direct",
++        "requested": "[12.0.1, )",
++        "resolved": "12.0.1",
++        "contentHash": "GrCIpIIBL7ueFDsNu3lyYc1mgO3QGGl1c1MCK8YAgjaNZwF9PV5PF2UB3lm1uuqj/MWOKNhemLwcSDLyYv0JjQ==",
++        "dependencies": {
++          "Avalonia": "12.0.0"
++        }
++      },
++      "Avalonia.Desktop": {
++        "type": "Direct",
++        "requested": "[12.0.5, )",
++        "resolved": "12.0.5",
++        "contentHash": "L4bTMshYrhjSKu09Q60OHN1+Lfr9z7JsyRL6rfj3iQfjWm+5gsTl2viz5gyzDUgc/U5A7gf57e1spEX+nE/7zg==",
++        "dependencies": {
++          "Avalonia": "12.0.5",
++          "Avalonia.HarfBuzz": "12.0.5",
++          "Avalonia.Native": "12.0.5",
++          "Avalonia.Skia": "12.0.5",
++          "Avalonia.Win32": "12.0.5",
++          "Avalonia.X11": "12.0.5"
++        }
++      },
++      "Avalonia.Fonts.Inter": {
++        "type": "Direct",
++        "requested": "[12.0.5, )",
++        "resolved": "12.0.5",
++        "contentHash": "50zhPwYVIaqE0vVyHQxqjclObXYBT23Vt8QhsZ11vKSXddMAgPMd6zEEGGG83s1b3xXH1hZukBFqGgVAkjyZtA==",
++        "dependencies": {
++          "Avalonia": "12.0.5"
++        }
++      },
++      "Avalonia.Themes.Fluent": {
++        "type": "Direct",
++        "requested": "[12.0.5, )",
++        "resolved": "12.0.5",
++        "contentHash": "QfbziOuzNQzMd0uCbe//p4o1u6EAesEpX41fUCULBaLENd5OAT6iU0GiN9gzhSzVfSjHuxDcafXqJMxi3H3IhA==",
++        "dependencies": {
++          "Avalonia": "12.0.5"
++        }
++      },
++      "CommunityToolkit.Mvvm": {
++        "type": "Direct",
++        "requested": "[8.4.0, )",
++        "resolved": "8.4.0",
++        "contentHash": "tqVU8yc/ADO9oiTRyTnwhFN68hCwvkliMierptWOudIAvWY1mWCh5VFh+guwHJmpMwfg0J0rY+yyd5Oy7ty9Uw=="
++      },
++      "Microsoft.NET.ILLink.Tasks": {
++        "type": "Direct",
++        "requested": "[10.0.9, )",
++        "resolved": "10.0.9",
++        "contentHash": "4Iw41e2h7I4t70SJcX2GCmbyKJIlA273Cfm9RJMM050/3VBejGAG1KcthP5Z2L6SQcbfbf6BhNWO26+ZG+GzMg=="
++      },
++      "Avalonia.Angle.Windows.Natives": {
++        "type": "Transitive",
++        "resolved": "2.1.27548.20260419",
++        "contentHash": "l17nI3XVDN3oMnpjf2pnmJg0YTwK4m6NLsn/itAjDMdObTFxN77D5F1M9sRMSfViSY3KKcse1ROczwgoWLJsnA=="
++      },
++      "Avalonia.BuildServices": {
++        "type": "Transitive",
++        "resolved": "11.3.2",
++        "contentHash": "qHDToxto1e3hci5YqbG9n0Ty8mlp3zBUN5wT66wKqaDVzXyQ0do3EnRILd4Ke9jpvsktaPpgE0YjEk7hornryQ=="
++      },
++      "Avalonia.FreeDesktop": {
++        "type": "Transitive",
++        "resolved": "12.0.5",
++        "contentHash": "51IiLrfyJdMtmVTiXiEi1q1nXS5KAMYvFNeovlwKSuTgY/agBevnfBTY+DnKnIjZMdXWWKVGJJh7MldMkPc14w==",
++        "dependencies": {
++          "Avalonia": "12.0.5",
++          "Tmds.DBus.Protocol": "0.92.0"
++        }
++      },
++      "Avalonia.FreeDesktop.AtSpi": {
++        "type": "Transitive",
++        "resolved": "12.0.5",
++        "contentHash": "IrsjB1QpzXwgdnkpG6ejGxSaHp0sRrq3rZlrzRyhwEGllAxcOeUuQpq8/OrO3OUJLxXtxlsM4ku17v+7q7xGKQ==",
++        "dependencies": {
++          "Avalonia": "12.0.5"
++        }
++      },
++      "Avalonia.HarfBuzz": {
++        "type": "Transitive",
++        "resolved": "12.0.5",
++        "contentHash": "jR8i/fgrmAKEp0T3iLqfKCoEDJV9ODVzN+8bofM2guEr05eaXbx6iXZxcjh0nDK4UbK0akYDgBfAgyHoatqGjg==",
++        "dependencies": {
++          "Avalonia": "12.0.5",
++          "HarfBuzzSharp": "8.3.1.3",
++          "HarfBuzzSharp.NativeAssets.Linux": "8.3.1.3",
++          "HarfBuzzSharp.NativeAssets.WebAssembly": "8.3.1.3"
++        }
++      },
++      "Avalonia.Native": {
++        "type": "Transitive",
++        "resolved": "12.0.5",
++        "contentHash": "m6qn0UGMI/b4cFfJ8id8sPYLotc7szhZdexPCKY+kIvGlx6Ln0VjNejRMiJDZ4S91q6nbKJL/YmfPd8UruTNjQ==",
++        "dependencies": {
++          "Avalonia": "12.0.5"
++        }
++      },
++      "Avalonia.Remote.Protocol": {
++        "type": "Transitive",
++        "resolved": "12.0.5",
++        "contentHash": "/S4T1uZzXvPpN0Sqs44u3Rl5/qCZHHefRK7xyORONHH1w60IfsfsE5RbwFSku7qmib1DsGZZXxtweJq24ERfbg=="
++      },
++      "Avalonia.Skia": {
++        "type": "Transitive",
++        "resolved": "12.0.5",
++        "contentHash": "cSLTpvzsm5JpUA1tQvuht3qN6oiy1PNRgbrp1g7jCSzAFf+OKZecSne+KT1apBQUkevciaHxwtAxLolPGD9izg==",
++        "dependencies": {
++          "Avalonia": "12.0.5",
++          "HarfBuzzSharp": "8.3.1.3",
++          "HarfBuzzSharp.NativeAssets.Linux": "8.3.1.3",
++          "HarfBuzzSharp.NativeAssets.WebAssembly": "8.3.1.3",
++          "SkiaSharp": "3.119.4",
++          "SkiaSharp.NativeAssets.Linux": "3.119.4",
++          "SkiaSharp.NativeAssets.WebAssembly": "3.119.4"
++        }
++      },
++      "Avalonia.Win32": {
++        "type": "Transitive",
++        "resolved": "12.0.5",
++        "contentHash": "ZY1ZLXQdQqlz9GUZGXK+73kTFgKzygPbGk/gHfROUWLr2aBh1kOA1KY5xB7/cSSY+egDr+IGSjsQbgS8eSu9Tg==",
++        "dependencies": {
++          "Avalonia": "12.0.5",
++          "Avalonia.Angle.Windows.Natives": "2.1.27548.20260419"
++        }
++      },
++      "Avalonia.X11": {
++        "type": "Transitive",
++        "resolved": "12.0.5",
++        "contentHash": "6OyZa5ehNbzd7JWiVbGdjuzdsgy2Rgibtwczmh7hKnePxLmOqeSL+hQ6vHanSx246TpSBKDPvjqwW7NuQrmAJg==",
++        "dependencies": {
++          "Avalonia": "12.0.5",
++          "Avalonia.FreeDesktop": "12.0.5",
++          "Avalonia.FreeDesktop.AtSpi": "12.0.5",
++          "Avalonia.Skia": "12.0.5"
++        }
++      },
++      "HarfBuzzSharp": {
++        "type": "Transitive",
++        "resolved": "8.3.1.3",
++        "contentHash": "NGZ2+ZVNPM+NdHB/asW0/ykWngyHWwcqjrbN2nDeH1B/aptPGlCUl8wkQ2cSJxw5fdWgdmIPmNuTPWpLwNVXWg==",
++        "dependencies": {
++          "HarfBuzzSharp.NativeAssets.Win32": "8.3.1.3",
++          "HarfBuzzSharp.NativeAssets.macOS": "8.3.1.3"
++        }
++      },
++      "HarfBuzzSharp.NativeAssets.Linux": {
++        "type": "Transitive",
++        "resolved": "8.3.1.3",
++        "contentHash": "RI6A1LgmooU30+4QIyFt5rmBCzP0VzTR+587IJSGvYIsHHWlahFufihYxtraLfsIhW7I8dn6+xX+DZGygOPKWQ=="
++      },
++      "HarfBuzzSharp.NativeAssets.macOS": {
++        "type": "Transitive",
++        "resolved": "8.3.1.3",
++        "contentHash": "KPTq0xnslkI6nAo0jh3ptcQPJvZZr7MWYXa2jUe4SnHc9q+JlHElmNXp0sfFoiTgoCX7WOYpYsurypuH9Gehxw=="
++      },
++      "HarfBuzzSharp.NativeAssets.WebAssembly": {
++        "type": "Transitive",
++        "resolved": "8.3.1.3",
++        "contentHash": "w2QfdNm9Uz/sUa0B5D+OnVQhyq3G/fBq6ibQMdWBlQqqwh0g0/5j3RFvYqZAmRZ5+RzvjVe8o8SFFnWYUSkuxA=="
++      },
++      "HarfBuzzSharp.NativeAssets.Win32": {
++        "type": "Transitive",
++        "resolved": "8.3.1.3",
++        "contentHash": "bx8CE8Js+XGX8PUxAHCBDEORt5aaBYtMN4Hr9QFs57Xithh6yjUyYqksizH6eRDhJkwsGI+SXWmPmMm8lZC9Pw=="
++      },
++      "MicroCom.Runtime": {
++        "type": "Transitive",
++        "resolved": "0.11.4",
++        "contentHash": "yZ8+Lgwo+KtRI29TB2mIOEMzV+csMJ+pKZg4YHReAP3vRewWLKKeYfrBDo5FS69rWnEbCfU3sbM+ZEQr+GDLtg=="
++      },
++      "SkiaSharp": {
++        "type": "Transitive",
++        "resolved": "3.119.4",
++        "contentHash": "53NOSUZ1Us+91Sm0uCkIivh/k7jOowRErZT2sIWwPFN9mLUvdxnE6rS4sWo4255+Rd2MWUSF+j0NMZHD6Cke+Q==",
++        "dependencies": {
++          "SkiaSharp.NativeAssets.Win32": "3.119.4",
++          "SkiaSharp.NativeAssets.macOS": "3.119.4"
++        }
++      },
++      "SkiaSharp.NativeAssets.Linux": {
++        "type": "Transitive",
++        "resolved": "3.119.4",
++        "contentHash": "UAyVzbqNfZsZbKbzj68zXLyUyF/SbTKmzTfOO6qDu++dtIUMMTzPBe8oOuzU/DiewpfKoUUlOSsJmqWc6blxBw=="
++      },
++      "SkiaSharp.NativeAssets.macOS": {
++        "type": "Transitive",
++        "resolved": "3.119.4",
++        "contentHash": "fgBOWEqbY012x7gMfJU4ezgz6dfhJb30Z6YdW35h85Zoe39+a8YNbAAwL29ihPfWoppg5AjvyKNzD1oCvlqWwA=="
++      },
++      "SkiaSharp.NativeAssets.WebAssembly": {
++        "type": "Transitive",
++        "resolved": "3.119.4",
++        "contentHash": "S1HOxtBbD4bYDtA2e9WH5TX+lxqRrTPvKjrjttRhxnHNNu7YY8VFo/LeCP7tNqoTA6PV+8vsvNbmRUEC2ip8RQ=="
++      },
++      "SkiaSharp.NativeAssets.Win32": {
++        "type": "Transitive",
++        "resolved": "3.119.4",
++        "contentHash": "XOpbx/4CReO2wYsq2s6rbvdauc6dntG4Zv499sHGTJ87bwZaFXszFkwql3+FIZMc8kUPeaj3Mx2ezIJmo8a1Kg=="
++      },
++      "Tmds.DBus.Protocol": {
++        "type": "Transitive",
++        "resolved": "0.92.0",
++        "contentHash": "h7IMakm0PF2jxiagoysoAjrzzLQ0UBdnSXQL5kb17YW0Fvyo12Tg96A99QkzwktWRrd7H+Uw9EzjasNLUfGYlA=="
++      }
++    },
++    "net10.0/win-x64": {
++      "Avalonia.Angle.Windows.Natives": {
++        "type": "Transitive",
++        "resolved": "2.1.27548.20260419",
++        "contentHash": "l17nI3XVDN3oMnpjf2pnmJg0YTwK4m6NLsn/itAjDMdObTFxN77D5F1M9sRMSfViSY3KKcse1ROczwgoWLJsnA=="
++      },
++      "Avalonia.Native": {
++        "type": "Transitive",
++        "resolved": "12.0.5",
++        "contentHash": "m6qn0UGMI/b4cFfJ8id8sPYLotc7szhZdexPCKY+kIvGlx6Ln0VjNejRMiJDZ4S91q6nbKJL/YmfPd8UruTNjQ==",
++        "dependencies": {
++          "Avalonia": "12.0.5"
++        }
++      },
++      "HarfBuzzSharp.NativeAssets.Linux": {
++        "type": "Transitive",
++        "resolved": "8.3.1.3",
++        "contentHash": "RI6A1LgmooU30+4QIyFt5rmBCzP0VzTR+587IJSGvYIsHHWlahFufihYxtraLfsIhW7I8dn6+xX+DZGygOPKWQ=="
++      },
++      "HarfBuzzSharp.NativeAssets.macOS": {
++        "type": "Transitive",
++        "resolved": "8.3.1.3",
++        "contentHash": "KPTq0xnslkI6nAo0jh3ptcQPJvZZr7MWYXa2jUe4SnHc9q+JlHElmNXp0sfFoiTgoCX7WOYpYsurypuH9Gehxw=="
++      },
++      "HarfBuzzSharp.NativeAssets.Win32": {
++        "type": "Transitive",
++        "resolved": "8.3.1.3",
++        "contentHash": "bx8CE8Js+XGX8PUxAHCBDEORt5aaBYtMN4Hr9QFs57Xithh6yjUyYqksizH6eRDhJkwsGI+SXWmPmMm8lZC9Pw=="
++      },
++      "SkiaSharp.NativeAssets.Linux": {
++        "type": "Transitive",
++        "resolved": "3.119.4",
++        "contentHash": "UAyVzbqNfZsZbKbzj68zXLyUyF/SbTKmzTfOO6qDu++dtIUMMTzPBe8oOuzU/DiewpfKoUUlOSsJmqWc6blxBw=="
++      },
++      "SkiaSharp.NativeAssets.macOS": {
++        "type": "Transitive",
++        "resolved": "3.119.4",
++        "contentHash": "fgBOWEqbY012x7gMfJU4ezgz6dfhJb30Z6YdW35h85Zoe39+a8YNbAAwL29ihPfWoppg5AjvyKNzD1oCvlqWwA=="
++      },
++      "SkiaSharp.NativeAssets.Win32": {
++        "type": "Transitive",
++        "resolved": "3.119.4",
++        "contentHash": "XOpbx/4CReO2wYsq2s6rbvdauc6dntG4Zv499sHGTJ87bwZaFXszFkwql3+FIZMc8kUPeaj3Mx2ezIJmo8a1Kg=="
++      }
++    }
++  }
++}
+\ No newline at end of file
+
+diff --git "a/C:\\Users\\Administrator\\AppData\\Local\\Temp\\empty-f18de1ef7d154ce3b5f7feb26f6e4e3c" "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-c2-f325aa28c64845888141dc7835085bd9\\dev\\PineglowLauncher\\packages.linux-x64.lock.json"
+index e69de29..fda23f4 100644
+--- "a/C:\\Users\\Administrator\\AppData\\Local\\Temp\\empty-f18de1ef7d154ce3b5f7feb26f6e4e3c"
++++ "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-c2-f325aa28c64845888141dc7835085bd9\\dev\\PineglowLauncher\\packages.linux-x64.lock.json"
+@@ -0,0 +1,269 @@
++{
++  "version": 1,
++  "dependencies": {
++    "net10.0": {
++      "Avalonia": {
++        "type": "Direct",
++        "requested": "[12.0.5, )",
++        "resolved": "12.0.5",
++        "contentHash": "eGDbwos1AMlOaXnGN5IQ+JGG3RViFFuyN3GP70irOSbqZt4H9A6quIP6uVFVni/bBczmt5ELGuHzN+lkLQSD1A==",
++        "dependencies": {
++          "Avalonia.BuildServices": "11.3.2",
++          "Avalonia.Remote.Protocol": "12.0.5",
++          "MicroCom.Runtime": "0.11.4"
++        }
++      },
++      "Avalonia.Controls.WebView": {
++        "type": "Direct",
++        "requested": "[12.0.1, )",
++        "resolved": "12.0.1",
++        "contentHash": "GrCIpIIBL7ueFDsNu3lyYc1mgO3QGGl1c1MCK8YAgjaNZwF9PV5PF2UB3lm1uuqj/MWOKNhemLwcSDLyYv0JjQ==",
++        "dependencies": {
++          "Avalonia": "12.0.0"
++        }
++      },
++      "Avalonia.Desktop": {
++        "type": "Direct",
++        "requested": "[12.0.5, )",
++        "resolved": "12.0.5",
++        "contentHash": "L4bTMshYrhjSKu09Q60OHN1+Lfr9z7JsyRL6rfj3iQfjWm+5gsTl2viz5gyzDUgc/U5A7gf57e1spEX+nE/7zg==",
++        "dependencies": {
++          "Avalonia": "12.0.5",
++          "Avalonia.HarfBuzz": "12.0.5",
++          "Avalonia.Native": "12.0.5",
++          "Avalonia.Skia": "12.0.5",
++          "Avalonia.Win32": "12.0.5",
++          "Avalonia.X11": "12.0.5"
++        }
++      },
++      "Avalonia.Fonts.Inter": {
++        "type": "Direct",
++        "requested": "[12.0.5, )",
++        "resolved": "12.0.5",
++        "contentHash": "50zhPwYVIaqE0vVyHQxqjclObXYBT23Vt8QhsZ11vKSXddMAgPMd6zEEGGG83s1b3xXH1hZukBFqGgVAkjyZtA==",
++        "dependencies": {
++          "Avalonia": "12.0.5"
++        }
++      },
++      "Avalonia.Themes.Fluent": {
++        "type": "Direct",
++        "requested": "[12.0.5, )",
++        "resolved": "12.0.5",
++        "contentHash": "QfbziOuzNQzMd0uCbe//p4o1u6EAesEpX41fUCULBaLENd5OAT6iU0GiN9gzhSzVfSjHuxDcafXqJMxi3H3IhA==",
++        "dependencies": {
++          "Avalonia": "12.0.5"
++        }
++      },
++      "CommunityToolkit.Mvvm": {
++        "type": "Direct",
++        "requested": "[8.4.0, )",
++        "resolved": "8.4.0",
++        "contentHash": "tqVU8yc/ADO9oiTRyTnwhFN68hCwvkliMierptWOudIAvWY1mWCh5VFh+guwHJmpMwfg0J0rY+yyd5Oy7ty9Uw=="
++      },
++      "Microsoft.NET.ILLink.Tasks": {
++        "type": "Direct",
++        "requested": "[10.0.9, )",
++        "resolved": "10.0.9",
++        "contentHash": "4Iw41e2h7I4t70SJcX2GCmbyKJIlA273Cfm9RJMM050/3VBejGAG1KcthP5Z2L6SQcbfbf6BhNWO26+ZG+GzMg=="
++      },
++      "Avalonia.Angle.Windows.Natives": {
++        "type": "Transitive",
++        "resolved": "2.1.27548.20260419",
++        "contentHash": "l17nI3XVDN3oMnpjf2pnmJg0YTwK4m6NLsn/itAjDMdObTFxN77D5F1M9sRMSfViSY3KKcse1ROczwgoWLJsnA=="
++      },
++      "Avalonia.BuildServices": {
++        "type": "Transitive",
++        "resolved": "11.3.2",
++        "contentHash": "qHDToxto1e3hci5YqbG9n0Ty8mlp3zBUN5wT66wKqaDVzXyQ0do3EnRILd4Ke9jpvsktaPpgE0YjEk7hornryQ=="
++      },
++      "Avalonia.FreeDesktop": {
++        "type": "Transitive",
++        "resolved": "12.0.5",
++        "contentHash": "51IiLrfyJdMtmVTiXiEi1q1nXS5KAMYvFNeovlwKSuTgY/agBevnfBTY+DnKnIjZMdXWWKVGJJh7MldMkPc14w==",
++        "dependencies": {
++          "Avalonia": "12.0.5",
++          "Tmds.DBus.Protocol": "0.92.0"
++        }
++      },
++      "Avalonia.FreeDesktop.AtSpi": {
++        "type": "Transitive",
++        "resolved": "12.0.5",
++        "contentHash": "IrsjB1QpzXwgdnkpG6ejGxSaHp0sRrq3rZlrzRyhwEGllAxcOeUuQpq8/OrO3OUJLxXtxlsM4ku17v+7q7xGKQ==",
++        "dependencies": {
++          "Avalonia": "12.0.5"
++        }
++      },
++      "Avalonia.HarfBuzz": {
++        "type": "Transitive",
++        "resolved": "12.0.5",
++        "contentHash": "jR8i/fgrmAKEp0T3iLqfKCoEDJV9ODVzN+8bofM2guEr05eaXbx6iXZxcjh0nDK4UbK0akYDgBfAgyHoatqGjg==",
++        "dependencies": {
++          "Avalonia": "12.0.5",
++          "HarfBuzzSharp": "8.3.1.3",
++          "HarfBuzzSharp.NativeAssets.Linux": "8.3.1.3",
++          "HarfBuzzSharp.NativeAssets.WebAssembly": "8.3.1.3"
++        }
++      },
++      "Avalonia.Native": {
++        "type": "Transitive",
++        "resolved": "12.0.5",
++        "contentHash": "m6qn0UGMI/b4cFfJ8id8sPYLotc7szhZdexPCKY+kIvGlx6Ln0VjNejRMiJDZ4S91q6nbKJL/YmfPd8UruTNjQ==",
++        "dependencies": {
++          "Avalonia": "12.0.5"
++        }
++      },
++      "Avalonia.Remote.Protocol": {
++        "type": "Transitive",
++        "resolved": "12.0.5",
++        "contentHash": "/S4T1uZzXvPpN0Sqs44u3Rl5/qCZHHefRK7xyORONHH1w60IfsfsE5RbwFSku7qmib1DsGZZXxtweJq24ERfbg=="
++      },
++      "Avalonia.Skia": {
++        "type": "Transitive",
++        "resolved": "12.0.5",
++        "contentHash": "cSLTpvzsm5JpUA1tQvuht3qN6oiy1PNRgbrp1g7jCSzAFf+OKZecSne+KT1apBQUkevciaHxwtAxLolPGD9izg==",
++        "dependencies": {
++          "Avalonia": "12.0.5",
++          "HarfBuzzSharp": "8.3.1.3",
++          "HarfBuzzSharp.NativeAssets.Linux": "8.3.1.3",
++          "HarfBuzzSharp.NativeAssets.WebAssembly": "8.3.1.3",
++          "SkiaSharp": "3.119.4",
++          "SkiaSharp.NativeAssets.Linux": "3.119.4",
++          "SkiaSharp.NativeAssets.WebAssembly": "3.119.4"
++        }
++      },
++      "Avalonia.Win32": {
++        "type": "Transitive",
++        "resolved": "12.0.5",
++        "contentHash": "ZY1ZLXQdQqlz9GUZGXK+73kTFgKzygPbGk/gHfROUWLr2aBh1kOA1KY5xB7/cSSY+egDr+IGSjsQbgS8eSu9Tg==",
++        "dependencies": {
++          "Avalonia": "12.0.5",
++          "Avalonia.Angle.Windows.Natives": "2.1.27548.20260419"
++        }
++      },
++      "Avalonia.X11": {
++        "type": "Transitive",
++        "resolved": "12.0.5",
++        "contentHash": "6OyZa5ehNbzd7JWiVbGdjuzdsgy2Rgibtwczmh7hKnePxLmOqeSL+hQ6vHanSx246TpSBKDPvjqwW7NuQrmAJg==",
++        "dependencies": {
++          "Avalonia": "12.0.5",
++          "Avalonia.FreeDesktop": "12.0.5",
++          "Avalonia.FreeDesktop.AtSpi": "12.0.5",
++          "Avalonia.Skia": "12.0.5"
++        }
++      },
++      "HarfBuzzSharp": {
++        "type": "Transitive",
++        "resolved": "8.3.1.3",
++        "contentHash": "NGZ2+ZVNPM+NdHB/asW0/ykWngyHWwcqjrbN2nDeH1B/aptPGlCUl8wkQ2cSJxw5fdWgdmIPmNuTPWpLwNVXWg==",
++        "dependencies": {
++          "HarfBuzzSharp.NativeAssets.Win32": "8.3.1.3",
++          "HarfBuzzSharp.NativeAssets.macOS": "8.3.1.3"
++        }
++      },
++      "HarfBuzzSharp.NativeAssets.Linux": {
++        "type": "Transitive",
++        "resolved": "8.3.1.3",
++        "contentHash": "RI6A1LgmooU30+4QIyFt5rmBCzP0VzTR+587IJSGvYIsHHWlahFufihYxtraLfsIhW7I8dn6+xX+DZGygOPKWQ=="
++      },
++      "HarfBuzzSharp.NativeAssets.macOS": {
++        "type": "Transitive",
++        "resolved": "8.3.1.3",
++        "contentHash": "KPTq0xnslkI6nAo0jh3ptcQPJvZZr7MWYXa2jUe4SnHc9q+JlHElmNXp0sfFoiTgoCX7WOYpYsurypuH9Gehxw=="
++      },
++      "HarfBuzzSharp.NativeAssets.WebAssembly": {
++        "type": "Transitive",
++        "resolved": "8.3.1.3",
++        "contentHash": "w2QfdNm9Uz/sUa0B5D+OnVQhyq3G/fBq6ibQMdWBlQqqwh0g0/5j3RFvYqZAmRZ5+RzvjVe8o8SFFnWYUSkuxA=="
++      },
++      "HarfBuzzSharp.NativeAssets.Win32": {
++        "type": "Transitive",
++        "resolved": "8.3.1.3",
++        "contentHash": "bx8CE8Js+XGX8PUxAHCBDEORt5aaBYtMN4Hr9QFs57Xithh6yjUyYqksizH6eRDhJkwsGI+SXWmPmMm8lZC9Pw=="
++      },
++      "MicroCom.Runtime": {
++        "type": "Transitive",
++        "resolved": "0.11.4",
++        "contentHash": "yZ8+Lgwo+KtRI29TB2mIOEMzV+csMJ+pKZg4YHReAP3vRewWLKKeYfrBDo5FS69rWnEbCfU3sbM+ZEQr+GDLtg=="
++      },
++      "SkiaSharp": {
++        "type": "Transitive",
++        "resolved": "3.119.4",
++        "contentHash": "53NOSUZ1Us+91Sm0uCkIivh/k7jOowRErZT2sIWwPFN9mLUvdxnE6rS4sWo4255+Rd2MWUSF+j0NMZHD6Cke+Q==",
++        "dependencies": {
++          "SkiaSharp.NativeAssets.Win32": "3.119.4",
++          "SkiaSharp.NativeAssets.macOS": "3.119.4"
++        }
++      },
++      "SkiaSharp.NativeAssets.Linux": {
++        "type": "Transitive",
++        "resolved": "3.119.4",
++        "contentHash": "UAyVzbqNfZsZbKbzj68zXLyUyF/SbTKmzTfOO6qDu++dtIUMMTzPBe8oOuzU/DiewpfKoUUlOSsJmqWc6blxBw=="
++      },
++      "SkiaSharp.NativeAssets.macOS": {
++        "type": "Transitive",
++        "resolved": "3.119.4",
++        "contentHash": "fgBOWEqbY012x7gMfJU4ezgz6dfhJb30Z6YdW35h85Zoe39+a8YNbAAwL29ihPfWoppg5AjvyKNzD1oCvlqWwA=="
++      },
++      "SkiaSharp.NativeAssets.WebAssembly": {
++        "type": "Transitive",
++        "resolved": "3.119.4",
++        "contentHash": "S1HOxtBbD4bYDtA2e9WH5TX+lxqRrTPvKjrjttRhxnHNNu7YY8VFo/LeCP7tNqoTA6PV+8vsvNbmRUEC2ip8RQ=="
++      },
++      "SkiaSharp.NativeAssets.Win32": {
++        "type": "Transitive",
++        "resolved": "3.119.4",
++        "contentHash": "XOpbx/4CReO2wYsq2s6rbvdauc6dntG4Zv499sHGTJ87bwZaFXszFkwql3+FIZMc8kUPeaj3Mx2ezIJmo8a1Kg=="
++      },
++      "Tmds.DBus.Protocol": {
++        "type": "Transitive",
++        "resolved": "0.92.0",
++        "contentHash": "h7IMakm0PF2jxiagoysoAjrzzLQ0UBdnSXQL5kb17YW0Fvyo12Tg96A99QkzwktWRrd7H+Uw9EzjasNLUfGYlA=="
++      }
++    },
++    "net10.0/linux-x64": {
++      "Avalonia.Angle.Windows.Natives": {
++        "type": "Transitive",
++        "resolved": "2.1.27548.20260419",
++        "contentHash": "l17nI3XVDN3oMnpjf2pnmJg0YTwK4m6NLsn/itAjDMdObTFxN77D5F1M9sRMSfViSY3KKcse1ROczwgoWLJsnA=="
++      },
++      "Avalonia.Native": {
++        "type": "Transitive",
++        "resolved": "12.0.5",
++        "contentHash": "m6qn0UGMI/b4cFfJ8id8sPYLotc7szhZdexPCKY+kIvGlx6Ln0VjNejRMiJDZ4S91q6nbKJL/YmfPd8UruTNjQ==",
++        "dependencies": {
++          "Avalonia": "12.0.5"
++        }
++      },
++      "HarfBuzzSharp.NativeAssets.Linux": {
++        "type": "Transitive",
++        "resolved": "8.3.1.3",
++        "contentHash": "RI6A1LgmooU30+4QIyFt5rmBCzP0VzTR+587IJSGvYIsHHWlahFufihYxtraLfsIhW7I8dn6+xX+DZGygOPKWQ=="
++      },
++      "HarfBuzzSharp.NativeAssets.macOS": {
++        "type": "Transitive",
++        "resolved": "8.3.1.3",
++        "contentHash": "KPTq0xnslkI6nAo0jh3ptcQPJvZZr7MWYXa2jUe4SnHc9q+JlHElmNXp0sfFoiTgoCX7WOYpYsurypuH9Gehxw=="
++      },
++      "HarfBuzzSharp.NativeAssets.Win32": {
++        "type": "Transitive",
++        "resolved": "8.3.1.3",
++        "contentHash": "bx8CE8Js+XGX8PUxAHCBDEORt5aaBYtMN4Hr9QFs57Xithh6yjUyYqksizH6eRDhJkwsGI+SXWmPmMm8lZC9Pw=="
++      },
++      "SkiaSharp.NativeAssets.Linux": {
++        "type": "Transitive",
++        "resolved": "3.119.4",
++        "contentHash": "UAyVzbqNfZsZbKbzj68zXLyUyF/SbTKmzTfOO6qDu++dtIUMMTzPBe8oOuzU/DiewpfKoUUlOSsJmqWc6blxBw=="
++      },
++      "SkiaSharp.NativeAssets.macOS": {
++        "type": "Transitive",
++        "resolved": "3.119.4",
++        "contentHash": "fgBOWEqbY012x7gMfJU4ezgz6dfhJb30Z6YdW35h85Zoe39+a8YNbAAwL29ihPfWoppg5AjvyKNzD1oCvlqWwA=="
++      },
++      "SkiaSharp.NativeAssets.Win32": {
++        "type": "Transitive",
++        "resolved": "3.119.4",
++        "contentHash": "XOpbx/4CReO2wYsq2s6rbvdauc6dntG4Zv499sHGTJ87bwZaFXszFkwql3+FIZMc8kUPeaj3Mx2ezIJmo8a1Kg=="
++      }
++    }
++  }
++}
+\ No newline at end of file
+
+diff --git "a/C:\\Users\\Administrator\\AppData\\Local\\Temp\\empty-f18de1ef7d154ce3b5f7feb26f6e4e3c" "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-c2-f325aa28c64845888141dc7835085bd9\\dev\\PineglowLauncher\\packages.osx-x64.lock.json"
+index e69de29..3a13d26 100644
+--- "a/C:\\Users\\Administrator\\AppData\\Local\\Temp\\empty-f18de1ef7d154ce3b5f7feb26f6e4e3c"
++++ "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-c2-f325aa28c64845888141dc7835085bd9\\dev\\PineglowLauncher\\packages.osx-x64.lock.json"
+@@ -0,0 +1,269 @@
++{
++  "version": 1,
++  "dependencies": {
++    "net10.0": {
++      "Avalonia": {
++        "type": "Direct",
++        "requested": "[12.0.5, )",
++        "resolved": "12.0.5",
++        "contentHash": "eGDbwos1AMlOaXnGN5IQ+JGG3RViFFuyN3GP70irOSbqZt4H9A6quIP6uVFVni/bBczmt5ELGuHzN+lkLQSD1A==",
++        "dependencies": {
++          "Avalonia.BuildServices": "11.3.2",
++          "Avalonia.Remote.Protocol": "12.0.5",
++          "MicroCom.Runtime": "0.11.4"
++        }
++      },
++      "Avalonia.Controls.WebView": {
++        "type": "Direct",
++        "requested": "[12.0.1, )",
++        "resolved": "12.0.1",
++        "contentHash": "GrCIpIIBL7ueFDsNu3lyYc1mgO3QGGl1c1MCK8YAgjaNZwF9PV5PF2UB3lm1uuqj/MWOKNhemLwcSDLyYv0JjQ==",
++        "dependencies": {
++          "Avalonia": "12.0.0"
++        }
++      },
++      "Avalonia.Desktop": {
++        "type": "Direct",
++        "requested": "[12.0.5, )",
++        "resolved": "12.0.5",
++        "contentHash": "L4bTMshYrhjSKu09Q60OHN1+Lfr9z7JsyRL6rfj3iQfjWm+5gsTl2viz5gyzDUgc/U5A7gf57e1spEX+nE/7zg==",
++        "dependencies": {
++          "Avalonia": "12.0.5",
++          "Avalonia.HarfBuzz": "12.0.5",
++          "Avalonia.Native": "12.0.5",
++          "Avalonia.Skia": "12.0.5",
++          "Avalonia.Win32": "12.0.5",
++          "Avalonia.X11": "12.0.5"
++        }
++      },
++      "Avalonia.Fonts.Inter": {
++        "type": "Direct",
++        "requested": "[12.0.5, )",
++        "resolved": "12.0.5",
++        "contentHash": "50zhPwYVIaqE0vVyHQxqjclObXYBT23Vt8QhsZ11vKSXddMAgPMd6zEEGGG83s1b3xXH1hZukBFqGgVAkjyZtA==",
++        "dependencies": {
++          "Avalonia": "12.0.5"
++        }
++      },
++      "Avalonia.Themes.Fluent": {
++        "type": "Direct",
++        "requested": "[12.0.5, )",
++        "resolved": "12.0.5",
++        "contentHash": "QfbziOuzNQzMd0uCbe//p4o1u6EAesEpX41fUCULBaLENd5OAT6iU0GiN9gzhSzVfSjHuxDcafXqJMxi3H3IhA==",
++        "dependencies": {
++          "Avalonia": "12.0.5"
++        }
++      },
++      "CommunityToolkit.Mvvm": {
++        "type": "Direct",
++        "requested": "[8.4.0, )",
++        "resolved": "8.4.0",
++        "contentHash": "tqVU8yc/ADO9oiTRyTnwhFN68hCwvkliMierptWOudIAvWY1mWCh5VFh+guwHJmpMwfg0J0rY+yyd5Oy7ty9Uw=="
++      },
++      "Microsoft.NET.ILLink.Tasks": {
++        "type": "Direct",
++        "requested": "[10.0.9, )",
++        "resolved": "10.0.9",
++        "contentHash": "4Iw41e2h7I4t70SJcX2GCmbyKJIlA273Cfm9RJMM050/3VBejGAG1KcthP5Z2L6SQcbfbf6BhNWO26+ZG+GzMg=="
++      },
++      "Avalonia.Angle.Windows.Natives": {
++        "type": "Transitive",
++        "resolved": "2.1.27548.20260419",
++        "contentHash": "l17nI3XVDN3oMnpjf2pnmJg0YTwK4m6NLsn/itAjDMdObTFxN77D5F1M9sRMSfViSY3KKcse1ROczwgoWLJsnA=="
++      },
++      "Avalonia.BuildServices": {
++        "type": "Transitive",
++        "resolved": "11.3.2",
++        "contentHash": "qHDToxto1e3hci5YqbG9n0Ty8mlp3zBUN5wT66wKqaDVzXyQ0do3EnRILd4Ke9jpvsktaPpgE0YjEk7hornryQ=="
++      },
++      "Avalonia.FreeDesktop": {
++        "type": "Transitive",
++        "resolved": "12.0.5",
++        "contentHash": "51IiLrfyJdMtmVTiXiEi1q1nXS5KAMYvFNeovlwKSuTgY/agBevnfBTY+DnKnIjZMdXWWKVGJJh7MldMkPc14w==",
++        "dependencies": {
++          "Avalonia": "12.0.5",
++          "Tmds.DBus.Protocol": "0.92.0"
++        }
++      },
++      "Avalonia.FreeDesktop.AtSpi": {
++        "type": "Transitive",
++        "resolved": "12.0.5",
++        "contentHash": "IrsjB1QpzXwgdnkpG6ejGxSaHp0sRrq3rZlrzRyhwEGllAxcOeUuQpq8/OrO3OUJLxXtxlsM4ku17v+7q7xGKQ==",
++        "dependencies": {
++          "Avalonia": "12.0.5"
++        }
++      },
++      "Avalonia.HarfBuzz": {
++        "type": "Transitive",
++        "resolved": "12.0.5",
++        "contentHash": "jR8i/fgrmAKEp0T3iLqfKCoEDJV9ODVzN+8bofM2guEr05eaXbx6iXZxcjh0nDK4UbK0akYDgBfAgyHoatqGjg==",
++        "dependencies": {
++          "Avalonia": "12.0.5",
++          "HarfBuzzSharp": "8.3.1.3",
++          "HarfBuzzSharp.NativeAssets.Linux": "8.3.1.3",
++          "HarfBuzzSharp.NativeAssets.WebAssembly": "8.3.1.3"
++        }
++      },
++      "Avalonia.Native": {
++        "type": "Transitive",
++        "resolved": "12.0.5",
++        "contentHash": "m6qn0UGMI/b4cFfJ8id8sPYLotc7szhZdexPCKY+kIvGlx6Ln0VjNejRMiJDZ4S91q6nbKJL/YmfPd8UruTNjQ==",
++        "dependencies": {
++          "Avalonia": "12.0.5"
++        }
++      },
++      "Avalonia.Remote.Protocol": {
++        "type": "Transitive",
++        "resolved": "12.0.5",
++        "contentHash": "/S4T1uZzXvPpN0Sqs44u3Rl5/qCZHHefRK7xyORONHH1w60IfsfsE5RbwFSku7qmib1DsGZZXxtweJq24ERfbg=="
++      },
++      "Avalonia.Skia": {
++        "type": "Transitive",
++        "resolved": "12.0.5",
++        "contentHash": "cSLTpvzsm5JpUA1tQvuht3qN6oiy1PNRgbrp1g7jCSzAFf+OKZecSne+KT1apBQUkevciaHxwtAxLolPGD9izg==",
++        "dependencies": {
++          "Avalonia": "12.0.5",
++          "HarfBuzzSharp": "8.3.1.3",
++          "HarfBuzzSharp.NativeAssets.Linux": "8.3.1.3",
++          "HarfBuzzSharp.NativeAssets.WebAssembly": "8.3.1.3",
++          "SkiaSharp": "3.119.4",
++          "SkiaSharp.NativeAssets.Linux": "3.119.4",
++          "SkiaSharp.NativeAssets.WebAssembly": "3.119.4"
++        }
++      },
++      "Avalonia.Win32": {
++        "type": "Transitive",
++        "resolved": "12.0.5",
++        "contentHash": "ZY1ZLXQdQqlz9GUZGXK+73kTFgKzygPbGk/gHfROUWLr2aBh1kOA1KY5xB7/cSSY+egDr+IGSjsQbgS8eSu9Tg==",
++        "dependencies": {
++          "Avalonia": "12.0.5",
++          "Avalonia.Angle.Windows.Natives": "2.1.27548.20260419"
++        }
++      },
++      "Avalonia.X11": {
++        "type": "Transitive",
++        "resolved": "12.0.5",
++        "contentHash": "6OyZa5ehNbzd7JWiVbGdjuzdsgy2Rgibtwczmh7hKnePxLmOqeSL+hQ6vHanSx246TpSBKDPvjqwW7NuQrmAJg==",
++        "dependencies": {
++          "Avalonia": "12.0.5",
++          "Avalonia.FreeDesktop": "12.0.5",
++          "Avalonia.FreeDesktop.AtSpi": "12.0.5",
++          "Avalonia.Skia": "12.0.5"
++        }
++      },
++      "HarfBuzzSharp": {
++        "type": "Transitive",
++        "resolved": "8.3.1.3",
++        "contentHash": "NGZ2+ZVNPM+NdHB/asW0/ykWngyHWwcqjrbN2nDeH1B/aptPGlCUl8wkQ2cSJxw5fdWgdmIPmNuTPWpLwNVXWg==",
++        "dependencies": {
++          "HarfBuzzSharp.NativeAssets.Win32": "8.3.1.3",
++          "HarfBuzzSharp.NativeAssets.macOS": "8.3.1.3"
++        }
++      },
++      "HarfBuzzSharp.NativeAssets.Linux": {
++        "type": "Transitive",
++        "resolved": "8.3.1.3",
++        "contentHash": "RI6A1LgmooU30+4QIyFt5rmBCzP0VzTR+587IJSGvYIsHHWlahFufihYxtraLfsIhW7I8dn6+xX+DZGygOPKWQ=="
++      },
++      "HarfBuzzSharp.NativeAssets.macOS": {
++        "type": "Transitive",
++        "resolved": "8.3.1.3",
++        "contentHash": "KPTq0xnslkI6nAo0jh3ptcQPJvZZr7MWYXa2jUe4SnHc9q+JlHElmNXp0sfFoiTgoCX7WOYpYsurypuH9Gehxw=="
++      },
++      "HarfBuzzSharp.NativeAssets.WebAssembly": {
++        "type": "Transitive",
++        "resolved": "8.3.1.3",
++        "contentHash": "w2QfdNm9Uz/sUa0B5D+OnVQhyq3G/fBq6ibQMdWBlQqqwh0g0/5j3RFvYqZAmRZ5+RzvjVe8o8SFFnWYUSkuxA=="
++      },
++      "HarfBuzzSharp.NativeAssets.Win32": {
++        "type": "Transitive",
++        "resolved": "8.3.1.3",
++        "contentHash": "bx8CE8Js+XGX8PUxAHCBDEORt5aaBYtMN4Hr9QFs57Xithh6yjUyYqksizH6eRDhJkwsGI+SXWmPmMm8lZC9Pw=="
++      },
++      "MicroCom.Runtime": {
++        "type": "Transitive",
++        "resolved": "0.11.4",
++        "contentHash": "yZ8+Lgwo+KtRI29TB2mIOEMzV+csMJ+pKZg4YHReAP3vRewWLKKeYfrBDo5FS69rWnEbCfU3sbM+ZEQr+GDLtg=="
++      },
++      "SkiaSharp": {
++        "type": "Transitive",
++        "resolved": "3.119.4",
++        "contentHash": "53NOSUZ1Us+91Sm0uCkIivh/k7jOowRErZT2sIWwPFN9mLUvdxnE6rS4sWo4255+Rd2MWUSF+j0NMZHD6Cke+Q==",
++        "dependencies": {
++          "SkiaSharp.NativeAssets.Win32": "3.119.4",
++          "SkiaSharp.NativeAssets.macOS": "3.119.4"
++        }
++      },
++      "SkiaSharp.NativeAssets.Linux": {
++        "type": "Transitive",
++        "resolved": "3.119.4",
++        "contentHash": "UAyVzbqNfZsZbKbzj68zXLyUyF/SbTKmzTfOO6qDu++dtIUMMTzPBe8oOuzU/DiewpfKoUUlOSsJmqWc6blxBw=="
++      },
++      "SkiaSharp.NativeAssets.macOS": {
++        "type": "Transitive",
++        "resolved": "3.119.4",
++        "contentHash": "fgBOWEqbY012x7gMfJU4ezgz6dfhJb30Z6YdW35h85Zoe39+a8YNbAAwL29ihPfWoppg5AjvyKNzD1oCvlqWwA=="
++      },
++      "SkiaSharp.NativeAssets.WebAssembly": {
++        "type": "Transitive",
++        "resolved": "3.119.4",
++        "contentHash": "S1HOxtBbD4bYDtA2e9WH5TX+lxqRrTPvKjrjttRhxnHNNu7YY8VFo/LeCP7tNqoTA6PV+8vsvNbmRUEC2ip8RQ=="
++      },
++      "SkiaSharp.NativeAssets.Win32": {
++        "type": "Transitive",
++        "resolved": "3.119.4",
++        "contentHash": "XOpbx/4CReO2wYsq2s6rbvdauc6dntG4Zv499sHGTJ87bwZaFXszFkwql3+FIZMc8kUPeaj3Mx2ezIJmo8a1Kg=="
++      },
++      "Tmds.DBus.Protocol": {
++        "type": "Transitive",
++        "resolved": "0.92.0",
++        "contentHash": "h7IMakm0PF2jxiagoysoAjrzzLQ0UBdnSXQL5kb17YW0Fvyo12Tg96A99QkzwktWRrd7H+Uw9EzjasNLUfGYlA=="
++      }
++    },
++    "net10.0/osx-x64": {
++      "Avalonia.Angle.Windows.Natives": {
++        "type": "Transitive",
++        "resolved": "2.1.27548.20260419",
++        "contentHash": "l17nI3XVDN3oMnpjf2pnmJg0YTwK4m6NLsn/itAjDMdObTFxN77D5F1M9sRMSfViSY3KKcse1ROczwgoWLJsnA=="
++      },
++      "Avalonia.Native": {
++        "type": "Transitive",
++        "resolved": "12.0.5",
++        "contentHash": "m6qn0UGMI/b4cFfJ8id8sPYLotc7szhZdexPCKY+kIvGlx6Ln0VjNejRMiJDZ4S91q6nbKJL/YmfPd8UruTNjQ==",
++        "dependencies": {
++          "Avalonia": "12.0.5"
++        }
++      },
++      "HarfBuzzSharp.NativeAssets.Linux": {
++        "type": "Transitive",
++        "resolved": "8.3.1.3",
++        "contentHash": "RI6A1LgmooU30+4QIyFt5rmBCzP0VzTR+587IJSGvYIsHHWlahFufihYxtraLfsIhW7I8dn6+xX+DZGygOPKWQ=="
++      },
++      "HarfBuzzSharp.NativeAssets.macOS": {
++        "type": "Transitive",
++        "resolved": "8.3.1.3",
++        "contentHash": "KPTq0xnslkI6nAo0jh3ptcQPJvZZr7MWYXa2jUe4SnHc9q+JlHElmNXp0sfFoiTgoCX7WOYpYsurypuH9Gehxw=="
++      },
++      "HarfBuzzSharp.NativeAssets.Win32": {
++        "type": "Transitive",
++        "resolved": "8.3.1.3",
++        "contentHash": "bx8CE8Js+XGX8PUxAHCBDEORt5aaBYtMN4Hr9QFs57Xithh6yjUyYqksizH6eRDhJkwsGI+SXWmPmMm8lZC9Pw=="
++      },
++      "SkiaSharp.NativeAssets.Linux": {
++        "type": "Transitive",
++        "resolved": "3.119.4",
++        "contentHash": "UAyVzbqNfZsZbKbzj68zXLyUyF/SbTKmzTfOO6qDu++dtIUMMTzPBe8oOuzU/DiewpfKoUUlOSsJmqWc6blxBw=="
++      },
++      "SkiaSharp.NativeAssets.macOS": {
++        "type": "Transitive",
++        "resolved": "3.119.4",
++        "contentHash": "fgBOWEqbY012x7gMfJU4ezgz6dfhJb30Z6YdW35h85Zoe39+a8YNbAAwL29ihPfWoppg5AjvyKNzD1oCvlqWwA=="
++      },
++      "SkiaSharp.NativeAssets.Win32": {
++        "type": "Transitive",
++        "resolved": "3.119.4",
++        "contentHash": "XOpbx/4CReO2wYsq2s6rbvdauc6dntG4Zv499sHGTJ87bwZaFXszFkwql3+FIZMc8kUPeaj3Mx2ezIJmo8a1Kg=="
++      }
++    }
++  }
++}
+\ No newline at end of file
+
+diff --git "a/D:\\\346\235\276\345\205\211\345\220\257\345\212\250\345\231\250\\.github\\workflows\\build.yml" "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-c2-f325aa28c64845888141dc7835085bd9\\.github\\workflows\\build.yml"
+index 0ceabc2..ee85dc6 100644
+--- "a/D:\\\346\235\276\345\205\211\345\220\257\345\212\250\345\231\250\\.github\\workflows\\build.yml"
++++ "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-c2-f325aa28c64845888141dc7835085bd9\\.github\\workflows\\build.yml"
+@@ -71,6 +71,21 @@ jobs:
+             echo "OK: $f"
+           done
+ 
++          # C/RID lock: the per-RID lock files must exist and must actually describe their RID,
++          # otherwise a missing or stale lock would silently fall back to an unlocked restore.
++          for rid in win-x64 linux-x64 osx-x64; do
++            f="dev/PineglowLauncher/packages.$rid.lock.json"
++            if [ ! -f "$f" ]; then
++              echo "::error file=$f::缺少 $rid 的 lock 文件（发布要用 -p:NuGetLockFilePath）"
++              exit 1
++            fi
++            if ! grep -q "\"net10\.0/$rid\"" "$f"; then
++              echo "::error file=$f::$f 里没有 net10.0/$rid 段，锁定还原会失败或退化"
++              exit 1
++            fi
++            echo "OK: $f (含 net10.0/$rid 段)"
++          done
++
+       # 前端测试固定 Node 版本，与本地已验证版本一致（node --test 行为随版本变化）。
+       - name: Setup Node
+         if: matrix.os == 'ubuntu-latest'
+@@ -138,7 +153,7 @@ jobs:
+       # 副作用提示：普通 publish 的隐式还原会就地更新 checkout 里的 packages.lock.json，
+       # 该文件在 CI 中是一次性检出，不影响仓库中的版本。
+       - name: Publish (${{ matrix.rid }})
+-        run: dotnet publish dev/PineglowLauncher/Pineglow.Launcher.csproj -c Release -r ${{ matrix.rid }} --self-contained /p:PublishSingleFile=true /p:EnableCompressionInSingleFile=true /p:DebugType=None /p:DebugSymbols=false
++        run: dotnet publish dev/PineglowLauncher/Pineglow.Launcher.csproj -c Release -r ${{ matrix.rid }} --self-contained /p:PublishSingleFile=true /p:EnableCompressionInSingleFile=true /p:DebugType=None /p:DebugSymbols=false /p:RestoreLockedMode=true /p:NuGetLockFilePath=packages.${{ matrix.rid }}.lock.json
+ 
+       - name: Upload artifact
+         uses: actions/upload-artifact@v4
+
+diff --git "a/D:\\\346\235\276\345\205\211\345\220\257\345\212\250\345\231\250\\.github\\workflows\\release.yml" "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-c2-f325aa28c64845888141dc7835085bd9\\.github\\workflows\\release.yml"
+index 6165dcc..80de974 100644
+--- "a/D:\\\346\235\276\345\205\211\345\220\257\345\212\250\345\231\250\\.github\\workflows\\release.yml"
++++ "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-c2-f325aa28c64845888141dc7835085bd9\\.github\\workflows\\release.yml"
+@@ -112,7 +112,7 @@ jobs:
+         # 刻意不加锁定还原：RID 发布会改变包图（引入 Microsoft.NET.ILLink.Tasks），
+         # 现有 packages.lock.json 不含 win-x64 RID 段，锁定还原必然 NU1004。
+         # 锁定一致性已由上面的「Verify lock file (non-RID)」步骤把关。
+-        run: dotnet publish dev/PineglowLauncher/Pineglow.Launcher.csproj -c Release -r win-x64 --self-contained /p:PublishSingleFile=true /p:EnableCompressionInSingleFile=true /p:DebugType=None /p:DebugSymbols=false /p:PublishDir=../../dist /p:Version=${{ steps.version.outputs.version }}
++        run: dotnet publish dev/PineglowLauncher/Pineglow.Launcher.csproj -c Release -r win-x64 --self-contained /p:PublishSingleFile=true /p:EnableCompressionInSingleFile=true /p:DebugType=None /p:DebugSymbols=false /p:RestoreLockedMode=true /p:NuGetLockFilePath=packages.win-x64.lock.json /p:PublishDir=../../dist /p:Version=${{ steps.version.outputs.version }}
+ 
+       - name: Verify assembly version matches tag
+         shell: pwsh
+
+diff --git "a/D:\\\346\235\276\345\205\211\345\220\257\345\212\250\345\231\250\\dev\\PineglowLauncher.Tests\\WorkflowInvariantTests.cs" "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-c2-f325aa28c64845888141dc7835085bd9\\dev\\PineglowLauncher.Tests\\WorkflowInvariantTests.cs"
+index a5e6abc..8f8fc53 100644
+--- "a/D:\\\346\235\276\345\205\211\345\220\257\345\212\250\345\231\250\\dev\\PineglowLauncher.Tests\\WorkflowInvariantTests.cs"
++++ "b/C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-c2-f325aa28c64845888141dc7835085bd9\\dev\\PineglowLauncher.Tests\\WorkflowInvariantTests.cs"
+@@ -127,16 +127,15 @@ public class WorkflowInvariantTests
+ 		_out.WriteLine($"[A11] {workflow}：守卫在第 {guard} 行、Publish 在第 {publish} 行（顺序正确）");
+ 	}
+ 
+-	/* ===================== 4. RID 发布不得使用锁定还原（已实测互斥） ===================== */
++	/* ============ 4. RID 发布必须锁定在**该 RID 自己的** lock 上（C 之后的取舍） ============ */
+ 
+ 	[Theory]
+ 	[InlineData("build.yml")]
+ 	[InlineData("release.yml")]
+-	public void RidPublish_MustNotUseRestoreLockedMode(string workflow)
++	public void RidPublish_MustUseRestoreLockedModeWithItsOwnLockFile(string workflow)
+ 	{
+ 		string[] lines = ReadWorkflow(workflow).Split('\n');
+-		// 只看**可执行行**：注释里正当地解释了"RID 发布 + RestoreLockedMode 会 NU1004"，
+-		// 若不排除注释，本用例会被自己的说明文字误伤（本包第一次运行就是这样失败的）。
++		// 只看**可执行行**：注释里正当地解释了锁定策略，若不排除注释，本用例会被自己的说明文字误伤。
+ 		var publishLines = lines
+ 			.Where(l => !l.TrimStart().StartsWith("#", StringComparison.Ordinal))
+ 			.Where(l => l.Contains("dotnet publish") && l.Contains("-r "))
+@@ -145,29 +144,42 @@ public class WorkflowInvariantTests
+ 
+ 		foreach (string line in publishLines)
+ 		{
+-			Assert.False(line.Contains("RestoreLockedMode", StringComparison.OrdinalIgnoreCase),
+-				$"{workflow} 的 RID 发布不得使用 RestoreLockedMode —— 实测必然 NU1004（与 --locked-mode 互斥）：{line.Trim()}");
++			// C：RID 发布**必须**锁定，但必须锁定在**该 RID 自己的** lock 文件上。
++			// 旧的取舍（"RID 发布不得锁定"）建立在"只有一份 lock"之上；改成每 RID 一份 lock 之后，
++			// 那条禁令的根据消失，取而代之的是下面两条更精确的要求。
++			Assert.True(line.Contains("RestoreLockedMode", StringComparison.OrdinalIgnoreCase),
++				$"{workflow} 的 RID 发布必须带 RestoreLockedMode，否则发布产物没有任何锁定保证：{line.Trim()}");
++			Assert.True(line.Contains("NuGetLockFilePath", StringComparison.OrdinalIgnoreCase),
++				$"{workflow} 的 RID 发布必须用 -p:NuGetLockFilePath 指定该 RID 的 lock，否则会去改写共享 lock：{line.Trim()}");
+ 		}
+ 
+-		// 互斥的理由应当被写在注释里，避免以后有人"顺手加上锁定"
+-		Assert.True(ReadWorkflow(workflow).Contains("NU1004"),
+-			$"{workflow} 应把 NU1004 互斥的理由写在注释里，防止后人误加锁定");
+-		_out.WriteLine($"[A11] {workflow}：{publishLines.Count} 条 RID 发布均未使用 RestoreLockedMode，且注释记录了 NU1004 理由");
++		_out.WriteLine($"[A11] {workflow}：{publishLines.Count} 条 RID 发布均带 RestoreLockedMode 且指向各自的 RID lock");
+ 	}
+ 
+-	/* ===================== 5. 锁定文件必须只有一份（不得出现 RID 专用 lock） ===================== */
++	/* ============ 5. 每 RID 一份 lock：被引用的那份必须真的存在（C 之后的取舍） ============ */
+ 
+ 	[Theory]
+ 	[InlineData("build.yml")]
+ 	[InlineData("release.yml")]
+-	public void Workflows_DoNotReferenceRidSpecificLockFiles(string workflow)
++	public void Workflows_OnlyReferenceRidLockFilesThatExist(string workflow)
+ 	{
+ 		string text = ReadWorkflow(workflow);
+-		foreach (string rid in new[] { "win-x64", "win-arm64", "linux-x64", "osx-x64" })
++		// C：每 RID 一份 lock，发布时用 -p:NuGetLockFilePath 指过去。
++		// 这里守的是"指了但文件不在"——那会让锁定还原变成"没有 lock 可锁"，比不锁定更危险，
++		// 因为它看起来是锁定的。共享的 packages.lock.json 仍必须保持非 RID 形态（由第 1 组用例守着）。
++		foreach (string rid in new[] { "win-x64", "linux-x64", "osx-x64" })
+ 		{
+-			Assert.False(text.Contains($"packages.{rid}.lock.json", StringComparison.OrdinalIgnoreCase),
+-				$"{workflow} 不得引用 RID 专用 lock 文件（本项目只有一份 lock）：packages.{rid}.lock.json");
++			string referenced = $"packages.{rid}.lock.json";
++			if (!text.Contains(referenced, StringComparison.OrdinalIgnoreCase))
++			{
++				continue;
++			}
++
++			Assert.True(File.Exists(Path.Combine(RepoRoot, "dev", "PineglowLauncher", referenced)),
++				$"{workflow} 引用了 {referenced}，但仓库里没有这个文件：锁定还原会退化");
+ 		}
++
++		Assert.DoesNotContain("packages.win-arm64.lock.json", text, StringComparison.OrdinalIgnoreCase);
+ 	}
+ 
+ 	/* ===================== 6. 端到端冒烟必须仍接在 CI 上 ===================== */
+

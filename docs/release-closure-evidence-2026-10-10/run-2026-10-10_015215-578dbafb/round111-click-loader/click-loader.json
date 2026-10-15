@@ -1,0 +1,37 @@
+{
+  "probe": "cdp-click-loader",
+  "steps": [
+    {
+      "step": "nav to 安装管理",
+      "found": true,
+      "tag": "BUTTON"
+    },
+    {
+      "step": "find [data-loader]",
+      "found": true,
+      "text": "安装加载器",
+      "title": "安装加载器",
+      "aria": "安装加载器",
+      "count": 7
+    },
+    {
+      "step": "click and look for the modal",
+      "modalPresent": true,
+      "modalTitle": "为该实例安装加载器",
+      "hasConfirm": true,
+      "hasTypeSelect": true,
+      "typeOptions": [
+        "Fabric",
+        "Quilt",
+        "Forge",
+        "NeoForge"
+      ],
+      "hasVersionInput": true
+    }
+  ],
+  "exceptions": [],
+  "consoleErrors": [],
+  "buttonText": "安装加载器",
+  "buttonCount": 7,
+  "ok": true
+}

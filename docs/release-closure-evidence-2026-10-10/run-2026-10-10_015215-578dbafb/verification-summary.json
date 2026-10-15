@@ -1,0 +1,101 @@
+{
+  "runId": "run-2026-10-10_015215-578dbafb",
+  "timeHKStart": "2026-10-10T01:52:15+08:00",
+  "timeHKEnd": "2026-10-10T01:58:13+08:00",
+  "host": "Windows PowerShell 5.1.26100.9549",
+  "sourceRoot": "D:\\松光启动器",
+  "sourceHead": "c8aa286f65ad13433129fe0a9e86e2d3b0e9020b",
+  "stagedCount": 0,
+  "artifact": {
+    "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-release-audit-4b7da0cd23f34522971cf2d1f1c13071\\audit-dist\\Pineglow.Launcher.exe",
+    "size": 53052722,
+    "sha256": "3BA605531690D832900280DD29CCEAF1C0102EC71171F8498AFFF234DC47F96F",
+    "sha256MatchesPriorAuditRunJson": true
+  },
+  "checks": [
+    {
+      "id": "P1A-candidate-input-closure",
+      "status": "FAIL",
+      "reproduced": true,
+      "trackedCount": 139,
+      "whitelistCount": 151,
+      "unionCount": 290,
+      "recoveryListCount": 312,
+      "missingCount": 22,
+      "missingProductOrTestCount": 11,
+      "missingDocsCount": 11,
+      "abortedAt": "dev/PineglowLauncher/Pineglow.Launcher.Services/AiDiagnoseService.cs",
+      "abortSymptom": "FileNotFoundException; run did not reach tests or publish",
+      "wrapperExitCodeNote": "pwsh -File wrapper => exit 1; in-session invocation => terminating error with LASTEXITCODE 0",
+      "evidence": ["p1a-snapshot-console.log", "p1a-exit.json"],
+      "newFinding": "Independent closure criterion: all non-generated files under dev/, ui/, scripts/, .github/. Gap is exactly 11 files, all under dev/; ui/ scripts/ .github/ gaps are 0."
+    },
+    {
+      "id": "P1B-legacy-external-ui",
+      "status": "FAIL",
+      "reproduced": true,
+      "mode": "legacy",
+      "healthReady": true,
+      "legacyMarkerServed": true,
+      "externalUiServed": true,
+      "servedIndexSha256": "61E1007A87FF7D67E0AEAD3882044942A4FD12E7F9DA3C013900480F84921708",
+      "servedEqualsLegacyFileByteForByte": true,
+      "servedIndexMatchesCurrentSource": false,
+      "exitCode": 1,
+      "evidence": ["ui-source-legacy.json", "p1b-legacy-v2-console.log", "served-index-legacy.html"]
+    },
+    {
+      "id": "P1B-control-clean-install",
+      "status": "PASS",
+      "mode": "clean",
+      "healthReady": true,
+      "legacyMarkerServed": false,
+      "servedIndexMatchesCurrentSource": true,
+      "note": "matches source index.html after normalizing the by-design session-token substitution",
+      "exitCode": 0,
+      "evidence": ["ui-source-clean.json", "p1b-clean-v2-console.log", "served-index-clean.html"]
+    },
+    {
+      "id": "C-rid-locked-restore",
+      "status": "FAIL",
+      "reproduced": true,
+      "command": "dotnet restore PineglowLauncher/Pineglow.Launcher.csproj -r win-x64 -p:PublishSingleFile=true --locked-mode",
+      "exitCode": 1,
+      "errorCode": "NU1004",
+      "lockFileUnmodifiedByFailedLockedRestore": true,
+      "lockSha256Before": "FBBC9AE67B8E8CF2E3AA63C48242BC08AC713BE47830D337914CC39C85EE0672",
+      "lockSha256After": "FBBC9AE67B8E8CF2E3AA63C48242BC08AC713BE47830D337914CC39C85EE0672",
+      "isolatedCopy": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-dsh-rid-f913b551321d4e5f9565813995f1049d",
+      "evidence": ["p1c-rid-locked.log", "p1c-exit.json"]
+    },
+    {
+      "id": "workspace-stability",
+      "status": "PASS",
+      "baseline": "docs/release-audit-2026-10-10/git-status-before.txt",
+      "addedEntries": 96,
+      "addedEvidenceEntriesThisRound": 14,
+      "addedModifiedTrackedEntries": 0,
+      "removedEntries": 0,
+      "stagedAfter": 0,
+      "note": "the other 82 added entries are the prior thread's own audit outputs and three docs written after that 01:33 baseline"
+    }
+  ],
+  "probeCalibration": {
+    "issue": "first run of the clean control reported exit 3",
+    "rootCause": "probe assertion did not normalize the by-design session-token substitution in embedded-UI serving",
+    "verdict": "probe artifact, not a product defect; embedded UI content corresponds to current source except that one substitution",
+    "handling": "original artifacts preserved as ui-source-*-run1-original.json; corrected probe written as probe-ui-source-v2.ps1"
+  },
+  "notReRunThisRound": [
+    "node 305/305",
+    "csharp 931/931",
+    "single-file cold start 19/19",
+    "live update endpoint HTTP checks (gitee.com resolved to a non-public IP this round)"
+  ],
+  "authorization": {
+    "scopeThisRound": "check/verify only; no product source modified",
+    "technicalAcceptance": "NOT_PASSED",
+    "formalPhaseApproval": "NOT_GRANTED",
+    "releaseApproval": "NOT_GRANTED"
+  }
+}

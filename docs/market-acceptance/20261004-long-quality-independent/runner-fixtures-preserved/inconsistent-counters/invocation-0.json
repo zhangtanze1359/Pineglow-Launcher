@@ -1,0 +1,77 @@
+{
+  "args": [
+    "-NoProfile",
+    "-ExecutionPolicy",
+    "Bypass",
+    "-File",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-quality-acceptance-17hncq03\\scripts\\run-goal-validation.ps1",
+    "-InputManifest",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\inconsistent-counters\\input.json",
+    "-RunDir",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\inconsistent-counters\\run",
+    "-StagesFile",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\inconsistent-counters\\stages.json"
+  ],
+  "exitCode": 0,
+  "stdout": "[unit] COMPLETED exit=0\nrunner verdict: PASS (stages 1, failed 0)\n",
+  "stderr": "",
+  "verdict": {
+    "schemaVersion": 1,
+    "runner": "run-goal-validation.ps1",
+    "runId": "same-run-id",
+    "inputManifest": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\inconsistent-counters\\input.json",
+    "inputManifestSha256": "65330D2261C03F360E172FBFEA5A0030A10788EBA8936C04F4F258D08F5D2A57",
+    "stagesFile": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\inconsistent-counters\\stages.json",
+    "generatedUtc": "2026-10-04T09:09:56Z",
+    "resume": false,
+    "stageCount": 1,
+    "failedCount": 0,
+    "stages": [
+      {
+        "schemaVersion": 1,
+        "id": "unit",
+        "runId": "same-run-id",
+        "fingerprint": "17F087C4D505E1CB597A40EC855AE35D256C819921ABF10F72AC2A36B7599C6A",
+        "inputManifestSha256": "65330D2261C03F360E172FBFEA5A0030A10788EBA8936C04F4F258D08F5D2A57",
+        "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\inconsistent-counters\\child.cjs write",
+        "workingDirectory": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-runner-contract-5ChtSx\\inconsistent-counters\\run",
+        "startUtc": "2026-10-04T09:09:56Z",
+        "endUtc": "2026-10-04T09:09:56Z",
+        "exitCode": 0,
+        "timedOut": false,
+        "stillRunning": false,
+        "counters": {
+          "total": 3,
+          "executed": 0,
+          "passed": 0,
+          "failed": 0,
+          "notExecuted": 0
+        },
+        "trx": "unit.trx",
+        "artifacts": [
+          {
+            "path": "unit.trx",
+            "sha256": "39C41FF8E472CAB60C915907BB31D2E312F5DA4021D696554E7C14E3ECFBA529",
+            "sizeBytes": 122
+          }
+        ],
+        "rawEvidence": [
+          {
+            "path": "unit.stdout.log",
+            "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+            "sizeBytes": 0
+          },
+          {
+            "path": "unit.stderr.log",
+            "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+            "sizeBytes": 0
+          }
+        ],
+        "reasons": [],
+        "status": "COMPLETED",
+        "reused": false
+      }
+    ],
+    "verdict": "PASS"
+  }
+}

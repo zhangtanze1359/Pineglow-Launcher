@@ -1,0 +1,25 @@
+{
+  "cacheModified": "2026-10-06T13:47:57.3808180+08:00",
+  "generated": "2026-10-06T13:51:16.2144912+08:00",
+  "turnBoundary": {
+    "openTurnStartSeq": null,
+    "lastStepStartSeq": 10535,
+    "lastStepBoundary": {
+      "kind": "end",
+      "seq": 10553
+    },
+    "lastTurn": 78
+  },
+  "llmRetry": {},
+  "goalRow": {
+    "ver": 6,
+    "seq": 10556,
+    "val": {
+      "current": null,
+      "seenGoalIds": [
+        "goal-93db6df4-e723-47e6-a8c1-4b5c466ddbdb"
+      ],
+      "failure": null
+    }
+  }
+}

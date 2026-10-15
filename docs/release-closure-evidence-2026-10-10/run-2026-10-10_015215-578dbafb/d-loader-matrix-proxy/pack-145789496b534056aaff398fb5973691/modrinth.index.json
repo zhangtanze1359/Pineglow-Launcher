@@ -1,0 +1,14 @@
+﻿{
+    "formatVersion":  1,
+    "game":  "minecraft",
+    "versionId":  "1.0.0",
+    "name":  "d7-neoforge",
+    "summary":  "d7 loader reachability probe (empty file list)",
+    "files":  [
+
+              ],
+    "dependencies":  {
+                         "minecraft":  "1.21.11",
+                         "neoforge":  "21.11.45"
+                     }
+}

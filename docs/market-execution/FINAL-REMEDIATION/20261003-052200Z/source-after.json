@@ -1,0 +1,69 @@
+{
+    "utc":  "2026-10-03T05:55:12.5886318Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "head":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "statusLineCount":  1363,
+    "trackedFileCount":  161,
+    "allowedFileHashes":  [
+                              {
+                                  "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/SecretStore.cs",
+                                  "exists":  true,
+                                  "sizeBytes":  5725,
+                                  "sha256":  "2D130691FDCEA1F2124CF9F6BF028E6CE9CB79DBEF1E1A1DC7D74AB604DDBBCF"
+                              },
+                              {
+                                  "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/FileRecoveryService.cs",
+                                  "exists":  true,
+                                  "sizeBytes":  19672,
+                                  "sha256":  "1EE0192A9075D315B81E50B25DB1332DCF50E3A8AF301CB16E212ED3608056B1"
+                              },
+                              {
+                                  "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/ModReplacementService.cs",
+                                  "exists":  true,
+                                  "sizeBytes":  11581,
+                                  "sha256":  "DA7B50B96F6D3024ED11CC3375768DD2A275B887A8A46F773F7E6753CB7ABE12"
+                              },
+                              {
+                                  "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.cs",
+                                  "exists":  true,
+                                  "sizeBytes":  207055,
+                                  "sha256":  "FFA20BC0B2303876CFAD030162CFFBA565EEB8D6C93AF6CDB3553570D25439E7"
+                              },
+                              {
+                                  "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/ConfigStore.cs",
+                                  "exists":  true,
+                                  "sizeBytes":  9769,
+                                  "sha256":  "635D9EBC818532B669D3FC8BFB6C32624E35CE00A4DD6163403679B902A7135C"
+                              },
+                              {
+                                  "path":  "dev/PineglowLauncher.Tests/ConfigPreservationTests.cs",
+                                  "exists":  true,
+                                  "sizeBytes":  10331,
+                                  "sha256":  "6B0DE7C7FE207B371BF3C28C466A8E7541B7DE68A149621D22CE220334C2E6B7"
+                              },
+                              {
+                                  "path":  "dev/PineglowLauncher.Tests/FileRecoveryTests.cs",
+                                  "exists":  true,
+                                  "sizeBytes":  19370,
+                                  "sha256":  "1B6C65419F0FBF389191F821A61FC673D3620EFC0812F204C394E3F2B2FDDAF0"
+                              },
+                              {
+                                  "path":  "dev/PineglowLauncher.Tests/ModReplacementTests.cs",
+                                  "exists":  true,
+                                  "sizeBytes":  19238,
+                                  "sha256":  "869F1C3F69835EDCAD918364ECCF58878A48A2F47434F5AE3FA68C5AD9988587"
+                              },
+                              {
+                                  "path":  "dev/PineglowLauncher.Tests/WorldBackupScopeTests.cs",
+                                  "exists":  true,
+                                  "sizeBytes":  6826,
+                                  "sha256":  "66CF28160E061A6A9C672459A2531478E5F04D92A0C9A05C87931391DB7CA680"
+                              },
+                              {
+                                  "path":  "scripts/source-snapshot-inputs.txt",
+                                  "exists":  true,
+                                  "sizeBytes":  8249,
+                                  "sha256":  "8EC200AF52608943E6278B21C78624507748A83D3F500C21CBD00EBE17A1CB37"
+                              }
+                          ]
+}

@@ -1,0 +1,40 @@
+﻿产物数字快照 —— 由 check-artifact-numbers.ps1 生成，不要手工编辑
+
+生成时间：2026-10-12 00:04:34 +08:00
+命令：pwsh -File docs\release-closure-evidence-2026-10-10\run-2026-10-10_015215-578dbafb\check-artifact-numbers.ps1 -RepoRoot <仓库根>
+退出码：0
+
+这个脚本现在做两件事：① 比对各数字是否漂移；② 验算决策单里每条构成式的加数之和。
+
+----------------------------------------
+=== measured from the working tree ===
+  untrackedTotal     = 2707
+  modifiedTracked    = 41
+  optionA            = 2748
+  optionAPrime       = 2182
+  optionB            = 204
+  myEvidenceFiles    = 566
+  recoveredDocs      = 1978
+  coreUntracked      = 163
+  applyScripts       = 16
+  roundRecords       = 119
+  reportLines        = 323
+  staged             = 0
+
+=== claims vs measured ===
+  [OK]   决策单：全仓未跟踪: 2707
+  [OK]   决策单：我的证据数: 566
+  [OK]   决策单：(a) 规模: 2748
+  [OK]   决策单：aprime 规模: 2182
+  [OK]   决策单：(b) 规模: 204
+  [OK]   决策单：脚本数: 16
+  [OK]   决策单：轮次记录数: 119
+  [OK]   决策单：报告行数: 323
+  [OK]   索引标题：文件数: 119
+
+=== 构成式验算（加数之和 vs 该行写的总数） ===
+  [OK]   第 35 行：1978 + 566 + 163 + 41 = 2748
+  [OK]   第 36 行：1978 + 163 + 41 = 2182
+  [OK]   第 37 行：163 + 41 = 204
+
+判定：产物里的数字与工作树一致（0 处漂移），且构成式全部相加相等。

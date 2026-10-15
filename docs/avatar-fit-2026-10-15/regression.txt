@@ -1,0 +1,21 @@
+✔ MR17 CSS: 焦点必须可见 —— 每处 outline:none 都要有 :focus-visible 兜底 (0.9151ms)
+✔ MR17 CSS: 焦点不被遮挡 + 操作区粘底（小窗口/高缩放） (0.2528ms)
+✔ MR17 CSS: 小图标按钮达到 24×24 最小目标尺寸 (0.18ms)
+✔ MR17 CSS: 跳转链接与屏幕阅读器专用文本 (0.1839ms)
+✔ MR17 HTML: lang、跳转链接与可聚焦目标、toast live region (0.1767ms)
+✔ MR17 JS: 弹窗具备 Escape / 焦点陷阱 / 焦点返回 / 对话框语义 (0.1599ms)
+✔ MR17 JS: 危险操作不默认获得焦点 (0.1189ms)
+✔ MR17 JS: role=button 可用 Enter/Space 激活，且不双重触发原生按钮 (0.1366ms)
+✔ MR17 i18n: 跳转链接文案中英双语齐备，且两侧不同 (1.9411ms)
+✔ A13-①：每个定义了 makeEl 的测试文件，其替身都必须支持产品调用的 DOM 成员 (6.6428ms)
+✔ A13-①（反向核对）：产品代码确实调用了这些成员 —— 否则上面的要求就是空谈 (2.1363ms)
+✔ A13-②：新版十页导航的 Tab 顺序 (0.6218ms)
+✔ A13-②：静态 chrome 的可聚焦元素顺序（跳转链接 → 窗口控制 → 侧栏 → 语言切换） (0.4228ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 71.4511

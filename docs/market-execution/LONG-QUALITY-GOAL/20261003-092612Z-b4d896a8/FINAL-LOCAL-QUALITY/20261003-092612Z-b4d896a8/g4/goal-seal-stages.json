@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "scope": "windows-local-offline-quality",
+  "runId": "20261003-092612Z-b4d896a8",
+  "note": [
+    "Post-seal stage. Run it with -Resume after seal-final-package.ps1 so it verifies the sealed package from outside; before the seal it must fail with ROOT_EMPTY + PACKAGE_MISSING."
+  ],
+  "stages": [
+    {
+      "id": "g4-audit-strict",
+      "file": "python",
+      "argv": [
+        "-X",
+        "utf8",
+        "scripts/audit-goal-evidence.py",
+        "--expected",
+        "{evidenceRoot}/g0/expected-evidence-final.json",
+        "--out",
+        "{evidenceRoot}/final-audit-outside-package.json"
+      ],
+      "cwd": "{executionRoot}",
+      "produces": [],
+      "expect": {},
+      "note": "Must be run only after the final package is sealed; until then the auditor correctly reports ROOT_EMPTY + PACKAGE_MISSING and the stage fails on purpose."
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "runId": "20261003-092612Z-b4d896a8",
+  "sealedLocal": "2026-10-03T19:32:28+08:00",
+  "sealedUtc": "2026-10-03T11:32:28Z",
+  "scope": "windows-local-offline-quality",
+  "implementationReady": true,
+  "independentAcceptance": "NOT_GRANTED",
+  "formalPhaseApproval": "NOT_GRANTED",
+  "releaseApproval": "NOT_GRANTED",
+  "runnerVerdict": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\\u677e\u5149\u542f\u52a8\u5668\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\g4\\run-20261003-092612Z-b4d896a8\\runner-verdict.json",
+    "verdict": "PASS",
+    "stageCount": 8,
+    "failedCount": 0,
+    "inputManifestSha256": "7F1A71FCD47541C2055E58DC2BC840FDE0670B013DC1ED923E2263BB1D1A0FF0",
+    "stages": [
+      {
+        "id": "g4-build-tests",
+        "status": "REUSED",
+        "exitCode": null,
+        "reused": true,
+        "reasons": []
+      },
+      {
+        "id": "g4-secrets",
+        "status": "REUSED",
+        "exitCode": null,
+        "reused": true,
+        "reasons": []
+      },
+      {
+        "id": "g4-ordinary-r2",
+        "status": "REUSED",
+        "exitCode": null,
+        "reused": true,
+        "reasons": []
+      },
+      {
+        "id": "g4-recovery-normal",
+        "status": "REUSED",
+        "exitCode": null,
+        "reused": true,
+        "reasons": []
+      },
+      {
+        "id": "g4-flows",
+        "status": "REUSED",
+        "exitCode": null,
+        "reused": true,
+        "reasons": []
+      },
+      {
+        "id": "g4-node-all",
+        "status": "COMPLETED",
+        "exitCode": 0,
+        "reused": false,
+        "reasons": []
+      },
+      {
+        "id": "g4-verifyhost-build",
+        "status": "REUSED",
+        "exitCode": null,
+        "reused": true,
+        "reasons": []
+      },
+      {
+        "id": "g4-bisect-smoke",
+        "status": "REUSED",
+        "exitCode": null,
+        "reused": true,
+        "reasons": []
+      }
+    ]
+  },
+  "sealChecks": "recorded OUTSIDE this package: final-audit-outside-package-<runId>.json and post-seal-verification-<runId>.json (the package is never written after manifest.json)",
+  "gates": {
+    "G0": "DONE",
+    "G1": "DONE",
+    "G2": "DONE",
+    "G3": "DONE",
+    "G4": "DONE"
+  },
+  "evidence": {
+    "g0Inputs": 286,
+    "g1SyntheticTests": 26,
+    "g1OldAuditorRed": "5/5 false passes reproduced",
+    "g1RealTree": "61 packages / 874 entries / 3 registered drifts",
+    "g2Scenarios": "27/27",
+    "g2NodeTests": 28,
+    "g3CsharpTests": 73,
+    "g3NodeTests": 266,
+    "g3BisectSmoke": "19/19",
+    "g4RunnerTests": 10,
+    "g4FailureToResume": "PASS"
+  },
+  "notVerified": [
+    "real Avalonia/WebView2 GUI",
+    "Minecraft launch and in-game behaviour",
+    "native Windows credential round-trip",
+    "real self-update process handover",
+    "cross-volume / full-disk behaviour",
+    "non-Windows platforms",
+    "remote CI"
+  ],
+  "notRun": [
+    "RA-01/RA-02 recovery-safety counter-proofs (platform-terminated range; not executed, not delegated)",
+    "ImportCancellationTests.ImportWithALiveTokenButCancelledMidway_StillCleansUp"
+  ],
+  "concurrentDrift": "g3/concurrent-drift-ui-index-html.json (files changed by a writer outside this goal; not reverted, not attributed to this goal)",
+  "terminationPhrase": "\u5177\u5907\u72ec\u7acb\u590d\u9a8c\u6761\u4ef6\uff0c\u7b49\u5f85 Codex \u72ec\u7acb\u9a8c\u6536\u3002"
+}

@@ -1,0 +1,94 @@
+﻿{
+    "runId":  "20261003-150000Z",
+    "task":  "MR19 补测：win-x64 单文件自包含 exe 的逐字节可复现性",
+    "generatedUtc":  "2026-10-02T23:32:02Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "MR19 report section 6 named gap: single-file self-contained exe reproducibility was NOT tested",
+    "result":  {
+                   "method":  "two FULLY INDEPENDENT publishes; bin/ and obj/ deleted entirely between them (not incremental-vs-full)",
+                   "command":  "dotnet publish -c Release -r win-x64 --self-contained /p:PublishSingleFile=true",
+                   "singleFileExe":  "89490941 bytes, SHA256 C99101C8672D7861B6FEF2F29E20F144350771DD9E92F1ABB4DD8987BBA0EC13 (both runs)",
+                   "byteIdentical":  true,
+                   "fileListDifferences":  0,
+                   "differingFiles":  "0 / 18",
+                   "lockFileSideEffect":  "RID publish rewrote packages.lock.json 8663 -\u003e 10868 bytes; restored byte-identically from the MR19 committed-form copy (SHA FBBC9AE6...EE0672 unchanged)",
+                   "lockGuard":  "BuildLockFileTests 3 passed / 0 failed after restore",
+                   "csharpFull":  "755 passed / 0 failed",
+                   "nodeFull":  "230 passed / 0 failed (18 files)",
+                   "productCodeChanged":  false,
+                   "currentDriftNumbers":  "mg0: 251/1/80/0 ; mg1: 58/0/60/0 ; mg2: 251/1/79/0 ; mg3: 58/0/60/0 ; ledger audit exit 0"
+               },
+    "notVerified":  [
+                        "cross-PATH not tested (both publishes used the same path D:\\松光启动器; embedded paths are the classic single-file risk)",
+                        "cross-machine / cross-SDK not tested (same machine, same SDK 10.0.301)",
+                        "cross-day not tested (runs were ~4s apart on the same day; a date-granularity timestamp would be invisible here, but a second-granularity one is ruled out because the outputs matched)",
+                        "the determinism mechanism of ILC/native output was not studied (only the observed result, no speculation)",
+                        "a real GitHub Actions publish is still unverified (already listed in MR19 section 6)"
+                    ],
+    "impact":  "MR19 reproducibility can be widened from \"managed assembly\" to \"managed assembly + single-file self-contained exe (same machine and path)\"; it must NOT be stated as full-chain or cross-environment reproducibility",
+    "note":  "To fully close the PATH question: copy the workspace to a different-length path and run this script again, then compare the exe SHA. Not done in this package.",
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "24C305710A05AAF66801A26ABD5D3506D0F54F1BE6B61DA6F9AD882064D9AD80",
+                      "sizeBytes":  5996
+                  },
+                  {
+                      "path":  "green/01-singlefile-repro.log",
+                      "sha256":  "1034C1F75B110015087971ADF33182F3D7DF35AC6B6DB43233BA98EAB2061772",
+                      "sizeBytes":  2512
+                  },
+                  {
+                      "path":  "green/02-lock-guard.log",
+                      "sha256":  "4A4FCFB01562BC6735F7CD1C3B57847291E3B5712492C639B4A8322612AF56CF",
+                      "sizeBytes":  8372
+                  },
+                  {
+                      "path":  "green/03-csharp-full.log",
+                      "sha256":  "9EC2958F7F58C1190A92D70887B465F13AE0A76F01CDD2871C0124ACC273AFAF",
+                      "sizeBytes":  655
+                  },
+                  {
+                      "path":  "green/04-node-full.log",
+                      "sha256":  "1B340C8A29ED6940B2C97618E2EAD9B3BEDD143C725C0E88042D3B55336839DC",
+                      "sizeBytes":  23795
+                  },
+                  {
+                      "path":  "green/05-mg3-recheck.log",
+                      "sha256":  "38598A0728ED2AF944B780F12052491F5D67BF4A8C92B4D9355F07C1DDF9128F",
+                      "sizeBytes":  4006
+                  },
+                  {
+                      "path":  "green/06-verify-mg0-recheck.log",
+                      "sha256":  "8E24560D9B4AD8E65FA117DF529020345FE106EBE405DE6C0B472ADE20B320FD",
+                      "sizeBytes":  2451
+                  },
+                  {
+                      "path":  "green/06-verify-mg1-recheck.log",
+                      "sha256":  "3BE24C54E6E5172549CB16F953659215C7BE939E2514A92D15936EBBEB144577",
+                      "sizeBytes":  2772
+                  },
+                  {
+                      "path":  "green/06-verify-mg2-recheck.log",
+                      "sha256":  "EFE96A9CA93321D81551F13807A91DF23253ACA0B62E6E52A071C11350DE50AD",
+                      "sizeBytes":  3039
+                  },
+                  {
+                      "path":  "green/06-verify-mg3-recheck.log",
+                      "sha256":  "B235A4BFEB35B6191A90096F01DB45F503FC9F7486E6F42E15581A71D994D807",
+                      "sizeBytes":  2595
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "D32AFCCF947DAB6B6971C1FC1BC5095AA0B573CB53EF10F1D4AA8780D8EA6083",
+                      "sizeBytes":  209
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "D93D0C863DD496E50704ED039EBF7AB7F15E31DA53C21B63B29BE10FF8974C9B",
+                      "sizeBytes":  115175
+                  }
+              ],
+    "artifactsRetained":  "%TEMP%\\pineglow-mr19-singlefile-ad85f4b7d4494d8484ad339c507bcbc0\\publish-{1,2}\\Pineglow.Launcher.exe (both SHA C99101C8...0EC13)"
+}

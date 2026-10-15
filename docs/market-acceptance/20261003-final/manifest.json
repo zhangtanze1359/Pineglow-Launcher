@@ -1,0 +1,250 @@
+{
+  "schemaVersion": 1,
+  "utc": "2026-10-03T05:18:06.058493+00:00",
+  "sourceRoot": "D:\\松光启动器",
+  "snapshotRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-final-acceptance-2300818f513541a9aab58f9759193f6a",
+  "files": [
+    {
+      "path": "01-safe-full.log",
+      "sizeBytes": 10514,
+      "sha256": "B8046D80BA28B71A14562BBD8244F8991C6101E483A77A304065C85A97AAFE5A"
+    },
+    {
+      "path": "02-node.log",
+      "sizeBytes": 24777,
+      "sha256": "1BC2BB1BCBD2DA8EF22EC4B8BA47DD61CC118978E20D7D49C4DACBB07012659C"
+    },
+    {
+      "path": "03-verifyhost-build.log",
+      "sizeBytes": 5121,
+      "sha256": "E7ED76C9FD82789C2A586A631DDAB53EBB6171EA0B4CB92C2116F4395CD46397"
+    },
+    {
+      "path": "04-bisect-smoke.log",
+      "sizeBytes": 1654,
+      "sha256": "F764379D0272314CB67BD2175F1215AC139C7895A31EC1CE2415202AD23B8189"
+    },
+    {
+      "path": "05-independent-probes.log",
+      "sizeBytes": 13932,
+      "sha256": "D16B00FE5DB9A9204972A1327324F8BC30842CCC074CD5564CBAD2F45A2F9149"
+    },
+    {
+      "path": "06-credential-proof.log",
+      "sizeBytes": 11267,
+      "sha256": "E3008CD6718898011BBD3923B489222589D8B025D32D896A4526B123556CE721"
+    },
+    {
+      "path": "07-failures-repeat.log",
+      "sizeBytes": 3400,
+      "sha256": "944D78F4AFB965E8455FEA8A35D702B16BBC8C12634992ECE6BC78C24CFB165D"
+    },
+    {
+      "path": "08-api-junction.log",
+      "sizeBytes": 12325,
+      "sha256": "67F5B3400639AB723729CBD8E91EA0F03D58212EBE57AD435C196E14D75C04C7"
+    },
+    {
+      "path": "09-independent-all-final.log",
+      "sizeBytes": 4641,
+      "sha256": "237633AE5909047B9EDF1BFA08EA9C094B6FC696A32F37CD40397882007DCAFC"
+    },
+    {
+      "path": "10-all-failures-repeat.log",
+      "sizeBytes": 4640,
+      "sha256": "624D2FAF553F135D7A746509C772BA2ACCD7EE85A165B3B9AAAAF126D6145203"
+    },
+    {
+      "path": "audit-claimed-tests.log",
+      "sizeBytes": 374,
+      "sha256": "3C9C404E7ACFD282737DED05FF4E73174D554E9F773BD27CB606EC0F7534892C"
+    },
+    {
+      "path": "audit-evidence-tree.log",
+      "sizeBytes": 506,
+      "sha256": "DC7AA19D498169F11D80FA2BC6F94A5C0D13C3E2C63D5E4E0B302018762813AF"
+    },
+    {
+      "path": "audit-manifests.py",
+      "sizeBytes": 2247,
+      "sha256": "824F75F380EBA8E7253828DB999493B31AF03784FEAFE6AE1AD4E1A33C705954"
+    },
+    {
+      "path": "audit-plan-ledger.log",
+      "sizeBytes": 535,
+      "sha256": "63054DB38C66FCB35BE8362C259812F3E0B079639F3A1406A0073F6C7F10A7C5"
+    },
+    {
+      "path": "credential-intents.jsonl",
+      "sizeBytes": 1915,
+      "sha256": "9441D88238A1E75BBAE541810E83AEE91105398C0162BF98DE52160517DADB11"
+    },
+    {
+      "path": "credential-proof-root.txt",
+      "sizeBytes": 102,
+      "sha256": "925C5DDB22624A1660F63FD5F54568ED0793C7219C8D67B9930449D2773A46B3"
+    },
+    {
+      "path": "excluded-inputs.json",
+      "sizeBytes": 83,
+      "sha256": "DB011E64DF9A1FF2A796F3D573331D0B8545FD279BA21FC50FAF8638E89C401D"
+    },
+    {
+      "path": "FinalAcceptanceProbes.cs",
+      "sizeBytes": 7409,
+      "sha256": "EE99525B8CFD6D134EA52E9525D5BBF3E3BA6B6BEA73A270FA9D1857EA593469"
+    },
+    {
+      "path": "harness-final-session.json",
+      "sizeBytes": 11054,
+      "sha256": "AC2B2854A4B9F7894C641D93BDF1CD8E268D770E1B57B69E0EE8F487D3ED6689"
+    },
+    {
+      "path": "independent-evidence-audit.json",
+      "sizeBytes": 13406,
+      "sha256": "4C6EA9641215365AC5BC143C2FCD466F42C3B1021C0D333E0063EE8E0E325CFD"
+    },
+    {
+      "path": "instrument-credential-copy.py",
+      "sizeBytes": 1174,
+      "sha256": "735C5D2A74B4C132473ABAEDD37A08D248EEB3F0F73F872F9C7F418E1FFCCD15"
+    },
+    {
+      "path": "node-inputs.txt",
+      "sizeBytes": 2706,
+      "sha256": "0B05C0F763D76DA759C8E91E1DA611C401CEEC03B9CA1B09D072A098D68711C3"
+    },
+    {
+      "path": "real-config-after.json",
+      "sizeBytes": 1059,
+      "sha256": "F1E3E619EB83202EE58A5C7BC55485726106A65C7C8B5B5CEB4B0CDB08890C90"
+    },
+    {
+      "path": "real-config-before.json",
+      "sizeBytes": 762,
+      "sha256": "2AB571A76289A444425DB7BE986607632C1040EE2343EB13E9B4EEE172DBA40D"
+    },
+    {
+      "path": "script-results.json",
+      "sizeBytes": 1531,
+      "sha256": "C7E3DE0F12BD3DAE97B1F812F662D75A37B63AA417F3804E7E707B81744B11B9"
+    },
+    {
+      "path": "seal-evidence.py",
+      "sizeBytes": 3559,
+      "sha256": "B5183CEA9FE610E53EB38687E31D794EE47582BD17DB2013CA2802491E412F45"
+    },
+    {
+      "path": "SecretStore.instrumented-copy.cs",
+      "sizeBytes": 7124,
+      "sha256": "59C6852770CBE7849F3496122A167C31F6E3AEF1E3D8713964EC93EEAEFE20CA"
+    },
+    {
+      "path": "snapshot-manifest.json",
+      "sizeBytes": 55926,
+      "sha256": "173BD957258394B57E9C76AD198197C47EC572E04BE837880602F7AD90A32029"
+    },
+    {
+      "path": "source-final-check.json",
+      "sizeBytes": 1340,
+      "sha256": "A21F1F1AF45578222A1DF26ED1EC701DD7F7F929BEC20B314602073E20330D0A"
+    },
+    {
+      "path": "source-readonly-audit.json",
+      "sizeBytes": 99,
+      "sha256": "96D57DFD6FC213E86827FB361B1393D1236ABB0B00788850999355B4FBDE6980"
+    },
+    {
+      "path": "source-status-after.txt",
+      "sizeBytes": 116641,
+      "sha256": "DC8034742CB759DFD2371685BC9B587D58276AD947452064F86D1DE531E31526"
+    },
+    {
+      "path": "source-status-before.txt",
+      "sizeBytes": 116641,
+      "sha256": "DC8034742CB759DFD2371685BC9B587D58276AD947452064F86D1DE531E31526"
+    },
+    {
+      "path": "test-results/all-failures-repeat.trx",
+      "sizeBytes": 16529,
+      "sha256": "865A3C4A331B66DA28E6A5212E424352B164AAF0B52DF2BC2E08C7EFDF8B07AC"
+    },
+    {
+      "path": "test-results/api-junction.trx",
+      "sizeBytes": 5820,
+      "sha256": "7EDB12701D6C9D81EB164B01211F4DBA5B994D694B130CE7D8E06936C64BAB9A"
+    },
+    {
+      "path": "test-results/credential-instrumented.trx",
+      "sizeBytes": 10245,
+      "sha256": "ACB39824037AF78CF8D9785640EED84C76C3FE409F9F2C63002FA381FFA1FF4E"
+    },
+    {
+      "path": "test-results/failures-repeat.trx",
+      "sizeBytes": 12418,
+      "sha256": "5CF4B0678408EB9591B2FB32E02BFD664D85826A5DE190F20775EBC7D6C846E6"
+    },
+    {
+      "path": "test-results/independent-final-all.trx",
+      "sizeBytes": 44631,
+      "sha256": "151234FA54C165D46A8E6278FE5F5CE21419A3D626CBFAAD8168EEF1747F83C3"
+    },
+    {
+      "path": "test-results/independent-final.trx",
+      "sizeBytes": 40520,
+      "sha256": "534474AD6E2B810C9023EB208E77B66E5F30A5248901586454253E09C1A8EA17"
+    },
+    {
+      "path": "test-results/safe-full.trx",
+      "sizeBytes": 1354068,
+      "sha256": "7A3EBAA1F5EDEB6A51DCEBB16F3152BBAD5056D389A2E29D873C5832067B48A9"
+    },
+    {
+      "path": "test-summary.json",
+      "sizeBytes": 1550,
+      "sha256": "DFB9CDB1C0B65C31DD9437A0E3A86B2DFCD2E3795EF24DC07EC8BC0DD165CB58"
+    },
+    {
+      "path": "verify-mg0.log",
+      "sizeBytes": 2449,
+      "sha256": "EFDD847CEB206CEF8B18C6EA5E1C8F145FDE7B3FE1885A3C2887914D0BA35C1A"
+    },
+    {
+      "path": "verify-mg1.log",
+      "sizeBytes": 2770,
+      "sha256": "0331E403F83A5CA86C4FA54A2B9893FE5CC90706DC7DCD54C7BF2285D5098CFB"
+    },
+    {
+      "path": "verify-mg2.log",
+      "sizeBytes": 3123,
+      "sha256": "99E2D14C67C60E6BF248EB9CCC47CF3FD90C6296B746C1A91BC0D9043FEB5D68"
+    },
+    {
+      "path": "verify-mg3.log",
+      "sizeBytes": 2593,
+      "sha256": "383F92866905ECE3C5F0EB2DD2DF4349963FF78C6A5E3E0AF91083C8136D2318"
+    }
+  ],
+  "documentArtifacts": [
+    {
+      "absolutePath": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\deepseek-harness-final-acceptance-2026-10-03.md",
+      "sizeBytes": 14797,
+      "sha256": "20AEF8EBB15329F47FAFB6CD6E0413069BAF6C97497732E4D6CFADEA168DD59B"
+    },
+    {
+      "absolutePath": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\deepseek-harness-final-remediation-workflow-2026-10-03.md",
+      "sizeBytes": 10172,
+      "sha256": "EAE7E54F6BE1A418487A7D314DCA5913150C5D6AAA8ACF59E762512712BF8F13"
+    },
+    {
+      "absolutePath": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\deepseek-harness-final-remediation-prompt-2026-10-03.md",
+      "sizeBytes": 7240,
+      "sha256": "4BC0BAC724C4D89E6979A7343096DD73ADFB76387E329DD1D217EA62547F02D1"
+    }
+  ],
+  "excluded": {
+    "manifest.json": "detached digest avoids self-reference",
+    "manifest.sha256": "detached manifest digest",
+    "seal-verification.json": "derived validation result written after sealing"
+  }
+}

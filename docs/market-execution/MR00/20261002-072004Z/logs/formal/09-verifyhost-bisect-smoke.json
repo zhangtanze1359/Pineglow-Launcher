@@ -1,0 +1,27 @@
+﻿{
+    "name":  "09-verifyhost-bisect-smoke",
+    "command":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-810a28bd0d3d456c9e28201fb6fdf158\\dev\\PineglowLauncher\\VerifyHost\\bin\\Release\\net10.0\\VerifyHost.exe --bisect-smoke --port 48131",
+    "cwd":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-810a28bd0d3d456c9e28201fb6fdf158\\dev\\PineglowLauncher\\VerifyHost\\bin\\Release\\net10.0",
+    "startUtc":  "2026-10-02T07:33:01Z",
+    "endUtc":  "2026-10-02T07:33:02Z",
+    "durationSec":  0.2,
+    "exitCode":  1,
+    "status":  "FAIL",
+    "stdoutPath":  "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution\\MR00\\20261002-072004Z\\logs\\formal\\09-verifyhost-bisect-smoke.stdout.txt",
+    "smokePassChecks":  0,
+    "smokeFailChecks":  0,
+    "smokeSaysPass":  false,
+    "smokeSaysFail":  true,
+    "sandboxBefore":  {
+                          "portableFlagExists":  true,
+                          "dataDirExists":  true,
+                          "portListening":  false
+                      },
+    "sandboxAfter":  {
+                         "portableFlagExists":  true,
+                         "dataDirExists":  true,
+                         "portListening":  false
+                     },
+    "sandboxCleanedUp":  true,
+    "portReleased":  true
+}

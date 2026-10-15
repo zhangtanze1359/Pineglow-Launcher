@@ -1,0 +1,17 @@
+{
+  "previousAcceptanceFiles": 124,
+  "previousAcceptanceIssues": [],
+  "previousGoalFiles": 148,
+  "previousGoalIssues": [],
+  "r0MatchesPreviousAcceptedInputs": true,
+  "r0ToR3Changed": [
+    "scripts/run-goal-validation.ps1",
+    "scripts/tests/goal-validation.test.cjs",
+    "ui/js/i18n.js",
+    "ui/js/launcher.js",
+    "ui/tests/goal-core-flow.test.cjs",
+    "ui/tests/import-cancel.test.cjs"
+  ],
+  "added": [],
+  "removed": []
+}

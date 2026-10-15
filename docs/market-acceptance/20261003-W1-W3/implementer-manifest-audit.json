@@ -1,0 +1,132 @@
+[
+  {
+    "path": "baseline/git-status-before.txt",
+    "shaMatches": true,
+    "sizeMatches": true
+  },
+  {
+    "path": "baseline/LocalApiService.cs.orig",
+    "shaMatches": true,
+    "sizeMatches": true
+  },
+  {
+    "path": "baseline/LocalApiService.cs.sha256.txt",
+    "shaMatches": true,
+    "sizeMatches": true
+  },
+  {
+    "path": "deliverable.md",
+    "shaMatches": true,
+    "sizeMatches": true
+  },
+  {
+    "path": "docs/api-reference.md.diff",
+    "shaMatches": true,
+    "sizeMatches": true
+  },
+  {
+    "path": "docs/roadmap.md.diff",
+    "shaMatches": true,
+    "sizeMatches": true
+  },
+  {
+    "path": "green/05-route-tests-after.log",
+    "shaMatches": true,
+    "sizeMatches": true
+  },
+  {
+    "path": "green/06-route-tests-after.log",
+    "shaMatches": true,
+    "sizeMatches": true
+  },
+  {
+    "path": "green/07-build-verifyhost.log",
+    "shaMatches": true,
+    "sizeMatches": true
+  },
+  {
+    "path": "green/08-bisect-smoke-after.log",
+    "shaMatches": true,
+    "sizeMatches": true
+  },
+  {
+    "path": "green/09-csharp-full.log",
+    "shaMatches": true,
+    "sizeMatches": true
+  },
+  {
+    "path": "green/10-node-test-list.txt",
+    "shaMatches": true,
+    "sizeMatches": true
+  },
+  {
+    "path": "green/11-node-tests.log",
+    "shaMatches": true,
+    "sizeMatches": true
+  },
+  {
+    "path": "green/12-build-verifyhost-final.log",
+    "shaMatches": true,
+    "sizeMatches": true
+  },
+  {
+    "path": "green/13-bisect-smoke-final.log",
+    "shaMatches": true,
+    "sizeMatches": true
+  },
+  {
+    "path": "green/14-route-tests-final.log",
+    "shaMatches": true,
+    "sizeMatches": true
+  },
+  {
+    "path": "green/15-csharp-full-final.log",
+    "shaMatches": true,
+    "sizeMatches": true
+  },
+  {
+    "path": "green/16-node-tests-final.log",
+    "shaMatches": true,
+    "sizeMatches": true
+  },
+  {
+    "path": "green/changed-files.sha256.txt",
+    "shaMatches": true,
+    "sizeMatches": true
+  },
+  {
+    "path": "green/git-status-after.txt",
+    "shaMatches": true,
+    "sizeMatches": true
+  },
+  {
+    "path": "green/W1-LocalApiService.patch",
+    "shaMatches": true,
+    "sizeMatches": true
+  },
+  {
+    "path": "manifest.json",
+    "shaMatches": false,
+    "sizeMatches": false
+  },
+  {
+    "path": "red/01-build-verifyhost.log",
+    "shaMatches": true,
+    "sizeMatches": true
+  },
+  {
+    "path": "red/02-bisect-smoke-before.log",
+    "shaMatches": true,
+    "sizeMatches": true
+  },
+  {
+    "path": "red/03-route-tests-before.log",
+    "shaMatches": true,
+    "sizeMatches": true
+  },
+  {
+    "path": "red/04-static-guard-before.log",
+    "shaMatches": true,
+    "sizeMatches": true
+  }
+]

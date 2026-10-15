@@ -1,0 +1,7 @@
+  Pineglow.Launcher -> C:\Users\Administrator\AppData\Local\Temp\pineglow-snapshot-810a28bd0d3d456c9e28201fb6fdf158\dev\PineglowLauncher\bin\Release\net10.0\Pineglow.Launcher.dll
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:02.58

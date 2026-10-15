@@ -1,0 +1,13 @@
+{
+    "schemaVersion":  1,
+    "runId":  "fixed-id",
+    "inputManifest":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\expected-trx-omitted-from-produces\\input.json",
+    "inputManifestSha256":  "9BD6A80831FEAE6CE296DB0D39485AD4557FBD7698168592C98D61B1C5930596",
+    "verifiedInputSetSha256":  "8B61E22B98906A58BCCF598A8597273C39E974CA49E3A725FCEE986A121651DB",
+    "verifiedInputCount":  2,
+    "verifiedInputRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\expected-trx-omitted-from-produces",
+    "stagesFile":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\expected-trx-omitted-from-produces\\stages.json",
+    "stagesFileSha256":  "BD63993E565F4BD5010FED4437EA4E40304C79E24C294581ED0D1A90943FEF19",
+    "executionRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\expected-trx-omitted-from-produces",
+    "evidenceRoot":  ""
+}

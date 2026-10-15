@@ -1,0 +1,17 @@
+﻿{
+    "mode":  "legacy",
+    "fixtureRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-uiprobe-legacy-8087599d58114c52a2ea0bba324da6ef",
+    "artifactSha256":  "CA8F94C1A6173F23F38F3D2A3C949AFFC16D5AB67752B662C7806831F350D93E",
+    "sourceUiIndexSha256":  "39933134AD98FAFD51B2D22106B5E692371106610BEB62302A68B6938C72D02F",
+    "externalUiSha256":  "61E1007A87FF7D67E0AEAD3882044942A4FD12E7F9DA3C013900480F84921708",
+    "externalUiPresent":  true,
+    "apiPort":  63937,
+    "healthReady":  true,
+    "legacyMarkerServed":  false,
+    "externalUiServed":  false,
+    "servedIndexSha256":  "A9652211DB13136AD2B6ADEA70F143A4A5153D615DA9D7EB9A026536363D4635",
+    "servedIndexMatchesCurrentSource":  true,
+    "ownedProcessStopped":  true,
+    "timeHK":  "2026-10-10T02:18:45.1891714",
+    "servedIndexTokenNormalizedSha256":  "39933134AD98FAFD51B2D22106B5E692371106610BEB62302A68B6938C72D02F"
+}

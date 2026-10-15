@@ -1,0 +1,230 @@
+{
+  "frames": 453,
+  "types": {
+    "session": 1,
+    "permission/preset": 2,
+    "sandbox/mode": 2,
+    "approval/policy": 2,
+    "session/end-seed": 3,
+    "command/run": 3,
+    "agent/inbox/spliced": 7,
+    "command/done": 3,
+    "plan/mode": 4,
+    "turn/start": 2,
+    "step/start": 138,
+    "system/message": 4,
+    "user/message": 11,
+    "request/header": 4,
+    "request/context": 1,
+    "session/title": 1,
+    "session/title-llm-request": 1,
+    "assistant/message": 138,
+    "tool/call": 165,
+    "tool/result": 165,
+    "step/end": 138,
+    "deliverables/presented": 2,
+    "workspace/changes": 2,
+    "turn/end": 2,
+    "todo/write": 3
+  },
+  "picked": [
+    {
+      "type": "session",
+      "version": 4,
+      "id": "session-2e72bd8c-79b8-434c-8c38-d5f3a1190634",
+      "createdAt": 1790961275829,
+      "cwd": "D:\\松光启动器",
+      "isSeeded": false,
+      "delegationDepth": 0,
+      "agentPreset": "standard"
+    },
+    {
+      "seq": 14,
+      "time": 1790964456197,
+      "text": "codex://threads/01a0fb5e-2671-7ac1-9b5e-52a2e6bc4579，读取该对话的最新详细内容，并整理出详细的任务计划"
+    },
+    {
+      "seq": 20,
+      "time": 1790964456213,
+      "text": "codex://threads/01a0fb5e-2671-7ac1-9b5e-52a2e6bc4579，读取该对话的最新详细内容，并整理出详细的任务计划"
+    },
+    {
+      "seq": 222,
+      "time": 1790965101082,
+      "text": "进行下一步"
+    },
+    {
+      "seq": 229,
+      "time": 1790965101107,
+      "text": "进行下一步"
+    }
+  ],
+  "planTools": [
+    {
+      "type": "tool/call",
+      "seq": 132,
+      "time": 1790964598673,
+      "data": {
+        "turn": 1,
+        "step": 17,
+        "callId": "call_00_peurb1yzip8ibycn8mrwrezs",
+        "name": "ask_user_question",
+        "arguments": "{\"questions\":[{\"id\":\"deliverable\",\"header\":\"交付形态\",\"question\":\"这次「详细任务计划」要交付到什么程度？\",\"options\":[{\"label\":\"只写计划文档（推荐）\",\"description\":\"产出一份可评审、可分批复制的任务计划 .md，不动业务代码，不改任何现有文件。\"},{\"label\":\"计划文档 + 任务看板卡片\",\"description\":\"额外在 DSH 任务看板建立卡片（每个 MR 任务一张、含依赖关系），但不执行。\"},{\"label\":\"计划文档 + 立即执行第一批\",\"description\":\"文档之外，直接开工修 P0（路由可达性 + HTTP 层测试），会改动 LocalApiService.cs 等业务代码。\"}]},{\"id\":\"location\",\"header\":\"落地目录\",\"question\":\"计划文档写到哪里？\",\"options\":[{\"label\":\"D:\\\\松光启动器\\\\docs\\\\（推荐）\",\"description\":\"当前 DSH 工作区，也是该流程认定的真实实现事实来源；会新增一个文档文件。\"},{\"label\":\"ed41 worktree 的 docs\\\\\",\"description\":\"与 Codex 两份规划、market-execution 证据同目录（C:\\\\Users\\\\Administrator\\\\.codex\\\\worktrees\\\\ed41\\\\松光启动器\\\\docs\\\\）。\"},{\"label\":\"两处都写\",\"description\":\"D 盘为主文档，ed41 放一份指向性副本。\"}]}]}"
+      }
+    },
+    {
+      "type": "tool/call",
+      "seq": 170,
+      "time": 1790964753650,
+      "data": {
+        "turn": 1,
+        "step": 23,
+        "callId": "call_00_zsvm4dg4zfsy74oln88xql4p",
+        "name": "exit_plan_mode",
+        "arguments": "{\"plan\":\"# 松光启动器：Codex 会话 01a0fb5e 任务计划整理（交付一份计划文档）\\n\\n## 目标与成功标准\\n\\n把 Codex 线程 `01a0fb5e-2671-7ac1-9b5e-52a2e6bc4579` 的规划产物、随后的 MR00/MR01 执行证据、以及我本轮对源码的独立复核，整合成**一份可直接分批复制的详细任务计划文档**。\\n\\n成功标准：\\n\\n1. 文档落在 `D:\\\\松光启动器\\\\docs\\\\market-task-plan-2026-10-03.md`（UTF-8 无 BOM，与 `docs/` 现有文档一致）。\\n2. 覆盖 MR00–MR27 全部 28 个任务 ID 的**当前状态、依赖、验收、停止点**，无遗漏、无重复、无编造证据。\\n3. 给出下一批可立即授权执行的**逐包任务卡**（含允许文件、RED/GREEN、验证命令、证据目录），使另一名工程师无需再作设计决策即可开工。\\n4. **不修改任何既有文件、不新增第二个文件、不改业务代码、不提交、不推送。** 写前写后 `git status --porcelain` 对比只应多出 1 条 `??` 记录。\\n5. 文档内所有引用路径 `Test-Path` 通过；所有行号引用抽样复核一致；28 个 MR ID 与总表行数一致。\\n\\n## 交付物\\n\\n单个文件：`D:\\\\松光启动器\\\\docs\\\\market-task-plan-2026-10-03.md`\\n\\n不写 ed41 worktree、不写 `D:\\\\市场调研`、不建任务看板卡、不启动执行工具。\\n\\n## 文档内容规格（确定到章节）\\n\\n### §0 一页速览\\n当前唯一阻断项、下一批建议授权范围、需要用户裁决的 4 个问题。\\n\\n### §1 来源与基线核对（本轮实测，不沿用旧数字）\\n| 项 | 值 |\\n|---|---|\\n| Codex 线程 | `01a0fb5e-2671-7ac1-9b5e-52a2e6bc4579`，rollout：`C:\\\\Users\\\\Administrator\\\\.codex\\\\sessions\\\\2026\\\\10\\\\02\\\\rollout-2026-10-02T14-47-26-01a0fb5e-2671-7ac1-9b5e-52a2e6bc4579.jsonl`（152 事件、15 次 exec、末条 `final_answer` 2026-10-02T07:15:26Z） |\\n| 规划产物 | ed41 worktree `docs\\\\market-research-task-workflow-2026-10-02.md`（807 行）、`docs\\\\minimax-market-research-execution-prompt-2026-10-02.md` |\\n| 执行证据 | 同目录 `docs\\\\market-execution\\\\`，固定入口 `MR00\\\\execution-root.json`，run-id `20261002-072004Z` |\\n| ExecutionRoot | `C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pineglow-snapshot-810a28bd0d3d456c9e28201fb6fdf158`（设计保留，未清理） |\\n| 源/交付根 | SourceRoot `D:\\\\松光启动器`（main）、DeliveryRoot ed41（detached），两者 HEAD 同为 `f145d14eb26b0b7459a28491e764ac8c573085d3` 但内容不同 |\\n| 工作区状态 | `D:\\\\松光启动器` 脏工作区：35 个 `M` + 1251 个未跟踪（既有用户资产，非本次成果） |\\n\\n### §2 现状事实（分三类，不混用）\\n- **已执行且有证据**：MR00 冷构建 214 文件/泄漏 0；Node 184 通过；非 RID `--locked-mode` 通过；C# 612 通过；win-x64 单文件 45,644,552 B、SHA256 `3B71DCC1…` 三次快照一致；MR01 六份文档已改（补丁 60,820 B，在 ExecutionRoot 内）。\\n- **已知边界（不算通过）**：RID 发布锁定 NU1004；`dotnet publish` 会就地改写 `packages.lock.json`（8.5 KB→10.6 KB）。\\n- **未验证**：真实 GUI/WebView2、真实游戏、真实付费 AI、GitHub Actions 实际运行、Linux/macOS、RID 锁定发布。\\n\\n### §3 P0 阻断（本轮独立复算，比验收报告更宽）\\n`LocalApiService.cs` 的 `if (seg.Length == 4 && seg[1]==\\\"instances\\\")` 块从 **:415** 开到 **:547**，其内部却按 `seg.Length == 5/6/8` 分派，条件恒假 ⇒ 落到 :789 返回 404。共 **10 条路由不可达**：\\n\\n| 路由 | 分派行 | 保护条件 | 前端调用点 |\\n|---|---|---|---|\\n| POST `/api/instances/{id}/saves/{folder}/backup` | 450/456 | len==6 | `ui/js/api.js:678` |\\n| POST `/api/instances/{id}/saves/{folder}/delete` | 450/462 | len==6 | `api.js:695` |\\n| POST `/api/instances/{id}/saves/{folder}/open` | 450/468 | len==6 | `api.js:699` |\\n| GET `/api/instances/{id}/saves/{folder}/backups` | 450/474 | len==6 | `api.js:682` |\\n| POST `/api/instances/{id}/saves/{folder}/backups/{name}/restore` | 480 | len==8 | `api.js:691` |\\n| POST `/api/instances/{id}/bisect/start` | 511/514 | len==5 | `api.js:752` |\\n| POST `/api/instances/{id}/bisect/test` | 511/520 | len==5 | `api.js:756` |\\n| POST `/api/instances/{id}/bisect/giveup` | 511/526 | len==5 | `api.js:760` |\\n| POST `/api/instances/{id}/mods/{file}/toggle` | 531/535 | len==6 | `api.js:534` |\\n| POST `/api/instances/{id}/mods/{file}/delete` | 531/541 | len==6 | `api.js:538` |\\n\\n对照组：`GET /api/instances/{id}/saves`（:443，len==4）可用；`:409` 的 diagnose/cancel 曾因同类嵌套被提到块外（:408 注释为证），bisect/mods/saves 漏做。旁证：`VerifyHost.exe --bisect-smoke` 在隔离沙盒 exit=1，首个 `POST /bisect/start` 即 404。\\n\\n测试盲区：`ModBisectServiceTests` 为服务层；全仓 C# 测试对 `/bisect/` 路由字符串 0 命中；`ui/tests/api-contract.test.cjs` 无断言；`AiCancelAndRedirectTests.cs` 用的是**读源码文本找字符串**的静态断言，正是漏掉嵌套的那类检查 ⇒ 796 个绿色测试对该缺陷完全无感知。\\n\\n行号纪律：以上均为 **2026-10-03 读取 `D:\\\\松光启动器` 工作区**的行号，实施时按 MR00 manifest 重新定位。\\n\\n### §4 需要用户裁决的 4 项（文档只列，不代为决定）\\n是否放行 P0 收口包；是否扩白名单同步 `docs/api-reference.md`（其 :36-39 仍把不可达路由写成可用）；是否接受对调研 4 条结论的下调；下一批授权采用何种范围写法。\\n\\n### §5 第一批任务卡：MG0 收口（P0，建议立即授权）\\n\\n**W1 路由可达性修复**\\n- 允许文件：`dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.cs` 仅 :415–:547 分派块及其上邻接的守卫提取；`dev/PineglowLauncher/VerifyHost/` 必要时。\\n- 步骤：RED 先取 `VerifyHost --bisect-smoke` exit=1 原日志 → 把 4 个 `seg.Length != 4` 的守卫提到 `:415` 块外（与 :409 diagnose/cancel 同样处理，保持精确长度匹配与先于通用实例块的顺序）→ 不动 handler 内部实现 → GREEN。\\n- 验收：10 条路由返回非 404 的真实施工结果（200/400/409/500 均可，取决于前置条件），异常路径不改变既有行为；`git diff` 只限该分派块。\\n- 证据：`docs/market-execution/W1-route-reachability/<run-id>/{red,green,runtime,manifest.json,deliverable.md}`。\\n\\n**W2 HTTP 层路由契约测试（与 W1 同批，防止复发）**\\n- 新增 `dev/PineglowLauncher.Tests/RouteReachabilityTests.cs`，复用 `AiCancelAndRedirectTests.cs` 已有的 `TestHarness.StartAsync`（`MemoryConfigStore` + 真实 listener + 合成实例目录）并加入 `[Collection(\\\"LocalApiService\\\")]` 串行集合。\\n- 断言口径：对 10 条路由发起真实 HTTP，断言 **status ≠ 404**（区分\\\"路由未命中\\\"与\\\"业务前置不满足\\\"）；另加一条**反死码断言**——解析 `LocalApiService.cs` 的分派块，若某 `seg.Length == N` 守卫的静态嵌套深度内存在互斥长度约束则测试失败（替代现有字符串搜索式断言）。\\n- 允许文件：新增测试文件、`VerifyHost/BisectSmoke.cs`（扩为 `--route-smoke` 覆盖 10 条）、`scripts/source-snapshot-inputs.txt` 追加新文件。\\n- 验收：W1 未修时该测试必须 RED（先记录）；W1 修复后 GREEN；测试数量可核对且 >0。\\n\\n**W3 文档白名单同步（独立子包，需用户同意扩范围）**\\n- `docs/api-reference.md:36-39`、`docs/engineering.md`、`docs/ai-*.md` 同步本轮勘误；不进 W1/W2 批次。\\n\\n### §6 第二批任务卡：MR03–MR07（数据安全与 Bisect 恢复）\\n逐包给出目标/允许文件/步骤/RED/GREEN/验收/停止点，沿用 workflow 第 7 节的白名单，并补本轮的实测锚点：\\n- **MR03** 实例\\\"从列表移除\\\"语义：`HandleDeleteInstanceAsync`（:1045-1057，零文件操作）；新增 `InstanceRemovalTests.cs`、`ui/tests/instance-removal.test.cjs`。\\n- **MR04** Mod 可恢复删除：`ModService.DeleteMod`（:107/:111 `File.Delete`）；新增 `FileRecoveryService.cs`、`FileRecoveryRecord.cs`、`FileRecoveryTests.cs`、`file-recovery.test.cjs`。\\n- **MR05** 替换/更新可撤销事务：依赖 MR04。\\n- **MR06** Bisect 失败必须阻止推进：`:1931-1934`、`:1952-1955` 只写日志；依赖 MR01+MR04。\\n- **MR07** Bisect 重启恢复：`ModBisectService` 会话为内存 `ConcurrentDictionary`；新增 `BisectRecoveryStore.cs`。\\n- 每包统一要求：合成目录、真实 API smoke、文件 SHA 前后对比、**不用真实存档做破坏测试**。\\n\\n### §7 其余批次与状态总表\\n- 第三批 MG2：MR08/MR09 + MR11/MR12（MR10 为条件任务）。\\n- 第四批 MG3：MR17 + MR19–MR21。\\n- 第五批 MG4：MR22/MR23（需分发与联系授权）。\\n- 条件路线：MR13–MR16、MR18、MR24–MR27（各自门槛）。\\n- 状态词严格用：未授权 / 已授权待执行 / 执行中 / 证据就绪 / 独立复验通过 / 暂不放行 / 用户已批准。**MR00/MR01 记\\\"证据就绪，待独立验收\\\"；MR02 未授权。**\\n\\n### §8 执行通则与授权模板\\n每包授权五要素（任务 ID、执行根、依赖验收记录、允许文件、证据根与停止点），ISO 快照纪律、白名单新增纪律、RED/GREEN 纪律、证据目录结构、跑完停在独立验收点。附一段可直接复制的 W1+W2 授权指令模板（含目录定义与禁止项）。\\n\\n### §9 Gate、停止规则与工期\\n继承 MG0–MG5 + 发布审批表；写明本次新增的 **MG0 前置条件**：P0 路由收口通过后才可进入 MG1。工期继承 workflow 口径：V1 核心 40–69 有效工作日 + 14 天观察（P0 收口另计 1–2 日），明确标注为\\\"单执行者资源预算，不是发布日期承诺\\\"。\\n\\n### §10 假设、非目标、风险、未验证清单\\n假设：行号会漂移、D 盘工作区保持脏、ed41 证据目录不被清理、TEM 快照仍在。非目标：不改业务代码、不重跑 MR00/MR01、不裁决 4 项待决问题、不启动任何执行工具（含 Agent Teams 与任务看板）。风险：`%TEMP%` 快照可能被系统清理导致证据路径失效；`packages.lock.json` 已被 publish 就地改写。\\n\\n### §11 附录\\n命令速查（git/SDK/Node/restore/build/test/publish/route-smoke）、证据路径索引、来源文件 SHA256（沿用 workflow 附录 A 的 5 条调研指纹 + 1 条单文件产物 SHA）、术语表。\\n\\n## 实施步骤\\n\\n1. 复核写前状态：`git -C 'D:\\\\松光启动器' status --porcelain=v1 -uall | Measure-Object` 记录基线行数。只读，不改动。\\n2. 用 `write` 一次性创建 `docs\\\\market-task-plan-2026-10-03.md`（UTF-8 无 BOM）。\\n3. 复核写后状态：确认只多出 1 条 `?? docs/market-task-plan-2026-10-03.md`，无 `M` 新增。\\n4. 文档自检：`MR\\\\d\\\\d` ID 集合与总表一致、代码块围栏成对、所有引用路径 `Test-Path`、抽样复核 4 处行号（`LocalApiService.cs:415/450/511/531`）与 `ModService.DeleteMod`、`HandleDeleteInstanceAsync`。\\n5. 用 `present` 交出文档，并在回复中给出下一步建议授权范围（W1+W2）。\\n\\n## 边界与失败模式\\n\\n- 若写文件时报 `FS_STALE_VERSION`：重读目标再重试；若目标已存在（同名），**停止并询问，不覆盖**。\\n- 若 `Test-Path` 复核发现引用的证据路径已失效（如 `%TEMP%` 快照被清理）：在 §10 明确标注为\\\"路径已失效、需以 manifest 重建\\\"，不删除该引用、不编造替代证据。\\n- 若发现源码在写文档期间被外部并行修改（`git status` 基线变化）：在 §2 注明归属未知，不作为本文档结论。\\n- 不执行文档内描述的任何任务；授权与执行属于后续独立回合。\\n\"}"
+      }
+    },
+    {
+      "type": "tool/call",
+      "seq": 248,
+      "time": 1790965156350,
+      "data": {
+        "turn": 2,
+        "step": 3,
+        "callId": "call_00_33uwug124nxechbwrr8q39hb",
+        "name": "ask_user_question",
+        "arguments": "{\"questions\":[{\"header\":\"实现落点\",\"id\":\"landing\",\"options\":[{\"description\":\"直接在 D:\\\\松光启动器 修，修改前先存原文件副本 + SHA256 作为回退基线，证据写 ed41。修完即为真实可用的修复，但会改动你的主工作区源码文件。\",\"label\":\"直接在主工作区改（推荐）\"},{\"description\":\"保持 SourceRoot 全程只读，在 TEMP 隔离快照里改并验证，交付 unified diff 补丁 + 证据；你之后决定何时应用。\",\"label\":\"隔离快照改，只交补丁\"}],\"question\":\"W1 的代码修改落在哪里？\"},{\"header\":\"批次范围\",\"id\":\"w3\",\"options\":[{\"description\":\"同步 docs/api-reference.md:36-39 与 :43-45（它们现在把 10 条不可达路由写成可用）；纯文档，不改代码。\",\"label\":\"同批带上 W3 文档同步（推荐）\"},{\"description\":\"仅修复路由 + 补 HTTP 层测试，文档留到下一批。\",\"label\":\"只做 W1 + W2\"}],\"question\":\"这一批是否顺带把 W3 文档同步一起做？\"}]}"
+      }
+    },
+    {
+      "type": "tool/call",
+      "seq": 301,
+      "time": 1790965359470,
+      "data": {
+        "turn": 2,
+        "step": 12,
+        "callId": "call_00_o1zdv1hm6jvyvictsv5o5fau",
+        "name": "exit_plan_mode",
+        "arguments": "{\"plan\":\"# W1 + W2 + W3：路由可达性收口实施计划\\n\\n## 目标与成功标准\\n\\n修复 `LocalApiService` 分派块的长度守卫嵌套缺陷，使 10 条 HTTP 路由恢复可达；补上能永久发现该类缺陷的测试；同步文档中已被证伪的路由声明。\\n\\n成功标准（全部可复现验证）：\\n\\n1. `VerifyHost.exe --bisect-smoke` 由 **exit=1（首个 `POST /bisect/start` 404）** 变为 **exit=0**。\\n2. 新增的 `RouteReachabilityTests` 在修复前 **RED**、修复后 **GREEN**，且其中的\\\"反空洞\\\"用例证明断言有效。\\n3. `dotnet test` 原有 **612 通过 / 0 失败** 不回归，加新测试后仍 **0 失败**；`ui/tests` 11 个 `.test.cjs` 仍 **184 通过 / 0 失败**。\\n4. `git diff` 仅涉及下列 4 个文件 + 2 个新文件；`D:\\\\松光启动器` 的其余 35 `M` / 1251 未跟踪资产零改动。\\n5. 修改前的 `LocalApiService.cs` 原件已存副本 + SHA256，可逐字节回退。\\n\\n## 已核准的决定\\n\\n- 落点：**直接改 `D:\\\\松光启动器` 主工作区**（改前存回退基线）。\\n- 范围：**W1 + W2 + W3 同批**。\\n- 不使用 Agent Teams；本批是单文件生产线，串行更安全。\\n\\n---\\n\\n## 变更 1（W1）：路由可达性修复\\n\\n**文件：** `dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.cs`（tracked，当前处于 `M` 状态）\\n\\n### 根因（已逐行复核）\\n\\n`:415` 的 `if (seg.Length == 4 && seg[1] == \\\"instances\\\")` 块到 `:547` 才闭合，块内却有 4 组要求 `seg.Length` 为 5/6/8 的守卫 ⇒ 条件恒假 ⇒ 落到 `:789` 的 `未找到接口` 404。`:408-409` 显示 `diagnose/cancel` 曾因同一问题被提到块外，其余三处漏做。\\n\\n### 修复方式：新增块外前置分派，块体整体搬移（语义等价）\\n\\n在 `:413`（cancel 守卫结束）与 `:415`（长度 4 通用块）之间插入：\\n\\n```csharp\\n// 2026-10-03 P0 收口（W1）：以下 4 组的精确长度守卫原先嵌套在 seg.Length == 4 的通用实例块内，\\n// 条件恒假 ⇒ 永不命中 ⇒ 落到末尾的 404。现提升到与 cancel 相同的块外位置，匹配条件不变。\\nif (seg.Length is 5 or 6 or 8 && seg[1].Equals(\\\"instances\\\", StringComparison.OrdinalIgnoreCase))\\n{\\n    string instanceId = seg[2];\\n    string action = seg[3];\\n    // ← 原 :449-477（saves 长度 6：backup|delete|open|backups）\\n    // ← 原 :479-489（saves 长度 8：backups/{name}/restore）\\n    // ← 原 :510-531（bisect 长度 5：start|test|giveup）\\n    // ← 原 :531-546（mods 长度 6：toggle|delete）\\n}\\n```\\n\\n4 段块体**逐字搬入**（不改一行内部实现），因为新前置块已提供同名的 `instanceId` / `action` 局部变量，搬移后引用关系不变。`:415` 的长度 4 块保留其余内容（delete/launch/diagnose/prelaunch-check/saves 列表/mods 列表/resourcepacks/shaderpacks）。\\n\\n### 为什么不用 `seg.Length >= 4`（一行改法）\\n\\n`:419` `delete`、`:425` `launch`、`:431` `diagnose`、`:437` `prelaunch-check` 只匹配 `action`、**不带长度守卫**。把外层放宽到 `>= 4` 会让 `/api/instances/{id}/delete/任意后缀`（长度 5）命中 `HandleDeleteInstanceAsync` —— 把一个只读探针变成移除实例的写操作。该方案否决。\\n\\n### 不改动\\n\\n任何 `Handle*Async` 方法体、`ModService`/`SaveService`/`ModBisectService`、`:415` 块内其余路由、`:549` 之后的所有分派、前端、`.csproj`。\\n\\n### 预期 diff 形状\\n\\n净增约 6 行（2 行注释 + 3 行前置守卫 + 花括号），约 97 行由块内移到块外。无逻辑改写。\\n\\n---\\n\\n## 变更 2（W2）：HTTP 层路由契约测试\\n\\n### 新文件 A：`dev/PineglowLauncher.Tests/LocalApiTestHarness.cs`\\n\\n提供 `internal` 测试夹具，**不修改** `AiCancelAndRedirectTests.cs` 中已有的私有 `TestHarness`（避免扰动 612 个既有绿色测试）。必须具备：\\n\\n- `MemoryConfigStore`（`LocalApiService.IConfigStore` 注入，不落盘真实 `config.json`）。\\n- 端口获取：`TcpListener(IPAddress.Loopback, p)` 探测空闲端口，避开既有端口段冲突。\\n- `LocalApiService.Start(port)` + `SessionTokenForTests` 注入 `X-Pineglow-Token` 头。\\n- **真实配置零改动护栏**：启动前/释放后各捕获一次真实配置状态，不一致即 `Assert.Fail`。\\n- 释放顺序：`Stop()` → `Client.Dispose()` → 配置 scope 释放。\\n\\n### 新文件 B：`dev/PineglowLauncher.Tests/RouteReachabilityTests.cs`\\n\\n`[Collection(\\\"LocalApiService\\\")]`（复用既有串行集合定义，进程级静态单例必须串行）。\\n\\n**合成夹具（每个用例独立的新临时根，用后删除）：**\\n\\n```\\n%TEMP%\\\\pineglow-route-test-<guid>\\\\\\n  mods\\\\a.jar, mods\\\\b.jar          ← 2 个合成 Mod（bisect 需要 ≥1 个启用项）\\n  saves\\\\world1\\\\level.dat          ← 合成存档\\n```\\n\\n`AppConfig.GameDirectory = <临时根>`，`Instances = [ new GameInstance { Id=\\\"inst-route\\\", GameDirectory=<临时根>, MinecraftVersion=\\\"1.20.4\\\" } ]`。\\n\\n> **安全要点（必须遵守）：** `ResolveGameDirectory`（`:868`）在 `instance.GameDirectory` 为空时会回退到 `config.GameDirectory`，再回退到 `PlatformPaths.GetDefaultMinecraftDirectory()`。因此**必须显式设置 `instance.GameDirectory`**，否则测试会读写用户真实 `.minecraft` 目录。\\n\\n**断言设计（关键：路由未命中 404 的响应体带唯一标记 `未找到接口`，全文件仅 `:789` 一处；handler 自身的 404/400 文案不同）：**\\n\\n| 用例 | 内容 |\\n|---|---|\\n| `[Theory] RouteIsReachable_TenRoutes` | 10 条路由各发一次真实 HTTP，**主断言 = 响应体不含 `未找到接口`**；同时记录实际状态码与响应体片段供证据 |\\n| `[Fact] RouterFallbackMarker_HasTeeth` | `POST /api/instances/{id}/bogus/xyz` → 断言 404 **且** 含 `未找到接口`。没有这条，\\\"不含标记\\\"可能因标记失效而空洞通过 |\\n| `[Fact] BisectLifecycle` | start→test→giveup 均 200，并断言 `.disabled` 文件真实出现后被恢复（行为级，不止\\\"不是 404\\\"） |\\n| `[Fact] ModsToggleAndDelete` | toggle→200 且文件变为 `.disabled`；delete→200 |\\n| `[Fact] SaveBackupListRestoreDelete` | backup→200 → backups→200（列表非空）→ restore→200 → delete→200 |\\n| `[Fact] NoConflictingNestedLengthGuards` | 静态扫描：从源码提取 `HandleApiAsync` 方法体，用花括号栈记录每层作用域的 `seg.Length == N`；若某守卫被包在约束为不同 N 的作用域内 → `Assert.Fail` 并报行号。并断言扫描到的守卫数 ≥ 20，防止解析失效导致空跑 |\\n\\n**`saves/{folder}/open` 的特殊处理（重要）：** `HandleOpenSaveDirectoryAsync`（`:1698`）先调 `RequireSave`，存档不存在时抛 `InvalidOperationException` → 400，**在 `OpenSavesDirectory` 之前返回**。因此该行用例故意使用不存在的文件夹 `nosuch`，断言 400 且非 fallback —— 既证明路由可达，又**不会弹出资源管理器窗口**。真实打开目录的行为仍列为\\\"真实 GUI 未验证\\\"。\\n\\n**明确不做（避免扩项）：** 不新建 `VerifyHost --route-smoke`。`VerifyHost/Program.cs` 的 smoke 改动按既定分工属于 **MR06** 白名单；本批只**复用**现有 `--bisect-smoke` 作为 API 级 E2E 独立确认。\\n\\n### 附属改动\\n\\n`scripts/source-snapshot-inputs.txt`：在两个新测试文件加入「类别 B：C# 测试源」并同步计数 `（16）→（18）`；顺带把第 7 行注释里已过期的\\\"32 个已修改文件\\\"更正为实测的 35（该文件本次已在改动范围内，属事实性错误）。\\n\\n---\\n\\n## 变更 3（W3）：文档同步\\n\\n| 文件 | 位置 | 处理 |\\n|---|---|---|\\n| `docs/api-reference.md` | `:36-39`（mods/...、bisect/start、bisect/test、bisect/giveup）、`:43-45`（saves backup/backups/restore） | 标注修复状态与 run-id；未在真实 GUI 验证的部分写\\\"未验证\\\" |\\n| `docs/api-reference.md` | `:46` | **幽灵路由**：文档写 `DELETE /api/instances/{id}/saves/{folder}`，但全仓 DELETE 分派只有 `:555` 的 accounts。实际删除是 `POST .../saves/{folder}/delete` —— 改正为真实路由 |\\n| `docs/roadmap.md` | `:103-109` | 更正\\\"已实现 `/bisect/start\\\\|test\\\\|giveup` 路由\\\"为\\\"路由曾不可达，2026-10-03 修复\\\"；更正 `--bisect-smoke` 被描述为\\\"回归\\\"的表述（实际因路由缺陷失败、W1 后应通过、**尚未在真实 CI 运行**） |\\n| `docs/market-task-plan-2026-10-03.md` | §8 台账 | W1/W2/W3 状态由\\\"未授权\\\"改为\\\"证据就绪（待独立验收）\\\" |\\n\\n不改 `README.md`（无相关路由声明）、不改 ed41 的前序规划文档。\\n\\n---\\n\\n## 执行顺序（RED → 最小实现 → GREEN）\\n\\n1. **基线**：记录 `git status --porcelain=v1 -uall` 行数（当前 1287）与 `LocalApiService.cs` SHA256；把原件复制到证据目录作为回退基线。\\n2. **RED**：构建 `VerifyHost` → 运行 `--bisect-smoke` → 保留 exit=1 与首个 404 原日志。\\n3. **先写 W2 测试**（`LocalApiTestHarness.cs` + `RouteReachabilityTests.cs` + 白名单）→ 运行 → **必须全部/大部分失败**（`RouteIsReachable_TenRoutes` 的 10 条应全红，`HasTeeth` 应绿）。这一步证明测试有牙。\\n4. **W1 最小修复**：按变更 1 搬移 4 段块体。\\n5. **GREEN**：重跑 W2 测试 → 全绿；重跑 `--bisect-smoke` → exit=0。\\n6. **回归**：C# 全套 + Node 11 个 `.test.cjs`。\\n7. **W3 文档同步** + 台账更新。\\n8. **收尾证据**：写 `deliverable.md`（改动清单、逐命令退出码、测试数、未验证项、回退方法）+ `manifest.json`。\\n9. **停止**：停在\\\"具备独立复验条件，等待独立验收\\\"。不进入 MR03–MR07，不提交、不推送。\\n\\n## 验证命令\\n\\n```powershell\\nSet-Location -LiteralPath 'D:\\\\松光启动器'\\ndotnet build .\\\\dev\\\\PineglowLauncher\\\\VerifyHost\\\\VerifyHost.csproj -c Release\\n& '.\\\\dev\\\\PineglowLauncher\\\\VerifyHost\\\\bin\\\\Release\\\\net10.0\\\\VerifyHost.exe' --bisect-smoke --port 48130\\n# RED 期望 exit=1；GREEN 期望 exit=0\\n\\ndotnet build .\\\\dev\\\\PineglowLauncher\\\\Pineglow.Launcher.csproj -c Release\\ndotnet test .\\\\dev\\\\PineglowLauncher.Tests\\\\Pineglow.Launcher.Tests.csproj -c Release\\ndotnet test .\\\\dev\\\\PineglowLauncher.Tests\\\\Pineglow.Launcher.Tests.csproj -c Release --filter FullyQualifiedName~RouteReachabilityTests\\n\\n$t = @(Get-ChildItem -LiteralPath '.\\\\ui\\\\tests' -Filter '*.test.cjs' -File | Sort-Object Name | ForEach-Object FullName)\\n& node --test --test-reporter=spec @$t\\n```\\n\\n每步单独检查 `$LASTEXITCODE`，不用分号串联后只看最后一条。\\n\\n## 回退方案\\n\\n`LocalApiService.cs` 是用户未提交的 `M` 文件，**禁止使用 `git checkout/restore`**（会丢弃既有工作）。回退方式：用证据目录中的原件副本覆盖回去，并核对 SHA256 与改前一致；新文件（2 个测试 + 白名单行）按清单撤销。\\n\\n## 证据落点\\n\\n`…\\\\worktrees\\\\ed41\\\\松光启动器\\\\docs\\\\market-execution\\\\W1-W3-route-closure\\\\<run-id>\\\\`：`baseline/`（git 状态、改前 SHA、原件副本）、`red/`（bisect-smoke 失败原日志 + 修复前测试失败日志）、`green/`（修复后逐命令 JSON、测试数、通过日志）、`runtime/`（10 条路由的真实状态码矩阵）、`docs/`（文档 diff）、`manifest.json`、`deliverable.md`。\\n\\n## 风险与未验证项\\n\\n| 项 | 说明 |\\n|---|---|\\n| 资源管理器弹窗 | 已通过 `nosuch` 文件夹规避；`open` 的真实打开行为仍为未验证 |\\n| 真实 GUI / WebView2 / 真实游戏 | 本批不启动，仍为未验证 |\\n| RID 发布锁定 NU1004 | 本批不处理，属 MR19 |\\n| `publish` 改写 `packages.lock.json` | 本批不跑 `publish`，避免再动 lock 文件 |\\n| 端口占用 | 用 `TcpListener` 动态探测，避免与既有测试段冲突 |\\n| 静态守卫扫描的解析健壮性 | 用\\\"守卫数 ≥ 20\\\"的反空洞断言兜底；若解析异常则测试失败而非静默通过 |\\n\\n## 假设\\n\\n1. 行号基于 2026-10-03 的 `D:\\\\松光启动器` 工作区；实施前按当前文件重新定位。\\n2. 工作区不会被其他进程并行改写；若 `git status` 基线变化，先核对归属再继续。\\n3. `VerifyHost --bisect-smoke` 自带 portable 沙盒、不触碰真实 `%APPDATA%\\\\MCMiniLauncher`（前序 run 已审查过该性质）；本次运行前再确认一次。\\n4. 本批不提交、不推送，改动以未提交状态留在工作区，由你决定后续处置。\\n\"}"
+      }
+    }
+  ],
+  "planResults": [
+    {
+      "type": "tool/result",
+      "seq": 133,
+      "time": 1790964660760,
+      "data": {
+        "turn": 1,
+        "step": 17,
+        "message": {
+          "role": "tool",
+          "source": {
+            "kind": "tool",
+            "callId": "call_00_peurb1yzip8ibycn8mrwrezs"
+          },
+          "toolCallId": "call_00_peurb1yzip8ibycn8mrwrezs",
+          "content": [
+            {
+              "type": "text",
+              "text": "{\"answers\":[{\"id\":\"deliverable\",\"selected\":[\"只写计划文档（推荐）\"]},{\"id\":\"location\",\"selected\":[\"D:\\\\松光启动器\\\\docs\\\\（推荐）\"]}]}"
+            }
+          ],
+          "isError": false,
+          "id": "b3e132c2-cce0-43b6-b955-e1d3b5f665d2"
+        }
+      },
+      "sourceEventSeqs": [
+        132
+      ],
+      "surfaceOp": "append"
+    },
+    {
+      "type": "tool/result",
+      "seq": 171,
+      "time": 1790964841957,
+      "data": {
+        "turn": 1,
+        "step": 23,
+        "message": {
+          "role": "tool",
+          "source": {
+            "kind": "tool",
+            "callId": "call_00_zsvm4dg4zfsy74oln88xql4p"
+          },
+          "toolCallId": "call_00_zsvm4dg4zfsy74oln88xql4p",
+          "content": [
+            {
+              "type": "text",
+              "text": "Plan approved — plan mode exited; carry out the plan starting with your next step."
+            }
+          ],
+          "isError": false,
+          "id": "fe9e4c90-dfd0-4c27-870d-9e20d022e3a5"
+        }
+      },
+      "sourceEventSeqs": [
+        170
+      ],
+      "surfaceOp": "append"
+    },
+    {
+      "type": "tool/result",
+      "seq": 249,
+      "time": 1790965203237,
+      "data": {
+        "turn": 2,
+        "step": 3,
+        "message": {
+          "role": "tool",
+          "source": {
+            "kind": "tool",
+            "callId": "call_00_33uwug124nxechbwrr8q39hb"
+          },
+          "toolCallId": "call_00_33uwug124nxechbwrr8q39hb",
+          "content": [
+            {
+              "type": "text",
+              "text": "{\"answers\":[{\"id\":\"landing\",\"selected\":[\"直接在主工作区改（推荐）\"]},{\"id\":\"w3\",\"selected\":[\"同批带上 W3 文档同步（推荐）\"]}]}"
+            }
+          ],
+          "isError": false,
+          "id": "12483cc4-5ebc-49c4-ad86-f564f8c811e2"
+        }
+      },
+      "sourceEventSeqs": [
+        248
+      ],
+      "surfaceOp": "append"
+    },
+    {
+      "type": "tool/result",
+      "seq": 302,
+      "time": 1790965369149,
+      "data": {
+        "turn": 2,
+        "step": 12,
+        "message": {
+          "role": "tool",
+          "source": {
+            "kind": "tool",
+            "callId": "call_00_o1zdv1hm6jvyvictsv5o5fau"
+          },
+          "toolCallId": "call_00_o1zdv1hm6jvyvictsv5o5fau",
+          "content": [
+            {
+              "type": "text",
+              "text": "Plan approved — plan mode exited; carry out the plan starting with your next step."
+            }
+          ],
+          "isError": false,
+          "id": "c9aeca33-64d6-404e-9985-019d7d03a1f2"
+        }
+      },
+      "sourceEventSeqs": [
+        301
+      ],
+      "surfaceOp": "append"
+    }
+  ]
+}

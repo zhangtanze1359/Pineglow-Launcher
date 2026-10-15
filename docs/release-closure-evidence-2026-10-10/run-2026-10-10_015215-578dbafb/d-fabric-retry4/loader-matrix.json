@@ -1,0 +1,32 @@
+﻿{
+    "probe":  "loader-matrix-via-modpack-import",
+    "fixture":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\install",
+    "proxyKnob":  "",
+    "javaToolOptionsKnob":  "",
+    "apiPort":  65231,
+    "healthReady":  true,
+    "rows":  [
+                 {
+                     "loader":  "fabric",
+                     "mc":  "1.21.11",
+                     "dep":  "fabric-loader",
+                     "depVersion":  "0.19.5",
+                     "importOk":  true,
+                     "instanceId":  "6478bce1e50048ab85339cb800fbe80a",
+                     "importSeconds":  529,
+                     "importResponse":  "{\"ok\":true,\"instanceId\":\"6478bce1e50048ab85339cb800fbe80a\",\"name\":\"d7-fabric 导入\"}",
+                     "instanceLoader":  "Fabric",
+                     "instanceVersion":  "fabric-loader-0.19.5-1.21.11",
+                     "loaderProfileOnDisk":  false,
+                     "prelaunchOk":  true,
+                     "prelaunchVerdict":  "{\"ok\":true,\"errors\":[],\"warnings\":[],\"maxMemoryMb\":4608,\"gameDir\":\"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\\\install\\\\data\\\\.minecraft\\\\instances\\\\d7-fabric 导入 (1)\"}",
+                     "launchResponse":  "{\"ok\":true,\"pid\":26744,\"minimizeOnLaunch\":false}",
+                     "javaStarted":  false,
+                     "reachedTitle":  true,
+                     "gameLogMarker":  "Sound engine started",
+                     "gameLogPath":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\install\\data\\.minecraft\\instances\\d7-fabric 导入 (1)\\logs\\latest.log",
+                     "error":  ""
+                 }
+             ],
+    "timeHK":  "2026-10-11T14:40:29.4192926"
+}

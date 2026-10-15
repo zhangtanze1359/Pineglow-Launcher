@@ -1,0 +1,97 @@
+﻿{
+    "runId":  "20261002-211500Z",
+    "task":  "MR06 Bisect 文件操作失败必须阻止错误推进",
+    "generatedUtc":  "2026-10-02T20:13:09Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "result":  {
+                   "csharp":  "9 passed / 0 failed (before implementation: 7 failed / 2 passed)",
+                   "csharpFull":  "664 passed / 0 failed",
+                   "nodeFull":  "202 passed / 0 failed (13 files)",
+                   "bisectSmoke":  "exit 0",
+                   "gitStatus":  "1300 -\u003e 1302 (+2: ModBisectService.cs newly modified, new test file)"
+               },
+    "contract":  {
+                     "perFileResults":  "applied | unchanged | failed with reason",
+                     "disableFailure":  "409 + needsRecovery, waitingForReport=false, candidates frozen",
+                     "restoreVerifiedBeforeSessionRemoval":  true,
+                     "duplicateRound":  "test with stale step -\u003e 409, does not advance",
+                     "singleWriter":  "per-instance TryAdd guard, concurrent request -\u003e 409",
+                     "manualModEdit":  "toggle/delete/replace rejected while bisect active",
+                     "userDisabledModsUntouched":  true
+                 },
+    "knownGaps":  [
+                      "VerifyHost --bisect-smoke 未按计划扩展故障注入（只确认既有 smoke 仍通过）",
+                      "真实 GUI / WebView2 的\"需要恢复\"面板与\"重试恢复\"未验证",
+                      "并发只验证原语，没有两个真正并行的 HTTP 请求",
+                      "文件占用/权限拒绝未构造真实用例（用目录占位模拟改名失败）",
+                      "会话仍是内存态，进程重启后丢失（属 MR07）"
+                  ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "20039E43CF48301F5BDA12D543845677BD3F7ABCA9A53E271A07C0E907E3ABB6",
+                      "sizeBytes":  12070
+                  },
+                  {
+                      "path":  "green/01-bisect-io-first.log",
+                      "sha256":  "AF48C143E6952D9B319288D009E62DE8C218DD987B4D2B4941DFCC9F08393DA1",
+                      "sizeBytes":  16224
+                  },
+                  {
+                      "path":  "green/02-bisect-io-after.log",
+                      "sha256":  "04954ECC8ABB83BFBA7FFAD4534AF422F4DF7FE24DD1432DABA0E30B3F7E50DF",
+                      "sizeBytes":  16228
+                  },
+                  {
+                      "path":  "green/03-bisect-smoke.log",
+                      "sha256":  "ACAEF3616E4F496056FBFA2A501071150E3897FB9E4CC6D0A79C34C65514B5CF",
+                      "sizeBytes":  653
+                  },
+                  {
+                      "path":  "green/04-csharp-full.log",
+                      "sha256":  "79245F17B28E5DBA3241CFC20BB25249A579FF189EED5D676F516D3D9F0ECAC9",
+                      "sizeBytes":  652
+                  },
+                  {
+                      "path":  "green/05-node-full.log",
+                      "sha256":  "DA1698E2719459818C10A8D090C20E70B6E0A4DCAB502BC3DEF365525E2F3848",
+                      "sizeBytes":  21273
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "0C50497CE557C9CE66BC29B9F76F4BBD1100FBC5023F7CA7D27CE9D838324BB6",
+                      "sizeBytes":  831
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "3CC92442E17AE71C99F87D6B5CF4259703929E890DEE68B81CDCFB6EA030C2DD",
+                      "sizeBytes":  113508
+                  },
+                  {
+                      "path":  "green/LocalApiService.cs.mr06",
+                      "sha256":  "BD7A9C417F50CA626D90A61D123AA1BE323A99D1A51A7B9346D97B378052C08A",
+                      "sizeBytes":  157067
+                  },
+                  {
+                      "path":  "green/LocalApiService.cs.mr06.sha256.txt",
+                      "sha256":  "9F4862DADF73BCF8936793594D468E9A8E9B79AB93F502AB980ACE2AEC642056",
+                      "sizeBytes":  69
+                  },
+                  {
+                      "path":  "green/ModBisectService.cs.mr06",
+                      "sha256":  "DE76290828F043E9C8413C5D8398C0221057C20665B14900BA3925BB599DBE09",
+                      "sizeBytes":  7971
+                  },
+                  {
+                      "path":  "green/ModBisectService.cs.mr06.sha256.txt",
+                      "sha256":  "FA716214844CAFF2AD029BA74AC1CD6EEFDCFECA4A7082920B6A1F422B99370B",
+                      "sizeBytes":  69
+                  },
+                  {
+                      "path":  "red/01-bisect-io-before.log",
+                      "sha256":  "337C7006E4FE58E8D56A48FE1076A6171BB2F9476F4720CCE61C05416E521B9F",
+                      "sizeBytes":  34682
+                  }
+              ]
+}

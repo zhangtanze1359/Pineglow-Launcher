@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "auditor": "audit-goal-evidence.py",
+  "auditorSha256": "F4121D33933F22C3A32BB556F36FF8F7E83A622C6CAEFF594533A2BE2673099E",
+  "generatedUtc": "2026-10-03T09:52:04Z",
+  "expected": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\g1\\expected-evidence-history.json",
+  "expectedSha256": "50DC97F56C3A74A1DE9BC069EE1323A5B2648CF8EC0826EB55F24306A29C153F",
+  "roots": [
+    {
+      "id": "ed41-history",
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution",
+      "policy": "legacy-policy",
+      "required": true,
+      "exists": true,
+      "manifestsFound": 60,
+      "packagesDeclared": 60,
+      "packagesChecked": 60
+    },
+    {
+      "id": "r2-current",
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\0f45\\松光启动器\\docs\\market-execution",
+      "policy": "legacy-policy",
+      "required": true,
+      "exists": true,
+      "manifestsFound": 1,
+      "packagesDeclared": 1,
+      "packagesChecked": 1
+    }
+  ],
+  "totals": {
+    "roots": 2,
+    "packages": 61,
+    "manifestEntries": 874,
+    "filesVerified": 874,
+    "failures": 4,
+    "knownDrift": 0,
+    "notes": 0
+  },
+  "failures": [
+    {
+      "code": "FILE_SHA_DRIFT",
+      "root": "ed41-history",
+      "package": "MG0-verification-package-20261003",
+      "path": "drift-notes.md",
+      "detail": "manifest=1F7197B34E86025D32C0B8DDB6DE0A136F1CB3489FD4927AEEDAA97698F0BE88 actual=C55CE93981D8D078CD66450D91AAF5571145731049B024433301EB955277CF6B"
+    },
+    {
+      "code": "FILE_SIZE_DRIFT",
+      "root": "ed41-history",
+      "package": "MG0-verification-package-20261003",
+      "path": "drift-notes.md",
+      "detail": "manifest=3114 actual=4088"
+    },
+    {
+      "code": "FILE_SHA_DRIFT",
+      "root": "ed41-history",
+      "package": "MG2-verification-package-20261003",
+      "path": "verify-mg2-full.log",
+      "detail": "manifest=B99A6D92BA9E6791B9DE5C8579254AD233AEB35AC539B7CC5BF05748F0813C31 actual=BE2E432EADE77D436B39A1706248B9C90D9280CA98DFF8C57EEE4A5C5F5E2F95"
+    },
+    {
+      "code": "FILE_SHA_DRIFT",
+      "root": "r2-current",
+      "package": "FINAL-REMEDIATION-R2/20261003-071724Z",
+      "path": "source-after.json",
+      "detail": "manifest=7CA0937ED50944ADF32776FEED37C4F2458D527FD7B1F2194933C2B0CFE7F161 actual=0FDB01944B5926DA9D500EC98D756476A85FB7BB5F73F61F8D97D9A46CA899B2"
+    }
+  ],
+  "knownDrift": [],
+  "notes": [],
+  "exitCode": 1
+}

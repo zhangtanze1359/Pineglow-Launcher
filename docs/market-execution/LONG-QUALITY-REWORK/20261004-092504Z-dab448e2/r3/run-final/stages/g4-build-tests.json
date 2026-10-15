@@ -1,0 +1,42 @@
+{
+    "schemaVersion":  2,
+    "id":  "g4-build-tests",
+    "runId":  "20261004-r3rework-dab448e2",
+    "attemptDir":  "attempts/g4-build-tests/1",
+    "fingerprint":  "9FA9496D86347042B39A5502AF52695C885C1DF0CB53369957B07AC6F8D38B0A",
+    "inputManifestSha256":  "812D385A09538183215747737C9F7817A26CEE1DE05B2F2B34E78FC2235F8C22",
+    "inputSetSha256":  "D10CBC26126EA17EC0837F3E2AA95C6D12D075F3986DBA5DC4E8833151282661",
+    "command":  "dotnet build dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release",
+    "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c",
+    "startUtc":  "2026-10-04T10:07:53Z",
+    "endUtc":  "2026-10-04T10:07:59Z",
+    "exitCode":  0,
+    "timedOut":  false,
+    "stillRunning":  false,
+    "counters":  null,
+    "trx":  "",
+    "artifacts":  [
+                      {
+                          "path":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c/dev/PineglowLauncher.Tests/bin/Release/net10.0/Pineglow.Launcher.Tests.dll",
+                          "sha256":  "03C7D64C303D66C1CD9EC54C3D8E95EAA9F72D743879867F2C4C452055F843D2",
+                          "sizeBytes":  1047040
+                      }
+                  ],
+    "rawEvidence":  [
+                        {
+                            "path":  "g4-build-tests.stdout.log",
+                            "sha256":  "90CE90F58AA08484F9B9BECF52B3AD61B318FE4DAE41ED5CF07B9338EA37CCFA",
+                            "sizeBytes":  16396
+                        },
+                        {
+                            "path":  "g4-build-tests.stderr.log",
+                            "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                            "sizeBytes":  0
+                        }
+                    ],
+    "reasons":  [
+
+                ],
+    "status":  "COMPLETED",
+    "reused":  false
+}

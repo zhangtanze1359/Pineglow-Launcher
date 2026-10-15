@@ -1,0 +1,92 @@
+﻿{
+    "package":  "MG2 独立复验包（诊断价值与内容生态）",
+    "generatedUtc":  "2026-10-02T21:52:59Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "scope":  [
+                  "MR08",
+                  "MR09",
+                  "MR11",
+                  "MR12"
+              ],
+    "conditionalNotImplemented":  [
+                                      "MR10"
+                                  ],
+    "oneCommand":  "powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\verify-mg2.ps1",
+    "automatedResult":  {
+                            "scriptExit":  0,
+                            "csharp":  "718 passed / 0 failed (two consecutive full runs)",
+                            "node":  "216 passed / 0 failed (16 files)",
+                            "evidenceDrift":  "match=21, unexplained=2 (BOTH EXPLAINED in drift-notes.md), supersededByLaterPackages=7, missing=0",
+                            "gitStatus":  "1305 (MG2 start) -\u003e 1321 (as of the MG1/MG2 verification packages)"
+                        },
+    "driftExplained":  [
+                           {
+                               "path":  "scripts/source-snapshot-inputs.txt",
+                               "recordedBy":  "MR12-curseforge-rate-limit/20261003-043000Z",
+                               "recorded":  "75018421D77A0D2869F7924C103C3BD1C342E7C2593C0687E83899D9163A5087",
+                               "current":  "DED291F3198F9DDE0981A47836E9235D71A76DC58F7A2879935A5BDC34E58FD6",
+                               "cause":  "共享索引被多个包反复编辑：MG2 补登记 run-diagnostic-benchmark.ps1/verify-mg2.ps1，MG1 复验包又补登记 verify-mg1.ps1。产品源码未变。",
+                               "productCodeChanged":  false
+                           },
+                           {
+                               "path":  "dev/PineglowLauncher.Tests/CurseForgeRateLimitTests.cs",
+                               "recordedBy":  "MR12-curseforge-rate-limit/20261003-043000Z",
+                               "recorded":  "30E8D12725523381A129A4BAC461333E098AD2C1CBDD7A4619A9D043C0ECD9F7",
+                               "current":  "414B69ADAD7BEDD6ADC60BCB2F8BAD420A468D58854ACFBBBEDF9EB245031296",
+                               "cause":  "复验时发现该并发用例的假 handler 用 Calls++ 计数（非线程安全），全量跑时丢过一次计数；已改 Interlocked。修的是测试代码，产品代码未变",
+                               "productCodeChanged":  false
+                           }
+                       ],
+    "additionalFixesDuringVerification":  [
+                                              "dev/PineglowLauncher.Tests/ContentIconServiceTests.cs：端口派生 49777+(线程Id%100) 会撞（线程池 id 相差 100 派生出同一端口），实测复现 HttpListenerException；已改为操作系统分配空闲端口。该文件未被任何包记录，且为 ?? 未跟踪，故不产生漂移条目、也不改变 git status 行数。"
+                                          ],
+    "sealedEvidenceNotRewritten":  true,
+    "status":  "evidence-ready; independent verification NOT yet performed; user approval NOT given",
+    "notCovered":  [
+                       "MR09 的结论：真实模型评测需要另行授权外发与费用额度",
+                       "MR10 条件任务未实现，也未记录\"无需实现\"的结论",
+                       "真实 WebView2 渲染与点击（MR08 历史面板、MR11 取消按钮）",
+                       "真实端到端 .mrpack 导入（属 MR22 内测范围）",
+                       "真实 CurseForge 限流（需真实 Key 与配额）",
+                       "MR12 的请求合并/去重与结果缓存"
+                   ],
+    "note":  "脚本只证明证据齐全、哈希漂移已逐条解释、全量测试通过；不读代码、不覆盖真实环境。",
+    "files":  [
+                  {
+                      "path":  "drift-notes.md",
+                      "sha256":  "D79EE77F37A0F461A10C1A3EA9A5CAA2FA72BBD23B310A4CFB424D2935DBDC3E",
+                      "sizeBytes":  4650
+                  },
+                  {
+                      "path":  "git-status-after.txt",
+                      "sha256":  "DFFB544BCB42665C24F773A42C71D717D794200132446C29B69766AA267C73C5",
+                      "sizeBytes":  114547
+                  },
+                  {
+                      "path":  "README.md",
+                      "sha256":  "B08BF8BA66481761358ABFDA4BACD178B262A906CF0D38A6A0EE0C42659DDAB4",
+                      "sizeBytes":  6691
+                  },
+                  {
+                      "path":  "verification-checklist.md",
+                      "sha256":  "67F7F9D209E9298068550BA9310DBD3250D9297AFA51FB6A062BBC0CB89523CD",
+                      "sizeBytes":  7322
+                  },
+                  {
+                      "path":  "verify-mg2-drift-check.log",
+                      "sha256":  "A25B221DBDF679411825DDC065E0C6805AB96A7125DAE3935AA8F7559E389B34",
+                      "sizeBytes":  5286
+                  },
+                  {
+                      "path":  "verify-mg2-full.log",
+                      "sha256":  "B99A6D92BA9E6791B9DE5C8579254AD233AEB35AC539B7CC5BF05748F0813C31",
+                      "sizeBytes":  41770
+                  }
+              ],
+    "verifierScript":  {
+                           "path":  "scripts/verify-mg2.ps1",
+                           "sha256":  "65975A5299B1F42A0374BB509383F2DF115CFE925DA3FC66BB4B00F26060924D",
+                           "sizeBytes":  5327
+                       }
+}

@@ -1,0 +1,8 @@
+{
+  "utc": "2026-10-03T07:30:00Z",
+  "note": "审计覆盖的全部交付根。历史 59 份清单在 ed41 工作树，本轮新包在 0f45 工作树；两份根一起扫描才算覆盖了顶层 MG、全部 MR run 与本轮新包。",
+  "roots": [
+    "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\0f45\\松光启动器\\docs\\market-execution"
+  ]
+}

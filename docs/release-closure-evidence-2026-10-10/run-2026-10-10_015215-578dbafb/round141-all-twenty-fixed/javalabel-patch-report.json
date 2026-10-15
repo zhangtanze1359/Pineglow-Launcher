@@ -1,0 +1,12 @@
+﻿[
+    {
+        "label":  "P-JAVALABEL 1/2 zh label",
+        "file":  "ui\\js\\i18n.js",
+        "ok":  true
+    },
+    {
+        "label":  "P-JAVALABEL 2/2 en label",
+        "file":  "ui\\js\\i18n.js",
+        "ok":  true
+    }
+]

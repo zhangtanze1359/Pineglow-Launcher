@@ -1,0 +1,192 @@
+{
+  "runner": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-acceptance-ap4aublk\\scripts\\run-goal-validation.ps1",
+  "fixtureRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ",
+  "cases": [
+    {
+      "id": "unchanged-positive-and-resume",
+      "expected": "PASS and REUSED without new attempt",
+      "accepted": true,
+      "actual": {
+        "exitCode": 0,
+        "verdict": "PASS",
+        "stdout": "[unit] REUSED (input 8ACF635AD9F5)\nrunner verdict: PASS (stages 1, failed 0, partial False)\n",
+        "reused": true
+      },
+      "details": {},
+      "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\unchanged-positive-and-resume"
+    },
+    {
+      "id": "actual-input-changed",
+      "expected": "REFUSED and old evidence unchanged",
+      "accepted": true,
+      "actual": {
+        "exitCode": 2,
+        "verdict": "PASS",
+        "stdout": "input set verification failed: INPUT_SHA_MISMATCH\nrunner REFUSED: INPUT_SHA_MISMATCH,INPUT_SET_FAILED -> C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\actual-input-changed\\run\\refusal-20261004-103843Z.json\n",
+        "reused": false
+      },
+      "details": {
+        "oldEvidenceUnchanged": true
+      },
+      "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\actual-input-changed"
+    },
+    {
+      "id": "stale-trx",
+      "expected": "FAIL/TRX_MISSING; old TRX cannot count",
+      "accepted": true,
+      "actual": {
+        "exitCode": 1,
+        "verdict": "FAIL",
+        "stdout": "[unit] FAILED exit=0 TRX_MISSING,ARTIFACT_MISSING\nrunner verdict: FAIL (stages 1, failed 1, partial False)\n",
+        "reused": false
+      },
+      "details": {},
+      "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\stale-trx"
+    },
+    {
+      "id": "zero-executed-counters",
+      "expected": "FAIL/ZERO_TESTS",
+      "accepted": true,
+      "actual": {
+        "exitCode": 1,
+        "verdict": "FAIL",
+        "stdout": "[unit] FAILED exit=0 TRX_NO_RESULT_ROWS,TRX_COUNTERS_INCONSISTENT,ZERO_TESTS,TESTS_BELOW_MIN\nrunner verdict: FAIL (stages 1, failed 1, partial False)\n",
+        "reused": false
+      },
+      "details": {},
+      "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\zero-executed-counters"
+    },
+    {
+      "id": "produces-changed",
+      "expected": "REFUSED; old evidence preserved",
+      "accepted": true,
+      "actual": {
+        "exitCode": 2,
+        "verdict": "PASS",
+        "stdout": "incompatible resume: stagesFileSha256: 0659F44D9A956CE521D39193ACAB25E719E9130689D01F1941EA0FFCA080DFEC -> 759CAA8947E6D77391EE073FBADF99869F31C228040F200F9F82BC2F82B886E8\nthis run directory keeps its existing records; use a new -RunId and a new -RunDir\nrunner REFUSED: INCOMPATIBLE_RESUME_SAME_RUN_DIR -> C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\produces-changed\\run\\refusal-20261004-103845Z.json\n",
+        "reused": false
+      },
+      "details": {},
+      "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\produces-changed"
+    },
+    {
+      "id": "input-manifest-sha-changed",
+      "expected": "REFUSED; old evidence preserved",
+      "accepted": true,
+      "actual": {
+        "exitCode": 2,
+        "verdict": "PASS",
+        "stdout": "incompatible resume: inputManifestSha256: 1B6198CE46383E94624455BEFF20510EC54C4498F11C434909163DABD5F75DB0 -> 4230C633F05370596201990BF36D79A3D99792D3F30C8DA9703C5A71F5281FC9\nthis run directory keeps its existing records; use a new -RunId and a new -RunDir\nrunner REFUSED: INCOMPATIBLE_RESUME_SAME_RUN_DIR -> C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\input-manifest-sha-changed\\run\\refusal-20261004-103846Z.json\n",
+        "reused": false
+      },
+      "details": {},
+      "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\input-manifest-sha-changed"
+    },
+    {
+      "id": "empty-stages",
+      "expected": "REFUSED/NO_STAGES",
+      "accepted": true,
+      "actual": {
+        "exitCode": 2,
+        "verdict": "REFUSED",
+        "stdout": "runner REFUSED: NO_STAGES -> C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\empty-stages\\run\\refusal-20261004-103847Z.json\n"
+      },
+      "details": {},
+      "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\empty-stages"
+    },
+    {
+      "id": "unknown-only",
+      "expected": "REFUSED/ONLY_NOT_FOUND",
+      "accepted": true,
+      "actual": {
+        "exitCode": 2,
+        "verdict": "REFUSED",
+        "stdout": "runner REFUSED: ONLY_NOT_FOUND -> C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\unknown-only\\run\\refusal-20261004-103848Z.json\n"
+      },
+      "details": {},
+      "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\unknown-only"
+    },
+    {
+      "id": "failure-resume-original-evidence",
+      "expected": "second attempt PASS; old failed attempt and record preserved",
+      "accepted": true,
+      "actual": {
+        "exitCode": 0,
+        "verdict": "PASS",
+        "stdout": "[unit] COMPLETED exit=0\nrunner verdict: PASS (stages 1, failed 0, partial False)\n",
+        "reused": false
+      },
+      "details": {
+        "failedChildExit": 7,
+        "oldEvidenceUnchanged": true,
+        "oldRecordArchived": true
+      },
+      "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\failure-resume-original-evidence"
+    },
+    {
+      "id": "legal-partial-then-full",
+      "expected": "PARTIAL exit3 then full PASS with first stage reused",
+      "accepted": true,
+      "actual": {
+        "exitCode": 0,
+        "verdict": "PASS",
+        "stdout": "[unit] REUSED (input 8C0E13E3F4D4)\n[second] COMPLETED exit=0\nrunner verdict: PASS (stages 2, failed 0, partial False)\n",
+        "reused": true
+      },
+      "details": {
+        "partialExit": 3,
+        "partialVerdict": "PARTIAL"
+      },
+      "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\legal-partial-then-full"
+    },
+    {
+      "id": "execution-root-misbinding",
+      "expected": "REFUSED: manifest executionRoot must match supplied executionRoot",
+      "accepted": false,
+      "actual": {
+        "exitCode": 0,
+        "verdict": "PASS",
+        "stdout": "[unit] COMPLETED exit=0\nrunner verdict: PASS (stages 1, failed 0, partial False)\n",
+        "reused": false
+      },
+      "details": {
+        "manifestVerifiedRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\execution-root-misbinding",
+        "actualExecutionRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\execution-root-misbinding\\other-execution",
+        "stageLog": "source=different actual input\nchild actual exit=0\n"
+      },
+      "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\execution-root-misbinding"
+    },
+    {
+      "id": "input-mutated-during-run",
+      "expected": "FAIL/REFUSED if stage changes a frozen input before final verdict",
+      "accepted": false,
+      "actual": {
+        "exitCode": 0,
+        "verdict": "PASS",
+        "stdout": "[unit] COMPLETED exit=0\nrunner verdict: PASS (stages 1, failed 0, partial False)\n",
+        "reused": false
+      },
+      "details": {
+        "declaredSha": "50367A38344CFD58FDC4619BA19CDB7082A74C216566A0803FAC2086B16CA41D",
+        "actualFinalSha": "0B07DE62D81D8CD6203EAF31ACB4F06429F057B59E9C2F88EAE2FF59A47B250D"
+      },
+      "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\input-mutated-during-run"
+    },
+    {
+      "id": "expected-trx-omitted-from-produces",
+      "expected": "Refuse reuse or rerun when the expected TRX evidence changes",
+      "accepted": false,
+      "actual": {
+        "exitCode": 0,
+        "verdict": "PASS",
+        "stdout": "[unit] REUSED (input 9BD6A80831FE)\nrunner verdict: PASS (stages 1, failed 0, partial False)\n",
+        "reused": true
+      },
+      "details": {
+        "expectedTrxModified": true,
+        "declaredProduces": []
+      },
+      "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\expected-trx-omitted-from-produces"
+    }
+  ]
+}

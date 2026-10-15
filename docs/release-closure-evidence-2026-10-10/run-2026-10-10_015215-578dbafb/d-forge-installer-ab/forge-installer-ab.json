@@ -1,0 +1,16 @@
+﻿[
+    {
+        "tag":  "plain",
+        "arguments":  "-jar \"C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-forge-ab-fb2a22f364ff44ff94a2155ca3f355f9\\forge-installer.jar\" --installClient \"C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-forge-ab-fb2a22f364ff44ff94a2155ca3f355f9\\game\"",
+        "exitCode":  1,
+        "lines":  44,
+        "tail":  "\t... 16 more || Downloading minecraft client failed, invalid checksum. || Try again, or use the vanilla launcher to install the vanilla version. || There was an error during installation"
+    },
+    {
+        "tag":  "with-proxy",
+        "arguments":  "-Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=7897 -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=7897 -jar \"C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-forge-ab-fb2a22f364ff44ff94a2155ca3f355f9\\forge-installer.jar\" --installClient \"C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-forge-ab-fb2a22f364ff44ff94a2155ca3f355f9\\game\"",
+        "exitCode":  0,
+        "lines":  62512,
+        "tail":  "  Output: C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-forge-ab-fb2a22f364ff44ff94a2155ca3f355f9\\game\\libraries\\net\\minecraftforge\\forge\\1.21.11-61.2.1\\forge-1.21.11-61.2.1-client.jar Checksum Validated: 632ace45e535291c7576764c1c8d6388b73c9a75 || Injecting profile || Successfully installed client into launcher. || You can delete this installer file now if you wish"
+    }
+]

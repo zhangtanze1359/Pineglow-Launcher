@@ -1,0 +1,12 @@
+{
+    "schemaVersion":  2,
+    "runner":  "run-goal-validation.ps1",
+    "runDir":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\unknown-only\\run",
+    "stageFilter":  "",
+    "generatedUtc":  "2026-10-04T10:38:47Z",
+    "refused":  true,
+    "reasons":  [
+                    "ONLY_NOT_FOUND"
+                ],
+    "verdict":  "REFUSED"
+}

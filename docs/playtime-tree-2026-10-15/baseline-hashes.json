@@ -1,0 +1,18 @@
+[
+  {
+    "Path": "D:\\松光启动器\\ui\\js\\playtime.js",
+    "Hash": "0C9F5B0EA81464139B80A9D1DC38C415A08E56F1A732CBC5D828DB035DA2DB63"
+  },
+  {
+    "Path": "D:\\松光启动器\\ui\\css\\redesign.css",
+    "Hash": "FA776A0E75CBA481A6D61BCE8CF8D6CB5EC8DA89791B0099A0850EF57664F453"
+  },
+  {
+    "Path": "D:\\松光启动器\\ui\\js\\i18n.js",
+    "Hash": "21C4ED0C987FA7D0D2B9617252A9F6B6FAB14A2AC74F496643B2B9EE460EC7AA"
+  },
+  {
+    "Path": "D:\\松光启动器\\ui\\tests\\playtime.test.cjs",
+    "Hash": "8BEEE96BB540495BDEF9FC644BDE98C1F676415EE722B6763FAD5752422D2198"
+  }
+]

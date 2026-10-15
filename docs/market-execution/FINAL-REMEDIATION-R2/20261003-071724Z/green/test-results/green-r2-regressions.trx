@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="5f2ee158-c3e4-4a87-856a-c73268064d83" name="Administrator@PC-20260705RBJQ 2026-10-03 15:35:48" runUser="PC-20260705RBJQ\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-03T15:35:48.8797844+08:00" queuing="2026-10-03T15:35:48.8797848+08:00" start="2026-10-03T15:35:47.6915525+08:00" finish="2026-10-03T15:35:49.3149801+08:00" />
+  <TestSettings name="default" id="afb0d7b3-cdee-42f4-ab48-e99f7b8a524b">
+    <Deployment runDeploymentRoot="Administrator_PC-20260705RBJQ_2026-10-03_15_35_48" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="9c8c9b9d-2523-4704-b68e-2187bac6fc49" testId="d2835d56-2d17-99af-7a79-ae9dd49f88a1" testName="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.Restore_RejectsJunctionAboveRecordedRoot_WithTrustedRoot" computerName="PC-20260705RBJQ" duration="00:00:00.1948850" startTime="2026-10-03T15:35:48.8549161+08:00" endTime="2026-10-03T15:35:49.0282752+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9c8c9b9d-2523-4704-b68e-2187bac6fc49">
+      <Output>
+        <StdOut>[RA-01/service-trust] state=failed error=恢复目标路径不可信，拒绝写入：路径上存在符号链接/重解析点（junction）：C:\Users\Administrator\AppData\Local\Temp\pineglow-rbr-2a4bb599970344f0bd7651ebc3f8a07d\game</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="de9ffddf-df72-4f4d-a559-d06e516c0817" testId="98b356b8-3e24-52a5-b608-042580953221" testName="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.ModReplaceUndo_RejectsJunctionAboveRecordedModsRoot_Http" computerName="PC-20260705RBJQ" duration="00:00:00.2070499" startTime="2026-10-03T15:35:48.6257845+08:00" endTime="2026-10-03T15:35:48.8330476+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="de9ffddf-df72-4f4d-a559-d06e516c0817">
+      <Output>
+        <StdOut>[RA-01] restoreHTTP=200; body={"ok":false,"operationId":"20261003-073548-a185bebc","status":"failed","overwrite":false,"conflicts":0,"files":[{"relativePath":"a.jar","state":"failed","sha256":"DD7A346236273D4FD019C7BF806B00A7EEA9D992583B6AED9ED2231CF345F4B7","error":"\u6062\u590D\u76EE\u6807\u8DEF\u5F84\u4E0D\u53EF\u4FE1\uFF0C\u62D2\u7EDD\u5199\u5165\uFF1A\u8DEF\u5F84\u4E0A\u5B58\u5728\u7B26\u53F7\u94FE\u63A5/\u91CD\u89E3\u6790\u70B9\uFF08junction\uFF09\uFF1AC:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-rbr-3a8b7afc46eb4b7a97ad1972780dfbde\\game"}]}; outsideFileExists=False</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="1fcdc5f6-981e-4ee1-9afe-605f1bfd0ab2" testId="4bd23ae3-18ff-e7d1-f18d-fc0fc3b9076f" testName="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.Restore_RejectsJunctionInsteadOfOperationFilesDirectory" computerName="PC-20260705RBJQ" duration="00:00:00.1909202" startTime="2026-10-03T15:35:48.4075449+08:00" endTime="2026-10-03T15:35:48.5986453+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1fcdc5f6-981e-4ee1-9afe-605f1bfd0ab2">
+      <Output>
+        <StdOut>[RA-01/stored-junction] state=failed error=隔离副本路径不可信，拒绝使用：路径上存在符号链接/重解析点（junction）：C:\Users\Administrator\AppData\Local\Temp\pineglow-rbr-rec-5f4a62c25ae9492b8be1f53a1b35c649\rbr-e245930625354ba6828e0e9b44dcf93c\20261003-073548-2f9a020f\files\mods</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="4b580257-2e95-4b98-8e1f-f8868d857096" testId="182476cf-a91e-8de1-c90d-a4578bda503e" testName="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.Restore_RejectsWhenStoredSourceShaDoesNotMatchRecord" computerName="PC-20260705RBJQ" duration="00:00:00.0149496" startTime="2026-10-03T15:35:48.3564415+08:00" endTime="2026-10-03T15:35:48.3647458+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4b580257-2e95-4b98-8e1f-f8868d857096">
+      <Output>
+        <StdOut>[RA-02/sha] state=failed error=隔离副本 SHA256 与记录不符，拒绝消费该源</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="42f9c597-d1d9-449d-a940-6bb6aa22baf4" testId="baf67a1f-70a1-e789-43a1-4e83a90d1671" testName="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.Restore_RejectsJunctionAboveRecordedRoot_EvenWithoutTrustedRoot" computerName="PC-20260705RBJQ" duration="00:00:00.1950174" startTime="2026-10-03T15:35:49.0415584+08:00" endTime="2026-10-03T15:35:49.2366974+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="42f9c597-d1d9-449d-a940-6bb6aa22baf4">
+      <Output>
+        <StdOut>[RA-01/service-no-trust] state=failed error=恢复目标路径不可信，拒绝写入：路径被重定向：请求「C:\Users\Administrator\AppData\Local\Temp\pineglow-rbr-2e0ee3bd807349928ab3b894f71dc808\game\mods」，实际「C:\Users\Administrator\AppData\Local\Temp\pineglow-rbr-2e0ee3bd807349928ab3b894f71dc808\outside\mods」（链上有符号链接/重解析点）</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="da45e0a6-1212-47eb-b5b6-c8843e00a225" testId="574d5bb3-a68e-6736-8ebf-c75fe34df460" testName="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.SecretBackend_ConcurrentAsyncFlowsStayIsolated" computerName="PC-20260705RBJQ" duration="00:00:00.0098261" startTime="2026-10-03T15:35:49.0286303+08:00" endTime="2026-10-03T15:35:49.0413776+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="da45e0a6-1212-47eb-b5b6-c8843e00a225">
+      <Output>
+        <StdOut>[RA-05] 两条重叠异步流保持隔离；原生后端调用增量为 0</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="eb1bcf0a-eb5a-4ab3-817c-ffadeb722a8b" testId="e45b5d3d-80ef-edd1-37b0-5d5ce3d1bd0e" testName="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.Restore_RejectsSourceFromAnotherOperationOfTheSameInstance" computerName="PC-20260705RBJQ" duration="00:00:00.0098086" startTime="2026-10-03T15:35:48.6156810+08:00" endTime="2026-10-03T15:35:48.6256423+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="eb1bcf0a-eb5a-4ab3-817c-ffadeb722a8b">
+      <Output>
+        <StdOut>[RA-02/op] state=failed error=隔离副本不属于本实例/本操作，拒绝使用（伪造或跨操作的记录）</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="6c724843-177e-42dc-81b4-205c985b3556" testId="e578f50d-6706-9ff1-7069-e0b9b3b4e138" testName="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.HttpForgedStoredPath_MustNotConsumeOtherInstanceFile" computerName="PC-20260705RBJQ" duration="00:00:00.1294207" startTime="2026-10-03T15:35:48.2116475+08:00" endTime="2026-10-03T15:35:48.3483458+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6c724843-177e-42dc-81b4-205c985b3556">
+      <Output>
+        <StdOut>[RA-02/http] HTTP=200; body={"ok":false,"operationId":"20261003-073548-119055d0","status":"failed","overwrite":false,"conflicts":0,"files":[{"relativePath":"mods\\a.jar","state":"failed","sha256":"F92AB83C0FD58E1140418FDF4AA4FA74F0E779E085D408A6FEADB299634C090E","error":"\u9694\u79BB\u526F\u672C\u4E0D\u5C5E\u4E8E\u672C\u5B9E\u4F8B/\u672C\u64CD\u4F5C\uFF0C\u62D2\u7EDD\u4F7F\u7528\uFF08\u4F2A\u9020\u6216\u8DE8\u64CD\u4F5C\u7684\u8BB0\u5F55\uFF09"}]}; BStoredExists=True</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="f0ed308f-efcc-496b-93c8-7286979ee948" testId="06e3c59c-efd7-b789-c913-77a51377d453" testName="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.Restore_RejectsRecordWhoseRelativePathDoesNotMatchTheSource" computerName="PC-20260705RBJQ" duration="00:00:00.0056932" startTime="2026-10-03T15:35:48.3898650+08:00" endTime="2026-10-03T15:35:48.3957154+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f0ed308f-efcc-496b-93c8-7286979ee948">
+      <Output>
+        <StdOut>[RA-02/relative] state=failed error=隔离副本的相对路径与记录不符，拒绝使用：mods/a.jar</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="19d55bc9-8670-4b93-b747-aa79159979b4" testId="d6c2db43-9b88-f575-48e8-80f38eef3848" testName="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.StoredPath_MustBelongToSameInstanceAndOperation_Service" computerName="PC-20260705RBJQ" duration="00:00:00.0088511" startTime="2026-10-03T15:35:49.2368606+08:00" endTime="2026-10-03T15:35:49.2458516+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="19d55bc9-8670-4b93-b747-aa79159979b4">
+      <Output>
+        <StdOut>[RA-02/service] status=failed error=隔离副本不属于本实例/本操作，拒绝使用（伪造或跨操作的记录） BStoredExists=True AStoredExists=True</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="a1cfa5a4-8aed-4e6c-a0dc-dd93035eab56" testId="92deaac1-9779-34cb-bd42-83180ea52a60" testName="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.ModReplaceUndo_NormalRestore_StillWorksWithTrustedRoot" computerName="PC-20260705RBJQ" duration="00:00:00.0166054" startTime="2026-10-03T15:35:48.5987834+08:00" endTime="2026-10-03T15:35:48.6155393+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a1cfa5a4-8aed-4e6c-a0dc-dd93035eab56">
+      <Output>
+        <StdOut>[normal-undo] HTTP=200; body={"ok":true,"operationId":"20261003-073548-84c2b2de","status":"restored","overwrite":true,"conflicts":0,"files":[{"relativePath":"a.jar","state":"restored","sha256":"DD7A346236273D4FD019C7BF806B00A7EEA9D992583B6AED9ED2231CF345F4B7","error":null}]}</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="1bf08991-03ae-4118-b4d1-2861c087a204" testId="6f89700e-165b-ba1c-3046-1c4c00ae2692" testName="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.LoadAsync_RejectsRecordWhoseInstanceIdOnlyNormalizesToTheRequestedOne" computerName="PC-20260705RBJQ" duration="00:00:00.0054976" startTime="2026-10-03T15:35:49.2594477+08:00" endTime="2026-10-03T15:35:49.2651142+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1bf08991-03ae-4118-b4d1-2861c087a204">
+      <Output>
+        <StdOut>[RA-02/id] exact=True; normalizedCollision=False</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="e40b6f0d-e4d8-4dc1-85de-1abe6c6ceb55" testId="387d86cb-edaf-13ff-ad92-1a62cd9786dd" testName="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.RollbackFailure_HttpExposesStructuredRecoveryFields" computerName="PC-20260705RBJQ" duration="00:00:00.0246709" startTime="2026-10-03T15:35:48.3653391+08:00" endTime="2026-10-03T15:35:48.3897216+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e40b6f0d-e4d8-4dc1-85de-1abe6c6ceb55">
+      <Output>
+        <StdOut>[RA-03/fail] HTTP=400; body={"ok":false,"status":"commit_failed","error":"[commit_failed] \u5199\u5165\u65B0\u7248\u672C\u5931\u8D25\uFF0C**\u672A\u80FD\u5B8C\u5168\u56DE\u6EDA**\uFF0C\u65E7\u7248\u672C\u4ECD\u9700\u4EBA\u5DE5\u6062\u590D\u3002\u6062\u590D\u8BB0\u5F55 20261003-073548-93174fcf\uFF0C\u56DE\u6EDA\u72B6\u6001 failed\uFF0C\u672A\u6062\u590D\u6587\u4EF6\uFF1Aa.jar \u2192 Access to the path \u0027C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-rbr-92af78376ab04743bec6a714834e570b\\game\\mods\\a.jar\u0027 is denied.\uFF1B\u539F\u56E0\uFF1A\u672A\u80FD\u6062\u590D\u7684\u6587\u4EF6\uFF1Aa.jar \u2192 Access to the path \u0027C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-rbr-92af78376ab04743bec6a714834e570b\\game\\mods\\a.jar\u0027 is denied.\uFF1B\u539F\u59CB\u5931\u8D25\uFF1Ainjected commit failure","needsRecovery":true,"operationId":"20261003-073548-93174fcf","recoveryStatus":"failed","failedFiles":["a.jar \u2192 Access to the path \u0027C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-rbr-92af78376ab04743bec6a714834e570b\\game\\mods\\a.jar\u0027 is denied."]}</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="a6320951-d09b-41af-b6cc-f933e9bffde5" testId="8b94b74f-e46e-4943-560d-c105ffc1806d" testName="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.RollbackSuccess_HttpReportsNoRecoveryNeeded" computerName="PC-20260705RBJQ" duration="00:00:00.0114042" startTime="2026-10-03T15:35:48.3958642+08:00" endTime="2026-10-03T15:35:48.4074032+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a6320951-d09b-41af-b6cc-f933e9bffde5">
+      <Output>
+        <StdOut>[RA-03/success] HTTP=400; body={"ok":false,"status":"commit_failed","error":"[commit_failed] \u5199\u5165\u65B0\u7248\u672C\u5931\u8D25\uFF0C\u5DF2\u56DE\u6EDA\u5230\u65E7\u7248\u672C\uFF1Ainjected commit failure","needsRecovery":false,"operationId":"20261003-073548-6a34621b","recoveryStatus":"restored","failedFiles":[]}</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="120c0053-a422-429b-ac8b-ecdc0ee99789" testId="ecdc70e3-cea2-d568-5e2d-9a9fcb12f8e6" testName="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.MetadataFailure_HttpExposesStructuredFields" computerName="PC-20260705RBJQ" duration="00:00:00.0131397" startTime="2026-10-03T15:35:49.2460092+08:00" endTime="2026-10-03T15:35:49.2593019+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="120c0053-a422-429b-ac8b-ecdc0ee99789">
+      <Output>
+        <StdOut>[RA-03/metadata] HTTP=400; body={"ok":false,"status":"metadata_failed","error":"[metadata_failed] \u5199\u5165\u5143\u6570\u636E\u5931\u8D25\uFF0C\u5DF2\u56DE\u6EDA\u5230\u65E7\u7248\u672C\uFF1Ainjected metadata failure","needsRecovery":false,"operationId":"20261003-073549-80674a61","recoveryStatus":"restored","failedFiles":[]}</StdOut>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.ModReplaceUndo_RejectsJunctionAboveRecordedModsRoot_Http" storage="c:\users\administrator\appdata\local\temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="98b356b8-3e24-52a5-b608-042580953221">
+      <Execution id="de9ffddf-df72-4f4d-a559-d06e516c0817" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests" name="ModReplaceUndo_RejectsJunctionAboveRecordedModsRoot_Http" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.RollbackSuccess_HttpReportsNoRecoveryNeeded" storage="c:\users\administrator\appdata\local\temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="8b94b74f-e46e-4943-560d-c105ffc1806d">
+      <Execution id="a6320951-d09b-41af-b6cc-f933e9bffde5" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests" name="RollbackSuccess_HttpReportsNoRecoveryNeeded" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.Restore_RejectsSourceFromAnotherOperationOfTheSameInstance" storage="c:\users\administrator\appdata\local\temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="e45b5d3d-80ef-edd1-37b0-5d5ce3d1bd0e">
+      <Execution id="eb1bcf0a-eb5a-4ab3-817c-ffadeb722a8b" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests" name="Restore_RejectsSourceFromAnotherOperationOfTheSameInstance" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.StoredPath_MustBelongToSameInstanceAndOperation_Service" storage="c:\users\administrator\appdata\local\temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="d6c2db43-9b88-f575-48e8-80f38eef3848">
+      <Execution id="19d55bc9-8670-4b93-b747-aa79159979b4" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests" name="StoredPath_MustBelongToSameInstanceAndOperation_Service" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.ModReplaceUndo_NormalRestore_StillWorksWithTrustedRoot" storage="c:\users\administrator\appdata\local\temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="92deaac1-9779-34cb-bd42-83180ea52a60">
+      <Execution id="a1cfa5a4-8aed-4e6c-a0dc-dd93035eab56" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests" name="ModReplaceUndo_NormalRestore_StillWorksWithTrustedRoot" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.Restore_RejectsWhenStoredSourceShaDoesNotMatchRecord" storage="c:\users\administrator\appdata\local\temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="182476cf-a91e-8de1-c90d-a4578bda503e">
+      <Execution id="4b580257-2e95-4b98-8e1f-f8868d857096" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests" name="Restore_RejectsWhenStoredSourceShaDoesNotMatchRecord" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.RollbackFailure_HttpExposesStructuredRecoveryFields" storage="c:\users\administrator\appdata\local\temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="387d86cb-edaf-13ff-ad92-1a62cd9786dd">
+      <Execution id="e40b6f0d-e4d8-4dc1-85de-1abe6c6ceb55" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests" name="RollbackFailure_HttpExposesStructuredRecoveryFields" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.SecretBackend_ConcurrentAsyncFlowsStayIsolated" storage="c:\users\administrator\appdata\local\temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="574d5bb3-a68e-6736-8ebf-c75fe34df460">
+      <Execution id="da45e0a6-1212-47eb-b5b6-c8843e00a225" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests" name="SecretBackend_ConcurrentAsyncFlowsStayIsolated" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.Restore_RejectsJunctionAboveRecordedRoot_EvenWithoutTrustedRoot" storage="c:\users\administrator\appdata\local\temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="baf67a1f-70a1-e789-43a1-4e83a90d1671">
+      <Execution id="42f9c597-d1d9-449d-a940-6bb6aa22baf4" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests" name="Restore_RejectsJunctionAboveRecordedRoot_EvenWithoutTrustedRoot" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.MetadataFailure_HttpExposesStructuredFields" storage="c:\users\administrator\appdata\local\temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="ecdc70e3-cea2-d568-5e2d-9a9fcb12f8e6">
+      <Execution id="120c0053-a422-429b-ac8b-ecdc0ee99789" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests" name="MetadataFailure_HttpExposesStructuredFields" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.Restore_RejectsRecordWhoseRelativePathDoesNotMatchTheSource" storage="c:\users\administrator\appdata\local\temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="06e3c59c-efd7-b789-c913-77a51377d453">
+      <Execution id="f0ed308f-efcc-496b-93c8-7286979ee948" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests" name="Restore_RejectsRecordWhoseRelativePathDoesNotMatchTheSource" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.LoadAsync_RejectsRecordWhoseInstanceIdOnlyNormalizesToTheRequestedOne" storage="c:\users\administrator\appdata\local\temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="6f89700e-165b-ba1c-3046-1c4c00ae2692">
+      <Execution id="1bf08991-03ae-4118-b4d1-2861c087a204" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests" name="LoadAsync_RejectsRecordWhoseInstanceIdOnlyNormalizesToTheRequestedOne" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.Restore_RejectsJunctionAboveRecordedRoot_WithTrustedRoot" storage="c:\users\administrator\appdata\local\temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="d2835d56-2d17-99af-7a79-ae9dd49f88a1">
+      <Execution id="9c8c9b9d-2523-4704-b68e-2187bac6fc49" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests" name="Restore_RejectsJunctionAboveRecordedRoot_WithTrustedRoot" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.Restore_RejectsJunctionInsteadOfOperationFilesDirectory" storage="c:\users\administrator\appdata\local\temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="4bd23ae3-18ff-e7d1-f18d-fc0fc3b9076f">
+      <Execution id="1fcdc5f6-981e-4ee1-9afe-605f1bfd0ab2" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests" name="Restore_RejectsJunctionInsteadOfOperationFilesDirectory" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.HttpForgedStoredPath_MustNotConsumeOtherInstanceFile" storage="c:\users\administrator\appdata\local\temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="e578f50d-6706-9ff1-7069-e0b9b3b4e138">
+      <Execution id="6c724843-177e-42dc-81b4-205c985b3556" />
+      <TestMethod codeBase="C:\Users\Administrator\AppData\Local\Temp\pineglow-r2-green-9c4a7f1e2b6d48a3b5e0c81d72f9a463\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests" name="HttpForgedStoredPath_MustNotConsumeOtherInstanceFile" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="d2835d56-2d17-99af-7a79-ae9dd49f88a1" executionId="9c8c9b9d-2523-4704-b68e-2187bac6fc49" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="98b356b8-3e24-52a5-b608-042580953221" executionId="de9ffddf-df72-4f4d-a559-d06e516c0817" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4bd23ae3-18ff-e7d1-f18d-fc0fc3b9076f" executionId="1fcdc5f6-981e-4ee1-9afe-605f1bfd0ab2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="182476cf-a91e-8de1-c90d-a4578bda503e" executionId="4b580257-2e95-4b98-8e1f-f8868d857096" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="baf67a1f-70a1-e789-43a1-4e83a90d1671" executionId="42f9c597-d1d9-449d-a940-6bb6aa22baf4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="574d5bb3-a68e-6736-8ebf-c75fe34df460" executionId="da45e0a6-1212-47eb-b5b6-c8843e00a225" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e45b5d3d-80ef-edd1-37b0-5d5ce3d1bd0e" executionId="eb1bcf0a-eb5a-4ab3-817c-ffadeb722a8b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e578f50d-6706-9ff1-7069-e0b9b3b4e138" executionId="6c724843-177e-42dc-81b4-205c985b3556" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="06e3c59c-efd7-b789-c913-77a51377d453" executionId="f0ed308f-efcc-496b-93c8-7286979ee948" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d6c2db43-9b88-f575-48e8-80f38eef3848" executionId="19d55bc9-8670-4b93-b747-aa79159979b4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="92deaac1-9779-34cb-bd42-83180ea52a60" executionId="a1cfa5a4-8aed-4e6c-a0dc-dd93035eab56" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6f89700e-165b-ba1c-3046-1c4c00ae2692" executionId="1bf08991-03ae-4118-b4d1-2861c087a204" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="387d86cb-edaf-13ff-ad92-1a62cd9786dd" executionId="e40b6f0d-e4d8-4dc1-85de-1abe6c6ceb55" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8b94b74f-e46e-4943-560d-c105ffc1806d" executionId="a6320951-d09b-41af-b6cc-f933e9bffde5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ecdc70e3-cea2-d568-5e2d-9a9fcb12f8e6" executionId="120c0053-a422-429b-ac8b-ecdc0ee99789" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="15" executed="15" passed="15" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.9)&#xD;
+[xUnit.net 00:00:00.07]   Discovering: Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.16]   Discovered:  Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.18]   Starting:    Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:01.25]   Finished:    Pineglow.Launcher.Tests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

@@ -1,0 +1,456 @@
+{
+  "schemaVersion": 1,
+  "scope": "windows-local-offline-quality",
+  "generatedUtc": "2026-10-03T09:32:12Z",
+  "note": "Frozen expectation. Coverage is by identity: every required root and every declared package is checked; anything found on disk but not declared fails.",
+  "roots": [
+    {
+      "id": "ed41-history",
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution",
+      "required": true,
+      "schemaPolicy": "legacy-policy",
+      "packageCount": 60,
+      "siblingAllowlist": [],
+      "packages": [
+        {
+          "relativePath": "FINAL-REMEDIATION/20261003-052200Z",
+          "runId": "20261003-052200Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "DC25DE0EA1C0118B4F0822B779111D0F26DC231F39CA5DC178EF4693577A5B3C"
+        },
+        {
+          "relativePath": "gap-register-2026-10-03/20261003-190000Z",
+          "runId": "20261003-190000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "A7FFA49F816BE39C9CF80BA9BC09FB8F0AC1E5080BCC3032C263E73E0E7B1C1F"
+        },
+        {
+          "relativePath": "MG-audit-claimed-tests/20261003-470000Z",
+          "runId": "20261003-470000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "7AE0C066770309DEC4563F6D987C53F8FF5A07D136CD6852AB27D8625266EBE4"
+        },
+        {
+          "relativePath": "MG-audit-evidence-tree/20261003-460000Z",
+          "runId": "20261003-460000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "F5608227B8B86B192F11329E846DBF414F17648782719615251B8BD981B0D2CB"
+        },
+        {
+          "relativePath": "MG0-verification-package-20261003",
+          "runId": "MG0-verification-package-20261003",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "42F17505ED5490879B0D47AA2E0741D43711D5FC60125FF66732FE4E060562D9"
+        },
+        {
+          "relativePath": "MG1-verification-package-20261003",
+          "runId": "MG1-verification-package-20261003",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "EDEF300B9C3446D7D3922C34E8B57349A38F9B10DE6AC227CD9B6BE7AD8CAB0D"
+        },
+        {
+          "relativePath": "MG2-verification-package-20261003",
+          "runId": "MG2-verification-package-20261003",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "7889F3BB61B03A5FBAF6A2A37B97B703577A12EDD4AC49F00EC4F6221E916259"
+        },
+        {
+          "relativePath": "MG3-verification-package-20261003",
+          "runId": "MG3-verification-package-20261003",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "AA8DDC531A65E9497A7579128224EC3D5586C82A932898806F7D977E95CB04DC"
+        },
+        {
+          "relativePath": "MR00-MR27-evidence-index/20261003-140000Z",
+          "runId": "20261003-140000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "D6AD9BF1FE5EE3F434DA2FC1E22E4A3222FF0CD7F4A59CE88113C3820D1E9B1D"
+        },
+        {
+          "relativePath": "MR00-MR27-ledger-consistency-audit/20261003-130000Z",
+          "runId": "20261003-130000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "6129018AEF654987E2DC0EDFB915299BEA7D5FC99652575DDD6139353C295AFF"
+        },
+        {
+          "relativePath": "MR02/20261003-110000Z",
+          "runId": "20261003-110000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "34F0670470511EE5A67D1243498ED4AF49EDECD9CBEBCDAD49634344CE0993DA"
+        },
+        {
+          "relativePath": "MR03-atomic-launch-reservation/20261003-320000Z",
+          "runId": "20261003-320000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "60D80E01A589C9EA99A52CABE4487B96BCCDAC4FD9E97924FB9FF1CD63FC391F"
+        },
+        {
+          "relativePath": "MR03-default-instance-boundary/20261003-250000Z",
+          "runId": "20261003-250000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "D634E658C5A7255F31DC741B285BD890EED66641EC4F080A2D3D497254EBE0FF"
+        },
+        {
+          "relativePath": "MR03-deterministic-atomicity-red/20261003-330000Z",
+          "runId": "20261003-330000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "FE46EDDE9602FA7E91786520BD26B7B468AD5D34D02288E7D2B32A9B6E9CF0C5"
+        },
+        {
+          "relativePath": "MR03-instance-running-guard/20261003-060000Z",
+          "runId": "20261003-060000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "DAB9FC2794D9CE4D0C27E43C1AD7105AFA11ED308930DF7F3AE02031C18CA61D"
+        },
+        {
+          "relativePath": "MR03-launch-concurrency-guard/20261003-310000Z",
+          "runId": "20261003-310000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "33CD08A8835D5C73C4171CE8E04EA0A862115A585EC654C17758CF95F7854EB1"
+        },
+        {
+          "relativePath": "MR03-remove-from-list/20261002-190000Z",
+          "runId": "20261002-190000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "B472800604791AEAF81742F96BE1D19D193C88B34999B7310A1F75C570DDA29A"
+        },
+        {
+          "relativePath": "MR03-world-backup-scope-fix/20261003-500000Z",
+          "runId": "20261003-500000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "6A053EACB2D1ADA66694ED8297D51082B64137E4EAE4D6C4B80197BDFA38CB2A"
+        },
+        {
+          "relativePath": "MR04-locked-file-hash-fix/20261003-230000Z",
+          "runId": "20261003-230000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "712F732F0D1E9EF0C535C6AE7B9B5A825479DA17E633C891474A98430981599D"
+        },
+        {
+          "relativePath": "MR04-recoverable-mod-delete/20261002-193000Z",
+          "runId": "20261002-193000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "4E9323275D7290B77391D4842E760A8DEF1C8813CF791C52121D7666D4AF5E2E"
+        },
+        {
+          "relativePath": "MR04-recovery-edge-cases/20261003-220000Z",
+          "runId": "20261003-220000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "5A192AAD514F7FDD95CC6C004D6DD484450F5568E1841D615DA31DE6EA37A18D"
+        },
+        {
+          "relativePath": "MR05-dependency-install-tests/20261003-210000Z",
+          "runId": "20261003-210000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "39BBD4CEC5840700771D4AEF7A7A07C18047124527F6852849F2FAB0FDAC9EEF"
+        },
+        {
+          "relativePath": "MR05-file-in-use/20261003-440000Z",
+          "runId": "20261003-440000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "EC28CC682090535A6F8180C9D045E88FAB019FF2982B91DCF340F103D9928959"
+        },
+        {
+          "relativePath": "MR05-mod-replacement-transaction/20261002-201500Z",
+          "runId": "20261002-201500Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "B94E122FC1215DC541A88F2F8E78FE915A3C4D772E4A99D1DD9DE3B3062F4342"
+        },
+        {
+          "relativePath": "MR05-modcontent-update-wiring-tests/20261003-200000Z",
+          "runId": "20261003-200000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "7430238DA646C55B81EA4381F599AA1B51CF31F1C68760C4E9F51D912B9F2787"
+        },
+        {
+          "relativePath": "MR05-recovery-version-display/20261003-410000Z",
+          "runId": "20261003-410000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "EADFA5F78DDA7729BBD310E001CF852EC9C0B3086D0AB015D0AC605A52910096"
+        },
+        {
+          "relativePath": "MR05-recovery-version-display/20261003-430000Z",
+          "runId": "20261003-430000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "447353ADA18D03F2CCC0F5780E0B8667754062E8B7CA48DCF5506FE50EAE05F6"
+        },
+        {
+          "relativePath": "MR05-replace-version-metadata/20261003-420000Z",
+          "runId": "20261003-420000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "3DA988EAC52403F903F484AA7B73975C97184FF1EDB591E658AD77074AE231B3"
+        },
+        {
+          "relativePath": "MR06-bisect-file-operation-failures/20261002-211500Z",
+          "runId": "20261002-211500Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "3FEE7ECF112F81CAD26E587C23D73EC43A267F7933C355C329212EAB49E68460"
+        },
+        {
+          "relativePath": "MR06-bisect-smoke-fault-injection/20261003-240000Z",
+          "runId": "20261003-240000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "5A7055A6E14CA1D4294BE99D1EF02BF7B639FDEE1FC1E7AA1191272D0D12B41F"
+        },
+        {
+          "relativePath": "MR07-bisect-restart-recovery/20261002-223000Z",
+          "runId": "20261002-223000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "E7C1550F5B589DFB92E2AFE64F22BCBAD6C1EA7F48BA53A9179DCD0FB2FBB64C"
+        },
+        {
+          "relativePath": "MR07-bisect-safety-guidance/20261003-450000Z",
+          "runId": "20261003-450000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "EDE7CCD707BE1482ADCE206CAA4F444FE3A8D3DA5F545D5237EF285C981BF604"
+        },
+        {
+          "relativePath": "MR08-diagnostic-report-history/20261002-234500Z",
+          "runId": "20261002-234500Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "074970395A142F7A45A74A3C5FE8F01E418AFC577D785CBFB1FF0EC87058543E"
+        },
+        {
+          "relativePath": "MR09-case-set-representativeness/20261003-280000Z",
+          "runId": "20261003-280000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "566D52BA798CB6B00BE8B7005D43BE48B791CD43B53C7B295ABB937FD399E25C"
+        },
+        {
+          "relativePath": "MR09-diagnostic-benchmark/20261003-010000Z",
+          "runId": "20261003-010000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "A83FDFE3A4D4C08FE87B99A5E3C8A61CFF695C8DB8D76D97909C762990DF2BC6"
+        },
+        {
+          "relativePath": "MR10-progress-gate-assessment/20261003-120000Z",
+          "runId": "20261003-120000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "3E4F2DC974F63B0EF734DF4CC76F6AAB9FA04EF5AF193FC52BBB08C33F328BA2"
+        },
+        {
+          "relativePath": "MR11-mrpack-spec-import-rollback/20261003-023000Z",
+          "runId": "20261003-023000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "58B46CCB9E61D76E837E15DC56FEFE798090E6D12A3B02D7BD47729FCB413035"
+        },
+        {
+          "relativePath": "MR12-curseforge-rate-limit/20261003-043000Z",
+          "runId": "20261003-043000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "ED8C5B68D89A24FD8283F6692192335ED597A5A1E12850D1C75120AA7BC06F6C"
+        },
+        {
+          "relativePath": "MR12-outbound-endpoint-audit/20261003-270000Z",
+          "runId": "20261003-270000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "2D0C5540653FC5DD1763C89654D1C823F98F1C78E4E29E347C97B3D84E7C3E8D"
+        },
+        {
+          "relativePath": "MR17-accessibility-keyboard/20261003-100000Z",
+          "runId": "20261003-100000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "078C40C0616E410855680B489478F58BEA22CF4B886595372F1E644952FC488A"
+        },
+        {
+          "relativePath": "MR17-fixture-isolation-audit/20261003-370000Z",
+          "runId": "20261003-370000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "5F037EBF5F21E3054860392B2B9A8FAC69C6C13A3B7AA12349BA884C7E834664"
+        },
+        {
+          "relativePath": "MR17-fixture-isolation-audit/20261003-380000Z",
+          "runId": "20261003-380000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "8B62A1F0155F831B15AB1774C1B2CE229DEB377E97EAA640319A0EF488231F6E"
+        },
+        {
+          "relativePath": "MR17-fixture-isolation-audit/20261003-390000Z",
+          "runId": "20261003-390000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "405B1EB48BEBCCA328AF9E4FFFA85D63120D2E75A2BE3FA456DCBF3D5A78CF28"
+        },
+        {
+          "relativePath": "MR17-makeel-doubles-and-taborder/20261003-400000Z",
+          "runId": "20261003-400000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "C3F60DC27EAB582E5CABF5215674B1628E4AE3B3488460F955AF5B821A2F0E21"
+        },
+        {
+          "relativePath": "MR17-test-isolation-real-appdata/20261003-360000Z",
+          "runId": "20261003-360000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "91150FA3777C135E7628574B0B479AEE57BCC90AEF197B45B6CE65C640AFF2CA"
+        },
+        {
+          "relativePath": "MR19-ci-workflow-invariants/20261003-260000Z",
+          "runId": "20261003-260000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "D8EBAB431B00D4991D8744AE5E4D223359069CB955AE6A66076AF14D9D9B286A"
+        },
+        {
+          "relativePath": "MR19-dll-byte-diff-mechanism/20261003-340000Z",
+          "runId": "20261003-340000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "15880757E044E383FD02ECEF07C2B7DDAED39209B1EE5699DC52D992B43C91E6"
+        },
+        {
+          "relativePath": "MR19-managed-assembly-pathcheck/20261003-180000Z",
+          "runId": "20261003-180000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "9DF56D20B96DAAFA3F907B705D066DC9CC17FF0A5C6E0A654899828FCE83FD07"
+        },
+        {
+          "relativePath": "MR19-reproducible-build-rid/20261003-070000Z",
+          "runId": "20261003-070000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "0A2765AAF36A88321C9325956BCD36B8F30F3FE7A85F544CF6B75C0059895F05"
+        },
+        {
+          "relativePath": "MR19-singlefile-pathcheck/20261003-160000Z",
+          "runId": "20261003-160000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "AD35DDBB051CDF6691428A4AD3E9B8F7306AE9AB9633FFDA800828D0A3A00C0E"
+        },
+        {
+          "relativePath": "MR19-singlefile-pathlen-discriminator/20261003-170000Z",
+          "runId": "20261003-170000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "38483F63F8D5F0E7638F2238495B5E2C65A67A795A79F0E7D2DDF2811F549101"
+        },
+        {
+          "relativePath": "MR19-singlefile-reproducibility/20261003-150000Z",
+          "runId": "20261003-150000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "41BFAAEC48A071DA011B9F3AB1958CE0C34FC86CFC2FA299DCBA9DD8ECCF6C31"
+        },
+        {
+          "relativePath": "MR20-config-backup-rotation/20261003-480000Z",
+          "runId": "20261003-480000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "35123058ACEBB6AD8A631FEBAD005318E5FCED17329B21D98D635A5C959533DA"
+        },
+        {
+          "relativePath": "MR20-config-preservation/20261003-350000Z",
+          "runId": "20261003-350000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "C1C78AA61B6B1ECB9DAC4CB7A99187687069DF457B101A7B1D8C0E6885314562"
+        },
+        {
+          "relativePath": "MR20-secret-persistence-contract/20261003-490000Z",
+          "runId": "20261003-490000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "D01AA2587E6325B680CCF2D1EFE9A6BDC89B8205D7D0C86288F15B281739EC2C"
+        },
+        {
+          "relativePath": "MR20-self-update-recovery/20261003-080000Z",
+          "runId": "20261003-080000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "B1E8E08A3FC628C96CF4D1FD6904701166FD4A615E97683C0D6385C66353B020"
+        },
+        {
+          "relativePath": "MR21-install-launch-perf-baseline/20261003-090000Z",
+          "runId": "20261003-090000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "6715605B3F0D6EDDB05DCD4263004031C37A849901A1AD26C95D381C716F866A"
+        },
+        {
+          "relativePath": "MR21-startup-boundaries/20261003-290000Z",
+          "runId": "20261003-290000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "2CA0B75FC528985A6384212625A57CC18C4817EC502F8A81FAB6ECAAC69DDCF2"
+        },
+        {
+          "relativePath": "MR21-unwritable-directory/20261003-300000Z",
+          "runId": "20261003-300000Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "FF58D7383D656FE8B5F4C48B11B71BDDA872A274AAD47DD50BB8B70F61F150BA"
+        },
+        {
+          "relativePath": "W1-W3-route-closure/20261002-182304Z",
+          "runId": "20261002-182304Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "AB7F0822B134787F9EE601855872B000CD58172CC3B2CDC33F2E258E1C52073E"
+        }
+      ]
+    },
+    {
+      "id": "r2-current",
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\0f45\\松光启动器\\docs\\market-execution",
+      "required": true,
+      "schemaPolicy": "legacy-policy",
+      "packageCount": 1,
+      "siblingAllowlist": [],
+      "packages": [
+        {
+          "relativePath": "FINAL-REMEDIATION-R2/20261003-071724Z",
+          "runId": "20261003-071724Z",
+          "required": true,
+          "schemaPolicy": "legacy-policy",
+          "manifestSha256": "A99E360E24953C9DFB25F35CB86035361A00B0FCFC395C1C9DB0A915CD9EF370"
+        }
+      ]
+    }
+  ],
+  "exceptions": []
+}

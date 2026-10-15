@@ -1,0 +1,170 @@
+[
+  {
+    "seq": 146,
+    "type": "assistant/attempt",
+    "timeUtc": "2026-10-09T17:51:47.261Z",
+    "timeHongKong": "2026-10-10T01:51:47.261+08:00",
+    "turn": 1,
+    "step": 21,
+    "failure": {
+      "message": "Connection error.",
+      "code": "TRANSPORT"
+    }
+  },
+  {
+    "seq": 319,
+    "type": "assistant/attempt",
+    "timeUtc": "2026-10-09T18:08:12.651Z",
+    "timeHongKong": "2026-10-10T02:08:12.651+08:00",
+    "turn": 1,
+    "step": 51,
+    "failure": {
+      "message": "terminated",
+      "code": "TRANSPORT"
+    }
+  },
+  {
+    "seq": 659,
+    "type": "assistant/attempt",
+    "timeUtc": "2026-10-09T18:37:18.997Z",
+    "timeHongKong": "2026-10-10T02:37:18.997+08:00",
+    "turn": 3,
+    "step": 10,
+    "failure": {
+      "message": "Connection error.",
+      "code": "TRANSPORT"
+    }
+  },
+  {
+    "seq": 1031,
+    "type": "assistant/attempt",
+    "timeUtc": "2026-10-09T19:04:51.951Z",
+    "timeHongKong": "2026-10-10T03:04:51.951+08:00",
+    "turn": 6,
+    "step": 22,
+    "failure": {
+      "message": "Connection error.",
+      "code": "TRANSPORT"
+    }
+  },
+  {
+    "seq": 1174,
+    "type": "assistant/attempt",
+    "timeUtc": "2026-10-09T19:22:36.840Z",
+    "timeHongKong": "2026-10-10T03:22:36.840+08:00",
+    "turn": 7,
+    "step": 18,
+    "failure": {
+      "message": "Connection error.",
+      "code": "TRANSPORT"
+    }
+  },
+  {
+    "seq": 1177,
+    "type": "assistant/attempt",
+    "timeUtc": "2026-10-09T19:22:44.122Z",
+    "timeHongKong": "2026-10-10T03:22:44.122+08:00",
+    "turn": 7,
+    "step": 18,
+    "failure": {
+      "message": "Connection error.",
+      "code": "TRANSPORT"
+    }
+  },
+  {
+    "seq": 1180,
+    "type": "assistant/attempt",
+    "timeUtc": "2026-10-09T19:22:49.851Z",
+    "timeHongKong": "2026-10-10T03:22:49.851+08:00",
+    "turn": 7,
+    "step": 18,
+    "failure": {
+      "message": "Connection error.",
+      "code": "TRANSPORT"
+    }
+  },
+  {
+    "seq": 1183,
+    "type": "assistant/attempt",
+    "timeUtc": "2026-10-09T19:22:56.341Z",
+    "timeHongKong": "2026-10-10T03:22:56.341+08:00",
+    "turn": 7,
+    "step": 18,
+    "failure": {
+      "message": "Connection error.",
+      "code": "TRANSPORT"
+    }
+  },
+  {
+    "seq": 1731,
+    "type": "assistant/attempt",
+    "timeUtc": "2026-10-09T20:47:49.608Z",
+    "timeHongKong": "2026-10-10T04:47:49.608+08:00",
+    "turn": 11,
+    "step": 22,
+    "failure": {
+      "message": "Connection error.",
+      "code": "TRANSPORT"
+    }
+  },
+  {
+    "seq": 1739,
+    "type": "assistant/attempt",
+    "timeUtc": "2026-10-09T20:48:11.334Z",
+    "timeHongKong": "2026-10-10T04:48:11.334+08:00",
+    "turn": 11,
+    "step": 23,
+    "failure": {
+      "message": "400 status code (no body)",
+      "code": "INVALID_REQUEST"
+    }
+  },
+  {
+    "seq": 1751,
+    "type": "assistant/attempt",
+    "timeUtc": "2026-10-10T04:24:14.522Z",
+    "timeHongKong": "2026-10-10T12:24:14.522+08:00",
+    "turn": 12,
+    "step": 1,
+    "failure": {
+      "message": "400 status code (no body)",
+      "code": "INVALID_REQUEST"
+    }
+  },
+  {
+    "seq": 1761,
+    "type": "assistant/attempt",
+    "timeUtc": "2026-10-10T04:28:09.870Z",
+    "timeHongKong": "2026-10-10T12:28:09.870+08:00",
+    "turn": 13,
+    "step": 1,
+    "failure": {
+      "message": "400 status code (no body)",
+      "code": "INVALID_REQUEST"
+    }
+  },
+  {
+    "seq": 1772,
+    "type": "assistant/attempt",
+    "timeUtc": "2026-10-10T04:45:19.470Z",
+    "timeHongKong": "2026-10-10T12:45:19.470+08:00",
+    "turn": 14,
+    "step": 1,
+    "failure": {
+      "message": "400 status code (no body)",
+      "code": "INVALID_REQUEST"
+    }
+  },
+  {
+    "seq": 1784,
+    "type": "assistant/attempt",
+    "timeUtc": "2026-10-10T05:03:57.617Z",
+    "timeHongKong": "2026-10-10T13:03:57.617+08:00",
+    "turn": 15,
+    "step": 1,
+    "failure": {
+      "message": "400 status code (no body)",
+      "code": "INVALID_REQUEST"
+    }
+  }
+]

@@ -1,0 +1,2872 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>松光启动器 · UI 重构原型 / Pineglow Launcher</title>
+<style>
+/* ─────────────────────────────────────────────────────────────────────────
+ * 设计系统令牌 · Raycast（verbatim contract — 不新增、不重定义）
+ * ─────────────────────────────────────────────────────────────────── */
+:root {
+  /* ─── Surface ──────────────────────────────────────────────────── */
+  --bg:           #07080a;              /* near-black blue tint — the void */
+  --surface:      #101111;              /* Surface 100 — elevated cards */
+  --surface-warm: var(--surface);       /* no warm tier in cold dark system */
+
+  /* ─── Foreground ───────────────────────────────────────────────── */
+  --fg:    #f9f9f9;                     /* near-white primary text */
+  --fg-2:  #cecece;                     /* light gray secondary body */
+  --muted: #9c9c9d;                     /* medium gray tertiary / nav links */
+  --meta:  #6a6b6c;                     /* dim gray placeholders / metadata */
+
+  /* ─── Border ───────────────────────────────────────────────────── */
+  --border:      rgba(255, 255, 255, 0.06);   /* card containment — barely visible */
+  --border-soft: rgba(255, 255, 255, 0.04);   /* inner row separator */
+
+  /* ─── Accent ───────────────────────────────────────────────────── */
+  --accent:        #FF6363;             /* Raycast Red — hero stripes, error states */
+  --accent-on:     #ffffff;
+  --accent-hover:  #ff7777;             /* lighter tone for hover */
+  --accent-active: #e85757;             /* darker tone for pressed */
+
+  /* ─── Semantic ─────────────────────────────────────────────────── */
+  --success: hsl(151, 59%, 59%);        /* Raycast Green */
+  --warn:    hsl(43, 100%, 60%);        /* Raycast Yellow */
+  --danger:  hsl(0, 100%, 69%);         /* Error Red (≈ #FF6363) */
+
+  /* ─── Typography ───────────────────────────────────────────────── */
+  --font-display: "Inter", "Inter Fallback", "SF Pro Display", -apple-system, system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-body:    "Inter", "Inter Fallback", "SF Pro Text", -apple-system, system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-mono:    "GeistMono", ui-monospace, "SF Mono", "Roboto Mono", Menlo, Monaco, Consolas, monospace;
+
+  --text-xs:   12px;
+  --text-sm:   14px;
+  --text-base: 16px;
+  --text-lg:   18px;
+  --text-xl:   20px;
+  --text-2xl:  24px;
+  --text-3xl:  40px;
+  --text-4xl:  64px;
+
+  --leading-body:     1.6;
+  --leading-tight:    1.1;
+  --tracking-display: 0px;
+
+  /* ─── Spacing ──────────────────────────────────────────────────── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-12: 48px;
+
+  --section-y-desktop: 96px;
+  --section-y-tablet:  64px;
+  --section-y-phone:   40px;
+
+  /* ─── Radius ───────────────────────────────────────────────────── */
+  --radius-sm:   6px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-pill: 9999px;
+
+  /* ─── Elevation ────────────────────────────────────────────────── */
+  --elev-flat:   none;
+  --elev-ring:   rgb(27, 28, 30) 0px 0px 0px 1px, rgb(7, 8, 10) 0px 0px 0px 1px inset;
+  --elev-raised:
+    rgba(255, 255, 255, 0.05) 0px 1px 0px 0px inset,
+    rgba(0, 0, 0, 0.28) 0px 1.189px 2.377px,
+    0 0 0 1px rgba(255, 255, 255, 0.06);
+
+  /* ─── Focus ────────────────────────────────────────────────────── */
+  --focus-ring: 0 0 0 3px hsla(202, 100%, 67%, 0.35);
+
+  /* ─── Motion ───────────────────────────────────────────────────── */
+  --motion-fast:   150ms;
+  --motion-base:   200ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  /* ─── Layout ───────────────────────────────────────────────────── */
+  --container-max:            1200px;
+  --container-gutter-desktop: 24px;
+  --container-gutter-tablet:  16px;
+  --container-gutter-phone:   12px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+ * 派生层（只由上面的令牌 color-mix 得出，不引入新色值）
+ * ─────────────────────────────────────────────────────────────────── */
+:root {
+  --fill-1:      color-mix(in oklch, var(--fg) 4%, transparent);
+  --fill-2:      color-mix(in oklch, var(--fg) 7%, transparent);
+  --fill-3:      color-mix(in oklch, var(--fg) 11%, transparent);
+  --line-2:      color-mix(in oklch, var(--fg) 10%, transparent);
+  --line-3:      color-mix(in oklch, var(--fg) 16%, transparent);
+  --accent-soft: color-mix(in oklch, var(--accent) 15%, transparent);
+  --success-soft:color-mix(in oklch, var(--success) 15%, transparent);
+  --warn-soft:   color-mix(in oklch, var(--warn) 15%, transparent);
+  --danger-soft: color-mix(in oklch, var(--danger) 15%, transparent);
+  --info:        hsl(202, 100%, 67%);
+  --info-soft:   color-mix(in oklch, var(--info) 15%, transparent);
+  --scrim:       color-mix(in oklch, var(--bg) 76%, transparent);
+  --ink:         var(--bg);
+  /* 松林夜景重着色层 */
+  --art-sky-top: var(--bg);
+  --art-sky-bot: color-mix(in oklch, var(--bg) 62%, var(--muted));
+  --art-sun:     var(--accent);
+  --art-ridge-3: color-mix(in oklch, var(--bg) 72%, var(--muted));
+  --art-ridge-2: color-mix(in oklch, var(--bg) 80%, var(--muted));
+  --art-ridge-1: color-mix(in oklch, var(--bg) 88%, var(--muted));
+  --art-near:    var(--surface);
+  --art-pine-3:  color-mix(in oklch, var(--bg) 78%, var(--muted));
+  --art-pine-2:  color-mix(in oklch, var(--bg) 86%, var(--muted));
+  --art-pine-1:  color-mix(in oklch, var(--bg) 94%, var(--muted));
+  --art-mist:    color-mix(in oklch, var(--muted) 22%, transparent);
+  --art-grass:   color-mix(in oklch, var(--bg) 84%, var(--muted));
+}
+
+/* ─────────────────────────── reset & base ─────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
+html { color-scheme: dark; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  line-height: var(--leading-body);
+  letter-spacing: 0.2px;
+  font-feature-settings: "calt" 1, "kern" 1, "liga" 1, "ss03" 1;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow: hidden;
+}
+h1, h2, h3, h4 { margin: 0; font-family: var(--font-display); font-weight: 600; letter-spacing: -0.01em; }
+p { margin: 0; text-wrap: pretty; }
+button, input, select, textarea { font: inherit; color: inherit; letter-spacing: inherit; }
+button { background: none; border: 0; cursor: pointer; padding: 0; }
+a { color: inherit; text-decoration: none; }
+img, svg { display: block; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-sm); }
+::selection { background: var(--accent-soft); color: var(--fg); }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--fill-2); border-radius: var(--radius-pill); border: 3px solid transparent; background-clip: content-box; }
+::-webkit-scrollbar-thumb:hover { background: var(--fill-3); background-clip: content-box; }
+
+.skip-link {
+  position: fixed; top: var(--space-2); left: var(--space-2); z-index: 60;
+  transform: translateY(-200%);
+  padding: var(--space-2) var(--space-4);
+  background: var(--surface); border: 1px solid var(--line-3); border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  transition: transform var(--motion-fast) var(--ease-standard);
+}
+.skip-link:focus-visible { transform: translateY(0); }
+
+/* ─────────────────────────── 工具类 ─────────────────────────── */
+.num  { font-family: var(--font-mono); font-variant-numeric: tabular-nums; letter-spacing: 0.2px; }
+.meta { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--meta); letter-spacing: 0.2px; }
+.mono { font-family: var(--font-mono); }
+.muted { color: var(--muted); }
+.fg2 { color: var(--fg-2); }
+.stack { display: flex; flex-direction: column; }
+.row { display: flex; align-items: center; }
+.row-between { display: flex; align-items: center; justify-content: space-between; }
+.gap-1 { gap: var(--space-1); } .gap-2 { gap: var(--space-2); } .gap-3 { gap: var(--space-3); }
+.gap-4 { gap: var(--space-4); } .gap-5 { gap: var(--space-5); } .gap-6 { gap: var(--space-6); }
+.grow { flex: 1 1 auto; min-width: 0; }
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ─────────────────────────── 应用外壳 ─────────────────────────── */
+.app { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+
+.titlebar {
+  flex: 0 0 40px; height: 40px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding-left: var(--space-4);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  user-select: none;
+}
+.brand { display: flex; align-items: center; gap: var(--space-3); }
+.brand-mark { width: 15px; height: 17px; color: var(--fg); }
+.brand-name { font-family: var(--font-display); font-size: var(--text-xs); font-weight: 700; letter-spacing: 1.6px; }
+.brand-div { width: 1px; height: 14px; background: var(--line-2); }
+.brand-sub { font-size: var(--text-xs); color: var(--muted); letter-spacing: 0.4px; }
+.win-controls { display: flex; height: 100%; }
+.win-btn {
+  width: 44px; height: 100%;
+  display: grid; place-items: center;
+  color: var(--muted);
+  transition: background var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard);
+}
+.win-btn svg { width: 11px; height: 11px; stroke: currentColor; stroke-width: 1.2; fill: none; }
+.win-btn:hover { background: var(--fill-2); color: var(--fg); }
+.win-btn:focus-visible { box-shadow: inset var(--focus-ring); border-radius: 0; }
+.win-btn.close:hover { background: var(--danger); color: var(--ink); }
+
+.body-row { flex: 1 1 auto; display: flex; min-height: 0; }
+
+/* ─────────────────────────── 侧边栏 ─────────────────────────── */
+.sidebar {
+  flex: 0 0 236px; width: 236px;
+  display: flex; flex-direction: column; gap: var(--space-4);
+  padding: var(--space-4) var(--space-3) var(--space-3);
+  background: var(--bg);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.account {
+  display: flex; align-items: center; gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border); border-radius: var(--radius-md);
+  background: var(--surface);
+  transition: border-color var(--motion-fast) var(--ease-standard), background var(--motion-fast) var(--ease-standard);
+}
+.account:hover { border-color: var(--line-2); background: color-mix(in oklch, var(--surface) 82%, var(--fg)); }
+.account-avatar {
+  width: 30px; height: 30px; flex: 0 0 30px;
+  display: grid; place-items: center;
+  border-radius: var(--radius-sm);
+  background: var(--bg); border: 1px solid var(--line-2);
+  color: var(--muted);
+}
+.account-avatar svg { width: 15px; height: 15px; }
+.account-name { font-size: var(--text-sm); font-weight: 600; }
+.account-sub { display: flex; align-items: center; gap: 6px; font-size: var(--text-xs); color: var(--muted); }
+.dot { width: 6px; height: 6px; flex: 0 0 6px; border-radius: var(--radius-pill); background: var(--meta); }
+.dot.online { background: var(--success); box-shadow: 0 0 0 3px var(--success-soft); }
+.dot.warn { background: var(--warn); box-shadow: 0 0 0 3px var(--warn-soft); }
+
+.nav { display: flex; flex-direction: column; gap: 2px; }
+.nav-group { margin: var(--space-4) 0 var(--space-1) var(--space-3); font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.2px; color: var(--meta); text-transform: uppercase; }
+.nav-group:first-child { margin-top: 0; }
+.nav-item {
+  position: relative;
+  display: flex; align-items: center; gap: var(--space-3);
+  height: 34px; padding: 0 var(--space-3);
+  border: 1px solid transparent; border-radius: var(--radius-sm);
+  color: var(--muted); font-size: var(--text-sm);
+  transition: background var(--motion-fast) var(--ease-standard),
+              color var(--motion-fast) var(--ease-standard),
+              border-color var(--motion-fast) var(--ease-standard);
+}
+.nav-item svg { width: 16px; height: 16px; flex: 0 0 16px; stroke: currentColor; stroke-width: 1.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.nav-item:hover { background: var(--fill-1); color: var(--fg); }
+.nav-item[aria-current="page"] { background: var(--surface); border-color: var(--border); color: var(--fg); }
+.nav-item .nav-count { margin-left: auto; font-family: var(--font-mono); font-size: 10px; color: var(--meta); }
+.nav-item[aria-current="page"] .nav-count { color: var(--fg-2); }
+.sidebar-foot { margin-top: auto; display: flex; flex-direction: column; gap: var(--space-3); padding-top: var(--space-3); border-top: 1px solid var(--border); }
+.lang-switch { display: flex; gap: 2px; padding: 3px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); }
+.lang-switch button {
+  flex: 1; height: 24px; border-radius: 4px; font-size: var(--text-xs); color: var(--muted);
+  transition: background var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard);
+}
+.lang-switch button:hover { color: var(--fg); }
+.lang-switch button[aria-pressed="true"] { background: var(--fill-2); color: var(--fg); }
+.build-note { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
+
+/* ─────────────────────────── 主区 ─────────────────────────── */
+.main { flex: 1 1 auto; display: flex; flex-direction: column; min-width: 0; background: var(--bg); }
+.topbar {
+  flex: 0 0 auto;
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
+  padding: var(--space-4) var(--space-8) var(--space-3);
+  border-bottom: 1px solid var(--border);
+}
+.page-title { font-size: var(--text-xl); line-height: 1.25; }
+.page-sub { margin-top: 2px; font-size: var(--text-xs); color: var(--muted); }
+.topbar-right { display: flex; align-items: center; gap: var(--space-3); }
+.content { flex: 1 1 auto; overflow-y: auto; padding: var(--space-6) var(--space-8) var(--space-12); }
+.view { max-width: var(--container-max); margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-5); }
+
+/* ─────────────────────────── 按钮 ─────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+  height: 34px; padding: 0 var(--space-4);
+  border: 1px solid transparent; border-radius: var(--radius-sm);
+  font-family: var(--font-display); font-size: var(--text-sm); font-weight: 600; letter-spacing: 0.3px;
+  white-space: nowrap;
+  transition: background var(--motion-fast) var(--ease-standard),
+              border-color var(--motion-fast) var(--ease-standard),
+              color var(--motion-fast) var(--ease-standard),
+              transform 100ms var(--ease-standard);
+}
+.btn svg { width: 15px; height: 15px; stroke: currentColor; stroke-width: 1.7; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+.btn-primary { background: color-mix(in oklch, var(--fg) 82%, transparent); color: var(--ink); }
+.btn-primary:hover { background: var(--fg); }
+.btn-primary:disabled:hover { background: color-mix(in oklch, var(--fg) 82%, transparent); }
+.btn-secondary { border-color: var(--line-2); color: var(--fg); }
+.btn-secondary:hover { background: var(--fill-2); border-color: var(--line-3); }
+.btn-ghost { color: var(--muted); padding: 0 var(--space-2); }
+.btn-ghost:hover { color: var(--fg); background: var(--fill-1); }
+.btn-danger { border-color: color-mix(in oklch, var(--danger) 40%, transparent); color: var(--danger); }
+.btn-danger:hover { background: var(--danger-soft); border-color: var(--danger); color: var(--danger); }
+.btn-lg { height: 44px; padding: 0 var(--space-6); font-size: var(--text-base); border-radius: var(--radius-md); }
+.btn-lg svg { width: 18px; height: 18px; }
+.btn-sm { height: 28px; padding: 0 var(--space-3); font-size: var(--text-xs); }
+.btn-block { width: 100%; }
+.btn.is-busy { pointer-events: none; }
+
+.icon-btn {
+  width: 30px; height: 30px; display: grid; place-items: center;
+  border-radius: var(--radius-sm); color: var(--muted);
+  transition: background var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard);
+}
+.icon-btn svg { width: 15px; height: 15px; stroke: currentColor; stroke-width: 1.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.icon-btn:hover { background: var(--fill-2); color: var(--fg); }
+.icon-btn[aria-pressed="true"] { color: var(--warn); }
+.icon-btn.danger:hover { background: var(--danger-soft); color: var(--danger); }
+
+.kbd {
+  display: inline-flex; align-items: center; gap: 3px;
+  padding: 2px 6px; min-width: 20px; justify-content: center;
+  border-radius: 4px;
+  background: linear-gradient(180deg, color-mix(in oklch, var(--fg) 9%, transparent), color-mix(in oklch, var(--fg) 4%, transparent));
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 0 0 color-mix(in oklch, var(--fg) 6%, transparent) inset, 0 -1px 0 0 rgba(0, 0, 0, 0.4) inset;
+  font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 0.4px;
+}
+
+/* ─────────────────────────── 卡片 / 面板 ─────────────────────────── */
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+}
+.card-ring { box-shadow: var(--elev-ring); border-color: transparent; }
+.card-pad-lg { padding: var(--space-5); }
+.card-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin-bottom: var(--space-3); flex-wrap: wrap; }
+.card-head > .row { flex-wrap: wrap; justify-content: flex-end; }
+.card-title { font-size: var(--text-sm); font-weight: 600; letter-spacing: 0; }
+.card-hint { font-size: var(--text-xs); color: var(--meta); }
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); }
+.grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); }
+.grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-3); }
+.grid-play { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); gap: var(--space-5); align-items: start; }
+.split { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: var(--space-5); align-items: start; }
+
+/* ─────────────────────────── 芯片 / 徽标 ─────────────────────────── */
+.chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 2px var(--space-2); height: 20px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--fill-1);
+  font-family: var(--font-mono); font-size: 11px; color: var(--fg-2); letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+.chip svg { width: 11px; height: 11px; stroke: currentColor; stroke-width: 1.8; fill: none; }
+.chip-accent { background: var(--accent-soft); border-color: color-mix(in oklch, var(--accent) 35%, transparent); color: var(--accent); }
+.chip-ok { background: var(--success-soft); border-color: color-mix(in oklch, var(--success) 32%, transparent); color: var(--success); }
+.chip-warn { background: var(--warn-soft); border-color: color-mix(in oklch, var(--warn) 32%, transparent); color: var(--warn); }
+.chip-danger { background: var(--danger-soft); border-color: color-mix(in oklch, var(--danger) 32%, transparent); color: var(--danger); }
+.tag {
+  display: inline-flex; align-items: center; padding: 1px 7px;
+  border-radius: var(--radius-sm); background: var(--fill-2);
+  font-size: 11px; color: var(--muted); letter-spacing: 0.2px; white-space: nowrap;
+}
+.tag-accent { background: var(--accent-soft); color: var(--accent); }
+
+/* ─────────────────────────── 表单 ─────────────────────────── */
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: var(--text-xs); color: var(--muted); letter-spacing: 0.2px; }
+.field .hint { font-size: var(--text-xs); color: var(--meta); }
+.field .error { display: flex; align-items: center; gap: 5px; font-size: var(--text-xs); color: var(--danger); }
+.input, .select, .textarea {
+  width: 100%; height: 34px; padding: 0 var(--space-3);
+  background: var(--bg); color: var(--fg);
+  border: 1px solid var(--line-2); border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  transition: border-color var(--motion-fast) var(--ease-standard), background var(--motion-fast) var(--ease-standard);
+}
+.textarea { height: auto; min-height: 84px; padding: var(--space-2) var(--space-3); resize: vertical; line-height: 1.55; }
+.input::placeholder, .textarea::placeholder { color: var(--meta); }
+.input:hover, .select:hover, .textarea:hover { border-color: var(--line-3); }
+.input:focus, .select:focus, .textarea:focus { outline: none; border-color: color-mix(in oklch, var(--info) 55%, transparent); box-shadow: var(--focus-ring); }
+.input[aria-invalid="true"] { border-color: color-mix(in oklch, var(--danger) 55%, transparent); }
+.select { appearance: none; padding-right: var(--space-8); cursor: pointer; background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%); background-position: right 14px center, right 9px center; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; }
+.select option { background: var(--surface); color: var(--fg); }
+.search { position: relative; flex: 1 1 220px; max-width: 320px; }
+.search svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; stroke: var(--meta); stroke-width: 1.7; fill: none; pointer-events: none; }
+.search .input { padding-left: 32px; }
+.search .input:focus { box-shadow: var(--focus-ring); }
+
+.switch { display: inline-flex; align-items: center; gap: var(--space-3); cursor: pointer; }
+.switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+.switch-track {
+  position: relative; width: 34px; height: 20px; flex: 0 0 34px;
+  border-radius: var(--radius-pill); background: var(--fill-2); border: 1px solid var(--border);
+  transition: background var(--motion-base) var(--ease-standard), border-color var(--motion-base) var(--ease-standard);
+}
+.switch-track::after {
+  content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px;
+  border-radius: var(--radius-pill); background: var(--muted);
+  transition: transform var(--motion-base) var(--ease-standard), background var(--motion-base) var(--ease-standard);
+}
+.switch input:checked + .switch-track { background: color-mix(in oklch, var(--fg) 88%, transparent); border-color: transparent; }
+.switch input:checked + .switch-track::after { transform: translateX(14px); background: var(--bg); }
+.switch input:focus-visible + .switch-track { box-shadow: var(--focus-ring); }
+.switch-label { font-size: var(--text-sm); color: var(--fg-2); }
+
+input[type="range"].range {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 20px; background: transparent; cursor: pointer;
+}
+input[type="range"].range::-webkit-slider-runnable-track {
+  height: 3px; border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, var(--fg) var(--range-fill, 50%), var(--fill-3) var(--range-fill, 50%));
+}
+input[type="range"].range::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 13px; height: 13px; margin-top: -5px;
+  border-radius: var(--radius-pill); background: var(--fg); border: 0;
+  box-shadow: 0 0 0 1px color-mix(in oklch, var(--bg) 70%, transparent);
+  transition: transform var(--motion-fast) var(--ease-standard);
+}
+input[type="range"].range:hover::-webkit-slider-thumb { transform: scale(1.12); }
+input[type="range"].range:focus-visible { box-shadow: none; }
+input[type="range"].range:focus-visible::-webkit-slider-thumb { box-shadow: var(--focus-ring); }
+
+.check { display: flex; align-items: flex-start; gap: var(--space-2); cursor: pointer; font-size: var(--text-sm); color: var(--fg-2); }
+.check input { appearance: none; width: 15px; height: 15px; flex: 0 0 15px; margin: 3px 0 0; border: 1px solid var(--line-3); border-radius: 4px; background: var(--bg); transition: background var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard); }
+.check input:checked { background: var(--fg); border-color: var(--fg); box-shadow: inset 0 0 0 3px var(--bg); }
+.check input:focus-visible { box-shadow: var(--focus-ring); }
+
+.seg { display: inline-flex; gap: 2px; padding: 3px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); }
+.seg button {
+  height: 26px; padding: 0 var(--space-3); border-radius: 4px;
+  font-size: var(--text-xs); color: var(--muted);
+  transition: background var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard);
+}
+.seg button:hover { color: var(--fg); background: var(--fill-1); }
+.seg button[aria-pressed="true"] { background: var(--fill-2); color: var(--fg); }
+
+/* ─────────────────────────── 列表行 / 表格 ─────────────────────────── */
+.list { display: flex; flex-direction: column; }
+.list-row {
+  display: flex; align-items: center; gap: var(--space-3);
+  padding: var(--space-3) var(--space-2);
+  border-top: 1px solid var(--border-soft);
+  flex-wrap: wrap;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.list-row:first-child { border-top: 0; }
+.list-row:hover { background: var(--fill-1); }
+.list-row.is-selected { background: var(--fill-1); box-shadow: inset 2px 0 0 0 var(--fg); }
+.list-row .row-title { font-size: var(--text-sm); font-weight: 600; color: var(--fg); }
+.list-row .row-sub { font-size: var(--text-xs); color: var(--muted); margin-top: 2px; }
+.row-actions { display: flex; align-items: center; gap: var(--space-2); margin-left: auto; }
+.row-actions.opacity { opacity: 0; transition: opacity var(--motion-fast) var(--ease-standard); }
+.list-row:hover .row-actions.opacity, .list-row:focus-within .row-actions.opacity { opacity: 1; }
+
+.thumb {
+  width: 38px; height: 38px; flex: 0 0 38px;
+  display: grid; place-items: center;
+  border-radius: var(--radius-sm); background: var(--bg); border: 1px solid var(--border);
+  color: var(--muted);
+}
+.thumb svg { width: 17px; height: 17px; stroke: currentColor; stroke-width: 1.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.thumb-lg { width: 48px; height: 48px; flex-basis: 48px; }
+.thumb-lg svg { width: 21px; height: 21px; }
+
+.kv { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: var(--space-2) var(--space-4); align-items: baseline; }
+.kv dt { font-size: var(--text-xs); color: var(--meta); }
+.kv dd { margin: 0; font-size: var(--text-sm); color: var(--fg-2); }
+
+/* ─────────────────────────── 进度 ─────────────────────────── */
+.bar { height: 4px; border-radius: var(--radius-pill); background: var(--fill-2); overflow: hidden; }
+.bar > i { display: block; height: 100%; border-radius: inherit; background: var(--fg); transition: width 400ms var(--ease-standard); }
+.bar.accent > i { background: var(--accent); }
+.bar.ok > i { background: var(--success); }
+.bar.sm { height: 3px; }
+
+/* ─────────────────────────── 松林夜景资产 ─────────────────────────── */
+.art { display: block; width: 100%; height: 100%; }
+.art .a-sky-top { stop-color: var(--art-sky-top); }
+.art .a-sky-bot { stop-color: var(--art-sky-bot); }
+.art .a-sun { fill: var(--art-sun); opacity: 0.85; }
+.art .a-rays { fill: var(--art-sky-bot); opacity: 0.13; }
+.art .a-ridge-3 { fill: var(--art-ridge-3); }
+.art .a-ridge-2 { fill: var(--art-ridge-2); }
+.art .a-ridge-1 { fill: var(--art-ridge-1); }
+.art .a-near { fill: var(--art-near); }
+.art .a-pine-3 { fill: var(--art-pine-3); }
+.art .a-pine-2 { fill: var(--art-pine-2); }
+.art .a-pine-1 { fill: var(--art-pine-1); }
+.art .a-mist-top { stop-color: var(--art-mist); }
+.art .a-mist-bot { stop-color: var(--art-mist); stop-opacity: 0; }
+.art .a-grass { fill: var(--art-grass); }
+.art .a-glow { fill: var(--muted); opacity: 0.7; }
+.art-strip {
+  position: relative; height: 120px; overflow: hidden;
+  border-bottom: 1px solid var(--border);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+.art-strip .art { position: absolute; inset: 0; width: 100%; height: 100%; }
+.art-strip::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 14%, color-mix(in oklch, var(--surface) 94%, transparent) 100%);
+}
+
+/* ─────────────────────────── 模态 / 抽屉 ─────────────────────────── */
+.scrim {
+  position: fixed; inset: 0; z-index: 40;
+  background: var(--scrim); backdrop-filter: blur(4px);
+  display: grid; place-items: center; padding: var(--space-6);
+  animation: fade-in var(--motion-base) var(--ease-standard);
+}
+.modal {
+  width: 100%; max-width: 460px; max-height: calc(100vh - 96px); overflow: auto;
+  background: var(--surface); border-radius: var(--radius-md);
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 0px 2px, rgba(255, 255, 255, 0.06) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.55) 0px 24px 60px;
+  animation: pop-in var(--motion-base) var(--ease-standard);
+}
+.modal-head { padding: var(--space-4) var(--space-5) var(--space-3); border-bottom: 1px solid var(--border); }
+.modal-title { font-size: var(--text-base); }
+.modal-desc { margin-top: 4px; font-size: var(--text-xs); color: var(--muted); }
+.modal-body { padding: var(--space-5); display: flex; flex-direction: column; gap: var(--space-4); }
+.modal-foot { display: flex; align-items: center; justify-content: flex-end; gap: var(--space-2); padding: var(--space-3) var(--space-5) var(--space-4); }
+.modal-foot .left { margin-right: auto; }
+
+/* ─────────────────────────── 命令面板 ─────────────────────────── */
+.palette {
+  width: 100%; max-width: 560px; margin-top: -8vh;
+  background: var(--surface); border-radius: var(--radius-md);
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 0px 2px, rgba(255, 255, 255, 0.06) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.6) 0px 28px 70px;
+  overflow: hidden;
+  animation: pop-in var(--motion-base) var(--ease-standard);
+}
+.palette-input { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--border); }
+.palette-input svg { width: 16px; height: 16px; stroke: var(--muted); stroke-width: 1.7; fill: none; }
+.palette-input input { flex: 1; height: 26px; background: none; border: 0; outline: none; font-size: var(--text-sm); }
+.palette-input input::placeholder { color: var(--meta); }
+.palette-list { position: relative; max-height: 320px; overflow-y: auto; padding: var(--space-2); }
+.palette-group { padding: var(--space-2) var(--space-3) 4px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; color: var(--meta); text-transform: uppercase; }
+.palette-item {
+  display: flex; align-items: center; gap: var(--space-3); width: 100%;
+  padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm);
+  color: var(--fg-2); font-size: var(--text-sm); text-align: left;
+  transition: background var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard);
+}
+.palette-item svg { width: 15px; height: 15px; stroke: currentColor; stroke-width: 1.6; fill: none; flex: 0 0 15px; }
+.palette-item .hint { margin-left: auto; font-family: var(--font-mono); font-size: 10px; color: var(--meta); }
+.palette-item[aria-selected="true"] { background: var(--fill-2); color: var(--fg); }
+.palette-item[aria-selected="true"] .hint { color: var(--fg-2); }
+.palette-foot { display: flex; align-items: center; gap: var(--space-4); padding: var(--space-3) var(--space-4); border-top: 1px solid var(--border); color: var(--meta); font-size: var(--text-xs); }
+
+/* ─────────────────────────── Toast ─────────────────────────── */
+.toasts { position: fixed; right: var(--space-6); bottom: var(--space-6); z-index: 50; display: flex; flex-direction: column; gap: var(--space-2); width: 340px; }
+.toast {
+  display: flex; align-items: flex-start; gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface); border: 1px solid var(--line-2); border-radius: var(--radius-sm);
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 12px 32px;
+  animation: toast-in var(--motion-base) var(--ease-standard);
+}
+.toast svg { width: 15px; height: 15px; flex: 0 0 15px; margin-top: 2px; stroke: currentColor; stroke-width: 1.8; fill: none; }
+.toast .t-body { min-width: 0; }
+.toast .t-title { font-size: var(--text-sm); font-weight: 600; }
+.toast .t-desc { font-size: var(--text-xs); color: var(--muted); margin-top: 2px; }
+.toast.ok svg { stroke: var(--success); }
+.toast.warn svg { stroke: var(--warn); }
+.toast.err svg { stroke: var(--danger); }
+.toast.info svg { stroke: var(--info); }
+.toast.leaving { animation: toast-out var(--motion-base) var(--ease-standard) forwards; }
+
+/* ─────────────────────────── 空 / 错误状态 ─────────────────────────── */
+.state {
+  display: flex; flex-direction: column; align-items: center; gap: var(--space-2);
+  padding: var(--space-8) var(--space-5); text-align: center;
+  border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg);
+}
+.state svg { width: 22px; height: 22px; stroke: var(--meta); stroke-width: 1.5; fill: none; margin-bottom: var(--space-1); }
+.state .s-title { font-size: var(--text-sm); font-weight: 600; }
+.state .s-desc { font-size: var(--text-xs); color: var(--muted); max-width: 42ch; }
+.state.err svg { stroke: var(--danger); }
+
+/* ─────────────────────────── 摘要 / 预览 / 技术详情 ─────────────────────────── */
+.stat-label { font-size: var(--text-xs); color: var(--meta); }
+.stat-value { margin-top: 4px; font-family: var(--font-mono); font-size: var(--text-xl); color: var(--fg); font-variant-numeric: tabular-nums; letter-spacing: 0.2px; }
+.hint { font-size: var(--text-xs); color: var(--meta); line-height: 1.7; }
+.error { display: flex; align-items: center; gap: 5px; font-size: var(--text-xs); color: var(--danger); }
+[hidden] { display: none !important; }
+.anywhere { min-width: 0; overflow-wrap: anywhere; }
+:focus { scroll-margin-top: 12px; scroll-margin-bottom: 12px; }
+.tech { display: inline-block; }
+.tech[open] { flex: 1 1 100%; }
+.tech summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; }
+.tech summary::-webkit-details-marker { display: none; }
+.tech-body {
+  margin: var(--space-2) 0 0; padding: var(--space-3); max-height: 170px; overflow: auto;
+  background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  font-family: var(--font-mono); font-size: 11px; line-height: 1.7; color: var(--muted);
+  white-space: pre-wrap; overflow-wrap: anywhere;
+}
+.sig { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; }
+.sig i { width: 3px; border-radius: 1px; background: var(--fill-2); }
+.sig i:nth-child(1) { height: 4px; }
+.sig i:nth-child(2) { height: 8px; }
+.sig i:nth-child(3) { height: 12px; }
+.sig i.on { background: var(--fg); }
+.sig.warn i.on { background: var(--warn); }
+.sig.off i.on { background: var(--meta); }
+.preview {
+  position: relative; min-height: 296px; display: grid; place-items: center; padding: var(--space-5);
+  background: var(--bg); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); overflow: hidden;
+}
+.preview .state { position: relative; border: 0; background: transparent; max-width: 42ch; }
+.preview-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(var(--border-soft) 1px, transparent 1px), linear-gradient(90deg, var(--border-soft) 1px, transparent 1px);
+  background-size: 28px 28px;
+  -webkit-mask-image: radial-gradient(ellipse at center, black, transparent 78%);
+  mask-image: radial-gradient(ellipse at center, black, transparent 78%);
+}
+.skins-layout { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: var(--space-4); align-items: start; }
+@media (max-width: 1040px) { .skins-layout { grid-template-columns: minmax(0, 1fr); } }
+.modal-foot { position: sticky; bottom: 0; background: var(--surface); flex-wrap: wrap; }
+@media (pointer: coarse) {
+  .btn, .btn-sm, .input, .select, .nav-item, .list-row { min-height: 44px; }
+  .icon-btn, .win-btn { min-width: 44px; min-height: 44px; }
+  .seg button, .lang-switch button { min-height: 32px; }
+}
+
+/* ─────────────────────────── 抽屉（管理 Mod / 恢复区） ─────────────────────────── */
+.scrim.right { place-items: stretch end; padding: 0; }
+.drawer {
+  display: flex; flex-direction: column;
+  width: min(560px, 94vw); height: 100%;
+  background: var(--surface); border-left: 1px solid var(--border);
+  box-shadow: rgba(0, 0, 0, 0.55) -24px 0 60px;
+  animation: drawer-in var(--motion-base) var(--ease-standard);
+  overflow: hidden;
+}
+.drawer .modal-head { flex: 0 0 auto; display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3); }
+.drawer .modal-body { flex: 1 1 auto; overflow-y: auto; padding: var(--space-4) var(--space-5); gap: var(--space-3); }
+.drawer .modal-foot { flex: 0 0 auto; position: static; }
+.drawer-tools { display: flex; flex-direction: column; gap: var(--space-3); }
+.drawer .search { flex: 0 0 auto; max-width: none; }
+.seg-block { display: flex; width: 100%; }
+.seg-block button { flex: 1 1 0; }
+.chip:hover { background: var(--fill-2); border-color: var(--line-2); color: var(--fg); }
+.list-row.is-off .row-title { color: var(--muted); }
+.list-row.is-off .thumb { color: var(--meta); }
+.mod-confirm {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid color-mix(in oklch, var(--danger) 32%, transparent);
+  background: var(--danger-soft); border-radius: var(--radius-sm);
+}
+.mod-confirm p { flex: 1 1 190px; font-size: var(--text-xs); color: var(--fg-2); line-height: 1.7; }
+.recovery-note { font-size: var(--text-xs); color: var(--warn); line-height: 1.7; margin-top: 2px; }
+@keyframes drawer-in { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: none; } }
+@media (max-width: 620px) { .drawer { width: 100%; } }
+
+/* ─────────────────────────── 游戏时长：树状图 + 日历 ─────────────────────────── */
+.range-bar { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+.range-custom { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; padding: var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg); }
+.range-custom .input { width: auto; height: 30px; padding: 0 var(--space-2); font-size: var(--text-xs); }
+.range-custom .field { gap: 4px; }
+.treemap { position: relative; height: 340px; }
+.tm-group {
+  position: absolute; overflow: hidden; border-radius: var(--radius-sm);
+  background: var(--bg);
+}
+.tm-head {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-2);
+  height: 22px; padding: 0 var(--space-2); background: var(--tm-strong);
+}
+.tm-name { font-size: 11px; color: var(--fg); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tm-total { font-family: var(--font-mono); font-size: 10px; color: var(--fg-2); }
+.tm-body { position: relative; }
+.tm-cell {
+  position: absolute; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start;
+  padding: 4px 6px; border: 0; border-radius: 3px; overflow: hidden;
+  background: var(--tm-fill); color: var(--fg); text-align: left;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.tm-cell:hover, .tm-cell:focus-visible { background: var(--tm-strong); }
+.tm-cell .tm-date { font-family: var(--font-mono); font-size: 10px; color: var(--fg-2); line-height: 1.2; }
+.tm-cell .tm-dur { font-family: var(--font-mono); font-size: 12px; font-weight: 600; line-height: 1.25; }
+.readout {
+  display: flex; align-items: center; gap: var(--space-2); min-height: 36px;
+  margin-top: var(--space-3); padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg);
+  font-size: var(--text-xs); color: var(--fg-2);
+}
+.tm-legend { margin-top: var(--space-4); }
+.tm-legend-row { display: flex; align-items: center; gap: var(--space-3); padding: 7px 0; border-top: 1px solid var(--border-soft); font-size: var(--text-xs); }
+.tm-swatch { width: 10px; height: 10px; flex: 0 0 10px; border-radius: 3px; }
+.tm-legend-name { flex: 1 1 auto; min-width: 0; color: var(--fg-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cal-week, .cal-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; }
+.cal-week { margin-bottom: 4px; }
+.cal-week span { text-align: center; font-family: var(--font-mono); font-size: 10px; color: var(--meta); }
+.cal-cell {
+  position: relative; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start;
+  min-height: 44px; padding: 3px 4px; overflow: hidden;
+  border: 1px solid var(--border); border-radius: 4px; background: var(--bg);
+}
+.cal-cell.is-idle { border-color: var(--border-soft); }
+.cal-cell.is-out { border: 0; background: transparent; min-height: 44px; }
+.cal-cell[aria-pressed="true"] { border-color: var(--line-3); background: var(--fill-2); }
+.cal-cell.is-today { box-shadow: inset 0 0 0 1px var(--line-2); }
+.cal-cell.is-today .cal-day { color: var(--fg); }
+.cal-day { font-family: var(--font-mono); font-size: 10px; color: var(--meta); }
+.cal-cell.has-data .cal-day { color: var(--fg-2); }
+.cal-min { font-family: var(--font-mono); font-size: 10px; color: var(--fg-2); }
+.cal-bar { position: absolute; left: 0; right: 0; bottom: 0; background: color-mix(in oklch, var(--fg) 22%, transparent); }
+.cal-cell[aria-pressed="true"] .cal-bar { background: color-mix(in oklch, var(--fg) 44%, transparent); }
+
+/* ─────────────────────────── 动效 ─────────────────────────── */
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pop-in { from { opacity: 0; transform: translateY(6px) scale(0.985); } to { opacity: 1; transform: none; } }
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes toast-out { to { opacity: 0; transform: translateY(6px); } }
+@keyframes view-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes row-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
+
+.view.enter { animation: view-in 220ms var(--ease-standard) both; }
+.stagger > * { animation: row-in 240ms var(--ease-standard) both; }
+.stagger > *:nth-child(1) { animation-delay: 0ms; }
+.stagger > *:nth-child(2) { animation-delay: 22ms; }
+.stagger > *:nth-child(3) { animation-delay: 44ms; }
+.stagger > *:nth-child(4) { animation-delay: 66ms; }
+.stagger > *:nth-child(5) { animation-delay: 88ms; }
+.stagger > *:nth-child(6) { animation-delay: 110ms; }
+.stagger > *:nth-child(n+7) { animation-delay: 130ms; }
+.spinner { width: 14px; height: 14px; border-radius: var(--radius-pill); border: 1.5px solid var(--fill-3); border-top-color: var(--fg); animation: spin 700ms linear infinite; }
+.pulsing { animation: pulse 1.6s ease-in-out infinite; }
+.enter-lift { transition: transform var(--motion-base) var(--ease-standard), border-color var(--motion-base) var(--ease-standard), background var(--motion-base) var(--ease-standard); }
+.enter-lift:hover { transform: translateY(-1px); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  .enter-lift:hover { transform: none; }
+}
+
+/* ─────────────────────────── 响应式 ─────────────────────────── */
+@media (max-width: 1180px) { .content { padding-inline: var(--space-6); } .topbar { padding-inline: var(--space-6); } }
+@media (max-width: 1040px) {
+  .grid-play, .split { grid-template-columns: minmax(0, 1fr); }
+  .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 900px) {
+  .sidebar { flex-basis: 60px; width: 60px; padding-inline: var(--space-2); }
+  .sidebar .nav-text, .sidebar .nav-group, .sidebar .account-text, .sidebar .build-note, .sidebar .lang-switch { display: none; }
+  .nav-item { justify-content: center; padding: 0; }
+  .account { justify-content: center; padding: var(--space-2); }
+  .grid-2, .grid-3 { grid-template-columns: minmax(0, 1fr); }
+  .topbar { flex-wrap: wrap; }
+}
+@media (max-width: 620px) {
+  .content { padding: var(--space-4) var(--space-4) var(--space-8); }
+  .topbar { padding: var(--space-3) var(--space-4); }
+  .grid-4 { grid-template-columns: minmax(0, 1fr); }
+  .toasts { left: var(--space-4); right: var(--space-4); width: auto; }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#viewRoot">跳到主内容</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.8 19 12 7 19.2V4.8Z"/></symbol>
+    <symbol id="i-instances" viewBox="0 0 24 24"><path d="M12 3.4 19.6 7.5v9L12 20.6 4.4 16.5v-9z"/><path d="M4.4 7.5 12 11.6l7.6-4.1M12 11.6v9"/></symbol>
+    <symbol id="i-worlds" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.4"/><path d="M3.6 12h16.8M12 3.6c2.8 2.6 2.8 14.2 0 16.8M12 3.6c-2.8 2.6-2.8 14.2 0 16.8"/></symbol>
+    <symbol id="i-servers" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="5.2" rx="1.6"/><rect x="4" y="13.8" width="16" height="5.2" rx="1.6"/><path d="M7.6 7.6h.01M7.6 16.4h.01"/></symbol>
+    <symbol id="i-content" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.6"/><rect x="13" y="4" width="7" height="7" rx="1.6"/><rect x="4" y="13" width="7" height="7" rx="1.6"/><rect x="13" y="13" width="7" height="7" rx="1.6"/></symbol>
+    <symbol id="i-skins" viewBox="0 0 24 24"><circle cx="12" cy="8.2" r="3.4"/><path d="M5.4 20c0-3.6 2.95-6.1 6.6-6.1S18.6 16.4 18.6 20"/></symbol>
+    <symbol id="i-downloads" viewBox="0 0 24 24"><path d="M12 3.8v10M7.9 9.9 12 14l4.1-4.1"/><path d="M4.6 17.4v2.2h14.8v-2.2"/></symbol>
+    <symbol id="i-news" viewBox="0 0 24 24"><rect x="4" y="4.6" width="16" height="14.8" rx="2"/><path d="M7.6 9h6.4M7.6 12.4h8.8M7.6 15.8h5.6"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><path d="M3.8 7.2h9M17.4 7.2h2.8M3.8 12h2.6M11.2 12h9M3.8 16.8h6.4M15.8 16.8h4.4"/><circle cx="15.2" cy="7.2" r="1.9"/><circle cx="9" cy="12" r="1.9"/><circle cx="13.6" cy="16.8" r="1.9"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M4.8 20c0-3.9 3.2-6.6 7.2-6.6S19.2 16.1 19.2 20"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.4"/><path d="M15.6 15.6 20 20"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.8 4.4 4.4L19 7.2"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4.6 20.5 19.4h-17z"/><path d="M12 10v4M12 17h.01"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.4"/><path d="M12 11v5.2M12 8h.01"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M4 6.6a1.6 1.6 0 0 1 1.6-1.6h3.6l1.8 2h8a1.6 1.6 0 0 1 1.6 1.6v8.8a1.6 1.6 0 0 1-1.6 1.6H5.6A1.6 1.6 0 0 1 4 17.4z"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4.8 7h14.4M9.4 7V4.8h5.2V7M6.6 7l.9 12.2h9l.9-12.2"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 4.4 2.35 4.76 5.25.77-3.8 3.7.9 5.23L12 16.4l-4.7 2.46.9-5.23-3.8-3.7 5.25-.77z"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M19.4 12a7.4 7.4 0 1 1-2.2-5.24"/><path d="M19.8 4.6v4.2h-4.2"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 5.4v13.2M15 5.4v13.2"/></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13.4 3 5.6 13.4h5L10.6 21l7.8-10.4h-5z"/></symbol>
+    <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="6.4" y="6.4" width="11.2" height="11.2" rx="2"/><path d="M10 3.6v2.8M14 3.6v2.8M10 17.6v2.8M14 17.6v2.8M3.6 10h2.8M3.6 14h2.8M17.6 10h2.8M17.6 14h2.8"/></symbol>
+    <symbol id="i-cube" viewBox="0 0 24 24"><path d="M12 3.4 19.6 7.5v9L12 20.6 4.4 16.5v-9z"/><path d="M4.4 7.5 12 11.6l7.6-4.1"/></symbol>
+    <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 4.2a7.8 7.8 0 0 0 0 15.6c1.1 0 1.8-.8 1.8-1.7 0-1.4-1.2-1.6-1.2-2.7 0-.8.7-1.5 1.6-1.5h1.5a4.1 4.1 0 0 0 4.1-4.1c0-3.1-3.5-5.6-7.8-5.6Z"/><path d="M8.4 10.4h.01M12 8.2h.01M15.6 10.4h.01"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3.6 19 6v6c0 4.2-3 7.2-7 8.4-4-1.2-7-4.2-7-8.4V6z"/><path d="m9.2 12.2 2 2 3.6-3.8"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.4"/><path d="M12 7.6V12l3 1.8"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M13.6 5.4H18.6v5"/><path d="M18.6 5.4 11 13"/><path d="M17 14.4v3.4a1.6 1.6 0 0 1-1.6 1.6H5.6A1.6 1.6 0 0 1 4 17.8V8a1.6 1.6 0 0 1 1.6-1.6h3.4"/></symbol>
+    <symbol id="i-command" viewBox="0 0 24 24"><path d="M9 4.6a2.4 2.4 0 1 0 2.4 2.4V17a2.4 2.4 0 1 0 2.4-2.4H7a2.4 2.4 0 1 0 2.4 2.4V7A2.4 2.4 0 1 0 7 9.4h10a2.4 2.4 0 1 0-2.4-2.4"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 4 20 8l-8 4-8-4z"/><path d="m4 12 8 4 8-4M4 16l8 4 8-4"/></symbol>
+    <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M15.4 4.6a4.6 4.6 0 0 0-4 6.8L4.8 18l1.6 1.6 6.6-6.6a4.6 4.6 0 0 0 6.8-4l-2.6 1.4-2.2-1.2-.6-2.4z"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.4"/><path d="M3.6 12h16.8M12 3.6c2.8 2.6 2.8 14.2 0 16.8M12 3.6c-2.8 2.6-2.8 14.2 0 16.8"/></symbol>
+    <symbol id="i-chev-left" viewBox="0 0 24 24"><path d="M14.4 5.6 8 12l6.4 6.4"/></symbol>
+    <symbol id="i-chev-right" viewBox="0 0 24 24"><path d="M9.6 5.6 16 12l-6.4 6.4"/></symbol>
+  </defs>
+</svg>
+
+<div class="app">
+  <header class="titlebar" data-od-id="titlebar">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 2.4 16.4 8.4H7.6z" fill="currentColor"/>
+        <path d="M12 6.6 17.2 12.9H6.8z" fill="currentColor"/>
+        <path d="M12 10.9 18.4 18.4H5.6z" fill="currentColor"/>
+        <rect x="11" y="18.2" width="2" height="3.4" rx="0.7" fill="currentColor"/>
+      </svg>
+      <span class="brand-name">PINEGLOW</span>
+      <span class="brand-div" aria-hidden="true"></span>
+      <span class="brand-sub">松光启动器</span>
+    </div>
+    <div class="win-controls">
+      <button class="win-btn" id="winMin" title="最小化（原型内不生效）" aria-label="最小化"><svg viewBox="0 0 12 12"><path d="M2 6h8"/></svg></button>
+      <button class="win-btn" id="winMax" title="最大化（原型内不生效）" aria-label="最大化"><svg viewBox="0 0 12 12"><rect x="2.5" y="2.5" width="7" height="7" rx="1"/></svg></button>
+      <button class="win-btn close" id="winClose" title="关闭（原型内不生效）" aria-label="关闭"><svg viewBox="0 0 12 12"><path d="M3 3l6 6M9 3l-6 6"/></svg></button>
+    </div>
+  </header>
+
+  <div class="body-row">
+    <aside class="sidebar" data-od-id="sidebar">
+      <button class="account" id="accountBtn" data-od-id="account">
+        <span class="account-avatar" aria-hidden="true"><svg><use href="#i-user"/></svg></span>
+        <span class="account-text stack" style="align-items:flex-start; gap:2px; min-width:0">
+          <span class="account-name">未登录</span>
+          <span class="account-sub"><span class="dot" aria-hidden="true"></span>离线模式</span>
+        </span>
+      </button>
+      <nav class="nav" id="nav" aria-label="主导航"></nav>
+      <div class="sidebar-foot">
+        <div class="lang-switch" role="group" aria-label="界面语言">
+          <button type="button" data-lang="zh" aria-pressed="true">中文</button>
+          <button type="button" data-lang="en" aria-pressed="false">EN</button>
+        </div>
+        <div class="build-note">
+          <span class="meta">v1.4.2 · 原型</span>
+          <span class="chip">模拟数据</span>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <div>
+          <h1 class="page-title" id="pageTitle">启动</h1>
+          <p class="page-sub" id="pageSub">选择实例并进入游戏</p>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-secondary btn-sm" id="paletteBtn" data-od-id="cta-palette">
+            <svg><use href="#i-search"/></svg>
+            <span>快速操作</span>
+            <span class="kbd">Ctrl</span><span class="kbd">K</span>
+          </button>
+          <button class="icon-btn" id="refreshBtn" title="重新检查更新" aria-label="重新检查更新"><svg><use href="#i-refresh"/></svg></button>
+        </div>
+      </header>
+      <main class="content" id="viewRoot" tabindex="-1"></main>
+    </div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts" role="status" aria-live="polite" aria-atomic="false"></div>
+<div id="overlayHost"></div>
+
+<script>
+(function () {
+'use strict';
+
+/* ───────────────────────── 工具 ───────────────────────── */
+const $  = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.prototype.slice.call(r.querySelectorAll(s));
+const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const ico = (n, s) => '<svg width="' + (s || 16) + '" height="' + (s || 16) + '" aria-hidden="true"><use href="#i-' + n + '"/></svg>';
+const pick = (n) => ico(n);
+const now = () => new Date();
+const hhmm = (d) => String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+const elapsed = (ms) => {
+  const t = Math.max(0, Math.floor(ms / 1000));
+  return String(Math.floor(t / 60)).padStart(2, '0') + ':' + String(t % 60).padStart(2, '0');
+};
+
+/* ───────────────────────── 模拟数据（界面已标注） ─────────────────────────
+   版本号、项目名与作者取自真实世界；进度、延迟、人数、体积、时间均为模拟值。 */
+const DB = {
+  instances: [
+    { id: 'fabric-1215', name: '生电整合 · 1.21.5', ver: '1.21.5', loader: 'Fabric 0.16.9', kind: 'modded', mods: 12, sessions: 132, hours: 186, last: '2 小时前', dir: 'D:\\Games\\Pineglow\\fabric-1.21.5', saves: 3, shared: false },
+    { id: 'vanilla-1215', name: '原版 1.21.5', ver: '1.21.5', loader: '原版', kind: 'release', mods: 0, sessions: 18, hours: 12, last: '3 天前', dir: 'D:\\Games\\Pineglow\\vanilla-1.21.5', saves: 1, shared: false },
+    { id: 'forge-1201', name: '机械动力 · 1.20.1', ver: '1.20.1', loader: 'Forge 47.2.0', kind: 'modded', mods: 8, sessions: 41, hours: 14, last: '2 周前', dir: 'D:\\Games\\Pineglow\\forge-1.20.1', saves: 2, shared: true },
+    { id: 'snap-25w14a', name: '快照测试', ver: '25w14a', loader: '原版', kind: 'snapshot', mods: 0, sessions: 3, hours: 2, last: '1 个月前', dir: 'D:\\Games\\Pineglow\\snap-25w14a', saves: 0, shared: false }
+  ],
+  stats: { hours: 214, sessions: 194 },
+  versions: [
+    { id: '1.21.5', type: 'release', date: '2025-03-25', size: '312 MB', latest: true },
+    { id: '1.21.4', type: 'release', date: '2024-12-03', size: '298 MB' },
+    { id: '1.21.1', type: 'release', date: '2024-08-08', size: '286 MB', installed: true },
+    { id: '1.20.6', type: 'release', date: '2024-05-29', size: '281 MB' },
+    { id: '1.20.1', type: 'release', date: '2023-06-12', size: '264 MB', installed: true },
+    { id: '25w14a', type: 'snapshot', date: '2025-04-01', size: '318 MB' }
+  ],
+  tasks: [
+    { id: 't1', name: '1.21.5 · 客户端与资源', state: 'downloading', pct: 68, speed: '4.2 MB/s', eta: '00:42', size: '312 MB' },
+    { id: 't2', name: 'Fabric Loader 0.16.9', state: 'downloading', pct: 24, speed: '1.1 MB/s', eta: '00:18', size: '2.4 MB' },
+    { id: 't3', name: 'Sodium 0.6.13 · 1.21.5', state: 'queued', pct: 0, size: '1.1 MB' },
+    { id: 't4', name: '资源包 Faithful 32x', state: 'completed', pct: 100, size: '48 MB' }
+  ],
+  worlds: [
+    { id: 'w1', name: '新世界', inst: '原版 1.21.5', last: '2 小时前', size: '48.6 MB', backups: [{ file: '新世界-2026-10-12.zip', size: '42.1 MB', time: '昨天 21:04' }, { file: '新世界-2026-10-05.zip', size: '39.8 MB', time: '10 月 5 日' }] },
+    { id: 'w2', name: '空岛生存', inst: '生电整合 · 1.21.5', last: '昨天', size: '126 MB', backups: [{ file: '空岛生存-2026-10-10.zip', size: '118 MB', time: '10 月 10 日' }] },
+    { id: 'w3', name: '红石实验场', inst: '机械动力 · 1.20.1', last: '2 周前', size: '310 MB', backups: [] }
+  ],
+  servers: [
+    { id: 's1', name: 'Hypixel', host: 'mc.hypixel.net', port: 25565, online: true, players: 42318, cap: 200000, ping: 38, ver: '1.8 – 1.21', fav: true },
+    { id: 's2', name: '2B2T', host: '2b2t.org', port: 25565, online: true, players: 612, cap: 1000, ping: 186, ver: '1.21', fav: false },
+    { id: 's3', name: 'Wynncraft', host: 'play.wynncraft.com', port: 25565, online: false, players: 0, cap: 0, ping: null, ver: '1.20.2', fav: false }
+  ],
+  content: {
+    mods: [
+      { id: 'm1', name: 'Sodium', author: 'CaffeineMC', tags: ['1.21.5', 'Fabric'], desc: '重写区块渲染管线，显著提升帧率并消除卡顿。', state: 'installable' },
+      { id: 'm2', name: 'Lithium', author: 'CaffeineMC', tags: ['1.21.5', 'Fabric'], desc: '不改变原版行为的通用逻辑与物理优化。', state: 'installed' },
+      { id: 'm3', name: 'Iris Shaders', author: 'IrisShaders', tags: ['1.21.5', 'Fabric'], desc: '光影加载器，兼容主流 OptiFine 光影包。', state: 'installable' },
+      { id: 'm4', name: 'Just Enough Items', author: 'mezz', tags: ['1.21.5', 'Fabric', 'Forge'], desc: '在物品栏内查询配方与用途。', state: 'installable' },
+      { id: 'm5', name: "Xaero's Minimap", author: 'xaero96', tags: ['1.21.5', 'Fabric'], desc: '小地图、路径点与实体雷达。', state: 'installable' },
+      { id: 'm6', name: 'Create', author: 'simibubi', tags: ['1.20.1', 'Forge'], desc: '机械动力：齿轮、传送带与自动化产线。', state: 'installable' }
+    ],
+    modpacks: [
+      { id: 'p1', name: 'Fabulously Optimized', author: 'Robotkoer', tags: ['1.21.5', 'Fabric'], desc: '以性能为先的原版增强整合包，开箱即用。', state: 'installable' },
+      { id: 'p2', name: 'All the Mods 10', author: 'ATMTeam', tags: ['1.21.1', 'NeoForge'], desc: '数百个模组的综合整合包，面向长期存档。', state: 'installable' }
+    ],
+    shaders: [
+      { id: 'h1', name: 'Complementary Shaders', author: 'EminGT', tags: ['1.21.5', 'Iris'], desc: '在性能与观感之间取得平衡的光影方案。', state: 'installable' },
+      { id: 'h2', name: 'BSL Shaders', author: 'CaptTatsu', tags: ['1.21.5', 'Iris'], desc: '柔和光照、体积雾与暖色调。', state: 'installable' }
+    ],
+    resourcepacks: [
+      { id: 'r1', name: 'Faithful 32x', author: 'Faithful Team', tags: ['1.21.5'], desc: '忠于原版风格的 32× 材质包。', state: 'installable' },
+      { id: 'r2', name: 'Fresh Animations', author: 'FreshLX', tags: ['1.21.5'], desc: '为实体加入更流畅的动作动画。', state: 'installed' }
+    ]
+  },
+  news: [
+    { id: 'n1', cat: '社区', title: 'Minecraft 大电影预告片发布', time: '3 天前', body: '《Minecraft 大电影》官方预告片已发布，影片由 Jared Hess 执导，讲述四个异类玩家被吸入主世界的冒险故事。' },
+    { id: 'n2', cat: '更新', title: '基岩版与 Java 版皮肤互通', time: '1 周前', body: '最新版本更新中，基岩版与 Java 版玩家可以在两个版本之间共享皮肤与披风，跨平台体验更加统一。' },
+    { id: 'n3', cat: '周边', title: '全新周边上架：苦力怕系列', time: '2 周前', body: '苦力怕主题 T 恤、像素方块积木套装与限量版手办已在官方商城上架。' }
+  ],
+  /* 实例的 Mod 与恢复区。项目名取自真实项目；文件名、版本号与体积为模拟值。 */
+  mods: {
+    'fabric-1215': [
+      { id: 'm-fapi', file: 'fabric-api-0.119.2+1.21.5.jar', name: 'Fabric API', version: '0.119.2', loader: 'Fabric', size: '2.1 MB', enabled: true },
+      { id: 'm-sodium', file: 'sodium-fabric-0.6.13+mc1.21.5.jar', name: 'Sodium', version: '0.6.13', loader: 'Fabric', size: '1.1 MB', enabled: true },
+      { id: 'm-lithium', file: 'lithium-fabric-0.15.1+mc1.21.5.jar', name: 'Lithium', version: '0.15.1', loader: 'Fabric', size: '780 KB', enabled: true },
+      { id: 'm-iris', file: 'iris-fabric-1.8.8+mc1.21.5.jar', name: 'Iris Shaders', version: '1.8.8', loader: 'Fabric', size: '3.4 MB', enabled: true },
+      { id: 'm-jei', file: 'jei-1.21.5-fabric-19.8.0.215.jar', name: 'Just Enough Items', version: '19.8.0.215', loader: 'Fabric', size: '1.3 MB', enabled: true },
+      { id: 'm-xaero', file: 'xaeros_minimap_25.1.0_Fabric_1.21.jar', name: "Xaero's Minimap", version: '25.1.0', loader: 'Fabric', size: '1.6 MB', enabled: true },
+      { id: 'm-modmenu', file: 'modmenu-11.0.3.jar', name: 'Mod Menu', version: '11.0.3', loader: 'Fabric', size: '210 KB', enabled: true },
+      { id: 'm-cloth', file: 'cloth-config-17.0.144-fabric.jar', name: 'Cloth Config API', version: '17.0.144', loader: 'Fabric', size: '1.0 MB', enabled: true },
+      { id: 'm-entityculling', file: 'entityculling-fabric-1.7.3-mc1.21.5.jar', name: 'EntityCulling', version: '1.7.3', loader: 'Fabric', size: '96 KB', enabled: true },
+      { id: 'm-ferrite', file: 'ferritecore-7.0.2-fabric.jar', name: 'FerriteCore', version: '7.0.2', loader: 'Fabric', size: '120 KB', enabled: false },
+      { id: 'm-litematica', file: 'litematica-fabric-1.21.5-0.21.4.jar', name: 'Litematica', version: '0.21.4', loader: 'Fabric', size: '890 KB', enabled: false },
+      { id: 'm-replaymod', file: 'replaymod-1.21.5-2.6.21.jar', name: 'Replay Mod', version: '2.6.21', loader: 'Fabric', size: '5.2 MB', enabled: false }
+    ],
+    'forge-1201': [
+      { id: 'f-create', file: 'create-1.20.1-6.0.4.jar', name: 'Create', version: '6.0.4', loader: 'Forge', size: '12.4 MB', enabled: true },
+      { id: 'f-jei', file: 'jei-1.20.1-forge-15.20.0.106.jar', name: 'Just Enough Items', version: '15.20.0.106', loader: 'Forge', size: '1.2 MB', enabled: true },
+      { id: 'f-embeddium', file: 'embeddium-0.3.31+mc1.20.1.jar', name: 'Embeddium', version: '0.3.31', loader: 'Forge', size: '1.4 MB', enabled: true },
+      { id: 'f-oculus', file: 'oculus-mc1.20.1-1.8.0.jar', name: 'Oculus', version: '1.8.0', loader: 'Forge', size: '2.2 MB', enabled: false },
+      { id: 'f-ferrite', file: 'ferritecore-6.0.1-forge.jar', name: 'FerriteCore', version: '6.0.1', loader: 'Forge', size: '118 KB', enabled: true },
+      { id: 'f-journeymap', file: 'journeymap-1.20.1-5.10.1-forge.jar', name: 'JourneyMap', version: '5.10.1', loader: 'Forge', size: '3.8 MB', enabled: true },
+      { id: 'f-catalogue', file: 'catalogue-1.20.1-1.8.0-forge.jar', name: 'Catalogue', version: '1.8.0', loader: 'Forge', size: '164 KB', enabled: true },
+      { id: 'f-flywheel', file: 'flywheel-forge-1.20.1-0.6.11.jar', name: 'Flywheel', version: '0.6.11', loader: 'Forge', size: '1.1 MB', enabled: false }
+    ]
+  },
+  recovery: {
+    'fabric-1215': [
+      { id: 'r-sodium-old', file: 'sodium-fabric-0.6.12+mc1.21.5.jar', name: 'Sodium', size: '1.1 MB', at: '2 天前', reason: 'Mod 更新', status: 'quarantined', from: '0.6.12', to: '0.6.13', replaces: 'm-sodium' },
+      { id: 'r-rubidium', file: 'rubidium-0.7.1.jar', name: 'Rubidium', size: '1.2 MB', at: '2 周前', reason: '手动移除', status: 'conflict' },
+      { id: 'r-mlf', file: 'memoryleakfix-fabric-1.1.5.jar', name: 'MemoryLeakFix', size: '42 KB', at: '1 个月前', reason: '手动移除', status: 'restored' }
+    ],
+    'forge-1201': [
+      { id: 'r-oculus-old', file: 'oculus-mc1.20.1-1.7.0.jar', name: 'Oculus', size: '2.1 MB', at: '3 天前', reason: 'Mod 更新', status: 'quarantined', from: '1.7.0', to: '1.8.0', replaces: 'f-oculus' }
+    ]
+  }
+};
+
+/* ───────────────────────── 状态 ───────────────────────── */
+const store = {
+  get(k, d) { try { const v = localStorage.getItem('pineglow.' + k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem('pineglow.' + k, JSON.stringify(v)); } catch (e) { /* 隐私模式忽略 */ } }
+};
+
+const state = {
+  view: store.get('view', 'home'),
+  instance: store.get('instance', 'fabric-1215'),
+  launch: { phase: 'idle', name: '', startedAt: 0 },
+  tasks: DB.tasks.map((t) => Object.assign({}, t)),
+  content: JSON.parse(JSON.stringify(DB.content)),
+  servers: DB.servers.map((s) => Object.assign({}, s)),
+  worlds: DB.worlds.map((w) => Object.assign({}, w)),
+  news: DB.news.map((n) => Object.assign({}, n)),
+  newsState: 'live',
+  newsVerified: true,
+  offline: false,
+  load: { versions: 'ready', tasks: 'ready', content: 'ready' },
+  retryFails: false,
+  filters: { inst: 'all', instQ: '', dl: 'all', dlQ: '', tab: 'mods', contentQ: '', worldQ: '', serverQ: '' },
+  settings: {
+    mem: 4096, autoMem: true, java: 'bundled', mirror: true, fakeIp: false, source: 'official',
+    proxy: { on: false, host: '', port: 7890, user: '', pass: '' },
+    quick: { minimize: false, close: false }, ai: false,
+    providers: [{ id: 'a1', name: '预设 · DeepSeek', url: 'https://api.deepseek.com', model: 'deepseek-chat', active: true, hasKey: true }]
+  },
+  skinModel: 'classic', account: null, updating: 'idle',
+  mods: JSON.parse(JSON.stringify(DB.mods)),
+  recovery: JSON.parse(JSON.stringify(DB.recovery)),
+  drawerInst: null, modTab: 'list', modQ: '', modFilter: 'all', modConfirm: null,
+  stats: { range: 'month', from: '', to: '', month: '', day: null, err: '' }
+};
+
+const NAV = [
+  { group: '游戏', items: [
+    { id: 'home', label: '开始游戏', icon: 'play' },
+    { id: 'installations', label: '安装管理', icon: 'instances', count: () => DB.instances.length },
+    { id: 'worlds', label: '世界', icon: 'worlds', count: () => state.worlds.length },
+    { id: 'servers', label: '服务器', icon: 'servers', count: () => state.servers.length },
+    { id: 'stats', label: '游戏时长', icon: 'clock' }
+  ] },
+  { group: '资源库', items: [
+    { id: 'content', label: '内容中心', icon: 'content' },
+    { id: 'skins', label: '皮肤', icon: 'skins' },
+    { id: 'downloads', label: '下载', icon: 'downloads', count: () => state.tasks.filter((t) => t.state === 'downloading' || t.state === 'queued').length },
+    { id: 'news', label: '新闻', icon: 'news' }
+  ] },
+  { group: '系统', items: [ { id: 'settings', label: '设置', icon: 'settings' } ] }
+];
+
+const PAGES = {
+  home: ['开始游戏', '选好实例，下一段旅程从这里开始'],
+  installations: ['安装管理', '每个世界，都有自己的版本与模组'],
+  worlds: ['世界', '你所有实例中的单人存档'],
+  servers: ['服务器', '你收藏的多人服务器'],
+  stats: ['游戏时长', '游玩记录与时间分布'],
+  content: ['内容中心', '搜索并安装模组、整合包、光影与资源包'],
+  skins: ['皮肤', '预览、上传并切换你的皮肤'],
+  downloads: ['下载', '下载 Minecraft 版本并查看进度'],
+  news: ['新闻', 'Minecraft 官方动态与公告'],
+  settings: ['设置', 'Java、行为、账户、更新与 AI 诊断']
+};
+
+const currentInstance = () => DB.instances.filter((i) => i.id === state.instance)[0] || null;
+
+/* ───────────────────────── 松林夜景（产品自带矢量资产，按设计令牌重新着色） ───────────────────────── */
+const ART = '<svg class="art" viewBox="0 0 1000 380" preserveAspectRatio="xMidYMin slice" shape-rendering="crispEdges" aria-hidden="true" focusable="false">' +
+  '<defs><linearGradient id="pgSky" x2="0" y2="1"><stop class="a-sky-top" offset="0"/><stop class="a-sky-bot" offset="1"/></linearGradient>' +
+  '<linearGradient id="pgMist" x2="0" y2="1"><stop class="a-mist-top" offset="0"/><stop class="a-mist-bot" offset="1"/></linearGradient>' +
+  '<g id="pgPine"><path d="M0 0h16v16h16v16h16v16h16v16H48v16h32v16H48v16h48v16H16v32H0v-32h-80v-16h48V96h-32V80h32V64h-16V48h16V32h16V16H0Z"/></g></defs>' +
+  '<path fill="url(#pgSky)" d="M0 0h1000v380H0z"/>' +
+  '<path class="a-sun" d="M764 38h48v12h12v48h-12v12h-48V98h-12V50h12z"/>' +
+  '<path class="a-rays" d="M690 0h16v380h-16zm45 0h8v380h-8zm106 0h24v380h-24z"/>' +
+  '<path class="a-ridge-3" d="M0 216h64v-24h64v-24h64v32h72v-32h72v-32h80v40h64v-16h64v-24h64v24h64v-40h64v-32h64v24h80v32h64v-16h64v32h80v220H0z"/>' +
+  '<g class="a-pine-3"><use href="#pgPine" x="570" y="92" transform="translate(110 0) scale(.8)"/><use href="#pgPine" x="710" y="62" transform="translate(80 0) scale(.9)"/><use href="#pgPine" x="870" y="30" transform="translate(85 0) scale(.9)"/><use href="#pgPine" x="970" y="70" transform="translate(130 0) scale(.8)"/></g>' +
+  '<path fill="url(#pgMist)" d="M0 184h1000v138H0z"/>' +
+  '<path class="a-ridge-2" d="M0 284h120v-24h136v16h152v-32h136v16h88v-24h104v-24h104v24h160v144H0z"/>' +
+  '<g class="a-pine-2"><use href="#pgPine" x="674" y="128"/><use href="#pgPine" x="890" y="112"/><use href="#pgPine" x="1010" y="158"/></g>' +
+  '<path class="a-ridge-1" d="M0 352h256v-16h192v16h96v-16h160v-16h128v-16h168v76H0z"/>' +
+  '<path class="a-grass" d="M682 316h112v8H682zm156-16h80v8h-80zm-454 44h48v8h-48z"/>' +
+  '<path class="a-glow" d="M706 232h4v4h-4zm126-64h4v4h-4zm98 110h4v4h-4zm-328 22h4v4h-4z"/></svg>';
+
+/* ───────────────────────── Toast ───────────────────────── */
+function toast(title, desc, kind) {
+  const host = $('#toasts');
+  const ic = kind === 'ok' ? 'check' : kind === 'err' ? 'alert' : kind === 'warn' ? 'alert' : kind === 'info' ? 'info' : 'info';
+  const el = document.createElement('div');
+  el.className = 'toast ' + (kind || 'info');
+  el.innerHTML = ico(ic) + '<div class="t-body"><div class="t-title">' + esc(title) + '</div>' +
+    (desc ? '<div class="t-desc">' + esc(desc) + '</div>' : '') + '</div>';
+  host.appendChild(el);
+  setTimeout(() => { el.classList.add('leaving'); setTimeout(() => el.remove(), 220); }, 3600);
+  while (host.children.length > 3) host.removeChild(host.firstChild);
+}
+
+/* ───────────────────────── 模态框 / 抽屉（Esc / 焦点陷阱 / 焦点归还） ───────────────────────── */
+let modalCtx = null;
+function openModal(spec) {
+  closeModal(true);
+  const trigger = document.activeElement;
+  const host = $('#overlayHost');
+  const labelled = 'modalTitle-' + Math.random().toString(36).slice(2, 7);
+  const head = '<div class="modal-head"><div>' +
+    '<h2 class="modal-title" id="' + labelled + '">' + esc(spec.title) + '</h2>' +
+    (spec.desc ? '<p class="modal-desc"' + (spec.descId ? ' id="' + spec.descId + '"' : '') + '>' + esc(spec.desc) + '</p>' : '') +
+    '</div>' + (spec.headExtra || '') + '</div>';
+  const inner = head + '<div class="modal-body"' + (spec.bodyId ? ' id="' + spec.bodyId + '"' : '') + '>' + spec.body + '</div>' +
+    '<div class="modal-foot">' + spec.foot + '</div>';
+  host.innerHTML = spec.kind === 'drawer'
+    ? '<div class="scrim right" data-scrim><aside class="drawer" role="dialog" aria-modal="true" tabindex="-1" aria-labelledby="' + labelled + '">' + inner + '</aside></div>'
+    : '<div class="scrim" data-scrim><div class="modal" role="dialog" aria-modal="true" tabindex="-1" aria-labelledby="' + labelled + '">' + inner + '</div></div>';
+  modalCtx = { trigger: trigger, spec: spec, onSubmit: spec.onSubmit || null };
+  const scrim = $('[data-scrim]', host);
+  scrim.addEventListener('mousedown', (e) => { if (e.target === scrim) closeModal(); });
+  host.addEventListener('keydown', modalKeys);
+  document.addEventListener('focusin', trapFocus);
+  /* 初始焦点：表单类模态框先给第一个字段；确认类模态框给主操作，但绝不停留在危险按钮上。
+     抽屉打开时焦点给标题，避免直接落在第一行的启停开关上。 */
+  const box = $('.modal, .drawer', host);
+  const field = $$('.modal-body input, .modal-body select, .modal-body textarea', host).filter((n) => !n.disabled)[0];
+  const safePrimary = $$('.modal-foot .btn-primary', host).filter((n) => !n.classList.contains('btn-danger'))[0];
+  const anySafe = $$('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])', box)
+    .filter((n) => !n.disabled && !n.classList.contains('btn-danger'))[0];
+  if (spec.kind === 'drawer') box.focus(); else (field || safePrimary || anySafe || box).focus();
+}
+function modalKeys(e) {
+  if (e.key === 'Escape') { e.stopPropagation(); closeModal(); }
+  if (e.key === 'Enter' && modalCtx && modalCtx.onSubmit && e.target.tagName !== 'TEXTAREA' && e.target.tagName !== 'BUTTON') {
+    e.preventDefault(); modalCtx.onSubmit($('#overlayHost'));
+  }
+}
+function trapFocus(e) {
+  if (!modalCtx) return;
+  const box = $('.modal, .drawer', $('#overlayHost'));
+  if (box && !box.contains(e.target)) {
+    const f = $$('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])', box).filter((n) => !n.disabled);
+    if (f.length) f[0].focus();
+  }
+}
+function closeModal(silent) {
+  if (!modalCtx) return;
+  const trigger = modalCtx.trigger;
+  $('#overlayHost').innerHTML = '';
+  $('#overlayHost').removeEventListener('keydown', modalKeys);
+  document.removeEventListener('focusin', trapFocus);
+  modalCtx = null;
+  /* 触发元素可能已被重渲染替换（抽屉改动计数后列表会重绘），按 data-od-id 找回来 */
+  if (!silent && trigger) {
+    let back = document.contains(trigger) ? trigger : null;
+    if (!back && trigger.dataset && trigger.dataset.odId) back = document.querySelector('[data-od-id="' + trigger.dataset.odId + '"]');
+    if (back) back.focus();
+    else { const root = $('#viewRoot'); if (root) root.focus({ preventScroll: true }); }
+  }
+}
+const closeModalSoft = () => closeModal();
+
+/* ───────────────────────── 命令面板（Ctrl/⌘ + K） ───────────────────────── */
+function paletteCommands() {
+  const list = NAV.reduce((a, g) => a.concat(g.items.map((it) => ({ group: g.group, id: it.id, label: '打开 · ' + it.label, icon: it.icon, hint: '页面' }))), []);
+  const inst = currentInstance();
+  if (inst && state.launch.phase === 'idle') list.unshift({ group: '操作', id: 'launch', label: '启动「' + inst.name + '」', icon: 'play', hint: 'Enter' });
+  if (state.launch.phase === 'running') list.unshift({ group: '操作', id: 'stop', label: '结束当前游戏进程', icon: 'pause', hint: '模拟' });
+  list.push({ group: '操作', id: 'check-update', label: '检查启动器更新', icon: 'refresh', hint: 'v1.4.2' });
+  list.push({ group: '操作', id: 'open-logs', label: '打开日志目录', icon: 'folder', hint: 'logs' });
+  list.push({ group: '操作', id: 'toggle-offline', label: (state.offline ? '关闭' : '开启') + '离线模式（原型：模拟断网）', icon: 'globe', hint: '网络' });
+  return list;
+}
+let palIdx = 0, palItems = [];
+function openPalette() {
+  const host = $('#overlayHost');
+  closeModal(true);
+  const trigger = document.activeElement;
+  host.innerHTML = '<div class="scrim" data-scrim><div class="palette" role="dialog" aria-modal="true" aria-label="快速操作">' +
+    '<div class="palette-input">' + ico('search') + '<input id="palInput" type="text" placeholder="搜索页面、实例与操作…" aria-label="搜索命令" autocomplete="off"></div>' +
+    '<div class="palette-list" id="palList" role="listbox" aria-label="命令列表"></div>' +
+    '<div class="palette-foot"><span><span class="kbd">↑</span> <span class="kbd">↓</span> 选择</span><span><span class="kbd">Enter</span> 执行</span><span><span class="kbd">Esc</span> 关闭</span></div></div></div>';
+  modalCtx = { trigger: trigger, spec: { title: '快速操作' } };
+  const scrim = $('[data-scrim]', host);
+  scrim.addEventListener('mousedown', (e) => { if (e.target === scrim) closeModal(); });
+  host.addEventListener('keydown', paletteKeys);
+  document.addEventListener('focusin', trapFocus);
+  renderPalette('');
+  $('#palInput').addEventListener('input', (e) => renderPalette(e.target.value));
+  $('#palInput').focus();
+}
+function renderPalette(q) {
+  const query = q.trim().toLowerCase();
+  palItems = paletteCommands().filter((c) => !query || c.label.toLowerCase().indexOf(query) >= 0);
+  palIdx = 0;
+  const groups = [];
+  palItems.forEach((c) => { if (groups.indexOf(c.group) < 0) groups.push(c.group); });
+  $('#palList').innerHTML = palItems.length ? groups.map((g) =>
+    '<div class="palette-group">' + esc(g) + '</div>' + palItems.map((c, i) => c.group === g
+      ? '<button class="palette-item" role="option" aria-selected="' + (i === palIdx) + '" data-pal="' + i + '">' + ico(c.icon) + '<span>' + esc(c.label) + '</span><span class="hint">' + esc(c.hint) + '</span></button>'
+      : '').join('')).join('') : '<div class="state" style="border:0;background:transparent"><p class="s-title">没有匹配的命令</p><p class="s-desc">换个关键词，或按 Esc 关闭。</p></div>';
+  $$('.palette-item').forEach((b) => b.addEventListener('click', () => runPalette(+b.dataset.pal)));
+}
+function paletteKeys(e) {
+  if (e.key === 'Escape') { closeModal(); return; }
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    if (!palItems.length) return;
+    palIdx = (palIdx + (e.key === 'ArrowDown' ? 1 : palItems.length - 1)) % palItems.length;
+    $$('.palette-item').forEach((b, i) => b.setAttribute('aria-selected', String(i === palIdx)));
+    const list = $('#palList');
+    const cur = $$('.palette-item')[palIdx];
+    if (cur && list) {
+      const top = cur.offsetTop, bottom = top + cur.offsetHeight;
+      if (top < list.scrollTop) list.scrollTop = top - 4;
+      else if (bottom > list.scrollTop + list.clientHeight) list.scrollTop = bottom - list.clientHeight + 4;
+    }
+  }
+  if (e.key === 'Enter') { e.preventDefault(); runPalette(palIdx); }
+}
+function runPalette(i) {
+  const cmd = palItems[i]; if (!cmd) return;
+  closeModal(true);
+  if (cmd.id === 'launch') return ACTIONS.launch();
+  if (cmd.id === 'stop') return ACTIONS.stop();
+  if (cmd.id === 'check-update') { go('settings'); return setTimeout(() => ACTIONS['check-update'](), 260); }
+  if (cmd.id === 'open-logs') return toast('已请求打开日志目录', '原型内不会真实打开目录（模拟）', 'info');
+  if (cmd.id === 'toggle-offline') return ACTIONS['toggle-offline']();
+  const v = cmd.id;
+  if (v === state.view) { toast('已经在「' + PAGES[v][0] + '」', null, 'info'); return; }
+  go(v);
+}
+
+/* ───────────────────────── 渲染 ───────────────────────── */
+const VIEWS = {};
+const ACTIONS = {};
+let lastFocus = null;
+
+function go(view, opts) {
+  if (!PAGES[view]) view = 'home';
+  state.view = view; store.set('view', view);
+  render(opts);
+  const el = $('#viewRoot');
+  el.scrollTop = 0;
+  el.focus({ preventScroll: true });
+}
+
+function navHTML() {
+  return NAV.map((g) =>
+    '<div class="nav-group">' + esc(g.group) + '</div>' + g.items.map((it) => {
+      const c = it.count ? it.count() : null;
+      return '<button class="nav-item" data-act="go" data-view="' + it.id + '"' + (state.view === it.id ? ' aria-current="page"' : '') + '>' +
+        ico(it.icon) + '<span class="nav-text">' + esc(it.label) + '</span>' +
+        (c ? '<span class="nav-count num">' + c + '</span>' : '') + '</button>';
+    }).join('')).join('');
+}
+
+function render(opts) {
+  const o = opts || {};
+  const active = document.activeElement;
+  const keep = o.keepFocus && active && active.id ? { id: active.id, start: active.selectionStart, end: active.selectionEnd } : null;
+
+  $('#nav').innerHTML = navHTML();
+  $('#pageTitle').textContent = PAGES[state.view][0];
+  $('#pageSub').textContent = PAGES[state.view][1];
+  const root = $('#viewRoot');
+  root.innerHTML = (VIEWS[state.view] || (() => ''))();
+  root.firstElementChild && root.firstElementChild.classList.add('enter');
+  if (state.view === 'stats') layoutTreemap();
+
+  if (keep) {
+    const el = document.getElementById(keep.id);
+    if (el) { el.focus(); try { el.setSelectionRange(keep.start, keep.end); } catch (e) { /* number input */ } }
+  }
+  if (!o.keepFocus && !o.noFocus) { /* 保持滚动位置 */ }
+  syncRangeFills(root);
+}
+
+function syncRangeFills(root) {
+  $$('input[type="range"]', root).forEach((r) => {
+    const pct = ((+r.value - +r.min) / (+r.max - +r.min)) * 100;
+    r.style.setProperty('--range-fill', pct + '%');
+  });
+}
+
+/* ───────────────────────── 通用片段 ───────────────────────── */
+function chip(text, cls, icon) {
+  return '<span class="chip ' + (cls || '') + '">' + (icon ? ico(icon, 11) : '') + esc(text) + '</span>';
+}
+function stateBlock(o) {
+  return '<div class="state ' + (o.kind || '') + '">' + (o.icon ? ico(o.icon, 22) : '') +
+    '<p class="s-title">' + esc(o.title) + '</p>' +
+    (o.desc ? '<p class="s-desc">' + esc(o.desc) + '</p>' : '') +
+    (o.action ? '<div style="margin-top:10px">' + o.action + '</div>' : '') + '</div>';
+}
+function errorBlock(o) {
+  return '<div class="state err" role="alert">' + ico('alert', 22) +
+    '<p class="s-title">' + esc(o.title) + '</p><p class="s-desc">' + esc(o.desc) + '</p>' +
+    (o.extra ? '<p class="s-desc">' + esc(o.extra) + '</p>' : '') +
+    '<div class="row gap-2" style="margin-top:10px">' +
+    '<button class="btn btn-secondary btn-sm" data-act="' + o.act + '">' + ico('refresh', 13) + '<span>' + esc(o.retry || '重试') + '</span></button>' +
+    '<details class="tech"><summary class="btn btn-ghost btn-sm">技术详情</summary><pre class="tech-body">' + esc(o.tech || '') + '</pre></details>' +
+    '</div></div>';
+}
+function pageCard(o) {
+  return '<section class="card' + (o.ring ? ' card-ring' : '') + '"' + (o.id ? ' data-od-id="' + o.id + '"' : '') + '>' +
+    (o.title ? '<div class="card-head"><div><h2 class="' + (o.big ? 'page-title' : 'card-title') + '">' + esc(o.title) + '</h2>' +
+      (o.hint ? '<p class="card-hint" style="margin-top:3px">' + esc(o.hint) + '</p>' : '') + '</div>' +
+      '<div class="row gap-2">' + (o.tools || '') + '</div></div>' : '') + o.body + '</section>';
+}
+function stub(note) { return '<p class="card-hint" style="margin-top:12px">' + esc(note) + '</p>'; }
+
+/* ───────────────────────── 启动流程（模拟） ───────────────────────── */
+const PRELAUNCH = [
+  { k: 'Java 运行时', v: '21.0.5 · 内置 JRE', s: 'pass' },
+  { k: '内存分配', v: '4096 MB / 系统 32 GB', s: 'pass' },
+  { k: '游戏文件完整性', v: '已校验，缺少 0 个文件', s: 'pass' },
+  { k: '图形驱动', v: 'OpenGL 4.6 可用', s: 'pass' },
+  { k: '账户', v: '未登录，将以离线模式启动', s: 'warn' }
+];
+ACTIONS['launch-dialog'] = function () {
+  const inst = currentInstance();
+  if (!inst) { toast('请先选择一个实例', '还没有可启动的实例', 'warn'); return; }
+  openModal({
+    title: '启动前检查',
+    desc: '正在对「' + inst.name + '」运行环境做只读检查。',
+    body: '<div class="stack gap-2" id="checkRows">' + PRELAUNCH.map((r) =>
+      '<div class="row gap-3" style="padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius-sm)">' +
+      '<span class="dot ' + (r.s === 'pass' ? 'online' : 'warn') + '"></span>' +
+      '<span class="grow stack" style="gap:1px"><span style="font-size:var(--text-sm)">' + esc(r.k) + '</span>' +
+      '<span class="meta">' + esc(r.v) + '</span></span>' +
+      '<span class="chip ' + (r.s === 'pass' ? 'chip-ok' : 'chip-warn') + '">' + (r.s === 'pass' ? '通过' : '! 需注意') + '</span></div>').join('') + '</div>' +
+      '<p class="card-hint">保护措施：检查只读取环境信息，不会修改实例文件。</p>',
+    foot: '<button class="btn btn-ghost" data-act="close-modal">取消</button>' +
+      '<button class="btn btn-primary" data-act="launch-go">仍然启动</button>'
+  });
+};
+ACTIONS.launch = function () { ACTIONS['launch-dialog'](); };
+ACTIONS['launch-go'] = function () {
+  const inst = currentInstance();
+  closeModal(true);
+  state.launch.phase = 'running'; state.launch.name = inst.name; state.launch.startedAt = Date.now();
+  toast('正在启动「' + inst.name + '」…', '原型：不会真实启动游戏进程', 'info');
+  setTimeout(() => {
+    if (state.launch.phase === 'running') toast('已发出启动指令', '模拟结果 · 未启动任何进程', 'ok');
+    render();
+  }, 1100);
+  render(); startTicker();
+};
+ACTIONS.stop = function () {
+  state.launch.phase = 'idle'; state.launch.name = '';
+  toast('已请求结束游戏进程', '模拟结果 · 没有真实进程被结束', 'info');
+  render();
+};
+ACTIONS['close-modal'] = function () { closeModal(); };
+ACTIONS['toggle-offline'] = function () {
+  state.offline = !state.offline;
+  state.newsVerified = !state.offline;
+  toast(state.offline ? '已开启离线模式' : '已关闭离线模式',
+    state.offline ? '网络请求将失败，用于演示错误态（模拟）' : '网络请求恢复正常（模拟）', state.offline ? 'warn' : 'ok');
+  render();
+};
+
+/* ───────────────────────── 计时器：运行时长与下载进度 ───────────────────────── */
+let ticker = null;
+function startTicker() {
+  if (ticker) return;
+  ticker = setInterval(() => {
+    const t = $('[data-elapsed]');
+    if (t && state.launch.phase === 'running') t.textContent = elapsed(Date.now() - state.launch.startedAt);
+    let changed = false;
+    state.tasks.forEach((task) => {
+      if (task.state !== 'downloading') return;
+      const next = Math.min(100, task.pct + (task.pct > 80 ? 1 : 2));
+      if (next === task.pct) return;
+      task.pct = next; changed = true;
+      if (next >= 100) { task.state = 'completed'; task.eta = ''; }
+      const bar = $('[data-task-bar="' + task.id + '"]');
+      if (bar) { bar.style.width = next + '%'; bar.parentElement.classList.toggle('accent', task.state === 'downloading'); }
+      const pct = $('[data-task-pct="' + task.id + '"]');
+      if (pct) pct.textContent = next >= 100 ? '已完成' : next + '%';
+    });
+    if (changed && state.view === 'home') { const m = $('[data-mini-tasks]'); if (m) m.innerHTML = VIEWS.miniTasks(); }
+  }, 2000);
+}
+
+/* ───────────────────────── 全局事件 ───────────────────────── */
+function onClick(e) {
+  const el = e.target.closest('[data-act]');
+  if (!el) return;
+  const act = el.dataset.act;
+  if (!ACTIONS[act]) return;
+  if (el.tagName === 'BUTTON' && el.disabled) return;
+  ACTIONS[act](el, e);
+}
+function onInput(e) {
+  const el = e.target.closest('[data-input]');
+  if (!el) return;
+  const key = el.dataset.input;
+  if (key === 'instQ') { state.filters.instQ = el.value; render({ keepFocus: true }); }
+  if (key === 'contentQ') { state.filters.contentQ = el.value; render({ keepFocus: true }); }
+  if (key === 'worldQ') { state.filters.worldQ = el.value; render({ keepFocus: true }); }
+  if (key === 'serverQ') { state.filters.serverQ = el.value; render({ keepFocus: true }); }
+  if (key === 'modQ') { state.modQ = el.value; paintDrawer(true); }
+  if (key === 'mem') {
+    state.settings.mem = +el.value;
+    el.style.setProperty('--range-fill', ((el.value - el.min) / (el.max - el.min)) * 100 + '%');
+    const out = $('#memOut'); if (out) out.textContent = (el.value / 1024) + ' GB';
+  }
+}
+function onChange(e) {
+  const chk = e.target.closest('[data-check]');
+  if (chk) { ACTIONS[chk.dataset.check](chk, e); return; }
+  const dt = e.target.closest('[data-range-date]');
+  if (dt) {
+    if (dt.dataset.rangeDate === 'from') state.stats.from = dt.value;
+    else state.stats.to = dt.value;
+    ACTIONS['stats-validate']();
+    render({ keepFocus: true });
+  }
+}
+/* 树状图方块的数据读出：悬停或聚焦时把该块的明细写到读出条 */
+function onHover(e) {
+  const out = $('#tmReadout');
+  if (!out || !out.lastElementChild) return;
+  const el = e.target.closest ? e.target.closest('[data-readout]') : null;
+  out.lastElementChild.textContent = el ? el.dataset.readout : out.dataset.default;
+}
+function onKeydown(e) {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openPalette(); }
+}
+
+/* ───────────────────────── 初始化 ───────────────────────── */
+function init() {
+  document.addEventListener('click', onClick);
+  document.addEventListener('input', onInput);
+  document.addEventListener('change', onChange);
+  document.addEventListener('keydown', onKeydown);
+  document.addEventListener('mouseover', onHover);
+  document.addEventListener('mouseout', onHover);
+  document.addEventListener('focusin', onHover);
+  document.addEventListener('focusout', onHover);
+  $('#paletteBtn').addEventListener('click', openPalette);
+  $('#refreshBtn').addEventListener('click', () => ACTIONS['refresh-all']());
+  $('#accountBtn').addEventListener('click', () => ACTIONS['add-account']());
+  ['#winMin', '#winMax', '#winClose'].forEach((s) => $(s).addEventListener('click', () => toast('窗口控制不可用', '原型内不会最小化、最大化或关闭窗口', 'info')));
+  $$('.lang-switch button').forEach((b) => b.addEventListener('click', () => {
+    $$('.lang-switch button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    if (b.dataset.lang === 'en') toast('原型仅提供中文界面', '语言切换在正式版中由 i18n 词典驱动', 'warn');
+  }));
+  if (!PAGES[state.view] || !VIEWS[state.view]) state.view = 'home';
+  if (!currentInstance() && DB.instances.length) state.instance = DB.instances[0].id;
+  render();
+  startTicker();
+}
+
+/* ───────────────────────── 视图：开始游戏 ───────────────────────── */
+const taskRow = (t, mini) => {
+  const pct = t.pct;
+  const label = t.state === 'completed' ? '已完成' : t.state === 'queued' ? '排队中' : pct + '%';
+  return '<div class="list-row" data-od-id="task-' + t.id + '">' +
+    '<span class="thumb"' + (mini ? ' style="width:30px;height:30px;flex-basis:30px"' : '') + '>' + ico(t.state === 'completed' ? 'check' : 'downloads', mini ? 14 : 17) + '</span>' +
+    '<span class="grow stack" style="gap:6px">' +
+      '<span class="row-between gap-3"><span class="row-title truncate">' + esc(t.name) + '</span>' +
+      '<span class="meta" data-task-pct="' + t.id + '">' + esc(label) + '</span></span>' +
+      '<span class="bar' + (t.state === 'downloading' ? ' accent' : t.state === 'completed' ? ' ok' : '') + '"><i data-task-bar="' + t.id + '" style="width:' + pct + '%"></i></span>' +
+      (mini ? '' : '<span class="row gap-3 meta"><span>' + esc(t.speed || '—') + '</span>' +
+        (t.eta ? '<span>剩余 ' + esc(t.eta) + '</span>' : '') + '<span>' + esc(t.size) + '</span></span>') +
+    '</span>' +
+    (mini ? '' : '<span class="row-actions">' +
+      (t.state === 'downloading' || t.state === 'queued'
+        ? '<button class="icon-btn" data-act="task-toggle" data-id="' + t.id + '" aria-label="暂停或继续任务">' + ico('pause') + '</button>' +
+          '<button class="icon-btn danger" data-act="task-cancel" data-id="' + t.id + '" aria-label="取消任务">' + ico('x') + '</button>'
+        : '<button class="icon-btn danger" data-act="task-cancel" data-id="' + t.id + '" aria-label="清除记录">' + ico('trash') + '</button>') +
+    '</span>') + '</div>';
+};
+VIEWS.miniTasks = function () {
+  const live = state.tasks.filter((t) => t.state !== 'completed');
+  if (!live.length) return stateBlock({ icon: 'check', title: '下载队列已清空', desc: '所有任务都已完成。', kind: '' });
+  return '<div class="list">' + live.slice(0, 3).map((t) => taskRow(t, true)).join('') + '</div>';
+};
+VIEWS.home = function () {
+  const inst = currentInstance();
+  const running = state.launch.phase === 'running';
+  const news = state.news.slice(0, 3);
+  const head = '<section class="card card-ring" data-od-id="launch-card" style="padding:0;overflow:hidden">' +
+    '<div class="art-strip">' + ART + '</div>' +
+    '<div class="card-pad-lg stack gap-5">' +
+      '<div class="row-between gap-5" style="flex-wrap:wrap">' +
+        '<div class="stack gap-2" style="min-width:0">' +
+          '<span class="meta">当前实例 · PINEGLOW JAVA EDITION</span>' +
+          '<h2 style="font-size:var(--text-2xl);line-height:1.2">' + esc(inst ? inst.name : '暂无实例') + '</h2>' +
+          '<div class="row gap-2" style="flex-wrap:wrap">' +
+            (inst ? chip(inst.ver, '', 'cube') + chip(inst.loader, '', 'wrench') + chip(inst.mods + ' 个 Mod', '', 'layers') : '') +
+            (running ? '<span class="chip chip-ok"><span class="dot online" aria-hidden="true"></span>运行中 · <span class="num" data-elapsed>00:00</span></span>' : '') +
+          '</div>' +
+        '</div>' +
+        '<div class="row gap-2" style="flex-wrap:wrap">' +
+          (inst
+            ? (running
+              ? '<button class="btn btn-secondary btn-lg" data-act="stop" data-od-id="cta-stop">' + ico('pause', 18) + '<span>结束游戏</span></button>'
+              : '<button class="btn btn-primary btn-lg" data-act="launch-dialog" data-od-id="cta-launch">' + ico('play', 18) + '<span>启动游戏</span></button>')
+            : '<button class="btn btn-primary btn-lg" data-act="inst-new">' + ico('plus', 18) + '<span>新建实例</span></button>') +
+          '<button class="btn btn-secondary btn-lg" data-act="go" data-view="installations">选择实例</button>' +
+          '<button class="btn btn-ghost btn-lg" data-act="open-dir" data-id="' + (inst ? inst.id : '') + '" aria-label="打开游戏目录">' + ico('folder', 18) + '</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="grid-4">' +
+        '<div class="stat"><div class="stat-label">总游玩时长</div><div class="stat-value num">' + DB.stats.hours + ' <span style="font-size:var(--text-xs);color:var(--muted)">小时</span></div></div>' +
+        '<div class="stat"><div class="stat-label">游玩次数</div><div class="stat-value num">' + DB.stats.sessions + '</div></div>' +
+        '<div class="stat"><div class="stat-label">实例</div><div class="stat-value num">' + DB.instances.length + '</div></div>' +
+        '<div class="stat"><div class="stat-label">内存分配</div><div class="stat-value num">' + (state.settings.mem / 1024) + ' <span style="font-size:var(--text-xs);color:var(--muted)">GB</span></div></div>' +
+      '</div>' +
+      '<p class="card-hint">原型说明：启动、下载与登录均为模拟流程，不会真实运行游戏或写入任何目录。</p>' +
+    '</div></section>';
+
+  const newsCard = pageCard({
+    id: 'home-news', title: '最新资讯', hint: '示例内容 · 非实时源',
+    tools: '<button class="btn btn-ghost btn-sm" data-act="go" data-view="news">查看全部</button>',
+    body: '<div class="stack gap-1">' + news.map((n) =>
+      '<button class="list-row" data-act="news-open" data-id="' + n.id + '" style="width:100%;text-align:left;border-radius:var(--radius-sm)">' +
+      '<span class="grow stack" style="gap:3px"><span class="row-title">' + esc(n.title) + '</span>' +
+      '<span class="row-sub">' + esc(n.cat) + ' · ' + esc(n.time) + '</span></span>' +
+      '<span class="meta">' + ico('external', 12) + '</span></button>').join('') + '</div>'
+  });
+
+  const tasksCard = pageCard({
+    id: 'home-tasks', title: '下载队列', hint: '进度与速率为模拟值',
+    tools: '<button class="btn btn-ghost btn-sm" data-act="go" data-view="downloads">全部任务</button>',
+    body: '<div data-mini-tasks>' + VIEWS.miniTasks() + '</div>'
+  });
+
+  return '<div class="view">' + head + '<div class="grid-play">' + tasksCard + newsCard + '</div></div>';
+};
+
+/* ───────────────────────── 视图：安装管理 ───────────────────────── */
+const KIND_LABEL = { modded: '模组版', release: '正式版', snapshot: '快照版' };
+VIEWS.installations = function () {
+  const f = state.filters;
+  const list = DB.instances.filter((i) => (f.inst === 'all' || i.kind === f.inst) &&
+    (!f.instQ || (i.name + i.ver + i.loader).toLowerCase().indexOf(f.instQ.toLowerCase()) >= 0));
+  const tools = '<div class="search">' + ico('search') + '<input class="input" id="instQ" data-input="instQ" type="search" value="' + esc(f.instQ) + '" placeholder="搜索实例…" aria-label="搜索实例"></div>' +
+    '<div class="seg" role="group" aria-label="实例筛选">' +
+    [['all', '全部版本'], ['modded', '模组版'], ['snapshot', '快照版']].map((p) =>
+      '<button data-act="filter-inst" data-value="' + p[0] + '" aria-pressed="' + (f.inst === p[0]) + '">' + p[1] + '</button>').join('') + '</div>';
+
+  const rows = list.map((i) =>
+    '<div class="list-row' + (state.instance === i.id ? ' is-selected' : '') + '" data-od-id="inst-' + i.id + '">' +
+      '<span class="thumb thumb-lg">' + ico(i.kind === 'modded' ? 'layers' : i.kind === 'snapshot' ? 'zap' : 'cube', 21) + '</span>' +
+      '<span class="grow stack" style="gap:4px">' +
+        '<span class="row gap-2" style="flex-wrap:wrap"><span class="row-title">' + esc(i.name) + '</span>' +
+        chip(KIND_LABEL[i.kind]) + (state.instance === i.id ? chip('默认', 'chip-ok') : '') +
+        (i.mods > 0 ? chip(i.mods + ' 个 Mod', '', 'layers') : '') + '</span>' +
+        '<span class="row-sub">Minecraft ' + esc(i.ver) + ' · ' + esc(i.loader) + ' · 游玩 ' + i.sessions + ' 次 · ' + esc(i.last) + '</span>' +
+      '</span>' +
+      '<span class="row-actions">' +
+        '<button class="btn btn-secondary btn-sm" data-act="inst-launch" data-id="' + i.id + '">' + ico('play', 13) + '<span>启动</span></button>' +
+        (i.mods > 0 ? '<button class="btn btn-secondary btn-sm" data-act="mods-open" data-id="' + i.id + '" data-od-id="cta-mods-' + i.id + '" aria-label="' + esc('管理 ' + i.name + ' 的 ' + i.mods + ' 个 Mod') + '">' + ico('layers', 13) + '<span>Mod</span></button>' : '') +
+        '<button class="btn btn-secondary btn-sm" data-act="inst-more" data-id="' + i.id + '">更多</button>' +
+        '<button class="icon-btn danger" data-act="inst-remove" data-id="' + i.id + '" aria-label="从列表移除 ' + esc(i.name) + '">' + ico('trash') + '</button>' +
+      '</span></div>').join('');
+
+  const body = list.length ? '<div class="list">' + rows + '</div>'
+    : (DB.instances.length
+      ? stateBlock({ icon: 'search', title: '当前筛选下没有实例', desc: '换个筛选条件，或新建一个实例。' })
+      : stateBlock({ icon: 'instances', title: '还没有实例', desc: '点击右上角「新建实例」创建第一个实例。', action: '<button class="btn btn-secondary btn-sm" data-act="inst-new">' + ico('plus', 13) + '<span>新建实例</span></button>' }));
+
+  return '<div class="view">' + pageCard({
+    id: 'installations', title: '你的游戏实例', hint: DB.instances.length + ' 个实例可用 · 版本与加载器互相独立',
+    tools: tools + '<button class="btn btn-secondary btn-sm" data-act="inst-add-existing">从已有目录添加</button>' +
+      '<button class="btn btn-primary btn-sm" data-act="inst-new" data-od-id="cta-new-instance">' + ico('plus', 13) + '<span>新建实例</span></button>',
+    body: body + '<p class="card-hint" style="margin-top:12px">「从列表移除」只删除列表记录，不会删除游戏目录与存档。</p>'
+  }) + '</div>';
+};
+
+/* ───────────────────────── 视图：世界 ───────────────────────── */
+VIEWS.worlds = function () {
+  const q = state.filters.worldQ.toLowerCase();
+  const list = state.worlds.filter((w) => !q || (w.name + w.inst).toLowerCase().indexOf(q) >= 0);
+  const rows = list.map((w) =>
+    '<div class="list-row" data-od-id="world-' + w.id + '">' +
+      '<span class="thumb thumb-lg">' + ico('worlds', 21) + '</span>' +
+      '<span class="grow stack" style="gap:4px">' +
+        '<span class="row gap-2" style="flex-wrap:wrap"><span class="row-title">' + esc(w.name) + '</span>' +
+        (w.backups.length ? chip(w.backups.length + ' 份备份', 'chip-ok', 'shield') : chip('无备份')) + '</span>' +
+        '<span class="row-sub">' + esc(w.inst) + ' · ' + esc(w.size) + ' · 最后游玩 ' + esc(w.last) + '</span>' +
+      '</span>' +
+      '<span class="row-actions">' +
+        '<button class="btn btn-secondary btn-sm" data-act="world-open" data-id="' + w.id + '">管理存档</button>' +
+        '<button class="icon-btn" data-act="world-backup" data-id="' + w.id + '" aria-label="备份存档 ' + esc(w.name) + '">' + ico('shield') + '</button>' +
+        '<button class="icon-btn" data-act="world-folder" data-id="' + w.id + '" aria-label="打开存档目录">' + ico('folder') + '</button>' +
+      '</span></div>').join('');
+  return '<div class="view">' + pageCard({
+    id: 'worlds', title: '单人存档', hint: '备份保存在实例目录下的 backups 文件夹',
+    tools: '<div class="search">' + ico('search') + '<input class="input" id="worldQ" data-input="worldQ" type="search" value="' + esc(state.filters.worldQ) + '" placeholder="搜索存档…" aria-label="搜索存档"></div>',
+    body: list.length ? '<div class="list stagger">' + rows + '</div>'
+      : stateBlock({ icon: 'worlds', title: '还没有存档', desc: '进入游戏创建一个世界后，这里会自动出现。' })
+  }) + '</div>';
+};
+
+/* ───────────────────────── 视图：服务器 ───────────────────────── */
+const sig = (ping) => {
+  if (ping === null || ping === undefined) return '<span class="sig" aria-hidden="true"><i></i><i></i><i></i></span>';
+  const on = ping < 80 ? 3 : ping < 200 ? 2 : 1;
+  const cls = ping < 80 ? '' : ping < 200 ? ' warn' : ' off';
+  return '<span class="sig' + cls + '" aria-hidden="true">' + [0, 1, 2].map((i) => '<i class="' + (i < on ? 'on' : '') + '"></i>').join('') + '</span>';
+};
+VIEWS.servers = function () {
+  const q = state.filters.serverQ.toLowerCase();
+  const list = state.servers.filter((s) => !q || (s.name + s.host).toLowerCase().indexOf(q) >= 0);
+  const rows = list.map((s) =>
+    '<div class="list-row" data-od-id="server-' + s.id + '">' +
+      '<span class="thumb thumb-lg">' + ico('servers', 21) + '</span>' +
+      '<span class="grow stack" style="gap:4px">' +
+        '<span class="row gap-2" style="flex-wrap:wrap"><span class="row-title">' + esc(s.name) + '</span>' +
+        (s.fav ? chip('已收藏', 'chip-warn', 'star') : '') + chip(s.ver) + '</span>' +
+        '<span class="row-sub num">' + esc(s.host) + (s.port !== 25565 ? ':' + s.port : '') + '</span>' +
+      '</span>' +
+      '<span class="stack" style="gap:4px;align-items:flex-end;min-width:96px">' +
+        '<span class="row gap-2">' + sig(s.ping) +
+        '<span class="num" style="font-size:var(--text-sm)">' + (s.ping === null ? '离线' : s.ping + ' ms') + '</span></span>' +
+        '<span class="meta">' + (s.online ? s.players.toLocaleString('en-US') + ' / ' + s.cap.toLocaleString('en-US') + ' 在线' : '—') + '</span>' +
+      '</span>' +
+      '<span class="row-actions">' +
+        '<button class="icon-btn" data-act="server-fav" data-id="' + s.id + '" aria-pressed="' + s.fav + '" aria-label="收藏 ' + esc(s.name) + '">' + ico('star') + '</button>' +
+        '<button class="btn btn-secondary btn-sm" data-act="server-ping" data-id="' + s.id + '">刷新延迟</button>' +
+        '<button class="icon-btn danger" data-act="server-del" data-id="' + s.id + '" aria-label="删除 ' + esc(s.name) + '">' + ico('trash') + '</button>' +
+      '</span></div>').join('');
+  return '<div class="view">' + pageCard({
+    id: 'servers', title: '收藏的服务器', hint: '延迟与在线人数为模拟值，不会真实连接服务器',
+    tools: '<div class="search">' + ico('search') + '<input class="input" id="serverQ" data-input="serverQ" type="search" value="' + esc(state.filters.serverQ) + '" placeholder="搜索服务器…" aria-label="搜索服务器"></div>' +
+      '<button class="btn btn-primary btn-sm" data-act="server-add" data-od-id="cta-add-server">' + ico('plus', 13) + '<span>添加服务器</span></button>',
+    body: list.length ? '<div class="list stagger">' + rows + '</div>'
+      : stateBlock({ icon: 'servers', title: '还没有添加服务器', desc: '点击右上角「添加服务器」收藏第一个服务器。' })
+  }) + '</div>';
+};
+
+/* ───────────────────────── 视图：内容中心 ───────────────────────── */
+VIEWS.content = function () {
+  const f = state.filters;
+  const groups = [['mods', '模组'], ['modpacks', '整合包'], ['shaders', '光影'], ['resourcepacks', '资源包']];
+  const all = state.content[f.tab] || [];
+  const q = f.contentQ.toLowerCase();
+  const list = all.filter((c) => !q || (c.name + c.author + c.desc).toLowerCase().indexOf(q) >= 0);
+  const inst = currentInstance();
+
+  const card = (c) => {
+    const btn = c.state === 'installed'
+      ? '<span class="chip chip-ok">' + ico('check', 11) + '已安装</span>'
+      : c.state === 'installing'
+        ? '<button class="btn btn-secondary btn-sm" disabled>' + ico('refresh', 13) + '<span data-inst-pct="' + c.id + '">安装中 ' + (c.pct || 0) + '%</span></button>'
+        : '<button class="btn btn-secondary btn-sm" data-act="content-install" data-id="' + c.id + '">' + ico('downloads', 13) + '<span>安装</span></button>';
+    return '<article class="card enter-lift" data-od-id="content-' + c.id + '">' +
+      '<div class="row-between gap-3" style="align-items:flex-start">' +
+        '<div class="grow" style="min-width:0">' +
+          '<h3 class="card-title anywhere">' + esc(c.name) + '</h3>' +
+          '<p class="card-hint" style="margin-top:2px">作者：' + esc(c.author) + '</p>' +
+        '</div>' + btn +
+      '</div>' +
+      '<p class="fg2" style="font-size:var(--text-xs);line-height:1.75;margin-top:10px">' + esc(c.desc) + '</p>' +
+      '<div class="row gap-2" style="flex-wrap:wrap;margin-top:12px">' + c.tags.map((t) => '<span class="tag">' + esc(t) + '</span>').join('') + '</div>' +
+      '</article>';
+  };
+
+  let body;
+  if (state.offline) {
+    body = errorBlock({
+      title: '内容加载失败', desc: '没能从内容源取回数据。这通常是网络或内容源暂时不可用，稍后重试即可。',
+      extra: '当前处于离线模式，所有请求都会失败。', act: 'content-retry', tech: 'GET https://api.modrinth.com/v2/search?query=\n→ net::ERR_INTERNET_DISCONNECTED（模拟）'
+    });
+  } else if (!list.length) {
+    body = stateBlock({ icon: 'search', title: '没有找到匹配的内容', desc: '换个关键词试试，或切换分类标签。' });
+  } else {
+    body = '<div class="grid-3 stagger">' + list.map(card).join('') + '</div>';
+  }
+
+  return '<div class="view">' + pageCard({
+    id: 'content', title: '内容库', hint: '示例条目 · 项目名与作者取自真实项目',
+    tools: '<div class="search">' + ico('search') + '<input class="input" id="contentQ" data-input="contentQ" type="search" value="' + esc(f.contentQ) + '" placeholder="搜索内容…" aria-label="搜索内容"></div>',
+    body: '<div class="row-between gap-3" style="flex-wrap:wrap;margin-bottom:14px">' +
+      '<div class="seg" role="group" aria-label="内容分类">' + groups.map((g) =>
+        '<button data-act="content-tab" data-value="' + g[0] + '" aria-pressed="' + (f.tab === g[0]) + '">' + g[1] + '</button>').join('') + '</div>' +
+      '<div class="row gap-2">' + chip(inst ? '目标实例 · ' + inst.name : '未按实例过滤') + chip('来源 · Modrinth') + '</div>' +
+      '</div>' + body
+  }) + '</div>';
+};
+
+/* ───────────────────────── 视图：皮肤 ───────────────────────── */
+VIEWS.skins = function () {
+  const signed = !!state.account;
+  const preview = '<section class="card" data-od-id="skin-preview" style="padding:0;overflow:hidden">' +
+    '<div class="card-head" style="padding:var(--space-4) var(--space-4) 0;margin-bottom:var(--space-3)">' +
+      '<div><h2 class="card-title">当前使用的皮肤</h2><p class="card-hint" style="margin-top:2px">' +
+      (signed ? esc(state.account.name) + ' 的皮肤' : '未登录 · 无法获取皮肤贴图') + '</p></div>' +
+      chip(state.skinModel === 'classic' ? '经典模型' : 'Slim / Alex 模型') + '</div>' +
+    '<div class="preview" role="group" aria-label="皮肤预览区域">' +
+      '<div class="preview-grid" aria-hidden="true"></div>' +
+      stateBlock({
+        icon: signed ? 'skins' : 'user',
+        title: signed ? '正在读取 3D 预览…' : '尚未登录账号',
+        desc: signed ? '皮肤贴图来自 Mojang 会话服务。' : '皮肤贴图需要 Microsoft 正版账号，原型内不联网、不内置 64×64 贴图，因此此处不显示替身模型。',
+        action: signed ? '' : '<button class="btn btn-primary btn-sm" data-act="skin-login">' + ico('user', 13) + '<span>登录 Microsoft 账户</span></button>'
+      }) + '</div>' +
+    '<div class="card-head" style="padding:var(--space-3) var(--space-4);border-top:1px solid var(--border);margin:0">' +
+      '<span class="card-hint">拖拽旋转 · 滚轮缩放（登录后可用）</span>' +
+      '<div class="row gap-2">' +
+        '<button class="btn btn-secondary btn-sm" disabled>重置视角</button>' +
+        '<button class="btn btn-secondary btn-sm" disabled>暂停旋转</button>' +
+      '</div></div></section>';
+
+  const panel = '<section class="card stack gap-4" data-od-id="skin-panel">' +
+    '<div class="field"><label id="skinModelLabel">模型</label>' +
+      '<div class="seg" role="group" aria-labelledby="skinModelLabel">' +
+        '<button data-act="skin-model" data-value="classic" aria-pressed="' + (state.skinModel === 'classic') + '">经典模型</button>' +
+        '<button data-act="skin-model" data-value="slim" aria-pressed="' + (state.skinModel === 'slim') + '">Slim / Alex</button>' +
+      '</div><p class="hint">经典模型为 4px 宽手臂，Slim 模型为 3px 宽手臂。</p></div>' +
+    '<div class="field"><label>皮肤文件</label>' +
+      '<button class="btn btn-secondary btn-block" data-act="skin-upload"' + (signed ? '' : ' aria-describedby="skinWhy"') + '>' + ico('downloads', 14) + '<span>上传皮肤文件</span></button>' +
+      '<p class="hint" id="skinWhy">仅支持 64×64 或 64×32 PNG，且不超过 1 MiB。' + (signed ? '' : '需先登录 Microsoft 正版账号。') + '</p></div>' +
+    '<div class="field"><label>已保存皮肤（' + (signed ? 1 : 0) + '）</label>' +
+      stateBlock({ icon: 'layers', title: signed ? '当前账户没有已保存的皮肤' : '登录后显示已保存皮肤' }) + '</div>' +
+    '<button class="btn btn-ghost btn-sm" data-act="go" data-view="content">' + ico('content', 13) + '<span>浏览资源库</span></button>' +
+    '</section>';
+
+  return '<div class="view">' +
+    '<div class="row-between gap-3" style="flex-wrap:wrap">' +
+      '<p class="card-hint">预览贴图来自 Mojang 会话服务，需要 Microsoft 正版账号；原型不联网，也不内置 64×64 贴图。</p>' +
+      chip('原型不内置皮肤贴图', 'chip-warn') +
+    '</div>' +
+    '<div class="skins-layout">' + preview + panel + '</div></div>';
+};
+
+/* ───────────────────────── 视图：下载 ───────────────────────── */
+VIEWS.downloads = function () {
+  const f = state.filters;
+  let versionsBody;
+  if (state.offline) {
+    versionsBody = errorBlock({
+      title: '无法获取可下载版本', desc: '版本列表没有取回来。已有下载任务不受影响，稍后重试即可。',
+      extra: '当前处于离线模式，版本源请求失败。', act: 'dl-retry',
+      tech: 'GET https://launchermeta.mojang.com/mc/game/version_manifest_v2.json\n→ net::ERR_INTERNET_DISCONNECTED（模拟）'
+    });
+  } else {
+    const list = DB.versions.filter((v) => f.dl === 'all' || v.type === f.dl);
+    versionsBody = list.length
+      ? '<div class="list">' + list.map((v) =>
+        '<div class="list-row" data-od-id="version-' + v.id + '">' +
+          '<span class="thumb">' + ico(v.type === 'snapshot' ? 'zap' : 'cube') + '</span>' +
+          '<span class="grow stack" style="gap:3px"><span class="row gap-2">' +
+            '<span class="row-title num">' + esc(v.id) + '</span>' +
+            chip(v.type === 'snapshot' ? '快照' : '正式版', v.latest ? 'chip-accent' : '') +
+            (v.latest ? chip('最新') : '') + '</span>' +
+          '<span class="row-sub num">' + esc(v.date) + ' · ' + esc(v.size) + '</span></span>' +
+          '<span class="row-actions">' + (v.installed
+            ? '<span class="chip chip-ok">' + ico('check', 11) + '已安装</span>'
+            : '<button class="btn btn-secondary btn-sm" data-act="dl-start" data-id="' + v.id + '">' + ico('downloads', 13) + '<span>下载</span></button>') +
+          '</span></div>').join('') + '</div>'
+      : stateBlock({ icon: 'search', title: '当前筛选下没有版本', desc: '换个筛选条件看看。' });
+  }
+
+  const tasksBody = state.tasks.length
+    ? '<div class="list">' + state.tasks.map((t) => taskRow(t, false)).join('') + '</div>'
+    : stateBlock({ icon: 'downloads', title: '暂无下载任务', desc: '从上方版本列表或内容中心发起下载。' });
+
+  return '<div class="view">' +
+    pageCard({
+      id: 'download-versions', title: '可用版本', hint: '版本号与发布日期取自 Minecraft 官方版本清单；体积为模拟值',
+      tools: '<div class="seg" role="group" aria-label="版本筛选">' +
+        [['all', '全部'], ['release', '正式版'], ['snapshot', '快照']].map((p) =>
+          '<button data-act="filter-dl" data-value="' + p[0] + '" aria-pressed="' + (f.dl === p[0]) + '">' + p[1] + '</button>').join('') + '</div>' +
+        '<button class="btn btn-secondary btn-sm" data-act="dl-retry">' + ico('refresh', 13) + '<span>重新获取</span></button>',
+      body: versionsBody
+    }) +
+    pageCard({
+      id: 'download-tasks', title: '下载任务', hint: '进度、速率与剩余时间为模拟值',
+      tools: '<button class="btn btn-ghost btn-sm" data-act="task-clear">清除已完成</button>',
+      body: tasksBody + '<p class="card-hint" style="margin-top:12px">任务区与版本列表相互独立：版本源请求失败时，这里的任务不会被清空。</p>'
+    }) + '</div>';
+};
+
+/* ───────────────────────── 视图：新闻 ───────────────────────── */
+VIEWS.news = function () {
+  const st = state.newsState;
+  const statusChip = st === 'live' ? chip('已同步官方最新', 'chip-ok', 'check')
+    : st === 'cached' ? chip('离线缓存', 'chip-warn', 'clock')
+      : st === 'error' ? chip('加载失败', 'chip-danger', 'alert')
+        : chip('尚未验证', 'chip-warn', 'clock');
+  let body;
+  if (st === 'error') {
+    body = errorBlock({
+      title: '新闻加载失败', desc: '新闻加载失败，请检查网络后重试。',
+      extra: '错误码：net::ERR_INTERNET_DISCONNECTED（模拟）', act: 'news-retry',
+      tech: 'GET https://www.minecraft.net/en-us/feeds/community-content/rss\n→ 请求失败（模拟）'
+    });
+  } else if (!state.news.length) {
+    body = stateBlock({ icon: 'news', title: '暂无新闻', desc: '官方源暂无内容，稍后再试。', action: '<button class="btn btn-secondary btn-sm" data-act="news-refresh">刷新</button>' });
+  } else {
+    body = '<div class="stack gap-3 stagger">' + state.news.map((n) =>
+      '<article class="card enter-lift" data-od-id="news-' + n.id + '">' +
+      '<div class="row gap-2" style="flex-wrap:wrap">' + chip(n.cat) + '<span class="meta">' + esc(n.time) + '</span></div>' +
+      '<h3 class="card-title" style="margin-top:10px;font-size:var(--text-base)">' + esc(n.title) + '</h3>' +
+      '<p class="fg2" style="font-size:var(--text-xs);line-height:1.8;margin-top:6px">' + esc(n.body) + '</p>' +
+      '<div class="row gap-2" style="margin-top:12px">' +
+      '<button class="btn btn-secondary btn-sm" data-act="news-open" data-id="' + n.id + '">' + ico('news', 13) + '<span>查看详情</span></button>' +
+      '<button class="btn btn-ghost btn-sm" data-act="news-link" data-id="' + n.id + '">查看原文' + ico('external', 12) + '</button>' +
+      '</div></article>').join('') + '</div>';
+  }
+  return '<div class="view">' + pageCard({
+    id: 'news', title: '官方动态', hint: '示例内容 · 原型不联网，文章为本地示例',
+    tools: statusChip + '<span class="meta">' + (state.newsVerified ? '最后验证 ' + hhmm(now()) : '尚未验证 · 日期已隐藏') + '</span>' +
+      '<button class="btn btn-secondary btn-sm" data-act="news-refresh">' + ico('refresh', 13) + '<span>刷新</span></button>',
+    body: body
+  }) + '</div>';
+};
+
+/* ───────────────────────── 视图：设置 ───────────────────────── */
+const sw = (key, on, label, hint, act) =>
+  '<label class="row-between gap-4" style="align-items:flex-start"><span class="stack" style="gap:2px">' +
+  '<span class="switch-label">' + esc(label) + '</span>' + (hint ? '<span class="hint">' + esc(hint) + '</span>' : '') + '</span>' +
+  '<span class="switch"><input type="checkbox" data-check="' + act + '" data-key="' + key + '"' + (on ? ' checked' : '') +
+  ' role="switch" aria-label="' + esc(label) + '"><span class="switch-track"></span></span></label>';
+
+VIEWS.settings = function () {
+  const s = state.settings;
+  const javaLabel = s.java === 'bundled' ? '内置 JRE 21.0.5（默认）' : s.java === 'auto' ? '自动（检测到 3 个 JDK）' : '自定义路径';
+
+  const cardJava = pageCard({
+    id: 'set-java', title: 'Java / 系统分配', hint: '影响游戏进程的内存与运行时',
+    body: '<div class="stack gap-5">' +
+      '<div class="field"><div class="row-between"><label for="memRange">内存分配</label>' +
+      '<span class="num" id="memOut">' + (s.mem / 1024) + ' GB</span></div>' +
+      '<input class="range" id="memRange" data-input="mem" type="range" min="2048" max="16384" step="512" value="' + s.mem + '"' + (s.autoMem ? ' disabled' : '') + ' aria-label="内存分配">' +
+      '<p class="hint">调整分配给 Minecraft 进程的内存上限，推荐默认 4 GB。' + (s.autoMem ? '当前为自动分配，滑块已锁定。' : '') + '</p></div>' +
+      sw('autoMem', s.autoMem, '自动内存分配', '由启动器根据系统内存自动选择合适的大小。', 'set-auto-mem') +
+      '<div class="field"><label>Java 运行时路径</label>' +
+      '<button class="btn btn-secondary btn-block" data-act="set-java">' + ico('cpu', 14) + '<span>' + esc(javaLabel) + '</span></button>' +
+      '<p class="hint">点击在内置 JRE、自动检测与自定义路径之间切换。</p></div>' +
+      '</div>'
+  });
+
+  const cardBehavior = pageCard({
+    id: 'set-behavior', title: '启动器行为', hint: '下载源与网络',
+    body: '<div class="stack gap-5">' +
+      sw('mirror', s.mirror, '使用下载镜像（国内加速）', '通过 BMCLAPI 镜像加速下载。', 'set-mirror') +
+      sw('fakeIp', s.fakeIp, 'TUN/fake-IP 新闻图片兼容', '默认关闭，仅影响官方新闻图片。', 'set-fakeip') +
+      '<div class="field"><label id="srcLabel">下载源</label>' +
+      '<div class="seg" role="group" aria-labelledby="srcLabel">' +
+        '<button data-act="set-source" data-value="official" aria-pressed="' + (s.source === 'official') + '">官方源</button>' +
+        '<button data-act="set-source" data-value="mcbbs" aria-pressed="' + (s.source === 'mcbbs') + '">MCBBS 镜像</button>' +
+      '</div><p class="hint">当前：' + esc(s.source === 'official' ? '官方源' : 'MCBBS 镜像') + '（延迟为模拟值）</p></div>' +
+      '<div class="field"><label>HTTP 代理</label>' +
+      '<button class="btn btn-secondary btn-block" data-act="set-proxy">' + ico('globe', 14) + '<span>' + (s.proxy.on ? '已启用 · ' + esc(s.proxy.host || '未填地址') + ':' + s.proxy.port : '未启用') + '</span></button>' +
+      '<p class="hint">下载与登录请求走代理，适合配合网络工具使用。</p></div>' +
+      '</div>'
+  });
+
+  const cardQuick = pageCard({
+    id: 'set-quick', title: '快捷操作', hint: '游戏启动与退出时的行为',
+    body: '<div class="stack gap-5">' +
+      sw('quickMin', s.quick.minimize, '启动游戏后最小化启动器', '', 'set-quick') +
+      sw('quickClose', s.quick.close, '游戏退出后自动关闭启动器', '', 'set-quick') +
+      '<p class="hint">原型内不会真实最小化或关闭窗口。</p></div>'
+  });
+
+  const cardLogs = pageCard({
+    id: 'set-logs', title: '运行日志', hint: '按天落盘到 logs 目录',
+    body: '<div class="stack gap-4"><p class="fg2" style="font-size:var(--text-xs);line-height:1.75">日志用于诊断启动失败、Mod 冲突与网络问题。日志中可能包含用户名与绝对路径。</p>' +
+      '<button class="btn btn-secondary" data-act="open-logs">' + ico('folder', 14) + '<span>打开日志目录</span></button></div>'
+  });
+
+  const cardUpdate = pageCard({
+    id: 'set-update', title: '更新', hint: '当前版本 v1.4.2',
+    body: '<div class="stack gap-4">' +
+      (state.updating === 'done'
+        ? '<div class="row gap-2">' + chip('已是最新版本', 'chip-ok', 'check') + '<span class="meta">检查于 ' + hhmm(now()) + '</span></div>'
+        : '<p class="fg2" style="font-size:var(--text-xs);line-height:1.75">更新源与校验信息来自 config.json；原型内不会真实下载或替换文件。</p>') +
+      '<button class="btn btn-secondary" data-act="check-update">' + ico('refresh', 14) + '<span>检查更新</span></button></div>'
+  });
+
+  const cardAI = pageCard({
+    id: 'set-ai', title: 'AI 崩溃诊断', hint: '崩溃后用大模型解释原因',
+    body: '<div class="stack gap-5">' +
+      sw('ai', s.ai, '启用 AI 崩溃诊断', '需要配置 API Key；崩溃日志可能包含用户名与绝对路径。', 'set-ai') +
+      '<button class="btn btn-secondary" data-act="set-providers">' + ico('cpu', 14) + '<span>管理 AI 提供商（' + s.providers.length + '）</span></button></div>'
+  });
+
+  const cardAccount = pageCard({
+    id: 'set-account', title: '账户', hint: '离线账户可直接进入游戏；正版功能需要 Microsoft 账户',
+    body: '<div class="stack gap-4">' +
+      '<div class="list-row" style="border:0;padding-left:0;padding-right:0">' +
+        '<span class="thumb thumb-lg">' + ico('user', 21) + '</span>' +
+        '<span class="grow stack" style="gap:3px"><span class="row-title">' + (state.account ? esc(state.account.name) : '未登录') + '</span>' +
+        '<span class="row-sub">' + (state.account ? '微软账户 · 皮肤 0 · 披风 0' : '点击添加账户；也可以直接以离线模式启动') + '</span></span>' +
+        '<span class="row-actions"><button class="btn btn-primary btn-sm" data-act="add-account">添加账户</button></span>' +
+      '</div>' +
+      sw('offline', state.offline, '离线模式（原型：模拟断网）', '开启后，下载源、内容中心与新闻会返回失败，用于查看错误态。', 'set-offline') +
+      '</div>'
+  });
+
+  return '<div class="view"><div class="grid-2">' + cardJava + cardBehavior + cardQuick + cardLogs + cardUpdate + cardAI + '</div>' + cardAccount + '</div>';
+};
+
+/* ───────────────────────── 抽屉：管理 Mod 与恢复区 ───────────────────────── */
+const RECOVERY_DAYS = 30;
+const RECOVERY_STATUS = {
+  quarantined: ['可恢复', ''],
+  restored: ['已恢复', 'chip-ok'],
+  partial: ['部分恢复', 'chip-warn'],
+  conflict: ['存在冲突', 'chip-warn'],
+  failed: ['隔离失败', 'chip-danger']
+};
+const modsOf = (id) => state.mods[id] || (state.mods[id] = []);
+const recoveryOf = (id) => state.recovery[id] || (state.recovery[id] = []);
+const instanceById = (id) => DB.instances.filter((i) => i.id === id)[0] || null;
+function syncModCount(id) {
+  const inst = instanceById(id);
+  if (inst) inst.mods = modsOf(id).length;
+  if (state.view === 'installations' || state.view === 'home') render();
+}
+
+function modRow(m) {
+  return '<div class="list-row' + (m.enabled ? '' : ' is-off') + '" data-od-id="mod-' + m.id + '">' +
+    '<span class="thumb">' + ico('cube') + '</span>' +
+    '<span class="grow stack" style="gap:3px">' +
+      '<span class="row-title num anywhere" style="font-size:var(--text-xs)">' + esc(m.file) + '</span>' +
+      '<span class="row-sub">' + esc(m.name) + ' ' + esc(m.version) + ' · ' + esc(m.loader) + ' · ' + esc(m.size) + '</span>' +
+      (m.enabled ? '' : '<span class="row" style="margin-top:2px">' + chip('已禁用') + '</span>') +
+    '</span>' +
+    '<span class="row-actions">' +
+      '<label class="switch" title="' + esc('启用或禁用 ' + m.name) + '">' +
+        '<input type="checkbox" role="switch" data-check="mod-toggle" data-id="' + m.id + '"' + (m.enabled ? ' checked' : '') +
+        ' aria-label="' + esc('启用 ' + m.name) + '"><span class="switch-track"></span></label>' +
+      '<button class="icon-btn danger" data-act="mod-delete" data-id="' + m.id + '" aria-label="' + esc('移入恢复区：' + m.file) + '">' + ico('trash') + '</button>' +
+    '</span></div>' +
+    (state.modConfirm === m.id ? '<div class="mod-confirm" role="group" aria-label="确认移除 Mod">' +
+      '<p>移除「' + esc(m.file) + '」？文件会移入恢复区，可随时还原，不会真正删除。</p>' +
+      '<button class="btn btn-ghost btn-sm" data-act="mod-delete-cancel" data-id="' + m.id + '">取消</button>' +
+      '<button class="btn btn-danger btn-sm" data-act="mod-delete-go" data-id="' + m.id + '">移入恢复区</button></div>' : '');
+}
+
+function recoveryRow(r) {
+  const st = RECOVERY_STATUS[r.status] || ['未知', ''];
+  const done = r.status === 'restored' || r.status === 'failed';
+  return '<div class="list-row" data-od-id="recovery-' + r.id + '">' +
+    '<span class="thumb">' + ico(done ? 'check' : 'shield') + '</span>' +
+    '<span class="grow stack" style="gap:3px">' +
+      '<span class="row-title num anywhere" style="font-size:var(--text-xs)">' + esc(r.file) + '</span>' +
+      '<span class="row-sub">' + esc(r.name || '未知 Mod') + ' · ' + esc(r.size) + ' · 移除于 ' + esc(r.at) + ' · ' + esc(r.reason) + '</span>' +
+      '<span class="row gap-2" style="flex-wrap:wrap;margin-top:2px">' + chip(st[0], st[1]) +
+        (r.reason === 'Mod 更新' && r.from ? chip(r.from + ' → ' + r.to) : '') + '</span>' +
+      (r.note ? '<span class="recovery-note">! ' + esc(r.note) + '</span>' : '') +
+    '</span>' +
+    '<span class="row-actions">' + (done ? '<span class="meta">已处理</span>'
+      : '<button class="btn btn-secondary btn-sm" data-act="recovery-restore" data-id="' + r.id + '">' +
+        (r.reason === 'Mod 更新' ? '撤销本次更新' : '恢复') + '</button>') +
+    '</span></div>';
+}
+
+function drawerBodyHTML() {
+  const inst = instanceById(state.drawerInst);
+  if (!inst) return stateBlock({ icon: 'instances', title: '实例已不在列表中', desc: '关闭后重新选择一个实例。' });
+  const mods = modsOf(inst.id), rec = recoveryOf(inst.id);
+  const tabs = '<div class="seg seg-block" role="group" aria-label="管理视图">' +
+    [['list', '模组列表'], ['recovery', '恢复区']].map((t) =>
+      '<button data-act="mod-tab" data-value="' + t[0] + '" aria-pressed="' + (state.modTab === t[0]) + '">' +
+      t[1] + '（' + (t[0] === 'list' ? mods.length : rec.length) + '）</button>').join('') + '</div>';
+
+  if (state.modTab === 'recovery') {
+    return tabs +
+      '<p class="card-hint">这里保存被移除的文件，默认保留 ' + RECOVERY_DAYS + ' 天。恢复不会覆盖原位置的同名文件。</p>' +
+      (rec.length ? '<div class="list">' + rec.map(recoveryRow).join('') + '</div>'
+        : stateBlock({ icon: 'shield', title: '恢复区为空', desc: '被移除的 Mod 会出现在这里，可随时还原。' }));
+  }
+
+  const q = state.modQ.toLowerCase();
+  const off = mods.filter((m) => !m.enabled).length;
+  const list = mods.filter((m) => (state.modFilter === 'all' || (state.modFilter === 'on' ? m.enabled : !m.enabled)) &&
+    (!q || (m.file + m.name).toLowerCase().indexOf(q) >= 0));
+  const tools = '<div class="drawer-tools">' +
+    '<div class="search">' + ico('search') + '<input class="input" id="modQ" data-input="modQ" type="search" value="' + esc(state.modQ) + '" placeholder="搜索 Mod 文件名或名称…" aria-label="搜索 Mod"></div>' +
+    '<div class="seg seg-block" role="group" aria-label="启用状态筛选">' +
+      [['all', '全部 ' + mods.length], ['on', '已启用 ' + (mods.length - off)], ['off', '已禁用 ' + off]].map((f) =>
+        '<button data-act="mod-filter" data-value="' + f[0] + '" aria-pressed="' + (state.modFilter === f[0]) + '">' + f[1] + '</button>').join('') +
+    '</div></div>';
+  return tabs + tools +
+    (mods.length
+      ? (list.length ? '<div class="list">' + list.map(modRow).join('') + '</div>'
+        : stateBlock({ icon: 'search', title: '没有匹配的 Mod', desc: '换个关键词，或把筛选切回「全部」。' }))
+      : stateBlock({ icon: 'content', title: '该实例还没有安装 Mod', desc: '可以在内容中心搜索并安装。', action: '<button class="btn btn-secondary btn-sm" data-act="go" data-view="content">' + ico('content', 13) + '<span>打开内容中心</span></button>' })) +
+    '<p class="card-hint">启停与移除都是模拟操作，不会改动磁盘上的任何文件。被移除的文件可在「恢复区」还原。</p>';
+}
+
+function paintDrawer(keepFocus) {
+  const body = $('#drawerBody');
+  if (!body) return;
+  const prev = keepFocus ? $('#modQ') : null;
+  const pos = prev ? prev.selectionStart : 0;
+  const inst = instanceById(state.drawerInst);
+  body.innerHTML = drawerBodyHTML();
+  const sub = $('#drawerSub');
+  if (sub && inst) sub.textContent = inst.ver + ' · ' + inst.loader + ' · ' + modsOf(inst.id).length + ' 个 Mod · 恢复区 ' + recoveryOf(inst.id).length + ' 项';
+  if (keepFocus) { const q = $('#modQ'); if (q) { q.focus(); try { q.setSelectionRange(pos, pos); } catch (e) { /* 忽略 */ } } }
+}
+
+/* ───────────────────────── 游戏时长：游玩记录（模拟，固定种子） ───────────────────────── */
+function mulberry32(seed) {
+  let a = seed;
+  return function () {
+    a |= 0; a = a + 0x6D2B79F5 | 0;
+    let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+const DAY_MS = 86400000;
+const startOfDay = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+const addDays = (d, n) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
+const pad2 = (n) => String(n).padStart(2, '0');
+const ymd = (d) => d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+const parseYmd = (s) => { const p = String(s || '').split('-'); return p.length === 3 && p[0].length === 4 ? new Date(+p[0], +p[1] - 1, +p[2]) : null; };
+const mdLabel = (ds) => { const p = String(ds).split('-'); return (+p[1]) + ' 月 ' + (+p[2]) + ' 日'; };
+const INST_STYLE = {
+  'fabric-1215': { name: '生电整合 · 1.21.5', color: 'var(--accent)' },
+  'vanilla-1215': { name: '原版 1.21.5', color: 'var(--info)' },
+  'forge-1201': { name: '机械动力 · 1.20.1', color: 'var(--success)' },
+  'snap-25w14a': { name: '快照测试', color: 'var(--warn)' }
+};
+function fmtDur(min) {
+  const m = Math.round(min), h = Math.floor(m / 60), mm = m % 60;
+  if (!h) return mm + ' 分';
+  return h + ' 小时' + (mm ? ' ' + mm + ' 分' : '');
+}
+function fmtShort(min) {
+  const m = Math.round(min), h = Math.floor(m / 60), mm = m % 60;
+  return h ? h + 'h' + (mm ? pad2(mm) : '') : mm + 'm';
+}
+const RECORD_DAYS = 119;
+const SESSIONS = (function () {
+  const rnd = mulberry32(20261013);
+  const out = [];
+  const today = startOfDay(new Date());
+  const pool = ['fabric-1215', 'fabric-1215', 'fabric-1215', 'forge-1201', 'forge-1201', 'vanilla-1215', 'snap-25w14a'];
+  for (let d = RECORD_DAYS; d >= 0; d--) {
+    const day = addDays(today, -d);
+    const dow = day.getDay();
+    const weekend = dow === 0 || dow === 6;
+    if (rnd() > (weekend ? 0.74 : 0.42) + (d < 16 ? 0.14 : 0)) continue;
+    const n = 1 + (rnd() < (weekend ? 0.46 : 0.24) ? 1 : 0);
+    for (let k = 0; k < n; k++) {
+      const inst = pool[Math.floor(rnd() * pool.length)];
+      const roll = rnd();
+      const minutes = Math.round(roll < 0.28 ? 18 + rnd() * 42 : roll < 0.78 ? 70 + rnd() * 80 : 160 + rnd() * 150);
+      out.push({ date: ymd(day), ts: day.getTime(), inst: inst, minutes: minutes });
+    }
+  }
+  return out;
+})();
+const DAY_TOTAL = SESSIONS.reduce((m, x) => { m[x.date] = (m[x.date] || 0) + x.minutes; return m; }, {});
+
+function statsBounds() {
+  const s = state.stats;
+  const today = startOfDay(new Date());
+  if (s.range === 'week') { const from = addDays(today, -((today.getDay() + 6) % 7)); return { from: from, to: addDays(from, 6), label: '本周' }; }
+  if (s.range === '7d') return { from: addDays(today, -6), to: today, label: '近 7 天' };
+  if (s.range === '30d') return { from: addDays(today, -29), to: today, label: '近 30 天' };
+  if (s.range === 'custom') {
+    const f = parseYmd(s.from), t = parseYmd(s.to);
+    if (!f || !t || f > t) return null;
+    return { from: f, to: t, label: mdLabel(s.from) + ' – ' + mdLabel(s.to) };
+  }
+  return { from: new Date(today.getFullYear(), today.getMonth(), 1), to: new Date(today.getFullYear(), today.getMonth() + 1, 0), label: '本月' };
+}
+function statsSessions() {
+  const b = statsBounds();
+  if (!b) return [];
+  const from = b.from.getTime(), to = b.to.getTime() + DAY_MS - 1;
+  const day = state.stats.day;
+  return SESSIONS.filter((x) => x.ts >= from && x.ts <= to && (!day || x.date === day));
+}
+function statsGroups(list) {
+  const map = {};
+  list.forEach((x) => { (map[x.inst] = map[x.inst] || []).push(x); });
+  return Object.keys(map).map((k) => ({
+    inst: k,
+    name: (INST_STYLE[k] || {}).name || k,
+    color: (INST_STYLE[k] || {}).color || 'var(--fg)',
+    sessions: map[k].slice().sort((a, b) => b.minutes - a.minutes),
+    total: map[k].reduce((s, x) => s + x.minutes, 0)
+  })).sort((a, b) => b.total - a.total);
+}
+
+/* ── 平方化树状图布局（Bruls et al. squarified treemap） ── */
+function squarify(items, x, y, w, h) {
+  const out = [];
+  const list = items.filter((it) => it.v > 0).slice().sort((a, b) => b.v - a.v);
+  const total = list.reduce((s, it) => s + it.v, 0);
+  if (!total || w <= 1 || h <= 1) return out;
+  const scale = (w * h) / total;
+  const queue = list.map((it) => ({ it: it, a: it.v * scale }));
+  let rx = x, ry = y, rw = w, rh = h;
+  while (queue.length) {
+    const vertical = rw >= rh;
+    const side = Math.max(1, vertical ? rh : rw);
+    const row = [];
+    let rowArea = 0, best = Infinity;
+    while (queue.length) {
+      const cand = queue[0];
+      const area = rowArea + cand.a;
+      const len = Math.max(1, area / side);
+      let worst = 0;
+      for (let i = 0; i <= row.length; i++) {
+        const a = i < row.length ? row[i].a : cand.a;
+        const cl = Math.max(1, a / len);
+        worst = Math.max(worst, len / cl, cl / len);
+      }
+      if (row.length && worst > best) break;
+      row.push(queue.shift()); rowArea = area; best = worst;
+    }
+    const len = Math.max(1, rowArea / side);
+    let off = 0;
+    row.forEach((c) => {
+      const cl = c.a / len;
+      out.push(vertical
+        ? { it: c.it, x: rx, y: ry + off, w: len, h: cl }
+        : { it: c.it, x: rx + off, y: ry, w: cl, h: len });
+      off += cl;
+    });
+    if (vertical) { rx += len; rw -= len; } else { ry += len; rh -= len; }
+    if (rw < 1 || rh < 1) break;
+  }
+  return out;
+}
+
+let tmLastW = 0, tmLastH = 0, tmObserver = null, tmRaf = 0;
+function layoutTreemap() {
+  const host = $('#treemap');
+  if (tmObserver) { tmObserver.disconnect(); tmObserver = null; }
+  if (!host) { tmLastW = 0; tmLastH = 0; return; }
+  /* 高和宽都要盯着：只比较宽度的话，「宽度已就位、高度还是 0」的首帧状态永远不会触发重排 */
+  if (typeof ResizeObserver === 'function') {
+    tmObserver = new ResizeObserver(() => {
+      const el = $('#treemap');
+      if (el && (Math.abs(el.clientWidth - tmLastW) > 8 || Math.abs(el.clientHeight - tmLastH) > 8)) layoutTreemap();
+    });
+    tmObserver.observe(host);
+  }
+  const groups = statsGroups(statsSessions());
+  if (!groups.length) {
+    host.innerHTML = '<div class="state" style="position:absolute;inset:0;justify-content:center">' + ico('clock', 22) +
+      '<p class="s-title">这段时间没有游玩记录</p><p class="s-desc">换一个时间范围，或清除日期筛选后再看。</p></div>';
+    return;
+  }
+  /* 尺寸兜底：视图刚插入、预览容器还没完成排版时，clientWidth / clientHeight 会读成 0。
+     这里用卡片宽度与 CSS 高度推算，保证图表一定画得出来；下一帧再用真实尺寸重画一次。 */
+  const card = host.parentElement;
+  const measuredW = host.clientWidth, measuredH = host.clientHeight;
+  const exact = measuredW > 0 && measuredH > 0;
+  const W = Math.max(260, measuredW || (card && card.clientWidth ? card.clientWidth - 32 : 0) || 720);
+  const H = Math.max(220, measuredH || 340);
+  tmLastW = measuredW;
+  tmLastH = measuredH;
+  if (!measuredH) host.style.height = H + 'px';
+  const GAP = 2, HEAD = 22;
+  const outer = squarify(groups.map((g) => ({ v: g.total, g: g })), 0, 0, W, H);
+  let html = '';
+  try {
+  outer.forEach((o) => {
+    const gw = Math.max(4, o.w - GAP), gh = Math.max(4, o.h - GAP);
+    const g = o.g;
+    const showHead = gh > 56 && gw > 96;
+    const bodyH = Math.max(4, gh - (showHead ? HEAD : 0));
+    const parts = squarify(g.sessions.map((s) => ({ v: s.minutes, s: s })), 0, 0, gw, bodyH);
+    let cells = '';
+    parts.forEach((p) => {
+      const cw = p.w - GAP, ch = p.h - GAP;
+      if (cw < 7 || ch < 7) return;
+      const sx = p.it.s;
+      cells += '<button type="button" class="tm-cell" data-act="stats-day" data-date="' + sx.date + '"' +
+        ' style="left:' + (p.x / gw * 100).toFixed(3) + '%;top:' + (p.y / bodyH * 100).toFixed(3) + '%;width:' + (cw / gw * 100).toFixed(3) + '%;height:' + (ch / bodyH * 100).toFixed(3) + '%"' +
+        ' data-readout="' + esc(mdLabel(sx.date) + ' · ' + g.name + ' · ' + fmtDur(sx.minutes)) + '"' +
+        ' aria-label="' + esc(mdLabel(sx.date) + ' ' + g.name + ' 游玩 ' + fmtDur(sx.minutes)) + '">' +
+        (cw > 78 && ch > 44 ? '<span class="tm-date">' + esc(mdLabel(sx.date)) + '</span>' : '') +
+        (cw > 54 && ch > 26 ? '<span class="tm-dur">' + esc(fmtShort(sx.minutes)) + '</span>' : '') +
+        '</button>';
+    });
+    html += '<div class="tm-group" style="left:' + (o.x / W * 100).toFixed(3) + '%;top:' + (o.y / H * 100).toFixed(3) + '%;width:' + (gw / W * 100).toFixed(3) + '%;height:' + (gh / H * 100).toFixed(3) + '%;' +
+      '--tm-fill:color-mix(in oklch, ' + g.color + ' 20%, var(--surface));--tm-strong:color-mix(in oklch, ' + g.color + ' 34%, var(--surface))">' +
+      (showHead ? '<div class="tm-head"><span class="tm-name">' + esc(g.name) + '</span><span class="tm-total">' + esc(fmtShort(g.total)) + '</span></div>' : '') +
+      '<div class="tm-body" style="width:100%;height:' + bodyH.toFixed(1) + 'px">' + cells + '</div></div>';
+  });
+  } catch (err) {
+    html = '<div class="state err" style="position:absolute;inset:0;justify-content:center">' + ico('alert', 22) +
+      '<p class="s-title">树状图渲染失败</p><p class="s-desc">' + esc(String((err && err.message) || err)) + '</p></div>';
+  }
+  host.innerHTML = html;
+  /* 首帧尺寸不可信时，下一帧拿到真实尺寸后重画 */
+  if (!exact && !tmRaf) {
+    tmRaf = requestAnimationFrame(() => {
+      tmRaf = 0;
+      const el = $('#treemap');
+      if (el && el.clientWidth && el.clientHeight && (el.clientWidth !== tmLastW || el.clientHeight !== tmLastH)) layoutTreemap();
+    });
+  }
+}
+
+function calendarModel() {
+  const today = startOfDay(new Date());
+  const cur = state.stats.month ? parseYmd(state.stats.month + '-01') : new Date(today.getFullYear(), today.getMonth(), 1);
+  const y = cur.getFullYear(), m = cur.getMonth();
+  const days = new Date(y, m + 1, 0).getDate();
+  const lead = (new Date(y, m, 1).getDay() + 6) % 7;
+  let max = 0, monthTotal = 0, monthDays = 0;
+  const rows = [];
+  for (let d = 1; d <= days; d++) {
+    const key = ymd(new Date(y, m, d));
+    const min = DAY_TOTAL[key] || 0;
+    if (min) { monthTotal += min; monthDays++; max = Math.max(max, min); }
+    rows.push({ d: d, key: key, min: min, today: key === ymd(today), future: new Date(y, m, d).getTime() > today.getTime() });
+  }
+  return { y: y, m: m, days: days, lead: lead, rows: rows, max: max, monthTotal: monthTotal, monthDays: monthDays };
+}
+
+/* ───────────────────────── 视图：游戏时长 ───────────────────────── */
+const STATS_RANGES = [['week', '本周'], ['month', '本月'], ['7d', '近 7 天'], ['30d', '近 30 天'], ['custom', '自定义']];
+VIEWS.stats = function () {
+  const s = state.stats;
+  const b = statsBounds();
+  const list = b ? statsSessions() : [];
+  const groups = statsGroups(list);
+  const total = list.reduce((a, x) => a + x.minutes, 0);
+  const daySet = {};
+  list.forEach((x) => { daySet[x.date] = 1; });
+  const activeDays = Object.keys(daySet).length;
+  const longest = list.reduce((a, x) => Math.max(a, x.minutes), 0);
+
+  const statsCard = '<section class="card" data-od-id="stats-summary"><div class="grid-4">' +
+    '<div class="stat"><div class="stat-label">' + esc(b ? b.label + '总时长' : '总时长') + '</div><div class="stat-value num" style="font-size:var(--text-lg)">' + esc(fmtDur(total)) + '</div></div>' +
+    '<div class="stat"><div class="stat-label">游玩次数</div><div class="stat-value num">' + list.length + '</div></div>' +
+    '<div class="stat"><div class="stat-label">活跃天数</div><div class="stat-value num">' + activeDays + '</div></div>' +
+    '<div class="stat"><div class="stat-label">单次最长</div><div class="stat-value num" style="font-size:var(--text-lg)">' + esc(fmtDur(longest)) + '</div></div>' +
+    '</div></section>';
+
+  const rangeSeg = '<div class="seg" role="group" aria-label="统计范围">' + STATS_RANGES.map((r) =>
+    '<button data-act="stats-range" data-value="' + r[0] + '" aria-pressed="' + (s.range === r[0]) + '">' + r[1] + '</button>').join('') + '</div>';
+
+  const customRow = s.range !== 'custom' ? '' :
+    '<div class="range-custom">' +
+    '<div class="field"><label for="rangeFrom">开始日期</label><input class="input" type="date" id="rangeFrom" data-range-date="from" value="' + esc(s.from) + '" max="' + ymd(startOfDay(new Date())) + '"></div>' +
+    '<span class="meta">→</span>' +
+    '<div class="field"><label for="rangeTo">结束日期</label><input class="input" type="date" id="rangeTo" data-range-date="to" value="' + esc(s.to) + '" max="' + ymd(startOfDay(new Date())) + '"></div>' +
+    (s.err ? '<span class="error" role="alert">' + ico('alert', 13) + esc(s.err) + '</span>' : '<span class="hint">最多可查询 ' + (RECORD_DAYS + 1) + ' 天</span>') +
+    '</div>';
+
+  const dayChip = s.day
+    ? '<div class="row gap-2" style="flex-wrap:wrap"><span class="chip">' + ico('clock', 11) + '已筛选 ' + esc(mdLabel(s.day)) + '</span>' +
+      '<button class="btn btn-ghost btn-sm" data-act="stats-day-clear">清除筛选</button></div>'
+    : '';
+
+  const defReadout = b
+    ? b.label + ' · 共 ' + fmtDur(total) + ' · ' + list.length + ' 次游玩 · 覆盖 ' + groups.length + ' 个实例'
+    : '时间范围无效，请重新选择起止日期';
+
+  const legend = groups.length ? '<div class="tm-legend">' + groups.map((g) =>
+    '<div class="tm-legend-row">' +
+    '<span class="tm-swatch" style="background:color-mix(in oklch, ' + g.color + ' 58%, var(--surface))"></span>' +
+    '<span class="tm-legend-name">' + esc(g.name) + '</span>' +
+    '<span class="num" style="color:var(--fg)">' + esc(fmtDur(g.total)) + '</span>' +
+    '<span class="meta" style="width:44px;text-align:right">' + Math.round(g.total / (total || 1) * 100) + '%</span>' +
+    '<span class="meta" style="width:48px;text-align:right">' + g.sessions.length + ' 次</span>' +
+    '</div>').join('') + '</div>' : '';
+
+  const chartCard = pageCard({
+    id: 'stats-treemap', title: '时长树状图', hint: '每个方块是一次游玩，面积按时长分配 · 示例数据，仅覆盖最近 ' + (RECORD_DAYS + 1) + ' 天',
+    tools: rangeSeg,
+    body: customRow + dayChip +
+      '<div class="readout" id="tmReadout" data-default="' + esc(defReadout) + '">' + ico('info', 13) + '<span>' + esc(defReadout) + '</span></div>' +
+      (b
+        ? '<div class="treemap" id="treemap"></div>' + legend
+        : stateBlock({ kind: 'err', icon: 'alert', title: '时间范围无效', desc: s.err || '请选择有效的起止日期。' }))
+  });
+
+  const cal = calendarModel();
+  const calCells = [];
+  for (let i = 0; i < cal.lead; i++) calCells.push('<span class="cal-cell is-out"></span>');
+  cal.rows.forEach((r) => {
+    const sel = s.day === r.key;
+    calCells.push(r.min && !r.future
+      ? '<button type="button" class="cal-cell has-data' + (r.today ? ' is-today' : '') + '" data-act="stats-day" data-date="' + r.key + '" aria-pressed="' + sel + '"' +
+        ' aria-label="' + esc(mdLabel(r.key) + ' 游玩 ' + fmtDur(r.min)) + '">' +
+        '<span class="cal-day">' + r.d + '</span><span class="cal-min">' + esc(fmtShort(r.min)) + '</span>' +
+        '<span class="cal-bar" style="height:' + Math.max(7, Math.round(r.min / (cal.max || 1) * 100)) + '%"></span></button>'
+      : '<span class="cal-cell is-idle' + (r.today ? ' is-today' : '') + '"><span class="cal-day">' + r.d + '</span></span>');
+  });
+  while (calCells.length % 7) calCells.push('<span class="cal-cell is-out"></span>');
+
+  const calCard = pageCard({
+    id: 'stats-calendar', title: '日历', hint: '有记录的日期可点击，作为筛选条件',
+    tools: '<button class="icon-btn" data-act="stats-month" data-delta="-1" aria-label="上一个月">' + ico('chev-left', 14) + '</button>' +
+      '<span class="meta" style="min-width:76px;text-align:center">' + esc(cal.y + ' 年 ' + (cal.m + 1) + ' 月') + '</span>' +
+      '<button class="icon-btn" data-act="stats-month" data-delta="1" aria-label="下一个月">' + ico('chev-right', 14) + '</button>',
+    body: '<div class="cal-week"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div>' +
+      '<div class="cal-grid">' + calCells.join('') + '</div>' +
+      '<div class="row-between gap-3" style="margin-top:var(--space-4);padding-top:var(--space-3);border-top:1px solid var(--border)">' +
+      '<span class="meta">本月合计</span><span class="num" style="color:var(--fg)">' + esc(fmtDur(cal.monthTotal)) + '</span></div>' +
+      '<div class="row-between gap-3" style="margin-top:6px"><span class="meta">活跃天数</span><span class="num" style="color:var(--fg)">' + cal.monthDays + ' 天</span></div>'
+  });
+
+  return '<div class="view">' + statsCard + '<div class="grid-play">' + chartCard + calCard + '</div></div>';
+};
+
+/* ───────────────────────── 动作 ───────────────────────── */
+ACTIONS.go = function (el) { if (modalCtx) closeModal(true); if (el.dataset.view !== state.view) go(el.dataset.view); };
+ACTIONS['filter-inst'] = function (el) { state.filters.inst = el.dataset.value; render(); };
+ACTIONS['filter-dl'] = function (el) { state.filters.dl = el.dataset.value; render(); };
+ACTIONS['content-tab'] = function (el) { state.filters.tab = el.dataset.value; render(); };
+ACTIONS['inst-launch'] = function (el) { state.instance = el.dataset.id; store.set('instance', state.instance); ACTIONS['launch-dialog'](); };
+ACTIONS['inst-select'] = function (el) { closeModal(true); state.instance = el.dataset.id; store.set('instance', state.instance); toast('已切换默认实例', currentInstance().name, 'ok'); render(); };
+ACTIONS['open-dir'] = function () { closeModal(true); toast('已请求打开目录', '原型内不会真实打开资源管理器（模拟）', 'info'); };
+
+/* ── 游戏时长：范围、月份与日期筛选 ── */
+ACTIONS['stats-validate'] = function () {
+  const s = state.stats;
+  if (s.range !== 'custom') { s.err = ''; return; }
+  const f = parseYmd(s.from), t = parseYmd(s.to);
+  if (!f || !t) s.err = '请填写完整的起止日期';
+  else if (f > t) s.err = '开始日期不能晚于结束日期';
+  else if (Math.round((t - f) / DAY_MS) > RECORD_DAYS) s.err = '自定义范围最多 ' + (RECORD_DAYS + 1) + ' 天';
+  else s.err = '';
+};
+ACTIONS['stats-range'] = function (el) {
+  const v = el.dataset.value;
+  state.stats.range = v;
+  state.stats.day = null;
+  state.stats.err = '';
+  if (v === 'custom') {
+    const today = startOfDay(new Date());
+    if (!state.stats.from) state.stats.from = ymd(addDays(today, -29));
+    if (!state.stats.to) state.stats.to = ymd(today);
+    ACTIONS['stats-validate']();
+  }
+  render();
+};
+ACTIONS['stats-month'] = function (el) {
+  const cal = calendarModel();
+  state.stats.month = ymd(new Date(cal.y, cal.m + (+el.dataset.delta), 1)).slice(0, 7);
+  render();
+};
+ACTIONS['stats-day'] = function (el) {
+  const d = el.dataset.date;
+  state.stats.day = state.stats.day === d ? null : d;
+  render();
+};
+ACTIONS['stats-day-clear'] = function () { state.stats.day = null; render(); };
+
+ACTIONS['inst-new'] = function () {
+  openModal({
+    title: '新建实例', desc: '实例会使用独立的版本、加载器与 Mod 目录。',
+    body: '<div id="modalErr" class="field error" hidden></div>' +
+      '<div class="field"><label for="fName">实例名称</label>' +
+      '<input class="input" id="fName" type="text" placeholder="我的新实例" autocomplete="off"></div>' +
+      '<div class="field"><label for="fVer">Minecraft 版本</label>' +
+      '<select class="select" id="fVer">' + DB.versions.map((v) => '<option value="' + v.id + '">' + esc(v.id) + (v.type === 'snapshot' ? '（快照）' : '') + '</option>').join('') + '</select>' +
+      '<p class="hint">创建后可在实例菜单里安装加载器与 Mod。</p></div>',
+    foot: '<button class="btn btn-ghost" data-act="close-modal">取消</button>' +
+      '<button class="btn btn-primary" data-act="inst-create">创建</button>',
+    onSubmit: () => ACTIONS['inst-create']()
+  });
+};
+ACTIONS['inst-create'] = function () {
+  const name = ($('#fName') || {}).value ? $('#fName').value.trim() : '';
+  const ver = $('#fVer').value;
+  if (!name) {
+    const err = $('#modalErr');
+    err.hidden = false; err.innerHTML = ico('alert', 13) + '<span>请填写实例名称</span>';
+    $('#fName').setAttribute('aria-invalid', 'true'); $('#fName').focus();
+    return;
+  }
+  const kind = DB.versions.filter((v) => v.id === ver)[0].type === 'snapshot' ? 'snapshot' : 'release';
+  DB.instances.push({ id: 'new-' + Date.now(), name: name, ver: ver, loader: '原版', kind: kind, mods: 0, sessions: 0, hours: 0, last: '从未游玩', dir: 'D:\\Games\\Pineglow\\' + name, saves: 0, shared: false });
+  toast('实例已创建', '（模拟）未在磁盘上写入任何文件', 'ok');
+  closeModal(true); go('installations');
+};
+ACTIONS['inst-more'] = function (el) {
+  const inst = DB.instances.filter((i) => i.id === el.dataset.id)[0];
+  if (!inst) return;
+  openModal({
+    title: inst.name, desc: 'Minecraft ' + inst.ver + ' · ' + inst.loader + ' · ' + inst.mods + ' 个 Mod',
+    body: '<div class="stack gap-2">' +
+      [['inst-select', '设为默认实例', 'layers'], ['open-dir', '打开游戏目录', 'folder'], ['go-mods', '管理 Mod', 'content'],
+       ['ai-diag', 'AI 崩溃诊断', 'cpu'], ['bisect', '二分定位崩溃 Mod', 'search']].map((a) =>
+        '<button class="list-row" data-act="' + a[0] + '" data-id="' + inst.id + '" style="width:100%;text-align:left;border-radius:var(--radius-sm)">' +
+        ico(a[2]) + '<span class="row-title">' + a[1] + '</span></button>').join('') + '</div>',
+    foot: '<button class="btn btn-danger" data-act="inst-remove" data-id="' + inst.id + '">从列表移除</button>' +
+      '<button class="btn btn-ghost" data-act="close-modal">关闭</button>'
+  });
+};
+ACTIONS['go-mods'] = function (el) { ACTIONS['mods-open'](el); };
+
+/* ── 管理 Mod 抽屉 ── */
+ACTIONS['mods-open'] = function (el) {
+  const id = el.dataset.id;
+  const inst = instanceById(id);
+  if (!inst) return;
+  state.drawerInst = id; state.modTab = 'list'; state.modQ = ''; state.modFilter = 'all'; state.modConfirm = null;
+  openModal({
+    kind: 'drawer', bodyId: 'drawerBody',
+    title: '管理 Mod · ' + inst.name,
+    desc: inst.ver + ' · ' + inst.loader + ' · ' + modsOf(id).length + ' 个 Mod · 恢复区 ' + recoveryOf(id).length + ' 项',
+    descId: 'drawerSub',
+    headExtra: '<button class="icon-btn" data-act="close-modal" aria-label="关闭抽屉">' + ico('x') + '</button>',
+    body: drawerBodyHTML(),
+    foot: '<button class="btn btn-secondary" data-act="go" data-view="content">' + ico('content', 14) + '<span>浏览内容中心</span></button>' +
+      '<button class="btn btn-ghost" data-act="close-modal">关闭</button>'
+  });
+};
+ACTIONS['mod-tab'] = function (el) { state.modTab = el.dataset.value; state.modConfirm = null; paintDrawer(); };
+ACTIONS['mod-filter'] = function (el) { state.modFilter = el.dataset.value; paintDrawer(); };
+ACTIONS['mod-toggle'] = function (el) {
+  const m = modsOf(state.drawerInst).filter((x) => x.id === el.dataset.id)[0];
+  if (!m) return;
+  m.enabled = el.checked;
+  toast(m.enabled ? '已启用 ' + m.name : '已禁用 ' + m.name, '（模拟）未改动磁盘上的文件', m.enabled ? 'ok' : 'info');
+  syncModCount(state.drawerInst);
+  paintDrawer();
+};
+ACTIONS['mod-delete'] = function (el) {
+  state.modConfirm = el.dataset.id;
+  paintDrawer();
+  const safe = $('.mod-confirm .btn-ghost');
+  if (safe) safe.focus();
+};
+ACTIONS['mod-delete-cancel'] = function (el) {
+  const id = el.dataset.id;
+  state.modConfirm = null;
+  paintDrawer();
+  const back = document.querySelector('[data-act="mod-delete"][data-id="' + id + '"]');
+  if (back) back.focus();
+};
+ACTIONS['mod-delete-go'] = function (el) {
+  const instId = state.drawerInst;
+  const m = modsOf(instId).filter((x) => x.id === el.dataset.id)[0];
+  if (!m) return;
+  state.mods[instId] = modsOf(instId).filter((x) => x.id !== m.id);
+  recoveryOf(instId).unshift({ id: 'r-' + Date.now(), file: m.file, name: m.name, size: m.size, at: '刚刚', reason: '手动移除', status: 'quarantined' });
+  state.modConfirm = null;
+  syncModCount(instId);
+  toast('已移入恢复区', '可在「恢复区」还原；文件没有被真正删除（模拟）', 'ok');
+  paintDrawer();
+};
+ACTIONS['recovery-restore'] = function (el) {
+  const instId = state.drawerInst;
+  const rec = recoveryOf(instId);
+  const r = rec.filter((x) => x.id === el.dataset.id)[0];
+  if (!r) return;
+  if (r.status === 'conflict') {
+    r.status = 'partial';
+    r.note = '原位置已有同名文件，已跳过（未覆盖）';
+    toast('部分文件未恢复', '原位置已有同名文件，已跳过（未覆盖）（模拟）', 'warn');
+    paintDrawer(); return;
+  }
+  if (r.replaces) state.mods[instId] = modsOf(instId).filter((x) => x.id !== r.replaces);
+  modsOf(instId).push({
+    id: 'm-' + Date.now(), file: r.file, name: r.name || '未知 Mod', version: r.from || '未知',
+    loader: instanceById(instId) && instanceById(instId).loader.indexOf('Forge') >= 0 ? 'Forge' : 'Fabric',
+    size: r.size, enabled: false
+  });
+  state.recovery[instId] = rec.filter((x) => x.id !== r.id);
+  syncModCount(instId);
+  toast(r.reason === 'Mod 更新' ? '已撤销本次更新' : '已恢复到原位置',
+    '旧版本已按原样恢复，还原的 Mod 默认处于禁用状态（模拟）', 'ok');
+  paintDrawer();
+};
+ACTIONS['ai-diag'] = function () { closeModal(true); toast('AI 崩溃诊断', '需要先启用并配置 AI 提供商（模拟）', 'info'); };
+ACTIONS['bisect'] = function () { closeModal(true); toast('二分定位', '需要真实 Mod 目录才能运行，原型内不可用（模拟）', 'warn'); };
+ACTIONS['inst-remove'] = function (el) {
+  const inst = DB.instances.filter((i) => i.id === el.dataset.id)[0];
+  if (!inst) return;
+  openModal({
+    title: '从列表移除「' + inst.name + '」？',
+    desc: '仅移除列表记录，不会删除游戏文件。',
+    body: '<div class="stack gap-3" style="font-size:var(--text-sm);color:var(--fg-2)">' +
+      '<div class="kv"><dt>游戏目录</dt><dd class="num anywhere">' + esc(inst.dir) + '</dd>' +
+      '<dt>存档</dt><dd>' + inst.saves + ' 个（保留）</dd>' +
+      '<dt>Mod</dt><dd>' + inst.mods + ' 个（保留）</dd></div>' +
+      (inst.shared ? '<p class="card-hint">提示：还有别的实例共用这个游戏目录，移除本记录不会影响它们的数据。</p>' : '') +
+      '<p class="card-hint">之后可用「从已有目录添加」把该目录挂回来。</p></div>',
+    foot: '<button class="btn btn-ghost" data-act="close-modal">取消</button>' +
+      '<button class="btn btn-danger" data-act="inst-remove-go" data-id="' + inst.id + '">从列表移除</button>'
+  });
+};
+ACTIONS['inst-remove-go'] = function (el) {
+  const id = el.dataset.id;
+  const i = DB.instances.findIndex((x) => x.id === id);
+  const name = DB.instances[i].name;
+  DB.instances.splice(i, 1);
+  if (state.instance === id && DB.instances.length) { state.instance = DB.instances[0].id; store.set('instance', state.instance); }
+  toast('已从列表移除「' + name + '」', '（模拟）游戏目录与存档仍然保留', 'ok');
+  closeModal(true);
+  if (state.view === 'installations') render(); else go('installations');
+};
+ACTIONS['inst-add-existing'] = function () {
+  openModal({
+    title: '从已有目录添加实例', desc: '只新增列表记录，不会创建、移动或删除任何文件。',
+    body: '<div id="modalErr" class="field error" hidden></div>' +
+      '<div class="field"><label for="fDir">游戏目录（.minecraft）</label>' +
+      '<input class="input num" id="fDir" type="text" placeholder="例如 D:\\Games\\.minecraft" autocomplete="off">' +
+      '<p class="hint">请填写已存在的 .minecraft 目录。</p></div>' +
+      '<div class="field"><label for="fLabel">列表显示名称（可留空）</label>' +
+      '<input class="input" id="fLabel" type="text" placeholder="留空则使用目录名" autocomplete="off"></div>',
+    foot: '<button class="btn btn-ghost" data-act="close-modal">取消</button>' +
+      '<button class="btn btn-primary" data-act="inst-add-go">添加</button>',
+    onSubmit: () => ACTIONS['inst-add-go']()
+  });
+};
+ACTIONS['inst-add-go'] = function () {
+  const dir = $('#fDir').value.trim();
+  if (!dir) {
+    const err = $('#modalErr');
+    err.hidden = false; err.innerHTML = ico('alert', 13) + '<span>请填写游戏目录</span>';
+    $('#fDir').setAttribute('aria-invalid', 'true'); $('#fDir').focus(); return;
+  }
+  const label = $('#fLabel').value.trim() || dir.split('\\').pop() || '已有目录';
+  DB.instances.push({ id: 'add-' + Date.now(), name: label, ver: '1.21.5', loader: '原版', kind: 'release', mods: 0, sessions: 0, hours: 0, last: '从未游玩', dir: dir, saves: 0, shared: false });
+  toast('已把目录挂回实例列表', '（模拟）未读取或修改该目录', 'ok');
+  closeModal(true); go('installations');
+};
+
+ACTIONS['world-open'] = function (el) {
+  const w = state.worlds.filter((x) => x.id === el.dataset.id)[0];
+  if (!w) return;
+  openModal({
+    title: w.name, desc: w.inst + ' · ' + w.size + ' · 最后游玩 ' + w.last,
+    body: '<div class="field"><label>备份列表</label>' +
+      (w.backups.length ? '<div class="list">' + w.backups.map((b) =>
+        '<div class="list-row" style="padding:8px 4px"><span class="thumb" style="width:30px;height:30px;flex-basis:30px">' + ico('shield', 14) + '</span>' +
+        '<span class="grow stack" style="gap:2px"><span class="row-title num" style="font-size:var(--text-xs)">' + esc(b.file) + '</span>' +
+        '<span class="row-sub num">' + esc(b.size) + ' · ' + esc(b.time) + '</span></span>' +
+        '<button class="btn btn-secondary btn-sm" data-act="world-restore" data-id="' + w.id + '" data-file="' + esc(b.file) + '">恢复</button></div>').join('') + '</div>'
+        : stateBlock({ icon: 'shield', title: '暂无备份', desc: '备份后会在这里列出。' })) + '</div>',
+    foot: '<button class="btn btn-danger" data-act="world-delete" data-id="' + w.id + '">删除存档</button>' +
+      '<button class="btn btn-secondary" data-act="world-backup" data-id="' + w.id + '">' + ico('shield', 14) + '<span>备份存档</span></button>' +
+      '<button class="btn btn-ghost" data-act="close-modal">关闭</button>'
+  });
+};
+ACTIONS['world-backup'] = function (el) {
+  const w = state.worlds.filter((x) => x.id === el.dataset.id)[0];
+  closeModal(true);
+  toast('正在备份「' + w.name + '」…', '备份中，不要关闭启动器（模拟）', 'info');
+  setTimeout(() => {
+    w.backups.unshift({ file: w.name + '-' + new Date().toISOString().slice(0, 10) + '.zip', size: w.size, time: '刚刚' });
+    toast('备份完成', '（模拟）未写入任何文件', 'ok');
+    if (state.view === 'worlds') render(); else go('worlds');
+  }, 900);
+};
+ACTIONS['world-restore'] = function (el) {
+  openModal({
+    title: '恢复这份备份？', desc: '将创建一份新的存档副本，不会覆盖当前存档。',
+    body: '<p class="fg2" style="font-size:var(--text-sm)">备份文件：<span class="num">' + esc(el.dataset.file) + '</span></p>',
+    foot: '<button class="btn btn-ghost" data-act="close-modal">取消</button>' +
+      '<button class="btn btn-primary" data-act="world-restore-go">恢复</button>'
+  });
+};
+ACTIONS['world-restore-go'] = function () { closeModal(true); toast('已从备份恢复', '（模拟）未写入任何文件', 'ok'); };
+ACTIONS['world-delete'] = function (el) {
+  const w = state.worlds.filter((x) => x.id === el.dataset.id)[0];
+  openModal({
+    title: '删除存档「' + w.name + '」？', desc: '此操作不可撤销。',
+    body: '<p class="fg2" style="font-size:var(--text-sm)">原型内不会真实删除任何文件，仅用于演示二次确认流程。</p>',
+    foot: '<button class="btn btn-ghost" data-act="close-modal">取消</button>' +
+      '<button class="btn btn-danger" data-act="world-delete-go" data-id="' + w.id + '">删除存档</button>'
+  });
+};
+ACTIONS['world-delete-go'] = function (el) {
+  state.worlds = state.worlds.filter((x) => x.id !== el.dataset.id);
+  toast('存档已删除', '（模拟）未删除任何文件', 'ok');
+  closeModal(true); render();
+};
+ACTIONS['world-folder'] = function () { toast('已请求打开存档目录', '原型内不会真实打开目录（模拟）', 'info'); };
+
+ACTIONS['server-add'] = function () {
+  openModal({
+    title: '添加服务器', desc: '填写名称与地址即可收藏。',
+    body: '<div id="modalErr" class="field error" hidden></div>' +
+      '<div class="field"><label for="sName">服务器名称</label><input class="input" id="sName" type="text" placeholder="我的服务器" autocomplete="off"></div>' +
+      '<div class="row gap-3" style="align-items:flex-end">' +
+      '<div class="field grow"><label for="sHost">地址</label><input class="input num" id="sHost" type="text" placeholder="play.example.com" autocomplete="off"></div>' +
+      '<div class="field" style="width:104px"><label for="sPort">端口</label><input class="input num" id="sPort" type="number" value="25565" min="1" max="65535"></div></div>' +
+      '<p class="hint">原型不会真实连接该服务器。</p>',
+    foot: '<button class="btn btn-ghost" data-act="close-modal">取消</button>' +
+      '<button class="btn btn-primary" data-act="server-add-go">添加</button>',
+    onSubmit: () => ACTIONS['server-add-go']()
+  });
+};
+ACTIONS['server-add-go'] = function () {
+  const name = $('#sName').value.trim(), host = $('#sHost').value.trim(), port = +$('#sPort').value || 25565;
+  if (!name || !host) {
+    const err = $('#modalErr');
+    err.hidden = false; err.innerHTML = ico('alert', 13) + '<span>请填写名称和地址</span>';
+    (!name ? $('#sName') : $('#sHost')).setAttribute('aria-invalid', 'true');
+    (!name ? $('#sName') : $('#sHost')).focus(); return;
+  }
+  state.servers.push({ id: 'srv-' + Date.now(), name: name, host: host, port: port, online: false, players: 0, cap: 0, ping: null, ver: '未知', fav: false });
+  toast('服务器已添加', '（模拟）不会真实连接', 'ok');
+  closeModal(true); render();
+};
+ACTIONS['server-ping'] = function (el) {
+  const s = state.servers.filter((x) => x.id === el.dataset.id)[0];
+  toast('正在 Ping ' + s.name + '…', null, 'info');
+  setTimeout(() => {
+    s.online = true;
+    s.ping = 24 + Math.floor(Math.random() * 90);
+    s.players = 100 + Math.floor(Math.random() * 4000);
+    s.cap = 10000;
+    toast(s.name + ' 延迟 ' + s.ping + ' ms', '模拟结果 · 未真实连接服务器', 'ok');
+    render();
+  }, 800);
+};
+ACTIONS['server-fav'] = function (el) {
+  const s = state.servers.filter((x) => x.id === el.dataset.id)[0];
+  s.fav = !s.fav;
+  toast(s.fav ? '已收藏 ' + s.name : '已取消收藏 ' + s.name, null, 'ok');
+  render();
+};
+ACTIONS['server-del'] = function (el) {
+  const s = state.servers.filter((x) => x.id === el.dataset.id)[0];
+  openModal({
+    title: '删除「' + s.name + '」？', desc: '仅从收藏列表移除。',
+    body: '<p class="fg2" style="font-size:var(--text-sm)">地址：<span class="num">' + esc(s.host) + '</span></p>',
+    foot: '<button class="btn btn-ghost" data-act="close-modal">取消</button>' +
+      '<button class="btn btn-danger" data-act="server-del-go" data-id="' + s.id + '">删除</button>'
+  });
+};
+ACTIONS['server-del-go'] = function (el) {
+  state.servers = state.servers.filter((x) => x.id !== el.dataset.id);
+  toast('已删除', null, 'ok'); closeModal(true); render();
+};
+
+ACTIONS['content-install'] = function (el) {
+  const id = el.dataset.id;
+  const list = state.content[state.filters.tab];
+  const item = list.filter((c) => c.id === id)[0];
+  if (!item) return;
+  item.state = 'installing'; item.pct = 0;
+  toast('已加入安装队列', item.name + ' · 目标实例：' + (currentInstance() ? currentInstance().name : '未选择'), 'info');
+  render();
+  const step = setInterval(() => {
+    item.pct = Math.min(100, (item.pct || 0) + 12);
+    const label = $('[data-inst-pct="' + id + '"]');
+    if (item.pct >= 100) {
+      clearInterval(step); item.state = 'installed';
+      toast(item.name + ' 安装完成', '（模拟）未下载或写入任何文件', 'ok');
+      if (state.view === 'content') render();
+      return;
+    }
+    if (label) label.textContent = '安装中 ' + item.pct + '%';
+  }, 420);
+};
+ACTIONS['content-retry'] = function () {
+  toast('正在重试…', null, 'info');
+  state.offline = false; state.newsVerified = true; state.load.content = 'ready';
+  setTimeout(() => { toast('重试成功，内容已更新', '模拟结果', 'ok'); render(); }, 700);
+};
+
+ACTIONS['skin-model'] = function (el) { state.skinModel = el.dataset.value; toast('已切换模型', el.dataset.value === 'classic' ? '经典模型（4px 宽手臂）' : 'Slim / Alex 模型（3px 宽手臂）', 'ok'); render(); };
+ACTIONS['skin-upload'] = function () {
+  if (!state.account) { toast('请先登录一个账号', '皮肤上传仅支持 Microsoft 正版账号', 'warn'); return; }
+  toast('请选择皮肤文件', '仅支持 64×64 或 64×32 PNG，且不超过 1 MiB（模拟）', 'info');
+};
+ACTIONS['skin-login'] = function () { ACTIONS['add-account'](); };
+
+ACTIONS['dl-start'] = function (el) {
+  const v = el.dataset.id;
+  state.tasks.push({ id: 't' + Date.now(), name: v + ' · 客户端与资源', state: 'downloading', pct: 2, speed: '3.1 MB/s', eta: '01:20', size: '304 MB' });
+  toast('已加入下载：' + v, '（模拟）不会真实下载文件', 'ok');
+  render(); startTicker();
+};
+ACTIONS['dl-retry'] = function () {
+  toast('正在重新获取版本列表…', null, 'info');
+  state.offline = false;
+  setTimeout(() => { toast('版本列表已更新', '模拟结果 · 共 ' + DB.versions.length + ' 个版本', 'ok'); render(); }, 700);
+};
+ACTIONS['task-toggle'] = function (el) {
+  const t = state.tasks.filter((x) => x.id === el.dataset.id)[0];
+  t.state = t.state === 'downloading' ? 'queued' : 'downloading';
+  toast(t.state === 'downloading' ? '已继续任务' : '已暂停任务', t.name + '（模拟）', 'info');
+  render();
+};
+ACTIONS['task-cancel'] = function (el) {
+  state.tasks = state.tasks.filter((x) => x.id !== el.dataset.id);
+  toast('已移除任务', '（模拟）', 'ok'); render();
+};
+ACTIONS['task-clear'] = function () {
+  state.tasks = state.tasks.filter((t) => t.state !== 'completed');
+  toast('已清除已完成任务', '（模拟）', 'ok'); render();
+};
+
+ACTIONS['news-refresh'] = function () {
+  toast('刷新中…', null, 'info');
+  setTimeout(() => {
+    if (state.offline) {
+      state.newsState = 'error'; state.newsVerified = false;
+      toast('新闻刷新失败', '当前处于离线模式（模拟）', 'err');
+    } else {
+      state.newsState = 'live'; state.newsVerified = true;
+      toast('已同步官方最新', '模拟结果 · 内容为本地示例', 'ok');
+    }
+    render();
+  }, 800);
+};
+ACTIONS['news-retry'] = function () {
+  toast('正在重试…', null, 'info');
+  setTimeout(() => { state.offline = false; state.newsState = 'live'; state.newsVerified = true; toast('重试成功', '模拟结果', 'ok'); render(); }, 700);
+};
+ACTIONS['news-open'] = function (el) {
+  const n = state.news.filter((x) => x.id === el.dataset.id)[0];
+  if (!n) return;
+  openModal({
+    title: n.title, desc: n.cat + ' · ' + n.time,
+    body: '<p class="fg2" style="font-size:var(--text-sm);line-height:1.85">' + esc(n.body) + '</p>' +
+      '<p class="card-hint">示例内容：原型不联网，正文为本地占位文案。</p>',
+    foot: '<button class="btn btn-ghost" data-act="close-modal">关闭</button>' +
+      '<button class="btn btn-secondary" data-act="news-link" data-id="' + n.id + '">' + ico('external', 14) + '<span>查看原文</span></button>'
+  });
+};
+ACTIONS['news-link'] = function () { toast('打开失败，请重试', '原型内不会打开外部链接（模拟）', 'warn'); };
+
+ACTIONS['set-auto-mem'] = function (el) { state.settings.autoMem = el.checked; toast(el.checked ? '已开启自动内存分配' : '已关闭自动内存分配', el.checked ? '由启动器选择合适的内存大小' : '可手动拖动滑块调整（模拟保存）', 'ok'); render(); };
+ACTIONS['set-mirror'] = function (el) { state.settings.mirror = el.checked; toast('已保存下载镜像设置', el.checked ? '通过 BMCLAPI 镜像加速下载（模拟）' : '使用官方源（模拟）', 'ok'); };
+ACTIONS['set-fakeip'] = function (el) { state.settings.fakeIp = el.checked; toast('fake-IP 兼容开关已保存', '仅影响官方新闻图片（模拟）', 'ok'); };
+ACTIONS['set-ai'] = function (el) { state.settings.ai = el.checked; toast(el.checked ? '已启用 AI 崩溃诊断' : '已关闭 AI 崩溃诊断', '需要配置 API Key 才能真正使用（模拟）', 'ok'); };
+ACTIONS['set-quick'] = function (el) {
+  const key = el.dataset.key;
+  if (key === 'quickMin') state.settings.quick.minimize = el.checked;
+  if (key === 'quickClose') state.settings.quick.close = el.checked;
+  toast('快捷操作已保存', '（模拟）不会真实最小化或关闭窗口', 'ok');
+};
+ACTIONS['set-offline'] = function (el) { ACTIONS['toggle-offline'](); };
+ACTIONS['set-source'] = function (el) { state.settings.source = el.dataset.value; toast('已切换下载源：' + (el.dataset.value === 'official' ? '官方源' : 'MCBBS 镜像'), '（模拟）', 'ok'); render(); };
+ACTIONS['set-java'] = function () {
+  const order = ['bundled', 'auto', 'custom'];
+  state.settings.java = order[(order.indexOf(state.settings.java) + 1) % 3];
+  const label = state.settings.java === 'bundled' ? '内置 JRE 21.0.5' : state.settings.java === 'auto' ? '自动检测（3 个 JDK）' : '自定义路径';
+  toast('已切换 Java：' + label, '（模拟）未检测本机运行时', 'ok');
+  render();
+};
+ACTIONS['set-proxy'] = function () {
+  const p = state.settings.proxy;
+  openModal({
+    title: '配置代理', desc: '下载与登录请求走代理。',
+    body: '<div id="modalErr" class="field error" hidden></div>' +
+      '<label class="check"><input type="checkbox" id="pOn"' + (p.on ? ' checked' : '') + '><span>启用代理</span></label>' +
+      '<div class="row gap-3"><div class="field grow"><label for="pHost">代理地址</label><input class="input num" id="pHost" type="text" value="' + esc(p.host) + '" placeholder="127.0.0.1"></div>' +
+      '<div class="field" style="width:112px"><label for="pPort">端口</label><input class="input num" id="pPort" type="number" value="' + p.port + '" min="1" max="65535"></div></div>' +
+      '<div class="row gap-3"><div class="field grow"><label for="pUser">用户名（可选）</label><input class="input" id="pUser" type="text" value="' + esc(p.user) + '" autocomplete="off"></div>' +
+      '<div class="field grow"><label for="pPass">密码（可选）</label><input class="input" id="pPass" type="password" value="' + esc(p.pass) + '" autocomplete="off"></div></div>',
+    foot: '<button class="btn btn-ghost" data-act="close-modal">取消</button>' +
+      '<button class="btn btn-primary" data-act="set-proxy-go">保存</button>',
+    onSubmit: () => ACTIONS['set-proxy-go']()
+  });
+};
+ACTIONS['set-proxy-go'] = function () {
+  const on = $('#pOn').checked, host = $('#pHost').value.trim(), port = +$('#pPort').value || 7890;
+  if (on && !host) {
+    const err = $('#modalErr');
+    err.hidden = false; err.innerHTML = ico('alert', 13) + '<span>启用代理时必须填写代理地址</span>';
+    $('#pHost').setAttribute('aria-invalid', 'true'); $('#pHost').focus(); return;
+  }
+  state.settings.proxy = { on: on, host: host, port: port, user: $('#pUser').value.trim(), pass: $('#pPass').value };
+  toast('代理设置已保存', '（模拟）不会真实走代理', 'ok');
+  closeModal(true); render();
+};
+ACTIONS['set-providers'] = function () {
+  const ps = state.settings.providers;
+  openModal({
+    title: '管理 AI 提供商', desc: '发布安全模式下仅允许代码内审核过的 HTTPS 提供商。',
+    body: (ps.length ? '<div class="list">' + ps.map((p) =>
+      '<div class="list-row" style="padding:10px 4px"><span class="thumb" style="width:30px;height:30px;flex-basis:30px">' + ico('cpu', 14) + '</span>' +
+      '<span class="grow stack" style="gap:2px"><span class="row-title">' + esc(p.name) + '</span>' +
+      '<span class="row-sub num anywhere">' + esc(p.url) + ' · ' + esc(p.model) + '</span></span>' +
+      (p.active ? chip('当前', 'chip-ok') : '') + '</div>').join('') + '</div>'
+      : stateBlock({ icon: 'cpu', title: '暂无提供商', desc: '点击下方「新增」添加一个。' })) +
+      '<p class="card-hint">API Key 只在本地保存，原型内不会发出任何请求。</p>',
+    foot: '<button class="btn btn-ghost" data-act="close-modal">关闭</button>' +
+      '<button class="btn btn-secondary" data-act="ai-add">新增</button>'
+  });
+};
+ACTIONS['ai-add'] = function () {
+  openModal({
+    title: '新增 AI 提供商',
+    body: '<div id="modalErr" class="field error" hidden></div>' +
+      '<div class="field"><label for="aiName">名称</label><input class="input" id="aiName" type="text" placeholder="预设 · DeepSeek" autocomplete="off"></div>' +
+      '<div class="field"><label for="aiUrl">服务地址</label><input class="input num" id="aiUrl" type="text" placeholder="https://api.example.com" autocomplete="off"></div>' +
+      '<div class="field"><label for="aiModel">模型名称</label><input class="input num" id="aiModel" type="text" placeholder="model-name" autocomplete="off"></div>' +
+      '<div class="field"><label for="aiKey">API Key</label><input class="input num" id="aiKey" type="password" placeholder="新增时必填" autocomplete="off"></div>',
+    foot: '<button class="btn btn-ghost" data-act="close-modal">取消</button>' +
+      '<button class="btn btn-primary" data-act="ai-add-go">保存</button>',
+    onSubmit: () => ACTIONS['ai-add-go']()
+  });
+};
+ACTIONS['ai-add-go'] = function () {
+  const name = $('#aiName').value.trim(), url = $('#aiUrl').value.trim();
+  if (!name || !url) {
+    const err = $('#modalErr');
+    err.hidden = false; err.innerHTML = ico('alert', 13) + '<span>请填写名称与服务地址</span>';
+    (!name ? $('#aiName') : $('#aiUrl')).setAttribute('aria-invalid', 'true');
+    (!name ? $('#aiName') : $('#aiUrl')).focus(); return;
+  }
+  state.settings.providers.forEach((p) => { p.active = false; });
+  state.settings.providers.push({ id: 'a' + Date.now(), name: name, url: url, model: $('#aiModel').value.trim() || 'default', active: true, hasKey: !!$('#aiKey').value });
+  toast('AI 提供商配置已保存', '（模拟）未发出任何请求', 'ok');
+  closeModal(true); render();
+};
+ACTIONS['check-update'] = function () {
+  toast('正在检查更新…', null, 'info');
+  setTimeout(() => { state.updating = 'done'; toast('已是最新版本', '当前版本 v1.4.2（模拟）', 'ok'); render(); }, 900);
+};
+ACTIONS['open-logs'] = function () { toast('已请求打开日志目录', '原型内不会真实打开目录（模拟）', 'info'); };
+ACTIONS['add-account'] = function () {
+  if (state.account) { toast('已登录：' + state.account.name, '切换账户在正式版中可用（模拟）', 'info'); return; }
+  openModal({
+    title: '添加账户', desc: '正版功能需要 Microsoft 账户；也可以添加离线账户。',
+    body: '<div id="modalErr" class="field error" hidden></div>' +
+      '<div class="stack gap-2">' +
+      '<button class="list-row" data-act="acc-ms" style="width:100%;text-align:left;border-radius:var(--radius-sm)">' +
+      ico('shield') + '<span class="grow stack" style="gap:2px"><span class="row-title">Microsoft 登录</span>' +
+      '<span class="row-sub">使用设备码登录，无需在启动器内填写密码</span></span></button>' +
+      '<button class="list-row" data-act="acc-offline" style="width:100%;text-align:left;border-radius:var(--radius-sm)">' +
+      ico('user') + '<span class="grow stack" style="gap:2px"><span class="row-title">添加离线账户</span>' +
+      '<span class="row-sub">无需登录即可进入游戏，仅限单人存档</span></span></button>' +
+      '</div><p class="card-hint">原型内不会发起任何授权请求，也不会创建真实账户。</p>',
+    foot: '<button class="btn btn-ghost" data-act="close-modal">取消</button>'
+  });
+};
+ACTIONS['acc-ms'] = function () { closeModal(true); toast('Microsoft 登录不可用', '原型内不会打开浏览器或请求授权（模拟）', 'warn'); };
+ACTIONS['acc-offline'] = function () {
+  openModal({
+    title: '添加离线账户', desc: '添加一个无需登录的离线账户。',
+    body: '<div id="modalErr" class="field error" hidden></div>' +
+      '<div class="field"><label for="pName">玩家名称</label><input class="input" id="pName" type="text" placeholder="Steve" autocomplete="off">' +
+      '<p class="hint">建议使用 3–16 个字符的英文或数字。</p></div>',
+    foot: '<button class="btn btn-ghost" data-act="close-modal">取消</button>' +
+      '<button class="btn btn-primary" data-act="acc-offline-go">添加</button>',
+    onSubmit: () => ACTIONS['acc-offline-go']()
+  });
+};
+ACTIONS['acc-offline-go'] = function () {
+  const n = $('#pName').value.trim();
+  if (!n) {
+    const err = $('#modalErr');
+    err.hidden = false; err.innerHTML = ico('alert', 13) + '<span>请填写玩家名称</span>';
+    $('#pName').setAttribute('aria-invalid', 'true'); $('#pName').focus(); return;
+  }
+  state.account = { name: n, type: 'offline' };
+  $('#accountBtn').innerHTML = '<span class="account-avatar" aria-hidden="true">' + ico('user', 15) + '</span>' +
+    '<span class="account-text stack" style="align-items:flex-start;gap:2px;min-width:0"><span class="account-name">' + esc(n) + '</span>' +
+    '<span class="account-sub"><span class="dot online" aria-hidden="true"></span>离线账户</span></span>';
+  toast('已添加离线账户「' + n + '」', '（模拟）未创建真实账户，也不会用于在线服务器', 'ok');
+  closeModal(true); render();
+};
+ACTIONS['refresh-all'] = function () {
+  toast('正在重新检查环境…', null, 'info');
+  setTimeout(() => toast('检查完成', 'Java、内存与游戏文件均可用（模拟）', 'ok'), 800);
+};
+
+init();
+})();
+</script>
+</body>
+</html>

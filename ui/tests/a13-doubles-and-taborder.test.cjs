@@ -90,7 +90,7 @@ function staticFocusables(html) {
 	return out;
 }
 
-test('A13-②：侧栏九类界面的 Tab 顺序（静态清单，必须与记录一致）', () => {
+test('A13-②：新版十页导航的 Tab 顺序', () => {
 	const html = fs.readFileSync(htmlPath, 'utf8');
 	const navOrder = staticFocusables(html)
 		.filter(e => e.nav)
@@ -101,6 +101,7 @@ test('A13-②：侧栏九类界面的 Tab 顺序（静态清单，必须与记�
 		'installations',
 		'worlds',
 		'servers',
+		'playtime',
 		'content',
 		'skins',
 		'downloads',
@@ -123,11 +124,14 @@ test('A13-②：静态 chrome 的可聚焦元素顺序（跳转链接 → 窗口
 		'静态 chrome 的前四个可聚焦元素应是：跳转链接 → 最小化 → 最大化 → 关闭');
 
 	// 语言切换必须存在且在侧栏之后
-	const langIdx = seq.indexOf('btnLangToggle');
-	assert.ok(langIdx > 0, '应存在语言切换按钮 btnLangToggle');
+	const langIdx = seq.indexOf('btnLangZh');
+	assert.ok(langIdx > 0, '应存在独立中文按钮');
 	assert.ok(langIdx > seq.indexOf('nav:home'), '语言切换应排在侧栏之后（与 index.html 的文档顺序一致）');
+	assert.ok(seq.indexOf('btnLangEn') > langIdx, '英文按钮紧随中文按钮');
+	assert.ok(seq.indexOf('btnProfile') < seq.indexOf('nav:home'), '账户入口排在导航前');
+	assert.ok(seq.indexOf('btnQuickOpen') > seq.indexOf('btnLangEn'), '主区快速操作排在侧栏后');
 
 	// 完整性：静态可聚焦元素共 15 个（含 view 容器上的 tabindex）
-	assert.strictEqual(staticFocusables(html).length, 15,
-		'静态可聚焦元素数量变了（记录值 15）：' + JSON.stringify(seq));
+	assert.strictEqual(staticFocusables(html).length, 20,
+		'新版静态可聚焦元素数量变了（记录值 20）：' + JSON.stringify(seq));
 });

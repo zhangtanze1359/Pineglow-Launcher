@@ -1,0 +1,36 @@
+﻿{
+    "probe":  "real-exe-upgrade-ui-and-config",
+    "fixtureRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-upgcfg-45d54e249cb947ab889db0474b4eaf19",
+    "oldExeSha256":  "3BA605531690D832900280DD29CCEAF1C0102EC71171F8498AFFF234DC47F96F",
+    "newExeSha256":  "CA8F94C1A6173F23F38F3D2A3C949AFFC16D5AB67752B662C7806831F350D93E",
+    "staleExternalUi":  true,
+    "preUpgrade":  {
+                       "healthReady":  true,
+                       "servedStaleMarker":  true,
+                       "processStopped":  true
+                   },
+    "postUpgrade":  {
+                        "healthReady":  true,
+                        "servedStaleMarker":  false,
+                        "servedIndexTokenNormalizedSha256":  "39933134AD98FAFD51B2D22106B5E692371106610BEB62302A68B6938C72D02F",
+                        "expectedSourceIndexSha256":  "39933134AD98FAFD51B2D22106B5E692371106610BEB62302A68B6938C72D02F",
+                        "servedMatchesNewSource":  true,
+                        "processStopped":  true
+                    },
+    "backupHoldsOldExe":  true,
+    "replacedExeEqualsNew":  true,
+    "ownedProcessStopped":  true,
+    "timeHK":  "2026-10-10T02:38:58.1114848",
+    "replaceStep":  {
+                        "sequence":  "copy target-\u003ebackup, copy new-\u003etarget, fc /b new vs target (same order as BuildApplyScript)",
+                        "fcExitCode":  0,
+                        "byteIdentical":  true,
+                        "replacedSha":  "CA8F94C1A6173F23F38F3D2A3C949AFFC16D5AB67752B662C7806831F350D93E"
+                    },
+    "config":  {
+                   "path":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-upgcfg-45d54e249cb947ab889db0474b4eaf19\\data\\config.json",
+                   "existsAfter":  true,
+                   "unchangedAfter":  true,
+                   "markerPresent":  true
+               }
+}

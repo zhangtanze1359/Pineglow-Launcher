@@ -1,0 +1,7 @@
+{"type":"session","sessionId":"session-ecb0ce78-e300-4223-8434-5b8bca99f302","cwd":"D:\\松光启动器"}
+{"type":"status","phase":"turn_start","turn":1}
+{"type":"status","phase":"step_start","turn":1,"step":1}
+{"type":"status","phase":"step_end","turn":1,"step":1,"usage":{"inputTokens":0,"outputTokens":0,"totalTokens":0}}
+{"type":"status","phase":"turn_end","turn":1,"reason":{"kind":"error","error":{"message":"Request timed out.","code":"TIMEOUT"}}}
+{"type":"final","text":""}
+dsh: TIMEOUT: Request timed out.

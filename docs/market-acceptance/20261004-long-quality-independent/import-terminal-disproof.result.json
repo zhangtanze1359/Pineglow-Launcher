@@ -1,0 +1,4 @@
+{
+  "expected": "2 product assertions fail; operationId control passes",
+  "exitCode": 1
+}

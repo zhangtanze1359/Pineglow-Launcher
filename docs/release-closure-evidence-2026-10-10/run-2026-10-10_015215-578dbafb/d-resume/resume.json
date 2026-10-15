@@ -1,0 +1,47 @@
+﻿{
+    "probe":  "install-interrupt-and-resume",
+    "version":  "1.21.11",
+    "fixture":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-resume-d65b4752f0764bea869d41c62a69b438\\install",
+    "installedExeSha256":  "CA8F94C1A6173F23F38F3D2A3C949AFFC16D5AB67752B662C7806831F350D93E",
+    "phase1":  {
+                   "downloadCall":  "{\"ok\":true,\"id\":\"dlv1791577981261\",\"versionId\":\"1.21.11\",\"status\":\"queued\"}",
+                   "elapsedSeconds":  15,
+                   "treeBytes":  31194784,
+                   "partialCount":  0,
+                   "partialTop":  [
+
+                                  ],
+                   "largestPartialPath":  "",
+                   "processStopped":  true
+               },
+    "afterKill":  {
+                      "killedProcesses":  0,
+                      "treeBytes":  31194784,
+                      "partialCount":  0
+                  },
+    "queueAfterRestart":  "{\"tasks\":[]}",
+    "phase2":  {
+                   "downloadCall":  "{\"ok\":true,\"id\":\"dlv1791578001891\",\"versionId\":\"1.21.11\",\"status\":\"queued\"}",
+                   "samples":  [
+                                   -1,
+                                   -1,
+                                   -1,
+                                   -1,
+                                   -1,
+                                   -1
+                               ]
+               },
+    "resumedFromPartial":  false,
+    "partialSizeBefore":  0,
+    "partialFirstSampleAfter":  -1,
+    "finalStatus":  "completed",
+    "finalSeconds":  311,
+    "finalTreeBytes":  552196543,
+    "finalVersionJson":  1,
+    "finalVersionJars":  1,
+    "finalLibraryJars":  75,
+    "finalAssetObjects":  4591,
+    "leftoverDownloads":  0,
+    "ownedProcessesStopped":  true,
+    "timeHK":  "2026-10-10T04:32:59.1108767"
+}

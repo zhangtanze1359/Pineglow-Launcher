@@ -1,0 +1,145 @@
+﻿diff --git "a/C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\\346\235\276\345\205\211\345\220\257\345\212\250\345\231\250\\docs\\market-execution\\W1-W3-route-closure\\20261002-182304Z\\baseline\\LocalApiService.cs.orig" "b/D:\\\346\235\276\345\205\211\345\220\257\345\212\250\345\231\250\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\LocalApiService.cs"
+index e31eff4..42746db 100644
+--- "a/C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\\346\235\276\345\205\211\345\220\257\345\212\250\345\231\250\\docs\\market-execution\\W1-W3-route-closure\\20261002-182304Z\\baseline\\LocalApiService.cs.orig"
++++ "b/D:\\\346\235\276\345\205\211\345\220\257\345\212\250\345\231\250\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\LocalApiService.cs"
+@@ -412,39 +412,12 @@ public static class LocalApiService
+ 				return;
+ 			}
+ 
+-			if (seg.Length == 4 && seg[1].Equals("instances", StringComparison.OrdinalIgnoreCase))
++			// 2026-10-03 P0 收口（W1）：以下 4 组的精确长度守卫原先嵌套在紧邻的 seg.Length == 4 通用实例块内，
++			// 条件恒假 ⇒ 永不命中 ⇒ 落到方法末尾的 404。现提升到与 cancel 相同的块外位置，匹配条件保持不变。
++			if (seg.Length is 5 or 6 or 8 && seg[1].Equals("instances", StringComparison.OrdinalIgnoreCase))
+ 			{
+ 				string instanceId = seg[2];
+ 				string action = seg[3];
+-				if (action.Equals("delete", StringComparison.OrdinalIgnoreCase) && method == "POST")
+-				{
+-					await HandleDeleteInstanceAsync(response, instanceId);
+-					return;
+-				}
+-
+-				if (action.Equals("launch", StringComparison.OrdinalIgnoreCase) && method == "POST")
+-				{
+-					await HandleLaunchAsync(response, instanceId);
+-					return;
+-				}
+-
+-				if (action.Equals("diagnose", StringComparison.OrdinalIgnoreCase) && method == "POST")
+-				{
+-					await HandleDiagnoseInstanceAsync(request, response, instanceId);
+-					return;
+-				}
+-
+-				if (action.Equals("prelaunch-check", StringComparison.OrdinalIgnoreCase) && method == "GET")
+-				{
+-					await HandlePrelaunchCheckAsync(response, instanceId);
+-					return;
+-				}
+-
+-				if (seg.Length == 4 && action.Equals("saves", StringComparison.OrdinalIgnoreCase) && method == "GET")
+-				{
+-					await HandleListSavesAsync(response, instanceId);
+-					return;
+-				}
+ 
+ 				// /api/instances/{id}/saves/{folder}/{backup|delete|open|backups}
+ 				if (seg.Length == 6 && action.Equals("saves", StringComparison.OrdinalIgnoreCase))
+@@ -488,25 +461,6 @@ public static class LocalApiService
+ 					}
+ 				}
+ 
+-				if (action.Equals("mods", StringComparison.OrdinalIgnoreCase) && method == "GET")
+-				{
+-					await HandleListModsAsync(response, instanceId);
+-					return;
+-				}
+-
+-				if (action.Equals("resourcepacks", StringComparison.OrdinalIgnoreCase) && method == "GET")
+-				{
+-					await HandleListResourcePacksAsync(response, instanceId);
+-					return;
+-				}
+-
+-				if (action.Equals("shaderpacks", StringComparison.OrdinalIgnoreCase) && method == "GET")
+-				{
+-					await HandleListShaderPacksAsync(response, instanceId);
+-					return;
+-				}
+-
+-
+ 				// /api/instances/{id}/bisect/{start|test|giveup}
+ 				if (seg.Length == 5 && action.Equals("bisect", StringComparison.OrdinalIgnoreCase))
+ 				{
+@@ -528,7 +482,9 @@ public static class LocalApiService
+ 						await HandleBisectGiveUpAsync(response, instanceId);
+ 						return;
+ 					}
+-				}				if (seg.Length == 6 && action.Equals("mods", StringComparison.OrdinalIgnoreCase))
++				}
++
++				if (seg.Length == 6 && action.Equals("mods", StringComparison.OrdinalIgnoreCase))
+ 				{
+ 					string fileName = seg[4];
+ 					string modAction = seg[5];
+@@ -546,6 +502,60 @@ public static class LocalApiService
+ 				}
+ 			}
+ 
++			if (seg.Length == 4 && seg[1].Equals("instances", StringComparison.OrdinalIgnoreCase))
++			{
++				string instanceId = seg[2];
++				string action = seg[3];
++				if (action.Equals("delete", StringComparison.OrdinalIgnoreCase) && method == "POST")
++				{
++					await HandleDeleteInstanceAsync(response, instanceId);
++					return;
++				}
++
++				if (action.Equals("launch", StringComparison.OrdinalIgnoreCase) && method == "POST")
++				{
++					await HandleLaunchAsync(response, instanceId);
++					return;
++				}
++
++				if (action.Equals("diagnose", StringComparison.OrdinalIgnoreCase) && method == "POST")
++				{
++					await HandleDiagnoseInstanceAsync(request, response, instanceId);
++					return;
++				}
++
++				if (action.Equals("prelaunch-check", StringComparison.OrdinalIgnoreCase) && method == "GET")
++				{
++					await HandlePrelaunchCheckAsync(response, instanceId);
++					return;
++				}
++
++				if (seg.Length == 4 && action.Equals("saves", StringComparison.OrdinalIgnoreCase) && method == "GET")
++				{
++					await HandleListSavesAsync(response, instanceId);
++					return;
++				}
++
++				if (action.Equals("mods", StringComparison.OrdinalIgnoreCase) && method == "GET")
++				{
++					await HandleListModsAsync(response, instanceId);
++					return;
++				}
++
++				if (action.Equals("resourcepacks", StringComparison.OrdinalIgnoreCase) && method == "GET")
++				{
++					await HandleListResourcePacksAsync(response, instanceId);
++					return;
++				}
++
++				if (action.Equals("shaderpacks", StringComparison.OrdinalIgnoreCase) && method == "GET")
++				{
++					await HandleListShaderPacksAsync(response, instanceId);
++					return;
++				}
++
++			}
++
+ 			if (seg.Length == 2 && seg[1].Equals("accounts", StringComparison.OrdinalIgnoreCase) && method == "GET")
+ 			{
+ 				await HandleListAccountsAsync(response);

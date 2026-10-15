@@ -1,0 +1,86 @@
+﻿{
+    "runId":  "20261003-043000Z",
+    "task":  "MR12 CurseForge 限流闭环",
+    "generatedUtc":  "2026-10-02T21:42:46Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "result":  {
+                   "csharp":  "10 passed / 0 failed (RED baseline: 9 failed / 1 passed)",
+                   "csharpFull":  "718 passed / 0 failed",
+                   "nodeFull":  "216 passed / 0 failed (16 files, unchanged)",
+                   "gitStatus":  "1317 -\u003e 1319 (+2)",
+                   "completion":  "COMPLETE for the retry/classification/concurrency core; real rate limit not reproduced"
+               },
+    "fixedByThisPackage":  {
+                               "retryAfter":  "honored, both delta-seconds and HTTP-date forms",
+                               "backoff":  "exponential 400/800/1600ms with jitter scaled to [50%,100%], capped at 10s",
+                               "classification":  "RateLimited / Unauthorized / NotFound / ServerError / NetworkError; 401/403/404/500 are NOT retried",
+                               "actionableHint":  "hint is folded into ex.Message because the route returns ex.Message to the UI",
+                               "singleEgress":  "all CF requests share one policy with a concurrency cap of 2",
+                               "noFakeSuccess":  "exhausted retries throw; no empty result is returned to fake \"no results\""
+                           },
+    "selfFoundIssues":  [
+                            "可执行提示没送到用户：Hint 是独立属性而路由只回 ex.Message -\u003e 已把提示并入消息并加断言锁住",
+                            "测试断言措辞写错两次（带 Retry-After 的分支是\"请在约 N 秒后重试\"，不是\"稍后重试\"）",
+                            "测试必须固定抖动：否则退避区间重叠（400 与 400 相等）会让断言偶发失败"
+                        ],
+    "knownGaps":  [
+                      "真实 CurseForge 限流未复现（需真实 Key 与配额；计划也写明用合成即可）",
+                      "请求合并/去重与结果缓存未做（只做了并发上限与统一出口）",
+                      "专门的\"稍后重试\"按钮未做（提示经既有错误通道显示）",
+                      "搜索分页游标未改动",
+                      "图标获取(ContentIconService)等其它潜在 CF 出口未逐一审计"
+                  ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "BE8624CA263D0D7E2EDA4E324BBD601107C88F772EA60870C2644F4268CF6CE4",
+                      "sizeBytes":  9359
+                  },
+                  {
+                      "path":  "green/01-cf-first.log",
+                      "sha256":  "EF57D09A3FCE67DD6EFBDCBAA710B147408E3E36E56331D935DDAC49D8BA4545",
+                      "sizeBytes":  15006
+                  },
+                  {
+                      "path":  "green/02-cf-after.log",
+                      "sha256":  "968FC53C0C76EBAD91F70F3FFD0C459166DA02B9ACF87D0857337C6F7467BC4C",
+                      "sizeBytes":  11876
+                  },
+                  {
+                      "path":  "green/03-csharp-full.log",
+                      "sha256":  "5331B9ED6A537271CC83E0A195B3CEEAA626E6C9670FC6DF33AEF66A50D57E62",
+                      "sizeBytes":  652
+                  },
+                  {
+                      "path":  "green/04-node-full.log",
+                      "sha256":  "E83A31B30B81B7E5D3FF5A8F3568E8D0DF34320E941C4B8EFA05F4FF2955C20E",
+                      "sizeBytes":  22557
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "8E56AC7089127303678188F10EA7C4291EC35F98BCEE0C61F7DA438BFBF0FC18",
+                      "sizeBytes":  505
+                  },
+                  {
+                      "path":  "green/CurseForgeRequestPolicy.cs.mr12",
+                      "sha256":  "038FD3EB17BDC5E7398DAE02C33D3FEF44608DB5155759632DC7DD52A04611C1",
+                      "sizeBytes":  7411
+                  },
+                  {
+                      "path":  "green/CurseForgeRequestPolicy.cs.mr12.sha256.txt",
+                      "sha256":  "B9BE96F14DBDD0A47410651B90244FD2C7E17CD2F45474EC4B18DFFE09E3A13B",
+                      "sizeBytes":  69
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "D23F41A56535D6807DC492C852C6D1CC8ED19B1450E13BCA6B8BFB3E0BAD6A5A",
+                      "sizeBytes":  114520
+                  },
+                  {
+                      "path":  "red/01-cf-before.log",
+                      "sha256":  "16F8C01BB1F6566B5CBE79BA3BBF20F73F1AB16537A428C84913C4D07BCB3AD1",
+                      "sizeBytes":  47236
+                  }
+              ]
+}

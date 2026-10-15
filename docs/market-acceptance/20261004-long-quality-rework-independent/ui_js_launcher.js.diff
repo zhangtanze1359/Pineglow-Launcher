@@ -1,0 +1,51 @@
+--- previous/ui/js/launcher.js
++++ current/ui/js/launcher.js
+@@ -4018,16 +4018,21 @@
+ 	document.getElementById('impClose').onclick = closeModal;
+ 	// MR11：导入是可取消的——上传/安装阶段都能取消，取消后不留半成品实例。
+ 	const operationId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID().replace(/-/g, '') : ('imp' + Date.now() + Math.random().toString(36).slice(2));
++	// LQ-01：把「用户点击取消的意图」和「服务端确认取消」分开保存。点击取消只是意图——
++	// 取消接口失败、或只回 pendingCancel 时，服务端都没有确认取消，不能据此宣称导入已中止。
+ 	let cancelRequested = false;
++	let cancelConfirmed = false;
+ 	const cancelBtn = document.getElementById('impCancel');
+ 	if (cancelBtn) {
+ 		cancelBtn.onclick = async () => {
++			if (cancelRequested) return;
+ 			cancelRequested = true;
+ 			cancelBtn.disabled = true;
+ 			cancelBtn.textContent = t('import.cancelling');
+ 			try {
+ 				const r = await SG.api.cancelImport(operationId);
+-				toast(r.cancelled ? t('import.cancelled') : t('import.cancelRecorded'));
++				if (r && r.cancelled === true) { cancelConfirmed = true; toast(t('import.cancelled')); }
++				else { toast(t('import.cancelRecorded')); }
+ 			} catch (e) {
+ 				toast(t('import.cancelFailed') + ((e && e.message) || ''));
+ 			}
+@@ -4046,16 +4051,22 @@
+ 		const v = document.getElementById('view-home');
+ 		if (v) { v.innerHTML = await renderHome(); bindHome(v); }
+ 	} catch (err) {
+-		if (cancelRequested || (err && err.cancelled)) {
++		// LQ-01：只有服务端明确确认取消（取消接口回了 cancelled，或导入错误自身带 cancelled 信号）
++		// 才允许显示"已取消/未生成实例"。
++		if ((err && err.cancelled) || cancelConfirmed) {
+ 			// 取消不是失败：明确告诉用户"没有生成实例"，而不是丢一句导入失败。
+ 			toast(t('import.cancelled'));
+ 			const stc = document.querySelector('.modal .loading-state');
+ 			if (stc) stc.textContent = t('import.cancelledHint');
+ 			return;
+ 		}
+-		toast(t('import.failed') + ((err && err.message) || t('common.unknownError')));
++		// LQ-01：普通失败不能被当成"已取消"。点过取消但服务端未确认时，如实报失败并说明
++		// 结果尚未确认，让用户可以去实例列表核对，而不是相信"没有生成实例"。
++		const why = (err && err.message) || t('common.unknownError');
++		const failedText = t('import.failed') + why + (cancelRequested ? ' ' + t('import.outcomeUnconfirmed') : '');
++		toast(failedText);
+ 		const st = document.querySelector('.modal .loading-state');
+-		if (st) st.textContent = t('import.failed') + ((err && err.message) || t('common.unknownError'));
++		if (st) st.textContent = failedText;
+ 	}
+ }
+ 

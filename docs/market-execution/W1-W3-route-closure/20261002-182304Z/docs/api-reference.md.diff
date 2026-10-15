@@ -1,0 +1,24 @@
+﻿diff --git a/docs/api-reference.md b/docs/api-reference.md
+index 692deca..ab63c0a 100644
+--- a/docs/api-reference.md
++++ b/docs/api-reference.md
+@@ -23,6 +23,9 @@
+ | `/api/logs` | POST | 打开日志目录（explorer/xdg-open） |
+ 
+ ### 实例（`/api/instances`）
++
++> **2026-10-03 修正（run `20261002-182304Z`）**：本节原先有 **10 条路由永不可达**。原因是 `LocalApiService.HandleApiAsync` 把要求 `seg.Length == 5/6/8` 的守卫嵌进了要求 `seg.Length == 4` 的通用实例块内，条件恒假、直接落到末尾兜底 404。受影响的是 `mods/{file}/{toggle,delete}`、`bisect/{start,test,giveup}`、`saves/{folder}/{backup,delete,open,backups}`、`saves/{folder}/backups/{name}/restore`。现已修复并补上 HTTP 层契约测试（`dev/PineglowLauncher.Tests/RouteReachabilityTests.cs`）。**本次改动未启动真实 GUI/游戏，相关端到端行为仍为「未验证」。**
++
+ | 端点 | 方法 | 用途 |
+ |---|---|---|
+ | `/api/instances` | GET / POST | 实例列表 / 新建 |
+@@ -43,7 +46,8 @@
+ | `/api/instances/{id}/saves/{folder}/backup` | POST | 创建存档备份 |
+ | `/api/instances/{id}/saves/{folder}/backups` | GET | 备份列表 |
+ | `/api/instances/{id}/saves/{folder}/backups/{name}/restore` | POST | 恢复备份 |
+-| `/api/instances/{id}/saves/{folder}` | DELETE | 删除存档 |
++| `/api/instances/{id}/saves/{folder}/delete` | POST | 删除存档（**不是** `DELETE`） |
++| `/api/instances/{id}/saves/{folder}/open` | POST | 打开存档目录（explorer/xdg-open） |
+ 
+ ### 账号（`/api/accounts`）
+ | 端点 | 方法 | 用途 |

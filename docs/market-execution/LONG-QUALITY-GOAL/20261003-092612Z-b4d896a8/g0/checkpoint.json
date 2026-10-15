@@ -1,0 +1,232 @@
+{
+  "schemaVersion": 1,
+  "scope": "windows-local-offline-quality",
+  "runId": "20261003-092612Z-b4d896a8",
+  "goal": "Windows local offline quality loop: fix evidence root/package coverage and seal ordering, freeze 27 ordinary-flow scenarios, close evidence-backed UI state gaps, deliver a resumable quality runner and a machine-auditable candidate acceptance package",
+  "sourceRoot": "D:\\松光启动器",
+  "sourceHead": "f145d14eb26b0b7459a28491e764ac8c573085d3",
+  "planRoot": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs",
+  "evidenceRoot": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8",
+  "executionRootG0": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-e47a42e7b21846b89be8d4e0e0766704",
+  "finalPackage": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\FINAL-LOCAL-QUALITY\\20261003-092612Z-b4d896a8",
+  "createdLocal": "2026-10-03T17:28:28+08:00",
+  "updatedLocal": "2026-10-03T17:52:00+08:00",
+  "stages": [
+    {
+      "id": "G0",
+      "name": "freeze baseline and executable scenario list",
+      "status": "DONE",
+      "artifacts": [
+        "g0/input-manifest.json",
+        "g0/copy-verification.json",
+        "g0/execution-root.json",
+        "g0/toolchain.json",
+        "g0/git-head.txt",
+        "g0/source-status-baseline.txt",
+        "g0/requirements.json",
+        "g0/expected-evidence.json",
+        "g0/expected-evidence-final.json",
+        "g0/historical-exceptions.json"
+      ],
+      "evidence": {
+        "command": "powershell -File scripts/capture-goal-baseline.ps1 -Stage baseline -EvidenceRoot <ER> -SourceRoot D:\\松光启动器 -ExecutionRoot <new GUID temp> -Materialize",
+        "exitCode": 0,
+        "inputs": 286,
+        "tracked": 161,
+        "whitelist": 125,
+        "missing": 0,
+        "copied": 286,
+        "copyMismatches": 0,
+        "totalBytes": 5907176
+      },
+      "notes": [
+        "The G0 input count (286 = 161 tracked + 125 whitelist) matches the independent R2 source-input record of 286, i.e. the same product source set is frozen.",
+        "No whitespace/EOL normalisation: files are copied byte-for-byte and re-hashed in the copy.",
+        "git status at freeze: see g0/source-status-baseline.txt (working tree intentionally dirty, 1366 porcelain -uall lines)."
+      ]
+    },
+    {
+      "id": "G1",
+      "name": "strict evidence threshold and seal-order repair",
+      "status": "DONE",
+      "artifacts": [
+        "D:\\松光启动器\\scripts\\audit-goal-evidence.py",
+        "D:\\松光启动器\\scripts\\tests\\audit-goal-evidence.test.py",
+        "g1/expected-evidence-history.json",
+        "g1/audit-history-raw.json",
+        "g1/audit-history-bound.json",
+        "g1/audit-final-preflight.json",
+        "g1/red-old-auditor-coverage.py",
+        "g1/red-old-auditor-coverage.json",
+        "g1/red-old-auditor-coverage.log",
+        "g1/audit-goal-evidence.test.log",
+        "g1/command-results.json",
+        "correction/r2-source-after-postseal-drift.md"
+      ],
+      "evidence": {
+        "auditorSha256": "F4121D33933F22C3A32BB556F36FF8F7E83A622C6CAEFF594533A2BE2673099E",
+        "syntheticContractTests": { "command": "python -X utf8 scripts/tests/audit-goal-evidence.test.py", "exitCode": 0, "tests": 26, "failed": 0 },
+        "oldAuditorRed": { "command": "python -X utf8 g1/red-old-auditor-coverage.py g1", "exitCode": 0, "shapes": 5, "allRedReproduced": true, "note": "the R2 auditor returned 0 on all five coverage shapes; the new auditor returns non-zero with ROOT_MISSING / ROOT_EMPTY / UNSEALED_SIBLING / MANIFEST_EMPTY_FILES / ENTRY_MISSING_SIZE" },
+        "boundAudit": { "command": "python -X utf8 scripts/audit-goal-evidence.py --expected g0/expected-evidence.json --out g1/audit-history-bound.json", "exitCode": 0, "packages": 61, "manifestEntries": 874, "filesVerified": 874, "knownDrift": 3, "failures": 0 },
+        "rawAuditOfR2": { "command": "python -X utf8 scripts/audit-goal-evidence.py --expected g1/expected-evidence-history.json --out g1/audit-history-raw.json", "exitCode": 1, "failureCodes": ["FILE_SHA_DRIFT", "FILE_SIZE_DRIFT"], "note": "preserved on purpose: the untouched R2 package still fails its own manifest" },
+        "finalPreflight": { "command": "python -X utf8 scripts/audit-goal-evidence.py --expected g0/expected-evidence-final.json --out g1/audit-final-preflight.json", "exitCode": 1, "failureCodes": ["ROOT_EMPTY", "PACKAGE_MISSING"], "note": "expected until the final package exists; the auditor never silently passes the missing new package" }
+      },
+      "notes": [
+        "Coverage is by frozen identity, not by rglob: every required root and every declared package is checked, and anything found on disk but not declared fails.",
+        "The three byte-bound historical exceptions are listed as knownDrift, never as a silent pass; a fourth byte set on the same path fails.",
+        "strict-new and legacy-policy are explicit per package; a missing entry list never degrades to an empty set."
+      ]
+    },
+    {
+      "id": "G2",
+      "name": "27 ordinary-flow behaviour scenarios and minimal UI closure",
+      "status": "DONE",
+      "progress": "27 of 27 required scenarios have behaviour evidence and PASS; 28/28 goal tests pass; full node regression 266/266 with 0 skipped",
+      "artifacts": [
+        "D:\\松光启动器\\ui\\tests\\goal-core-flow.test.cjs",
+        "D:\\松光启动器\\ui\\js\\launcher.js",
+        "D:\\松光启动器\\ui\\js\\i18n.js",
+        "D:\\松光启动器\\ui\\css\\figma.css",
+        "g2/node-goal-core-flow-RED.log",
+        "g2/node-goal-core-flow-batch2-RED.log",
+        "g2/node-goal-core-flow.log",
+        "g2/node-all-tests.log",
+        "g2/node-inputs.txt",
+        "g2/scenario-matrix.json",
+        "g2/build-scenario-matrix.py",
+        "g2/source-drift-after-g2.json",
+        "g0/requirements.json (revision 1: DIAGNOSIS-04 testId bound to the executed test name)"
+      ],
+      "evidence": {
+        "redBatch1": { "command": "node --test ui/tests/goal-core-flow.test.cjs", "exitCode": 1, "tests": 5, "pass": 1, "fail": 4, "reasons": ["RECOVERY-01 retry action missing", "BISECT-03 retry action missing", "DIAGNOSIS-03 retry action missing", "DIAGNOSIS-04 ReferenceError: versionLine is not defined"] },
+        "redBatch2": { "command": "node --test ui/tests/goal-core-flow.test.cjs", "exitCode": 1, "tests": 28, "pass": 19, "fail": 9, "note": "only INSTANCE-04 was a product defect; the other eight were fixture defects (boolean/reflected attributes not mirrored, missing enabledAtStart in the synthetic error payload, precondition not established through renderInstallations, microtask-only settling) and were fixed in the fixture, never by weakening an assertion" },
+        "green": { "command": "node --test ui/tests/goal-core-flow.test.cjs", "exitCode": 0, "tests": 28, "pass": 28, "fail": 0 },
+        "nodeRegression": { "command": "node --test <all ui/tests/*.test.cjs>", "exitCode": 0, "entries": 21, "tests": 266, "pass": 266, "fail": 0, "skipped": 0, "baseline": "R2 independent run: 20 entries / 238 tests; +1 entry / +28 tests from this goal, no pre-existing test changed, weakened or skipped" },
+        "scenarioMatrix": { "command": "python -X utf8 g2/build-scenario-matrix.py <ER>", "exitCode": 0, "scenarios": 27, "requiredPass": 27, "requiredFail": 0, "note": "a scenario is PASS only if its frozen testId exists in the test file and the real node run reports it passing" }
+      },
+      "productChanges": [
+        "ui/js/launcher.js openRecoveryPanel: recovery query failure shows the real error plus an explicit retry action (#rRetry) on the same production path",
+        "ui/js/launcher.js openModBisect: a failed pending query no longer silently shows the normal start state; explicit unknown-state error plus retry (#bPendingRetry)",
+        "ui/js/launcher.js openDiagnoseHistory: history query failure shows the real error plus a retry action (#dhRetry); removed the undeclared 'versionLine' reference that made any non-empty history throw",
+        "ui/js/launcher.js openInstanceMenu: the remove handler now has a busy guard so repeated activation during the request cannot issue a second delete (INSTANCE-04); cancel/failure re-enables the button in a finally block, and the literal `document.getElementById('mDel').onclick` plus `if (!confirm(msg)) return;` shape that the existing MR03 static scan asserts is preserved",
+        "ui/js/i18n.js: five new keys in both zh and en (recovery.queryRetry, recovery.queryFailed, bisec.pendingQueryFailed, bisec.pendingRetry, diag.historyRetry)",
+        "ui/css/figma.css: disabled/busy state for .modal-btn and left-aligned .retry-action (no layout change elsewhere)"
+      ],
+      "fixtureOnlyChanges": [
+        "g2/parts/dom-harness.inc.cjs (source of the goal test file's DOM stub): Element.contains, boolean attribute reflection (disabled/checked/hidden), reflected content/value attributes",
+        "g2/parts/tail.cjs: textOf() reader for parsed subtrees, settle() that also drains macrotasks, activate() awaiting onclick",
+        "g2/parts/tail2.cjs: api-only loader with a controlled session meta tag"
+      ],
+      "observations": [
+        "BISECT-05: if a structured bisect failure body omits enabledAtStart, drawBisect falls through to the 'no mods to bisect' empty state instead of the needs-recovery panel. Recorded as a static observation; the server contract was NOT changed and no assertion was relaxed."
+      ]
+    },
+    {
+      "id": "G3",
+      "name": "ordinary API and disk closed loop",
+      "status": "DONE",
+      "progress": "73 authorised C# tests (24 R2 baseline + 49 per-flow) all pass with zero skips; 266 node tests pass; VerifyHost builds with 0 errors and the bisect smoke reports 19/19",
+      "artifacts": [
+        "g3/execution-root-g3.txt",
+        "g3/run-g3-authorized.ps1",
+        "g3/run-g3-flows.ps1",
+        "g3/g3-results.json",
+        "g3/g3-flows-results.json",
+        "g3/g3-summary.json",
+        "g3/test-results/*.trx",
+        "g3/g3-*.log",
+        "g3/source-drift-after-g3.json",
+        "g3/concurrent-drift-ui-index-html.json"
+      ],
+      "evidence": {
+        "executionRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-g3-5db79598fe394345a92e5099fc12cd49",
+        "inputs": 290,
+        "copyMismatches": 0,
+        "csharp": { "total": 73, "passed": 73, "failed": 0, "skipped": 0, "sets": ["secrets 13/13", "ordinary-r2 5/5", "recovery-normal 6/6", "flows 49/49"] },
+        "node": { "entries": 21, "tests": 266, "passed": 266, "failed": 0, "skipped": 0, "reverifiedOnCurrentTree": true },
+        "host": { "testAssemblyBuild": "exit 0, 0 errors, 19 warnings", "verifyHostBuild": "exit 0, 0 errors, 5 warnings", "bisectSmoke": "exit 0, 19 PASS / 0 FAIL" },
+        "newCsharpFileAdded": false,
+        "notRun": ["ImportWithALiveTokenButCancelledMidway_StillCleansUp (mid-flight cancellation race probe)"]
+      },
+      "concurrentDrift": {
+        "incident": "g3/concurrent-drift-ui-index-html.json",
+        "summary": "A writer outside this goal changed ui/index.html, added ui/css/pineglow.css and ui/assets/pine-forest.svg, and made additive edits to ui/js/launcher.js and ui/js/i18n.js between 18:02 and 18:11 local time.",
+        "goalChangesReverted": false,
+        "reverified": "the 28 goal behaviour tests and the full 266-test node suite still pass against the current tree (g2/node-goal-core-flow-current.log, g2/node-all-tests-current.log)",
+        "action": "recorded, not touched: no revert/restore/checkout was performed; the final seal must start from one fresh copy and record the input manifest it actually used"
+      }
+    },
+    {
+      "id": "G4",
+      "name": "resumable quality runner, seal and final package",
+      "status": "DONE",
+      "progress": "Runner + 10/10 contract tests + failure->resume demo done; the frozen stage set was run against a fresh GUID copy (8/8 PASS) and the final package was sealed, audited from outside and re-verified after sealing.",
+      "artifacts": [
+        "D:\\松光启动器\\scripts\\run-goal-validation.ps1",
+        "D:\\松光启动器\\scripts\\tests\\goal-validation.test.cjs",
+        "g4/goal-stages.json",
+        "g4/goal-seal-stages.json",
+        "g4/seal-final-package.ps1",
+        "g4/runner-synthetic-tests.log",
+        "g4/run-g4-demo.ps1",
+        "g4/demo-summary.json",
+        "g4/run-20261003-092612Z-b4d896a8/runner-verdict.json",
+        "final-audit-outside-package-20261003-092612Z-b4d896a8.json",
+        "post-seal-verification-20261003-092612Z-b4d896a8.json",
+        "post-seal-verify.py",
+        "post-seal-verify-final.json",
+        "FINAL-LOCAL-QUALITY/20261003-092612Z-b4d896a8/ (the sealed package)"
+      ],
+      "evidence": {
+        "executionRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-seal-39dfd2b90cbb4689b7fbad1c8ab10ba9",
+        "copyInputs": 292,
+        "copyMismatches": 0,
+        "stageRun": { "command": "run-goal-validation.ps1 -StagesFile g4/goal-stages.json -Resume", "exitCode": 0, "stages": 8, "failed": 0, "note": "first pass: 7 PASS + g4-node-all FAILED (a directory argument makes node treat it as an entry module); the stage definition was corrected to the quoted glob and the resume re-ran only that stage, reusing the other seven - the runner's reuse rule demonstrated on the real stage set" },
+        "cSharp": { "secrets": "13/13", "ordinaryR2": "5/5", "recoveryNormal": "6/6", "flows": "49/49", "total": 73, "failed": 0, "skipped": 0 },
+        "node": { "tests": 266, "passed": 266, "failed": 0, "skipped": 0 },
+        "host": { "verifyHostBuild": "exit 0", "bisectSmoke": "19 PASS / 0 FAIL" },
+        "seal": { "exitCode": 0, "packageFiles": 148, "manifestSha256": "7B09EA7568BD114B9A8A1F13864DCAAF34CA81CDE777A55ACB2A94C8990E3B99", "detachedMatches": true, "wroteInsideAfterSeal": 0 },
+        "outOfPackageAudit": { "exitCode": 0, "roots": 3, "packages": 62, "manifestEntries": 1022, "failures": 0, "knownDrift": 3 },
+        "postSealVerify": { "exitCode": 0, "filesListed": 148, "filesChecked": 148, "problems": 0, "extraFiles": 0, "verdict": "PASS" },
+        "runnerSealAuditStage": { "exitCode": 0, "verdict": "PASS" }
+      },
+      "notes": [
+        "The seal order is enforced by the script and demonstrated by the artefacts: assemble -> TERMINAL capture -> verdict/changed/report -> manifest.json -> manifest.sha256 -> out-of-package audit -> post-seal re-hash. Nothing inside the package was written after manifest.json.",
+        "Windows PowerShell 5.1's ConvertTo-Json was observed spinning at 100% CPU and growing to several GB on the changed-files object; the seal writes JSON with its own deterministic serializer instead, and every sealed JSON was re-parsed with a real JSON parser."
+      ]
+    }
+  ],
+  "sourceProtection": {
+    "checker": "source-drift-check.py (re-hashes the frozen 286 inputs against the working tree)",
+    "latest": "g4/source-drift-after-g4.json",
+    "latestLabel": "after-g4",
+    "frozen": 286,
+    "unchanged": 279,
+    "allowedDrift": 4,
+    "allowedDriftPaths": ["scripts/source-snapshot-inputs.txt", "ui/css/figma.css", "ui/js/i18n.js", "ui/js/launcher.js"],
+    "unexpectedDrift": 3,
+    "unexpectedDriftPaths": ["ui/index.html", ".gitignore", "docs/design-system.md"],
+    "unexpectedDriftExplanation": "Not produced by this goal: the freshly materialised G3 copy (18:06:28) still carried the frozen ui/index.html hash BBC0A619..., and this goal never writes ui/index.html, .gitignore or docs/design-system.md. A writer outside this goal is running a UI refresh in the same working tree (it also wrote docs/evidence/ui-refresh-2026-10-03/* screenshots at 18:16). Recorded in g3/concurrent-drift-ui-index-html.json; not reverted, not whitelisted, not attributed to this goal.",
+    "missing": 0,
+    "gitWriteOperations": 0
+  },
+  "mechanicalStatus": {
+    "technicalAcceptance": "NOT_PASSED",
+    "implementationReady": true,
+    "implementationReadySource": "FINAL-LOCAL-QUALITY/20261003-092612Z-b4d896a8/machine-verdict.json (all required local gates G0-G4 passed)",
+    "independentAcceptance": "NOT_GRANTED",
+    "formalPhaseApproval": "NOT_GRANTED",
+    "releaseApproval": "NOT_GRANTED",
+    "terminationPhrase": "具备独立复验条件，等待 Codex 独立验收。"
+  },
+  "notRun": [
+    "RA-01/RA-02 recovery-safety counter-proofs (platform-terminated range; not executed, not delegated, NOT_RUN)",
+    "real Avalonia/WebView2 GUI, Minecraft, native credential round-trip, real update handover, cross-platform, remote CI"
+  ],
+  "rules": [
+    "no git write operation of any kind (no commit/push/stage/reset/clean/restore/checkout/stash)",
+    "no writes into historical evidence packages; the R2 package and the two historical roots stay read-only",
+    "after the final seal nothing may be written inside the package; new content needs a new runId",
+    "at most 3 hypothesis-driven repair attempts per concrete failure"
+  ]
+}

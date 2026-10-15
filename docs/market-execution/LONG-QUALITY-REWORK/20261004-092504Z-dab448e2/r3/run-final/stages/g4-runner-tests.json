@@ -1,0 +1,38 @@
+{
+    "schemaVersion":  2,
+    "id":  "g4-runner-tests",
+    "runId":  "20261004-r3rework-dab448e2",
+    "attemptDir":  "attempts/g4-runner-tests/1",
+    "fingerprint":  "02D26ACC7FA2B75347117BE604FD4074C766B247BD109808195F3ABAEE20DBFB",
+    "inputManifestSha256":  "812D385A09538183215747737C9F7817A26CEE1DE05B2F2B34E78FC2235F8C22",
+    "inputSetSha256":  "D10CBC26126EA17EC0837F3E2AA95C6D12D075F3986DBA5DC4E8833151282661",
+    "command":  "node --test --test-reporter=tap scripts/tests/goal-validation.test.cjs",
+    "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsr-rework-r3c-10ed6d4c",
+    "startUtc":  "2026-10-04T10:08:17Z",
+    "endUtc":  "2026-10-04T10:08:45Z",
+    "exitCode":  0,
+    "timedOut":  false,
+    "stillRunning":  false,
+    "counters":  null,
+    "trx":  "",
+    "artifacts":  [
+
+                  ],
+    "rawEvidence":  [
+                        {
+                            "path":  "g4-runner-tests.stdout.log",
+                            "sha256":  "0632E9FAA165401F50E06551FA2FA52C944B3A22F01C520411903F60C72DF363",
+                            "sizeBytes":  5608
+                        },
+                        {
+                            "path":  "g4-runner-tests.stderr.log",
+                            "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                            "sizeBytes":  0
+                        }
+                    ],
+    "reasons":  [
+
+                ],
+    "status":  "COMPLETED",
+    "reused":  false
+}

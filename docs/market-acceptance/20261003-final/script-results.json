@@ -1,0 +1,58 @@
+[
+  {
+    "script": "audit-plan-ledger",
+    "cwd": "D:\\松光启动器",
+    "startUtc": "2026-10-03T05:03:43.0090831Z",
+    "endUtc": "2026-10-03T05:03:43.4068379Z",
+    "exitCode": 0,
+    "skipTests": false
+  },
+  {
+    "script": "audit-evidence-tree",
+    "cwd": "D:\\松光启动器",
+    "startUtc": "2026-10-03T05:03:43.4121102Z",
+    "endUtc": "2026-10-03T05:03:44.9824828Z",
+    "exitCode": 0,
+    "skipTests": false
+  },
+  {
+    "script": "audit-claimed-tests",
+    "cwd": "D:\\松光启动器",
+    "startUtc": "2026-10-03T05:03:44.9833491Z",
+    "endUtc": "2026-10-03T05:03:45.5532088Z",
+    "exitCode": 0,
+    "skipTests": false
+  },
+  {
+    "script": "verify-mg0",
+    "cwd": "D:\\松光启动器",
+    "startUtc": "2026-10-03T05:03:45.5540598Z",
+    "endUtc": "2026-10-03T05:03:46.3105318Z",
+    "exitCode": 0,
+    "skipTests": true
+  },
+  {
+    "script": "verify-mg1",
+    "cwd": "D:\\松光启动器",
+    "startUtc": "2026-10-03T05:03:46.3108347Z",
+    "endUtc": "2026-10-03T05:03:46.8673044Z",
+    "exitCode": 0,
+    "skipTests": true
+  },
+  {
+    "script": "verify-mg2",
+    "cwd": "D:\\松光启动器",
+    "startUtc": "2026-10-03T05:03:46.8676161Z",
+    "endUtc": "2026-10-03T05:03:47.5482994Z",
+    "exitCode": 0,
+    "skipTests": true
+  },
+  {
+    "script": "verify-mg3",
+    "cwd": "D:\\松光启动器",
+    "startUtc": "2026-10-03T05:03:47.5486731Z",
+    "endUtc": "2026-10-03T05:03:48.0833814Z",
+    "exitCode": 0,
+    "skipTests": true
+  }
+]

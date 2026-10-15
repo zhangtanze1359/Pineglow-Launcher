@@ -1,0 +1,393 @@
+{
+  "root": "C:\\Users\\Administrator\\.codex\\worktrees\\ed41\\松光启动器\\docs\\market-execution",
+  "manifestCount": 60,
+  "fileEntries": 830,
+  "selfEntries": [],
+  "knownMismatches": [
+    {
+      "manifest": "MG0-verification-package-20261003/manifest.json",
+      "path": "drift-notes.md",
+      "hashMatches": false,
+      "sizeMatches": false,
+      "actualSha256": "C55CE93981D8D078CD66450D91AAF5571145731049B024433301EB955277CF6B",
+      "recordedSha256": "1F7197B34E86025D32C0B8DDB6DE0A136F1CB3489FD4927AEEDAA97698F0BE88",
+      "actualSize": 4088,
+      "recordedSize": 3114,
+      "reason": "F-05 (known): bytes changed after the manifest was sealed - actual 4088 bytes / C55CE93981D8D078CD66450D91AAF5571145731049B024433301EB955277CF6B, recorded 3114 bytes / 1F7197B34E86025D32C0B8DDB6DE0A136F1CB3489FD4927AEEDAA97698F0BE88. Old manifest kept read-only; see evidence-corrections.md."
+    },
+    {
+      "manifest": "MG2-verification-package-20261003/manifest.json",
+      "path": "verify-mg2-full.log",
+      "hashMatches": false,
+      "sizeMatches": true,
+      "actualSha256": "BE2E432EADE77D436B39A1706248B9C90D9280CA98DFF8C57EEE4A5C5F5E2F95",
+      "recordedSha256": "B99A6D92BA9E6791B9DE5C8579254AD233AEB35AC539B7CC5BF05748F0813C31",
+      "actualSize": 41770,
+      "recordedSize": 41770,
+      "reason": "F-05 (known): same size, different bytes - actual 41770 bytes / BE2E432EADE77D436B39A1706248B9C90D9280CA98DFF8C57EEE4A5C5F5E2F95, recorded 41770 bytes / B99A6D92BA9E6791B9DE5C8579254AD233AEB35AC539B7CC5BF05748F0813C31. Old manifest and log kept read-only; see evidence-corrections.md."
+    }
+  ],
+  "failures": [],
+  "runs": [
+    {
+      "manifest": "FINAL-REMEDIATION/20261003-052200Z/manifest.json",
+      "package": "FINAL-REMEDIATION/20261003-052200Z",
+      "filesChecked": 46,
+      "declaredRunId": "20261003-052200Z"
+    },
+    {
+      "manifest": "gap-register-2026-10-03/20261003-190000Z/manifest.json",
+      "package": "gap-register-2026-10-03/20261003-190000Z",
+      "filesChecked": 7,
+      "declaredRunId": "20261003-190000Z"
+    },
+    {
+      "manifest": "MG-audit-claimed-tests/20261003-470000Z/manifest.json",
+      "package": "MG-audit-claimed-tests/20261003-470000Z",
+      "filesChecked": 8,
+      "declaredRunId": "20261003-470000Z"
+    },
+    {
+      "manifest": "MG-audit-evidence-tree/20261003-460000Z/manifest.json",
+      "package": "MG-audit-evidence-tree/20261003-460000Z",
+      "filesChecked": 66,
+      "declaredRunId": "20261003-460000Z"
+    },
+    {
+      "manifest": "MG0-verification-package-20261003/manifest.json",
+      "package": "MG0-verification-package-20261003",
+      "filesChecked": 6,
+      "declaredRunId": null
+    },
+    {
+      "manifest": "MG1-verification-package-20261003/manifest.json",
+      "package": "MG1-verification-package-20261003",
+      "filesChecked": 5,
+      "declaredRunId": null
+    },
+    {
+      "manifest": "MG2-verification-package-20261003/manifest.json",
+      "package": "MG2-verification-package-20261003",
+      "filesChecked": 6,
+      "declaredRunId": null
+    },
+    {
+      "manifest": "MG3-verification-package-20261003/manifest.json",
+      "package": "MG3-verification-package-20261003",
+      "filesChecked": 5,
+      "declaredRunId": null
+    },
+    {
+      "manifest": "MR00-MR27-evidence-index/20261003-140000Z/manifest.json",
+      "package": "MR00-MR27-evidence-index/20261003-140000Z",
+      "filesChecked": 7,
+      "declaredRunId": "20261003-140000Z"
+    },
+    {
+      "manifest": "MR00-MR27-ledger-consistency-audit/20261003-130000Z/manifest.json",
+      "package": "MR00-MR27-ledger-consistency-audit/20261003-130000Z",
+      "filesChecked": 6,
+      "declaredRunId": "20261003-130000Z"
+    },
+    {
+      "manifest": "MR02/20261003-110000Z/manifest.json",
+      "package": "MR02/20261003-110000Z",
+      "filesChecked": 7,
+      "declaredRunId": "20261003-110000Z"
+    },
+    {
+      "manifest": "MR03-atomic-launch-reservation/20261003-320000Z/manifest.json",
+      "package": "MR03-atomic-launch-reservation/20261003-320000Z",
+      "filesChecked": 19,
+      "declaredRunId": "20261003-320000Z"
+    },
+    {
+      "manifest": "MR03-default-instance-boundary/20261003-250000Z/manifest.json",
+      "package": "MR03-default-instance-boundary/20261003-250000Z",
+      "filesChecked": 21,
+      "declaredRunId": "20261003-250000Z"
+    },
+    {
+      "manifest": "MR03-deterministic-atomicity-red/20261003-330000Z/manifest.json",
+      "package": "MR03-deterministic-atomicity-red/20261003-330000Z",
+      "filesChecked": 12,
+      "declaredRunId": "20261003-330000Z"
+    },
+    {
+      "manifest": "MR03-instance-running-guard/20261003-060000Z/manifest.json",
+      "package": "MR03-instance-running-guard/20261003-060000Z",
+      "filesChecked": 12,
+      "declaredRunId": "20261003-060000Z"
+    },
+    {
+      "manifest": "MR03-launch-concurrency-guard/20261003-310000Z/manifest.json",
+      "package": "MR03-launch-concurrency-guard/20261003-310000Z",
+      "filesChecked": 19,
+      "declaredRunId": "20261003-310000Z"
+    },
+    {
+      "manifest": "MR03-remove-from-list/20261002-190000Z/manifest.json",
+      "package": "MR03-remove-from-list/20261002-190000Z",
+      "filesChecked": 12,
+      "declaredRunId": "20261002-190000Z"
+    },
+    {
+      "manifest": "MR03-world-backup-scope-fix/20261003-500000Z/manifest.json",
+      "package": "MR03-world-backup-scope-fix/20261003-500000Z",
+      "filesChecked": 15,
+      "declaredRunId": "20261003-500000Z"
+    },
+    {
+      "manifest": "MR04-locked-file-hash-fix/20261003-230000Z/manifest.json",
+      "package": "MR04-locked-file-hash-fix/20261003-230000Z",
+      "filesChecked": 12,
+      "declaredRunId": "20261003-230000Z"
+    },
+    {
+      "manifest": "MR04-recoverable-mod-delete/20261002-193000Z/manifest.json",
+      "package": "MR04-recoverable-mod-delete/20261002-193000Z",
+      "filesChecked": 11,
+      "declaredRunId": "20261002-193000Z"
+    },
+    {
+      "manifest": "MR04-recovery-edge-cases/20261003-220000Z/manifest.json",
+      "package": "MR04-recovery-edge-cases/20261003-220000Z",
+      "filesChecked": 16,
+      "declaredRunId": "20261003-220000Z"
+    },
+    {
+      "manifest": "MR05-dependency-install-tests/20261003-210000Z/manifest.json",
+      "package": "MR05-dependency-install-tests/20261003-210000Z",
+      "filesChecked": 13,
+      "declaredRunId": "20261003-210000Z"
+    },
+    {
+      "manifest": "MR05-file-in-use/20261003-440000Z/manifest.json",
+      "package": "MR05-file-in-use/20261003-440000Z",
+      "filesChecked": 12,
+      "declaredRunId": "20261003-440000Z"
+    },
+    {
+      "manifest": "MR05-mod-replacement-transaction/20261002-201500Z/manifest.json",
+      "package": "MR05-mod-replacement-transaction/20261002-201500Z",
+      "filesChecked": 12,
+      "declaredRunId": "20261002-201500Z"
+    },
+    {
+      "manifest": "MR05-modcontent-update-wiring-tests/20261003-200000Z/manifest.json",
+      "package": "MR05-modcontent-update-wiring-tests/20261003-200000Z",
+      "filesChecked": 10,
+      "declaredRunId": "20261003-200000Z"
+    },
+    {
+      "manifest": "MR05-recovery-version-display/20261003-410000Z/manifest.json",
+      "package": "MR05-recovery-version-display/20261003-410000Z",
+      "filesChecked": 15,
+      "declaredRunId": "20261003-410000Z"
+    },
+    {
+      "manifest": "MR05-recovery-version-display/20261003-430000Z/manifest.json",
+      "package": "MR05-recovery-version-display/20261003-430000Z",
+      "filesChecked": 10,
+      "declaredRunId": "20261003-430000Z"
+    },
+    {
+      "manifest": "MR05-replace-version-metadata/20261003-420000Z/manifest.json",
+      "package": "MR05-replace-version-metadata/20261003-420000Z",
+      "filesChecked": 9,
+      "declaredRunId": "20261003-420000Z"
+    },
+    {
+      "manifest": "MR06-bisect-file-operation-failures/20261002-211500Z/manifest.json",
+      "package": "MR06-bisect-file-operation-failures/20261002-211500Z",
+      "filesChecked": 13,
+      "declaredRunId": "20261002-211500Z"
+    },
+    {
+      "manifest": "MR06-bisect-smoke-fault-injection/20261003-240000Z/manifest.json",
+      "package": "MR06-bisect-smoke-fault-injection/20261003-240000Z",
+      "filesChecked": 15,
+      "declaredRunId": "20261003-240000Z"
+    },
+    {
+      "manifest": "MR07-bisect-restart-recovery/20261002-223000Z/manifest.json",
+      "package": "MR07-bisect-restart-recovery/20261002-223000Z",
+      "filesChecked": 14,
+      "declaredRunId": "20261002-223000Z"
+    },
+    {
+      "manifest": "MR07-bisect-safety-guidance/20261003-450000Z/manifest.json",
+      "package": "MR07-bisect-safety-guidance/20261003-450000Z",
+      "filesChecked": 12,
+      "declaredRunId": "20261003-450000Z"
+    },
+    {
+      "manifest": "MR08-diagnostic-report-history/20261002-234500Z/manifest.json",
+      "package": "MR08-diagnostic-report-history/20261002-234500Z",
+      "filesChecked": 14,
+      "declaredRunId": "20261002-234500Z"
+    },
+    {
+      "manifest": "MR09-case-set-representativeness/20261003-280000Z/manifest.json",
+      "package": "MR09-case-set-representativeness/20261003-280000Z",
+      "filesChecked": 12,
+      "declaredRunId": "20261003-280000Z"
+    },
+    {
+      "manifest": "MR09-diagnostic-benchmark/20261003-010000Z/manifest.json",
+      "package": "MR09-diagnostic-benchmark/20261003-010000Z",
+      "filesChecked": 13,
+      "declaredRunId": "20261003-010000Z"
+    },
+    {
+      "manifest": "MR10-progress-gate-assessment/20261003-120000Z/manifest.json",
+      "package": "MR10-progress-gate-assessment/20261003-120000Z",
+      "filesChecked": 8,
+      "declaredRunId": "20261003-120000Z"
+    },
+    {
+      "manifest": "MR11-mrpack-spec-import-rollback/20261003-023000Z/manifest.json",
+      "package": "MR11-mrpack-spec-import-rollback/20261003-023000Z",
+      "filesChecked": 18,
+      "declaredRunId": "20261003-023000Z"
+    },
+    {
+      "manifest": "MR12-curseforge-rate-limit/20261003-043000Z/manifest.json",
+      "package": "MR12-curseforge-rate-limit/20261003-043000Z",
+      "filesChecked": 10,
+      "declaredRunId": "20261003-043000Z"
+    },
+    {
+      "manifest": "MR12-outbound-endpoint-audit/20261003-270000Z/manifest.json",
+      "package": "MR12-outbound-endpoint-audit/20261003-270000Z",
+      "filesChecked": 13,
+      "declaredRunId": "20261003-270000Z"
+    },
+    {
+      "manifest": "MR17-accessibility-keyboard/20261003-100000Z/manifest.json",
+      "package": "MR17-accessibility-keyboard/20261003-100000Z",
+      "filesChecked": 20,
+      "declaredRunId": "20261003-100000Z"
+    },
+    {
+      "manifest": "MR17-fixture-isolation-audit/20261003-370000Z/manifest.json",
+      "package": "MR17-fixture-isolation-audit/20261003-370000Z",
+      "filesChecked": 8,
+      "declaredRunId": "20261003-370000Z"
+    },
+    {
+      "manifest": "MR17-fixture-isolation-audit/20261003-380000Z/manifest.json",
+      "package": "MR17-fixture-isolation-audit/20261003-380000Z",
+      "filesChecked": 15,
+      "declaredRunId": "20261003-380000Z"
+    },
+    {
+      "manifest": "MR17-fixture-isolation-audit/20261003-390000Z/manifest.json",
+      "package": "MR17-fixture-isolation-audit/20261003-390000Z",
+      "filesChecked": 9,
+      "declaredRunId": "20261003-390000Z"
+    },
+    {
+      "manifest": "MR17-makeel-doubles-and-taborder/20261003-400000Z/manifest.json",
+      "package": "MR17-makeel-doubles-and-taborder/20261003-400000Z",
+      "filesChecked": 20,
+      "declaredRunId": "20261003-400000Z"
+    },
+    {
+      "manifest": "MR17-test-isolation-real-appdata/20261003-360000Z/manifest.json",
+      "package": "MR17-test-isolation-real-appdata/20261003-360000Z",
+      "filesChecked": 8,
+      "declaredRunId": "20261003-360000Z"
+    },
+    {
+      "manifest": "MR19-ci-workflow-invariants/20261003-260000Z/manifest.json",
+      "package": "MR19-ci-workflow-invariants/20261003-260000Z",
+      "filesChecked": 14,
+      "declaredRunId": "20261003-260000Z"
+    },
+    {
+      "manifest": "MR19-dll-byte-diff-mechanism/20261003-340000Z/manifest.json",
+      "package": "MR19-dll-byte-diff-mechanism/20261003-340000Z",
+      "filesChecked": 8,
+      "declaredRunId": "20261003-340000Z"
+    },
+    {
+      "manifest": "MR19-managed-assembly-pathcheck/20261003-180000Z/manifest.json",
+      "package": "MR19-managed-assembly-pathcheck/20261003-180000Z",
+      "filesChecked": 13,
+      "declaredRunId": "20261003-180000Z"
+    },
+    {
+      "manifest": "MR19-reproducible-build-rid/20261003-070000Z/manifest.json",
+      "package": "MR19-reproducible-build-rid/20261003-070000Z",
+      "filesChecked": 9,
+      "declaredRunId": "20261003-070000Z"
+    },
+    {
+      "manifest": "MR19-singlefile-pathcheck/20261003-160000Z/manifest.json",
+      "package": "MR19-singlefile-pathcheck/20261003-160000Z",
+      "filesChecked": 13,
+      "declaredRunId": "20261003-160000Z"
+    },
+    {
+      "manifest": "MR19-singlefile-pathlen-discriminator/20261003-170000Z/manifest.json",
+      "package": "MR19-singlefile-pathlen-discriminator/20261003-170000Z",
+      "filesChecked": 11,
+      "declaredRunId": "20261003-170000Z"
+    },
+    {
+      "manifest": "MR19-singlefile-reproducibility/20261003-150000Z/manifest.json",
+      "package": "MR19-singlefile-reproducibility/20261003-150000Z",
+      "filesChecked": 12,
+      "declaredRunId": "20261003-150000Z"
+    },
+    {
+      "manifest": "MR20-config-backup-rotation/20261003-480000Z/manifest.json",
+      "package": "MR20-config-backup-rotation/20261003-480000Z",
+      "filesChecked": 13,
+      "declaredRunId": "20261003-480000Z"
+    },
+    {
+      "manifest": "MR20-config-preservation/20261003-350000Z/manifest.json",
+      "package": "MR20-config-preservation/20261003-350000Z",
+      "filesChecked": 13,
+      "declaredRunId": "20261003-350000Z"
+    },
+    {
+      "manifest": "MR20-secret-persistence-contract/20261003-490000Z/manifest.json",
+      "package": "MR20-secret-persistence-contract/20261003-490000Z",
+      "filesChecked": 13,
+      "declaredRunId": "20261003-490000Z"
+    },
+    {
+      "manifest": "MR20-self-update-recovery/20261003-080000Z/manifest.json",
+      "package": "MR20-self-update-recovery/20261003-080000Z",
+      "filesChecked": 13,
+      "declaredRunId": "20261003-080000Z"
+    },
+    {
+      "manifest": "MR21-install-launch-perf-baseline/20261003-090000Z/manifest.json",
+      "package": "MR21-install-launch-perf-baseline/20261003-090000Z",
+      "filesChecked": 23,
+      "declaredRunId": "20261003-090000Z"
+    },
+    {
+      "manifest": "MR21-startup-boundaries/20261003-290000Z/manifest.json",
+      "package": "MR21-startup-boundaries/20261003-290000Z",
+      "filesChecked": 13,
+      "declaredRunId": "20261003-290000Z"
+    },
+    {
+      "manifest": "MR21-unwritable-directory/20261003-300000Z/manifest.json",
+      "package": "MR21-unwritable-directory/20261003-300000Z",
+      "filesChecked": 16,
+      "declaredRunId": "20261003-300000Z"
+    },
+    {
+      "manifest": "W1-W3-route-closure/20261002-182304Z/manifest.json",
+      "package": "W1-W3-route-closure/20261002-182304Z",
+      "filesChecked": 25,
+      "declaredRunId": "20261002-182304Z"
+    }
+  ]
+}

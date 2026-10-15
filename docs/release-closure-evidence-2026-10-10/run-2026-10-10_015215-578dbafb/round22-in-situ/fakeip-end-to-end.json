@@ -1,0 +1,14 @@
+﻿[
+    {
+        "newsFakeIpCompat":  true,
+        "idPrefix":  "2a43e476ad90",
+        "raw":  "|HTTP=200|BYTES=30494",
+        "downloadedTo":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\fakeip-img-True.bin"
+    },
+    {
+        "newsFakeIpCompat":  false,
+        "idPrefix":  "2a43e476ad90",
+        "raw":  "|HTTP=200|BYTES=30494",
+        "downloadedTo":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\fakeip-img-False.bin"
+    }
+]

@@ -1,0 +1,242 @@
+{
+  "generatedAt": "2026-10-12T17:23:27.148Z",
+  "app": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-beddbf1a7ed6418ba3be424800e35eaa\\dev\\PineglowLauncher\\bin\\Release\\net10.0\\win-x64\\publish\\Pineglow.Launcher.exe",
+  "workDir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\松光 界面九页 T45f67",
+  "apiPort": 63278,
+  "debugPort": 63279,
+  "views": {
+    "home": {
+      "ok": true,
+      "outcome": "ok",
+      "settleMs": 820,
+      "imagesMs": 1,
+      "imagesTotal": 0,
+      "imagesLoaded": 0,
+      "imageSlots": 0,
+      "pendingSlots": 0,
+      "activeNav": "home",
+      "exists": true,
+      "textLen": 126,
+      "sample": "PINEGLOW · JAVA EDITION 回到你的方块世界。 熟悉的存档，新的冒险。选好实例，下一段旅程从这里开始。 0s 总游玩时长 0 次游玩 1 个实例 当前版本 默认游戏 · — 开始游戏 Java 版 1 个实例可用 最新资",
+      "screenshot": "D:\\松光启动器\\docs\\current-version-audit-2026-10-13\\baseline-ui-shots\\home.png",
+      "screenshotBytes": 379279
+    },
+    "installations": {
+      "ok": true,
+      "outcome": "ok",
+      "settleMs": 38,
+      "imagesMs": 1,
+      "imagesTotal": 0,
+      "imagesLoaded": 0,
+      "imageSlots": 0,
+      "pendingSlots": 0,
+      "activeNav": "installations",
+      "exists": true,
+      "textLen": 86,
+      "sample": "你的游戏实例 每个世界，都有自己的版本与模组。 全部版本 模组版 快照版 从已有目录添加 新建实例 默 默认游戏 Vanilla Minecraft — · 从未游玩 启动",
+      "screenshot": "D:\\松光启动器\\docs\\current-version-audit-2026-10-13\\baseline-ui-shots\\installations.png",
+      "screenshotBytes": 75788
+    },
+    "worlds": {
+      "ok": true,
+      "outcome": "ok",
+      "settleMs": 413,
+      "imagesMs": 5,
+      "imagesTotal": 0,
+      "imagesLoaded": 0,
+      "imageSlots": 0,
+      "pendingSlots": 0,
+      "activeNav": "worlds",
+      "exists": true,
+      "textLen": 37,
+      "sample": "世界 你所有实例中的单人存档 🗺️ 还没有存档，进入游戏创建一个世界吧。",
+      "screenshot": "D:\\松光启动器\\docs\\current-version-audit-2026-10-13\\baseline-ui-shots\\worlds.png",
+      "screenshotBytes": 54407
+    },
+    "servers": {
+      "ok": true,
+      "outcome": "ok",
+      "settleMs": 408,
+      "imagesMs": 1,
+      "imagesTotal": 0,
+      "imagesLoaded": 0,
+      "imageSlots": 0,
+      "pendingSlots": 0,
+      "activeNav": "servers",
+      "exists": true,
+      "textLen": 41,
+      "sample": "服务器 你收藏的多人服务器 添加服务器 🖥️ 还没有添加服务器，点击右上角添加。",
+      "screenshot": "D:\\松光启动器\\docs\\current-version-audit-2026-10-13\\baseline-ui-shots\\servers.png",
+      "screenshotBytes": 59081
+    },
+    "content": {
+      "ok": false,
+      "outcome": "external-pending",
+      "settleMs": 45397,
+      "imagesMs": 1,
+      "imagesTotal": 0,
+      "imagesLoaded": 0,
+      "imageSlots": 0,
+      "pendingSlots": 0,
+      "activeNav": "content",
+      "exists": true,
+      "textLen": 183,
+      "sample": "内容中心 搜索并安装模组、整合包、光影与资源包 Modrinth CurseForge 模组 整合包 光影 资源包 默认游戏 · ! 不知道这样的主机。 (api.modrinth.com:443) (/api/content/search",
+      "screenshot": "D:\\松光启动器\\docs\\current-version-audit-2026-10-13\\baseline-ui-shots\\content.png",
+      "screenshotBytes": 85886
+    },
+    "skins": {
+      "ok": true,
+      "outcome": "ok",
+      "settleMs": 207,
+      "imagesMs": 74,
+      "imagesTotal": 0,
+      "imagesLoaded": 0,
+      "imageSlots": 0,
+      "pendingSlots": 0,
+      "activeNav": "skins",
+      "exists": true,
+      "textLen": 121,
+      "sample": "当前使用的皮肤 皮肤图片加载失败，已显示配色模型 拖拽旋转 · 滚轮缩放 重置视角 暂停旋转 Player 的皮肤 经典模型 模型 经典模型 Slim / Alex 模型 上传皮肤文件 浏览资源库 已保存皮肤（0） 当前账户没有已保存的皮肤",
+      "screenshot": "D:\\松光启动器\\docs\\current-version-audit-2026-10-13\\baseline-ui-shots\\skins.png",
+      "screenshotBytes": 77227
+    },
+    "downloads": {
+      "ok": false,
+      "outcome": "external-pending",
+      "settleMs": 45067,
+      "imagesMs": 1,
+      "imagesTotal": 0,
+      "imagesLoaded": 0,
+      "imageSlots": 0,
+      "pendingSlots": 0,
+      "activeNav": "downloads",
+      "exists": true,
+      "textLen": 61,
+      "sample": "下载 下载 Minecraft 版本并查看进度 可用版本 正式版 快照 全部 暂无可下载版本 下载任务 📥 暂无下载任务",
+      "screenshot": "D:\\松光启动器\\docs\\current-version-audit-2026-10-13\\baseline-ui-shots\\downloads.png",
+      "screenshotBytes": 63930
+    },
+    "news": {
+      "ok": false,
+      "outcome": "external-pending",
+      "settleMs": 45067,
+      "imagesMs": 1,
+      "imagesTotal": 0,
+      "imagesLoaded": 0,
+      "imageSlots": 0,
+      "pendingSlots": 0,
+      "activeNav": "news",
+      "exists": true,
+      "textLen": 80,
+      "sample": "新闻 Minecraft 官方动态与公告 刷新 加载失败 · 最后验证 1-01-01 ⚠️ 新闻加载失败，请检查网络后重试。 网络错误，无法连接官方源。 重试",
+      "screenshot": "D:\\松光启动器\\docs\\current-version-audit-2026-10-13\\baseline-ui-shots\\news.png",
+      "screenshotBytes": 64282
+    },
+    "settings": {
+      "ok": true,
+      "outcome": "ok",
+      "settleMs": 55,
+      "imagesMs": 2,
+      "imagesTotal": 0,
+      "imagesLoaded": 0,
+      "imageSlots": 0,
+      "pendingSlots": 0,
+      "activeNav": "settings",
+      "exists": true,
+      "textLen": 568,
+      "sample": "JAVA / 系统分配 内存分配 调整分配给 Minecraft 进程的内存上限，推荐默认 4GB。 4.0 GB 自动内存分配 让启动器根据你的系统自动选择合适的内存大小。 Java 运行时路径 使用内置 Java 运行环境或指定自定义路",
+      "screenshot": "D:\\松光启动器\\docs\\current-version-audit-2026-10-13\\baseline-ui-shots\\settings.png",
+      "screenshotBytes": 130019
+    }
+  },
+  "exceptions": [],
+  "consoleErrors": [],
+  "externalPending": [
+    {
+      "view": "content",
+      "settleMs": 45397,
+      "sample": "内容中心 搜索并安装模组、整合包、光影与资源包 Modrinth CurseForge 模组 整合包 光影 资源包 默认游戏 · ! 不知道这样的主机。 (api.modrinth.com:443) (/api/content/search"
+    },
+    {
+      "view": "downloads",
+      "settleMs": 45067,
+      "sample": "下载 下载 Minecraft 版本并查看进度 可用版本 正式版 快照 全部 暂无可下载版本 下载任务 📥 暂无下载任务"
+    },
+    {
+      "view": "news",
+      "settleMs": 45067,
+      "sample": "新闻 Minecraft 官方动态与公告 刷新 加载失败 · 最后验证 1-01-01 ⚠️ 新闻加载失败，请检查网络后重试。 网络错误，无法连接官方源。 重试"
+    }
+  ],
+  "imagesPending": [],
+  "productLocalFailures": [
+    {
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+      "url": "http://127.0.0.1:63278/api/versions/remote"
+    }
+  ],
+  "uiAssetFailures": [],
+  "newsImageProxyFailures": [],
+  "contentIconFailures": [],
+  "skinImageFailures": [
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "url": "http://127.0.0.1:63278/api/accounts/8369bcb2d1e544cf8b368240067c0009/skin-image?token=[REDACTED]"
+    }
+  ],
+  "cosmeticFailures": [
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "url": "http://127.0.0.1:63278/favicon.ico"
+    }
+  ],
+  "proxyTimeoutFailures": [
+    {
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)",
+      "url": "http://127.0.0.1:63278/api/content/search?q=sodium&category=mod&source=modrinth&gameVersion=&loader="
+    }
+  ],
+  "externalNetworkFailures": [],
+  "apiFailureBodies": [
+    {
+      "url": "http://127.0.0.1:63278/api/accounts/8369bcb2d1e544cf8b368240067c0009/skin-image?token=[REDACTED]",
+      "status": 404,
+      "body": "{\"error\":\"\\u8BE5\\u8D26\\u53F7\\u6CA1\\u6709\\u76AE\\u80A4\"}"
+    },
+    {
+      "url": "http://127.0.0.1:63278/api/versions/remote",
+      "status": 500,
+      "body": "{\"error\":\"\\u65E0\\u6CD5\\u8FDE\\u63A5 Minecraft \\u7248\\u672C\\u4E0B\\u8F7D\\u6E90\\uFF0C\\u5DF2\\u81EA\\u52A8\\u5C1D\\u8BD5\\u5B98\\u65B9\\u548C\\u955C\\u50CF\\u5730\\u5740\\u3002\\u8BF7\\u68C0\\u67E5\\u7F51\\u7EDC\\u540E\\u91C"
+    }
+  ],
+  "problems": [
+    "无法归类的本机接口失败 1 个（按 fail-closed 记为产品问题）"
+  ],
+  "verdict": "FAIL",
+  "options": {
+    "fakeIpCompat": false,
+    "settleSec": 45
+  },
+  "sessionTokenPresent": true,
+  "cdpTargetUrl": "http://127.0.0.1:63278/?v=20261013012328",
+  "remoteVersionsProbe": {
+    "status": 500,
+    "ms": 11346
+  },
+  "summary": {
+    "views": 9,
+    "okViews": 6,
+    "externalPending": 3,
+    "exceptions": 0,
+    "consoleErrors": 0,
+    "uiAssetFailures": 0,
+    "productLocalFailures": 1,
+    "newsImageProxyFailures": 0,
+    "contentIconFailures": 0,
+    "skinImageFailures": 1,
+    "proxyTimeoutFailures": 1,
+    "cosmeticFailures": 1,
+    "externalNetworkFailures": 0
+  }
+}

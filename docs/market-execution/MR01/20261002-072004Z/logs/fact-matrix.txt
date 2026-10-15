@@ -1,0 +1,205 @@
+
+########## 1. 服务类清单 ##########
+  AccountService.cs                          class=AccountService                     publicMethods=9
+  AiDiagnoseService.cs                       class=AiDiagnoseService                  publicMethods=14
+  AiEndpointPolicy.cs                        class=AiEndpointPolicy                   publicMethods=3
+  AiHttpClientFactory.cs                     class=AiHttpClientFactory                publicMethods=2
+  AiOperationRegistry.cs                     class=AiOperationRegistry                publicMethods=7
+  AuthClientOptions.cs                       class=AuthClientOptions                  publicMethods=2
+  AuthlibAccount.cs                          class=                                   publicMethods=1
+  AuthlibInjectorService.cs                  class=AuthlibInjectorService             publicMethods=3
+  ConfigStore.cs                             class=ConfigStore                        publicMethods=2
+  ContentIconResult.cs                       class=IconResult                         publicMethods=4
+  ContentIconService.cs                      class=ContentIconService                 publicMethods=19
+  CrashAnalysis.cs                           class=                                   publicMethods=1
+  CrashAnalyzerService.cs                    class=CrashAnalyzerService               publicMethods=2
+  DeviceCodeInfo.cs                          class=DeviceCodeInfo                     publicMethods=0
+  DiagnosticSnapshotService.cs               class=DiagnosticContextFactory           publicMethods=5
+  DownloadTaskStatus.cs                      class=DownloadTaskStatus                 publicMethods=4
+  EnumerableExtensions.cs                    class=EnumerableExtensions               publicMethods=0
+  FabricService.cs                           class=FabricService                      publicMethods=8
+  ForgeService.cs                            class=ForgeService                       publicMethods=0
+  InstallerLoaderService.cs                  class=InstallerLoaderService             publicMethods=3
+  InstanceIsolationService.cs                class=InstanceIsolationService           publicMethods=3
+  InstancePackService.cs                     class=InstancePackService                publicMethods=9
+  InstanceService.cs                         class=InstanceService                    publicMethods=5
+  JavaInfo.cs                                class=JavaInfo                           publicMethods=0
+  JavaLocator.cs                             class=JavaLocator                        publicMethods=7
+  JavaRuntimeProgress.cs                     class=                                   publicMethods=1
+  JavaRuntimeService.cs                      class=JavaRuntimeService                 publicMethods=1
+  JavaVersionMatcher.cs                      class=JavaVersionMatcher                 publicMethods=3
+  JsonUtil.cs                                class=JsonUtil                           publicMethods=4
+  LaunchCommand.cs                           class=LaunchCommand                      publicMethods=2
+  LauncherLog.cs                             class=LauncherLog                        publicMethods=7
+  LauncherService.cs                         class=LauncherService                    publicMethods=3
+  LoaderInstallHelper.cs                     class=LoaderInstallHelper                publicMethods=12
+  LocalApiService.cs                         class=LocalApiService                    publicMethods=5
+  MemoryAllocationService.cs                 class=MemoryAllocationService            publicMethods=5
+  MemoryRecommendation.cs                    class=                                   publicMethods=1
+  MicrosoftAuthService.cs                    class=MicrosoftAuthService               publicMethods=10
+  MicrosoftBrowserAuthorizationException.cs  class=MicrosoftBrowserAuthorizationException publicMethods=0
+  MicrosoftBrowserAuthorizationService.cs    class=MicrosoftBrowserAuthorizationService publicMethods=3
+  MicrosoftOAuthToken.cs                     class=MicrosoftOAuthToken                publicMethods=0
+  MicrosoftReauthenticationRequiredException.cs class=MicrosoftReauthenticationRequiredException publicMethods=0
+  MinecraftAccount.cs                        class=MinecraftAccount                   publicMethods=0
+  MinecraftAppearance.cs                     class=MinecraftAppearance                publicMethods=0
+  MinecraftAppRegistrationRequiredException.cs class=MinecraftAppRegistrationRequiredException publicMethods=0
+  MinecraftDownloader.cs                     class=MinecraftDownloader                publicMethods=3
+  MinecraftDownloadProgress.cs               class=                                   publicMethods=1
+  MinecraftNewsService.cs                    class=MinecraftNewsItem                  publicMethods=9
+  MinecraftServerStatus.cs                   class=MinecraftServerStatus              publicMethods=0
+  MinecraftUtils.cs                          class=MinecraftUtils                     publicMethods=3
+  MinecraftVersion.cs                        class=MinecraftVersion                   publicMethods=0
+  MirrorHelper.cs                            class=DownloadSourceInfo                 publicMethods=6
+  ModBisectService.cs                        class=ModBisectSession                   publicMethods=7
+  ModContentService.cs                       class=ModContentService                  publicMethods=5
+  ModHealthService.cs                        class=ModHealthService                   publicMethods=1
+  ModpackLifecycleService.cs                 class=ModpackLifecycleService            publicMethods=4
+  ModrinthModpackService.cs                  class=ModrinthModpackService             publicMethods=4
+  ModSearchQueryResolver.cs                  class=ModSearchQueryResolver             publicMethods=2
+  ModService.cs                              class=ModService                         publicMethods=8
+  NeoForgeService.cs                         class=NeoForgeService                    publicMethods=0
+  NewsEndpointPolicy.cs                      class=NewsEndpointPolicy                 publicMethods=3
+  NewsImageProxyService.cs                   class=NewsImageException                 publicMethods=11
+  NewsLinkService.cs                         class=NewsLinkService                    publicMethods=5
+  PlatformPaths.cs                           class=PlatformPaths                      publicMethods=6
+  QuiltService.cs                            class=QuiltService                       publicMethods=4
+  ResourceContentService.cs                  class=ResourceContentService             publicMethods=3
+  ResourcePackService.cs                     class=ResourcePackService                publicMethods=5
+  RulesEvaluator.cs                          class=RulesEvaluator                     publicMethods=1
+  SaveBackupService.cs                       class=SaveBackupService                  publicMethods=6
+  SaveService.cs                             class=SaveService                        publicMethods=5
+  SecretStore.cs                             class=SecretStore                        publicMethods=4
+  ServerPingService.cs                       class=ServerPingService                  publicMethods=3
+  ShaderPackService.cs                       class=ShaderPackService                  publicMethods=5
+  SkinImageProxyService.cs                   class=SkinImageProxyService              publicMethods=6
+  UpdateService.cs                           class=UpdateService                      publicMethods=4
+  VersionFilter.cs                           class=VersionFilter                      publicMethods=1
+  VersionResolver.cs                         class=VersionResolver                    publicMethods=4
+  服务文件总数: 76
+
+########## 2. API 路由（LocalApiService 注册处）##########
+  唯一 /api 路径片段数: 10
+  handler 方法数: 61
+    HandleAccountSkinImageAsync
+    HandleAddOfflineAccountAsync
+    HandleAddServerAsync
+    HandleApiAsync
+    HandleApplyUpdateAsync
+    HandleAuthlibLoginAsync
+    HandleBisectGiveUpAsync
+    HandleBisectStartAsync
+    HandleBisectTestAsync
+    HandleCancelDiagnoseAsync
+    HandleCheckUpdateAsync
+    HandleContentIconAsync
+    HandleContentInstallAsync
+    HandleCreateInstanceAsync
+    HandleCreateSaveBackupAsync
+    HandleDeleteAccountAsync
+    HandleDeleteInstanceAsync
+    HandleDeleteModAsync
+    HandleDeleteSaveAsync
+    HandleDeleteServerAsync
+    HandleDiagnoseInstanceAsync
+    HandleDownloadVersionAsync
+    HandleGetStateAsync
+    HandleGetStatsAsync
+    HandleImportInstanceAsync
+    HandleInstanceDetailAsync
+    HandleLaunchAsync
+    HandleListAccountsAsync
+    HandleListContentTasksAsync
+    HandleListDownloadsAsync
+    HandleListInstancesAsync
+    HandleListJavaAsync
+    HandleListModsAsync
+    HandleListNewsAsync
+    HandleListRemoteVersionsAsync
+    HandleListResourcePacksAsync
+    HandleListSaveBackupsAsync
+    HandleListSavesAsync
+    HandleListServersAsync
+    HandleListShaderPacksAsync
+    HandleListSourcesAsync
+    HandleListVersionsAsync
+    HandleListWorldsAsync
+    HandleMicrosoftDevicePollAsync
+    HandleMicrosoftDeviceStartAsync
+    HandleMicrosoftLoginAsync
+    HandleNewsImageAsync
+    HandleNewsOpenAsync
+    HandleOpenSaveDirectoryAsync
+    HandlePingServerAsync
+    HandlePrelaunchCheckAsync
+    HandleRefreshSkinAsync
+    HandleRestoreSaveBackupAsync
+    HandleSearchContentAsync
+    HandleSelectAccountAsync
+    HandleSelectSourceAsync
+    HandleStartUpdateDownloadAsync
+    HandleToggleModAsync
+    HandleUpdateConfigAsync
+    HandleUpdateStatusAsync
+    HandleUploadSkinAsync
+
+########## 3. UI 与 i18n ##########
+  ui\css\figma.css                                  46892 bytes
+  ui\index.html                                      6511 bytes
+  ui\js\api.js                                      58971 bytes
+  ui\js\i18n.js                                     48067 bytes
+  ui\js\launcher.js                                177807 bytes
+  ui\js\skin3d.js                                   10589 bytes
+  ui\js\skin3d-core.js                               2262 bytes
+  ui\tests\_run.js                                    921 bytes
+  i18n.js 中形如 key:value 的条目数(近似): 0
+  语言区块: zh: { | en: {
+
+########## 4. C# 测试（按文件：Fact/Theory 数）##########
+  AiCancelAndRedirectTests.cs                    [Fact]=24   [Theory]=2
+  AiDiagnoseReleaseSafetyTests.cs                [Fact]=33   [Theory]=3
+  AiDiagnoseServiceTests.cs                      [Fact]=12   [Theory]=0
+  AiDispatchMetadataTests.cs                     [Fact]=10   [Theory]=0
+  ContentIconServiceTests.cs                     [Fact]=130  [Theory]=10
+  CrashAnalyzerServiceTests.cs                   [Fact]=6    [Theory]=0
+  DiagnosticSnapshotServiceTests.cs              [Fact]=5    [Theory]=0
+  DownloadResumeTests.cs                         [Fact]=0    [Theory]=0
+  InstanceIsolationServiceTests.cs               [Fact]=10   [Theory]=1
+  JavaVersionMatcherTests.cs                     [Fact]=5    [Theory]=3
+  LocalApiServiceTestCollection.cs               [Fact]=0    [Theory]=0
+  MemoryAllocationServiceTests.cs                [Fact]=3    [Theory]=4
+  MicrosoftAuthServiceTests.cs                   [Fact]=6    [Theory]=0
+  MinecraftNewsServiceTests.cs                   [Fact]=24   [Theory]=1
+  ModBisectServiceTests.cs                       [Fact]=12   [Theory]=0
+  NewsEndpointPolicyTests.cs                     [Fact]=1    [Theory]=5
+  NewsFakeIpConfigTests.cs                       [Fact]=12   [Theory]=1
+  NewsFakeIpPolicyTests.cs                       [Fact]=13   [Theory]=0
+  NewsImageProxyServiceTests.cs                  [Fact]=17   [Theory]=2
+  NewsLinkHandlerTests.cs                        [Fact]=16   [Theory]=0
+  NewsLinkServiceTests.cs                        [Fact]=0    [Theory]=0
+  NewsR2TeredoNat64Tests.cs                      [Fact]=41   [Theory]=0
+  SecurityRegressionTests.cs                     [Fact]=7    [Theory]=2
+  SkinImageProxyServiceTests.cs                  [Fact]=3    [Theory]=3
+  C# 测试属性合计: [Fact]=390  [Theory]=37  合计=427
+
+########## 5. 正式 Node 测试文件 ##########
+  ai-diagnose.test.cjs                         93789 bytes  mtime=2026-09-25
+  api-contract.test.cjs                        28632 bytes  mtime=2026-09-25
+  content-icon.test.cjs                        15488 bytes  mtime=2026-09-05
+  launcher-behavior.test.cjs                   36926 bytes  mtime=2026-09-03
+  launcher-content.test.cjs                     9861 bytes  mtime=2026-09-03
+  launcher-v3.test.cjs                         22360 bytes  mtime=2026-09-04
+  launcher-v4.test.cjs                         41927 bytes  mtime=2026-09-04
+  launcher-v5.test.cjs                         35552 bytes  mtime=2026-09-04
+  news-behavior.test.cjs                       32145 bytes  mtime=2026-09-07
+  news-link.test.cjs                           25360 bytes  mtime=2026-09-10
+  skin3d-core.test.cjs                          1917 bytes  mtime=2026-08-31
+  正式 .test.cjs 数量: 11
+
+########## 6. 关键缺口指针（供 MR01 引用）##########
+  mrpack 导入            命中   5 处  e.g. InstancePackService.cs:36, InstancePackService.cs:274, LocalApiService.cs:1091, LocalApiService.cs:1094
+  实例移除                 命中   2 处  e.g. LocalApiService.cs:421, LocalApiService.cs:1045
+  Mod 删除               命中   1 处  e.g. ModService.cs:97
+  Bisect 禁用/恢复         命中   6 处  e.g. LocalApiService.cs:1829, LocalApiService.cs:1886, LocalApiService.cs:1902, LocalApiService.cs:1924
+  UpdateService        命中   7 处  e.g. LocalApiService.cs:664, LocalApiService.cs:2860, LocalApiService.cs:2897, LocalApiService.cs:2913
+  加载器枚举                命中   0 处  e.g. 

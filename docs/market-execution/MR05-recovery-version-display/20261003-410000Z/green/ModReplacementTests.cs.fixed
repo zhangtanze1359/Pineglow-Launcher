@@ -1,0 +1,495 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
+using Pineglow.Launcher.Models;
+using Pineglow.Launcher.Services;
+using Xunit;
+using Xunit.Abstractions;
+
+namespace Pineglow.Launcher.Tests;
+
+/// <summary>
+/// MR05：Mod 替换/更新的可撤销事务。
+///
+/// 被测契约：
+///   1. 更新同名 Mod 是**原地替换**，不再在旧版本旁边生成 "xxx (1).jar" 副本；
+///   2. 新包 SHA256 校验通过之前**不碰旧文件**；校验失败/暂存缺失时旧文件逐字节不变；
+///   3. 提交阶段（写入、侧车）任何一步失败都必须回滚到旧版本，旧 jar 与侧车 SHA 一致；
+///   4. 旧文件处于禁用态（<c>.jar.disabled</c>）时，新版本保持禁用；
+///   5. 同一目标并发替换被拒绝；
+///   6. 撤销：对替换产生的 operationId 传 <c>overwrite=true</c> 可把旧版本按原 SHA 恢复。
+///
+/// 恢复区由 <see cref="LocalApiTestHarness"/> 重定向到临时目录，真实 %APPDATA% 不被触碰。
+/// </summary>
+[Collection("LocalApiService")]
+public class ModReplacementTests
+{
+	private const string OldJar = "OLD-JAR-CONTENT-v1";
+	private const string NewJar = "NEW-JAR-CONTENT-v2-longer";
+	private const string OldMeta = "{\"version\":\"1.0.0\"}";
+
+	private readonly ITestOutputHelper _out;
+
+	public ModReplacementTests(ITestOutputHelper output) => _out = output;
+
+	/* ===================== 夹具 ===================== */
+
+	private sealed class Fixture : IDisposable
+	{
+		public string Root { get; }
+		public string ModsDir => Path.Combine(Root, "mods");
+		public string RecoveryRoot { get; }
+		public string InstanceId { get; } = "inst-" + Guid.NewGuid().ToString("N").Substring(0, 8);
+		public AppConfig Config { get; }
+
+		public string JarPath(string name) => Path.Combine(ModsDir, name);
+
+		public Fixture()
+		{
+			Root = Path.Combine(Path.GetTempPath(), "pineglow-mod-replace-" + Guid.NewGuid().ToString("N"));
+			RecoveryRoot = Path.Combine(Path.GetTempPath(), "pineglow-replace-recovery-" + Guid.NewGuid().ToString("N"));
+			Directory.CreateDirectory(ModsDir);
+			Directory.CreateDirectory(RecoveryRoot);
+
+			Config = new AppConfig
+			{
+				GameDirectory = Root,
+				SelectedInstanceId = InstanceId,
+				Instances = new List<GameInstance>
+				{
+					new GameInstance { Id = InstanceId, Name = "replace", GameDirectory = Root, MinecraftVersion = "1.20.4" }
+				}
+			};
+		}
+
+		public string Api(string suffix) => "/api/instances/" + InstanceId + suffix;
+
+		public void Dispose()
+		{
+			try { ModBisectService.Remove(InstanceId); } catch { }
+			try { if (Directory.Exists(Root)) Directory.Delete(Root, true); } catch { }
+			try { if (Directory.Exists(RecoveryRoot)) Directory.Delete(RecoveryRoot, true); } catch { }
+		}
+	}
+
+	private static string Sha(string path)
+	{
+		using FileStream fs = File.OpenRead(path);
+		return Convert.ToHexString(SHA256.HashData(fs));
+	}
+
+	private static string Base64(string text) => Convert.ToBase64String(Encoding.UTF8.GetBytes(text));
+
+	private static string? ExtractError(string body)
+	{
+		try
+		{
+			using JsonDocument doc = JsonDocument.Parse(body);
+			if (doc.RootElement.ValueKind == JsonValueKind.Object
+				&& doc.RootElement.TryGetProperty("error", out JsonElement el)
+				&& el.ValueKind == JsonValueKind.String)
+			{
+				return el.GetString();
+			}
+		}
+		catch { }
+		return null;
+	}
+
+	private static ModVersion Version(string projectId = "proj-1") => new ModVersion
+	{
+		Source = ModSource.Modrinth,
+		ProjectId = projectId,
+		VersionId = "ver-2",
+		FileName = "demo-2.0.0.jar",
+		DisplayName = "Demo",
+		VersionNumber = "2.0.0"
+	};
+
+	/* ===================== 1. 原地替换 + 保持禁用态 ===================== */
+
+	[Fact]
+	public async Task Replace_DisabledMod_StaysDisabled_AndOldVersionIsQuarantined()
+	{
+		using var fx = new Fixture();
+		string target = fx.JarPath("a.jar.disabled");
+		File.WriteAllText(target, OldJar);
+		string oldSha = Sha(target);
+
+		await using var h = await LocalApiTestHarness.StartAsync(fx.Config);
+
+		(int status, string body) = await h.SendAsync(HttpMethod.Post, fx.Api("/mods/a.jar.disabled/replace"),
+			new { newFileBase64 = Base64(NewJar) });
+		_out.WriteLine($"[replace-disabled] -> {status} body={body}");
+
+		Assert.Equal(200, status);
+		using (JsonDocument doc = JsonDocument.Parse(body))
+		{
+			Assert.True(doc.RootElement.GetProperty("ok").GetBoolean());
+			Assert.False(doc.RootElement.GetProperty("wasEnabled").GetBoolean(), "旧版本是禁用态，替换后必须仍为禁用");
+			Assert.Equal(oldSha, doc.RootElement.GetProperty("oldSha256").GetString());
+		}
+
+		// 原地替换：路径不变、内容变新，且没有产生 "a (1).jar.disabled" 之类的副本
+		Assert.True(File.Exists(target), "替换后仍应是同一个路径");
+		Assert.Equal(NewJar, File.ReadAllText(target));
+		Assert.Empty(Directory.GetFiles(fx.ModsDir, "* (1)*"));
+		Assert.Single(Directory.GetFiles(fx.ModsDir));
+
+		// 旧版本进了恢复区，SHA 与替换前一致
+		string? storedOld = Directory.EnumerateFiles(h.RecoveryRoot, "a.jar.disabled", SearchOption.AllDirectories).FirstOrDefault();
+		Assert.NotNull(storedOld);
+		Assert.Equal(oldSha, Sha(storedOld!));
+	}
+
+	/* ===================== A14：恢复区展示「旧版本 → 新版本」 ===================== */
+
+	/// <summary>
+	/// A14（缺口登记表）：替换/更新后，恢复区的记录必须能给出**旧版本 → 新版本**。
+	///
+	/// 数据来源：旧版本读**被隔离的侧车**（恢复区里那份），新版本读**现网侧车**。
+	/// 侧车是 <c>ModInstallMetadata</c> 形状，版本号字段是 <c>versionNumber</c>。
+	/// </summary>
+	[Fact]
+	public async Task RecoveryList_ForAReplace_ExposesOldAndNewVersion()
+	{
+		using var fx = new Fixture();
+		string target = fx.JarPath("a.jar");
+		File.WriteAllText(target, OldJar);
+		// 真实形状的旧侧车（注意：不是夹具里那个 {"version":"1.0.0"} 简写）
+		File.WriteAllText(target + ".mcmini.json",
+			"{\"source\":\"Modrinth\",\"projectId\":\"proj-1\",\"versionId\":\"ver-1\",\"versionNumber\":\"1.0.0\"}");
+
+		await using var h = await LocalApiTestHarness.StartAsync(fx.Config);
+
+		(int status, string body) = await h.SendAsync(HttpMethod.Post, fx.Api("/mods/a.jar/replace"),
+			new
+			{
+				newFileBase64 = Base64(NewJar),
+				version = new
+				{
+					source = "Modrinth",
+					projectId = "proj-1",
+					versionId = "ver-2",
+					versionNumber = "2.0.0",
+					fileName = "demo-2.0.0.jar",
+					displayName = "Demo"
+				}
+			});
+		_out.WriteLine($"[A14] replace -> {status} body={body}");
+		Assert.Equal(200, status);
+
+		(int listStatus, string listBody) = await h.SendAsync(HttpMethod.Get, fx.Api("/recovery"));
+		Assert.Equal(200, listStatus);
+
+		using JsonDocument doc = JsonDocument.Parse(listBody);
+		JsonElement rec = doc.RootElement.GetProperty("recoveries").EnumerateArray()
+			.First(x => x.GetProperty("reason").GetString() == "mod-replace");
+
+		string? oldVersion = rec.TryGetProperty("oldVersion", out JsonElement ov) && ov.ValueKind == JsonValueKind.String ? ov.GetString() : null;
+		string? newVersion = rec.TryGetProperty("newVersion", out JsonElement nv) && nv.ValueKind == JsonValueKind.String ? nv.GetString() : null;
+		_out.WriteLine($"[A14] 恢复记录：oldVersion={oldVersion}  newVersion={newVersion}");
+
+		Assert.Equal("1.0.0", oldVersion);
+		Assert.Equal("2.0.0", newVersion);
+	}
+
+	/// <summary>
+	/// A14 的反面：**没有侧车**的替换记录，两个版本都必须是 null ——
+	/// 展示信息缺失时**绝不能把列表接口弄挂**。
+	/// </summary>
+	[Fact]
+	public async Task RecoveryList_ForAReplaceWithoutSidecar_ReportsNullVersions_AndStillLists()
+	{
+		using var fx = new Fixture();
+		string target = fx.JarPath("b.jar");
+		File.WriteAllText(target, OldJar); // 故意不写侧车
+
+		await using var h = await LocalApiTestHarness.StartAsync(fx.Config);
+
+		(int status, _) = await h.SendAsync(HttpMethod.Post, fx.Api("/mods/b.jar/replace"),
+			new { newFileBase64 = Base64(NewJar) });
+		Assert.Equal(200, status);
+
+		(int listStatus, string listBody) = await h.SendAsync(HttpMethod.Get, fx.Api("/recovery"));
+		Assert.Equal(200, listStatus);
+
+		using JsonDocument doc = JsonDocument.Parse(listBody);
+		JsonElement rec = doc.RootElement.GetProperty("recoveries").EnumerateArray()
+			.First(x => x.GetProperty("reason").GetString() == "mod-replace");
+
+		bool oldNull = !rec.TryGetProperty("oldVersion", out JsonElement ov) || ov.ValueKind == JsonValueKind.Null;
+		bool newNull = !rec.TryGetProperty("newVersion", out JsonElement nv) || nv.ValueKind == JsonValueKind.Null;
+		Assert.True(oldNull && newNull, "没有侧车时两个版本都应为 null，且列表接口仍须正常返回");
+	}
+
+	/* ===================== 2. 启用态保持启用 ===================== */
+
+	[Fact]
+	public async Task Replace_EnabledMod_StaysEnabled()
+	{
+		using var fx = new Fixture();
+		string target = fx.JarPath("a.jar");
+		File.WriteAllText(target, OldJar);
+		File.WriteAllText(target + ".mcmini.json", OldMeta);
+
+		await using var h = await LocalApiTestHarness.StartAsync(fx.Config);
+
+		(int status, string body) = await h.SendAsync(HttpMethod.Post, fx.Api("/mods/a.jar/replace"),
+			new { newFileBase64 = Base64(NewJar) });
+		_out.WriteLine($"[replace-enabled] -> {status} body={body}");
+
+		Assert.Equal(200, status);
+		using (JsonDocument doc = JsonDocument.Parse(body))
+		{
+			Assert.True(doc.RootElement.GetProperty("wasEnabled").GetBoolean());
+		}
+
+		Assert.True(File.Exists(target), "启用态替换后仍应叫 a.jar");
+		Assert.False(File.Exists(target + ".disabled"));
+		Assert.Equal(NewJar, File.ReadAllText(target));
+
+		// 旧侧车也一并进了恢复区
+		string? storedSidecar = Directory.EnumerateFiles(h.RecoveryRoot, "*.mcmini.json", SearchOption.AllDirectories).FirstOrDefault();
+		Assert.NotNull(storedSidecar);
+	}
+
+	/* ===================== 3. 校验失败：旧文件一动不动 ===================== */
+
+	[Fact]
+	public async Task Replace_WithMismatchedHash_LeavesOldFileByteIdentical()
+	{
+		using var fx = new Fixture();
+		string target = fx.JarPath("a.jar");
+		File.WriteAllText(target, OldJar);
+		string oldSha = Sha(target);
+
+		await using var h = await LocalApiTestHarness.StartAsync(fx.Config);
+
+		(int status, string body) = await h.SendAsync(HttpMethod.Post, fx.Api("/mods/a.jar/replace"),
+			new { newFileBase64 = Base64(NewJar), expectedSha256 = new string('A', 64) });
+		_out.WriteLine($"[replace-hash-mismatch] -> {status} error={ExtractError(body)}");
+
+		Assert.Equal(400, status);
+		Assert.Contains("hash_mismatch", ExtractError(body) ?? string.Empty);
+
+		Assert.Equal(oldSha, Sha(target));
+		Assert.Equal(OldJar, File.ReadAllText(target));
+
+		// 校验失败时连恢复记录都不应该产生
+		(int listStatus, string listBody) = await h.SendAsync(HttpMethod.Get, fx.Api("/recovery"));
+		Assert.Equal(200, listStatus);
+		Assert.Equal(0, JsonDocument.Parse(listBody).RootElement.GetProperty("recoveries").GetArrayLength());
+	}
+
+	/* ===================== 4. 暂存缺失 / 目标缺失 / 空 body ===================== */
+
+	[Fact]
+	public async Task Replace_InvalidRequests_Return400WithoutTouchingAnything()
+	{
+		using var fx = new Fixture();
+		string target = fx.JarPath("a.jar");
+		File.WriteAllText(target, OldJar);
+		string oldSha = Sha(target);
+
+		await using var h = await LocalApiTestHarness.StartAsync(fx.Config);
+
+		(int s1, string b1) = await h.SendAsync(HttpMethod.Post, fx.Api("/mods/a.jar/replace"), new { });
+		Assert.Equal(400, s1);
+		Assert.Contains("newFileBase64", ExtractError(b1) ?? string.Empty);
+
+		(int s2, string b2) = await h.SendAsync(HttpMethod.Post, fx.Api("/mods/nosuch.jar/replace"),
+			new { newFileBase64 = Base64(NewJar) });
+		_out.WriteLine($"[replace-target-missing] -> {s2} error={ExtractError(b2)}");
+		Assert.Equal(400, s2);
+		Assert.Contains("target_missing", ExtractError(b2) ?? string.Empty);
+
+		(int s3, string b3) = await h.SendAsync(HttpMethod.Post, fx.Api("/mods/a.jar/replace"),
+			new { newFileBase64 = "not-base64!!" });
+		Assert.Equal(400, s3);
+		Assert.Contains("base64", ExtractError(b3) ?? string.Empty);
+
+		Assert.Equal(oldSha, Sha(target));
+	}
+
+	/* ===================== 5. 提交阶段失败 → 回滚旧 jar + 侧车 ===================== */
+
+	[Fact]
+	public async Task Replace_WhenCommitFails_RollsBackOldJarAndSidecar()
+	{
+		using var fx = new Fixture();
+		string target = fx.JarPath("a.jar");
+		File.WriteAllText(target, OldJar);
+		File.WriteAllText(target + ".mcmini.json", OldMeta);
+		string oldJarSha = Sha(target);
+		string oldMetaSha = Sha(target + ".mcmini.json");
+
+		string staging = Path.Combine(fx.Root, "staged-new.jar");
+		File.WriteAllText(staging, NewJar);
+
+		var service = new FileRecoveryService(fx.RecoveryRoot);
+		var modService = new ModService(fx.Root);
+		GameInstance instance = fx.Config.Instances[0];
+
+		ModReplacementService.BeforeCommitForTest = _ => throw new IOException("注入的提交失败");
+		ModReplacementResult result;
+		try
+		{
+			result = await new ModReplacementService(service)
+				.ReplaceAsync(instance, modService, "a.jar", staging, null, Version());
+		}
+		finally
+		{
+			ModReplacementService.BeforeCommitForTest = null;
+		}
+
+		_out.WriteLine($"[replace-commit-fail] status={result.Status} ok={result.Ok} error={result.Error}");
+
+		Assert.False(result.Ok);
+		Assert.Equal("commit_failed", result.Status);
+
+		Assert.True(File.Exists(target), "旧 jar 必须被恢复");
+		Assert.Equal(oldJarSha, Sha(target));
+		Assert.Equal(oldMetaSha, Sha(target + ".mcmini.json"));
+	}
+
+	/* ===================== 5b. 元数据写入失败 → 同样回滚 ===================== */
+
+	[Fact]
+	public async Task Replace_WhenMetadataWriteFails_RollsBackOldJarAndSidecar()
+	{
+		using var fx = new Fixture();
+		string target = fx.JarPath("a.jar");
+		File.WriteAllText(target, OldJar);
+		File.WriteAllText(target + ".mcmini.json", OldMeta);
+		string oldJarSha = Sha(target);
+		string oldMetaSha = Sha(target + ".mcmini.json");
+
+		string staging = Path.Combine(fx.Root, "staged-new.jar");
+		File.WriteAllText(staging, NewJar);
+
+		var service = new FileRecoveryService(fx.RecoveryRoot);
+		var modService = new ModService(fx.Root);
+		GameInstance instance = fx.Config.Instances[0];
+
+		ModReplacementService.BeforeMetadataWriteForTest = _ => throw new IOException("注入的元数据写入失败");
+		ModReplacementResult result;
+		try
+		{
+			result = await new ModReplacementService(service)
+				.ReplaceAsync(instance, modService, "a.jar", staging, null, Version());
+		}
+		finally
+		{
+			ModReplacementService.BeforeMetadataWriteForTest = null;
+		}
+
+		_out.WriteLine($"[replace-metadata-fail] status={result.Status} ok={result.Ok} error={result.Error}");
+
+		Assert.False(result.Ok);
+		Assert.Equal("metadata_failed", result.Status);
+		Assert.Contains("元数据", result.Error ?? string.Empty);
+
+		// 关键：新版本不能留在原地，旧 jar 与侧车都必须按原 SHA 回来
+		Assert.True(File.Exists(target), "旧 jar 必须被恢复");
+		Assert.Equal(oldJarSha, Sha(target));
+		Assert.Equal(OldJar, File.ReadAllText(target));
+		Assert.True(File.Exists(target + ".mcmini.json"), "旧侧车必须被恢复");
+		Assert.Equal(oldMetaSha, Sha(target + ".mcmini.json"));
+		Assert.Empty(Directory.GetFiles(fx.ModsDir, "*.tmp"));
+	}
+
+	/* ===================== 6. 并发替换同一目标被拒绝 ===================== */
+
+	[Fact]
+	public void Replace_ConcurrentGuard_RejectsSecondAttemptOnSameTarget()
+	{
+		string target = Path.Combine(Path.GetTempPath(), "pineglow-guard", "a.jar");
+
+		Assert.False(ModReplacementService.IsReplacing(target));
+		Assert.True(ModReplacementService.TryBeginReplace(target), "第一次应当拿到占位");
+		try
+		{
+			Assert.True(ModReplacementService.IsReplacing(target));
+			Assert.False(ModReplacementService.TryBeginReplace(target), "同一目标不得并发替换");
+		}
+		finally
+		{
+			ModReplacementService.EndReplace(target);
+		}
+
+		Assert.False(ModReplacementService.IsReplacing(target));
+		Assert.True(ModReplacementService.TryBeginReplace(target), "释放后应当可以再次替换");
+		ModReplacementService.EndReplace(target);
+	}
+
+	/* ===================== 7. 撤销：旧版本按原 SHA 回来 ===================== */
+
+	[Fact]
+	public async Task Undo_AfterReplace_RestoresOldVersionAtOriginalPath()
+	{
+		using var fx = new Fixture();
+		string target = fx.JarPath("a.jar");
+		File.WriteAllText(target, OldJar);
+		string oldSha = Sha(target);
+
+		await using var h = await LocalApiTestHarness.StartAsync(fx.Config);
+
+		(int replaceStatus, string replaceBody) = await h.SendAsync(HttpMethod.Post, fx.Api("/mods/a.jar/replace"),
+			new { newFileBase64 = Base64(NewJar) });
+		Assert.Equal(200, replaceStatus);
+		string operationId = JsonDocument.Parse(replaceBody).RootElement.GetProperty("operationId").GetString()!;
+		Assert.Equal(NewJar, File.ReadAllText(target));
+
+		// 默认不覆盖：应当报冲突且不动新文件
+		(int defaultStatus, string defaultBody) = await h.SendAsync(
+			HttpMethod.Post, fx.Api("/recovery/" + operationId + "/restore"), new { });
+		Assert.Equal(200, defaultStatus);
+		Assert.Equal("conflict", JsonDocument.Parse(defaultBody).RootElement.GetProperty("status").GetString());
+		Assert.Equal(NewJar, File.ReadAllText(target));
+
+		// 显式撤销：覆盖回旧版本
+		(int undoStatus, string undoBody) = await h.SendAsync(
+			HttpMethod.Post, fx.Api("/recovery/" + operationId + "/restore"), new { overwrite = true });
+		_out.WriteLine($"[undo] -> {undoStatus} body={undoBody}");
+
+		Assert.Equal(200, undoStatus);
+		using (JsonDocument doc = JsonDocument.Parse(undoBody))
+		{
+			Assert.True(doc.RootElement.GetProperty("ok").GetBoolean(), "撤销应当成功");
+			Assert.True(doc.RootElement.GetProperty("overwrite").GetBoolean());
+		}
+
+		Assert.True(File.Exists(target));
+		Assert.Equal(oldSha, Sha(target));
+		Assert.Equal(OldJar, File.ReadAllText(target));
+	}
+
+	/* ===================== 8. 不误伤其它文件 ===================== */
+
+	[Fact]
+	public async Task Replace_LeavesOtherModsUntouched()
+	{
+		using var fx = new Fixture();
+		File.WriteAllText(fx.JarPath("a.jar"), OldJar);
+		File.WriteAllText(fx.JarPath("b.jar"), "BBB-untouched");
+		File.WriteAllText(fx.JarPath("b.jar.mcmini.json"), "{\"keep\":true}");
+		string bSha = Sha(fx.JarPath("b.jar"));
+		string bMetaSha = Sha(fx.JarPath("b.jar.mcmini.json"));
+
+		await using var h = await LocalApiTestHarness.StartAsync(fx.Config);
+
+		(int status, _) = await h.SendAsync(HttpMethod.Post, fx.Api("/mods/a.jar/replace"),
+			new { newFileBase64 = Base64(NewJar) });
+		Assert.Equal(200, status);
+
+		Assert.Equal(bSha, Sha(fx.JarPath("b.jar")));
+		Assert.Equal(bMetaSha, Sha(fx.JarPath("b.jar.mcmini.json")));
+	}
+}

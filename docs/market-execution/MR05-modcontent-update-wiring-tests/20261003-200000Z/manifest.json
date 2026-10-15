@@ -1,0 +1,85 @@
+﻿{
+    "runId":  "20261003-200000Z",
+    "task":  "MR05 补测：ModContentService 更新接线的自动化测试（缺口登记表 A1）",
+    "generatedUtc":  "2026-10-03T00:03:53Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "gap-register A1 - ModContentService had ZERO test coverage despite writing files on the mod install/update path",
+    "result":  {
+                   "newTests":  4,
+                   "redBaseline":  "2 failed / 2 passed (MR05 wiring neutralized: if (_recovery != null \u0026\u0026 ...) -\u003e if (false \u0026\u0026 ...))",
+                   "redHonesty":  "the 2 passing tests in RED are NOT evidence of the new capability: one asserts the fallback behaviour (which IS the RED baseline) and the other asserts SHA1 download validation, unrelated to the wiring",
+                   "green":  "4 passed / 0 failed",
+                   "csharpFull":  "759 passed / 0 failed (755 + 4)",
+                   "nodeFull":  "230 passed / 0 failed (18 files)",
+                   "implementationFileRestored":  "ModContentService.cs SHA256 D39A5A2102049795940602D2071DAFFBF4C8A1F3DE3317705201ADC860FB55CC, byte-identical to the pre-RED backup",
+                   "productCodeNetChanges":  false,
+                   "currentDriftNumbers":  "mg0: 256/1/84/0 ; mg1: 63/0/64/0 ; mg2: 256/1/83/0 ; mg3: 63/0/64/0 ; ledger audit exit 0"
+               },
+    "contractsTested":  [
+                            "no side-by-side duplicate after updating an already-installed project",
+                            "enabled/disabled state preserved (result still ends with .jar.disabled)",
+                            "old version lands in the recovery area and its original bytes are recoverable",
+                            "when replacement fails the call throws AND the old file is intact",
+                            "SHA1 mismatch throws InvalidDataException and installs nothing",
+                            "without a recovery service the update falls back to side-by-side import (the pre-MR05 behaviour, now pinned by a test)"
+                        ],
+    "stillNotCovered":  [
+                            "InstallWithDependenciesAsync (dependency recursion) - the remaining part of A1",
+                            "real network download (fake handler only)",
+                            "CurseForge download-URL resolution branch",
+                            "the update flow in the real GUI"
+                        ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "946FBE42A1E412C3CD263F1C8CB96076B1CBBF3F64A3E02E7DA41326F469A15B",
+                      "sizeBytes":  5825
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "2342110E273AB1B38C20C53873161D5B175D36A5457579E37D93D17A5577B46B",
+                      "sizeBytes":  9708
+                  },
+                  {
+                      "path":  "green/01-wiring-first.log",
+                      "sha256":  "4218EBE0BCF4F39FF2D3EBF10F5F1F17BD69E0AF86455FDEFF9F1D0F784B2394",
+                      "sizeBytes":  10754
+                  },
+                  {
+                      "path":  "green/02-wiring-after.log",
+                      "sha256":  "EAF2130D1A1238C2E7AD0994C590F371FD4BAB766C048E696512A1EB6B49FB62",
+                      "sizeBytes":  10754
+                  },
+                  {
+                      "path":  "green/03-csharp-full.log",
+                      "sha256":  "60FC9D7117339904764D092CFFC2E72D31FF4F8762B423D1AB1D014AA73F797D",
+                      "sizeBytes":  655
+                  },
+                  {
+                      "path":  "green/04-node-full.log",
+                      "sha256":  "94587A3AF1E587F8E41E64C34C3D5103784F62B65C6BA7EAC535A7468D346605",
+                      "sizeBytes":  23796
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "698DB5B0AF52691622E1ED4421ECD50239208D35D60A38FF4DC92A596FF574CC",
+                      "sizeBytes":  230
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "1584C3B72ED661F0C61FFAB527E44F50DF9A0F8B556B21D729F9E4587196DD8A",
+                      "sizeBytes":  115371
+                  },
+                  {
+                      "path":  "green/ModContentService.cs.mr05a",
+                      "sha256":  "D39A5A2102049795940602D2071DAFFBF4C8A1F3DE3317705201ADC860FB55CC",
+                      "sizeBytes":  23291
+                  },
+                  {
+                      "path":  "red/01-wiring-before.log",
+                      "sha256":  "77160BAD0E549360DC2A900BD7476843166FD802DA7FE49E2B77DA8F5A50E919",
+                      "sizeBytes":  15808
+                  }
+              ]
+}

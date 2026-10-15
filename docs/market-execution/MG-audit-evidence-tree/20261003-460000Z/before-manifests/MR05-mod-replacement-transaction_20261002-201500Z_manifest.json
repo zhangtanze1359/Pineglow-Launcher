@@ -1,0 +1,92 @@
+﻿{
+    "runId":  "20261002-201500Z",
+    "task":  "MR05 Mod 替换/更新的可撤销事务",
+    "generatedUtc":  "2026-10-02T20:01:57Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "result":  {
+                   "csharp":  "9 passed / 0 failed (before implementation: 6 failed / 3 passed)",
+                   "node":  "file-recovery.test.cjs 11 passed / 0 failed",
+                   "csharpFull":  "655 passed / 0 failed",
+                   "nodeFull":  "202 passed / 0 failed (13 files)",
+                   "bisectSmoke":  "exit 0",
+                   "gitStatus":  "1297 -\u003e 1300 (+3: 2 new files, ModContentService.cs newly modified)"
+               },
+    "contract":  {
+                     "replaceInPlace":  true,
+                     "verifyBeforeTouchingOld":  true,
+                     "rollbackOn":  "quarantine_failed | commit_failed | metadata_failed",
+                     "keepsDisabledState":  true,
+                     "concurrency":  "reject, not queue (replace_in_progress)",
+                     "undo":  "restore with overwrite=true; default still refuses to overwrite"
+                 },
+    "knownGaps":  [
+                      "ModContentService 的更新接线（已安装同一在线项目时走替换）没有自动化测试——依赖真实下载，只做了代码走查",
+                      "真实 GUI / 真实安装 UI 的\"更新 → 撤销\"链路未验证",
+                      "并发只验证了原语，没有两个真正并行的 HTTP 请求用例",
+                      "磁盘不足 / 文件被占用未构造真实用例（回滚分支由注入缝覆盖）",
+                      "恢复区未做新旧版本号对比展示"
+                  ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "D6DFCBA4978EAA6777992853C8728C4C2C9738FBCC35E81F5CCF6F5F1D6F2E23",
+                      "sizeBytes":  12377
+                  },
+                  {
+                      "path":  "green/01-mod-replacement-first.log",
+                      "sha256":  "590C7B5AAF2A8B9D628ADD6BBC3C57136D99089ACB6388DC367A75052682DFC7",
+                      "sizeBytes":  21198
+                  },
+                  {
+                      "path":  "green/02-mod-replacement-after.log",
+                      "sha256":  "3A5BA79B8C4E8E03A2D1C0B56E063AC1FBD9CB4B13A6E42EE3731B43DDE503B0",
+                      "sizeBytes":  13704
+                  },
+                  {
+                      "path":  "green/03-node-file-recovery.log",
+                      "sha256":  "D6EBC09E303153327908D741E4A85B836615CBC9AD758E6BA4D0EF7BBAEB7813",
+                      "sizeBytes":  1564
+                  },
+                  {
+                      "path":  "green/04-csharp-full.log",
+                      "sha256":  "94D92EF3513036BDBE027DD563DD429F00756B04A344B56463365865BB7E826E",
+                      "sizeBytes":  4457
+                  },
+                  {
+                      "path":  "green/05-node-full.log",
+                      "sha256":  "F0525432D68773E51EF339B0AA47A692503D62882D7490A45A90A82E709E5B6A",
+                      "sizeBytes":  21265
+                  },
+                  {
+                      "path":  "green/06-bisect-smoke.log",
+                      "sha256":  "ACAEF3616E4F496056FBFA2A501071150E3897FB9E4CC6D0A79C34C65514B5CF",
+                      "sizeBytes":  653
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "C934D12D0EC0696CAF9F8C1D6E111E1BAEF7961A18C4D0EDC69D74370610C175",
+                      "sizeBytes":  1066
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "33D228D1F5857D4ECD8260835E2D892F26F761F1826340C8FA05FD59DC878C5C",
+                      "sizeBytes":  113377
+                  },
+                  {
+                      "path":  "green/LocalApiService.cs.mr05",
+                      "sha256":  "35CFAF7C374085DEF05721EA39A4216046D3F8E1CF534C6EBEEF1F85D2C4703A",
+                      "sizeBytes":  149189
+                  },
+                  {
+                      "path":  "green/LocalApiService.cs.mr05.sha256.txt",
+                      "sha256":  "37A8A475644B87F78A1A1E01761D63751C16A8194A7FF1C02C5B089500B86DB6",
+                      "sizeBytes":  69
+                  },
+                  {
+                      "path":  "red/01-mod-replacement-before.log",
+                      "sha256":  "5A6989A8D08B66635B15A2C03FC6B256F5505BE7224588AC74E43E4BDA0EA554",
+                      "sizeBytes":  29180
+                  }
+              ]
+}

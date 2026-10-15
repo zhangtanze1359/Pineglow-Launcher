@@ -1,0 +1,15 @@
+﻿{
+    "probe":  "ui-level-cdp",
+    "fixture":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-ui-factory-e398b29c94fb45738b4819408b37e052",
+    "exe":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-ui-factory-e398b29c94fb45738b4819408b37e052\\Pineglow.Launcher.exe",
+    "apiPort":  58425,
+    "debugPort":  58426,
+    "chrome":  "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "healthReady":  true,
+    "tokenFound":  true,
+    "probeExit":  1,
+    "probeStdout":  "{\r\n  \"ok\": false,\r\n  \"title\": \"Pineglow · 松光启动器\",\r\n  \"elementCount\": 188,\r\n  \"bodyTextLength\": 700,\r\n  \"exceptions\": 0,\r\n  \"consoleErrors\": 0,\r\n  \"httpErrors\": 5,\r\n  \"failedRequests\": 0,\r\n  \"dynamicMarkers\": {\r\n    \"hasVersionNumber\": true,\r\n    \"hasMCVersionList\": true,\r\n    \"hasInstanceName\": true,\r\n    \"hasDownloadText\": true,\r\n    \"hasSettingsText\": true,\r\n    \"hasAccountText\": false\r\n  },\r\n  \"steps\": [\r\n    {\r\n      \"name\": \"页面 load 事件\",\r\n      \"ok\": true,\r\n      \"detail\": \"Page.loadEventFired received\"\r\n    },\r\n    {\r\n      \"name\": \"页面标题非空\",\r\n      \"ok\": true,\r\n      \"detail\": \"Pineglow · 松光启动器\"\r\n    },\r\n    {\r\n      \"name\": \"DOM 已渲染元素\",\r\n      \"ok\": true,\r\n      \"detail\": \"elements=188\"\r\n    },\r\n    {\r\n      \"name\": \"SPA 已把内容渲染进 DOM\",\r\n      \"ok\": true,\r\n      \"detail\": \"bodyTextLength=700\"\r\n    },\r\n    {\r\n      \"name\": \"会话令牌 meta 存在\",\r\n      \"ok\": true,\r\n      \"detail\": \"true\"\r\n    },\r\n    {\r\n      \"name\": \"无未捕获异常\",\r\n      \"ok\": true,\r\n      \"detail\": \"exceptions=0\"\r\n    },\r\n    {\r\n      \"name\": \"无 console.error\",\r\n      \"ok\": true,\r\n      \"detail\": \"consoleErrors=0\"\r\n    },\r\n    {\r\n      \"name\": \"无 HTTP 4xx/5xx\",\r\n      \"ok\": false,\r\n      \"detail\": \"httpErrors=5\"\r\n    }\r\n  ]\r\n}\r\n",
+    "probeStderr":  "",
+    "ownedProcessesStopped":  true,
+    "timeHK":  "2026-10-11T19:28:43.4968550"
+}

@@ -1,0 +1,43 @@
+{
+  "generatedUtc": "2026-10-13T08:39:14.789Z",
+  "sourceRoot": "D:\\松光启动器",
+  "scope": "Controlled Node VM and actual production APIs; no native GUI or external service",
+  "hashes": {
+    "ui/js/api.js": "6303604f1150be72b6590071bad0ae69c7d58e9366741d9581a6da56f9ef90e6",
+    "ui/js/launcher.js": "88b4688524fbb93de6796502590fedf94741f80bf36c71c3d8b03e2f0f77e313",
+    "scripts/verify-ui-pages-live.cjs": "1dc992465e5d6561d88315d146ef0eddca67fb11447f78c5fc995e9405935b9c"
+  },
+  "checks": [
+    {
+      "id": "CV07-JSON-error-object-unicode-after-200",
+      "status": "PASS"
+    },
+    {
+      "id": "CV07-no-excuse-from-nested-note-or-unrelated-data",
+      "status": "PASS"
+    },
+    {
+      "id": "CV07-all-short-auth-schemes-and-next-header-preserved",
+      "status": "PASS"
+    },
+    {
+      "id": "CV07-nested-json-all-cookie-values-and-statistics",
+      "status": "PASS"
+    },
+    {
+      "id": "CV04-real-fetch-network-rejection-preserves-fallback-and-strict-local",
+      "status": "PASS"
+    },
+    {
+      "id": "CV04-local-failure-never-returns-fallback-or-fetches-remote",
+      "status": "PASS"
+    },
+    {
+      "id": "CV08-full-launcher-plus-actual-api-failed-retry-and-warning-confirm",
+      "status": "FAIL",
+      "error": "host.contains is not a function"
+    }
+  ],
+  "passed": 6,
+  "failed": 1
+}

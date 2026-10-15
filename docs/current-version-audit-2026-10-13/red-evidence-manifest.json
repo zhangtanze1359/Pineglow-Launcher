@@ -1,0 +1,22 @@
+[
+  {
+    "path": "baseline-ui-sanitized.json",
+    "sha256": "783714B96BA002BF3B2C5DFE1E650D2D1D0EC0BFC3034181DE38D5696397C499",
+    "bytes": 9443
+  },
+  {
+    "path": "baseline-ui-sanitized.log",
+    "sha256": "A4357AA1AA272821CBDBBCD70B51253776C12C5503790475D2BC52B930AE4F03",
+    "bytes": 2539
+  },
+  {
+    "path": "independent-ui-red.json",
+    "sha256": "BD95E5C0F855F4BE79ED083AE7923082B84ADDA37BEE77A31B10E06F72F4FE90",
+    "bytes": 423
+  },
+  {
+    "path": "cdp-error-red.log",
+    "sha256": "D749484E60E2252FD7B594B3D945ECA235D1123F39AE87D3884F50D99CE97C1C",
+    "bytes": 54
+  }
+]

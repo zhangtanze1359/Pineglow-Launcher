@@ -1,0 +1,46 @@
+{
+    "schemaVersion":  1,
+    "id":  "g4-ordinary-r2",
+    "runId":  "20261003-092612Z-b4d896a8",
+    "fingerprint":  "387F18823EAD24A09FB42FDDAC8B079838852942D62A7597D7BC191B9232A4F5",
+    "inputManifestSha256":  "7F1A71FCD47541C2055E58DC2BC840FDE0670B013DC1ED923E2263BB1D1A0FF0",
+    "command":  "dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --no-build --filter FullyQualifiedName~RollbackFailure_HttpExposesStructuredRecoveryFields|FullyQualifiedName~RollbackSuccess_HttpReportsNoRecoveryNeeded|FullyQualifiedName~MetadataFailure_HttpExposesStructuredFields|FullyQualifiedName~ModReplaceUndo_NormalRestore_StillWorksWithTrustedRoot|FullyQualifiedName~SecretBackend_ConcurrentAsyncFlowsStayIsolated --logger trx;LogFileName=ordinary-r2.trx --results-directory C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\g4\\run-20261003-092612Z-b4d896a8/results",
+    "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-goal-seal-39dfd2b90cbb4689b7fbad1c8ab10ba9",
+    "startUtc":  "2026-10-03T10:37:15Z",
+    "endUtc":  "2026-10-03T10:37:17Z",
+    "exitCode":  0,
+    "timedOut":  false,
+    "stillRunning":  false,
+    "counters":  {
+                     "total":  5,
+                     "executed":  5,
+                     "passed":  5,
+                     "failed":  0,
+                     "notExecuted":  0
+                 },
+    "trx":  "results/ordinary-r2.trx",
+    "artifacts":  [
+                      {
+                          "path":  "results/ordinary-r2.trx",
+                          "sha256":  "227423724FB11CF6CD436E0D86BE2A222444C27EBAC60721525796E838EF0EBB",
+                          "sizeBytes":  11952
+                      }
+                  ],
+    "rawEvidence":  [
+                        {
+                            "path":  "g4-ordinary-r2.stdout.log",
+                            "sha256":  "D83779CD3A6D65509E0FC0F7A1165CF9A5D85F399AC51244CCEFEF92ECB72600",
+                            "sizeBytes":  609
+                        },
+                        {
+                            "path":  "g4-ordinary-r2.stderr.log",
+                            "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                            "sizeBytes":  0
+                        }
+                    ],
+    "reasons":  [
+
+                ],
+    "status":  "COMPLETED",
+    "reused":  false
+}

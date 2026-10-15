@@ -1,0 +1,79 @@
+{
+    "schemaVersion":  2,
+    "runner":  "run-goal-validation.ps1",
+    "runId":  "fixed-id",
+    "inputManifest":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\expected-trx-omitted-from-produces\\input.json",
+    "inputManifestSha256":  "9BD6A80831FEAE6CE296DB0D39485AD4557FBD7698168592C98D61B1C5930596",
+    "verifiedInputSetSha256":  "8B61E22B98906A58BCCF598A8597273C39E974CA49E3A725FCEE986A121651DB",
+    "verifiedInputCount":  2,
+    "verifiedInputRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\expected-trx-omitted-from-produces",
+    "stagesFile":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\expected-trx-omitted-from-produces\\stages.json",
+    "stagesFileSha256":  "BD63993E565F4BD5010FED4437EA4E40304C79E24C294581ED0D1A90943FEF19",
+    "generatedUtc":  "2026-10-04T10:38:53Z",
+    "resume":  false,
+    "only":  "",
+    "partial":  false,
+    "requiredStages":  [
+                           "unit"
+                       ],
+    "requiredNotCompleted":  [
+
+                             ],
+    "partialNotRun":  {
+
+                      },
+    "stageCount":  1,
+    "failedCount":  0,
+    "stages":  [
+                   {
+                       "schemaVersion":  2,
+                       "id":  "unit",
+                       "runId":  "fixed-id",
+                       "attemptDir":  "attempts/unit/1",
+                       "fingerprint":  "C03BFD73C46484C8ECF9761F8BD291DD3F86B9A6641F24AD4BED635FC626115E",
+                       "inputManifestSha256":  "9BD6A80831FEAE6CE296DB0D39485AD4557FBD7698168592C98D61B1C5930596",
+                       "inputSetSha256":  "8B61E22B98906A58BCCF598A8597273C39E974CA49E3A725FCEE986A121651DB",
+                       "command":  "C:\\Program Files\\nodejs\\node.exe C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\expected-trx-omitted-from-produces\\child.cjs C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\expected-trx-omitted-from-produces\\run\\attempts\\unit\\1/unit.trx write",
+                       "workingDirectory":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\expected-trx-omitted-from-produces",
+                       "startUtc":  "2026-10-04T10:38:53Z",
+                       "endUtc":  "2026-10-04T10:38:53Z",
+                       "exitCode":  0,
+                       "timedOut":  false,
+                       "stillRunning":  false,
+                       "counters":  {
+                                        "total":  3,
+                                        "executed":  3,
+                                        "passed":  3,
+                                        "failed":  0,
+                                        "notExecuted":  0,
+                                        "resultRows":  3,
+                                        "passedRows":  3,
+                                        "failedRows":  0,
+                                        "notExecutedRows":  0,
+                                        "otherRows":  0
+                                    },
+                       "trx":  "unit.trx",
+                       "artifacts":  [
+
+                                     ],
+                       "rawEvidence":  [
+                                           {
+                                               "path":  "unit.stdout.log",
+                                               "sha256":  "A5535F67A81F90334A838E0935772E949A2156297D7A62EEAF7578F46460BD5D",
+                                               "sizeBytes":  40
+                                           },
+                                           {
+                                               "path":  "unit.stderr.log",
+                                               "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                                               "sizeBytes":  0
+                                           }
+                                       ],
+                       "reasons":  [
+
+                                   ],
+                       "status":  "COMPLETED",
+                       "reused":  false
+                   }
+               ],
+    "verdict":  "PASS"
+}

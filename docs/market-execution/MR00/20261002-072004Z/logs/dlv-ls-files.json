@@ -1,0 +1,13 @@
+{
+  "command": "git ls-files | find /c /v " -Cwd C:\\\\Users\\\\Administrator\\\\.codex\\\\worktrees\\\\ed41\\\\松光启动器",
+  "cwd": "D:\\\\松光启动器",
+  "startUtc": "2026-10-02T07:20:59Z",
+  "endUtc": "2026-10-02T07:21:00Z",
+  "durationSec": 1,
+  "exitCode": 2,
+  "stdoutPath": "C:\\\\Users\\\\Administrator\\\\.codex\\\\worktrees\\\\ed41\\\\松光启动器\\\\docs\\\\market-execution\\\\MR00\\\\20261002-072004Z\\\\logs\\\\dlv-ls-files.json.stdout.txt",
+  "stderrPath": "C:\\\\Users\\\\Administrator\\\\.codex\\\\worktrees\\\\ed41\\\\松光启动器\\\\docs\\\\market-execution\\\\MR00\\\\20261002-072004Z\\\\logs\\\\dlv-ls-files.json.stderr.txt",
+  "stdoutLines": 1,
+  "stderrLines": 2,
+  "exitCode": 2
+}

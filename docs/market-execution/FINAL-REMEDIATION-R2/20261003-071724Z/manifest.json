@@ -1,0 +1,230 @@
+{
+    "runId":  "20261003-071724Z",
+    "title":  "FINAL-REMEDIATION-R2 S1-S4 (RA-01..RA-04)",
+    "utc":  "2026-10-03T07:37:50.2772476Z",
+    "root":  "C:\\Users\\Administrator\\.codex\\worktrees\\0f45\\松光启动器\\docs\\market-execution\\FINAL-REMEDIATION-R2\\20261003-071724Z",
+    "generator":  "FINAL-REMEDIATION/20261003-052200Z seal-evidence.ps1",
+    "count":  44,
+    "files":  [
+                  {
+                      "path":  "audit-all-manifests-r1-copy.py",
+                      "sizeBytes":  6298,
+                      "sha256":  "3EA60359F77082ED40BA2D970B72962945256B78F666B12D6282F99DECC22E44"
+                  },
+                  {
+                      "path":  "audit-all-manifests-r2.py",
+                      "sizeBytes":  11195,
+                      "sha256":  "FA7FC2CF154BABD58C4C679084622825F2502D442D38C2EA4BD37B92B254C1D5"
+                  },
+                  {
+                      "path":  "audit-negative-tests.json",
+                      "sizeBytes":  3882,
+                      "sha256":  "BB7F551B2F2714A6FA0F23810AC808FDBDE8BDCA5DC0EE26A63388DDE4C62D09"
+                  },
+                  {
+                      "path":  "audit-negative-tests.log",
+                      "sizeBytes":  1958,
+                      "sha256":  "A5281E87FDB2CC08BD0C607850217A0ABEDCFB23098094E9644471055B81CE8E"
+                  },
+                  {
+                      "path":  "audit-negative-tests.py",
+                      "sizeBytes":  8788,
+                      "sha256":  "DBBA9336279469E6DF06BF9E155BB89085ED4165ED10E515A894BA83D77EC62D"
+                  },
+                  {
+                      "path":  "audit-roots.json",
+                      "sizeBytes":  449,
+                      "sha256":  "C3B9E44F2823D0AF3F22F9A2388A2681F74C20D3452C163E28600866B4DA9D7F"
+                  },
+                  {
+                      "path":  "capture-baseline.ps1",
+                      "sizeBytes":  2404,
+                      "sha256":  "7900A8E7C3D9CCFE5C4004A572455E7DF36B003EECD0D579F07EC4FD14FF1C75"
+                  },
+                  {
+                      "path":  "deliverable.md",
+                      "sizeBytes":  16967,
+                      "sha256":  "93BC8970458CCBF33120FE4857892305B2E57FABA2CDCC9808AD86BCAA1398F2"
+                  },
+                  {
+                      "path":  "dirty-protection.json",
+                      "sizeBytes":  1307,
+                      "sha256":  "15CF68F9E7B29D131284C798AA9B8542AF10996CBD954690959962DC6F6FD8C8"
+                  },
+                  {
+                      "path":  "evidence-corrections.md",
+                      "sizeBytes":  3309,
+                      "sha256":  "18A51183475E323F59BCA7DF6E65A43BE253F777118B89180616990A8AD14382"
+                  },
+                  {
+                      "path":  "green/build-and-r2-probes.log",
+                      "sizeBytes":  12144,
+                      "sha256":  "EF0BAFD03DE278A53004A87EE131C6DE64A9EF8D6AD41D988B5A52DCCC305D50"
+                  },
+                  {
+                      "path":  "green/green-bisect-smoke.log",
+                      "sizeBytes":  2034,
+                      "sha256":  "2918D2E52F80C35221B6E0EF72842A99D6172D11FC197553CBD32E5EB67E479B"
+                  },
+                  {
+                      "path":  "green/green-boundary-probes.log",
+                      "sizeBytes":  1198,
+                      "sha256":  "4CD4F91B744F8D75C92AE38C78C7E2838411FFA5341C37FA05B67F080088C69C"
+                  },
+                  {
+                      "path":  "green/green-existing-probes.log",
+                      "sizeBytes":  1484,
+                      "sha256":  "179054590A6C61EACA96D538693A636B9BC64C3525FA574B38118A1B7A76F03B"
+                  },
+                  {
+                      "path":  "green/green-full-csharp.log",
+                      "sizeBytes":  12084,
+                      "sha256":  "83B37CD377C9884D4E3F21EA6B9A4FBEB4C6FBC68071C961D52C74B83F1C83F1"
+                  },
+                  {
+                      "path":  "green/green-node.log",
+                      "sizeBytes":  25012,
+                      "sha256":  "EA54C70F1E764F64613F6E69C40988C0F0C9A33E9989FDB2E4982599C196C7BD"
+                  },
+                  {
+                      "path":  "green/green-r0-secrets.log",
+                      "sizeBytes":  1424,
+                      "sha256":  "CD325F6E1689003F4FD0F3370C6E6664A7E33E20862799C90EACDA78119368AD"
+                  },
+                  {
+                      "path":  "green/green-r2-regressions.log",
+                      "sizeBytes":  1402,
+                      "sha256":  "C8CB0ED1D7E0AB2439FC4A8693F4577FF20117E164AC01EF8A64AF23C145DA1F"
+                  },
+                  {
+                      "path":  "green/green-verifyhost-build.log",
+                      "sizeBytes":  5234,
+                      "sha256":  "A5B2EE8038C978E9FAEFB4A41F783E0EE2A0E9563E489450A4D9AE69DCA78F80"
+                  },
+                  {
+                      "path":  "green/node-inputs.txt",
+                      "sizeBytes":  2549,
+                      "sha256":  "0E3D36F1A72981A0C3C0D56903742AECEDB5BA7AF6EA2E5AFF1B12A363A4EA9C"
+                  },
+                  {
+                      "path":  "green/test-results/build-and-r2-probes.trx",
+                      "sizeBytes":  12425,
+                      "sha256":  "385EEC70D95053CBA2984F6345B72E720C3BDEBF18E8868A62A272531F60AA6F"
+                  },
+                  {
+                      "path":  "green/test-results/green-boundary-probes.trx",
+                      "sizeBytes":  12425,
+                      "sha256":  "E13D0FA6CA7C9A9D8526C297E2DB667CBA4D4D11A53983110D3BC6E029E298CC"
+                  },
+                  {
+                      "path":  "green/test-results/green-existing-probes.trx",
+                      "sizeBytes":  61852,
+                      "sha256":  "2E1B94AA93F146257512DDA2C619C4940BFFA8EE87EB9A710D31D7B4A74F294F"
+                  },
+                  {
+                      "path":  "green/test-results/green-full-csharp.trx",
+                      "sizeBytes":  1462827,
+                      "sha256":  "576845E5BEC0BF6A8D1369520CD830E7C021D78B728506A86CD148E342AC175E"
+                  },
+                  {
+                      "path":  "green/test-results/green-r0-secrets.trx",
+                      "sizeBytes":  23104,
+                      "sha256":  "C50117C99075DBE6B8FFF1CDBD4FD4D1A3B34C5BD94FC8A213A90DA1BFEA0017"
+                  },
+                  {
+                      "path":  "green/test-results/green-r2-regressions.trx",
+                      "sizeBytes":  31051,
+                      "sha256":  "94BC94EB841FFAC8F0C1D78FCED82D8B716E017651143FBF25422D0707B4B797"
+                  },
+                  {
+                      "path":  "green-copy-root.txt",
+                      "sizeBytes":  97,
+                      "sha256":  "B9C071C3031C5DB44838207CC60A3682D89D4A6151FA289CA71710D7F0853E27"
+                  },
+                  {
+                      "path":  "green-snapshot-manifest.json",
+                      "sizeBytes":  80929,
+                      "sha256":  "0457ECE0D4DEAF1F84907A6D02DE6C17EC693465672EC7D20A1046C047F8CDB0"
+                  },
+                  {
+                      "path":  "historical-exceptions.json",
+                      "sizeBytes":  1390,
+                      "sha256":  "6723F2AFF899B15AC993C30B17A6C262CF6417A7AEB96E68BE4655366D964640"
+                  },
+                  {
+                      "path":  "invoke-test.ps1",
+                      "sizeBytes":  1506,
+                      "sha256":  "D23EB50AE652D151C9F13F2EB576F0214843331F249DFF8CBFB179FB03AABBEE"
+                  },
+                  {
+                      "path":  "make-snapshot.ps1",
+                      "sizeBytes":  4056,
+                      "sha256":  "46B58E6B4AF63646FCD302AA5C59BA08CD00C8391CEE78858A82FBB1394577E6"
+                  },
+                  {
+                      "path":  "r2-green-run.ps1",
+                      "sizeBytes":  2478,
+                      "sha256":  "10AB1BB9970944C37D039AE8775AABC2E043A654835C4A4E82ED3DC16A70D2A2"
+                  },
+                  {
+                      "path":  "red/r1-auditor-auditor-A-empty-root.json",
+                      "sizeBytes":  255,
+                      "sha256":  "1842CADA9D0731A84B4EE8C34E323F1B537D4A9F9359C9C88B3815003EF34A75"
+                  },
+                  {
+                      "path":  "red/r1-auditor-auditor-B-bad-detached.json",
+                      "sizeBytes":  402,
+                      "sha256":  "C10B3214C9A817482E14355570D56BD8A3BC9151B9EF4AD76872B325E2B09438"
+                  },
+                  {
+                      "path":  "red/r1-auditor-auditor-C-known-third-bytes.json",
+                      "sizeBytes":  1219,
+                      "sha256":  "D9DC54E6B5AF551CF75A08A0F876705612158D56BA4A71E962A22CD9627A619F"
+                  },
+                  {
+                      "path":  "red/red-boundary-probes-codex.log",
+                      "sizeBytes":  17461,
+                      "sha256":  "61C6264157F0B95CA5C52DDCC4BCA36C66D7B43DE1D28F1EF1AE621E860FC666"
+                  },
+                  {
+                      "path":  "red/red-boundary-probes-dsh.log",
+                      "sizeBytes":  17537,
+                      "sha256":  "D4FFF42663CCE4A38069D915B04FE4957463BDD3860AF9EAC5F2ED993F2C0B29"
+                  },
+                  {
+                      "path":  "red/red-repro-README.md",
+                      "sizeBytes":  3330,
+                      "sha256":  "4E3C2C27E83AFAB7E76908E622C73255AFA391FFC558048B5C398B79093018FF"
+                  },
+                  {
+                      "path":  "run-node-and-host.ps1",
+                      "sizeBytes":  1955,
+                      "sha256":  "8E6787DDC112FA11A84D343836EAF229C435D3737D9BF533C1A0AB342081F162"
+                  },
+                  {
+                      "path":  "seal-evidence.ps1",
+                      "sizeBytes":  1664,
+                      "sha256":  "2892C4C17D67D084A5A62EFB0A0C2A77DE39E8454E3670CD60FE94BEFB986869"
+                  },
+                  {
+                      "path":  "source-after.json",
+                      "sizeBytes":  4192,
+                      "sha256":  "7CA0937ED50944ADF32776FEED37C4F2458D527FD7B1F2194933C2B0CFE7F161"
+                  },
+                  {
+                      "path":  "source-before.json",
+                      "sizeBytes":  4192,
+                      "sha256":  "040A5E662F4B6709FEACF6A46A3E2A94E2D6A7DA21A1E44D5918D31C74414FBA"
+                  },
+                  {
+                      "path":  "source-status-after.txt",
+                      "sizeBytes":  115612,
+                      "sha256":  "D6DD094D6C7AAE1F034F62F0352C4CB1DF3B866B6C39340791BDB1A7E26D1718"
+                  },
+                  {
+                      "path":  "source-status-before.txt",
+                      "sizeBytes":  115474,
+                      "sha256":  "F3934F3B1336C46A8A63C8493E20AA21F1DF1D506445A85E3B3C7D78941D607A"
+                  }
+              ]
+}

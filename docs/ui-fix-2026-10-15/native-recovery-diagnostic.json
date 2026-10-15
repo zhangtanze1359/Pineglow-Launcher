@@ -1,0 +1,66 @@
+{
+  "text": "管理 Mod · 布局复验 · Fabric\n\n1.21.5 · Fabric · 1 Mod · 恢复区 3\n\n模组列表 (1)\n恢复区 (3)\n这里保存被移除的文件，默认保留 30 天。恢复不会覆盖原位置的同名文件。\n可恢复\n移除于 2026/10/15 18:07:16 · 1 个文件 · 234 B\nmods\\layout_alpha.jar 可恢复\n恢复\n已恢复\n移除于 2026/10/15 18:04:03 · 1 个文件 · 234 B\nmods\\layout_alpha.jar 已恢复\n已恢复\n隔离失败\n移除于 2026/10/15 18:02:59 · 1 个文件 · 234 B\nmods\\layout_alpha.jar 隔离失败 · 隔离副本不存在，无法恢复\n恢复",
+  "ops": {
+    "retentionDays": 30,
+    "recoveries": [
+      {
+        "operationId": "20261015-100716-a39d0b8f",
+        "reason": "mod-delete",
+        "status": "quarantined",
+        "createdAt": "2026-10-15T10:07:16.3367533+00:00",
+        "expiresAt": "2026-11-14T10:07:16.3367533+00:00",
+        "totalBytes": 234,
+        "files": [
+          {
+            "relativePath": "mods\\layout_alpha.jar",
+            "state": "quarantined",
+            "sizeBytes": 234,
+            "error": ""
+          }
+        ]
+      },
+      {
+        "operationId": "20261015-100403-0dec6d63",
+        "reason": "mod-delete",
+        "status": "restored",
+        "createdAt": "2026-10-15T10:04:03.2096449+00:00",
+        "expiresAt": "2026-11-14T10:04:03.2096449+00:00",
+        "totalBytes": 234,
+        "files": [
+          {
+            "relativePath": "mods\\layout_alpha.jar",
+            "state": "restored",
+            "sizeBytes": 234,
+            "error": ""
+          }
+        ]
+      },
+      {
+        "operationId": "20261015-100259-2106de90",
+        "reason": "mod-delete",
+        "status": "failed",
+        "createdAt": "2026-10-15T10:02:59.4595382+00:00",
+        "expiresAt": "2026-11-14T10:02:59.4595382+00:00",
+        "totalBytes": 234,
+        "files": [
+          {
+            "relativePath": "mods\\layout_alpha.jar",
+            "state": "failed",
+            "sizeBytes": 234,
+            "error": "隔离副本不存在，无法恢复"
+          }
+        ]
+      }
+    ]
+  },
+  "mods": [
+    {
+      "fileName": "layout_beta.jar",
+      "displayName": "layout_beta",
+      "version": "1.0.0",
+      "loader": "Fabric",
+      "enabled": true,
+      "sizeText": "232 B"
+    }
+  ]
+}

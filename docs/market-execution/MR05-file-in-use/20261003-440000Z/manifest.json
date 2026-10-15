@@ -1,0 +1,94 @@
+﻿{
+    "runId":  "20261003-440000Z",
+    "task":  "MR05 补测之四：文件被占用/只读时的替换行为（A4）",
+    "generatedUtc":  "2026-10-03T03:43:23Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "gap-register A4 - PARTIAL: file-in-use and read-only are now measured with a data-safety invariant; disk-full was NOT simulated",
+    "approach":  "Measure the behaviour first, then assert invariants that must hold regardless. Round 41 established that a file opened with FileShare.None can still be renamed on Windows, so locking the target does not necessarily make the replace fail - the package therefore does not assume an outcome.",
+    "invariants":  "1) never crash: either success or a readable error; 2) the old version must always be recoverable - byte-identical in place OR fully in the recovery area, otherwise it is data loss; 3) no leftovers in mods (no (1) copies, no *.tmp, no *staging*).",
+    "measured":  {
+                     "targetJarLocked":  "500 with \"The process cannot access the file ...\\\\mods\\\\a.jar\" and the old file stays byte-identical in place",
+                     "retryAfterRelease":  "200 - a transient lock does not leave a permanent block",
+                     "sidecarLocked":  "400 with \"[quarantine_failed] 旧文件隔离失败，已回滚：b.jar → restored；b.jar.mcmini.json → failed\" and the old file stays in place",
+                     "readOnlyTarget":  "200 - a read-only file can still be moved/replaced on Windows, and the old version lands in the recovery area"
+                 },
+    "redBaseline":  "replacing the quarantine File.Move with File.Delete (simulating not saving the old file) produced 2 failures with the exact message 旧版本必须要么原地逐字节不变、要么完整进了恢复区 —— 否则就是数据丢失",
+    "selfFoundIssue":  "The first run failed on MY OWN test bug: AssertInvariants computed the SHA of the target while my own FileStream still held it exclusively, so Sha() threw IOException. Fixed by moving the assertions after the lock is released (the lock only exists to make the replace fail).",
+    "verification":  {
+                         "tests":  "3 passed / 0 failed",
+                         "csharpFull":  "823 passed / 0 failed / 0 skipped (820 + 3)",
+                         "nodeFull":  "234 passed / 0 failed",
+                         "restoreVerified":  "FileRecoveryService.cs byte-identical to green/FileRecoveryService.cs.fixed",
+                         "productionCodeChanged":  false
+                     },
+    "stillNotCovered":  [
+                            "disk-full was NOT simulated (this machine cannot reliably create a full volume); only the file-in-use half is covered",
+                            "cross-volume recovery (the File.Copy fallback branch, MR04 scope)",
+                            "real GUI",
+                            "whether the read-only attribute survives a restore is not asserted"
+                        ],
+    "remainingGaps":  "A6 (MR07 temporary test-world guidance), A15 remainder (.bak/.prev rotation)",
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "508F169BFBF90DECEA7B9A7FDC92A0C8E0D26F1FA5542B130415A4244AF8D244",
+                      "sizeBytes":  4869
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "21EF7FA699B1F4BAE49B4BD5D06A934EA7FB52B75F62D9A77C0D8DB5A449B9B9",
+                      "sizeBytes":  19626
+                  },
+                  {
+                      "path":  "green/01-a4-first.log",
+                      "sha256":  "9B15C9F203BCAC40D8D83D51DF3E7CDED613F3EBF3D59872FAC39314424D4ECD",
+                      "sizeBytes":  8777
+                  },
+                  {
+                      "path":  "green/02-a4-fixed.log",
+                      "sha256":  "96A24F3E9B5CE21FA6D86066CAC784D2E9340096F6FB1D7438232B65B0B03B4E",
+                      "sizeBytes":  6694
+                  },
+                  {
+                      "path":  "green/03-a4-final.log",
+                      "sha256":  "A575F0D3D7C1AC0E0DC5C049724B237FA6D6B0ECCDFC0CD097EF9EE1DC9A6520",
+                      "sizeBytes":  2016
+                  },
+                  {
+                      "path":  "green/04-csharp-full.log",
+                      "sha256":  "2BB1B6B20738722B892A048BE10737C34165D513C83F56346C46762BB1145EAA",
+                      "sizeBytes":  490
+                  },
+                  {
+                      "path":  "green/05-node-full.log",
+                      "sha256":  "54DE9FB5AE203B204F49B4AD12A94E80342E46D23F603BD6A68CADD938008FB8",
+                      "sizeBytes":  24269
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "C7A2E62D430C9304468ACE16F132DB82CA8AF7AC430AF3382F64B2F4456C3076",
+                      "sizeBytes":  227
+                  },
+                  {
+                      "path":  "green/FileRecoveryService.cs.fixed",
+                      "sha256":  "3ADB6CA4F96F37FDD477EA62382D6726641E66A4A1E25902F27ABC9543FD3796",
+                      "sizeBytes":  14595
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "BC3B44CE7A951068083FC60BA45679B01A37AD74F47CFA857EB05774BD0ACD92",
+                      "sizeBytes":  116301
+                  },
+                  {
+                      "path":  "green/ModReplaceFileInUseTests.cs.fixed",
+                      "sha256":  "BF23A765E163AE7EF51A5AAAE84A51EE58A4A66CFE4E808492F5F4BB3B4CD20C",
+                      "sizeBytes":  8348
+                  },
+                  {
+                      "path":  "red/01-red-delete-instead-of-move.log",
+                      "sha256":  "7D564EC5B18404555EC196B15253A3DF2F86A7A59F5D17CCB9B8C849CF67F0D6",
+                      "sizeBytes":  6573
+                  }
+              ]
+}

@@ -1,0 +1,75 @@
+﻿{
+    "runId":  "20261003-430000Z",
+    "task":  "MR05 补测之三：生产路径端到端验证（A14）+ 更正上轮误判",
+    "generatedUtc":  "2026-10-03T03:35:11Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "correction":  "My round-53 remaining item (the frontend replace call site does not send version) was WRONG. The frontend mod API is only getMods/toggleMod/deleteMod (api.js:528/539/543) and has NO update entry at all; production updates go through ModContentService.cs:140-141 which already passes the real version. So the new sidecar IS written on the production path and the A14 display works in the real product. A22 remains a valid hardening (it aligns the test/automation-only HTTP endpoint with the production path) but it was NOT a prerequisite for the UI.",
+    "newTest":  "RecoveryVersionDisplayEndToEndTests drives the production flow: seed an old mod with a real-shaped sidecar (versionNumber 1.0), run ModContentService.DownloadAndInstallAsync with v2.0 (same call shape as ModContentService.cs:140, using the harness recovery root so the API listing can see the record), then assert GET /recovery reports oldVersion=1.0 and newVersion=2.0.",
+    "redBaseline":  "passing null instead of version on the production call makes the test fail with Expected \"2.0\" Actual null - proving the production path really carries the version",
+    "verification":  {
+                         "newTest":  "1 passed / 0 failed",
+                         "csharpFull":  "820 passed / 0 failed / 0 skipped (819 + 1)",
+                         "nodeFull":  "234 passed / 0 failed",
+                         "restoreVerified":  "ModContentService.cs byte-identical to green/ModContentService.cs.fixed (with LastWriteTime touched)",
+                         "productionCodeChanged":  false
+                     },
+    "stillNotCovered":  [
+                            "real GUI rendering not verified (no desktop session); the new render line still has no JS behaviour test",
+                            "the real mod update flow was not exercised (fake download handler supplies the bytes)",
+                            "no validation that versionId matches the content"
+                        ],
+    "remainingGaps":  "A4 (disk full / file in use), A6 (MR07 temporary test-world guidance), A15 remainder (.bak/.prev rotation)",
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "C5CFEB781E9E9A86535277383F0543AD6F704BAC87631C173C2E9C571FB4D76F",
+                      "sizeBytes":  4655
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "5AD45F3071570CE8B7A632182EC353818F6E6A5EE82DF88922BF6B172EE31F0C",
+                      "sizeBytes":  19095
+                  },
+                  {
+                      "path":  "green/01-e2e.log",
+                      "sha256":  "7CD167B5261CDACFF4C2EB5FE2476DD2A30CB61990E95316012616BE01B97E01",
+                      "sizeBytes":  1103
+                  },
+                  {
+                      "path":  "green/02-csharp-full.log",
+                      "sha256":  "1CD15AA56FA4FA415A8316D53E057869D5226B9B7680D164032A7C514B38C7EC",
+                      "sizeBytes":  490
+                  },
+                  {
+                      "path":  "green/03-node-full.log",
+                      "sha256":  "50ACF847EB2A7658CC18ABBB412C184FEBC3C2E429354DB516CB4B4F01B6B47D",
+                      "sizeBytes":  24278
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "04FA7356FD670241C4E5CF820CB83F58B5240E2110E8E73CB917CF543FAC68A0",
+                      "sizeBytes":  238
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "7D36B0261149A9E3E716563CFD4B151E65D5EB1ADB5CF4BAC7EC55D937E34CA4",
+                      "sizeBytes":  116242
+                  },
+                  {
+                      "path":  "green/ModContentService.cs.fixed",
+                      "sha256":  "D39A5A2102049795940602D2071DAFFBF4C8A1F3DE3317705201ADC860FB55CC",
+                      "sizeBytes":  23291
+                  },
+                  {
+                      "path":  "green/RecoveryVersionDisplayEndToEndTests.cs.fixed",
+                      "sha256":  "3947CB844627EE091320CEE173100C7C8E805A2A20832A1C0E38AE5BF868BA76",
+                      "sizeBytes":  5042
+                  },
+                  {
+                      "path":  "red/01-red-production-no-version.log",
+                      "sha256":  "0740EA82C26D1E7E34D011F328EF5051671C4B1EE91DF170B0892DA6475CE9FA",
+                      "sizeBytes":  2986
+                  }
+              ]
+}

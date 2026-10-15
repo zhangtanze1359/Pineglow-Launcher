@@ -1,0 +1,30 @@
+{
+  "manifestCount": 60,
+  "fileEntries": 830,
+  "issues": [
+    {
+      "manifest": "MG0-verification-package-20261003/manifest.json",
+      "path": "drift-notes.md",
+      "reason": "hash/size mismatch",
+      "actualSHA": "C55CE93981D8D078CD66450D91AAF5571145731049B024433301EB955277CF6B",
+      "actualSize": 4088,
+      "recordedSHA": "1F7197B34E86025D32C0B8DDB6DE0A136F1CB3489FD4927AEEDAA97698F0BE88",
+      "recordedSize": 3114
+    },
+    {
+      "manifest": "MG2-verification-package-20261003/manifest.json",
+      "path": "verify-mg2-full.log",
+      "reason": "hash/size mismatch",
+      "actualSHA": "BE2E432EADE77D436B39A1706248B9C90D9280CA98DFF8C57EEE4A5C5F5E2F95",
+      "actualSize": 41770,
+      "recordedSHA": "B99A6D92BA9E6791B9DE5C8579254AD233AEB35AC539B7CC5BF05748F0813C31",
+      "recordedSize": 41770
+    }
+  ],
+  "detached": [
+    {
+      "manifest": "FINAL-REMEDIATION/20261003-052200Z/manifest.json",
+      "matches": true
+    }
+  ]
+}

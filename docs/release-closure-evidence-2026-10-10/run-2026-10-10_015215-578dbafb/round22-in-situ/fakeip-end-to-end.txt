@@ -1,0 +1,5 @@
+﻿OFF (first)    newsFakeIpCompat=False  id=2a43e476ad90...  {"error":"dns_private"}HTTP=400 BYTES=23
+ON             newsFakeIpCompat=True   id=c9d34179034d...  System.Object[]
+OFF (again)    newsFakeIpCompat=False  id=a8175b8f7123...  {"error":"dns_private"}HTTP=400 BYTES=23
+
+# Control (UNPATCHED canonical EXE, round 18, toggle ON): {"error":"dns_mixed"} HTTP=400

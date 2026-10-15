@@ -1,0 +1,36 @@
+ .github/workflows/build.yml                        |   56 +-
+ .github/workflows/release.yml                      |   24 +-
+ README.md                                          |    4 +-
+ .../Pineglow.Launcher.Tests.csproj                 |    7 +-
+ dev/PineglowLauncher/Assets/AppIcon.ico            |  Bin 198241 -> 172927 bytes
+ dev/PineglowLauncher/Assets/AppIcon.png            |  Bin 444727 -> 1953440 bytes
+ .../Pineglow.Launcher.Models/AppConfig.cs          |    9 +
+ .../Pineglow.Launcher.Models/LauncherAccount.cs    |    2 +
+ .../Pineglow.Launcher.Services/AccountService.cs   |   11 +
+ .../AiDiagnoseService.cs                           |  741 +++++++-
+ .../Pineglow.Launcher.Services/AuthlibAccount.cs   |    2 +-
+ .../AuthlibInjectorService.cs                      |   36 +-
+ .../Pineglow.Launcher.Services/ConfigStore.cs      |   63 +-
+ .../Pineglow.Launcher.Services/LauncherService.cs  |    2 +-
+ .../Pineglow.Launcher.Services/LocalApiService.cs  | 1043 +++++++++++-
+ .../MicrosoftAuthService.cs                        |    5 +
+ .../Pineglow.Launcher.Services/MinecraftAccount.cs |    2 +
+ .../MinecraftAppearance.cs                         |    2 +
+ .../MinecraftNewsService.cs                        |  677 +++++++-
+ .../Pineglow.Launcher.Services/SecretStore.cs      |    2 +
+ .../Pineglow.Launcher.Services/UpdateService.cs    |   21 +-
+ dev/PineglowLauncher/Pineglow.Launcher.csproj      |   16 +-
+ dev/PineglowLauncher/Properties/AssemblyInfo.cs    |   14 +-
+ dev/PineglowLauncher/VerifyHost/BisectSmoke.cs     |    4 +-
+ dev/PineglowLauncher/VerifyHost/VerifyHost.csproj  |   10 +-
+ dev/PineglowLauncher/app.ico                       |  Bin 198241 -> 172927 bytes
+ docs/archive/archive-README.md                     |    2 +
+ docs/development-guide.md                          |    4 +-
+ docs/features.md                                   |    3 +-
+ docs/roadmap.md                                    |   39 +-
+ ui/css/figma.css                                   |  139 +-
+ ui/index.html                                      |    5 +
+ ui/js/api.js                                       |  315 +++-
+ ui/js/i18n.js                                      |  230 +++
+ ui/js/launcher.js                                  | 1791 +++++++++++++++++---
+ 35 files changed, 4838 insertions(+), 443 deletions(-)

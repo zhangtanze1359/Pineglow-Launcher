@@ -1,0 +1,23 @@
+{
+  "roots": [
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-audit-coverage-rm8phxwi\\size-missing"
+  ],
+  "manifestCount": 1,
+  "fileEntries": 1,
+  "selfEntries": [],
+  "duplicateEntries": [],
+  "historicalExceptionsRetained": true,
+  "historicalExceptionCount": 0,
+  "knownMismatches": [],
+  "missingDetached": [],
+  "failures": [],
+  "runs": [
+    {
+      "manifest": "RUN-OK/manifest.json",
+      "root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-audit-coverage-rm8phxwi\\size-missing",
+      "package": "RUN-OK",
+      "filesChecked": 1,
+      "declaredRunId": "RUN-OK"
+    }
+  ]
+}

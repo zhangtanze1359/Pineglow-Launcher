@@ -1,0 +1,27 @@
+{
+  "timeHK": "2026-10-03T17:21:33.5449326+08:00",
+  "docs": [
+    {
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\deepseek-harness-r2-independent-acceptance-2026-10-03.md",
+      "exists": true,
+      "sha256": "6DC155E7DDC34219EC05882CD5366C64F33D13F8AB6CB4C12390CDD82BF425E8",
+      "sizeBytes": 11965
+    },
+    {
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\deepseek-harness-long-term-goal-workflow-2026-10-03.md",
+      "exists": true,
+      "sha256": "6A7A77C0D426A4AB2F3C7A9E62D612BB0C4A49477B9FE4CC247E55D2C4739BAC",
+      "sizeBytes": 22918
+    },
+    {
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\deepseek-harness-long-term-goal-prompt-2026-10-03.md",
+      "exists": true,
+      "sha256": "3E8EFCA9FDC372E6E4575ED0A5DF4AA28FD532FAE85192E42E325DC90D093B92",
+      "sizeBytes": 7887
+    }
+  ],
+  "harnessGoalCreated": false,
+  "harnessTaskSent": false,
+  "productCodeModified": false,
+  "metadataValidationExit": 0
+}

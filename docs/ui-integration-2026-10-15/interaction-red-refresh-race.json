@@ -1,0 +1,11 @@
+{
+  "kind": "Isolated headless Edge + real product APIs using a run-owned portable fixture; no real account upload",
+  "checks": [
+    {
+      "name": "Stats API returns persisted instance identities and 8 real-format fixture sessions",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "fatal": "locator.click: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-pt-clear]')\u001b[22m\n\u001b[2m    - locator resolved to <button data-pt-clear=\"\">清除日期筛选</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    19 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n    at D:\\松光启动器\\docs\\ui-integration-2026-10-15\\verify-interactions.cjs:21:40"
+}

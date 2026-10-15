@@ -1,0 +1,94 @@
+﻿{
+    "runId":  "20261003-330000Z",
+    "task":  "MR03 补测之四：原子性的确定性 RED",
+    "generatedUtc":  "2026-10-03T01:57:43Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "the round-43 unachieved item: a reproducible RED proving the concurrency test catches a non-atomic implementation",
+    "result":  {
+                   "testsInClass":  8,
+                   "green":  "8 passed / 0 failed (class repeated 3 times: 3/3 PASS)",
+                   "csharpFull":  "812 passed / 0 failed / 0 skipped (811 + 1)",
+                   "nodeFull":  "230 passed / 0 failed (18 files)",
+                   "redIsDeterministic":  true,
+                   "restoreVerified":  "byte-identical to green/RunningInstanceRegistry.cs.fixed",
+                   "productionBehaviourUnchanged":  "the seam delegate is null in production; only a null-conditional invoke was added"
+               },
+    "mechanism":  {
+                      "seam":  "internal static Action? BeforeReserveForTest, invoked between the IsRunning check and TryAdd",
+                      "test":  "a Barrier(8) makes every caller pass the check before any of them reserves",
+                      "atomicResult":  "8 callers -\u003e exactly 1 winner",
+                      "nonAtomicResult":  "8 callers -\u003e 3 winners -\u003e the assertion fails deterministically (round 43 got 1 winner because the nanosecond window was never opened)",
+                      "whyItIsSafe":  "production sets it to null; the repo already has comparable seams (MarkRunningForTest, ResetForTest, OverrideConfigStoreForTest)"
+                  },
+    "lessonsApplied":  "This round I saved POST-fix references (green/*.fixed) BEFORE touching anything and restored to them - the mistake I made in rounds 42 and 43 did not recur.",
+    "stillNotCovered":  [
+                            "cross-process concurrent launch: two launcher processes starting the same instance remain uncoordinated (inherent limit of an in-process registry)",
+                            "runtime state is still in-process memory only",
+                            "real Minecraft launch not verified",
+                            "the delete-guard vs reservation interaction has no dedicated test (correct by IsRunning)",
+                            "the barrier test assumes the thread pool can supply 8 threads at once; a 10s timeout guards it but it was not verified on a low-core machine"
+                        ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "78D643710BA7352E7EF4E98DF05BF08FF861B730E078CDE22D3C0657FDAFC52B",
+                      "sizeBytes":  5384
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "2562874C199415E6FD5976F4AC5F733B442EE4AAE376970F6ED712B630603E1A",
+                      "sizeBytes":  14251
+                  },
+                  {
+                      "path":  "green/01-green-seam.log",
+                      "sha256":  "E0D73B3C76F311473037D1B7F521CE6C82A0EB27586A5E041383BACFC8176AEA",
+                      "sizeBytes":  3056
+                  },
+                  {
+                      "path":  "green/02-green-restored.log",
+                      "sha256":  "47096CEDD2971B83D2DC74B336B705985C34FC4BF7E8B13DD57119C18ADA37C9",
+                      "sizeBytes":  3058
+                  },
+                  {
+                      "path":  "green/03-csharp-full.log",
+                      "sha256":  "B418D5984758E9B75352FD668FAACCF7C35CC4BAAB7633458551A9BDD3CC3EA7",
+                      "sizeBytes":  490
+                  },
+                  {
+                      "path":  "green/04-node-full.log",
+                      "sha256":  "481E49391F853956ACDEE504D2A3EEEB13FA3811AF62CA7BF9874588383C0C3A",
+                      "sizeBytes":  23789
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "07FA381DD545777616F9C363520093A5F910F7FDC36C9B2819A99CF03E483E07",
+                      "sizeBytes":  267
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "D8E85D475178CB5552158D8C7F36748733DBDC71BC21398947F04EEE7C1EA7F0",
+                      "sizeBytes":  116014
+                  },
+                  {
+                      "path":  "green/InstanceLaunchGuardTests.cs.fixed",
+                      "sha256":  "4E1CD5F7D60748C52AC76B15E6B16B55D1AE279E2E1728B4136B8E018545F493",
+                      "sizeBytes":  11661
+                  },
+                  {
+                      "path":  "green/LocalApiService.cs.fixed",
+                      "sha256":  "87FB3AF0367DC31D2939C11FA686A0EB398D6723A8B956B0D7A87E82CC838CCF",
+                      "sizeBytes":  200488
+                  },
+                  {
+                      "path":  "green/RunningInstanceRegistry.cs.fixed",
+                      "sha256":  "3AF747DA7B15B5D7DD12055DA67B49EEEC2D9F08CF938D15D9F06AF7E7DA0653",
+                      "sizeBytes":  6630
+                  },
+                  {
+                      "path":  "red/01-red-nonatomic-barrier.log",
+                      "sha256":  "84226AB6044C83C20F3F744D3D933626C21C13A69A57D51A7558F8D6870D6289",
+                      "sizeBytes":  4588
+                  }
+              ]
+}

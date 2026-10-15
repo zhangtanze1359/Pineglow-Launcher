@@ -1,0 +1,11 @@
+{
+  "kind": "Real WebView2 + real product APIs using isolated portable fixture; skin upload is request-blocked verification only",
+  "checks": [
+    {
+      "name": "Stats API returns persisted instance identities and 8 real-format fixture sessions",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "fatal": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert.ok((await page.locator('#ptReadout').textContent()).includes('验收实例'))\n\n    at D:\\松光启动器\\docs\\ui-integration-2026-10-15\\verify-interactions.cjs:17:56"
+}

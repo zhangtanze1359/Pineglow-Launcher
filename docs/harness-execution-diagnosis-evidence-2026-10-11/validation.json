@@ -1,0 +1,93 @@
+{
+  "validatedAt": "2026-10-11T14:11:48.8982894+08:00",
+  "fatal400": 5,
+  "afterCompactionModelRequests": 0,
+  "toolPairs": 335,
+  "guardedInputHashes": [
+    {
+      "path": "C:/Users/Administrator/.dsh/sessions/--D-~677E~5149~542F~52A8~5668--/session-98527af6-2b06-4bf8-9c00-e4bc727dd861/session.v4.jsonl.zstd",
+      "sha256": "774469598c9c0691dcbaa3bec37b2825b0e5ad7c2c527a68ad8c142886fc2192",
+      "unchanged": true
+    },
+    {
+      "path": "C:/Users/Administrator/.dsh/profiles/desktop/cordis.patch.yml",
+      "sha256": "367a9085cb1237801da37c1f22c679bfd8860c3071c93c185720b424c3ed5cd9",
+      "unchanged": true
+    },
+    {
+      "path": "D:/松光启动器/docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/probe-range-resume.ps1",
+      "sha256": "cf7bc5d99a35ff26c8506d26ef2378b97719dffc514b5c2bcb701a3d4eca3afd",
+      "unchanged": true
+    },
+    {
+      "path": "D:/松光启动器/docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/d-range-resume2/range-resume.json",
+      "sha256": "81cc11a1135d22a90731aae8d2307341f60042d52ba0160e7868de04b0f7c76c",
+      "unchanged": true
+    },
+    {
+      "path": "D:/松光启动器/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.cs",
+      "sha256": "4180cecbccaaa6bcae2bdd454d26f0ea3a158376a889da06d3e9d8c3ff689d23",
+      "unchanged": true
+    },
+    {
+      "path": "D:/松光启动器/scripts/verify-source-snapshot.ps1",
+      "sha256": "3ddaf00b650399b9771c5e839f486364b907f2e659b8ecf54d3a18d336cec574",
+      "unchanged": true
+    },
+    {
+      "path": "D:/松光启动器/scripts/source-snapshot-inputs.txt",
+      "sha256": "543eaa84c95962ea6c1a0671e09b0982564c7d26b5d4fb9d7a5ee4b871bdd7a2",
+      "unchanged": true
+    }
+  ],
+  "trackedChanged": 41,
+  "untracked": 2262,
+  "staged": 0,
+  "artifacts": [
+    {
+      "path": "D:\\松光启动器\\docs\\harness-execution-diagnosis-evidence-2026-10-11\\collect-evidence.mjs",
+      "bytes": 6341,
+      "sha256": "0cf970c8c29122dbe0c6c0413002e856b02b3170ea30314d5dd2d2409cc85f96"
+    },
+    {
+      "path": "D:\\松光启动器\\docs\\harness-execution-diagnosis-evidence-2026-10-11\\git-status.txt",
+      "bytes": 226413,
+      "sha256": "1aa32c28369ccca4020d2c96e8ed1e9f83f71b133e92c69894072193e606829e"
+    },
+    {
+      "path": "D:\\松光启动器\\docs\\harness-execution-diagnosis-evidence-2026-10-11\\model-failures.json",
+      "bytes": 3887,
+      "sha256": "0561a891b36fe60225e3a9d31bd3d3c75c3dd9d473c22af06b3679576df3e31f"
+    },
+    {
+      "path": "D:\\松光启动器\\docs\\harness-execution-diagnosis-evidence-2026-10-11\\selected-tool-results.json",
+      "bytes": 1188,
+      "sha256": "ca9455f7e71277dccbea6ea0219bc87a049922f2dd78d1f7d5f63faf850cd175"
+    },
+    {
+      "path": "D:\\松光启动器\\docs\\harness-execution-diagnosis-evidence-2026-10-11\\self-evaluation.md",
+      "bytes": 1469,
+      "sha256": "ecc4075742cc13fbc7fe0f137c5d431f3ec83743139402a2f789fc28d573f9b3"
+    },
+    {
+      "path": "D:\\松光启动器\\docs\\harness-execution-diagnosis-evidence-2026-10-11\\summary.json",
+      "bytes": 15138,
+      "sha256": "f8d700fab4aaf18881efee5d79b8326c2d06f7333ad94e2258783c98d70ab8ba"
+    },
+    {
+      "path": "D:\\松光启动器\\docs\\deepseek-harness-execution-diagnosis-2026-10-11.md",
+      "bytes": 7308,
+      "sha256": "1ce6e6cf84494622f43465395ee6f7ab693384faf245385b570a3ee24ee09e44"
+    },
+    {
+      "path": "D:\\松光启动器\\docs\\deepseek-harness-execution-recovery-workflow-2026-10-11.md",
+      "bytes": 5646,
+      "sha256": "2f53b0e8cfe122a2cf55a77fd79f6b8c1ea7f1b00e1629243320695a594ceb1c"
+    },
+    {
+      "path": "D:\\松光启动器\\docs\\deepseek-harness-execution-recovery-prompt-2026-10-11.md",
+      "bytes": 2720,
+      "sha256": "51f11e5b87c5752f5486849b500a98a3320d00e9e9253a6bae4a7231eb585af1"
+    }
+  ]
+}

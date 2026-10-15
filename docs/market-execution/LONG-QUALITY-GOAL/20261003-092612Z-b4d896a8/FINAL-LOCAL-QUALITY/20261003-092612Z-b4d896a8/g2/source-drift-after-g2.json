@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "label": "after-g2-scenarios",
+  "generatedUtc": "2026-10-03T10:02:42Z",
+  "frozenManifest": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\g0\\input-manifest.json",
+  "frozenManifestSha256": "A02411E6AE18B427018D1BC1751E6C06675C52BAF702A00335517343AF242F28",
+  "sourceRoot": "D:\\松光启动器",
+  "head": "ref: refs/heads/main",
+  "counts": {
+    "frozen": 286,
+    "unchanged": 282,
+    "allowedDrift": 4,
+    "unexpectedDrift": 0,
+    "missing": 0,
+    "newInputsDeclaredInWhitelist": 4
+  },
+  "allowedDrift": [
+    {
+      "path": "scripts/source-snapshot-inputs.txt",
+      "frozenSha256": "6EAEB9758ACF8A3A12FA4E653BB722462DA5731EDB5C49A4E4D29393FE51A747",
+      "actualSha256": "D04FA929EF3EA99653E5612855F1EC839C028D99E5445D0BBAB0032CAB7F0463",
+      "frozenSize": 8463,
+      "actualSize": 8823
+    },
+    {
+      "path": "ui/css/figma.css",
+      "frozenSha256": "A21AFC607959315D230FAF9F169B533BAB23D5A4E74974648AD0241856257D97",
+      "actualSha256": "7DD6B77DCE06920A58B89CE57DB7FCA6A33C0E64404B6117A7C78CDDDEA62F2E",
+      "frozenSize": 50459,
+      "actualSize": 50949
+    },
+    {
+      "path": "ui/js/i18n.js",
+      "frozenSha256": "6E0CEC1BDF39B123A6DB03F210AF6A43B7BFF1EFDBD5394B5663F9CDEBE3D69C",
+      "actualSha256": "8EC48352F488F50D790B1573A420AC17707E5C53C2A836AB1D519BA35BC02AFF",
+      "frozenSize": 58190,
+      "actualSize": 60050
+    },
+    {
+      "path": "ui/js/launcher.js",
+      "frozenSha256": "8FC5DB668A8A202F83D6669739E785475231FBFEC6553DCB9F3947D07927A417",
+      "actualSha256": "8AA7C31B09DC882ED9881558E94267AAB6C24A4E4A9179D997CB84FDA9526E2D",
+      "frozenSize": 199993,
+      "actualSize": 202749
+    }
+  ],
+  "unexpectedDrift": [],
+  "missing": [],
+  "newInputsDeclaredInWhitelist": [
+    "scripts/audit-goal-evidence.py",
+    "scripts/capture-goal-baseline.ps1",
+    "scripts/tests/audit-goal-evidence.test.py",
+    "ui/tests/goal-core-flow.test.cjs"
+  ],
+  "changedRelativeToR2Count": 4
+}

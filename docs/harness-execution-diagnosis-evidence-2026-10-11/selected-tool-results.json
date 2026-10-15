@@ -1,0 +1,26 @@
+[
+  {
+    "seq": 1728,
+    "type": "tool/result",
+    "timeUtc": "2026-10-09T20:47:44.533Z",
+    "timeHongKong": "2026-10-10T04:47:44.533+08:00",
+    "turn": 11,
+    "step": 21,
+    "isError": false,
+    "text": "BOM re-added\r\nparse errors: 0\r\nrun exit = 4\r\nseeded temp=1048576  jarMatches=True  leftoverTemp=False  seconds=12 status=downloading\r\n--- messages seen (first 12) ---\r\n  正在获取 Minecraft 1.21.11 元数据...\r\n  下载：1.21.11.jar\r\n  继续下载：1.21.11.jar（已完成 1.0 MB）\r\n  正在下载游戏资源：3000/4591\r\n--- resume-related messages ---\r\n  下载：1.21.11.jar\r\n  继续下载：1.21.11.jar（已完成 1.0 MB）\r\n"
+  },
+  {
+    "seq": 1736,
+    "type": "tool/result",
+    "timeUtc": "2026-10-09T20:48:02.157Z",
+    "timeHongKong": "2026-10-10T04:48:02.157+08:00",
+    "turn": 11,
+    "step": 22,
+    "error": {
+      "name": "FsError",
+      "code": "FS_STALE_VERSION"
+    },
+    "isError": true,
+    "text": "Error: cannot edit \"D:\\松光启动器\\docs\\release-closure-evidence-2026-10-10\\run-2026-10-10_015215-578dbafb\\probe-range-resume.ps1\": file changed since it was read — re-read the file, then retry"
+  }
+]

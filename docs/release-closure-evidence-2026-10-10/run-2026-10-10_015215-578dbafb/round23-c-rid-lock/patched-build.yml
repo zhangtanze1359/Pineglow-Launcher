@@ -1,0 +1,162 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            rid: win-x64
+          - os: ubuntu-latest
+            rid: linux-x64
+          - os: macos-latest
+            rid: osx-x64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      # SDK 版本以仓库根 global.json 为唯一来源（当前 10.0.301, rollForward=latestPatch）。
+      # 不用 '10.0.x' 这类浮动写法，避免 runner 预装版本与仓库声明漂移。
+      - name: Setup .NET (from global.json)
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      # 非 RID 路径的锁定还原。dev/PineglowLauncher/packages.lock.json 与
+      # dev/PineglowLauncher.Tests/packages.lock.json 只覆盖 net10.0，
+      # 因此这里可以用 --locked-mode 校验「提交的 lock 文件 == 项目声明」。
+      # 注意：带 -r <RID> 的 publish 不能使用锁定还原（实测 NU1004，见下方 publish 步骤注释），
+      # 故锁定还原只用于非 RID 路径。
+      #
+      # 必须每个项目一个独立步骤，不能合并成同一个 run 块：
+      # Windows runner 上 run 块的默认 shell 是 pwsh，PowerShell 不会因外部命令
+      # 非零退出而让步骤失败；块结束时只检查 $LASTEXITCODE，而它只反映【最后一条】命令。
+      # 合并两条 restore 时，第一条失败会被第二条成功掩盖。拆开后任一非零即阻断。
+      - name: Restore launcher with lock file (non-RID)
+        run: dotnet restore dev/PineglowLauncher/Pineglow.Launcher.csproj --locked-mode
+
+      - name: Restore tests with lock file (non-RID)
+        run: dotnet restore dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj --locked-mode
+
+      # MR19 守卫：提交的 lock 文件必须是「非 RID 形态」。
+      #
+      # 实测证据（docs/market-execution/MR19-reproducible-build-rid/20261003-070000Z/）：
+      #   - 普通 `dotnet publish -r win-x64` 会**就地改写** packages.lock.json
+      #     （8663 → 10868 字节，新增 net10.0/win-x64 段与 Microsoft.NET.ILLink.Tasks）；
+      #   - 这种形态能让 **RID** 锁定还原通过（exit 0），
+      #     但会让**上面两个 --locked-mode 步骤**失败于 NU1004 —— 两者互斥；
+      #   - 因此"提交 RID 形态"不是修复，而是会静默破坏锁定校验。
+      # 一旦有人提交了被改写的 lock 文件，CI 必须在这里给出明确原因，
+      # 而不是让人去猜 NU1004 里那句"包引用已更改"。
+      - name: Guard lock files are in non-RID form
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in dev/PineglowLauncher/packages.lock.json dev/PineglowLauncher.Tests/packages.lock.json; do
+            if grep -q '"net10\.0/' "$f"; then
+              echo "::error file=$f::lock 文件含 RID 段，会让非 RID 的 --locked-mode 还原失败（NU1004）"
+              exit 1
+            fi
+            if grep -q 'Microsoft\.NET\.ILLink\.Tasks' "$f"; then
+              echo "::error file=$f::lock 文件引用了 Microsoft.NET.ILLink.Tasks（只由 RID 发布注入）"
+              exit 1
+            fi
+            echo "OK: $f"
+          done
+
+          # C/RID lock: the per-RID lock files must exist and must actually describe their RID,
+          # otherwise a missing or stale lock would silently fall back to an unlocked restore.
+          for rid in win-x64 linux-x64 osx-x64; do
+            f="dev/PineglowLauncher/packages.$rid.lock.json"
+            if [ ! -f "$f" ]; then
+              echo "::error file=$f::缺少 $rid 的 lock 文件（发布要用 -p:NuGetLockFilePath）"
+              exit 1
+            fi
+            if ! grep -q "\"net10\.0/$rid\"" "$f"; then
+              echo "::error file=$f::$f 里没有 net10.0/$rid 段，锁定还原会失败或退化"
+              exit 1
+            fi
+            echo "OK: $f (含 net10.0/$rid 段)"
+          done
+
+      # 前端测试固定 Node 版本，与本地已验证版本一致（node --test 行为随版本变化）。
+      - name: Setup Node
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+
+      # R02 门槛：UI 本地静态资源闭包必须完整。
+      # 由来：ui/index.html → css/pineglow.css → ../assets/pine-forest.svg 这两个文件
+      # 曾经既未纳入候选源码、也不在打包清单里，而 Node 全量与构建依然通过。
+      - name: Verify UI resource closure (R02)
+        if: matrix.os == 'ubuntu-latest'
+        run: node scripts/check-ui-resource-closure.cjs --root ui --json ui-resource-closure.json
+
+      # R04：正式测试清单的唯一权威来源是 scripts/test-inventory.txt。
+      # 这里先做双向一致性校验：清单里写的必须存在；磁盘上存在的 *.test.cjs 必须都登记。
+      # 少列（例如曾经的 11 vs 21）、多出、文件被删都会非零失败，不允许悄悄少跑测试。
+      - name: Verify test inventory (R04)
+        if: matrix.os == 'ubuntu-latest'
+        run: node scripts/run-inventory-tests.cjs --check --json test-inventory-report.json
+
+      # R04：按清单运行全部前端测试（当前 23 个 *.test.cjs），不再硬编码文件列表。
+      - name: Run Node front-end tests (from inventory)
+        if: matrix.os == 'ubuntu-latest'
+        run: node scripts/run-inventory-tests.cjs
+
+      # 测试只在 Linux 上跑（已覆盖跨平台路径/文件系统语义）。
+      # macOS 上 Avalonia WinExe 主项目在 testhost 下无法加载 Pineglow.Launcher.dll
+      # （FileNotFoundException），属测试宿主依赖解析问题，非测试逻辑失败。
+      - name: Run tests
+        if: matrix.os == 'ubuntu-latest'
+        run: dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --logger "console;verbosity=minimal"
+
+      # Mod Bisect API 级 E2E 冒烟：VerifyHost 自建 portable 沙盒自跑自清，不碰真实配置。
+      # 仅 Windows 跑：HttpListener/portable 路径语义以 Windows 为准（本地已验证 Release 配置下 10/10 PASS）。
+      - name: Build VerifyHost (win-x64 only)
+        if: matrix.os == 'windows-latest'
+        run: dotnet build dev/PineglowLauncher/VerifyHost/VerifyHost.csproj -c Release
+
+      - name: Run bisect smoke (win-x64 only)
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        run: dev/PineglowLauncher/VerifyHost/bin/Release/net10.0/VerifyHost.exe --bisect-smoke --port 48239
+
+      # R02/R04 门槛产出的 JSON 报告必须留证。
+      # 此前这两份报告只写进 runner 的工作目录、随作业一起消失，只能从控制台日志里看——
+      # 等于"门槛跑了但拿不到证据"，而 release.yml 的同名证据一直是上传的（本轮审计发现此不一致）。
+      # if: always() —— 门槛失败时才是最想拿到报告的时候。
+      - name: Upload verify evidence (ubuntu only)
+        if: always() && matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-verify-evidence
+          path: |
+            ui-resource-closure.json
+            test-inventory-report.json
+          if-no-files-found: warn
+
+      # 带 RID 的发布构建，这里刻意不加锁定还原：
+      # 现有 packages.lock.json 只覆盖 net10.0，没有 win-x64 / linux-x64 / osx-x64 的 RID 段，
+      # 且 RID 发布会额外引入 Microsoft.NET.ILLink.Tasks，
+      # 实测 `dotnet publish -r win-x64 -p:RestoreLockedMode=true` 必然失败于 NU1004
+      # （「项目的运行时标识符已更改 / net10.0 的包引用已更改」）。
+      # 因此：非 RID 还原用锁定校验（上一步），RID 发布走普通 publish。
+      # 副作用提示：普通 publish 的隐式还原会就地更新 checkout 里的 packages.lock.json，
+      # 该文件在 CI 中是一次性检出，不影响仓库中的版本。
+      - name: Publish (${{ matrix.rid }})
+        run: dotnet publish dev/PineglowLauncher/Pineglow.Launcher.csproj -c Release -r ${{ matrix.rid }} --self-contained /p:PublishSingleFile=true /p:EnableCompressionInSingleFile=true /p:DebugType=None /p:DebugSymbols=false /p:RestoreLockedMode=true /p:NuGetLockFilePath=packages.${{ matrix.rid }}.lock.json
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Pineglow-Launcher-${{ matrix.rid }}
+          path: dev/PineglowLauncher/bin/Release/net10.0/${{ matrix.rid }}/publish/

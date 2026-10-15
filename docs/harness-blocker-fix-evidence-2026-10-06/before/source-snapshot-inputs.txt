@@ -1,0 +1,214 @@
+# source-snapshot-inputs.txt
+# 候选源码快照的未跟踪输入白名单（精确相对路径，一行一个）
+# 用途：scripts/verify-source-snapshot.ps1 在隔离临时目录中构建快照时，
+#       除「全部 tracked 文件的工作区版本」之外，额外纳入本清单列出的未跟踪文件。
+#
+# 架构决定（Codex，本轮）：
+#   - tracked 文件一律以当前工作区版本为准（含 35 个已修改文件的修改后内容）。
+#   - 未跟踪文件不批量纳入、不用目录通配，只允许本清单逐项列出的精确路径。
+#   - 不纳入 docs 未跟踪证据、TestResults、临时脚本、.testagent/.trae、Dify bridge。
+#   - 本文件不构成 git 暂存指令，不改变原仓库任何 git 状态。
+#
+# 行首 # 为注释，空行忽略；其余每行必须是仓库相对路径。
+
+# ---- 类别 A：生产源码 / UI / vendor（23）----
+dev/PineglowLauncher/Pineglow.Launcher.Services/AiEndpointPolicy.cs
+dev/PineglowLauncher/Pineglow.Launcher.Services/AiHttpClientFactory.cs
+dev/PineglowLauncher/Pineglow.Launcher.Services/AiOperationRegistry.cs
+dev/PineglowLauncher/Pineglow.Launcher.Services/BisectRecoveryStore.cs
+dev/PineglowLauncher/Pineglow.Launcher.Services/ContentIconResult.cs
+dev/PineglowLauncher/Pineglow.Launcher.Services/CurseForgeRequestPolicy.cs
+dev/PineglowLauncher/Pineglow.Launcher.Services/ContentIconService.cs
+dev/PineglowLauncher/Pineglow.Launcher.Models/DiagnosticReport.cs
+dev/PineglowLauncher/Pineglow.Launcher.Services/DiagnosticReportService.cs
+dev/PineglowLauncher/Pineglow.Launcher.Services/DiagnosticSnapshotService.cs
+dev/PineglowLauncher/Pineglow.Launcher.Models/FileRecoveryRecord.cs
+dev/PineglowLauncher/Pineglow.Launcher.Services/FileRecoveryService.cs
+dev/PineglowLauncher/Pineglow.Launcher.Services/ModReplacementService.cs
+dev/PineglowLauncher/Pineglow.Launcher.Services/RunningInstanceRegistry.cs
+dev/PineglowLauncher/Pineglow.Launcher.Services/NewsEndpointPolicy.cs
+dev/PineglowLauncher/Pineglow.Launcher.Services/NewsImageProxyService.cs
+dev/PineglowLauncher/Pineglow.Launcher.Services/NewsLinkService.cs
+dev/PineglowLauncher/Pineglow.Launcher.Services/SkinImageProxyService.cs
+ui/js/skin3d-core.js
+ui/js/skin3d.js
+ui/vendor/README.md
+ui/vendor/THREE-LICENSE.txt
+ui/vendor/three.min.js
+
+# ---- 类别 B：C# 测试源（50）----
+dev/PineglowLauncher.Tests/AiCancelAndRedirectTests.cs
+dev/PineglowLauncher.Tests/AiDiagnoseReleaseSafetyTests.cs
+dev/PineglowLauncher.Tests/AiDispatchMetadataTests.cs
+dev/PineglowLauncher.Tests/BisectFileOperationTests.cs
+dev/PineglowLauncher.Tests/BisectRecoveryTests.cs
+dev/PineglowLauncher.Tests/BuildLockFileTests.cs
+dev/PineglowLauncher.Tests/ContentIconServiceTests.cs
+dev/PineglowLauncher.Tests/CurseForgeRateLimitTests.cs
+dev/PineglowLauncher.Tests/DiagnoseProgressGateTests.cs
+dev/PineglowLauncher.Tests/DiagnosticCaseSetInvariantTests.cs
+dev/PineglowLauncher.Tests/DiagnosticBenchmarkTests.cs
+dev/PineglowLauncher.Tests/DiagnosticReportTests.cs
+dev/PineglowLauncher.Tests/DiagnosticSnapshotServiceTests.cs
+dev/PineglowLauncher.Tests/FileRecoveryTests.cs
+dev/PineglowLauncher.Tests/FileRecoveryEdgeCaseTests.cs
+dev/PineglowLauncher.Tests/ImportCancellationTests.cs
+dev/PineglowLauncher.Tests/InstancePackTests.cs
+dev/PineglowLauncher.Tests/InstanceRemovalTests.cs
+dev/PineglowLauncher.Tests/InstanceDefaultInstanceBoundaryTests.cs
+dev/PineglowLauncher.Tests/InstanceRunningGuardTests.cs
+dev/PineglowLauncher.Tests/InstanceLaunchGuardTests.cs
+dev/PineglowLauncher.Tests/ConfigPreservationTests.cs
+dev/PineglowLauncher.Tests/ConfigBackupRotationTests.cs
+dev/PineglowLauncher.Tests/SecretPersistenceContractTests.cs
+dev/PineglowLauncher.Tests/WorldBackupScopeTests.cs
+dev/PineglowLauncher.Tests/TestIsolationRoots.cs
+dev/PineglowLauncher.Tests/LocalApiServiceTestCollection.cs
+dev/PineglowLauncher.Tests/LauncherStartupBoundaryTests.cs
+dev/PineglowLauncher.Tests/LauncherPerfMeasurementTests.cs
+dev/PineglowLauncher.Tests/LocalApiTestHarness.cs
+dev/PineglowLauncher.Tests/MinecraftNewsServiceTests.cs
+dev/PineglowLauncher.Tests/ModContentUpdateWiringTests.cs
+dev/PineglowLauncher.Tests/ModContentDependencyInstallTests.cs
+dev/PineglowLauncher.Tests/ModReplacementTests.cs
+dev/PineglowLauncher.Tests/RecoveryVersionDisplayEndToEndTests.cs
+dev/PineglowLauncher.Tests/ModReplaceFileInUseTests.cs
+dev/PineglowLauncher.Tests/OutboundEndpointPolicyTests.cs
+dev/PineglowLauncher.Tests/NewsEndpointPolicyTests.cs
+dev/PineglowLauncher.Tests/NewsFakeIpConfigTests.cs
+dev/PineglowLauncher.Tests/NewsFakeIpPolicyTests.cs
+dev/PineglowLauncher.Tests/NewsImageProxyServiceTests.cs
+dev/PineglowLauncher.Tests/NewsLinkHandlerTests.cs
+dev/PineglowLauncher.Tests/NewsLinkServiceTests.cs
+dev/PineglowLauncher.Tests/NewsR2TeredoNat64Tests.cs
+dev/PineglowLauncher.Tests/RouteReachabilityTests.cs
+dev/PineglowLauncher.Tests/UnwritableDirectoryTests.cs
+dev/PineglowLauncher.Tests/UpdateRecoveryTests.cs
+dev/PineglowLauncher.Tests/WorkflowInvariantTests.cs
+dev/PineglowLauncher.Tests/SecurityRegressionTests.cs
+dev/PineglowLauncher.Tests/SkinImageProxyServiceTests.cs
+
+# ---- 类别 C：测试夹具图片（6）----
+# 这些是「测试复现输入」，不是主程序构建必需；主程序只依赖 ui/ 内容与 Assets/。
+# 但 Tests.csproj 以 Content glob 复制 TestAssets\ContentIcons\*，缺失会导致 C# 测试失败。
+dev/PineglowLauncher.Tests/TestAssets/ContentIcons/valid-1x1.jpg
+dev/PineglowLauncher.Tests/TestAssets/ContentIcons/valid-1x1.png
+dev/PineglowLauncher.Tests/TestAssets/ContentIcons/valid-1x1.webp
+dev/PineglowLauncher.Tests/TestAssets/ContentIcons/valid-64.jpg
+dev/PineglowLauncher.Tests/TestAssets/ContentIcons/valid-64.png
+dev/PineglowLauncher.Tests/TestAssets/ContentIcons/valid-64.webp
+
+# ---- 类别 C2：MR09 诊断评测案例集（2）----
+# 注意：这两项**不**由 csproj 复制到输出目录；DiagnosticBenchmarkTests 从源码树相对路径读取，
+# 因此快照必须包含它们，否则评测用例会因找不到案例集而失败。
+dev/PineglowLauncher.Tests/TestAssets/Diagnostics/diagnostic-cases.json
+dev/PineglowLauncher.Tests/TestAssets/Diagnostics/README.md
+
+# ---- 类别 D：SDK 固定（1）----
+global.json
+
+# ---- 类别 E：还原锁文件（2）----
+# 两个 csproj 均设 RestorePackagesWithLockFile=true；无 lock 文件时
+# --locked-mode 还原会失败（NU1004），lock 文件本身不会自动生成。
+dev/PineglowLauncher/packages.lock.json
+dev/PineglowLauncher.Tests/packages.lock.json
+
+# ---- 类别 F：正式 Node 前端测试（20）----
+ui/tests/a11y-keyboard.test.cjs
+ui/tests/a13-doubles-and-taborder.test.cjs
+ui/tests/a6-bisect-safety-guidance.test.cjs
+ui/tests/ai-diagnose.test.cjs
+ui/tests/api-contract.test.cjs
+ui/tests/bisect-recovery.test.cjs
+ui/tests/content-icon.test.cjs
+ui/tests/diagnostic-history.test.cjs
+ui/tests/file-recovery.test.cjs
+ui/tests/import-cancel.test.cjs
+ui/tests/instance-removal.test.cjs
+ui/tests/launcher-behavior.test.cjs
+ui/tests/launcher-content.test.cjs
+ui/tests/launcher-v3.test.cjs
+ui/tests/launcher-v4.test.cjs
+ui/tests/launcher-v5.test.cjs
+ui/tests/news-behavior.test.cjs
+ui/tests/news-link.test.cjs
+ui/tests/skin3d-core.test.cjs
+ui/tests/update-recovery.test.cjs
+
+# ---- 类别 G：本轮新增的可复现性工具（16）----
+# 这两项本身就是快照验证工具，随快照一起复制以便 Codex 独立复跑。
+scripts/verify-source-snapshot.ps1
+scripts/source-snapshot-inputs.txt
+scripts/audit-evidence-tree.ps1
+scripts/repair-evidence-manifests.ps1
+scripts/audit-claimed-tests.ps1
+scripts/run-diagnostic-benchmark.ps1
+scripts/verify-mg2.ps1
+scripts/verify-mg1.ps1
+scripts/measure-mr21.ps1
+scripts/verify-mg3.ps1
+scripts/audit-plan-ledger.ps1
+scripts/verify-mg0.ps1
+scripts/measure-singlefile-repro.ps1
+scripts/measure-singlefile-pathcheck.ps1
+scripts/measure-singlefile-pathlen.ps1
+scripts/measure-singlefile-drivecheck.ps1
+
+# ---- 类别 H：FINAL-REMEDIATION（R0–R4）本轮新增输入（3）----
+# 仅追加本轮新增的实现/测试文件；不批量纳入目录、不改动既有条目。
+dev/PineglowLauncher/Pineglow.Launcher.Services/SecretStoreBackend.cs
+dev/PineglowLauncher.Tests/SecretStoreBackendTests.cs
+dev/PineglowLauncher.Tests/FinalAcceptanceRegressionTests.cs
+
+# ---- 类别 I：FINAL-REMEDIATION-R2（S1–S4）本轮新增输入（2）----
+dev/PineglowLauncher/Pineglow.Launcher.Services/PathSafetyGuard.cs
+dev/PineglowLauncher.Tests/RemediationBoundaryRegressionTests.cs
+
+# ---- 类别 J：LONG-QUALITY-GOAL 本轮新增工具/测试（只追加，不修改以上任何条目）----
+# 证据审计、基线采集、行为测试工具本身也要随快照复制，Codex 才能独立复跑。
+scripts/audit-goal-evidence.py
+scripts/capture-goal-baseline.ps1
+scripts/tests/audit-goal-evidence.test.py
+ui/tests/goal-core-flow.test.cjs
+# ---- 类别 K：LONG-QUALITY-GOAL / G4 质量运行器（只追加）----
+scripts/run-goal-validation.ps1
+scripts/tests/goal-validation.test.cjs
+
+# ---- 类别 L：RELEASE-READINESS 收口 R02/R05 本轮新增输入（只追加）----
+# R02：最新界面实际引用、但此前既未 tracked 也不在白名单里的两个资源。
+#      ui/index.html -> css/pineglow.css -> ../assets/pine-forest.svg
+#      漏掉它们时构建与 Node 全量仍会通过，所以必须由资源闭包检查门槛兜住。
+ui/css/pineglow.css
+ui/assets/pine-forest.svg
+# R02 门槛：本地静态资源闭包检查器及其自证测试（缺资源必须非零失败）。
+scripts/check-ui-resource-closure.cjs
+scripts/tests/ui-resource-closure.test.cjs
+# R05 修复件：Unicode 安全、退出码可信的步骤运行器及其自证测试。
+# 快照验证脚本本身要复制进快照，因此它依赖的模块与测试也必须一起复制，Codex 才能独立复跑。
+scripts/lib/StepRunner.psm1
+scripts/tests/step-runner.test.ps1
+# R01 修复件：UI 嵌入与解包（单文件发行自足）、其聚焦测试，以及「只复制 EXE 到新目录冷启动」
+# 的独立验收脚本（这正是 R01 原始 RED 的复现动作）。
+dev/PineglowLauncher/Pineglow.Launcher.Services/UiBundle.cs
+dev/PineglowLauncher.Tests/UiBundleTests.cs
+scripts/verify-single-file-standalone.ps1
+# R04 修复件：正式测试清单（唯一权威来源）与它的执行/守卫脚本。
+# 清单必须随快照复制，否则快照内的清单校验会因为「清单不存在」而失真。
+scripts/test-inventory.txt
+scripts/run-inventory-tests.cjs
+# R03 修复件：更新清单主/备用源降级（ConfigStore/UpdateService/LocalApiService 均已 tracked，
+# 这里只需纳入新增的聚焦测试：本地假服务器驱动 404/坏 JSON/字段非法/超时/全失败/取消六类路径）。
+dev/PineglowLauncher.Tests/UpdateManifestFallbackTests.cs
+# R06 修复件：更新替换脚本在中文/空格安装路径下的真实验收（含"等待运行中目标进程"与
+# 「不得依赖 timeout（无控制台时会永久阻塞）」的回归位）。
+dev/PineglowLauncher.Tests/UpdateApplyScriptPathTests.cs
+# R03/R06 真实网络验收脚本（默认源降级 + 真实 HTTPS 下载与篡改拒绝）。
+# 刻意**不**放进快照验证器的必跑步骤：它必须联网，放进离线确定性验证会让验证变脆；
+# 它由 release.yml 在发布流程里跑（真实端点 + 真实附件）。
+scripts/verify-update-live-download.ps1
+# R06 修复件：九页界面的**运行时**验收脚本（真实单文件 EXE + 真实 WebView2 + CDP）。
+# 现有两道 UI 门槛都只能证明"资源取得到"（HTTP 200/MIME）与"本地引用闭包完整"，
+# 不能证明界面在真实 WebView2 里真的渲染出来（JS 异常、路由失败、渲染成空白都可以资源全 200）。
+# 同样**不**放进快照验证器的必跑步骤：它需要真实桌面会话 + 真实网络（新闻图片走外部上游），
+# 放进离线确定性验证会让验证变脆；由人工/交互式验收执行并把 JSON 与截图留证。
+scripts/verify-ui-pages-live.cjs

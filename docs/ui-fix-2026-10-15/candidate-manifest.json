@@ -1,0 +1,167 @@
+{
+  "sourceRoot": "D:\\松光启动器",
+  "executionRoot": "D:\\松光启动器\\docs\\ui-fix-2026-10-15\\native-final",
+  "evidenceRoot": "D:\\松光启动器\\docs\\ui-fix-2026-10-15",
+  "head": "ea6d1cbf145bd4ae479d9f4774dba468351a91a8",
+  "changed": [
+    {
+      "path": "ui/index.html",
+      "before": "632e9a0102c957b614f940d5aaf70b782f988e7e4ce8b1eecdc96cc8e94fac3f",
+      "after": "a5f4a7b0e647ec7e1502b44929e095872a8072bed65b14b2d57acec020ce9677"
+    },
+    {
+      "path": "ui/assets/pine-forest-night.svg",
+      "before": "32a0981e0a77fc824d1b604e307cf02530cfa9f1131dc5ac860278b38e19e4a2",
+      "after": "bf5cacfd9551e9f88079a2f6a89ea29a4b48907738e6e248e03f31bf27fc6c45"
+    },
+    {
+      "path": "ui/css/redesign.css",
+      "before": "df8fcd53dab4796c2d918f7ddf98553bac29ca967d4bed8b93522cae945ae75b",
+      "after": "fa776a0e75cba481a6d61bce8cf8d6cb5ec8da89791b0099a0850ef57664f453"
+    },
+    {
+      "path": "ui/js/i18n.js",
+      "before": "4ab439bd47f97ad5e829ace645ddb9f2d9750512b04b127777eeaa9d7e6efafb",
+      "after": "21c4ed0c987fa7d0d2b9617252a9f6b6fab14a2ac74f496643b2b9ee460ec7aa"
+    },
+    {
+      "path": "ui/js/launcher.js",
+      "before": "4a2ca780d48672bbd0746b60898b56087e9d6e552f79d951f75b40832e6b6e16",
+      "after": "863133f2dde5413c27648b2339b82576fdc1244074fc387a6c026c116cf180ad"
+    },
+    {
+      "path": "ui/js/playtime.js",
+      "before": "01fc1f7a51eabf51b403f8880488537f2a8aa61ad21fc5e0f6d1d09f4cacae0f",
+      "after": "0c9f5b0ea81464139b80a9d1dc38c415a08e56f1a732cbc5d828db035da2db63"
+    },
+    {
+      "path": "ui/tests/a11y-keyboard.test.cjs",
+      "before": "81157bd9300bd0c82a046b9cd6ecbb6ee3cd3ebac4e66e6a6d34528b8a160999",
+      "after": "98d1e5b2f47149c7ab3d1956f5867b2e21ccb8ecdf9f3d0fc1ad5cc965370f33"
+    },
+    {
+      "path": "ui/tests/file-recovery.test.cjs",
+      "before": "39826083e5e28bda0b71e8a5cda965f887f6f28cbd4fa399ab48ae26bfcd887f",
+      "after": "d0b80edbb5b2093f42f46a99fe08d40f6dd212640b890dcc103e078691a9275f"
+    },
+    {
+      "path": "ui/tests/playtime.test.cjs",
+      "before": "946b7c4810b0705a75da566c2aa72d4967c87f87ba2e16763d4a56cf6d88279d",
+      "after": "8beee96bb540495bdef9fc644bde98c1f676415ee722b6763fad5752422d2198"
+    }
+  ],
+  "sourceFrozen": true,
+  "uiBindingsMatch": true,
+  "bindings": [
+    {
+      "path": "index.html",
+      "source": "a5f4a7b0e647ec7e1502b44929e095872a8072bed65b14b2d57acec020ce9677",
+      "build": "a5f4a7b0e647ec7e1502b44929e095872a8072bed65b14b2d57acec020ce9677",
+      "native": "a5f4a7b0e647ec7e1502b44929e095872a8072bed65b14b2d57acec020ce9677"
+    },
+    {
+      "path": "assets/pine-forest-night.svg",
+      "source": "bf5cacfd9551e9f88079a2f6a89ea29a4b48907738e6e248e03f31bf27fc6c45",
+      "build": "bf5cacfd9551e9f88079a2f6a89ea29a4b48907738e6e248e03f31bf27fc6c45",
+      "native": "bf5cacfd9551e9f88079a2f6a89ea29a4b48907738e6e248e03f31bf27fc6c45"
+    },
+    {
+      "path": "assets/pine-forest.svg",
+      "source": "23fd38619008d5291661f941ffe1262b726ad51bc128394fd5fb02778f206c46",
+      "build": "23fd38619008d5291661f941ffe1262b726ad51bc128394fd5fb02778f206c46",
+      "native": "23fd38619008d5291661f941ffe1262b726ad51bc128394fd5fb02778f206c46"
+    },
+    {
+      "path": "css/figma.css",
+      "source": "7dd6b77dce06920a58b89ce57db7fca6a33c0e64404b6117a7c78cdddea62f2e",
+      "build": "7dd6b77dce06920a58b89ce57db7fca6a33c0e64404b6117a7c78cdddea62f2e",
+      "native": "7dd6b77dce06920a58b89ce57db7fca6a33c0e64404b6117a7c78cdddea62f2e"
+    },
+    {
+      "path": "css/pineglow.css",
+      "source": "002d76a630bac963ad1d7f9a0b8589a4444f06fb2d2556b814d534987a19b73d",
+      "build": "002d76a630bac963ad1d7f9a0b8589a4444f06fb2d2556b814d534987a19b73d",
+      "native": "002d76a630bac963ad1d7f9a0b8589a4444f06fb2d2556b814d534987a19b73d"
+    },
+    {
+      "path": "css/redesign.css",
+      "source": "fa776a0e75cba481a6d61bce8cf8d6cb5ec8da89791b0099a0850ef57664f453",
+      "build": "fa776a0e75cba481a6d61bce8cf8d6cb5ec8da89791b0099a0850ef57664f453",
+      "native": "fa776a0e75cba481a6d61bce8cf8d6cb5ec8da89791b0099a0850ef57664f453"
+    },
+    {
+      "path": "js/api.js",
+      "source": "d367558d0c837e21673c77ba446e2e3fd0fae99f33dd7073235d4a43516d149a",
+      "build": "d367558d0c837e21673c77ba446e2e3fd0fae99f33dd7073235d4a43516d149a",
+      "native": "d367558d0c837e21673c77ba446e2e3fd0fae99f33dd7073235d4a43516d149a"
+    },
+    {
+      "path": "js/i18n.js",
+      "source": "21c4ed0c987fa7d0d2b9617252a9f6b6fab14a2ac74f496643b2b9ee460ec7aa",
+      "build": "21c4ed0c987fa7d0d2b9617252a9f6b6fab14a2ac74f496643b2b9ee460ec7aa",
+      "native": "21c4ed0c987fa7d0d2b9617252a9f6b6fab14a2ac74f496643b2b9ee460ec7aa"
+    },
+    {
+      "path": "js/launcher.js",
+      "source": "863133f2dde5413c27648b2339b82576fdc1244074fc387a6c026c116cf180ad",
+      "build": "863133f2dde5413c27648b2339b82576fdc1244074fc387a6c026c116cf180ad",
+      "native": "863133f2dde5413c27648b2339b82576fdc1244074fc387a6c026c116cf180ad"
+    },
+    {
+      "path": "js/playtime.js",
+      "source": "0c9f5b0ea81464139b80a9d1dc38c415a08e56f1a732cbc5d828db035da2db63",
+      "build": "0c9f5b0ea81464139b80a9d1dc38c415a08e56f1a732cbc5d828db035da2db63",
+      "native": "0c9f5b0ea81464139b80a9d1dc38c415a08e56f1a732cbc5d828db035da2db63"
+    },
+    {
+      "path": "js/skin3d-core.js",
+      "source": "3852f56dfc9c178bcbcfa98f453e07a1767f254875917836d64f45f5eb287fe9",
+      "build": "3852f56dfc9c178bcbcfa98f453e07a1767f254875917836d64f45f5eb287fe9",
+      "native": "3852f56dfc9c178bcbcfa98f453e07a1767f254875917836d64f45f5eb287fe9"
+    },
+    {
+      "path": "js/skin3d.js",
+      "source": "f60f3400a619cbaf037e78601b4ebd896e58ae25f63cf1d7e4f54c974d40def9",
+      "build": "f60f3400a619cbaf037e78601b4ebd896e58ae25f63cf1d7e4f54c974d40def9",
+      "native": "f60f3400a619cbaf037e78601b4ebd896e58ae25f63cf1d7e4f54c974d40def9"
+    },
+    {
+      "path": "vendor/README.md",
+      "source": "9d4a3b1baa6a5a10ca003283fea15c7b4608ab501f11a75af6180e2ca13c5f2c",
+      "build": "9d4a3b1baa6a5a10ca003283fea15c7b4608ab501f11a75af6180e2ca13c5f2c",
+      "native": "9d4a3b1baa6a5a10ca003283fea15c7b4608ab501f11a75af6180e2ca13c5f2c"
+    },
+    {
+      "path": "vendor/THREE-LICENSE.txt",
+      "source": "78396b5fe83d62267384403d46da1009747088000dea0c02d4abfa4efdc99098",
+      "build": "78396b5fe83d62267384403d46da1009747088000dea0c02d4abfa4efdc99098",
+      "native": "78396b5fe83d62267384403d46da1009747088000dea0c02d4abfa4efdc99098"
+    },
+    {
+      "path": "vendor/three.min.js",
+      "source": "170c6789f43217c96b3170f4b42fafe135de7f7cd48497a4218f9757ee1d49fa",
+      "build": "170c6789f43217c96b3170f4b42fafe135de7f7cd48497a4218f9757ee1d49fa",
+      "native": "170c6789f43217c96b3170f4b42fafe135de7f7cd48497a4218f9757ee1d49fa"
+    }
+  ],
+  "buildDll": "abe66ede392fa8114622bc435dd2142e05441117d06f075e796f2dd934204593",
+  "nativeDll": "abe66ede392fa8114622bc435dd2142e05441117d06f075e796f2dd934204593",
+  "node": {
+    "tests": 302,
+    "pass": 302,
+    "fail": 0
+  },
+  "browser": {
+    "checks": 59,
+    "fail": 0,
+    "pagePairs": 30
+  },
+  "native": {
+    "pages": 30,
+    "fail": 0,
+    "interactions": 11,
+    "errors": [],
+    "fatal": null
+  },
+  "formalPhaseApproval": "NOT_GRANTED"
+}

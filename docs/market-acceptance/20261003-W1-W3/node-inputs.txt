@@ -1,0 +1,11 @@
+C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-4b2ee15c82e349518501c1ffb40104f1\ui\tests\ai-diagnose.test.cjs
+C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-4b2ee15c82e349518501c1ffb40104f1\ui\tests\api-contract.test.cjs
+C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-4b2ee15c82e349518501c1ffb40104f1\ui\tests\content-icon.test.cjs
+C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-4b2ee15c82e349518501c1ffb40104f1\ui\tests\launcher-behavior.test.cjs
+C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-4b2ee15c82e349518501c1ffb40104f1\ui\tests\launcher-content.test.cjs
+C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-4b2ee15c82e349518501c1ffb40104f1\ui\tests\launcher-v3.test.cjs
+C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-4b2ee15c82e349518501c1ffb40104f1\ui\tests\launcher-v4.test.cjs
+C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-4b2ee15c82e349518501c1ffb40104f1\ui\tests\launcher-v5.test.cjs
+C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-4b2ee15c82e349518501c1ffb40104f1\ui\tests\news-behavior.test.cjs
+C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-4b2ee15c82e349518501c1ffb40104f1\ui\tests\news-link.test.cjs
+C:\Users\Administrator\AppData\Local\Temp\pineglow-independent-4b2ee15c82e349518501c1ffb40104f1\ui\tests\skin3d-core.test.cjs

@@ -1,0 +1,37 @@
+{
+  "args": [
+    "-NoProfile",
+    "-ExecutionPolicy",
+    "Bypass",
+    "-File",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-acceptance-ap4aublk\\scripts\\run-goal-validation.ps1",
+    "-InputManifest",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\unknown-only\\input.json",
+    "-RunDir",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\unknown-only\\run",
+    "-StagesFile",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\unknown-only\\stages.json",
+    "-ExecutionRoot",
+    "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\unknown-only",
+    "-Only",
+    "missing-id"
+  ],
+  "exitCode": 2,
+  "stdout": "runner REFUSED: ONLY_NOT_FOUND -> C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\unknown-only\\run\\refusal-20261004-103848Z.json\n",
+  "stderr": "",
+  "verdict": {
+    "schemaVersion": 2,
+    "runner": "run-goal-validation.ps1",
+    "runDir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\unknown-only\\run",
+    "stageFilter": "",
+    "generatedUtc": "2026-10-04T10:38:47Z",
+    "refused": true,
+    "reasons": [
+      "ONLY_NOT_FOUND"
+    ],
+    "verdict": "REFUSED",
+    "stageCount": 0,
+    "failedCount": 0,
+    "stages": []
+  }
+}

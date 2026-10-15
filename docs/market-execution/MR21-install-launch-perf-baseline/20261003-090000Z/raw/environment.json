@@ -1,0 +1,12 @@
+﻿{
+    "frozenAtUtc":  "2026-10-02T22:36:13Z",
+    "osVersion":  "Microsoft Windows NT 10.0.26200.0",
+    "logicalCores":  16,
+    "dotnetSdk":  "10.0.301",
+    "nodeVersion":  "v24.19.0",
+    "processArch":  "AMD64",
+    "runs":  5,
+    "iterationsPerRun":  20,
+    "note":  "同一台机器、同一 SDK；不同机器成绩不可混用",
+    "webView2Runtime":  "154.0.4258.48"
+}

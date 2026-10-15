@@ -1,0 +1,235 @@
+{
+  "timeHK": "2026-10-10T01:33:23.4939048",
+  "sourceRoot": "D:\\松光启动器",
+  "sourceHead": "c8aa286f65ad13433129fe0a9e86e2d3b0e9020b",
+  "snapshot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-release-audit-4b7da0cd23f34522971cf2d1f1c13071",
+  "recoveredCount": 312,
+  "trackedCount": 139,
+  "whitelistCount": 151,
+  "snapshotUnion": 290,
+  "omittedByExistingSnapshot": [
+    "dev/PineglowLauncher.Tests/AiDiagnoseServiceTests.cs",
+    "dev/PineglowLauncher.Tests/CrashAnalyzerServiceTests.cs",
+    "dev/PineglowLauncher.Tests/MicrosoftAuthServiceTests.cs",
+    "dev/PineglowLauncher.Tests/ModBisectServiceTests.cs",
+    "dev/PineglowLauncher/Pineglow.Launcher.Models/AiProviderProfile.cs",
+    "dev/PineglowLauncher/Pineglow.Launcher.Services/AiDiagnoseService.cs",
+    "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftNewsService.cs",
+    "dev/PineglowLauncher/Pineglow.Launcher.Services/ModBisectService.cs",
+    "dev/PineglowLauncher/VerifyHost/BisectSmoke.cs",
+    "dev/PineglowLauncher/VerifyHost/Program.cs",
+    "dev/PineglowLauncher/VerifyHost/VerifyHost.csproj",
+    "docs/ai-diagnosis-plan.md",
+    "docs/ai-feature-evolution.md",
+    "docs/api-reference.md",
+    "docs/architecture.md",
+    "docs/archive/archive-README.md",
+    "docs/design-system.md",
+    "docs/development-guide.md",
+    "docs/engineering.md",
+    "docs/features.md",
+    "docs/README.md",
+    "docs/roadmap.md"
+  ],
+  "steps": [
+    {
+      "name": "inventory",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-release-audit-4b7da0cd23f34522971cf2d1f1c13071",
+      "exe": "node",
+      "arguments": [
+        "scripts/run-inventory-tests.cjs",
+        "--check",
+        "--json",
+        "D:\\松光启动器\\docs\\release-audit-2026-10-10\\test-inventory.json"
+      ],
+      "startUtc": "2026-10-09T17:33:23.8721700Z",
+      "endUtc": "2026-10-09T17:33:24.1763981Z",
+      "exitCode": 0,
+      "log": "D:\\松光启动器\\docs\\release-audit-2026-10-10\\inventory.log"
+    },
+    {
+      "name": "ui-closure",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-release-audit-4b7da0cd23f34522971cf2d1f1c13071",
+      "exe": "node",
+      "arguments": [
+        "scripts/check-ui-resource-closure.cjs",
+        "--root",
+        "ui",
+        "--json",
+        "D:\\松光启动器\\docs\\release-audit-2026-10-10\\ui-closure.json"
+      ],
+      "startUtc": "2026-10-09T17:33:24.1904725Z",
+      "endUtc": "2026-10-09T17:33:24.3169325Z",
+      "exitCode": 0,
+      "log": "D:\\松光启动器\\docs\\release-audit-2026-10-10\\ui-closure.log"
+    },
+    {
+      "name": "node-all",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-release-audit-4b7da0cd23f34522971cf2d1f1c13071",
+      "exe": "node",
+      "arguments": [
+        "scripts/run-inventory-tests.cjs"
+      ],
+      "startUtc": "2026-10-09T17:33:24.3199913Z",
+      "endUtc": "2026-10-09T17:34:10.3062679Z",
+      "exitCode": 0,
+      "log": "D:\\松光启动器\\docs\\release-audit-2026-10-10\\node-all.log"
+    },
+    {
+      "name": "restore-locked",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-release-audit-4b7da0cd23f34522971cf2d1f1c13071",
+      "exe": "dotnet",
+      "arguments": [
+        "restore",
+        "dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj",
+        "--locked-mode"
+      ],
+      "startUtc": "2026-10-09T17:34:10.3094882Z",
+      "endUtc": "2026-10-09T17:34:12.4196740Z",
+      "exitCode": 0,
+      "log": "D:\\松光启动器\\docs\\release-audit-2026-10-10\\restore-locked.log"
+    },
+    {
+      "name": "focused",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-release-audit-4b7da0cd23f34522971cf2d1f1c13071",
+      "exe": "dotnet",
+      "arguments": [
+        "test",
+        "dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj",
+        "-c",
+        "Release",
+        "--no-restore",
+        "--filter",
+        "FullyQualifiedName~LoaderLaunchAssemblyTests|FullyQualifiedName~JavaSelectionMetadataTests",
+        "--logger",
+        "trx;LogFileName=focused.trx",
+        "--results-directory",
+        "D:\\松光启动器\\docs\\release-audit-2026-10-10"
+      ],
+      "startUtc": "2026-10-09T17:34:12.4272706Z",
+      "endUtc": "2026-10-09T17:34:28.0407659Z",
+      "exitCode": 0,
+      "log": "D:\\松光启动器\\docs\\release-audit-2026-10-10\\focused.log"
+    },
+    {
+      "name": "csharp-all",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-release-audit-4b7da0cd23f34522971cf2d1f1c13071",
+      "exe": "dotnet",
+      "arguments": [
+        "test",
+        "dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj",
+        "-c",
+        "Release",
+        "--no-build",
+        "--no-restore",
+        "--logger",
+        "trx;LogFileName=all.trx",
+        "--results-directory",
+        "D:\\松光启动器\\docs\\release-audit-2026-10-10"
+      ],
+      "startUtc": "2026-10-09T17:34:28.0449843Z",
+      "endUtc": "2026-10-09T17:35:58.6488350Z",
+      "exitCode": 0,
+      "log": "D:\\松光启动器\\docs\\release-audit-2026-10-10\\csharp-all.log"
+    },
+    {
+      "name": "verifyhost",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-release-audit-4b7da0cd23f34522971cf2d1f1c13071",
+      "exe": "dotnet",
+      "arguments": [
+        "build",
+        "dev/PineglowLauncher/VerifyHost/VerifyHost.csproj",
+        "-c",
+        "Release"
+      ],
+      "startUtc": "2026-10-09T17:35:58.6513906Z",
+      "endUtc": "2026-10-09T17:36:02.4526583Z",
+      "exitCode": 0,
+      "log": "D:\\松光启动器\\docs\\release-audit-2026-10-10\\verifyhost.log"
+    },
+    {
+      "name": "rid-locked",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-release-audit-4b7da0cd23f34522971cf2d1f1c13071",
+      "exe": "dotnet",
+      "arguments": [
+        "restore",
+        "dev/PineglowLauncher/Pineglow.Launcher.csproj",
+        "-r",
+        "win-x64",
+        "-p:PublishSingleFile=true",
+        "--locked-mode"
+      ],
+      "startUtc": "2026-10-09T17:36:02.4582673Z",
+      "endUtc": "2026-10-09T17:36:04.0220252Z",
+      "exitCode": 1,
+      "log": "D:\\松光启动器\\docs\\release-audit-2026-10-10\\rid-locked.log"
+    },
+    {
+      "name": "publish",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-release-audit-4b7da0cd23f34522971cf2d1f1c13071",
+      "exe": "dotnet",
+      "arguments": [
+        "publish",
+        "dev/PineglowLauncher/Pineglow.Launcher.csproj",
+        "-c",
+        "Release",
+        "-r",
+        "win-x64",
+        "--self-contained",
+        "-p:PublishSingleFile=true",
+        "-p:EnableCompressionInSingleFile=true",
+        "-p:DebugType=None",
+        "-p:DebugSymbols=false",
+        "-p:Version=1.0.1",
+        "-p:PublishDir=../../audit-dist"
+      ],
+      "startUtc": "2026-10-09T17:36:04.0255705Z",
+      "endUtc": "2026-10-09T17:36:18.9342666Z",
+      "exitCode": 0,
+      "log": "D:\\松光启动器\\docs\\release-audit-2026-10-10\\publish.log"
+    },
+    {
+      "name": "standalone-cold",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-release-audit-4b7da0cd23f34522971cf2d1f1c13071",
+      "exe": "pwsh",
+      "arguments": [
+        "-NoProfile",
+        "-File",
+        "scripts/verify-single-file-standalone.ps1",
+        "-ExePath",
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-release-audit-4b7da0cd23f34522971cf2d1f1c13071\\audit-dist\\Pineglow.Launcher.exe",
+        "-ExpectedUiRoot",
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-release-audit-4b7da0cd23f34522971cf2d1f1c13071\\ui",
+        "-JsonPath",
+        "D:\\松光启动器\\docs\\release-audit-2026-10-10\\standalone-cold.json"
+      ],
+      "startUtc": "2026-10-09T17:36:19.0597902Z",
+      "endUtc": "2026-10-09T17:36:24.9376322Z",
+      "exitCode": 0,
+      "log": "D:\\松光启动器\\docs\\release-audit-2026-10-10\\standalone-cold.log"
+    }
+  ],
+  "artifact": {
+    "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-release-audit-4b7da0cd23f34522971cf2d1f1c13071\\audit-dist\\Pineglow.Launcher.exe",
+    "size": 53052722,
+    "sha256": "3BA605531690D832900280DD29CCEAF1C0102EC71171F8498AFFF234DC47F96F",
+    "files": [
+      {
+        "Name": "libHarfBuzzSharp.pdb",
+        "Length": 20918272
+      },
+      {
+        "Name": "libSkiaSharp.pdb",
+        "Length": 84033536
+      },
+      {
+        "Name": "Pineglow.Launcher.exe",
+        "Length": 53052722
+      }
+    ],
+    "lockBefore": "FBBC9AE67B8E8CF2E3AA63C48242BC08AC713BE47830D337914CC39C85EE0672",
+    "lockAfter": "36DACA912DB381C05F939BF3C7B65AED267BE9FDA839AB43A4FD1B31C79F239F"
+  },
+  "sourceChanges": 0,
+  "userConfigUnchanged": true
+}

@@ -1,0 +1,1714 @@
+﻿[
+    {
+        "path":  ".github/workflows/build.yml",
+        "origin":  "tracked-workspace",
+        "bytes":  5285,
+        "sha256":  "ed55bd16aec029dfc930780e791c4ecfdd32727b8edf81472ccec4d5f6d6cc1b",
+        "sha256Source":  "ed55bd16aec029dfc930780e791c4ecfdd32727b8edf81472ccec4d5f6d6cc1b",
+        "matchesSource":  true
+    },
+    {
+        "path":  ".github/workflows/release.yml",
+        "origin":  "tracked-workspace",
+        "bytes":  9708,
+        "sha256":  "8699081dd975c233594a0b55ded23f6d6e3d30ad83ec24ddcda05c45e598b5d6",
+        "sha256Source":  "8699081dd975c233594a0b55ded23f6d6e3d30ad83ec24ddcda05c45e598b5d6",
+        "matchesSource":  true
+    },
+    {
+        "path":  ".gitignore",
+        "origin":  "tracked-workspace",
+        "bytes":  969,
+        "sha256":  "4855d7bce329c3e3e7275c306c4bf5eab1dfcad461302c44cfd38df67b75015e",
+        "sha256Source":  "4855d7bce329c3e3e7275c306c4bf5eab1dfcad461302c44cfd38df67b75015e",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/AiCancelAndRedirectTests.cs",
+        "origin":  "whitelist-B",
+        "bytes":  51695,
+        "sha256":  "7ba6d592ef07b252790b3bf70092ecc4e4a19a516c49babdf73049988e1ef5b1",
+        "sha256Source":  "7ba6d592ef07b252790b3bf70092ecc4e4a19a516c49babdf73049988e1ef5b1",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/AiDiagnoseReleaseSafetyTests.cs",
+        "origin":  "whitelist-B",
+        "bytes":  39450,
+        "sha256":  "e979c7ec72b2756ffb46d999bd4ee7e60e7283e3091ffcd3add84dbc2097d5e9",
+        "sha256Source":  "e979c7ec72b2756ffb46d999bd4ee7e60e7283e3091ffcd3add84dbc2097d5e9",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/AiDiagnoseServiceTests.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  6502,
+        "sha256":  "6bdcfe063132548d2fa0aace6637913093e3454f31173bda175c9da183b83d1e",
+        "sha256Source":  "6bdcfe063132548d2fa0aace6637913093e3454f31173bda175c9da183b83d1e",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/AiDispatchMetadataTests.cs",
+        "origin":  "whitelist-B",
+        "bytes":  16833,
+        "sha256":  "3925e2a5a2e06d04b471b779f66055d1ef191486a1c1dd95495dbbc137d19ab8",
+        "sha256Source":  "3925e2a5a2e06d04b471b779f66055d1ef191486a1c1dd95495dbbc137d19ab8",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/ContentIconServiceTests.cs",
+        "origin":  "whitelist-B",
+        "bytes":  139368,
+        "sha256":  "dbca75b928146599cd287b5fafef26cb667f38aaaf10148b8469fe72eeefd60e",
+        "sha256Source":  "dbca75b928146599cd287b5fafef26cb667f38aaaf10148b8469fe72eeefd60e",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/CrashAnalyzerServiceTests.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  3143,
+        "sha256":  "aa9606bcfcb029d17a29c4aeb7da59daed6896bec6ad2c2070c5cb9a5d52e8cf",
+        "sha256Source":  "aa9606bcfcb029d17a29c4aeb7da59daed6896bec6ad2c2070c5cb9a5d52e8cf",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/DiagnosticSnapshotServiceTests.cs",
+        "origin":  "whitelist-B",
+        "bytes":  3028,
+        "sha256":  "46ec2473058a43776fc6c7aa7373590c295e6ea3ace53aad8750894f64346193",
+        "sha256Source":  "46ec2473058a43776fc6c7aa7373590c295e6ea3ace53aad8750894f64346193",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/InstanceIsolationServiceTests.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  5285,
+        "sha256":  "66d4f558cfeb7559343ae771a3382ff7e01e950daf90d075910698bea4a9df97",
+        "sha256Source":  "66d4f558cfeb7559343ae771a3382ff7e01e950daf90d075910698bea4a9df97",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/JavaVersionMatcherTests.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  4371,
+        "sha256":  "194eae07ee25ef23d1fc0574ba46d788c923705a10d88bbececa8bead217504b",
+        "sha256Source":  "194eae07ee25ef23d1fc0574ba46d788c923705a10d88bbececa8bead217504b",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/LocalApiServiceTestCollection.cs",
+        "origin":  "whitelist-B",
+        "bytes":  1683,
+        "sha256":  "b2bb21196038af4797203049b9d0472a5a95c94dc561bf5deb58f684e194a26f",
+        "sha256Source":  "b2bb21196038af4797203049b9d0472a5a95c94dc561bf5deb58f684e194a26f",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/MemoryAllocationServiceTests.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  3826,
+        "sha256":  "35d80a34cb4a338ac2c2d47a5078af67ad18e7290531f21951e51f27cfe90cbc",
+        "sha256Source":  "35d80a34cb4a338ac2c2d47a5078af67ad18e7290531f21951e51f27cfe90cbc",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/MicrosoftAuthServiceTests.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  4772,
+        "sha256":  "e21ceb36d5b8a6748c29429e40d9cd3b891319cf9667c0df55d1a81d3ada542d",
+        "sha256Source":  "e21ceb36d5b8a6748c29429e40d9cd3b891319cf9667c0df55d1a81d3ada542d",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/MinecraftNewsServiceTests.cs",
+        "origin":  "whitelist-B",
+        "bytes":  23205,
+        "sha256":  "e10bdd7b3a1f2704fe42dc2c4a36227d87c0980c89e6fd90c62723c3f11dc3eb",
+        "sha256Source":  "e10bdd7b3a1f2704fe42dc2c4a36227d87c0980c89e6fd90c62723c3f11dc3eb",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/ModBisectServiceTests.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  4860,
+        "sha256":  "9c920acf5a2a0ff5af01f3d9a4159c9b152b831ecea9edbd36378109df4a42df",
+        "sha256Source":  "9c920acf5a2a0ff5af01f3d9a4159c9b152b831ecea9edbd36378109df4a42df",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/NewsEndpointPolicyTests.cs",
+        "origin":  "whitelist-B",
+        "bytes":  4188,
+        "sha256":  "5fbcbce0473a008cd209b3c57b56949f55144f562bcd1a3544c51f52874fa013",
+        "sha256Source":  "5fbcbce0473a008cd209b3c57b56949f55144f562bcd1a3544c51f52874fa013",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/NewsFakeIpConfigTests.cs",
+        "origin":  "whitelist-B",
+        "bytes":  20072,
+        "sha256":  "8e6b469db50d03e1b32a21c272786536b5fc233ed3c5dee93fada8e59dcac787",
+        "sha256Source":  "8e6b469db50d03e1b32a21c272786536b5fc233ed3c5dee93fada8e59dcac787",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/NewsFakeIpPolicyTests.cs",
+        "origin":  "whitelist-B",
+        "bytes":  8268,
+        "sha256":  "989002dbc5813d8d49f478b5b0ad72fa45a49ca44f430accd12317e93fe61a50",
+        "sha256Source":  "989002dbc5813d8d49f478b5b0ad72fa45a49ca44f430accd12317e93fe61a50",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/NewsImageProxyServiceTests.cs",
+        "origin":  "whitelist-B",
+        "bytes":  15807,
+        "sha256":  "a2f223089d8521e6b6eb6e466c912316824d3d55efe7316173e23611b4a94ed2",
+        "sha256Source":  "a2f223089d8521e6b6eb6e466c912316824d3d55efe7316173e23611b4a94ed2",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/NewsLinkHandlerTests.cs",
+        "origin":  "whitelist-B",
+        "bytes":  38397,
+        "sha256":  "257eae44eeb2edb3a94a2fec1ca8cbf129c86c3560f36dfef776411dfccd6a83",
+        "sha256Source":  "257eae44eeb2edb3a94a2fec1ca8cbf129c86c3560f36dfef776411dfccd6a83",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/NewsLinkServiceTests.cs",
+        "origin":  "whitelist-B",
+        "bytes":  555,
+        "sha256":  "bb8933a0889203268f90dafce087ad9b4d661ff4e85a75b11909ff69f75b3563",
+        "sha256Source":  "bb8933a0889203268f90dafce087ad9b4d661ff4e85a75b11909ff69f75b3563",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/NewsR2TeredoNat64Tests.cs",
+        "origin":  "whitelist-B",
+        "bytes":  16491,
+        "sha256":  "16090b745ff5b39893167623b9f17697df6ec956f967e05a57682adbe831647d",
+        "sha256Source":  "16090b745ff5b39893167623b9f17697df6ec956f967e05a57682adbe831647d",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/packages.lock.json",
+        "origin":  "whitelist-E",
+        "bytes":  12806,
+        "sha256":  "244ba2bcd1eb1f5af72967d5f2afb5c4978e9b73669d53b450f02fd6f057551b",
+        "sha256Source":  "244ba2bcd1eb1f5af72967d5f2afb5c4978e9b73669d53b450f02fd6f057551b",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj",
+        "origin":  "tracked-workspace",
+        "bytes":  914,
+        "sha256":  "7f57d7f0efcf4b9e5174b0ef2e01b4e793eb8ca5590d6a813511a8e723a1c9ca",
+        "sha256Source":  "7f57d7f0efcf4b9e5174b0ef2e01b4e793eb8ca5590d6a813511a8e723a1c9ca",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/SecurityRegressionTests.cs",
+        "origin":  "whitelist-B",
+        "bytes":  3958,
+        "sha256":  "1656f49fed2493cb9178308c48471817ff645943612ce4af3ae97be40df5ef93",
+        "sha256Source":  "1656f49fed2493cb9178308c48471817ff645943612ce4af3ae97be40df5ef93",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/SkinImageProxyServiceTests.cs",
+        "origin":  "whitelist-B",
+        "bytes":  2773,
+        "sha256":  "407b1b87c4fabb09f0091d45a3ff080049d300a710b854e3ac4fb1588ae64ad9",
+        "sha256Source":  "407b1b87c4fabb09f0091d45a3ff080049d300a710b854e3ac4fb1588ae64ad9",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/TestAssets/ContentIcons/valid-1x1.jpg",
+        "origin":  "whitelist-C",
+        "bytes":  287,
+        "sha256":  "797156d8fba55aaf8a0e794b4161eb7816232db661532c631e53504e1cd9c64f",
+        "sha256Source":  "797156d8fba55aaf8a0e794b4161eb7816232db661532c631e53504e1cd9c64f",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/TestAssets/ContentIcons/valid-1x1.png",
+        "origin":  "whitelist-C",
+        "bytes":  86,
+        "sha256":  "e8f0de6a1b4299ee0159ab807e8e825d02331b99e209426efc7ead08a1cdc983",
+        "sha256Source":  "e8f0de6a1b4299ee0159ab807e8e825d02331b99e209426efc7ead08a1cdc983",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/TestAssets/ContentIcons/valid-1x1.webp",
+        "origin":  "whitelist-C",
+        "bytes":  36,
+        "sha256":  "71d05baa8036e2aa25378f27952a2bcdc97aaa62b5b6101eb8f274580dccebd3",
+        "sha256Source":  "71d05baa8036e2aa25378f27952a2bcdc97aaa62b5b6101eb8f274580dccebd3",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/TestAssets/ContentIcons/valid-64.jpg",
+        "origin":  "whitelist-C",
+        "bytes":  3672,
+        "sha256":  "73d3296d90e92d83942a601baad4c4fd738895cff85959c66a9c152f29be7e03",
+        "sha256Source":  "73d3296d90e92d83942a601baad4c4fd738895cff85959c66a9c152f29be7e03",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/TestAssets/ContentIcons/valid-64.png",
+        "origin":  "whitelist-C",
+        "bytes":  14586,
+        "sha256":  "fb0eda9bae84efc28de0758145d79de921661fab54093966094b566e4839db78",
+        "sha256Source":  "fb0eda9bae84efc28de0758145d79de921661fab54093966094b566e4839db78",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher.Tests/TestAssets/ContentIcons/valid-64.webp",
+        "origin":  "whitelist-C",
+        "bytes":  2570,
+        "sha256":  "d3963c214e483d79c5fd01923a5a3163e9af7cbd3d80f02bb9d98ce094d54b2c",
+        "sha256Source":  "d3963c214e483d79c5fd01923a5a3163e9af7cbd3d80f02bb9d98ce094d54b2c",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/app.ico",
+        "origin":  "tracked-workspace",
+        "bytes":  172927,
+        "sha256":  "4e329e14bcfe3036f1284147a91c6e1fb1dec501f9e94c6b6a76880c30998fde",
+        "sha256Source":  "4e329e14bcfe3036f1284147a91c6e1fb1dec501f9e94c6b6a76880c30998fde",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/app.manifest",
+        "origin":  "tracked-workspace",
+        "bytes":  413,
+        "sha256":  "03f07e0e03baee92dc48576f43d68dbc61786f544edc07ee02cb39c491b13444",
+        "sha256Source":  "03f07e0e03baee92dc48576f43d68dbc61786f544edc07ee02cb39c491b13444",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Assets/AppIcon.ico",
+        "origin":  "tracked-workspace",
+        "bytes":  172927,
+        "sha256":  "4e329e14bcfe3036f1284147a91c6e1fb1dec501f9e94c6b6a76880c30998fde",
+        "sha256Source":  "4e329e14bcfe3036f1284147a91c6e1fb1dec501f9e94c6b6a76880c30998fde",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Assets/AppIcon.png",
+        "origin":  "tracked-workspace",
+        "bytes":  1953440,
+        "sha256":  "b3fef85a048407f3b8cd1a9f6b495d0653803a2aa06b3ba24e535ca1a3f20981",
+        "sha256Source":  "b3fef85a048407f3b8cd1a9f6b495d0653803a2aa06b3ba24e535ca1a3f20981",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/packages.lock.json",
+        "origin":  "whitelist-E",
+        "bytes":  8663,
+        "sha256":  "fbbc9ae67b8e8cf2e3aa63c48242bc08ac713be47830d337914cc39c85ee0672",
+        "sha256Source":  "fbbc9ae67b8e8cf2e3aa63c48242bc08ac713be47830d337914cc39c85ee0672",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.csproj",
+        "origin":  "tracked-workspace",
+        "bytes":  2192,
+        "sha256":  "a368ced9e4aba786b97c9fb854877ed06a66e7c3bbd5ee2009539424505c5800",
+        "sha256Source":  "a368ced9e4aba786b97c9fb854877ed06a66e7c3bbd5ee2009539424505c5800",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/AiProviderProfile.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  868,
+        "sha256":  "02247f64099fa001b7ca2b9c41ccf12f1795e1eadf49a5200f6963ed8676aa6f",
+        "sha256Source":  "02247f64099fa001b7ca2b9c41ccf12f1795e1eadf49a5200f6963ed8676aa6f",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/AppConfig.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  3917,
+        "sha256":  "814c0990ed4b81bd2f59ee6f6ff9909aef4ec02e644eb895d66f2fedbefecf86",
+        "sha256Source":  "814c0990ed4b81bd2f59ee6f6ff9909aef4ec02e644eb895d66f2fedbefecf86",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/BackupFileInfo.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  397,
+        "sha256":  "8d111570a786ca7fa82fb2846924ffef9e9ed3f3a88a1498e7b3f089c4195e9b",
+        "sha256Source":  "8d111570a786ca7fa82fb2846924ffef9e9ed3f3a88a1498e7b3f089c4195e9b",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/FabricCompatibleLoaderVersion.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  390,
+        "sha256":  "4967e21f355d3aecad7fec77247b6d5a9bfb619a27b9861fa2977dd75f8eaaf5",
+        "sha256Source":  "4967e21f355d3aecad7fec77247b6d5a9bfb619a27b9861fa2977dd75f8eaaf5",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/FabricGameVersion.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  382,
+        "sha256":  "86670c18b8720c220dc316c3aaeb6fc6c27afad2d170e835af339282172bb063",
+        "sha256Source":  "86670c18b8720c220dc316c3aaeb6fc6c27afad2d170e835af339282172bb063",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/FabricLoaderVersion.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  607,
+        "sha256":  "ff49c1aa9ed0260f811da07299c7ebf54305924ddd05469839dde86f308c9c1d",
+        "sha256Source":  "ff49c1aa9ed0260f811da07299c7ebf54305924ddd05469839dde86f308c9c1d",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/FavoriteServer.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  751,
+        "sha256":  "7f85f41136732daf4b039277c3f88f5698f723449cb0bf9f7223233a96736ddf",
+        "sha256Source":  "7f85f41136732daf4b039277c3f88f5698f723449cb0bf9f7223233a96736ddf",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/GameInstance.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  1360,
+        "sha256":  "e8c40427fb3b868d4538264915768f05f864b357bb674a7f32487adf873fdae2",
+        "sha256Source":  "e8c40427fb3b868d4538264915768f05f864b357bb674a7f32487adf873fdae2",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/InstalledLoaderProfile.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  302,
+        "sha256":  "11623841affeb549fdced6a6886850145539fb651aceb0ec89c0dbc54f11bf36",
+        "sha256Source":  "11623841affeb549fdced6a6886850145539fb651aceb0ec89c0dbc54f11bf36",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/JavaInstallation.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  319,
+        "sha256":  "bb8e4fe51ac27eff71b99e1489d01837eddee776b638ec474b4a572664bd1260",
+        "sha256Source":  "bb8e4fe51ac27eff71b99e1489d01837eddee776b638ec474b4a572664bd1260",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/LauncherAccount.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  1367,
+        "sha256":  "0dd1d19f95cfdbf720e4dd795fbabb6a337267d3784707688813ad00edd4c3fa",
+        "sha256Source":  "0dd1d19f95cfdbf720e4dd795fbabb6a337267d3784707688813ad00edd4c3fa",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/LauncherTaskInfo.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  369,
+        "sha256":  "a7b44b207aee7c992b352061de33bee855da38893500e10b33d5e72166ec6c7c",
+        "sha256Source":  "a7b44b207aee7c992b352061de33bee855da38893500e10b33d5e72166ec6c7c",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/LaunchProfile.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  904,
+        "sha256":  "182ad1904d6eb77ed9d6a574e068d6ee0bf2be010667cc63ab8d24394350b0d6",
+        "sha256Source":  "182ad1904d6eb77ed9d6a574e068d6ee0bf2be010667cc63ab8d24394350b0d6",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/LoaderGameVersion.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  282,
+        "sha256":  "279f5c14f34c45d4fbb77773d186addfe33134f67aea5087b286e3e33d344b4a",
+        "sha256Source":  "279f5c14f34c45d4fbb77773d186addfe33134f67aea5087b286e3e33d344b4a",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/LoaderVersionEntry.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  370,
+        "sha256":  "14be5d2008808de35454be0c9c8a8c4bc7be6597e6cb1cef643ce6a4c28cbe4b",
+        "sha256Source":  "14be5d2008808de35454be0c9c8a8c4bc7be6597e6cb1cef643ce6a4c28cbe4b",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/MinecraftCapeInfo.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  266,
+        "sha256":  "21d25a83e775078d5665bf69b0bd66af932653cacceb68d15d507b18e7775d16",
+        "sha256Source":  "21d25a83e775078d5665bf69b0bd66af932653cacceb68d15d507b18e7775d16",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/ModDependency.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  263,
+        "sha256":  "4178d6d3948a5a5eb82d3262290decf66848f1830b4183e293ae9897c4f2cdcd",
+        "sha256Source":  "4178d6d3948a5a5eb82d3262290decf66848f1830b4183e293ae9897c4f2cdcd",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/ModFile.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  1239,
+        "sha256":  "3e140f0e19a1ec2d7ef23d30d32f55b434873618400b433a579357891f627280",
+        "sha256Source":  "3e140f0e19a1ec2d7ef23d30d32f55b434873618400b433a579357891f627280",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/ModHealthIssue.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  136,
+        "sha256":  "89a2eab003badfb9095d20ba2c8a59850d0739102b8b02a941b1d8fe21d64a62",
+        "sha256Source":  "89a2eab003badfb9095d20ba2c8a59850d0739102b8b02a941b1d8fe21d64a62",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/ModHealthReport.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  476,
+        "sha256":  "17d383c7853818576f458d94329bfc35a9188069d8f6e67b908b2c004d270f8e",
+        "sha256Source":  "17d383c7853818576f458d94329bfc35a9188069d8f6e67b908b2c004d270f8e",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/ModHealthSeverity.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  95,
+        "sha256":  "94e825bb4158ffb3a6934f3ccf9ce4311c30efc584d54e7c208722eaa52efdc7",
+        "sha256Source":  "94e825bb4158ffb3a6934f3ccf9ce4311c30efc584d54e7c208722eaa52efdc7",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/ModInstallMetadata.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  394,
+        "sha256":  "83e9c8075e462f863c1a1a4668e6988c049c8830286caf22b8158ce35c30312b",
+        "sha256Source":  "83e9c8075e462f863c1a1a4668e6988c049c8830286caf22b8158ce35c30312b",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/ModInstallResult.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  329,
+        "sha256":  "94ebe1055140b207f5956ea850387e7018b9e88c1989917faddf8b3dd9c9c2f0",
+        "sha256Source":  "94ebe1055140b207f5956ea850387e7018b9e88c1989917faddf8b3dd9c9c2f0",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/ModLoaderInfo.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  1032,
+        "sha256":  "7261f3a9b805d4d8e2f485ec392b0aa975cabb25a24bafd5dc8ce3ed83e73649",
+        "sha256Source":  "7261f3a9b805d4d8e2f485ec392b0aa975cabb25a24bafd5dc8ce3ed83e73649",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/ModLoaderKind.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  113,
+        "sha256":  "44db8f7fd6fc4e6280d6a117a1a41fe75e71da21757bdc6bdcda584ff58e0419",
+        "sha256Source":  "44db8f7fd6fc4e6280d6a117a1a41fe75e71da21757bdc6bdcda584ff58e0419",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/ModManifestDependency.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  240,
+        "sha256":  "8196df0fcc749fc9c595a8273060c7875161e682ff16d629fac83ed17022651f",
+        "sha256Source":  "8196df0fcc749fc9c595a8273060c7875161e682ff16d629fac83ed17022651f",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/ModpackArchiveFormat.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  113,
+        "sha256":  "722d60cda49c793fba9c7c69361ac40d0c464c1f271777954dd78ccdedee8767",
+        "sha256Source":  "722d60cda49c793fba9c7c69361ac40d0c464c1f271777954dd78ccdedee8767",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/ModpackInstallation.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  508,
+        "sha256":  "2cbd46f5d4fc971d80ec5f926a3a71094941745bb3e9aa03dde6fe1cc90a0a27",
+        "sha256Source":  "2cbd46f5d4fc971d80ec5f926a3a71094941745bb3e9aa03dde6fe1cc90a0a27",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/ModpackProject.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  669,
+        "sha256":  "c78739522088801ed794c9349d5d38fae448ebc64ebb5aa151c456f78833f689",
+        "sha256Source":  "c78739522088801ed794c9349d5d38fae448ebc64ebb5aa151c456f78833f689",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/ModpackVersion.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  1057,
+        "sha256":  "607c05b3ddc1d31465bd090e4b1ce1fbdb7a29d4e57d708e8d9bc3f679377d17",
+        "sha256Source":  "607c05b3ddc1d31465bd090e4b1ce1fbdb7a29d4e57d708e8d9bc3f679377d17",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/ModSearchRequest.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  387,
+        "sha256":  "919b081486d3b49cbc545d79d0a7f7ec893c3e0eecadc99ebf5e5ea9af63c9f5",
+        "sha256Source":  "919b081486d3b49cbc545d79d0a7f7ec893c3e0eecadc99ebf5e5ea9af63c9f5",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/ModSearchResult.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  710,
+        "sha256":  "50abd632f14c4b3284a34ce7b80578dea56cfc011db4fb2bcb17e1a40542ee4b",
+        "sha256Source":  "50abd632f14c4b3284a34ce7b80578dea56cfc011db4fb2bcb17e1a40542ee4b",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/ModSource.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  86,
+        "sha256":  "9bc6363a0e2ac20d12a4a290bee211aea9ff17c277da94f0ddedd40ceb0d2860",
+        "sha256Source":  "9bc6363a0e2ac20d12a4a290bee211aea9ff17c277da94f0ddedd40ceb0d2860",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/ModVersion.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  857,
+        "sha256":  "6f54df7c5fc7f298d68ab96cb89a920affa48adb92db0887b18c9ea172d29fc7",
+        "sha256Source":  "6f54df7c5fc7f298d68ab96cb89a920affa48adb92db0887b18c9ea172d29fc7",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/QuiltGameVersion.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  266,
+        "sha256":  "dfb444bd0e32daea7ef6d162f4d2f8850f23b6815a75b36fcba632fb8adc816a",
+        "sha256Source":  "dfb444bd0e32daea7ef6d162f4d2f8850f23b6815a75b36fcba632fb8adc816a",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/QuiltLoaderVersion.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  268,
+        "sha256":  "9f5275df69f1eaa0ec65e220160a1eb2efb9c644553919d4e4cc4d3a8908bc4b",
+        "sha256Source":  "9f5275df69f1eaa0ec65e220160a1eb2efb9c644553919d4e4cc4d3a8908bc4b",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/ResourceContentKind.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  96,
+        "sha256":  "1183316c9c3cd4b23b40100ef24fa371475bd8cf6d859323d3850c73bdc8becc",
+        "sha256Source":  "1183316c9c3cd4b23b40100ef24fa371475bd8cf6d859323d3850c73bdc8becc",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/ResourceContentProject.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  550,
+        "sha256":  "18c58609053e2fc96f4abc22f89150e01656bab5bc78cf991aa8f4f441aad5a5",
+        "sha256Source":  "18c58609053e2fc96f4abc22f89150e01656bab5bc78cf991aa8f4f441aad5a5",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/ResourceContentVersion.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  400,
+        "sha256":  "17ac63ea805f04b3629c5584d74ce04ecd326d7cafc2f0720471b39b54b02ce9",
+        "sha256Source":  "17ac63ea805f04b3629c5584d74ce04ecd326d7cafc2f0720471b39b54b02ce9",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/ResourcePackInfo.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  475,
+        "sha256":  "f5b595c424b32a656f4f24071531967d88347aea2c717a3bc87be8735c3138d2",
+        "sha256Source":  "f5b595c424b32a656f4f24071531967d88347aea2c717a3bc87be8735c3138d2",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/ResumableTaskItem.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  1159,
+        "sha256":  "e4c054261858746523bdb72dcc81f2591d2e36b83e5699013156862809d19c3e",
+        "sha256Source":  "e4c054261858746523bdb72dcc81f2591d2e36b83e5699013156862809d19c3e",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/ResumableTaskKind.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  153,
+        "sha256":  "792379c1da917bd2e354e89f66a7069d6535847b7f5f3f15b3c96889d7739ee0",
+        "sha256Source":  "792379c1da917bd2e354e89f66a7069d6535847b7f5f3f15b3c96889d7739ee0",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/ResumableTaskState.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  109,
+        "sha256":  "1263b7558aef92f5836674245528c81460127368b4f418832420a739158c2fcd",
+        "sha256Source":  "1263b7558aef92f5836674245528c81460127368b4f418832420a739158c2fcd",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/SaveInfo.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  429,
+        "sha256":  "ee612f235fbecda2b74b4d186c22a527557a38dc5b709e04394894e74f1a291e",
+        "sha256Source":  "ee612f235fbecda2b74b4d186c22a527557a38dc5b709e04394894e74f1a291e",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/ShaderPackInfo.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  240,
+        "sha256":  "d627f75a675d163882bb7cd752a5831fff372ae29a09e6fea061fcdc8aa54dcd",
+        "sha256Source":  "d627f75a675d163882bb7cd752a5831fff372ae29a09e6fea061fcdc8aa54dcd",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/UpdateManifest.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  595,
+        "sha256":  "85fadbc7293baf113d084ff71ec346b22e6f9c630cdda2dd93c9563deec4ea4b",
+        "sha256Source":  "85fadbc7293baf113d084ff71ec346b22e6f9c630cdda2dd93c9563deec4ea4b",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/VersionDownloadQueueItem.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  499,
+        "sha256":  "a58c4003754f1ac8b8a4255b5561ab6586048b13ecbe986ba6271a44c024d42b",
+        "sha256Source":  "a58c4003754f1ac8b8a4255b5561ab6586048b13ecbe986ba6271a44c024d42b",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/VersionDownloadQueueState.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  132,
+        "sha256":  "359862d958657d0523048fe857cda36a0db5e67647ec2645635cdf97f5ca38a1",
+        "sha256Source":  "359862d958657d0523048fe857cda36a0db5e67647ec2645635cdf97f5ca38a1",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/VersionEntry.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  418,
+        "sha256":  "9d0723627f4211c7f35d129d87cc0c5700377911c8e25f776a584b604180b931",
+        "sha256Source":  "9d0723627f4211c7f35d129d87cc0c5700377911c8e25f776a584b604180b931",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Models/VersionInfo.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  556,
+        "sha256":  "ac2f0f50b62cf8349e3142c1b73083c3163cb5e9a25c210cc11dc668e50c0504",
+        "sha256Source":  "ac2f0f50b62cf8349e3142c1b73083c3163cb5e9a25c210cc11dc668e50c0504",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/AccountService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  7496,
+        "sha256":  "1480f691f4fe19d366c5a3da981fa8c63ef70f3f72f06bdcb9c803f73d482d16",
+        "sha256Source":  "1480f691f4fe19d366c5a3da981fa8c63ef70f3f72f06bdcb9c803f73d482d16",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/AiDiagnoseService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  36660,
+        "sha256":  "a257dff5f5be43e71e4e5eb43f07e392e81c545736975f5a35c1fe468e99577c",
+        "sha256Source":  "a257dff5f5be43e71e4e5eb43f07e392e81c545736975f5a35c1fe468e99577c",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/AiEndpointPolicy.cs",
+        "origin":  "whitelist-A",
+        "bytes":  5468,
+        "sha256":  "51f26e2c9dbf26f9d312aa5a3a89998df0ea83595c5c90f7abb75aefdb96d24c",
+        "sha256Source":  "51f26e2c9dbf26f9d312aa5a3a89998df0ea83595c5c90f7abb75aefdb96d24c",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/AiHttpClientFactory.cs",
+        "origin":  "whitelist-A",
+        "bytes":  1932,
+        "sha256":  "d8431ceb58e73564f385ef3c0eb00fb07e0d8e86c586b9db80ae282bbc9f8b9b",
+        "sha256Source":  "d8431ceb58e73564f385ef3c0eb00fb07e0d8e86c586b9db80ae282bbc9f8b9b",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/AiOperationRegistry.cs",
+        "origin":  "whitelist-A",
+        "bytes":  5962,
+        "sha256":  "9c081aedf0f3f80fee471e29fa0048ffc5c653d22968b8f6cde2ee136f2dfa38",
+        "sha256Source":  "9c081aedf0f3f80fee471e29fa0048ffc5c653d22968b8f6cde2ee136f2dfa38",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/AuthClientOptions.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  1134,
+        "sha256":  "42cd35e2acd5fb85544f8c653166bf0759d13a679ed071cfc920aae14ae5c73c",
+        "sha256Source":  "42cd35e2acd5fb85544f8c653166bf0759d13a679ed071cfc920aae14ae5c73c",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/AuthlibAccount.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  207,
+        "sha256":  "324349cc30572b1858bfbd6e0bc918d5591aab7183ebde22274bc2612b66badd",
+        "sha256Source":  "324349cc30572b1858bfbd6e0bc918d5591aab7183ebde22274bc2612b66badd",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/AuthlibInjectorService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  5348,
+        "sha256":  "6652503188a13f868010d9fc60677d004c38206a9b9d9819900b8186eb702dc8",
+        "sha256Source":  "6652503188a13f868010d9fc60677d004c38206a9b9d9819900b8186eb702dc8",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/ConfigStore.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  8083,
+        "sha256":  "30de6ddeea647f762f0754fccaf21023c86074c639c29b975242d72f8b940ef3",
+        "sha256Source":  "30de6ddeea647f762f0754fccaf21023c86074c639c29b975242d72f8b940ef3",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/ContentIconResult.cs",
+        "origin":  "whitelist-A",
+        "bytes":  2611,
+        "sha256":  "fe65e7f960600db136132f63ca493560f93747defb90b31da39ef33866e56e05",
+        "sha256Source":  "fe65e7f960600db136132f63ca493560f93747defb90b31da39ef33866e56e05",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/ContentIconService.cs",
+        "origin":  "whitelist-A",
+        "bytes":  63218,
+        "sha256":  "8d723d0447c6f83d139fb1502b657c6fac0ea2c3c365993283a40c979f94cccb",
+        "sha256Source":  "8d723d0447c6f83d139fb1502b657c6fac0ea2c3c365993283a40c979f94cccb",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/CrashAnalysis.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  181,
+        "sha256":  "fd402cebc5df6c315728f0b69e0c82ea15cf5a265ad07a9d51d2140a69a4c94d",
+        "sha256Source":  "fd402cebc5df6c315728f0b69e0c82ea15cf5a265ad07a9d51d2140a69a4c94d",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/CrashAnalyzerService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  3503,
+        "sha256":  "3f0cb5daae97eebab28c51420113c8d7c35d0183f969549a2df48998a23e737d",
+        "sha256Source":  "3f0cb5daae97eebab28c51420113c8d7c35d0183f969549a2df48998a23e737d",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/DeviceCodeInfo.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  746,
+        "sha256":  "9581d264da83df750d89e3a1497d729ee04d2c5c2a4d9bafa9105c835e6cf517",
+        "sha256Source":  "9581d264da83df750d89e3a1497d729ee04d2c5c2a4d9bafa9105c835e6cf517",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/DiagnosticSnapshotService.cs",
+        "origin":  "whitelist-A",
+        "bytes":  6549,
+        "sha256":  "80d8823c904c0b572de460264340dc4494f48933b2ec2f5e6577b25be1d771b7",
+        "sha256Source":  "80d8823c904c0b572de460264340dc4494f48933b2ec2f5e6577b25be1d771b7",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/DownloadTaskStatus.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  611,
+        "sha256":  "d8d21cb866e9d3561844ea4f12e440d2b4ea7fae6bbba755e1157dcdbb3e8d20",
+        "sha256Source":  "d8d21cb866e9d3561844ea4f12e440d2b4ea7fae6bbba755e1157dcdbb3e8d20",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/EnumerableExtensions.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  339,
+        "sha256":  "99a1349c9bce2725cda00334bfae647bd65db3b50a2d7e901b060d863dc09873",
+        "sha256Source":  "99a1349c9bce2725cda00334bfae647bd65db3b50a2d7e901b060d863dc09873",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/FabricService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  7463,
+        "sha256":  "0d90286b706f480cee541242569561614cdfdb1367316a1ff2d53596d9afeb86",
+        "sha256Source":  "0d90286b706f480cee541242569561614cdfdb1367316a1ff2d53596d9afeb86",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/ForgeService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  1229,
+        "sha256":  "f286ff72bfb7535bb6408f8944cda99f733f2ca8fbe25f93e76f8553b776afac",
+        "sha256Source":  "f286ff72bfb7535bb6408f8944cda99f733f2ca8fbe25f93e76f8553b776afac",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/InstallerLoaderService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  6095,
+        "sha256":  "4f87fa9aaf333c94e6f97ff9147ebc9c5e315ae7f3e4663426ed61b7e4002d4a",
+        "sha256Source":  "4f87fa9aaf333c94e6f97ff9147ebc9c5e315ae7f3e4663426ed61b7e4002d4a",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/InstanceIsolationService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  8034,
+        "sha256":  "ac1c0ff633a6965b7f6494c5c2e247bbe7ddf7952c15ae80f19554d234007b38",
+        "sha256Source":  "ac1c0ff633a6965b7f6494c5c2e247bbe7ddf7952c15ae80f19554d234007b38",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/InstancePackService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  28179,
+        "sha256":  "522d687241d82862905dcd758db7be12bc069327660c2ab32bed5588f7e02492",
+        "sha256Source":  "522d687241d82862905dcd758db7be12bc069327660c2ab32bed5588f7e02492",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/InstanceService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  3473,
+        "sha256":  "9724405d8993517ee7381340e48130515b5b704ebd1d0a8c1edbb564579aaacd",
+        "sha256Source":  "9724405d8993517ee7381340e48130515b5b704ebd1d0a8c1edbb564579aaacd",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/JavaInfo.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  223,
+        "sha256":  "f5327b56f3f8266a17a47fcc5541c40ddad343aabc7b03d5c82b7f00bc1e36d1",
+        "sha256Source":  "f5327b56f3f8266a17a47fcc5541c40ddad343aabc7b03d5c82b7f00bc1e36d1",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/JavaLocator.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  10388,
+        "sha256":  "258edc237599db5744003327f403c33439e08872fadf418a99a48afc94791165",
+        "sha256Source":  "258edc237599db5744003327f403c33439e08872fadf418a99a48afc94791165",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/JavaRuntimeProgress.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  116,
+        "sha256":  "d0bf791a49916ff60244c80d5edf3f139d9b5d832b49f3fbaef6ebaa1c8f3f79",
+        "sha256Source":  "d0bf791a49916ff60244c80d5edf3f139d9b5d832b49f3fbaef6ebaa1c8f3f79",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/JavaRuntimeService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  9010,
+        "sha256":  "a72ad5fb24e03baa8172d987b8e1467a1baf10831ce1c8176ba7a1a2b3325a78",
+        "sha256Source":  "a72ad5fb24e03baa8172d987b8e1467a1baf10831ce1c8176ba7a1a2b3325a78",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/JavaVersionMatcher.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  3068,
+        "sha256":  "f2184c46401ad710690599a47fcfc1e19bb55affa890ca4d429366464501a55b",
+        "sha256Source":  "f2184c46401ad710690599a47fcfc1e19bb55affa890ca4d429366464501a55b",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/JsonUtil.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  1444,
+        "sha256":  "ae1516d7f7c2f05d979f174a892abee5ae444603451c92f3d55b03cff8230b3c",
+        "sha256Source":  "ae1516d7f7c2f05d979f174a892abee5ae444603451c92f3d55b03cff8230b3c",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/LaunchCommand.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  2619,
+        "sha256":  "7e45ac3434cc7865d6c58632e507ea02db20e87e481e4ab0990b7bd00e0898b8",
+        "sha256Source":  "7e45ac3434cc7865d6c58632e507ea02db20e87e481e4ab0990b7bd00e0898b8",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/LauncherLog.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  2475,
+        "sha256":  "5947be5c7034bdacad241c8e6630ae88831fc46cda00c0d9f8ea8fce492dc78c",
+        "sha256Source":  "5947be5c7034bdacad241c8e6630ae88831fc46cda00c0d9f8ea8fce492dc78c",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/LauncherService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  16628,
+        "sha256":  "eedc971b95362b72f956c0d776dbc6be2593a62fa34c6cfd82e0f654752917b9",
+        "sha256Source":  "eedc971b95362b72f956c0d776dbc6be2593a62fa34c6cfd82e0f654752917b9",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/LoaderInstallHelper.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  11309,
+        "sha256":  "411fdc205dc83ebfb2f27f29b622a6162c84c5ed0d1b95b811b30fa1c71f1e35",
+        "sha256Source":  "411fdc205dc83ebfb2f27f29b622a6162c84c5ed0d1b95b811b30fa1c71f1e35",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  136050,
+        "sha256":  "1eef455d57897dced28afaebc6f064b23eaf96d90692cc0050f6a9aa8bb03a5e",
+        "sha256Source":  "1eef455d57897dced28afaebc6f064b23eaf96d90692cc0050f6a9aa8bb03a5e",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/MemoryAllocationService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  3217,
+        "sha256":  "1f20d689525e69f1f530413e982deaa4256a043022d59266e081c9528ea1c8b7",
+        "sha256Source":  "1f20d689525e69f1f530413e982deaa4256a043022d59266e081c9528ea1c8b7",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/MemoryRecommendation.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  177,
+        "sha256":  "bbac9f5c6f16ef7bf012a1a7f4fcf6b8b62bc382418682c8bdc496bc7dd4bfdc",
+        "sha256Source":  "bbac9f5c6f16ef7bf012a1a7f4fcf6b8b62bc382418682c8bdc496bc7dd4bfdc",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/MicrosoftAuthService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  28030,
+        "sha256":  "3567e04e21cd8602042971966f2bf2246fa68152c9218e4c6eee7c5307232ff8",
+        "sha256Source":  "3567e04e21cd8602042971966f2bf2246fa68152c9218e4c6eee7c5307232ff8",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/MicrosoftBrowserAuthorizationException.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  416,
+        "sha256":  "2487ec97299eceaea5b58a4f69ad8f8b15755e30f2c092d93434984bdd5f63eb",
+        "sha256Source":  "2487ec97299eceaea5b58a4f69ad8f8b15755e30f2c092d93434984bdd5f63eb",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/MicrosoftBrowserAuthorizationService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  8414,
+        "sha256":  "2f26ddfc06421bae81b6c46b050ae33d24e3a78469b7084ca89e693e5267cb56",
+        "sha256Source":  "2f26ddfc06421bae81b6c46b050ae33d24e3a78469b7084ca89e693e5267cb56",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/MicrosoftOAuthToken.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  382,
+        "sha256":  "f628cdce64d97352e0399721bce0096f3ab9bc2a7ed43591402314a88aca558a",
+        "sha256Source":  "f628cdce64d97352e0399721bce0096f3ab9bc2a7ed43591402314a88aca558a",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/MicrosoftReauthenticationRequiredException.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  240,
+        "sha256":  "7213963059b0307db1c2bcb0296937e136114dd1b6dd5a807a5d905a8896e935",
+        "sha256Source":  "7213963059b0307db1c2bcb0296937e136114dd1b6dd5a807a5d905a8896e935",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftAccount.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  753,
+        "sha256":  "a82d300886987b506de6615ad46522594f6e5b79084914fd89b46d415fbcbc46",
+        "sha256Source":  "a82d300886987b506de6615ad46522594f6e5b79084914fd89b46d415fbcbc46",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftAppearance.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  403,
+        "sha256":  "b5978bca4e53c829e6612e6046ef4b8eedb6fceb928425471e669332b640060d",
+        "sha256Source":  "b5978bca4e53c829e6612e6046ef4b8eedb6fceb928425471e669332b640060d",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftAppRegistrationRequiredException.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  343,
+        "sha256":  "8dfa13a5940c2ec76f5a86f02f2e157d20a7b4e1702c338f6c71e6e05c08a4d0",
+        "sha256Source":  "8dfa13a5940c2ec76f5a86f02f2e157d20a7b4e1702c338f6c71e6e05c08a4d0",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftDownloader.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  14979,
+        "sha256":  "dd8cba613e44bbec9df32f363e171bb8b9d386e2d9d0bfb7903870fabd3ed2e2",
+        "sha256Source":  "dd8cba613e44bbec9df32f363e171bb8b9d386e2d9d0bfb7903870fabd3ed2e2",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftDownloadProgress.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  122,
+        "sha256":  "c1c259c047048326aee899c097c5e83cb5c83d145fc7297627fe47aa7cea9ddc",
+        "sha256Source":  "c1c259c047048326aee899c097c5e83cb5c83d145fc7297627fe47aa7cea9ddc",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftNewsService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  23621,
+        "sha256":  "123149684d55b1e8918f913fce5947637d0427e24ba7c146079944b1e474526f",
+        "sha256Source":  "123149684d55b1e8918f913fce5947637d0427e24ba7c146079944b1e474526f",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftServerStatus.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  379,
+        "sha256":  "f055cf7101447bd4b88de57b22093f56badf7458d2bec96b042b7ade9a2fd53f",
+        "sha256Source":  "f055cf7101447bd4b88de57b22093f56badf7458d2bec96b042b7ade9a2fd53f",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftUtils.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  1463,
+        "sha256":  "6deba3197c473cfda8da0e46cfd3a675210e68777c9e53d68b3cd17f362d964a",
+        "sha256Source":  "6deba3197c473cfda8da0e46cfd3a675210e68777c9e53d68b3cd17f362d964a",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftVersion.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  608,
+        "sha256":  "f491b542c910614e23c0220c0ec4941f91089c3e09760efab3ea2b0717062cfb",
+        "sha256Source":  "f491b542c910614e23c0220c0ec4941f91089c3e09760efab3ea2b0717062cfb",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/MirrorHelper.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  4766,
+        "sha256":  "2573f812fadaaa5eb5cbcbf430d8f18d839bf794cfd5bc25f1ee5caf77364caa",
+        "sha256Source":  "2573f812fadaaa5eb5cbcbf430d8f18d839bf794cfd5bc25f1ee5caf77364caa",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/ModBisectService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  4908,
+        "sha256":  "a579e32ba786a576c0ef1eca1625d002145f2747c51a1cfb88216f3b6ad6c2dc",
+        "sha256Source":  "a579e32ba786a576c0ef1eca1625d002145f2747c51a1cfb88216f3b6ad6c2dc",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/ModContentService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  21999,
+        "sha256":  "ac38c93239813bbb591edba27f82fdaa60d28ba19a48e61d4cc4a703c5d11651",
+        "sha256Source":  "ac38c93239813bbb591edba27f82fdaa60d28ba19a48e61d4cc4a703c5d11651",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/ModHealthService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  7771,
+        "sha256":  "338ee150fe5ac89ce64bb62915e7aa71d1181b491b507f01d259f11babe0f149",
+        "sha256Source":  "338ee150fe5ac89ce64bb62915e7aa71d1181b491b507f01d259f11babe0f149",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/ModpackLifecycleService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  1953,
+        "sha256":  "a10487f572938e44bca054c920130157e36a663e637da3415cbb8eee60232e3d",
+        "sha256Source":  "a10487f572938e44bca054c920130157e36a663e637da3415cbb8eee60232e3d",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/ModrinthModpackService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  7617,
+        "sha256":  "1224ae6383eda8a9d93d5fb44b787c9c8c27c1c7300495a17594c0b8f898f519",
+        "sha256Source":  "1224ae6383eda8a9d93d5fb44b787c9c8c27c1c7300495a17594c0b8f898f519",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/ModSearchQueryResolver.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  3135,
+        "sha256":  "c5f26ab04c7866afa03ff283f4b137bbf4b4e99c61ff6a8a3e365f70a9027a14",
+        "sha256Source":  "c5f26ab04c7866afa03ff283f4b137bbf4b4e99c61ff6a8a3e365f70a9027a14",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/ModService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  16361,
+        "sha256":  "ec132fe8d73b0ade01c9c19ae7be8147b9055737af213788f506786b4b3ab119",
+        "sha256Source":  "ec132fe8d73b0ade01c9c19ae7be8147b9055737af213788f506786b4b3ab119",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/NeoForgeService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  1877,
+        "sha256":  "e0312e911982c31b0d6f2a8c1342ec66884afde0906e5d46b317729fc0672c11",
+        "sha256Source":  "e0312e911982c31b0d6f2a8c1342ec66884afde0906e5d46b317729fc0672c11",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/NewsEndpointPolicy.cs",
+        "origin":  "whitelist-A",
+        "bytes":  3183,
+        "sha256":  "abc47cd37df6da09f267ae1ec6a9ced8060158f3c808ff142d08fc2cd9ac0950",
+        "sha256Source":  "abc47cd37df6da09f267ae1ec6a9ced8060158f3c808ff142d08fc2cd9ac0950",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/NewsImageProxyService.cs",
+        "origin":  "whitelist-A",
+        "bytes":  28380,
+        "sha256":  "3e8bbbb43a8d1fe64422fb6192c256f4dda4541726ceebbf9940b35cf834b73c",
+        "sha256Source":  "3e8bbbb43a8d1fe64422fb6192c256f4dda4541726ceebbf9940b35cf834b73c",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/NewsLinkService.cs",
+        "origin":  "whitelist-A",
+        "bytes":  8593,
+        "sha256":  "be7c057fee63a454677a92ffed516d8cb3646899bf58f1afa304d8e09a2768ab",
+        "sha256Source":  "be7c057fee63a454677a92ffed516d8cb3646899bf58f1afa304d8e09a2768ab",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/PlatformPaths.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  2113,
+        "sha256":  "bba0f0097e6f64aabcc2db6f183400312736a457293109f810b0db9a144692fe",
+        "sha256Source":  "bba0f0097e6f64aabcc2db6f183400312736a457293109f810b0db9a144692fe",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/QuiltService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  6596,
+        "sha256":  "4d1354d0057f27fbed6020e8fda31237b6da04e2ae6ad5050cf8765b20e2cd9d",
+        "sha256Source":  "4d1354d0057f27fbed6020e8fda31237b6da04e2ae6ad5050cf8765b20e2cd9d",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/ResourceContentService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  7531,
+        "sha256":  "c48c947382db681a9e7985ed39261f70a278138e667f7ec5ca5cc4a0af2e5647",
+        "sha256Source":  "c48c947382db681a9e7985ed39261f70a278138e667f7ec5ca5cc4a0af2e5647",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/ResourcePackService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  5649,
+        "sha256":  "71cc058b23d9eb87e36fce62440afad1184e04912641d2d1a31eadf6483093cf",
+        "sha256Source":  "71cc058b23d9eb87e36fce62440afad1184e04912641d2d1a31eadf6483093cf",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/RulesEvaluator.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  3724,
+        "sha256":  "b6280682f53024b691617eb050dd5903d112b651ad979f4857bc08db3b32d4ad",
+        "sha256Source":  "b6280682f53024b691617eb050dd5903d112b651ad979f4857bc08db3b32d4ad",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/SaveBackupService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  5220,
+        "sha256":  "3c9694088cecb1c46ad0b47433f6e48ca61cf327f632d9a6536d5492e49ababf",
+        "sha256Source":  "3c9694088cecb1c46ad0b47433f6e48ca61cf327f632d9a6536d5492e49ababf",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/SaveService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  5065,
+        "sha256":  "99214343b36bc9ec67582264530e6569ea23a2bba9142b6b929a4a67e33c1eb3",
+        "sha256Source":  "99214343b36bc9ec67582264530e6569ea23a2bba9142b6b929a4a67e33c1eb3",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/SecretStore.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  6419,
+        "sha256":  "0491b51cd32c324737f95722e71606f80d1026a64f773a0604ac7da6b5eca5e6",
+        "sha256Source":  "0491b51cd32c324737f95722e71606f80d1026a64f773a0604ac7da6b5eca5e6",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/ServerPingService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  8763,
+        "sha256":  "4a2118bd34697535463e28142144052dead72ba1d0b3db750814101c3540768b",
+        "sha256Source":  "4a2118bd34697535463e28142144052dead72ba1d0b3db750814101c3540768b",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/ShaderPackService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  3301,
+        "sha256":  "873d6002646032c421611be2d084d3ad0bec751c9ee25cb33b87b3480caf83c3",
+        "sha256Source":  "873d6002646032c421611be2d084d3ad0bec751c9ee25cb33b87b3480caf83c3",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/SkinImageProxyService.cs",
+        "origin":  "whitelist-A",
+        "bytes":  5149,
+        "sha256":  "47975faef31cf7a4ee622ebc17ef25ded8c02810f67385de28f7dfbe264181a5",
+        "sha256Source":  "47975faef31cf7a4ee622ebc17ef25ded8c02810f67385de28f7dfbe264181a5",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/UpdateService.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  6958,
+        "sha256":  "4c9d66a7930eb822b14462b52285eb0e94d75005a183d063fe61f4879dff97f8",
+        "sha256Source":  "4c9d66a7930eb822b14462b52285eb0e94d75005a183d063fe61f4879dff97f8",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/VersionFilter.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  953,
+        "sha256":  "6fb7699e1795693a3ef2af5689f74b9f2c5f6c47e51ed927439edfa87b5e492b",
+        "sha256Source":  "6fb7699e1795693a3ef2af5689f74b9f2c5f6c47e51ed927439edfa87b5e492b",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Services/VersionResolver.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  3405,
+        "sha256":  "6751bf502294eab185ea96fdc33a7b1b3d28d32ece8574d5101d69ad83b22ed1",
+        "sha256Source":  "6751bf502294eab185ea96fdc33a7b1b3d28d32ece8574d5101d69ad83b22ed1",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Views/Shell/WebShellWindow.axaml",
+        "origin":  "tracked-workspace",
+        "bytes":  705,
+        "sha256":  "95b3fa9ddee6857ad251fb80fae92af98b9c43071ef468aad591013100519d32",
+        "sha256Source":  "95b3fa9ddee6857ad251fb80fae92af98b9c43071ef468aad591013100519d32",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher.Views/Shell/WebShellWindow.axaml.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  7828,
+        "sha256":  "ce7fb287063027b290abf4298712df2ff76966488e03547415674c83a7e44fe2",
+        "sha256Source":  "ce7fb287063027b290abf4298712df2ff76966488e03547415674c83a7e44fe2",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher/App.axaml",
+        "origin":  "tracked-workspace",
+        "bytes":  8283,
+        "sha256":  "7e96344fdc826e74bcea5b12457d139be16d13a157e104d19e490e7127570c9c",
+        "sha256Source":  "7e96344fdc826e74bcea5b12457d139be16d13a157e104d19e490e7127570c9c",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher/App.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  1378,
+        "sha256":  "4e8b9369df3165999eee2a99153e8aad130e776c7bea99ba35e251bf86934a48",
+        "sha256Source":  "4e8b9369df3165999eee2a99153e8aad130e776c7bea99ba35e251bf86934a48",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Pineglow.Launcher/Program.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  684,
+        "sha256":  "02768dd95076d5014e769d4f6f96e8429057e8d32c4f59177e608ffb4725b4b5",
+        "sha256Source":  "02768dd95076d5014e769d4f6f96e8429057e8d32c4f59177e608ffb4725b4b5",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Properties/AssemblyInfo.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  270,
+        "sha256":  "f168dff6d6dc2dff33f13438e0f6f6acdec2d04501a6ba317cdd892411412df1",
+        "sha256Source":  "f168dff6d6dc2dff33f13438e0f6f6acdec2d04501a6ba317cdd892411412df1",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/Themes/ControlStyles.axaml",
+        "origin":  "tracked-workspace",
+        "bytes":  7365,
+        "sha256":  "79c05285f0eadb500127423e52cc37603d25fbee9e3820f6b7fea89f4fbc807b",
+        "sha256Source":  "79c05285f0eadb500127423e52cc37603d25fbee9e3820f6b7fea89f4fbc807b",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/VerifyHost/BisectSmoke.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  9193,
+        "sha256":  "5a9755b1348f988d088a3177a40eda6cf8dd62397033eb0d0647892cca9892f2",
+        "sha256Source":  "5a9755b1348f988d088a3177a40eda6cf8dd62397033eb0d0647892cca9892f2",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/VerifyHost/Program.cs",
+        "origin":  "tracked-workspace",
+        "bytes":  821,
+        "sha256":  "732abf02ae81f0ac7f208584182a599aabc7411f55fc2cdb67f2d764bcf8dc1f",
+        "sha256Source":  "732abf02ae81f0ac7f208584182a599aabc7411f55fc2cdb67f2d764bcf8dc1f",
+        "matchesSource":  true
+    },
+    {
+        "path":  "dev/PineglowLauncher/VerifyHost/VerifyHost.csproj",
+        "origin":  "tracked-workspace",
+        "bytes":  1331,
+        "sha256":  "79c18d1853e6c630971c965f5a36a953c65d3ccffb19ef711beba373caa6b64e",
+        "sha256Source":  "79c18d1853e6c630971c965f5a36a953c65d3ccffb19ef711beba373caa6b64e",
+        "matchesSource":  true
+    },
+    {
+        "path":  "docs/ai-diagnosis-plan.md",
+        "origin":  "tracked-workspace",
+        "bytes":  12439,
+        "sha256":  "10f704a00023f7a841708d5b914d2d9c01c0554222276fd869447c144b486712",
+        "sha256Source":  "10f704a00023f7a841708d5b914d2d9c01c0554222276fd869447c144b486712",
+        "matchesSource":  true
+    },
+    {
+        "path":  "docs/ai-feature-evolution.md",
+        "origin":  "tracked-workspace",
+        "bytes":  10355,
+        "sha256":  "9e2c790527276af3c4809a40d3802c3cce3d5c0b2204bf2fcdc2a14a194b06e4",
+        "sha256Source":  "9e2c790527276af3c4809a40d3802c3cce3d5c0b2204bf2fcdc2a14a194b06e4",
+        "matchesSource":  true
+    },
+    {
+        "path":  "docs/api-reference.md",
+        "origin":  "tracked-workspace",
+        "bytes":  7126,
+        "sha256":  "ef2a95014804ec263202675d05bde99aef7398be01eec14e318f33d0d9361b1e",
+        "sha256Source":  "ef2a95014804ec263202675d05bde99aef7398be01eec14e318f33d0d9361b1e",
+        "matchesSource":  true
+    },
+    {
+        "path":  "docs/architecture.md",
+        "origin":  "tracked-workspace",
+        "bytes":  4910,
+        "sha256":  "9becfa865ca3dce92e6f043fe3819270c91af14cfbc3f7a23b661d3cad8835fd",
+        "sha256Source":  "9becfa865ca3dce92e6f043fe3819270c91af14cfbc3f7a23b661d3cad8835fd",
+        "matchesSource":  true
+    },
+    {
+        "path":  "docs/archive/archive-README.md",
+        "origin":  "tracked-workspace",
+        "bytes":  2394,
+        "sha256":  "d457024eebd56aa48b1439c3d4013f83d739ab06f0a67be6b7545b8448d186be",
+        "sha256Source":  "d457024eebd56aa48b1439c3d4013f83d739ab06f0a67be6b7545b8448d186be",
+        "matchesSource":  true
+    },
+    {
+        "path":  "docs/design-system.md",
+        "origin":  "tracked-workspace",
+        "bytes":  2892,
+        "sha256":  "90d1c6987bed957fd28d200f0c323b85904f9887601cca89d962a4ef98ea6583",
+        "sha256Source":  "90d1c6987bed957fd28d200f0c323b85904f9887601cca89d962a4ef98ea6583",
+        "matchesSource":  true
+    },
+    {
+        "path":  "docs/development-guide.md",
+        "origin":  "tracked-workspace",
+        "bytes":  7116,
+        "sha256":  "660f3b06c8aa6f7174afc4b43dfe2a27f72ed6a3a74ca085dfd8b833afbcf010",
+        "sha256Source":  "660f3b06c8aa6f7174afc4b43dfe2a27f72ed6a3a74ca085dfd8b833afbcf010",
+        "matchesSource":  true
+    },
+    {
+        "path":  "docs/engineering.md",
+        "origin":  "tracked-workspace",
+        "bytes":  6998,
+        "sha256":  "fd491cb60e699e48cb17b9f2b3074df64a8f3ce9b79668e9e51bc2fd0001df08",
+        "sha256Source":  "fd491cb60e699e48cb17b9f2b3074df64a8f3ce9b79668e9e51bc2fd0001df08",
+        "matchesSource":  true
+    },
+    {
+        "path":  "docs/features.md",
+        "origin":  "tracked-workspace",
+        "bytes":  4938,
+        "sha256":  "aad685e8af79c8aa4a49f0681ff238cebc448471cc7d3ee7fcb7692256674cf7",
+        "sha256Source":  "aad685e8af79c8aa4a49f0681ff238cebc448471cc7d3ee7fcb7692256674cf7",
+        "matchesSource":  true
+    },
+    {
+        "path":  "docs/README.md",
+        "origin":  "tracked-workspace",
+        "bytes":  3431,
+        "sha256":  "e4009eb272971b6995993d1a3496ad67fd55439e61f791819dd850251785464a",
+        "sha256Source":  "e4009eb272971b6995993d1a3496ad67fd55439e61f791819dd850251785464a",
+        "matchesSource":  true
+    },
+    {
+        "path":  "docs/roadmap.md",
+        "origin":  "tracked-workspace",
+        "bytes":  13263,
+        "sha256":  "da812df44986fe7722cf11e2c76aeb5dd52149b28d01d770bddb47179c003c65",
+        "sha256Source":  "da812df44986fe7722cf11e2c76aeb5dd52149b28d01d770bddb47179c003c65",
+        "matchesSource":  true
+    },
+    {
+        "path":  "global.json",
+        "origin":  "whitelist-D",
+        "bytes":  109,
+        "sha256":  "1497bda77ac26a91600f9eaa9d733be95a970961816c63738a4aafe1dc9c14e3",
+        "sha256Source":  "1497bda77ac26a91600f9eaa9d733be95a970961816c63738a4aafe1dc9c14e3",
+        "matchesSource":  true
+    },
+    {
+        "path":  "LICENSE",
+        "origin":  "tracked-workspace",
+        "bytes":  35149,
+        "sha256":  "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+        "sha256Source":  "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+        "matchesSource":  true
+    },
+    {
+        "path":  "README.md",
+        "origin":  "tracked-workspace",
+        "bytes":  1773,
+        "sha256":  "088a9001e182cad23218566dcb536757c3d52480ea5f4fe3757c3b2c62df324a",
+        "sha256Source":  "088a9001e182cad23218566dcb536757c3d52480ea5f4fe3757c3b2c62df324a",
+        "matchesSource":  true
+    },
+    {
+        "path":  "scripts/mirror-gitee.mjs",
+        "origin":  "tracked-workspace",
+        "bytes":  5143,
+        "sha256":  "ef36a7bd5d43650bd4e2c903fa62a12a325517e4c4ab053d2ef96fc8eaea44d1",
+        "sha256Source":  "ef36a7bd5d43650bd4e2c903fa62a12a325517e4c4ab053d2ef96fc8eaea44d1",
+        "matchesSource":  true
+    },
+    {
+        "path":  "scripts/source-snapshot-inputs.txt",
+        "origin":  "whitelist-G",
+        "bytes":  4274,
+        "sha256":  "05d6a4a98047c1dbc103e9e863d8b629d67af6ec9a1c403021f3f7b47480d926",
+        "sha256Source":  "05d6a4a98047c1dbc103e9e863d8b629d67af6ec9a1c403021f3f7b47480d926",
+        "matchesSource":  true
+    },
+    {
+        "path":  "scripts/verify-source-snapshot.ps1",
+        "origin":  "whitelist-G",
+        "bytes":  30985,
+        "sha256":  "e3aaf2572cc47517d6c8d3383d3e924fc0b03030e61f4335ac7940b5904eebb3",
+        "sha256Source":  "e3aaf2572cc47517d6c8d3383d3e924fc0b03030e61f4335ac7940b5904eebb3",
+        "matchesSource":  true
+    },
+    {
+        "path":  "ui/css/figma.css",
+        "origin":  "tracked-workspace",
+        "bytes":  46892,
+        "sha256":  "6cfbc5cb0ee42b7aab5299fa4d1c687b9012e3fc3c26359dc3c0903353ec6213",
+        "sha256Source":  "6cfbc5cb0ee42b7aab5299fa4d1c687b9012e3fc3c26359dc3c0903353ec6213",
+        "matchesSource":  true
+    },
+    {
+        "path":  "ui/index.html",
+        "origin":  "tracked-workspace",
+        "bytes":  6511,
+        "sha256":  "70fb68da32375087f6fb9f0b4347f53e3d4c955a08ae439bf662fd454f1523ee",
+        "sha256Source":  "70fb68da32375087f6fb9f0b4347f53e3d4c955a08ae439bf662fd454f1523ee",
+        "matchesSource":  true
+    },
+    {
+        "path":  "ui/js/api.js",
+        "origin":  "tracked-workspace",
+        "bytes":  58971,
+        "sha256":  "d174a7f9b5a538cad6c6fbd6ae439a3072d7e663a83615d290a3d6f9aafd28fd",
+        "sha256Source":  "d174a7f9b5a538cad6c6fbd6ae439a3072d7e663a83615d290a3d6f9aafd28fd",
+        "matchesSource":  true
+    },
+    {
+        "path":  "ui/js/i18n.js",
+        "origin":  "tracked-workspace",
+        "bytes":  48067,
+        "sha256":  "61588a226efc552adf5c51e7646a8e619fd5245b5da583520adbaf9d864367a3",
+        "sha256Source":  "61588a226efc552adf5c51e7646a8e619fd5245b5da583520adbaf9d864367a3",
+        "matchesSource":  true
+    },
+    {
+        "path":  "ui/js/launcher.js",
+        "origin":  "tracked-workspace",
+        "bytes":  177807,
+        "sha256":  "db18f7920e6866efb4106ff4113f0435ad44a9a87db52bd686094dbce13bbd43",
+        "sha256Source":  "db18f7920e6866efb4106ff4113f0435ad44a9a87db52bd686094dbce13bbd43",
+        "matchesSource":  true
+    },
+    {
+        "path":  "ui/js/skin3d.js",
+        "origin":  "whitelist-A",
+        "bytes":  10589,
+        "sha256":  "7daeb486489ffe731d44aeedd41a204a8a816cbe4c6aea2030a257e16e0d7ed1",
+        "sha256Source":  "7daeb486489ffe731d44aeedd41a204a8a816cbe4c6aea2030a257e16e0d7ed1",
+        "matchesSource":  true
+    },
+    {
+        "path":  "ui/js/skin3d-core.js",
+        "origin":  "whitelist-A",
+        "bytes":  2262,
+        "sha256":  "3852f56dfc9c178bcbcfa98f453e07a1767f254875917836d64f45f5eb287fe9",
+        "sha256Source":  "3852f56dfc9c178bcbcfa98f453e07a1767f254875917836d64f45f5eb287fe9",
+        "matchesSource":  true
+    },
+    {
+        "path":  "ui/tests/ai-diagnose.test.cjs",
+        "origin":  "whitelist-F",
+        "bytes":  93789,
+        "sha256":  "e6e67f1b7412ad37f9c058f2197a2992a4ebbeb0e6b52c1ee2e00e648496bb0b",
+        "sha256Source":  "e6e67f1b7412ad37f9c058f2197a2992a4ebbeb0e6b52c1ee2e00e648496bb0b",
+        "matchesSource":  true
+    },
+    {
+        "path":  "ui/tests/api-contract.test.cjs",
+        "origin":  "whitelist-F",
+        "bytes":  28632,
+        "sha256":  "0975643306747db02f51241ae6b440a675346c5f8e99bbf7c8eb0896a15d2d65",
+        "sha256Source":  "0975643306747db02f51241ae6b440a675346c5f8e99bbf7c8eb0896a15d2d65",
+        "matchesSource":  true
+    },
+    {
+        "path":  "ui/tests/content-icon.test.cjs",
+        "origin":  "whitelist-F",
+        "bytes":  15488,
+        "sha256":  "cd6164b925734370307bc2f3c9e248a8876b559cc2ce9d8bedc4dc4f90b1bc88",
+        "sha256Source":  "cd6164b925734370307bc2f3c9e248a8876b559cc2ce9d8bedc4dc4f90b1bc88",
+        "matchesSource":  true
+    },
+    {
+        "path":  "ui/tests/launcher-behavior.test.cjs",
+        "origin":  "whitelist-F",
+        "bytes":  36926,
+        "sha256":  "a61fe77cded38a94f2b987df0334f3c08dbfff9d398cbd9598680662271849af",
+        "sha256Source":  "a61fe77cded38a94f2b987df0334f3c08dbfff9d398cbd9598680662271849af",
+        "matchesSource":  true
+    },
+    {
+        "path":  "ui/tests/launcher-content.test.cjs",
+        "origin":  "whitelist-F",
+        "bytes":  9861,
+        "sha256":  "969a85a53fd5b3c02a0135ae954118010e3e05d65dad93975025b2920ecb33ae",
+        "sha256Source":  "969a85a53fd5b3c02a0135ae954118010e3e05d65dad93975025b2920ecb33ae",
+        "matchesSource":  true
+    },
+    {
+        "path":  "ui/tests/launcher-v3.test.cjs",
+        "origin":  "whitelist-F",
+        "bytes":  22360,
+        "sha256":  "5dac41b63e91890605f8044f2731e5c76eefeaf7591dfb9e365d04e97ffed21f",
+        "sha256Source":  "5dac41b63e91890605f8044f2731e5c76eefeaf7591dfb9e365d04e97ffed21f",
+        "matchesSource":  true
+    },
+    {
+        "path":  "ui/tests/launcher-v4.test.cjs",
+        "origin":  "whitelist-F",
+        "bytes":  41927,
+        "sha256":  "7be11040caf75cfa1f397590348a8a1e6cb3ecb9bb7f1bbbfcee71ec40f68803",
+        "sha256Source":  "7be11040caf75cfa1f397590348a8a1e6cb3ecb9bb7f1bbbfcee71ec40f68803",
+        "matchesSource":  true
+    },
+    {
+        "path":  "ui/tests/launcher-v5.test.cjs",
+        "origin":  "whitelist-F",
+        "bytes":  35552,
+        "sha256":  "a660f9bbfa95dc7cf40b8eaccb665ee7b6b85250cd9a18add8ae996a1fa5f9f7",
+        "sha256Source":  "a660f9bbfa95dc7cf40b8eaccb665ee7b6b85250cd9a18add8ae996a1fa5f9f7",
+        "matchesSource":  true
+    },
+    {
+        "path":  "ui/tests/news-behavior.test.cjs",
+        "origin":  "whitelist-F",
+        "bytes":  32145,
+        "sha256":  "d8f286b252b93bae5e5ed8a5ae30acf12b9da31d474a23dea05867107fabe2d5",
+        "sha256Source":  "d8f286b252b93bae5e5ed8a5ae30acf12b9da31d474a23dea05867107fabe2d5",
+        "matchesSource":  true
+    },
+    {
+        "path":  "ui/tests/news-link.test.cjs",
+        "origin":  "whitelist-F",
+        "bytes":  25360,
+        "sha256":  "039b62f96c9e9dc67207fab35bc9c2e4642d725c5831dde3c9c90c6395f5c0e7",
+        "sha256Source":  "039b62f96c9e9dc67207fab35bc9c2e4642d725c5831dde3c9c90c6395f5c0e7",
+        "matchesSource":  true
+    },
+    {
+        "path":  "ui/tests/skin3d-core.test.cjs",
+        "origin":  "whitelist-F",
+        "bytes":  1917,
+        "sha256":  "077cf4cdb657e196171e21a1e45ad4ebbb9ee2c3dc055cfcd3c7be9077e0b246",
+        "sha256Source":  "077cf4cdb657e196171e21a1e45ad4ebbb9ee2c3dc055cfcd3c7be9077e0b246",
+        "matchesSource":  true
+    },
+    {
+        "path":  "ui/vendor/README.md",
+        "origin":  "whitelist-A",
+        "bytes":  479,
+        "sha256":  "9d4a3b1baa6a5a10ca003283fea15c7b4608ab501f11a75af6180e2ca13c5f2c",
+        "sha256Source":  "9d4a3b1baa6a5a10ca003283fea15c7b4608ab501f11a75af6180e2ca13c5f2c",
+        "matchesSource":  true
+    },
+    {
+        "path":  "ui/vendor/three.min.js",
+        "origin":  "whitelist-A",
+        "bytes":  669884,
+        "sha256":  "170c6789f43217c96b3170f4b42fafe135de7f7cd48497a4218f9757ee1d49fa",
+        "sha256Source":  "170c6789f43217c96b3170f4b42fafe135de7f7cd48497a4218f9757ee1d49fa",
+        "matchesSource":  true
+    },
+    {
+        "path":  "ui/vendor/THREE-LICENSE.txt",
+        "origin":  "whitelist-A",
+        "bytes":  1153,
+        "sha256":  "78396b5fe83d62267384403d46da1009747088000dea0c02d4abfa4efdc99098",
+        "sha256Source":  "78396b5fe83d62267384403d46da1009747088000dea0c02d4abfa4efdc99098",
+        "matchesSource":  true
+    }
+]

@@ -1,0 +1,13 @@
+{
+    "schemaVersion":  1,
+    "runId":  "fixed-id",
+    "inputManifest":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\input-mutated-during-run\\input.json",
+    "inputManifestSha256":  "6A6994446BD6009E0F9BF1AD13E474C3DBE5255DA705A255133C114AD00A3C19",
+    "verifiedInputSetSha256":  "8B61E22B98906A58BCCF598A8597273C39E974CA49E3A725FCEE986A121651DB",
+    "verifiedInputCount":  2,
+    "verifiedInputRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\input-mutated-during-run",
+    "stagesFile":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\input-mutated-during-run\\stages.json",
+    "stagesFileSha256":  "DE5FB12108B32B3C6C67E58F50BF357244A0685F6E5C08AC838A01EBACB7A117",
+    "executionRoot":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\codex-rework-contract-xohjgQ\\input-mutated-during-run",
+    "evidenceRoot":  ""
+}

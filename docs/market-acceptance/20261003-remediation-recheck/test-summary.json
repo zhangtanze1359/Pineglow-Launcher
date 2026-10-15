@@ -1,0 +1,282 @@
+[
+  {
+    "file": "test-results\\boundaries-repeat.trx",
+    "counters": {
+      "total": "5",
+      "executed": "5",
+      "passed": "1",
+      "failed": "4",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    },
+    "times": {
+      "creation": "2026-10-03T15:00:45.1314184+08:00",
+      "queuing": "2026-10-03T15:00:45.1314188+08:00",
+      "start": "2026-10-03T15:00:44.1110544+08:00",
+      "finish": "2026-10-03T15:00:45.1360604+08:00"
+    },
+    "failures": [
+      {
+        "name": "Pineglow.Launcher.Tests.RemediationBoundaryProbes.StoredPath_MustBelongToSameInstanceAndOperation",
+        "message": "Another instance's isolated file was consumed by a forged record",
+        "stdout": "sandbox=C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-6e94cac879a1415081d2396e04d85aac; status=restored; target=other-instance-B; BStoredExists=False; AStoredExists=True"
+      },
+      {
+        "name": "Pineglow.Launcher.Tests.RemediationBoundaryProbes.ModReplaceUndo_MustRejectJunctionAboveRecordedModsRoot",
+        "message": "Undo wrote through the game junction above record.GameDirectory=game/mods",
+        "stdout": "sandbox=C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-5af3b87d7ef54355876f1bca97146814; restoreHTTP=200; body={\"ok\":true,\"operationId\":\"20261003-070044-1cccf78a\",\"status\":\"restored\",\"overwrite\":false,\"conflicts\":0,\"files\":[{\"relativePath\":\"a.jar\",\"state\":\"restored\",\"sha256\":\"DD7A346236273D4FD019C7BF806B00A7EEA9D992583B6AED9ED2231CF345F4B7\",\"error\":null}]}; outsideFileExists=True"
+      },
+      {
+        "name": "Pineglow.Launcher.Tests.RemediationBoundaryProbes.RollbackFailure_HttpMustExposeRecoveryFields",
+        "message": "needsRecovery only appears inside error prose, not a JSON field",
+        "stdout": "sandbox=C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-1781587555024a33866a4607220df7e7; HTTP=400; body={\"error\":\"[commit_failed] \\u5199\\u5165\\u65B0\\u7248\\u672C\\u5931\\u8D25\\uFF0C**\\u672A\\u80FD\\u5B8C\\u5168\\u56DE\\u6EDA**\\uFF0C\\u65E7\\u7248\\u672C\\u4ECD\\u9700\\u4EBA\\u5DE5\\u6062\\u590D\\u3002\\u6062\\u590D\\u8BB0\\u5F55 20261003-070044-25a308e5\\uFF0C\\u56DE\\u6EDA\\u72B6\\u6001 failed\\uFF0C\\u672A\\u6062\\u590D\\u6587\\u4EF6\\uFF1Aa.jar \\u2192 Access to the path \\u0027C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pineglow-boundary-1781587555024a33866a4607220df7e7\\\\game\\\\mods\\\\a.jar\\u0027 is denied.\\uFF1B\\u539F\\u56E0\\uFF1A\\u672A\\u80FD\\u6062\\u590D\\u7684\\u6587\\u4EF6\\uFF1Aa.jar \\u2192 Access to the path \\u0027C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pineglow-boundary-1781587555024a33866a4607220df7e7\\\\game\\\\mods\\\\a.jar\\u0027 is denied.\\uFF1B\\u539F\\u59CB\\u5931\\u8D25\\uFF1Ainjected commit failure\\uFF08needsRecovery=true\\uFF1BoperationId=20261003-070044-25a308e5\\uFF1BrecoveryStatus=failed\\uFF1B\\u672A\\u6062\\u590D\\u6587\\u4EF6\\uFF1Aa.jar \\u2192 Access to the path \\u0027C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pineglow-boundary-1781587555024a33866a4607220df7e7\\\\game\\\\mods\\\\a.jar\\u0027 is denied.\\uFF09\"}"
+      },
+      {
+        "name": "Pineglow.Launcher.Tests.RemediationBoundaryProbes.HttpForgedStoredPath_MustNotConsumeOtherInstanceFile",
+        "message": "HTTP accepted a record pointing to another instance's isolated file",
+        "stdout": "sandbox=C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-cc46ad3daa904e9fa4554262aafdc91c; HTTP=200; body={\"ok\":true,\"operationId\":\"20261003-070044-87051012\",\"status\":\"restored\",\"overwrite\":false,\"conflicts\":0,\"files\":[{\"relativePath\":\"mods\\\\a.jar\",\"state\":\"restored\",\"sha256\":\"F92AB83C0FD58E1140418FDF4AA4FA74F0E779E085D408A6FEADB299634C090E\",\"error\":null}]}; BStoredExists=False; target=http-other-instance-B"
+      }
+    ]
+  },
+  {
+    "file": "test-results\\boundaries.trx",
+    "counters": {
+      "total": "5",
+      "executed": "5",
+      "passed": "1",
+      "failed": "4",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    },
+    "times": {
+      "creation": "2026-10-03T15:00:43.4697178+08:00",
+      "queuing": "2026-10-03T15:00:43.4697183+08:00",
+      "start": "2026-10-03T15:00:42.4205746+08:00",
+      "finish": "2026-10-03T15:00:43.4743613+08:00"
+    },
+    "failures": [
+      {
+        "name": "Pineglow.Launcher.Tests.RemediationBoundaryProbes.RollbackFailure_HttpMustExposeRecoveryFields",
+        "message": "needsRecovery only appears inside error prose, not a JSON field",
+        "stdout": "sandbox=C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-8a19819877244bac91de0b937bd9f2dd; HTTP=400; body={\"error\":\"[commit_failed] \\u5199\\u5165\\u65B0\\u7248\\u672C\\u5931\\u8D25\\uFF0C**\\u672A\\u80FD\\u5B8C\\u5168\\u56DE\\u6EDA**\\uFF0C\\u65E7\\u7248\\u672C\\u4ECD\\u9700\\u4EBA\\u5DE5\\u6062\\u590D\\u3002\\u6062\\u590D\\u8BB0\\u5F55 20261003-070043-93cf82b5\\uFF0C\\u56DE\\u6EDA\\u72B6\\u6001 failed\\uFF0C\\u672A\\u6062\\u590D\\u6587\\u4EF6\\uFF1Aa.jar \\u2192 Access to the path \\u0027C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pineglow-boundary-8a19819877244bac91de0b937bd9f2dd\\\\game\\\\mods\\\\a.jar\\u0027 is denied.\\uFF1B\\u539F\\u56E0\\uFF1A\\u672A\\u80FD\\u6062\\u590D\\u7684\\u6587\\u4EF6\\uFF1Aa.jar \\u2192 Access to the path \\u0027C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pineglow-boundary-8a19819877244bac91de0b937bd9f2dd\\\\game\\\\mods\\\\a.jar\\u0027 is denied.\\uFF1B\\u539F\\u59CB\\u5931\\u8D25\\uFF1Ainjected commit failure\\uFF08needsRecovery=true\\uFF1BoperationId=20261003-070043-93cf82b5\\uFF1BrecoveryStatus=failed\\uFF1B\\u672A\\u6062\\u590D\\u6587\\u4EF6\\uFF1Aa.jar \\u2192 Access to the path \\u0027C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pineglow-boundary-8a19819877244bac91de0b937bd9f2dd\\\\game\\\\mods\\\\a.jar\\u0027 is denied.\\uFF09\"}"
+      },
+      {
+        "name": "Pineglow.Launcher.Tests.RemediationBoundaryProbes.StoredPath_MustBelongToSameInstanceAndOperation",
+        "message": "Another instance's isolated file was consumed by a forged record",
+        "stdout": "sandbox=C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-b6cde3d16ac3428697a28dd86aa175c7; status=restored; target=other-instance-B; BStoredExists=False; AStoredExists=True"
+      },
+      {
+        "name": "Pineglow.Launcher.Tests.RemediationBoundaryProbes.ModReplaceUndo_MustRejectJunctionAboveRecordedModsRoot",
+        "message": "Undo wrote through the game junction above record.GameDirectory=game/mods",
+        "stdout": "sandbox=C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-596317122b96481c9e11f7ee9d57abee; restoreHTTP=200; body={\"ok\":true,\"operationId\":\"20261003-070043-327514ad\",\"status\":\"restored\",\"overwrite\":false,\"conflicts\":0,\"files\":[{\"relativePath\":\"a.jar\",\"state\":\"restored\",\"sha256\":\"DD7A346236273D4FD019C7BF806B00A7EEA9D992583B6AED9ED2231CF345F4B7\",\"error\":null}]}; outsideFileExists=True"
+      },
+      {
+        "name": "Pineglow.Launcher.Tests.RemediationBoundaryProbes.HttpForgedStoredPath_MustNotConsumeOtherInstanceFile",
+        "message": "HTTP accepted a record pointing to another instance's isolated file",
+        "stdout": "sandbox=C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-cc2229d7f8fc4c158c12d90423065d63; HTTP=200; body={\"ok\":true,\"operationId\":\"20261003-070043-e402c646\",\"status\":\"restored\",\"overwrite\":false,\"conflicts\":0,\"files\":[{\"relativePath\":\"mods\\\\a.jar\",\"state\":\"restored\",\"sha256\":\"F92AB83C0FD58E1140418FDF4AA4FA74F0E779E085D408A6FEADB299634C090E\",\"error\":null}]}; BStoredExists=False; target=http-other-instance-B"
+      }
+    ]
+  },
+  {
+    "file": "test-results\\existing-probes.trx",
+    "counters": {
+      "total": "32",
+      "executed": "32",
+      "passed": "32",
+      "failed": "0",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    },
+    "times": {
+      "creation": "2026-10-03T14:56:55.1698726+08:00",
+      "queuing": "2026-10-03T14:56:55.1698730+08:00",
+      "start": "2026-10-03T14:56:54.3499884+08:00",
+      "finish": "2026-10-03T14:56:56.5794514+08:00"
+    },
+    "failures": []
+  },
+  {
+    "file": "test-results\\full.trx",
+    "counters": {
+      "total": "875",
+      "executed": "875",
+      "passed": "875",
+      "failed": "0",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    },
+    "times": {
+      "creation": "2026-10-03T14:56:58.2675584+08:00",
+      "queuing": "2026-10-03T14:56:58.2675591+08:00",
+      "start": "2026-10-03T14:56:57.6022757+08:00",
+      "finish": "2026-10-03T14:58:06.7838565+08:00"
+    },
+    "failures": []
+  },
+  {
+    "file": "test-results\\r0.trx",
+    "counters": {
+      "total": "13",
+      "executed": "13",
+      "passed": "13",
+      "failed": "0",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    },
+    "times": {
+      "creation": "2026-10-03T14:56:53.3014002+08:00",
+      "queuing": "2026-10-03T14:56:53.3014006+08:00",
+      "start": "2026-10-03T14:56:52.6177826+08:00",
+      "finish": "2026-10-03T14:56:53.3314264+08:00"
+    },
+    "failures": []
+  },
+  {
+    "file": "boundary-run-20261003T070203Z-6ef2deb1\\test-results\\boundaries-repeat.trx",
+    "counters": {
+      "total": "5",
+      "executed": "5",
+      "passed": "1",
+      "failed": "4",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    },
+    "times": {
+      "creation": "2026-10-03T15:02:08.3768480+08:00",
+      "queuing": "2026-10-03T15:02:08.3768484+08:00",
+      "start": "2026-10-03T15:02:07.3362125+08:00",
+      "finish": "2026-10-03T15:02:08.3816432+08:00"
+    },
+    "failures": [
+      {
+        "name": "Pineglow.Launcher.Tests.RemediationBoundaryProbes.StoredPath_MustBelongToSameInstanceAndOperation",
+        "message": "Another instance's isolated file was consumed by a forged record",
+        "stdout": "sandbox=C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-bc4e5c67696b4253af3eeae213c6edd4; status=restored; target=other-instance-B; BStoredExists=False; AStoredExists=True"
+      },
+      {
+        "name": "Pineglow.Launcher.Tests.RemediationBoundaryProbes.RollbackFailure_HttpMustExposeRecoveryFields",
+        "message": "needsRecovery only appears inside error prose, not a JSON field",
+        "stdout": "sandbox=C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-4fa3a22248104361a566c97bd31710c0; HTTP=400; body={\"error\":\"[commit_failed] \\u5199\\u5165\\u65B0\\u7248\\u672C\\u5931\\u8D25\\uFF0C**\\u672A\\u80FD\\u5B8C\\u5168\\u56DE\\u6EDA**\\uFF0C\\u65E7\\u7248\\u672C\\u4ECD\\u9700\\u4EBA\\u5DE5\\u6062\\u590D\\u3002\\u6062\\u590D\\u8BB0\\u5F55 20261003-070208-656c2b8f\\uFF0C\\u56DE\\u6EDA\\u72B6\\u6001 failed\\uFF0C\\u672A\\u6062\\u590D\\u6587\\u4EF6\\uFF1Aa.jar \\u2192 Access to the path \\u0027C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pineglow-boundary-4fa3a22248104361a566c97bd31710c0\\\\game\\\\mods\\\\a.jar\\u0027 is denied.\\uFF1B\\u539F\\u56E0\\uFF1A\\u672A\\u80FD\\u6062\\u590D\\u7684\\u6587\\u4EF6\\uFF1Aa.jar \\u2192 Access to the path \\u0027C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pineglow-boundary-4fa3a22248104361a566c97bd31710c0\\\\game\\\\mods\\\\a.jar\\u0027 is denied.\\uFF1B\\u539F\\u59CB\\u5931\\u8D25\\uFF1Ainjected commit failure\\uFF08needsRecovery=true\\uFF1BoperationId=20261003-070208-656c2b8f\\uFF1BrecoveryStatus=failed\\uFF1B\\u672A\\u6062\\u590D\\u6587\\u4EF6\\uFF1Aa.jar \\u2192 Access to the path \\u0027C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pineglow-boundary-4fa3a22248104361a566c97bd31710c0\\\\game\\\\mods\\\\a.jar\\u0027 is denied.\\uFF09\"}"
+      },
+      {
+        "name": "Pineglow.Launcher.Tests.RemediationBoundaryProbes.HttpForgedStoredPath_MustNotConsumeOtherInstanceFile",
+        "message": "HTTP accepted a record pointing to another instance's isolated file",
+        "stdout": "sandbox=C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-3604846125f344ac87fc988c28459468; HTTP=200; body={\"ok\":true,\"operationId\":\"20261003-070207-700fd2b6\",\"status\":\"restored\",\"overwrite\":false,\"conflicts\":0,\"files\":[{\"relativePath\":\"mods\\\\a.jar\",\"state\":\"restored\",\"sha256\":\"F92AB83C0FD58E1140418FDF4AA4FA74F0E779E085D408A6FEADB299634C090E\",\"error\":null}]}; BStoredExists=False; target=http-other-instance-B"
+      },
+      {
+        "name": "Pineglow.Launcher.Tests.RemediationBoundaryProbes.ModReplaceUndo_MustRejectJunctionAboveRecordedModsRoot",
+        "message": "Undo wrote through the game junction above record.GameDirectory=game/mods",
+        "stdout": "sandbox=C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-62e286415c284e33993fdea53966f2dc; restoreHTTP=200; body={\"ok\":true,\"operationId\":\"20261003-070208-fdc1ad46\",\"status\":\"restored\",\"overwrite\":false,\"conflicts\":0,\"files\":[{\"relativePath\":\"a.jar\",\"state\":\"restored\",\"sha256\":\"DD7A346236273D4FD019C7BF806B00A7EEA9D992583B6AED9ED2231CF345F4B7\",\"error\":null}]}; outsideFileExists=True"
+      }
+    ]
+  },
+  {
+    "file": "boundary-run-20261003T070203Z-6ef2deb1\\test-results\\boundaries.trx",
+    "counters": {
+      "total": "5",
+      "executed": "5",
+      "passed": "1",
+      "failed": "4",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    },
+    "times": {
+      "creation": "2026-10-03T15:02:06.3871828+08:00",
+      "queuing": "2026-10-03T15:02:06.3871830+08:00",
+      "start": "2026-10-03T15:02:05.3194581+08:00",
+      "finish": "2026-10-03T15:02:06.3919029+08:00"
+    },
+    "failures": [
+      {
+        "name": "Pineglow.Launcher.Tests.RemediationBoundaryProbes.RollbackFailure_HttpMustExposeRecoveryFields",
+        "message": "needsRecovery only appears inside error prose, not a JSON field",
+        "stdout": "sandbox=C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-1f0fe560529a496da67ae8628eefc68b; HTTP=400; body={\"error\":\"[commit_failed] \\u5199\\u5165\\u65B0\\u7248\\u672C\\u5931\\u8D25\\uFF0C**\\u672A\\u80FD\\u5B8C\\u5168\\u56DE\\u6EDA**\\uFF0C\\u65E7\\u7248\\u672C\\u4ECD\\u9700\\u4EBA\\u5DE5\\u6062\\u590D\\u3002\\u6062\\u590D\\u8BB0\\u5F55 20261003-070206-198f66d7\\uFF0C\\u56DE\\u6EDA\\u72B6\\u6001 failed\\uFF0C\\u672A\\u6062\\u590D\\u6587\\u4EF6\\uFF1Aa.jar \\u2192 Access to the path \\u0027C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pineglow-boundary-1f0fe560529a496da67ae8628eefc68b\\\\game\\\\mods\\\\a.jar\\u0027 is denied.\\uFF1B\\u539F\\u56E0\\uFF1A\\u672A\\u80FD\\u6062\\u590D\\u7684\\u6587\\u4EF6\\uFF1Aa.jar \\u2192 Access to the path \\u0027C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pineglow-boundary-1f0fe560529a496da67ae8628eefc68b\\\\game\\\\mods\\\\a.jar\\u0027 is denied.\\uFF1B\\u539F\\u59CB\\u5931\\u8D25\\uFF1Ainjected commit failure\\uFF08needsRecovery=true\\uFF1BoperationId=20261003-070206-198f66d7\\uFF1BrecoveryStatus=failed\\uFF1B\\u672A\\u6062\\u590D\\u6587\\u4EF6\\uFF1Aa.jar \\u2192 Access to the path \\u0027C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pineglow-boundary-1f0fe560529a496da67ae8628eefc68b\\\\game\\\\mods\\\\a.jar\\u0027 is denied.\\uFF09\"}"
+      },
+      {
+        "name": "Pineglow.Launcher.Tests.RemediationBoundaryProbes.HttpForgedStoredPath_MustNotConsumeOtherInstanceFile",
+        "message": "HTTP accepted a record pointing to another instance's isolated file",
+        "stdout": "sandbox=C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-1f550b0b7192468cb5144ca64451eb88; HTTP=200; body={\"ok\":true,\"operationId\":\"20261003-070205-4e701b5a\",\"status\":\"restored\",\"overwrite\":false,\"conflicts\":0,\"files\":[{\"relativePath\":\"mods\\\\a.jar\",\"state\":\"restored\",\"sha256\":\"F92AB83C0FD58E1140418FDF4AA4FA74F0E779E085D408A6FEADB299634C090E\",\"error\":null}]}; BStoredExists=False; target=http-other-instance-B"
+      },
+      {
+        "name": "Pineglow.Launcher.Tests.RemediationBoundaryProbes.StoredPath_MustBelongToSameInstanceAndOperation",
+        "message": "Another instance's isolated file was consumed by a forged record",
+        "stdout": "sandbox=C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-9f444a2494224e5a89de9c30bad7dbe3; status=restored; target=other-instance-B; BStoredExists=False; AStoredExists=True"
+      },
+      {
+        "name": "Pineglow.Launcher.Tests.RemediationBoundaryProbes.ModReplaceUndo_MustRejectJunctionAboveRecordedModsRoot",
+        "message": "Undo wrote through the game junction above record.GameDirectory=game/mods",
+        "stdout": "sandbox=C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-boundary-39fd4b2f2552449e92d0a20dc971e435; restoreHTTP=200; body={\"ok\":true,\"operationId\":\"20261003-070206-ec80dba8\",\"status\":\"restored\",\"overwrite\":false,\"conflicts\":0,\"files\":[{\"relativePath\":\"a.jar\",\"state\":\"restored\",\"sha256\":\"DD7A346236273D4FD019C7BF806B00A7EEA9D992583B6AED9ED2231CF345F4B7\",\"error\":null}]}; outsideFileExists=True"
+      }
+    ]
+  }
+]

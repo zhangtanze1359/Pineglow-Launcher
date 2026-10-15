@@ -1,0 +1,155 @@
+{
+  "fixtureRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-audit-coverage-rm8phxwi",
+  "auditorSource": "C:\\Users\\Administrator\\.codex\\worktrees\\0f45\\松光启动器\\docs\\market-execution\\FINAL-REMEDIATION-R2\\20261003-071724Z\\audit-all-manifests-r2.py",
+  "cases": [
+    {
+      "id": "valid-control",
+      "expected": "zero",
+      "actualExit": 0,
+      "status": "PASS",
+      "command": [
+        "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-audit-coverage-rm8phxwi\\runner-valid-control\\audit-all-manifests-r2.py",
+        "",
+        "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-acceptance\\20261003-r2-independent\\coverage-valid-control.json"
+      ],
+      "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器",
+      "startUtc": "2026-10-03T09:00:19.691309+00:00",
+      "endUtc": "2026-10-03T09:00:19.747668+00:00",
+      "stdout": "{\"roots\": 1, \"manifestCount\": 1, \"fileEntries\": 1, \"selfEntries\": 0, \"knownMismatches\": 0, \"missingDetached\": 0, \"failures\": 0, \"exit\": 0}\n",
+      "stderr": "",
+      "roots": [
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-audit-coverage-rm8phxwi\\good"
+      ]
+    },
+    {
+      "id": "required-root-missing",
+      "expected": "nonzero",
+      "actualExit": 0,
+      "status": "FAIL",
+      "command": [
+        "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-audit-coverage-rm8phxwi\\runner-required-root-missing\\audit-all-manifests-r2.py",
+        "",
+        "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-acceptance\\20261003-r2-independent\\coverage-required-root-missing.json"
+      ],
+      "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器",
+      "startUtc": "2026-10-03T09:00:19.748668+00:00",
+      "endUtc": "2026-10-03T09:00:19.809180+00:00",
+      "stdout": "{\"roots\": 1, \"manifestCount\": 1, \"fileEntries\": 1, \"selfEntries\": 0, \"knownMismatches\": 0, \"missingDetached\": 0, \"failures\": 0, \"exit\": 0}\n",
+      "stderr": "",
+      "roots": [
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-audit-coverage-rm8phxwi\\good",
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-audit-coverage-rm8phxwi\\missing-required-root"
+      ]
+    },
+    {
+      "id": "required-root-empty",
+      "expected": "nonzero",
+      "actualExit": 0,
+      "status": "FAIL",
+      "command": [
+        "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-audit-coverage-rm8phxwi\\runner-required-root-empty\\audit-all-manifests-r2.py",
+        "",
+        "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-acceptance\\20261003-r2-independent\\coverage-required-root-empty.json"
+      ],
+      "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器",
+      "startUtc": "2026-10-03T09:00:19.810631+00:00",
+      "endUtc": "2026-10-03T09:00:19.867127+00:00",
+      "stdout": "{\"roots\": 2, \"manifestCount\": 1, \"fileEntries\": 1, \"selfEntries\": 0, \"knownMismatches\": 0, \"missingDetached\": 0, \"failures\": 0, \"exit\": 0}\n",
+      "stderr": "",
+      "roots": [
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-audit-coverage-rm8phxwi\\good",
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-audit-coverage-rm8phxwi\\empty-required-root"
+      ]
+    },
+    {
+      "id": "unsealed-sibling-package",
+      "expected": "nonzero",
+      "actualExit": 0,
+      "status": "FAIL",
+      "command": [
+        "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-audit-coverage-rm8phxwi\\runner-unsealed-sibling-package\\audit-all-manifests-r2.py",
+        "",
+        "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-acceptance\\20261003-r2-independent\\coverage-unsealed-sibling-package.json"
+      ],
+      "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器",
+      "startUtc": "2026-10-03T09:00:19.868635+00:00",
+      "endUtc": "2026-10-03T09:00:19.924454+00:00",
+      "stdout": "{\"roots\": 1, \"manifestCount\": 1, \"fileEntries\": 1, \"selfEntries\": 0, \"knownMismatches\": 0, \"missingDetached\": 0, \"failures\": 0, \"exit\": 0}\n",
+      "stderr": "",
+      "roots": [
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-audit-coverage-rm8phxwi\\good"
+      ]
+    },
+    {
+      "id": "empty-manifest",
+      "expected": "nonzero",
+      "actualExit": 0,
+      "status": "FAIL",
+      "command": [
+        "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-audit-coverage-rm8phxwi\\runner-empty-manifest\\audit-all-manifests-r2.py",
+        "",
+        "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-acceptance\\20261003-r2-independent\\coverage-empty-manifest.json"
+      ],
+      "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器",
+      "startUtc": "2026-10-03T09:00:19.926956+00:00",
+      "endUtc": "2026-10-03T09:00:19.981147+00:00",
+      "stdout": "{\"roots\": 1, \"manifestCount\": 1, \"fileEntries\": 0, \"selfEntries\": 0, \"knownMismatches\": 0, \"missingDetached\": 0, \"failures\": 0, \"exit\": 0}\n",
+      "stderr": "",
+      "roots": [
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-audit-coverage-rm8phxwi\\empty-manifest"
+      ]
+    },
+    {
+      "id": "required-size-missing",
+      "expected": "nonzero",
+      "actualExit": 0,
+      "status": "FAIL",
+      "command": [
+        "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-audit-coverage-rm8phxwi\\runner-required-size-missing\\audit-all-manifests-r2.py",
+        "",
+        "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-acceptance\\20261003-r2-independent\\coverage-required-size-missing.json"
+      ],
+      "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器",
+      "startUtc": "2026-10-03T09:00:19.983147+00:00",
+      "endUtc": "2026-10-03T09:00:20.039238+00:00",
+      "stdout": "{\"roots\": 1, \"manifestCount\": 1, \"fileEntries\": 1, \"selfEntries\": 0, \"knownMismatches\": 0, \"missingDetached\": 0, \"failures\": 0, \"exit\": 0}\n",
+      "stderr": "",
+      "roots": [
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-audit-coverage-rm8phxwi\\size-missing"
+      ]
+    },
+    {
+      "id": "duplicate-entry-control",
+      "expected": "nonzero",
+      "actualExit": 1,
+      "status": "PASS",
+      "command": [
+        "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-audit-coverage-rm8phxwi\\runner-duplicate-entry-control\\audit-all-manifests-r2.py",
+        "",
+        "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-acceptance\\20261003-r2-independent\\coverage-duplicate-entry-control.json"
+      ],
+      "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器",
+      "startUtc": "2026-10-03T09:00:20.041168+00:00",
+      "endUtc": "2026-10-03T09:00:20.111372+00:00",
+      "stdout": "{\"roots\": 1, \"manifestCount\": 1, \"fileEntries\": 1, \"selfEntries\": 0, \"knownMismatches\": 0, \"missingDetached\": 0, \"failures\": 1, \"exit\": 1}\nFAIL {\"manifest\": \"RUN-OK/manifest.json\", \"path\": \"evidence.txt\", \"reason\": \"duplicate entry\"}\n",
+      "stderr": "",
+      "roots": [
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-audit-coverage-rm8phxwi\\duplicate"
+      ]
+    }
+  ],
+  "failed": [
+    "required-root-missing",
+    "required-root-empty",
+    "unsealed-sibling-package",
+    "empty-manifest",
+    "required-size-missing"
+  ]
+}

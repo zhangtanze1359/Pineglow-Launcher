@@ -1,0 +1,5 @@
+{
+  "probe": "runner-output-timeout-result.json",
+  "usedAsAcceptanceGate": false,
+  "reason": "Measured runner invocation finished in 944ms, below the one-second budget; descendant lifecycle was not measured. This experiment does not establish a timeout contract failure and is excluded from all defect counts."
+}

@@ -1,0 +1,10 @@
+﻿[
+    {
+        "label":  "P-STARTUPLOG 1/2 global handlers (single-line anchor)",
+        "ok":  true
+    },
+    {
+        "label":  "P-STARTUPLOG 2/2 protected shell construction (single-line anchor)",
+        "ok":  true
+    }
+]

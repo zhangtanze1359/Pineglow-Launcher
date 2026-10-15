@@ -1,0 +1,26 @@
+﻿{
+    "probe":  "range-resume-proof",
+    "fixture":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-resume-ae6617c18e7f4b1880305f18be85aa1d\\install",
+    "version":  "1.21.11",
+    "jarPath":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-resume-ae6617c18e7f4b1880305f18be85aa1d\\install\\data\\.minecraft\\versions\\1.21.11\\1.21.11.jar",
+    "tempPath":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-resume-ae6617c18e7f4b1880305f18be85aa1d\\install\\data\\.minecraft\\versions\\1.21.11\\1.21.11.jar.download",
+    "originalJarSha1":  "ba2df812c2d12e0219c489c4cd9a5e1f0760f5bd",
+    "tempBytesWritten":  1048576,
+    "logLineCountBefore":  6,
+    "messagesSeen":  [
+                         "正在获取 Minecraft 1.21.11 元数据...",
+                         "下载：1.21.11.jar",
+                         "继续下载：1.21.11.jar（已完成 1.0 MB）",
+                         "正在下载游戏资源：3000/4591"
+                     ],
+    "resumeLogLines":  [
+
+                       ],
+    "finalJarSha1":  "ba2df812c2d12e0219c489c4cd9a5e1f0760f5bd",
+    "jarMatchesOriginal":  true,
+    "downloadStatus":  "downloading",
+    "seconds":  12,
+    "leftoverTemp":  false,
+    "ownedProcessesStopped":  true,
+    "timeHK":  "2026-10-10T04:47:28.5347870"
+}

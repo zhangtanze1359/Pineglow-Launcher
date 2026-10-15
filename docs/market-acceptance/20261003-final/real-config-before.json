@@ -1,0 +1,22 @@
+[
+  {
+    "path": "C:\\Users\\Administrator\\AppData\\Roaming\\MCMiniLauncher\\config.json",
+    "exists": true,
+    "sha256": "556AC3FD373EFC485DDBD275FD88858CAB33AEC0ABE7D0DD5E0747C41CBC45AC"
+  },
+  {
+    "path": "C:\\Users\\Administrator\\AppData\\Roaming\\MCMiniLauncher\\config.json.bak",
+    "exists": true,
+    "sha256": "21AD545C55A2FC0446B10F573B3BCDBCADB0CA85A0BC757AD1EEF2F0C158D883"
+  },
+  {
+    "path": "C:\\Users\\Administrator\\AppData\\Roaming\\MCMiniLauncher\\config.json.prev",
+    "exists": true,
+    "sha256": "44136FA355B3678A1146AD16F7E8649E94FB4FC21FE77E8310C060F61CAAFF8A"
+  },
+  {
+    "path": "C:\\Users\\Administrator\\AppData\\Roaming\\MCMiniLauncher\\secrets.json",
+    "exists": false,
+    "sha256": null
+  }
+]

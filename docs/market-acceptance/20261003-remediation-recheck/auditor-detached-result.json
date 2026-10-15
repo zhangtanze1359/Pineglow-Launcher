@@ -1,0 +1,16 @@
+{
+  "root": "C:\\Users\\Administrator\\.codex\\worktrees\\0f45\\松光启动器\\docs\\market-acceptance\\20261003-remediation-recheck\\auditor-fixtures\\bad-detached-root",
+  "manifestCount": 1,
+  "fileEntries": 1,
+  "selfEntries": [],
+  "knownMismatches": [],
+  "failures": [],
+  "runs": [
+    {
+      "manifest": "run/manifest.json",
+      "package": "run",
+      "filesChecked": 1,
+      "declaredRunId": null
+    }
+  ]
+}

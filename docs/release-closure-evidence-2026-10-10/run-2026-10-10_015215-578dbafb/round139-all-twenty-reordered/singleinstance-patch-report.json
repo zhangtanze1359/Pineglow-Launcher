@@ -1,0 +1,14 @@
+﻿[
+    {
+        "label":  "P-SINGLEINSTANCE 1/3 the mutex field",
+        "ok":  true
+    },
+    {
+        "label":  "P-SINGLEINSTANCE 2/3 using System.Threading",
+        "ok":  true
+    },
+    {
+        "label":  "P-SINGLEINSTANCE 3/3 the guard",
+        "ok":  true
+    }
+]

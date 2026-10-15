@@ -1,0 +1,78 @@
+﻿{
+    "generatedAtUtc":  "2026-10-02T22:36:31Z",
+    "runs":  5,
+    "metrics":  {
+                    "diagnostic.analyze.longlog":  {
+                                                       "unit":  "ms",
+                                                       "observations":  5,
+                                                       "samples":  100,
+                                                       "min":  0.723,
+                                                       "p50":  0.984,
+                                                       "p95":  8.91,
+                                                       "max":  17.863,
+                                                       "peakWorkingSetMb":  101.44,
+                                                       "note":  "读 1230 KB 日志并跑规则引擎",
+                                                       "frozenBudgetP95":  13.365
+                                                   },
+                    "diagnostic.sanitize.longlog":  {
+                                                        "unit":  "ms",
+                                                        "observations":  5,
+                                                        "samples":  100,
+                                                        "min":  20.098,
+                                                        "p50":  30.24,
+                                                        "p95":  55.22,
+                                                        "max":  58.164,
+                                                        "peakWorkingSetMb":  109.41,
+                                                        "note":  "长日志脱敏 + 证据挑选（当前实现：先脱敏整段再挑行）",
+                                                        "frozenBudgetP95":  82.83
+                                                    },
+                    "diagnostic.sanitize.selectedOnly":  {
+                                                             "unit":  "ms",
+                                                             "observations":  5,
+                                                             "samples":  100,
+                                                             "min":  3.281,
+                                                             "p50":  6.123,
+                                                             "p95":  22.908,
+                                                             "max":  29.864,
+                                                             "peakWorkingSetMb":  117.3,
+                                                             "note":  "候选修复（测量实验，未进产品代码）：先挑相关行、只脱敏选中行",
+                                                             "frozenBudgetP95":  34.362
+                                                         },
+                    "mods.list.100":  {
+                                          "unit":  "ms",
+                                          "observations":  5,
+                                          "samples":  100,
+                                          "min":  2.622,
+                                          "p50":  3.178,
+                                          "p95":  5.562,
+                                          "max":  8.021,
+                                          "peakWorkingSetMb":  91.91,
+                                          "note":  "扫描 100 个 jar 并解析 manifest",
+                                          "frozenBudgetP95":  8.343
+                                      },
+                    "mods.list.500":  {
+                                          "unit":  "ms",
+                                          "observations":  5,
+                                          "samples":  100,
+                                          "min":  14.384,
+                                          "p50":  16.015,
+                                          "p95":  20.16,
+                                          "max":  31.198,
+                                          "peakWorkingSetMb":  93.45,
+                                          "note":  "扫描 500 个 jar 并解析 manifest",
+                                          "frozenBudgetP95":  30.24
+                                      },
+                    "mrpack.parse.500files":  {
+                                                  "unit":  "ms",
+                                                  "observations":  5,
+                                                  "samples":  100,
+                                                  "min":  1.129,
+                                                  "p50":  1.2,
+                                                  "p95":  1.345,
+                                                  "max":  4.352,
+                                                  "peakWorkingSetMb":  76.44,
+                                                  "note":  "解析 71 KB 的 modrinth.index.json",
+                                                  "frozenBudgetP95":  2.018
+                                              }
+                }
+}

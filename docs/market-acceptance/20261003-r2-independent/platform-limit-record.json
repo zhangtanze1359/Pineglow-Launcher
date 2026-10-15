@@ -1,0 +1,9 @@
+{
+  "sourceThread": "01a10089-9a1a-78a1-a887-07b133154563",
+  "turnId": "01a100c7-b917-7be0-85f6-429ddcfe6ead",
+  "startedAt": 1791014451,
+  "completedAt": 1791014472,
+  "notice": "This content was flagged for possible cybersecurity risk. If this seems wrong, try rephrasing your request. If you’re doing authorized security work that requires more cyber permissive safeguards, apply for Daybreak access via https://platform.openai.com/settings/organization/status-and-access before retrying.",
+  "exactRejectedCommand": "Not identified by the product notice",
+  "currentScope": "Do not re-run the same recovery safety counterexamples or delegate them through another tool; ordinary isolated regression and evidence completeness checks only."
+}

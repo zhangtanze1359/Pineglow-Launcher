@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "generatedUtc": "2026-10-04T10:17:09.539Z",
+  "note": [
+    "R0 baseline (pre-fix working tree) -> R3 baseline (post-fix working tree). Only files this rework",
+    "intentionally edited appear under \"changed\"; nothing was deleted, and no new source file was added",
+    "(the input count stays 292). Everything else in the tree was already dirty before this round and is",
+    "NOT claimed as this round's work."
+  ],
+  "sourceRoot": "D:\\松光启动器",
+  "head": "f145d14eb26b0b7459a28491e764ac8c573085d3",
+  "inputCount": {
+    "r0": 292,
+    "r3": 292,
+    "terminal": 292
+  },
+  "changed": [
+    {
+      "path": "ui/js/i18n.js",
+      "fromSha256": "2F5F02F987F836A511A487AE6EE6C1CCB259A17A141F7BF077924234AB931A56",
+      "toSha256": "C70FA2560DF7459BE82933653FEE188EFD5E3122E7DC142D1082154FDEB88B90",
+      "fromBytes": 60384,
+      "toBytes": 60744
+    },
+    {
+      "path": "ui/js/launcher.js",
+      "fromSha256": "FADF76D17797B5AF1D7C5AFCE7BC208D8B20C5CB443EE0960B7C8F9839639195",
+      "toSha256": "087F569B5E6A6924DA675D6C24FB403AFD9C4AF67EBAD69D61B920F2B2E9B152",
+      "fromBytes": 203051,
+      "toBytes": 203877
+    },
+    {
+      "path": "ui/tests/import-cancel.test.cjs",
+      "fromSha256": "4B94CD67626B03B408FFD85BE4DC9496F97A210B9D7EEEBA7C91E3891A25210C",
+      "toSha256": "CFBA075674DCD3E1EB38F3D8C8411DA5785C2984D8F9491758CA573C161C0A3F",
+      "fromBytes": 7191,
+      "toBytes": 7672
+    },
+    {
+      "path": "ui/tests/goal-core-flow.test.cjs",
+      "fromSha256": "14D471F73B5182A448FA8B69D5E1C31CCD7D56FC8F32849ACD270530788477C1",
+      "toSha256": "59B8FC0F43CDAC6BCFBBD1F7BA98CD5556D6C791644199961A4A6741F61F3B50",
+      "fromBytes": 46532,
+      "toBytes": 52101
+    },
+    {
+      "path": "scripts/run-goal-validation.ps1",
+      "fromSha256": "E1DA36326F94286C2639DBC30F2DC4EF610764FB8F04B49B1AAD117A91311E4A",
+      "toSha256": "FD5394FF0D54594D15D959639AA381F9EC402B18ABE2DDC1C89298EFD1BFE14B",
+      "fromBytes": 17306,
+      "toBytes": 37909
+    },
+    {
+      "path": "scripts/tests/goal-validation.test.cjs",
+      "fromSha256": "61B1ED7B78717D0D0FF093FB4F5E13F81F8D3DE439001F1EF905123510A1B968",
+      "toSha256": "F098C9A5906D6ABB2CF7B7FB6848C940FE77CCE1E4563DD9E91D636793E1F608",
+      "fromBytes": 10711,
+      "toBytes": 32185
+    }
+  ],
+  "added": [],
+  "removed": [],
+  "terminalDrift": []
+}

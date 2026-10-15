@@ -1,0 +1,2450 @@
+{
+  "time": "2026-10-13T16:47:19.7778304+08:00",
+  "sourceRoot": "D:\\松光启动器",
+  "snapshotRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-2ec099278e72404596b71170e800de8b",
+  "inputs": 305,
+  "sourceDrifts": 0,
+  "snapshotMismatches": 1,
+  "checks": [
+    {
+      "path": ".gitattributes",
+      "baselineHash": "AB8AF7BC9945D6D7CD5E8AD863C45B24E3FA10EFBD8FEFA143FC73329FD17836",
+      "currentHash": "AB8AF7BC9945D6D7CD5E8AD863C45B24E3FA10EFBD8FEFA143FC73329FD17836",
+      "snapshotHash": "AB8AF7BC9945D6D7CD5E8AD863C45B24E3FA10EFBD8FEFA143FC73329FD17836",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": ".github/workflows/build.yml",
+      "baselineHash": "D72E787D23C9A84712A0FE659773A10102B1B255ADC236535C25988A784F272A",
+      "currentHash": "D72E787D23C9A84712A0FE659773A10102B1B255ADC236535C25988A784F272A",
+      "snapshotHash": "D72E787D23C9A84712A0FE659773A10102B1B255ADC236535C25988A784F272A",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "baselineHash": "75E9D34C74445A15E168558AC50EFF9C318FA8A4613BFD7F9415C736265F9EC8",
+      "currentHash": "75E9D34C74445A15E168558AC50EFF9C318FA8A4613BFD7F9415C736265F9EC8",
+      "snapshotHash": "75E9D34C74445A15E168558AC50EFF9C318FA8A4613BFD7F9415C736265F9EC8",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": ".gitignore",
+      "baselineHash": "F3599A6E4A7C0CF6B1DAA5C8985613115B9C4D54F00F49FF4CA19384575E4236",
+      "currentHash": "F3599A6E4A7C0CF6B1DAA5C8985613115B9C4D54F00F49FF4CA19384575E4236",
+      "snapshotHash": "F3599A6E4A7C0CF6B1DAA5C8985613115B9C4D54F00F49FF4CA19384575E4236",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/AiCancelAndRedirectTests.cs",
+      "baselineHash": "8852E1E69A71B6D5C93C6CF0CE839D781E6AF88525DC404B263D614D93EC09EB",
+      "currentHash": "8852E1E69A71B6D5C93C6CF0CE839D781E6AF88525DC404B263D614D93EC09EB",
+      "snapshotHash": "8852E1E69A71B6D5C93C6CF0CE839D781E6AF88525DC404B263D614D93EC09EB",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/AiDiagnoseReleaseSafetyTests.cs",
+      "baselineHash": "E979C7EC72B2756FFB46D999BD4EE7E60E7283E3091FFCD3ADD84DBC2097D5E9",
+      "currentHash": "E979C7EC72B2756FFB46D999BD4EE7E60E7283E3091FFCD3ADD84DBC2097D5E9",
+      "snapshotHash": "E979C7EC72B2756FFB46D999BD4EE7E60E7283E3091FFCD3ADD84DBC2097D5E9",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/AiDiagnoseServiceTests.cs",
+      "baselineHash": "6BDCFE063132548D2FA0AACE6637913093E3454F31173BDA175C9DA183B83D1E",
+      "currentHash": "6BDCFE063132548D2FA0AACE6637913093E3454F31173BDA175C9DA183B83D1E",
+      "snapshotHash": "6BDCFE063132548D2FA0AACE6637913093E3454F31173BDA175C9DA183B83D1E",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/AiDispatchMetadataTests.cs",
+      "baselineHash": "3925E2A5A2E06D04B471B779F66055D1EF191486A1C1DD95495DBBC137D19AB8",
+      "currentHash": "3925E2A5A2E06D04B471B779F66055D1EF191486A1C1DD95495DBBC137D19AB8",
+      "snapshotHash": "3925E2A5A2E06D04B471B779F66055D1EF191486A1C1DD95495DBBC137D19AB8",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/BisectFileOperationTests.cs",
+      "baselineHash": "068DDDD3E44B90DAFD8EDCD4DB75A641E11234C7D84C524AECD912C80631C949",
+      "currentHash": "068DDDD3E44B90DAFD8EDCD4DB75A641E11234C7D84C524AECD912C80631C949",
+      "snapshotHash": "068DDDD3E44B90DAFD8EDCD4DB75A641E11234C7D84C524AECD912C80631C949",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/BisectRecoveryTests.cs",
+      "baselineHash": "339DFCEF642CC37D8993A75B77901D335CC385AFA3C68DED0EF610739C69F936",
+      "currentHash": "339DFCEF642CC37D8993A75B77901D335CC385AFA3C68DED0EF610739C69F936",
+      "snapshotHash": "339DFCEF642CC37D8993A75B77901D335CC385AFA3C68DED0EF610739C69F936",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/BuildLockFileTests.cs",
+      "baselineHash": "7BA781DB5C705D3D3EBAB033A3EE3787F7785F967302F03B633A884E8E4DF1C6",
+      "currentHash": "7BA781DB5C705D3D3EBAB033A3EE3787F7785F967302F03B633A884E8E4DF1C6",
+      "snapshotHash": "7BA781DB5C705D3D3EBAB033A3EE3787F7785F967302F03B633A884E8E4DF1C6",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/ConfigBackupRotationTests.cs",
+      "baselineHash": "3C93B7BBCF7E6AEBB6286247EED69B76484D3B33A836595D84CEC3CEFDC36CA8",
+      "currentHash": "3C93B7BBCF7E6AEBB6286247EED69B76484D3B33A836595D84CEC3CEFDC36CA8",
+      "snapshotHash": "3C93B7BBCF7E6AEBB6286247EED69B76484D3B33A836595D84CEC3CEFDC36CA8",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/ConfigDefaultIdentityTests.cs",
+      "baselineHash": "DA17840732B819CFD7DA7E3BDE6608A11DEBC817CCE950E246B1D8576F78A44C",
+      "currentHash": "DA17840732B819CFD7DA7E3BDE6608A11DEBC817CCE950E246B1D8576F78A44C",
+      "snapshotHash": "DA17840732B819CFD7DA7E3BDE6608A11DEBC817CCE950E246B1D8576F78A44C",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/ConfigPreservationTests.cs",
+      "baselineHash": "6B0DE7C7FE207B371BF3C28C466A8E7541B7DE68A149621D22CE220334C2E6B7",
+      "currentHash": "6B0DE7C7FE207B371BF3C28C466A8E7541B7DE68A149621D22CE220334C2E6B7",
+      "snapshotHash": "6B0DE7C7FE207B371BF3C28C466A8E7541B7DE68A149621D22CE220334C2E6B7",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/ContentIconServiceTests.cs",
+      "baselineHash": "95D86A301A075455E223E57BF99FFB63AEEDC08BE2899494519EEDCF2B7A1467",
+      "currentHash": "95D86A301A075455E223E57BF99FFB63AEEDC08BE2899494519EEDCF2B7A1467",
+      "snapshotHash": "95D86A301A075455E223E57BF99FFB63AEEDC08BE2899494519EEDCF2B7A1467",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/CrashAnalyzerServiceTests.cs",
+      "baselineHash": "AA9606BCFCB029D17A29C4AEB7DA59DAED6896BEC6AD2C2070C5CB9A5D52E8CF",
+      "currentHash": "AA9606BCFCB029D17A29C4AEB7DA59DAED6896BEC6AD2C2070C5CB9A5D52E8CF",
+      "snapshotHash": "AA9606BCFCB029D17A29C4AEB7DA59DAED6896BEC6AD2C2070C5CB9A5D52E8CF",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/CurseForgeRateLimitTests.cs",
+      "baselineHash": "414B69ADAD7BEDD6ADC60BCB2F8BAD420A468D58854ACFBBBEDF9EB245031296",
+      "currentHash": "414B69ADAD7BEDD6ADC60BCB2F8BAD420A468D58854ACFBBBEDF9EB245031296",
+      "snapshotHash": "414B69ADAD7BEDD6ADC60BCB2F8BAD420A468D58854ACFBBBEDF9EB245031296",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/DiagnoseProgressGateTests.cs",
+      "baselineHash": "631F63DACE986BF82FC6D23E5698D245D5D795300E00A2F463AB4E12D5373EA8",
+      "currentHash": "631F63DACE986BF82FC6D23E5698D245D5D795300E00A2F463AB4E12D5373EA8",
+      "snapshotHash": "631F63DACE986BF82FC6D23E5698D245D5D795300E00A2F463AB4E12D5373EA8",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/DiagnosticBenchmarkTests.cs",
+      "baselineHash": "6FF69F6A8D64E9E7C06C40B18CD725E72458285C4D82FD169268D1C3CC7D2B6E",
+      "currentHash": "6FF69F6A8D64E9E7C06C40B18CD725E72458285C4D82FD169268D1C3CC7D2B6E",
+      "snapshotHash": "6FF69F6A8D64E9E7C06C40B18CD725E72458285C4D82FD169268D1C3CC7D2B6E",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/DiagnosticCaseSetInvariantTests.cs",
+      "baselineHash": "D800C8F8896E7EFD09A1A1B860EAD123EEC37AF1EC6BA0CF37D2DF0EEF90EEC8",
+      "currentHash": "D800C8F8896E7EFD09A1A1B860EAD123EEC37AF1EC6BA0CF37D2DF0EEF90EEC8",
+      "snapshotHash": "D800C8F8896E7EFD09A1A1B860EAD123EEC37AF1EC6BA0CF37D2DF0EEF90EEC8",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/DiagnosticReportTests.cs",
+      "baselineHash": "C1CC11C43AE1582616604014C175608A1522649DADE2A83A4DA99B9766C2847B",
+      "currentHash": "C1CC11C43AE1582616604014C175608A1522649DADE2A83A4DA99B9766C2847B",
+      "snapshotHash": "C1CC11C43AE1582616604014C175608A1522649DADE2A83A4DA99B9766C2847B",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/DiagnosticSnapshotServiceTests.cs",
+      "baselineHash": "18364D1A665A49DB73D466FE7E1C278EC5717DA46F32BA572F5E779D4E668930",
+      "currentHash": "18364D1A665A49DB73D466FE7E1C278EC5717DA46F32BA572F5E779D4E668930",
+      "snapshotHash": "18364D1A665A49DB73D466FE7E1C278EC5717DA46F32BA572F5E779D4E668930",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/FileRecoveryEdgeCaseTests.cs",
+      "baselineHash": "BD70019169211E431968B7D3FC07B56DD287BC4546185A6A9F412C8217A3A776",
+      "currentHash": "BD70019169211E431968B7D3FC07B56DD287BC4546185A6A9F412C8217A3A776",
+      "snapshotHash": "BD70019169211E431968B7D3FC07B56DD287BC4546185A6A9F412C8217A3A776",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/FileRecoveryTests.cs",
+      "baselineHash": "1B6C65419F0FBF389191F821A61FC673D3620EFC0812F204C394E3F2B2FDDAF0",
+      "currentHash": "1B6C65419F0FBF389191F821A61FC673D3620EFC0812F204C394E3F2B2FDDAF0",
+      "snapshotHash": "1B6C65419F0FBF389191F821A61FC673D3620EFC0812F204C394E3F2B2FDDAF0",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/FinalAcceptanceRegressionTests.cs",
+      "baselineHash": "6BF2FF3C8E21D236E3D6094A4288BEEC6C197D344A0CC832647BFA37409E9109",
+      "currentHash": "6BF2FF3C8E21D236E3D6094A4288BEEC6C197D344A0CC832647BFA37409E9109",
+      "snapshotHash": "6BF2FF3C8E21D236E3D6094A4288BEEC6C197D344A0CC832647BFA37409E9109",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/ImportCancellationTests.cs",
+      "baselineHash": "8B234D77283DA42DAA2130E46DB0CBF5AEEEE6B947BEB8B2810149B61E251209",
+      "currentHash": "8B234D77283DA42DAA2130E46DB0CBF5AEEEE6B947BEB8B2810149B61E251209",
+      "snapshotHash": "8B234D77283DA42DAA2130E46DB0CBF5AEEEE6B947BEB8B2810149B61E251209",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/InstanceDefaultInstanceBoundaryTests.cs",
+      "baselineHash": "C3456A81AF63294AF2DFEAD17406A5F22E8C9334EF58FBCFF667042846DBDD3C",
+      "currentHash": "C3456A81AF63294AF2DFEAD17406A5F22E8C9334EF58FBCFF667042846DBDD3C",
+      "snapshotHash": "C3456A81AF63294AF2DFEAD17406A5F22E8C9334EF58FBCFF667042846DBDD3C",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/InstanceIsolationServiceTests.cs",
+      "baselineHash": "66D4F558CFEB7559343AE771A3382FF7E01E950DAF90D075910698BEA4A9DF97",
+      "currentHash": "66D4F558CFEB7559343AE771A3382FF7E01E950DAF90D075910698BEA4A9DF97",
+      "snapshotHash": "66D4F558CFEB7559343AE771A3382FF7E01E950DAF90D075910698BEA4A9DF97",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/InstanceLaunchGuardTests.cs",
+      "baselineHash": "4E1CD5F7D60748C52AC76B15E6B16B55D1AE279E2E1728B4136B8E018545F493",
+      "currentHash": "4E1CD5F7D60748C52AC76B15E6B16B55D1AE279E2E1728B4136B8E018545F493",
+      "snapshotHash": "4E1CD5F7D60748C52AC76B15E6B16B55D1AE279E2E1728B4136B8E018545F493",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/InstancePackTests.cs",
+      "baselineHash": "AFC1F2599E42CE9A3F59F4766A63897471288F7405B4C421E5A513AC90C870BA",
+      "currentHash": "AFC1F2599E42CE9A3F59F4766A63897471288F7405B4C421E5A513AC90C870BA",
+      "snapshotHash": "AFC1F2599E42CE9A3F59F4766A63897471288F7405B4C421E5A513AC90C870BA",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/InstanceRemovalTests.cs",
+      "baselineHash": "FD0FD1738F1C11ECFBCABB80BB1BFC1FF7856CBBC9B6A17548F0832BF06792E9",
+      "currentHash": "FD0FD1738F1C11ECFBCABB80BB1BFC1FF7856CBBC9B6A17548F0832BF06792E9",
+      "snapshotHash": "FD0FD1738F1C11ECFBCABB80BB1BFC1FF7856CBBC9B6A17548F0832BF06792E9",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/InstanceRunningGuardTests.cs",
+      "baselineHash": "4C1238A6643ADB31410DCCF7023B748FB5A24AB36748F1553CEA25E374826A70",
+      "currentHash": "4C1238A6643ADB31410DCCF7023B748FB5A24AB36748F1553CEA25E374826A70",
+      "snapshotHash": "4C1238A6643ADB31410DCCF7023B748FB5A24AB36748F1553CEA25E374826A70",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/JavaSelectionMetadataTests.cs",
+      "baselineHash": "10949126589CC88F2F86370D96FB6752E40117864F4ADF1B0DAB076D00F7CB33",
+      "currentHash": "10949126589CC88F2F86370D96FB6752E40117864F4ADF1B0DAB076D00F7CB33",
+      "snapshotHash": "10949126589CC88F2F86370D96FB6752E40117864F4ADF1B0DAB076D00F7CB33",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/JavaVersionMatcherTests.cs",
+      "baselineHash": "194EAE07EE25EF23D1FC0574BA46D788C923705A10D88BBECECA8BEAD217504B",
+      "currentHash": "194EAE07EE25EF23D1FC0574BA46D788C923705A10D88BBECECA8BEAD217504B",
+      "snapshotHash": "194EAE07EE25EF23D1FC0574BA46D788C923705A10D88BBECECA8BEAD217504B",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/LauncherPerfMeasurementTests.cs",
+      "baselineHash": "CC039A493E4C8EC3E63EAC1AFF502FAE51B5E9680C0045BA2572EA36E566F823",
+      "currentHash": "CC039A493E4C8EC3E63EAC1AFF502FAE51B5E9680C0045BA2572EA36E566F823",
+      "snapshotHash": "CC039A493E4C8EC3E63EAC1AFF502FAE51B5E9680C0045BA2572EA36E566F823",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/LauncherStartupBoundaryTests.cs",
+      "baselineHash": "6D668EC8CFB022D90173BC4622BE0DEF249506F8FF50BEFDEF5A4E3FAC0DE94C",
+      "currentHash": "6D668EC8CFB022D90173BC4622BE0DEF249506F8FF50BEFDEF5A4E3FAC0DE94C",
+      "snapshotHash": "6D668EC8CFB022D90173BC4622BE0DEF249506F8FF50BEFDEF5A4E3FAC0DE94C",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/LoaderInstallerContractTests.cs",
+      "baselineHash": "6397667F82E84418DCDCB47BF04D9F181DF4BC448F0556C9D869A4CCBEFCAA8D",
+      "currentHash": "6397667F82E84418DCDCB47BF04D9F181DF4BC448F0556C9D869A4CCBEFCAA8D",
+      "snapshotHash": "6397667F82E84418DCDCB47BF04D9F181DF4BC448F0556C9D869A4CCBEFCAA8D",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/LoaderLaunchAssemblyTests.cs",
+      "baselineHash": "D341930A502CCB1E1033359AFEBF36A6AFB04C546FD3095DC152EEC68A846340",
+      "currentHash": "D341930A502CCB1E1033359AFEBF36A6AFB04C546FD3095DC152EEC68A846340",
+      "snapshotHash": "D341930A502CCB1E1033359AFEBF36A6AFB04C546FD3095DC152EEC68A846340",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/LocalApiServiceTestCollection.cs",
+      "baselineHash": "B2BB21196038AF4797203049B9D0472A5A95C94DC561BF5DEB58F684E194A26F",
+      "currentHash": "B2BB21196038AF4797203049B9D0472A5A95C94DC561BF5DEB58F684E194A26F",
+      "snapshotHash": "B2BB21196038AF4797203049B9D0472A5A95C94DC561BF5DEB58F684E194A26F",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/LocalApiTestHarness.cs",
+      "baselineHash": "A2A7017866D119BD2E2AF740388DB08DEE76861F0F4F1FA61DC1C5C1A22F9BB6",
+      "currentHash": "A2A7017866D119BD2E2AF740388DB08DEE76861F0F4F1FA61DC1C5C1A22F9BB6",
+      "snapshotHash": "A2A7017866D119BD2E2AF740388DB08DEE76861F0F4F1FA61DC1C5C1A22F9BB6",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/MemoryAllocationServiceTests.cs",
+      "baselineHash": "35D80A34CB4A338AC2C2D47A5078AF67AD18E7290531F21951E51F27CFE90CBC",
+      "currentHash": "35D80A34CB4A338AC2C2D47A5078AF67AD18E7290531F21951E51F27CFE90CBC",
+      "snapshotHash": "35D80A34CB4A338AC2C2D47A5078AF67AD18E7290531F21951E51F27CFE90CBC",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/MicrosoftAuthServiceTests.cs",
+      "baselineHash": "E21CEB36D5B8A6748C29429E40D9CD3B891319CF9667C0DF55D1A81D3ADA542D",
+      "currentHash": "E21CEB36D5B8A6748C29429E40D9CD3B891319CF9667C0DF55D1A81D3ADA542D",
+      "snapshotHash": "E21CEB36D5B8A6748C29429E40D9CD3B891319CF9667C0DF55D1A81D3ADA542D",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/MinecraftNewsServiceTests.cs",
+      "baselineHash": "E10BDD7B3A1F2704FE42DC2C4A36227D87C0980C89E6FD90C62723C3F11DC3EB",
+      "currentHash": "E10BDD7B3A1F2704FE42DC2C4A36227D87C0980C89E6FD90C62723C3F11DC3EB",
+      "snapshotHash": "E10BDD7B3A1F2704FE42DC2C4A36227D87C0980C89E6FD90C62723C3F11DC3EB",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/ModBisectServiceTests.cs",
+      "baselineHash": "9C920ACF5A2A0FF5AF01F3D9A4159C9B152B831ECEA9EDBD36378109DF4A42DF",
+      "currentHash": "9C920ACF5A2A0FF5AF01F3D9A4159C9B152B831ECEA9EDBD36378109DF4A42DF",
+      "snapshotHash": "9C920ACF5A2A0FF5AF01F3D9A4159C9B152B831ECEA9EDBD36378109DF4A42DF",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/ModContentDependencyInstallTests.cs",
+      "baselineHash": "6D10CCA5C630061B9427D8AC72483E60B787F347E0029573FF85575BC71843EB",
+      "currentHash": "6D10CCA5C630061B9427D8AC72483E60B787F347E0029573FF85575BC71843EB",
+      "snapshotHash": "6D10CCA5C630061B9427D8AC72483E60B787F347E0029573FF85575BC71843EB",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/ModContentUpdateWiringTests.cs",
+      "baselineHash": "934FA5C39D109831E956E6675D3F8ABEFBD80D78EF30FEC53B2AB0F29A6F1E58",
+      "currentHash": "934FA5C39D109831E956E6675D3F8ABEFBD80D78EF30FEC53B2AB0F29A6F1E58",
+      "snapshotHash": "934FA5C39D109831E956E6675D3F8ABEFBD80D78EF30FEC53B2AB0F29A6F1E58",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/ModReplaceFileInUseTests.cs",
+      "baselineHash": "BF23A765E163AE7EF51A5AAAE84A51EE58A4A66CFE4E808492F5F4BB3B4CD20C",
+      "currentHash": "BF23A765E163AE7EF51A5AAAE84A51EE58A4A66CFE4E808492F5F4BB3B4CD20C",
+      "snapshotHash": "BF23A765E163AE7EF51A5AAAE84A51EE58A4A66CFE4E808492F5F4BB3B4CD20C",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/ModReplacementTests.cs",
+      "baselineHash": "869F1C3F69835EDCAD918364ECCF58878A48A2F47434F5AE3FA68C5AD9988587",
+      "currentHash": "869F1C3F69835EDCAD918364ECCF58878A48A2F47434F5AE3FA68C5AD9988587",
+      "snapshotHash": "869F1C3F69835EDCAD918364ECCF58878A48A2F47434F5AE3FA68C5AD9988587",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/NewsEndpointPolicyTests.cs",
+      "baselineHash": "5FBCBCE0473A008CD209B3C57B56949F55144F562BCD1A3544C51F52874FA013",
+      "currentHash": "5FBCBCE0473A008CD209B3C57B56949F55144F562BCD1A3544C51F52874FA013",
+      "snapshotHash": "5FBCBCE0473A008CD209B3C57B56949F55144F562BCD1A3544C51F52874FA013",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/NewsFakeIpConfigTests.cs",
+      "baselineHash": "F151349D6C895F8C98026B9D84A7091F0EEFA99F5D52B8CE3D8109FF169CB1F2",
+      "currentHash": "F151349D6C895F8C98026B9D84A7091F0EEFA99F5D52B8CE3D8109FF169CB1F2",
+      "snapshotHash": "F151349D6C895F8C98026B9D84A7091F0EEFA99F5D52B8CE3D8109FF169CB1F2",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/NewsFakeIpPolicyTests.cs",
+      "baselineHash": "989002DBC5813D8D49F478B5B0AD72FA45A49CA44F430ACCD12317E93FE61A50",
+      "currentHash": "989002DBC5813D8D49F478B5B0AD72FA45A49CA44F430ACCD12317E93FE61A50",
+      "snapshotHash": "989002DBC5813D8D49F478B5B0AD72FA45A49CA44F430ACCD12317E93FE61A50",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/NewsImageProxyServiceTests.cs",
+      "baselineHash": "A2F223089D8521E6B6EB6E466C912316824D3D55EFE7316173E23611B4A94ED2",
+      "currentHash": "A2F223089D8521E6B6EB6E466C912316824D3D55EFE7316173E23611B4A94ED2",
+      "snapshotHash": "A2F223089D8521E6B6EB6E466C912316824D3D55EFE7316173E23611B4A94ED2",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/NewsLinkHandlerTests.cs",
+      "baselineHash": "1EEF388C22F7FAF333DA06E2481EBB204596A7046B41768E5F28C859E3294CF8",
+      "currentHash": "1EEF388C22F7FAF333DA06E2481EBB204596A7046B41768E5F28C859E3294CF8",
+      "snapshotHash": "1EEF388C22F7FAF333DA06E2481EBB204596A7046B41768E5F28C859E3294CF8",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/NewsLinkServiceTests.cs",
+      "baselineHash": "BB8933A0889203268F90DAFCE087AD9B4D661FF4E85A75B11909FF69F75B3563",
+      "currentHash": "BB8933A0889203268F90DAFCE087AD9B4D661FF4E85A75B11909FF69F75B3563",
+      "snapshotHash": "BB8933A0889203268F90DAFCE087AD9B4D661FF4E85A75B11909FF69F75B3563",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/NewsR2TeredoNat64Tests.cs",
+      "baselineHash": "16090B745FF5B39893167623B9F17697DF6EC956F967E05A57682ADBE831647D",
+      "currentHash": "16090B745FF5B39893167623B9F17697DF6EC956F967E05A57682ADBE831647D",
+      "snapshotHash": "16090B745FF5B39893167623B9F17697DF6EC956F967E05A57682ADBE831647D",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/OutboundEndpointPolicyTests.cs",
+      "baselineHash": "1B523796F37F6286CCE0CBBF66D23073D73E3FC1F3E87A9B19A28184E2617018",
+      "currentHash": "1B523796F37F6286CCE0CBBF66D23073D73E3FC1F3E87A9B19A28184E2617018",
+      "snapshotHash": "1B523796F37F6286CCE0CBBF66D23073D73E3FC1F3E87A9B19A28184E2617018",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/packages.lock.json",
+      "baselineHash": "244BA2BCD1EB1F5AF72967D5F2AFB5C4978E9B73669D53B450F02FD6F057551B",
+      "currentHash": "244BA2BCD1EB1F5AF72967D5F2AFB5C4978E9B73669D53B450F02FD6F057551B",
+      "snapshotHash": "244BA2BCD1EB1F5AF72967D5F2AFB5C4978E9B73669D53B450F02FD6F057551B",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj",
+      "baselineHash": "7F57D7F0EFCF4B9E5174B0EF2E01B4E793EB8CA5590D6A813511A8E723A1C9CA",
+      "currentHash": "7F57D7F0EFCF4B9E5174B0EF2E01B4E793EB8CA5590D6A813511A8E723A1C9CA",
+      "snapshotHash": "7F57D7F0EFCF4B9E5174B0EF2E01B4E793EB8CA5590D6A813511A8E723A1C9CA",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/RecoveryVersionDisplayEndToEndTests.cs",
+      "baselineHash": "3947CB844627EE091320CEE173100C7C8E805A2A20832A1C0E38AE5BF868BA76",
+      "currentHash": "3947CB844627EE091320CEE173100C7C8E805A2A20832A1C0E38AE5BF868BA76",
+      "snapshotHash": "3947CB844627EE091320CEE173100C7C8E805A2A20832A1C0E38AE5BF868BA76",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/RemediationBoundaryRegressionTests.cs",
+      "baselineHash": "2FCB0C8B136F38796C724D842650397777BA24B2DB16959D1AE0C6E4C532F642",
+      "currentHash": "2FCB0C8B136F38796C724D842650397777BA24B2DB16959D1AE0C6E4C532F642",
+      "snapshotHash": "2FCB0C8B136F38796C724D842650397777BA24B2DB16959D1AE0C6E4C532F642",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/RouteReachabilityTests.cs",
+      "baselineHash": "73BDE9818547430B5178345EB99533B7B4770DDBF73AA0238AA13B2D61BAD08E",
+      "currentHash": "73BDE9818547430B5178345EB99533B7B4770DDBF73AA0238AA13B2D61BAD08E",
+      "snapshotHash": "73BDE9818547430B5178345EB99533B7B4770DDBF73AA0238AA13B2D61BAD08E",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/SecretPersistenceContractTests.cs",
+      "baselineHash": "03FD0E22F385E9347C1B5C592AC033FE20608132A2E9DE14EEF37F1741DE83DB",
+      "currentHash": "03FD0E22F385E9347C1B5C592AC033FE20608132A2E9DE14EEF37F1741DE83DB",
+      "snapshotHash": "03FD0E22F385E9347C1B5C592AC033FE20608132A2E9DE14EEF37F1741DE83DB",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/SecretStoreBackendTests.cs",
+      "baselineHash": "A1684AA2FF13A09B743A8ACF7BBE691F4C648EA08A60AD65006DE7AB9F4D210F",
+      "currentHash": "A1684AA2FF13A09B743A8ACF7BBE691F4C648EA08A60AD65006DE7AB9F4D210F",
+      "snapshotHash": "A1684AA2FF13A09B743A8ACF7BBE691F4C648EA08A60AD65006DE7AB9F4D210F",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/SecurityRegressionTests.cs",
+      "baselineHash": "1656F49FED2493CB9178308C48471817FF645943612CE4AF3AE97BE40DF5EF93",
+      "currentHash": "1656F49FED2493CB9178308C48471817FF645943612CE4AF3AE97BE40DF5EF93",
+      "snapshotHash": "1656F49FED2493CB9178308C48471817FF645943612CE4AF3AE97BE40DF5EF93",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/SkinImageProxyServiceTests.cs",
+      "baselineHash": "407B1B87C4FABB09F0091D45A3FF080049D300A710B854E3AC4FB1588AE64AD9",
+      "currentHash": "407B1B87C4FABB09F0091D45A3FF080049D300A710B854E3AC4FB1588AE64AD9",
+      "snapshotHash": "407B1B87C4FABB09F0091D45A3FF080049D300A710B854E3AC4FB1588AE64AD9",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/TestAssets/ContentIcons/valid-1x1.jpg",
+      "baselineHash": "797156D8FBA55AAF8A0E794B4161EB7816232DB661532C631E53504E1CD9C64F",
+      "currentHash": "797156D8FBA55AAF8A0E794B4161EB7816232DB661532C631E53504E1CD9C64F",
+      "snapshotHash": "797156D8FBA55AAF8A0E794B4161EB7816232DB661532C631E53504E1CD9C64F",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/TestAssets/ContentIcons/valid-1x1.png",
+      "baselineHash": "E8F0DE6A1B4299EE0159AB807E8E825D02331B99E209426EFC7EAD08A1CDC983",
+      "currentHash": "E8F0DE6A1B4299EE0159AB807E8E825D02331B99E209426EFC7EAD08A1CDC983",
+      "snapshotHash": "E8F0DE6A1B4299EE0159AB807E8E825D02331B99E209426EFC7EAD08A1CDC983",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/TestAssets/ContentIcons/valid-1x1.webp",
+      "baselineHash": "71D05BAA8036E2AA25378F27952A2BCDC97AAA62B5B6101EB8F274580DCCEBD3",
+      "currentHash": "71D05BAA8036E2AA25378F27952A2BCDC97AAA62B5B6101EB8F274580DCCEBD3",
+      "snapshotHash": "71D05BAA8036E2AA25378F27952A2BCDC97AAA62B5B6101EB8F274580DCCEBD3",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/TestAssets/ContentIcons/valid-64.jpg",
+      "baselineHash": "73D3296D90E92D83942A601BAAD4C4FD738895CFF85959C66A9C152F29BE7E03",
+      "currentHash": "73D3296D90E92D83942A601BAAD4C4FD738895CFF85959C66A9C152F29BE7E03",
+      "snapshotHash": "73D3296D90E92D83942A601BAAD4C4FD738895CFF85959C66A9C152F29BE7E03",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/TestAssets/ContentIcons/valid-64.png",
+      "baselineHash": "FB0EDA9BAE84EFC28DE0758145D79DE921661FAB54093966094B566E4839DB78",
+      "currentHash": "FB0EDA9BAE84EFC28DE0758145D79DE921661FAB54093966094B566E4839DB78",
+      "snapshotHash": "FB0EDA9BAE84EFC28DE0758145D79DE921661FAB54093966094B566E4839DB78",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/TestAssets/ContentIcons/valid-64.webp",
+      "baselineHash": "D3963C214E483D79C5FD01923A5A3163E9AF7CBD3D80F02BB9D98CE094D54B2C",
+      "currentHash": "D3963C214E483D79C5FD01923A5A3163E9AF7CBD3D80F02BB9D98CE094D54B2C",
+      "snapshotHash": "D3963C214E483D79C5FD01923A5A3163E9AF7CBD3D80F02BB9D98CE094D54B2C",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/TestAssets/Diagnostics/diagnostic-cases.json",
+      "baselineHash": "D9F55189FA05845BAC0403A058AA63912A725AFF61555BDF25A6865DD5AB45AF",
+      "currentHash": "D9F55189FA05845BAC0403A058AA63912A725AFF61555BDF25A6865DD5AB45AF",
+      "snapshotHash": "D9F55189FA05845BAC0403A058AA63912A725AFF61555BDF25A6865DD5AB45AF",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/TestAssets/Diagnostics/README.md",
+      "baselineHash": "05D24FDE0B9C0CE155AFEB99FD66F7638168E6482DE2AD123C4098945624C8A8",
+      "currentHash": "05D24FDE0B9C0CE155AFEB99FD66F7638168E6482DE2AD123C4098945624C8A8",
+      "snapshotHash": "05D24FDE0B9C0CE155AFEB99FD66F7638168E6482DE2AD123C4098945624C8A8",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/TestIsolationRoots.cs",
+      "baselineHash": "7BE2F2EA13CAD27CBC1F0B0B624BEECC7AF16FB1DC0FE3DC7943077E2B822CF2",
+      "currentHash": "7BE2F2EA13CAD27CBC1F0B0B624BEECC7AF16FB1DC0FE3DC7943077E2B822CF2",
+      "snapshotHash": "7BE2F2EA13CAD27CBC1F0B0B624BEECC7AF16FB1DC0FE3DC7943077E2B822CF2",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/UiBundleTests.cs",
+      "baselineHash": "A6B7E375AD2301C098FA7A363E72F09BF6B812F4149A08E458AFCC3E6C69370E",
+      "currentHash": "A6B7E375AD2301C098FA7A363E72F09BF6B812F4149A08E458AFCC3E6C69370E",
+      "snapshotHash": "A6B7E375AD2301C098FA7A363E72F09BF6B812F4149A08E458AFCC3E6C69370E",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/UiSourceSelectionTests.cs",
+      "baselineHash": "41BED4499769F7739284216B9C5011A48E581FE10F5ED55A2A8937F6C31046BC",
+      "currentHash": "41BED4499769F7739284216B9C5011A48E581FE10F5ED55A2A8937F6C31046BC",
+      "snapshotHash": "41BED4499769F7739284216B9C5011A48E581FE10F5ED55A2A8937F6C31046BC",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/UnwritableDirectoryTests.cs",
+      "baselineHash": "09814E76D08BD7CD0D3D85877A3624700AA2EF9F22D6EB789F974C8D608CD5C5",
+      "currentHash": "09814E76D08BD7CD0D3D85877A3624700AA2EF9F22D6EB789F974C8D608CD5C5",
+      "snapshotHash": "09814E76D08BD7CD0D3D85877A3624700AA2EF9F22D6EB789F974C8D608CD5C5",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/UpdateApplyScriptPathTests.cs",
+      "baselineHash": "C21F036408516A8C21E1DAC693EDEAD0A5B0DEAAC234C6AAB6B9446F2961C072",
+      "currentHash": "C21F036408516A8C21E1DAC693EDEAD0A5B0DEAAC234C6AAB6B9446F2961C072",
+      "snapshotHash": "C21F036408516A8C21E1DAC693EDEAD0A5B0DEAAC234C6AAB6B9446F2961C072",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/UpdateManifestFallbackTests.cs",
+      "baselineHash": "B0E34150960C47B3039575DC130E1FAC46C1ABED4771E42CAF7596C48EF04E97",
+      "currentHash": "B0E34150960C47B3039575DC130E1FAC46C1ABED4771E42CAF7596C48EF04E97",
+      "snapshotHash": "B0E34150960C47B3039575DC130E1FAC46C1ABED4771E42CAF7596C48EF04E97",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/UpdateRecoveryTests.cs",
+      "baselineHash": "6C42FFC65E9BF618841DA1E387647022BFCA4F1FB4C44F4F9E22290FBB0BECC5",
+      "currentHash": "6C42FFC65E9BF618841DA1E387647022BFCA4F1FB4C44F4F9E22290FBB0BECC5",
+      "snapshotHash": "6C42FFC65E9BF618841DA1E387647022BFCA4F1FB4C44F4F9E22290FBB0BECC5",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/VersionResolverInheritanceTests.cs",
+      "baselineHash": "20ED2B1E603E0BAA1A38AE3B5DC07633409754B375E8FA8D37ACC1544C657F19",
+      "currentHash": "20ED2B1E603E0BAA1A38AE3B5DC07633409754B375E8FA8D37ACC1544C657F19",
+      "snapshotHash": "20ED2B1E603E0BAA1A38AE3B5DC07633409754B375E8FA8D37ACC1544C657F19",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/WorkflowInvariantTests.cs",
+      "baselineHash": "0A5DA5EEF2301A1667AD3C0A5950FC04C92E4CB5102D65C329C4AF2D00DF03B7",
+      "currentHash": "0A5DA5EEF2301A1667AD3C0A5950FC04C92E4CB5102D65C329C4AF2D00DF03B7",
+      "snapshotHash": "0A5DA5EEF2301A1667AD3C0A5950FC04C92E4CB5102D65C329C4AF2D00DF03B7",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher.Tests/WorldBackupScopeTests.cs",
+      "baselineHash": "66CF28160E061A6A9C672459A2531478E5F04D92A0C9A05C87931391DB7CA680",
+      "currentHash": "66CF28160E061A6A9C672459A2531478E5F04D92A0C9A05C87931391DB7CA680",
+      "snapshotHash": "66CF28160E061A6A9C672459A2531478E5F04D92A0C9A05C87931391DB7CA680",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/app.ico",
+      "baselineHash": "4E329E14BCFE3036F1284147A91C6E1FB1DEC501F9E94C6B6A76880C30998FDE",
+      "currentHash": "4E329E14BCFE3036F1284147A91C6E1FB1DEC501F9E94C6B6A76880C30998FDE",
+      "snapshotHash": "4E329E14BCFE3036F1284147A91C6E1FB1DEC501F9E94C6B6A76880C30998FDE",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/app.manifest",
+      "baselineHash": "03F07E0E03BAEE92DC48576F43D68DBC61786F544EDC07EE02CB39C491B13444",
+      "currentHash": "03F07E0E03BAEE92DC48576F43D68DBC61786F544EDC07EE02CB39C491B13444",
+      "snapshotHash": "03F07E0E03BAEE92DC48576F43D68DBC61786F544EDC07EE02CB39C491B13444",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Assets/AppIcon.ico",
+      "baselineHash": "4E329E14BCFE3036F1284147A91C6E1FB1DEC501F9E94C6B6A76880C30998FDE",
+      "currentHash": "4E329E14BCFE3036F1284147A91C6E1FB1DEC501F9E94C6B6A76880C30998FDE",
+      "snapshotHash": "4E329E14BCFE3036F1284147A91C6E1FB1DEC501F9E94C6B6A76880C30998FDE",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Assets/AppIcon.png",
+      "baselineHash": "B3FEF85A048407F3B8CD1A9F6B495D0653803A2AA06B3BA24E535CA1A3F20981",
+      "currentHash": "B3FEF85A048407F3B8CD1A9F6B495D0653803A2AA06B3BA24E535CA1A3F20981",
+      "snapshotHash": "B3FEF85A048407F3B8CD1A9F6B495D0653803A2AA06B3BA24E535CA1A3F20981",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/packages.lock.json",
+      "baselineHash": "FBBC9AE67B8E8CF2E3AA63C48242BC08AC713BE47830D337914CC39C85EE0672",
+      "currentHash": "FBBC9AE67B8E8CF2E3AA63C48242BC08AC713BE47830D337914CC39C85EE0672",
+      "snapshotHash": "36DACA912DB381C05F939BF3C7B65AED267BE9FDA839AB43A4FD1B31C79F239F",
+      "sourceStable": true,
+      "snapshotMatches": false
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.csproj",
+      "baselineHash": "801941218F4DC9A7A71631EEBDA0316838F148DDE85BD62048706B2C84A1D80C",
+      "currentHash": "801941218F4DC9A7A71631EEBDA0316838F148DDE85BD62048706B2C84A1D80C",
+      "snapshotHash": "801941218F4DC9A7A71631EEBDA0316838F148DDE85BD62048706B2C84A1D80C",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/AiProviderProfile.cs",
+      "baselineHash": "02247F64099FA001B7CA2B9C41CCF12F1795E1EADF49A5200F6963ED8676AA6F",
+      "currentHash": "02247F64099FA001B7CA2B9C41CCF12F1795E1EADF49A5200F6963ED8676AA6F",
+      "snapshotHash": "02247F64099FA001B7CA2B9C41CCF12F1795E1EADF49A5200F6963ED8676AA6F",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/AppConfig.cs",
+      "baselineHash": "C1765C7FB3D93135F27F66D6D5CC8F9926D9EAA53263E371944B5E881B2DD2C0",
+      "currentHash": "C1765C7FB3D93135F27F66D6D5CC8F9926D9EAA53263E371944B5E881B2DD2C0",
+      "snapshotHash": "C1765C7FB3D93135F27F66D6D5CC8F9926D9EAA53263E371944B5E881B2DD2C0",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/BackupFileInfo.cs",
+      "baselineHash": "8D111570A786CA7FA82FB2846924FFEF9E9ED3F3A88A1498E7B3F089C4195E9B",
+      "currentHash": "8D111570A786CA7FA82FB2846924FFEF9E9ED3F3A88A1498E7B3F089C4195E9B",
+      "snapshotHash": "8D111570A786CA7FA82FB2846924FFEF9E9ED3F3A88A1498E7B3F089C4195E9B",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/DiagnosticReport.cs",
+      "baselineHash": "82BF7DAD5478EE3B9DC726279550DEFBFF7127FB4B0B0728D01A69AB9C078247",
+      "currentHash": "82BF7DAD5478EE3B9DC726279550DEFBFF7127FB4B0B0728D01A69AB9C078247",
+      "snapshotHash": "82BF7DAD5478EE3B9DC726279550DEFBFF7127FB4B0B0728D01A69AB9C078247",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/FabricCompatibleLoaderVersion.cs",
+      "baselineHash": "4967E21F355D3AECAD7FEC77247B6D5A9BFB619A27B9861FA2977DD75F8EAAF5",
+      "currentHash": "4967E21F355D3AECAD7FEC77247B6D5A9BFB619A27B9861FA2977DD75F8EAAF5",
+      "snapshotHash": "4967E21F355D3AECAD7FEC77247B6D5A9BFB619A27B9861FA2977DD75F8EAAF5",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/FabricGameVersion.cs",
+      "baselineHash": "86670C18B8720C220DC316C3AAEB6FC6C27AFAD2D170E835AF339282172BB063",
+      "currentHash": "86670C18B8720C220DC316C3AAEB6FC6C27AFAD2D170E835AF339282172BB063",
+      "snapshotHash": "86670C18B8720C220DC316C3AAEB6FC6C27AFAD2D170E835AF339282172BB063",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/FabricLoaderVersion.cs",
+      "baselineHash": "FF49C1AA9ED0260F811DA07299C7EBF54305924DDD05469839DDE86F308C9C1D",
+      "currentHash": "FF49C1AA9ED0260F811DA07299C7EBF54305924DDD05469839DDE86F308C9C1D",
+      "snapshotHash": "FF49C1AA9ED0260F811DA07299C7EBF54305924DDD05469839DDE86F308C9C1D",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/FavoriteServer.cs",
+      "baselineHash": "7F85F41136732DAF4B039277C3F88F5698F723449CB0BF9F7223233A96736DDF",
+      "currentHash": "7F85F41136732DAF4B039277C3F88F5698F723449CB0BF9F7223233A96736DDF",
+      "snapshotHash": "7F85F41136732DAF4B039277C3F88F5698F723449CB0BF9F7223233A96736DDF",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/FileRecoveryRecord.cs",
+      "baselineHash": "5469E48EF55017C79F1EF4F212C501FABC6A767DD9D7D2C3A41962562E591AF1",
+      "currentHash": "5469E48EF55017C79F1EF4F212C501FABC6A767DD9D7D2C3A41962562E591AF1",
+      "snapshotHash": "5469E48EF55017C79F1EF4F212C501FABC6A767DD9D7D2C3A41962562E591AF1",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/GameInstance.cs",
+      "baselineHash": "E8C40427FB3B868D4538264915768F05F864B357BB674A7F32487ADF873FDAE2",
+      "currentHash": "E8C40427FB3B868D4538264915768F05F864B357BB674A7F32487ADF873FDAE2",
+      "snapshotHash": "E8C40427FB3B868D4538264915768F05F864B357BB674A7F32487ADF873FDAE2",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/InstalledLoaderProfile.cs",
+      "baselineHash": "11623841AFFEB549FDCED6A6886850145539FB651ACEB0EC89C0DBC54F11BF36",
+      "currentHash": "11623841AFFEB549FDCED6A6886850145539FB651ACEB0EC89C0DBC54F11BF36",
+      "snapshotHash": "11623841AFFEB549FDCED6A6886850145539FB651ACEB0EC89C0DBC54F11BF36",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/JavaInstallation.cs",
+      "baselineHash": "BB8E4FE51AC27EFF71B99E1489D01837EDDEE776B638EC474B4A572664BD1260",
+      "currentHash": "BB8E4FE51AC27EFF71B99E1489D01837EDDEE776B638EC474B4A572664BD1260",
+      "snapshotHash": "BB8E4FE51AC27EFF71B99E1489D01837EDDEE776B638EC474B4A572664BD1260",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/LauncherAccount.cs",
+      "baselineHash": "0DD1D19F95CFDBF720E4DD795FBABB6A337267D3784707688813AD00EDD4C3FA",
+      "currentHash": "0DD1D19F95CFDBF720E4DD795FBABB6A337267D3784707688813AD00EDD4C3FA",
+      "snapshotHash": "0DD1D19F95CFDBF720E4DD795FBABB6A337267D3784707688813AD00EDD4C3FA",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/LauncherTaskInfo.cs",
+      "baselineHash": "A7B44B207AEE7C992B352061DE33BEE855DA38893500E10B33D5E72166EC6C7C",
+      "currentHash": "A7B44B207AEE7C992B352061DE33BEE855DA38893500E10B33D5E72166EC6C7C",
+      "snapshotHash": "A7B44B207AEE7C992B352061DE33BEE855DA38893500E10B33D5E72166EC6C7C",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/LaunchProfile.cs",
+      "baselineHash": "182AD1904D6EB77ED9D6A574E068D6EE0BF2BE010667CC63AB8D24394350B0D6",
+      "currentHash": "182AD1904D6EB77ED9D6A574E068D6EE0BF2BE010667CC63AB8D24394350B0D6",
+      "snapshotHash": "182AD1904D6EB77ED9D6A574E068D6EE0BF2BE010667CC63AB8D24394350B0D6",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/LoaderGameVersion.cs",
+      "baselineHash": "279F5C14F34C45D4FBB77773D186ADDFE33134F67AEA5087B286E3E33D344B4A",
+      "currentHash": "279F5C14F34C45D4FBB77773D186ADDFE33134F67AEA5087B286E3E33D344B4A",
+      "snapshotHash": "279F5C14F34C45D4FBB77773D186ADDFE33134F67AEA5087B286E3E33D344B4A",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/LoaderVersionEntry.cs",
+      "baselineHash": "14BE5D2008808DE35454BE0C9C8A8C4BC7BE6597E6CB1CEF643CE6A4C28CBE4B",
+      "currentHash": "14BE5D2008808DE35454BE0C9C8A8C4BC7BE6597E6CB1CEF643CE6A4C28CBE4B",
+      "snapshotHash": "14BE5D2008808DE35454BE0C9C8A8C4BC7BE6597E6CB1CEF643CE6A4C28CBE4B",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/MinecraftCapeInfo.cs",
+      "baselineHash": "21D25A83E775078D5665BF69B0BD66AF932653CACCEB68D15D507B18E7775D16",
+      "currentHash": "21D25A83E775078D5665BF69B0BD66AF932653CACCEB68D15D507B18E7775D16",
+      "snapshotHash": "21D25A83E775078D5665BF69B0BD66AF932653CACCEB68D15D507B18E7775D16",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModDependency.cs",
+      "baselineHash": "4178D6D3948A5A5EB82D3262290DECF66848F1830B4183E293AE9897C4F2CDCD",
+      "currentHash": "4178D6D3948A5A5EB82D3262290DECF66848F1830B4183E293AE9897C4F2CDCD",
+      "snapshotHash": "4178D6D3948A5A5EB82D3262290DECF66848F1830B4183E293AE9897C4F2CDCD",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModFile.cs",
+      "baselineHash": "3E140F0E19A1EC2D7EF23D30D32F55B434873618400B433A579357891F627280",
+      "currentHash": "3E140F0E19A1EC2D7EF23D30D32F55B434873618400B433A579357891F627280",
+      "snapshotHash": "3E140F0E19A1EC2D7EF23D30D32F55B434873618400B433A579357891F627280",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModHealthIssue.cs",
+      "baselineHash": "89A2EAB003BADFB9095D20BA2C8A59850D0739102B8B02A941B1D8FE21D64A62",
+      "currentHash": "89A2EAB003BADFB9095D20BA2C8A59850D0739102B8B02A941B1D8FE21D64A62",
+      "snapshotHash": "89A2EAB003BADFB9095D20BA2C8A59850D0739102B8B02A941B1D8FE21D64A62",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModHealthReport.cs",
+      "baselineHash": "17D383C7853818576F458D94329BFC35A9188069D8F6E67B908B2C004D270F8E",
+      "currentHash": "17D383C7853818576F458D94329BFC35A9188069D8F6E67B908B2C004D270F8E",
+      "snapshotHash": "17D383C7853818576F458D94329BFC35A9188069D8F6E67B908B2C004D270F8E",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModHealthSeverity.cs",
+      "baselineHash": "94E825BB4158FFB3A6934F3CCF9CE4311C30EFC584D54E7C208722EAA52EFDC7",
+      "currentHash": "94E825BB4158FFB3A6934F3CCF9CE4311C30EFC584D54E7C208722EAA52EFDC7",
+      "snapshotHash": "94E825BB4158FFB3A6934F3CCF9CE4311C30EFC584D54E7C208722EAA52EFDC7",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModInstallMetadata.cs",
+      "baselineHash": "83E9C8075E462F863C1A1A4668E6988C049C8830286CAF22B8158CE35C30312B",
+      "currentHash": "83E9C8075E462F863C1A1A4668E6988C049C8830286CAF22B8158CE35C30312B",
+      "snapshotHash": "83E9C8075E462F863C1A1A4668E6988C049C8830286CAF22B8158CE35C30312B",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModInstallResult.cs",
+      "baselineHash": "94EBE1055140B207F5956EA850387E7018B9E88C1989917FADDF8B3DD9C9C2F0",
+      "currentHash": "94EBE1055140B207F5956EA850387E7018B9E88C1989917FADDF8B3DD9C9C2F0",
+      "snapshotHash": "94EBE1055140B207F5956EA850387E7018B9E88C1989917FADDF8B3DD9C9C2F0",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModLoaderInfo.cs",
+      "baselineHash": "7261F3A9B805D4D8E2F485EC392B0AA975CABB25A24BAFD5DC8CE3ED83E73649",
+      "currentHash": "7261F3A9B805D4D8E2F485EC392B0AA975CABB25A24BAFD5DC8CE3ED83E73649",
+      "snapshotHash": "7261F3A9B805D4D8E2F485EC392B0AA975CABB25A24BAFD5DC8CE3ED83E73649",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModLoaderKind.cs",
+      "baselineHash": "44DB8F7FD6FC4E6280D6A117A1A41FE75E71DA21757BDC6BDCDA584FF58E0419",
+      "currentHash": "44DB8F7FD6FC4E6280D6A117A1A41FE75E71DA21757BDC6BDCDA584FF58E0419",
+      "snapshotHash": "44DB8F7FD6FC4E6280D6A117A1A41FE75E71DA21757BDC6BDCDA584FF58E0419",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModManifestDependency.cs",
+      "baselineHash": "8196DF0FCC749FC9C595A8273060C7875161E682FF16D629FAC83ED17022651F",
+      "currentHash": "8196DF0FCC749FC9C595A8273060C7875161E682FF16D629FAC83ED17022651F",
+      "snapshotHash": "8196DF0FCC749FC9C595A8273060C7875161E682FF16D629FAC83ED17022651F",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModpackArchiveFormat.cs",
+      "baselineHash": "722D60CDA49C793FBA9C7C69361AC40D0C464C1F271777954DD78CCDEDEE8767",
+      "currentHash": "722D60CDA49C793FBA9C7C69361AC40D0C464C1F271777954DD78CCDEDEE8767",
+      "snapshotHash": "722D60CDA49C793FBA9C7C69361AC40D0C464C1F271777954DD78CCDEDEE8767",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModpackInstallation.cs",
+      "baselineHash": "2CBD46F5D4FC971D80EC5F926A3A71094941745BB3E9AA03DDE6FE1CC90A0A27",
+      "currentHash": "2CBD46F5D4FC971D80EC5F926A3A71094941745BB3E9AA03DDE6FE1CC90A0A27",
+      "snapshotHash": "2CBD46F5D4FC971D80EC5F926A3A71094941745BB3E9AA03DDE6FE1CC90A0A27",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModpackProject.cs",
+      "baselineHash": "C78739522088801ED794C9349D5D38FAE448EBC64EBB5AA151C456F78833F689",
+      "currentHash": "C78739522088801ED794C9349D5D38FAE448EBC64EBB5AA151C456F78833F689",
+      "snapshotHash": "C78739522088801ED794C9349D5D38FAE448EBC64EBB5AA151C456F78833F689",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModpackVersion.cs",
+      "baselineHash": "607C05B3DDC1D31465BD090E4B1CE1FBDB7A29D4E57D708E8D9BC3F679377D17",
+      "currentHash": "607C05B3DDC1D31465BD090E4B1CE1FBDB7A29D4E57D708E8D9BC3F679377D17",
+      "snapshotHash": "607C05B3DDC1D31465BD090E4B1CE1FBDB7A29D4E57D708E8D9BC3F679377D17",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModSearchRequest.cs",
+      "baselineHash": "919B081486D3B49CBC545D79D0A7F7EC893C3E0EECADC99EBF5E5EA9AF63C9F5",
+      "currentHash": "919B081486D3B49CBC545D79D0A7F7EC893C3E0EECADC99EBF5E5EA9AF63C9F5",
+      "snapshotHash": "919B081486D3B49CBC545D79D0A7F7EC893C3E0EECADC99EBF5E5EA9AF63C9F5",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModSearchResult.cs",
+      "baselineHash": "50ABD632F14C4B3284A34CE7B80578DEA56CFC011DB4FB2BCB17E1A40542EE4B",
+      "currentHash": "50ABD632F14C4B3284A34CE7B80578DEA56CFC011DB4FB2BCB17E1A40542EE4B",
+      "snapshotHash": "50ABD632F14C4B3284A34CE7B80578DEA56CFC011DB4FB2BCB17E1A40542EE4B",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModSource.cs",
+      "baselineHash": "9BC6363A0E2AC20D12A4A290BEE211AEA9FF17C277DA94F0DDEDD40CEB0D2860",
+      "currentHash": "9BC6363A0E2AC20D12A4A290BEE211AEA9FF17C277DA94F0DDEDD40CEB0D2860",
+      "snapshotHash": "9BC6363A0E2AC20D12A4A290BEE211AEA9FF17C277DA94F0DDEDD40CEB0D2860",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ModVersion.cs",
+      "baselineHash": "6F54DF7C5FC7F298D68AB96CB89A920AFFA48ADB92DB0887B18C9EA172D29FC7",
+      "currentHash": "6F54DF7C5FC7F298D68AB96CB89A920AFFA48ADB92DB0887B18C9EA172D29FC7",
+      "snapshotHash": "6F54DF7C5FC7F298D68AB96CB89A920AFFA48ADB92DB0887B18C9EA172D29FC7",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/QuiltGameVersion.cs",
+      "baselineHash": "DFB444BD0E32DAEA7EF6D162F4D2F8850F23B6815A75B36FCBA632FB8ADC816A",
+      "currentHash": "DFB444BD0E32DAEA7EF6D162F4D2F8850F23B6815A75B36FCBA632FB8ADC816A",
+      "snapshotHash": "DFB444BD0E32DAEA7EF6D162F4D2F8850F23B6815A75B36FCBA632FB8ADC816A",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/QuiltLoaderVersion.cs",
+      "baselineHash": "9F5275DF69F1EAA0EC65E220160A1EB2EFB9C644553919D4E4CC4D3A8908BC4B",
+      "currentHash": "9F5275DF69F1EAA0EC65E220160A1EB2EFB9C644553919D4E4CC4D3A8908BC4B",
+      "snapshotHash": "9F5275DF69F1EAA0EC65E220160A1EB2EFB9C644553919D4E4CC4D3A8908BC4B",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ResourceContentKind.cs",
+      "baselineHash": "1183316C9C3CD4B23B40100EF24FA371475BD8CF6D859323D3850C73BDC8BECC",
+      "currentHash": "1183316C9C3CD4B23B40100EF24FA371475BD8CF6D859323D3850C73BDC8BECC",
+      "snapshotHash": "1183316C9C3CD4B23B40100EF24FA371475BD8CF6D859323D3850C73BDC8BECC",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ResourceContentProject.cs",
+      "baselineHash": "18C58609053E2FC96F4ABC22F89150E01656BAB5BC78CF991AA8F4F441AAD5A5",
+      "currentHash": "18C58609053E2FC96F4ABC22F89150E01656BAB5BC78CF991AA8F4F441AAD5A5",
+      "snapshotHash": "18C58609053E2FC96F4ABC22F89150E01656BAB5BC78CF991AA8F4F441AAD5A5",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ResourceContentVersion.cs",
+      "baselineHash": "17AC63EA805F04B3629C5584D74CE04ECD326D7CAFC2F0720471B39B54B02CE9",
+      "currentHash": "17AC63EA805F04B3629C5584D74CE04ECD326D7CAFC2F0720471B39B54B02CE9",
+      "snapshotHash": "17AC63EA805F04B3629C5584D74CE04ECD326D7CAFC2F0720471B39B54B02CE9",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ResourcePackInfo.cs",
+      "baselineHash": "F5B595C424B32A656F4F24071531967D88347AEA2C717A3BC87BE8735C3138D2",
+      "currentHash": "F5B595C424B32A656F4F24071531967D88347AEA2C717A3BC87BE8735C3138D2",
+      "snapshotHash": "F5B595C424B32A656F4F24071531967D88347AEA2C717A3BC87BE8735C3138D2",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ResumableTaskItem.cs",
+      "baselineHash": "E4C054261858746523BDB72DCC81F2591D2E36B83E5699013156862809D19C3E",
+      "currentHash": "E4C054261858746523BDB72DCC81F2591D2E36B83E5699013156862809D19C3E",
+      "snapshotHash": "E4C054261858746523BDB72DCC81F2591D2E36B83E5699013156862809D19C3E",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ResumableTaskKind.cs",
+      "baselineHash": "792379C1DA917BD2E354E89F66A7069D6535847B7F5F3F15B3C96889D7739EE0",
+      "currentHash": "792379C1DA917BD2E354E89F66A7069D6535847B7F5F3F15B3C96889D7739EE0",
+      "snapshotHash": "792379C1DA917BD2E354E89F66A7069D6535847B7F5F3F15B3C96889D7739EE0",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ResumableTaskState.cs",
+      "baselineHash": "1263B7558AEF92F5836674245528C81460127368B4F418832420A739158C2FCD",
+      "currentHash": "1263B7558AEF92F5836674245528C81460127368B4F418832420A739158C2FCD",
+      "snapshotHash": "1263B7558AEF92F5836674245528C81460127368B4F418832420A739158C2FCD",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/SaveInfo.cs",
+      "baselineHash": "EE612F235FBECDA2B74B4D186C22A527557A38DC5B709E04394894E74F1A291E",
+      "currentHash": "EE612F235FBECDA2B74B4D186C22A527557A38DC5B709E04394894E74F1A291E",
+      "snapshotHash": "EE612F235FBECDA2B74B4D186C22A527557A38DC5B709E04394894E74F1A291E",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/ShaderPackInfo.cs",
+      "baselineHash": "D627F75A675D163882BB7CD752A5831FFF372AE29A09E6FEA061FCDC8AA54DCD",
+      "currentHash": "D627F75A675D163882BB7CD752A5831FFF372AE29A09E6FEA061FCDC8AA54DCD",
+      "snapshotHash": "D627F75A675D163882BB7CD752A5831FFF372AE29A09E6FEA061FCDC8AA54DCD",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/UpdateManifest.cs",
+      "baselineHash": "85FADBC7293BAF113D084FF71EC346B22E6F9C630CDDA2DD93C9563DEEC4EA4B",
+      "currentHash": "85FADBC7293BAF113D084FF71EC346B22E6F9C630CDDA2DD93C9563DEEC4EA4B",
+      "snapshotHash": "85FADBC7293BAF113D084FF71EC346B22E6F9C630CDDA2DD93C9563DEEC4EA4B",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/VersionDownloadQueueItem.cs",
+      "baselineHash": "A58C4003754F1AC8B8A4255B5561AB6586048B13ECBE986BA6271A44C024D42B",
+      "currentHash": "A58C4003754F1AC8B8A4255B5561AB6586048B13ECBE986BA6271A44C024D42B",
+      "snapshotHash": "A58C4003754F1AC8B8A4255B5561AB6586048B13ECBE986BA6271A44C024D42B",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/VersionDownloadQueueState.cs",
+      "baselineHash": "359862D958657D0523048FE857CDA36A0DB5E67647EC2645635CDF97F5CA38A1",
+      "currentHash": "359862D958657D0523048FE857CDA36A0DB5E67647EC2645635CDF97F5CA38A1",
+      "snapshotHash": "359862D958657D0523048FE857CDA36A0DB5E67647EC2645635CDF97F5CA38A1",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/VersionEntry.cs",
+      "baselineHash": "9D0723627F4211C7F35D129D87CC0C5700377911C8E25F776A584B604180B931",
+      "currentHash": "9D0723627F4211C7F35D129D87CC0C5700377911C8E25F776A584B604180B931",
+      "snapshotHash": "9D0723627F4211C7F35D129D87CC0C5700377911C8E25F776A584B604180B931",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Models/VersionInfo.cs",
+      "baselineHash": "AC2F0F50B62CF8349E3142C1B73083C3163CB5E9A25C210CC11DC668E50C0504",
+      "currentHash": "AC2F0F50B62CF8349E3142C1B73083C3163CB5E9A25C210CC11DC668E50C0504",
+      "snapshotHash": "AC2F0F50B62CF8349E3142C1B73083C3163CB5E9A25C210CC11DC668E50C0504",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/AccountService.cs",
+      "baselineHash": "1480F691F4FE19D366C5A3DA981FA8C63EF70F3F72F06BDCB9C803F73D482D16",
+      "currentHash": "1480F691F4FE19D366C5A3DA981FA8C63EF70F3F72F06BDCB9C803F73D482D16",
+      "snapshotHash": "1480F691F4FE19D366C5A3DA981FA8C63EF70F3F72F06BDCB9C803F73D482D16",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/AiDiagnoseService.cs",
+      "baselineHash": "A257DFF5F5BE43E71E4E5EB43F07E392E81C545736975F5A35C1FE468E99577C",
+      "currentHash": "A257DFF5F5BE43E71E4E5EB43F07E392E81C545736975F5A35C1FE468E99577C",
+      "snapshotHash": "A257DFF5F5BE43E71E4E5EB43F07E392E81C545736975F5A35C1FE468E99577C",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/AiEndpointPolicy.cs",
+      "baselineHash": "51F26E2C9DBF26F9D312AA5A3A89998DF0EA83595C5C90F7ABB75AEFDB96D24C",
+      "currentHash": "51F26E2C9DBF26F9D312AA5A3A89998DF0EA83595C5C90F7ABB75AEFDB96D24C",
+      "snapshotHash": "51F26E2C9DBF26F9D312AA5A3A89998DF0EA83595C5C90F7ABB75AEFDB96D24C",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/AiHttpClientFactory.cs",
+      "baselineHash": "D8431CEB58E73564F385EF3C0EB00FB07E0D8E86C586B9DB80AE282BBC9F8B9B",
+      "currentHash": "D8431CEB58E73564F385EF3C0EB00FB07E0D8E86C586B9DB80AE282BBC9F8B9B",
+      "snapshotHash": "D8431CEB58E73564F385EF3C0EB00FB07E0D8E86C586B9DB80AE282BBC9F8B9B",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/AiOperationRegistry.cs",
+      "baselineHash": "9C081AEDF0F3F80FEE471E29FA0048FFC5C653D22968B8F6CDE2EE136F2DFA38",
+      "currentHash": "9C081AEDF0F3F80FEE471E29FA0048FFC5C653D22968B8F6CDE2EE136F2DFA38",
+      "snapshotHash": "9C081AEDF0F3F80FEE471E29FA0048FFC5C653D22968B8F6CDE2EE136F2DFA38",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/AuthClientOptions.cs",
+      "baselineHash": "42CD35E2ACD5FB85544F8C653166BF0759D13A679ED071CFC920AAE14AE5C73C",
+      "currentHash": "42CD35E2ACD5FB85544F8C653166BF0759D13A679ED071CFC920AAE14AE5C73C",
+      "snapshotHash": "42CD35E2ACD5FB85544F8C653166BF0759D13A679ED071CFC920AAE14AE5C73C",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/AuthlibAccount.cs",
+      "baselineHash": "324349CC30572B1858BFBD6E0BC918D5591AAB7183EBDE22274BC2612B66BADD",
+      "currentHash": "324349CC30572B1858BFBD6E0BC918D5591AAB7183EBDE22274BC2612B66BADD",
+      "snapshotHash": "324349CC30572B1858BFBD6E0BC918D5591AAB7183EBDE22274BC2612B66BADD",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/AuthlibInjectorService.cs",
+      "baselineHash": "6652503188A13F868010D9FC60677D004C38206A9B9D9819900B8186EB702DC8",
+      "currentHash": "6652503188A13F868010D9FC60677D004C38206A9B9D9819900B8186EB702DC8",
+      "snapshotHash": "6652503188A13F868010D9FC60677D004C38206A9B9D9819900B8186EB702DC8",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/BisectRecoveryStore.cs",
+      "baselineHash": "136DBC3ADB5B474A0159E4B97E9B96FFA79BE7022D8CE2045EF5A0C2E181D091",
+      "currentHash": "136DBC3ADB5B474A0159E4B97E9B96FFA79BE7022D8CE2045EF5A0C2E181D091",
+      "snapshotHash": "136DBC3ADB5B474A0159E4B97E9B96FFA79BE7022D8CE2045EF5A0C2E181D091",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ConfigStore.cs",
+      "baselineHash": "94EB73DBAECDCF6DB6FF0C9E0D9E7D3378E06D8819052E0F3E6BFB8D682A2F4E",
+      "currentHash": "94EB73DBAECDCF6DB6FF0C9E0D9E7D3378E06D8819052E0F3E6BFB8D682A2F4E",
+      "snapshotHash": "94EB73DBAECDCF6DB6FF0C9E0D9E7D3378E06D8819052E0F3E6BFB8D682A2F4E",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ContentIconResult.cs",
+      "baselineHash": "FE65E7F960600DB136132F63CA493560F93747DEFB90B31DA39EF33866E56E05",
+      "currentHash": "FE65E7F960600DB136132F63CA493560F93747DEFB90B31DA39EF33866E56E05",
+      "snapshotHash": "FE65E7F960600DB136132F63CA493560F93747DEFB90B31DA39EF33866E56E05",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ContentIconService.cs",
+      "baselineHash": "8D723D0447C6F83D139FB1502B657C6FAC0EA2C3C365993283A40C979F94CCCB",
+      "currentHash": "8D723D0447C6F83D139FB1502B657C6FAC0EA2C3C365993283A40C979F94CCCB",
+      "snapshotHash": "8D723D0447C6F83D139FB1502B657C6FAC0EA2C3C365993283A40C979F94CCCB",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/CrashAnalysis.cs",
+      "baselineHash": "FD402CEBC5DF6C315728F0B69E0C82EA15CF5A265AD07A9D51D2140A69A4C94D",
+      "currentHash": "FD402CEBC5DF6C315728F0B69E0C82EA15CF5A265AD07A9D51D2140A69A4C94D",
+      "snapshotHash": "FD402CEBC5DF6C315728F0B69E0C82EA15CF5A265AD07A9D51D2140A69A4C94D",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/CrashAnalyzerService.cs",
+      "baselineHash": "3F0CB5DAAE97EEBAB28C51420113C8D7C35D0183F969549A2DF48998A23E737D",
+      "currentHash": "3F0CB5DAAE97EEBAB28C51420113C8D7C35D0183F969549A2DF48998A23E737D",
+      "snapshotHash": "3F0CB5DAAE97EEBAB28C51420113C8D7C35D0183F969549A2DF48998A23E737D",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/CurseForgeRequestPolicy.cs",
+      "baselineHash": "2F2F64F3A54A58CA5B484F11ABA01875F92CB397A7441BE477C57E7241CAD822",
+      "currentHash": "2F2F64F3A54A58CA5B484F11ABA01875F92CB397A7441BE477C57E7241CAD822",
+      "snapshotHash": "2F2F64F3A54A58CA5B484F11ABA01875F92CB397A7441BE477C57E7241CAD822",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/DeviceCodeInfo.cs",
+      "baselineHash": "9581D264DA83DF750D89E3A1497D729EE04D2C5C2A4D9BAFA9105C835E6CF517",
+      "currentHash": "9581D264DA83DF750D89E3A1497D729EE04D2C5C2A4D9BAFA9105C835E6CF517",
+      "snapshotHash": "9581D264DA83DF750D89E3A1497D729EE04D2C5C2A4D9BAFA9105C835E6CF517",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/DiagnosticReportService.cs",
+      "baselineHash": "BE7EDFC943622168AB349FE235F15EB6B0729E14812915BC0FECBCBCAA6902CE",
+      "currentHash": "BE7EDFC943622168AB349FE235F15EB6B0729E14812915BC0FECBCBCAA6902CE",
+      "snapshotHash": "BE7EDFC943622168AB349FE235F15EB6B0729E14812915BC0FECBCBCAA6902CE",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/DiagnosticSnapshotService.cs",
+      "baselineHash": "80D8823C904C0B572DE460264340DC4494F48933B2EC2F5E6577B25BE1D771B7",
+      "currentHash": "80D8823C904C0B572DE460264340DC4494F48933B2EC2F5E6577B25BE1D771B7",
+      "snapshotHash": "80D8823C904C0B572DE460264340DC4494F48933B2EC2F5E6577B25BE1D771B7",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/DownloadTaskStatus.cs",
+      "baselineHash": "D8D21CB866E9D3561844EA4F12E440D2B4EA7FAE6BBBA755E1157DCDBB3E8D20",
+      "currentHash": "D8D21CB866E9D3561844EA4F12E440D2B4EA7FAE6BBBA755E1157DCDBB3E8D20",
+      "snapshotHash": "D8D21CB866E9D3561844EA4F12E440D2B4EA7FAE6BBBA755E1157DCDBB3E8D20",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/EnumerableExtensions.cs",
+      "baselineHash": "99A1349C9BCE2725CDA00334BFAE647BD65DB3B50A2D7E901B060D863DC09873",
+      "currentHash": "99A1349C9BCE2725CDA00334BFAE647BD65DB3B50A2D7E901B060D863DC09873",
+      "snapshotHash": "99A1349C9BCE2725CDA00334BFAE647BD65DB3B50A2D7E901B060D863DC09873",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/FabricService.cs",
+      "baselineHash": "0D90286B706F480CEE541242569561614CDFDB1367316A1FF2D53596D9AFEB86",
+      "currentHash": "0D90286B706F480CEE541242569561614CDFDB1367316A1FF2D53596D9AFEB86",
+      "snapshotHash": "0D90286B706F480CEE541242569561614CDFDB1367316A1FF2D53596D9AFEB86",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/FileRecoveryService.cs",
+      "baselineHash": "83429906A8CD4C0527AD3A2B1973DE44067A60FDFC0A603590C4885CDEF1D42F",
+      "currentHash": "83429906A8CD4C0527AD3A2B1973DE44067A60FDFC0A603590C4885CDEF1D42F",
+      "snapshotHash": "83429906A8CD4C0527AD3A2B1973DE44067A60FDFC0A603590C4885CDEF1D42F",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ForgeService.cs",
+      "baselineHash": "F286FF72BFB7535BB6408F8944CDA99F733F2CA8FBE25F93E76F8553B776AFAC",
+      "currentHash": "F286FF72BFB7535BB6408F8944CDA99F733F2CA8FBE25F93E76F8553B776AFAC",
+      "snapshotHash": "F286FF72BFB7535BB6408F8944CDA99F733F2CA8FBE25F93E76F8553B776AFAC",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/InstallerLoaderService.cs",
+      "baselineHash": "55C42DB3C05F4D93932D9B1D234901FDCF7E479F7A04E78FAA653BDD23F56DE9",
+      "currentHash": "55C42DB3C05F4D93932D9B1D234901FDCF7E479F7A04E78FAA653BDD23F56DE9",
+      "snapshotHash": "55C42DB3C05F4D93932D9B1D234901FDCF7E479F7A04E78FAA653BDD23F56DE9",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/InstanceIsolationService.cs",
+      "baselineHash": "AC1C0FF633A6965B7F6494C5C2E247BBE7DDF7952C15AE80F19554D234007B38",
+      "currentHash": "AC1C0FF633A6965B7F6494C5C2E247BBE7DDF7952C15AE80F19554D234007B38",
+      "snapshotHash": "AC1C0FF633A6965B7F6494C5C2E247BBE7DDF7952C15AE80F19554D234007B38",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/InstancePackService.cs",
+      "baselineHash": "8202AE9769EA0559FFB4D34A4EE6E7F4DDCC6C66F106059E447E1416AE4DE148",
+      "currentHash": "8202AE9769EA0559FFB4D34A4EE6E7F4DDCC6C66F106059E447E1416AE4DE148",
+      "snapshotHash": "8202AE9769EA0559FFB4D34A4EE6E7F4DDCC6C66F106059E447E1416AE4DE148",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/InstanceService.cs",
+      "baselineHash": "9724405D8993517EE7381340E48130515B5B704EBD1D0A8C1EDBB564579AAACD",
+      "currentHash": "9724405D8993517EE7381340E48130515B5B704EBD1D0A8C1EDBB564579AAACD",
+      "snapshotHash": "9724405D8993517EE7381340E48130515B5B704EBD1D0A8C1EDBB564579AAACD",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/JavaInfo.cs",
+      "baselineHash": "F5327B56F3F8266A17A47FCC5541C40DDAD343AABC7B03D5C82B7F00BC1E36D1",
+      "currentHash": "F5327B56F3F8266A17A47FCC5541C40DDAD343AABC7B03D5C82B7F00BC1E36D1",
+      "snapshotHash": "F5327B56F3F8266A17A47FCC5541C40DDAD343AABC7B03D5C82B7F00BC1E36D1",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/JavaLocator.cs",
+      "baselineHash": "258EDC237599DB5744003327F403C33439E08872FADF418A99A48AFC94791165",
+      "currentHash": "258EDC237599DB5744003327F403C33439E08872FADF418A99A48AFC94791165",
+      "snapshotHash": "258EDC237599DB5744003327F403C33439E08872FADF418A99A48AFC94791165",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/JavaRuntimeProgress.cs",
+      "baselineHash": "D0BF791A49916FF60244C80D5EDF3F139D9B5D832B49F3FBAEF6EBAA1C8F3F79",
+      "currentHash": "D0BF791A49916FF60244C80D5EDF3F139D9B5D832B49F3FBAEF6EBAA1C8F3F79",
+      "snapshotHash": "D0BF791A49916FF60244C80D5EDF3F139D9B5D832B49F3FBAEF6EBAA1C8F3F79",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/JavaRuntimeService.cs",
+      "baselineHash": "A72AD5FB24E03BAA8172D987B8E1467A1BAF10831CE1C8176BA7A1A2B3325A78",
+      "currentHash": "A72AD5FB24E03BAA8172D987B8E1467A1BAF10831CE1C8176BA7A1A2B3325A78",
+      "snapshotHash": "A72AD5FB24E03BAA8172D987B8E1467A1BAF10831CE1C8176BA7A1A2B3325A78",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/JavaVersionMatcher.cs",
+      "baselineHash": "F2184C46401AD710690599A47FCFC1E19BB55AFFA890CA4D429366464501A55B",
+      "currentHash": "F2184C46401AD710690599A47FCFC1E19BB55AFFA890CA4D429366464501A55B",
+      "snapshotHash": "F2184C46401AD710690599A47FCFC1E19BB55AFFA890CA4D429366464501A55B",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/JsonUtil.cs",
+      "baselineHash": "AE1516D7F7C2F05D979F174A892ABEE5AE444603451C92F3D55B03CFF8230B3C",
+      "currentHash": "AE1516D7F7C2F05D979F174A892ABEE5AE444603451C92F3D55B03CFF8230B3C",
+      "snapshotHash": "AE1516D7F7C2F05D979F174A892ABEE5AE444603451C92F3D55B03CFF8230B3C",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/LaunchCommand.cs",
+      "baselineHash": "7E45AC3434CC7865D6C58632E507EA02DB20E87E481E4AB0990B7BD00E0898B8",
+      "currentHash": "7E45AC3434CC7865D6C58632E507EA02DB20E87E481E4AB0990B7BD00E0898B8",
+      "snapshotHash": "7E45AC3434CC7865D6C58632E507EA02DB20E87E481E4AB0990B7BD00E0898B8",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/LauncherLog.cs",
+      "baselineHash": "5947BE5C7034BDACAD241C8E6630AE88831FC46CDA00C0D9F8EA8FCE492DC78C",
+      "currentHash": "5947BE5C7034BDACAD241C8E6630AE88831FC46CDA00C0D9F8EA8FCE492DC78C",
+      "snapshotHash": "5947BE5C7034BDACAD241C8E6630AE88831FC46CDA00C0D9F8EA8FCE492DC78C",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/LauncherService.cs",
+      "baselineHash": "4A3F4168F19F9E420E26FCD2EDBE8753795EAF8CBA75B6E3060D1C0C9A7B3B78",
+      "currentHash": "4A3F4168F19F9E420E26FCD2EDBE8753795EAF8CBA75B6E3060D1C0C9A7B3B78",
+      "snapshotHash": "4A3F4168F19F9E420E26FCD2EDBE8753795EAF8CBA75B6E3060D1C0C9A7B3B78",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/LoaderInstallHelper.cs",
+      "baselineHash": "5B0AAF4B8FBD9FE5F3AF5DAD80EED9E638C8F7FA9281BC370AC895502DDE1B06",
+      "currentHash": "5B0AAF4B8FBD9FE5F3AF5DAD80EED9E638C8F7FA9281BC370AC895502DDE1B06",
+      "snapshotHash": "5B0AAF4B8FBD9FE5F3AF5DAD80EED9E638C8F7FA9281BC370AC895502DDE1B06",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.cs",
+      "baselineHash": "4180CECBCCAAA6BCAE2BDD454D26F0EA3A158376A889DA06D3E9D8C3FF689D23",
+      "currentHash": "4180CECBCCAAA6BCAE2BDD454D26F0EA3A158376A889DA06D3E9D8C3FF689D23",
+      "snapshotHash": "4180CECBCCAAA6BCAE2BDD454D26F0EA3A158376A889DA06D3E9D8C3FF689D23",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MemoryAllocationService.cs",
+      "baselineHash": "1F20D689525E69F1F530413E982DEAA4256A043022D59266E081C9528EA1C8B7",
+      "currentHash": "1F20D689525E69F1F530413E982DEAA4256A043022D59266E081C9528EA1C8B7",
+      "snapshotHash": "1F20D689525E69F1F530413E982DEAA4256A043022D59266E081C9528EA1C8B7",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MemoryRecommendation.cs",
+      "baselineHash": "BBAC9F5C6F16EF7BF012A1A7F4FCF6B8B62BC382418682C8BDC496BC7DD4BFDC",
+      "currentHash": "BBAC9F5C6F16EF7BF012A1A7F4FCF6B8B62BC382418682C8BDC496BC7DD4BFDC",
+      "snapshotHash": "BBAC9F5C6F16EF7BF012A1A7F4FCF6B8B62BC382418682C8BDC496BC7DD4BFDC",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MicrosoftAuthService.cs",
+      "baselineHash": "3567E04E21CD8602042971966F2BF2246FA68152C9218E4C6EEE7C5307232FF8",
+      "currentHash": "3567E04E21CD8602042971966F2BF2246FA68152C9218E4C6EEE7C5307232FF8",
+      "snapshotHash": "3567E04E21CD8602042971966F2BF2246FA68152C9218E4C6EEE7C5307232FF8",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MicrosoftBrowserAuthorizationException.cs",
+      "baselineHash": "2487EC97299ECEAEA5B58A4F69AD8F8B15755E30F2C092D93434984BDD5F63EB",
+      "currentHash": "2487EC97299ECEAEA5B58A4F69AD8F8B15755E30F2C092D93434984BDD5F63EB",
+      "snapshotHash": "2487EC97299ECEAEA5B58A4F69AD8F8B15755E30F2C092D93434984BDD5F63EB",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MicrosoftBrowserAuthorizationService.cs",
+      "baselineHash": "2F26DDFC06421BAE81B6C46B050AE33D24E3A78469B7084CA89E693E5267CB56",
+      "currentHash": "2F26DDFC06421BAE81B6C46B050AE33D24E3A78469B7084CA89E693E5267CB56",
+      "snapshotHash": "2F26DDFC06421BAE81B6C46B050AE33D24E3A78469B7084CA89E693E5267CB56",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MicrosoftOAuthToken.cs",
+      "baselineHash": "F628CDCE64D97352E0399721BCE0096F3AB9BC2A7ED43591402314A88ACA558A",
+      "currentHash": "F628CDCE64D97352E0399721BCE0096F3AB9BC2A7ED43591402314A88ACA558A",
+      "snapshotHash": "F628CDCE64D97352E0399721BCE0096F3AB9BC2A7ED43591402314A88ACA558A",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MicrosoftReauthenticationRequiredException.cs",
+      "baselineHash": "7213963059B0307DB1C2BCB0296937E136114DD1B6DD5A807A5D905A8896E935",
+      "currentHash": "7213963059B0307DB1C2BCB0296937E136114DD1B6DD5A807A5D905A8896E935",
+      "snapshotHash": "7213963059B0307DB1C2BCB0296937E136114DD1B6DD5A807A5D905A8896E935",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftAccount.cs",
+      "baselineHash": "A82D300886987B506DE6615AD46522594F6E5B79084914FD89B46D415FBCBC46",
+      "currentHash": "A82D300886987B506DE6615AD46522594F6E5B79084914FD89B46D415FBCBC46",
+      "snapshotHash": "A82D300886987B506DE6615AD46522594F6E5B79084914FD89B46D415FBCBC46",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftAppearance.cs",
+      "baselineHash": "B5978BCA4E53C829E6612E6046EF4B8EEDB6FCEB928425471E669332B640060D",
+      "currentHash": "B5978BCA4E53C829E6612E6046EF4B8EEDB6FCEB928425471E669332B640060D",
+      "snapshotHash": "B5978BCA4E53C829E6612E6046EF4B8EEDB6FCEB928425471E669332B640060D",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftAppRegistrationRequiredException.cs",
+      "baselineHash": "8DFA13A5940C2EC76F5A86F02F2E157D20A7B4E1702C338F6C71E6E05C08A4D0",
+      "currentHash": "8DFA13A5940C2EC76F5A86F02F2E157D20A7B4E1702C338F6C71E6E05C08A4D0",
+      "snapshotHash": "8DFA13A5940C2EC76F5A86F02F2E157D20A7B4E1702C338F6C71E6E05C08A4D0",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftDownloader.cs",
+      "baselineHash": "DD8CBA613E44BBEC9DF32F363E171BB8B9D386E2D9D0BFB7903870FABD3ED2E2",
+      "currentHash": "DD8CBA613E44BBEC9DF32F363E171BB8B9D386E2D9D0BFB7903870FABD3ED2E2",
+      "snapshotHash": "DD8CBA613E44BBEC9DF32F363E171BB8B9D386E2D9D0BFB7903870FABD3ED2E2",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftDownloadProgress.cs",
+      "baselineHash": "C1C259C047048326AEE899C097C5E83CB5C83D145FC7297627FE47AA7CEA9DDC",
+      "currentHash": "C1C259C047048326AEE899C097C5E83CB5C83D145FC7297627FE47AA7CEA9DDC",
+      "snapshotHash": "C1C259C047048326AEE899C097C5E83CB5C83D145FC7297627FE47AA7CEA9DDC",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftNewsService.cs",
+      "baselineHash": "123149684D55B1E8918F913FCE5947637D0427E24BA7C146079944B1E474526F",
+      "currentHash": "123149684D55B1E8918F913FCE5947637D0427E24BA7C146079944B1E474526F",
+      "snapshotHash": "123149684D55B1E8918F913FCE5947637D0427E24BA7C146079944B1E474526F",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftServerStatus.cs",
+      "baselineHash": "F055CF7101447BD4B88DE57B22093F56BADF7458D2BEC96B042B7ADE9A2FD53F",
+      "currentHash": "F055CF7101447BD4B88DE57B22093F56BADF7458D2BEC96B042B7ADE9A2FD53F",
+      "snapshotHash": "F055CF7101447BD4B88DE57B22093F56BADF7458D2BEC96B042B7ADE9A2FD53F",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftUtils.cs",
+      "baselineHash": "6DEBA3197C473CFDA8DA0E46CFD3A675210E68777C9E53D68B3CD17F362D964A",
+      "currentHash": "6DEBA3197C473CFDA8DA0E46CFD3A675210E68777C9E53D68B3CD17F362D964A",
+      "snapshotHash": "6DEBA3197C473CFDA8DA0E46CFD3A675210E68777C9E53D68B3CD17F362D964A",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftVersion.cs",
+      "baselineHash": "F491B542C910614E23C0220C0EC4941F91089C3E09760EFAB3EA2B0717062CFB",
+      "currentHash": "F491B542C910614E23C0220C0EC4941F91089C3E09760EFAB3EA2B0717062CFB",
+      "snapshotHash": "F491B542C910614E23C0220C0EC4941F91089C3E09760EFAB3EA2B0717062CFB",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/MirrorHelper.cs",
+      "baselineHash": "2573F812FADAAA5EB5CBCBF430D8F18D839BF794CFD5BC25F1EE5CAF77364CAA",
+      "currentHash": "2573F812FADAAA5EB5CBCBF430D8F18D839BF794CFD5BC25F1EE5CAF77364CAA",
+      "snapshotHash": "2573F812FADAAA5EB5CBCBF430D8F18D839BF794CFD5BC25F1EE5CAF77364CAA",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ModBisectService.cs",
+      "baselineHash": "B8E0D7F73CABC337162FAB374ED65348BBF5FE65EAD5AFEF20CE037B14513E4E",
+      "currentHash": "B8E0D7F73CABC337162FAB374ED65348BBF5FE65EAD5AFEF20CE037B14513E4E",
+      "snapshotHash": "B8E0D7F73CABC337162FAB374ED65348BBF5FE65EAD5AFEF20CE037B14513E4E",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ModContentService.cs",
+      "baselineHash": "D39A5A2102049795940602D2071DAFFBF4C8A1F3DE3317705201ADC860FB55CC",
+      "currentHash": "D39A5A2102049795940602D2071DAFFBF4C8A1F3DE3317705201ADC860FB55CC",
+      "snapshotHash": "D39A5A2102049795940602D2071DAFFBF4C8A1F3DE3317705201ADC860FB55CC",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ModHealthService.cs",
+      "baselineHash": "338EE150FE5AC89CE64BB62915E7AA71D1181B491B507F01D259F11BABE0F149",
+      "currentHash": "338EE150FE5AC89CE64BB62915E7AA71D1181B491B507F01D259F11BABE0F149",
+      "snapshotHash": "338EE150FE5AC89CE64BB62915E7AA71D1181B491B507F01D259F11BABE0F149",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ModpackLifecycleService.cs",
+      "baselineHash": "A10487F572938E44BCA054C920130157E36A663E637DA3415CBB8EEE60232E3D",
+      "currentHash": "A10487F572938E44BCA054C920130157E36A663E637DA3415CBB8EEE60232E3D",
+      "snapshotHash": "A10487F572938E44BCA054C920130157E36A663E637DA3415CBB8EEE60232E3D",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ModReplacementService.cs",
+      "baselineHash": "DA7B50B96F6D3024ED11CC3375768DD2A275B887A8A46F773F7E6753CB7ABE12",
+      "currentHash": "DA7B50B96F6D3024ED11CC3375768DD2A275B887A8A46F773F7E6753CB7ABE12",
+      "snapshotHash": "DA7B50B96F6D3024ED11CC3375768DD2A275B887A8A46F773F7E6753CB7ABE12",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ModrinthModpackService.cs",
+      "baselineHash": "1224AE6383EDA8A9D93D5FB44B787C9C8C27C1C7300495A17594C0B8F898F519",
+      "currentHash": "1224AE6383EDA8A9D93D5FB44B787C9C8C27C1C7300495A17594C0B8F898F519",
+      "snapshotHash": "1224AE6383EDA8A9D93D5FB44B787C9C8C27C1C7300495A17594C0B8F898F519",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ModSearchQueryResolver.cs",
+      "baselineHash": "C5F26AB04C7866AFA03FF283F4B137BBF4B4E99C61FF6A8A3E365F70A9027A14",
+      "currentHash": "C5F26AB04C7866AFA03FF283F4B137BBF4B4E99C61FF6A8A3E365F70A9027A14",
+      "snapshotHash": "C5F26AB04C7866AFA03FF283F4B137BBF4B4E99C61FF6A8A3E365F70A9027A14",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ModService.cs",
+      "baselineHash": "7464A8CF83EEE3D261C323A9985FCF19EF168E441476729A8A7C6314EE94B13F",
+      "currentHash": "7464A8CF83EEE3D261C323A9985FCF19EF168E441476729A8A7C6314EE94B13F",
+      "snapshotHash": "7464A8CF83EEE3D261C323A9985FCF19EF168E441476729A8A7C6314EE94B13F",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/NeoForgeService.cs",
+      "baselineHash": "E0312E911982C31B0D6F2A8C1342EC66884AFDE0906E5D46B317729FC0672C11",
+      "currentHash": "E0312E911982C31B0D6F2A8C1342EC66884AFDE0906E5D46B317729FC0672C11",
+      "snapshotHash": "E0312E911982C31B0D6F2A8C1342EC66884AFDE0906E5D46B317729FC0672C11",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/NewsEndpointPolicy.cs",
+      "baselineHash": "ABC47CD37DF6DA09F267AE1EC6A9CED8060158F3C808FF142D08FC2CD9AC0950",
+      "currentHash": "ABC47CD37DF6DA09F267AE1EC6A9CED8060158F3C808FF142D08FC2CD9AC0950",
+      "snapshotHash": "ABC47CD37DF6DA09F267AE1EC6A9CED8060158F3C808FF142D08FC2CD9AC0950",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/NewsImageProxyService.cs",
+      "baselineHash": "3E8BBBB43A8D1FE64422FB6192C256F4DDA4541726CEEBBF9940B35CF834B73C",
+      "currentHash": "3E8BBBB43A8D1FE64422FB6192C256F4DDA4541726CEEBBF9940B35CF834B73C",
+      "snapshotHash": "3E8BBBB43A8D1FE64422FB6192C256F4DDA4541726CEEBBF9940B35CF834B73C",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/NewsLinkService.cs",
+      "baselineHash": "BE7C057FEE63A454677A92FFED516D8CB3646899BF58F1AFA304D8E09A2768AB",
+      "currentHash": "BE7C057FEE63A454677A92FFED516D8CB3646899BF58F1AFA304D8E09A2768AB",
+      "snapshotHash": "BE7C057FEE63A454677A92FFED516D8CB3646899BF58F1AFA304D8E09A2768AB",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/PathSafetyGuard.cs",
+      "baselineHash": "397F9EEBA4A7A6702E9AB70AB611D4A8AD5536660B7B09EE691CFE898D6D7E94",
+      "currentHash": "397F9EEBA4A7A6702E9AB70AB611D4A8AD5536660B7B09EE691CFE898D6D7E94",
+      "snapshotHash": "397F9EEBA4A7A6702E9AB70AB611D4A8AD5536660B7B09EE691CFE898D6D7E94",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/PlatformPaths.cs",
+      "baselineHash": "BBA0F0097E6F64AABCC2DB6F183400312736A457293109F810B0DB9A144692FE",
+      "currentHash": "BBA0F0097E6F64AABCC2DB6F183400312736A457293109F810B0DB9A144692FE",
+      "snapshotHash": "BBA0F0097E6F64AABCC2DB6F183400312736A457293109F810B0DB9A144692FE",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/QuiltService.cs",
+      "baselineHash": "4D1354D0057F27FBED6020E8FDA31237B6DA04E2AE6AD5050CF8765B20E2CD9D",
+      "currentHash": "4D1354D0057F27FBED6020E8FDA31237B6DA04E2AE6AD5050CF8765B20E2CD9D",
+      "snapshotHash": "4D1354D0057F27FBED6020E8FDA31237B6DA04E2AE6AD5050CF8765B20E2CD9D",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ResourceContentService.cs",
+      "baselineHash": "C48C947382DB681A9E7985ED39261F70A278138E667F7EC5CA5CC4A0AF2E5647",
+      "currentHash": "C48C947382DB681A9E7985ED39261F70A278138E667F7EC5CA5CC4A0AF2E5647",
+      "snapshotHash": "C48C947382DB681A9E7985ED39261F70A278138E667F7EC5CA5CC4A0AF2E5647",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ResourcePackService.cs",
+      "baselineHash": "71CC058B23D9EB87E36FCE62440AFAD1184E04912641D2D1A31EADF6483093CF",
+      "currentHash": "71CC058B23D9EB87E36FCE62440AFAD1184E04912641D2D1A31EADF6483093CF",
+      "snapshotHash": "71CC058B23D9EB87E36FCE62440AFAD1184E04912641D2D1A31EADF6483093CF",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/RulesEvaluator.cs",
+      "baselineHash": "B6280682F53024B691617EB050DD5903D112B651AD979F4857BC08DB3B32D4AD",
+      "currentHash": "B6280682F53024B691617EB050DD5903D112B651AD979F4857BC08DB3B32D4AD",
+      "snapshotHash": "B6280682F53024B691617EB050DD5903D112B651AD979F4857BC08DB3B32D4AD",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/RunningInstanceRegistry.cs",
+      "baselineHash": "3AF747DA7B15B5D7DD12055DA67B49EEEC2D9F08CF938D15D9F06AF7E7DA0653",
+      "currentHash": "3AF747DA7B15B5D7DD12055DA67B49EEEC2D9F08CF938D15D9F06AF7E7DA0653",
+      "snapshotHash": "3AF747DA7B15B5D7DD12055DA67B49EEEC2D9F08CF938D15D9F06AF7E7DA0653",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/SaveBackupService.cs",
+      "baselineHash": "3C9694088CECB1C46AD0B47433F6E48CA61CF327F632D9A6536D5492E49ABABF",
+      "currentHash": "3C9694088CECB1C46AD0B47433F6E48CA61CF327F632D9A6536D5492E49ABABF",
+      "snapshotHash": "3C9694088CECB1C46AD0B47433F6E48CA61CF327F632D9A6536D5492E49ABABF",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/SaveService.cs",
+      "baselineHash": "99214343B36BC9EC67582264530E6569EA23A2BBA9142B6B929A4A67E33C1EB3",
+      "currentHash": "99214343B36BC9EC67582264530E6569EA23A2BBA9142B6B929A4A67E33C1EB3",
+      "snapshotHash": "99214343B36BC9EC67582264530E6569EA23A2BBA9142B6B929A4A67E33C1EB3",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/SecretStore.cs",
+      "baselineHash": "2D130691FDCEA1F2124CF9F6BF028E6CE9CB79DBEF1E1A1DC7D74AB604DDBBCF",
+      "currentHash": "2D130691FDCEA1F2124CF9F6BF028E6CE9CB79DBEF1E1A1DC7D74AB604DDBBCF",
+      "snapshotHash": "2D130691FDCEA1F2124CF9F6BF028E6CE9CB79DBEF1E1A1DC7D74AB604DDBBCF",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/SecretStoreBackend.cs",
+      "baselineHash": "354ABCA5C73B210877DA0E307DF062F2495BDD799D44CAE3614A593664A94C23",
+      "currentHash": "354ABCA5C73B210877DA0E307DF062F2495BDD799D44CAE3614A593664A94C23",
+      "snapshotHash": "354ABCA5C73B210877DA0E307DF062F2495BDD799D44CAE3614A593664A94C23",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ServerPingService.cs",
+      "baselineHash": "4A2118BD34697535463E28142144052DEAD72BA1D0B3DB750814101C3540768B",
+      "currentHash": "4A2118BD34697535463E28142144052DEAD72BA1D0B3DB750814101C3540768B",
+      "snapshotHash": "4A2118BD34697535463E28142144052DEAD72BA1D0B3DB750814101C3540768B",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/ShaderPackService.cs",
+      "baselineHash": "873D6002646032C421611BE2D084D3AD0BEC751C9EE25CB33B87B3480CAF83C3",
+      "currentHash": "873D6002646032C421611BE2D084D3AD0BEC751C9EE25CB33B87B3480CAF83C3",
+      "snapshotHash": "873D6002646032C421611BE2D084D3AD0BEC751C9EE25CB33B87B3480CAF83C3",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/SkinImageProxyService.cs",
+      "baselineHash": "47975FAEF31CF7A4EE622EBC17EF25DED8C02810F67385DE28F7DFBE264181A5",
+      "currentHash": "47975FAEF31CF7A4EE622EBC17EF25DED8C02810F67385DE28F7DFBE264181A5",
+      "snapshotHash": "47975FAEF31CF7A4EE622EBC17EF25DED8C02810F67385DE28F7DFBE264181A5",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/UiBundle.cs",
+      "baselineHash": "6939EE23746474DBB4919445E4C74212CB75675EC1661F1CE85B2E9BFC87B3EB",
+      "currentHash": "6939EE23746474DBB4919445E4C74212CB75675EC1661F1CE85B2E9BFC87B3EB",
+      "snapshotHash": "6939EE23746474DBB4919445E4C74212CB75675EC1661F1CE85B2E9BFC87B3EB",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/UpdateService.cs",
+      "baselineHash": "67085BDE74A47EA603D8AD73EE2F5C9E8059B07AD49560E26238D56D12742C6D",
+      "currentHash": "67085BDE74A47EA603D8AD73EE2F5C9E8059B07AD49560E26238D56D12742C6D",
+      "snapshotHash": "67085BDE74A47EA603D8AD73EE2F5C9E8059B07AD49560E26238D56D12742C6D",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/VersionFilter.cs",
+      "baselineHash": "6FB7699E1795693A3EF2AF5689F74B9F2C5F6C47E51ED927439EDFA87B5E492B",
+      "currentHash": "6FB7699E1795693A3EF2AF5689F74B9F2C5F6C47E51ED927439EDFA87B5E492B",
+      "snapshotHash": "6FB7699E1795693A3EF2AF5689F74B9F2C5F6C47E51ED927439EDFA87B5E492B",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Services/VersionResolver.cs",
+      "baselineHash": "CC42823D053C482A451B246CD69B55A989D224F7AA4D70FF0DCA05E25253DAD4",
+      "currentHash": "CC42823D053C482A451B246CD69B55A989D224F7AA4D70FF0DCA05E25253DAD4",
+      "snapshotHash": "CC42823D053C482A451B246CD69B55A989D224F7AA4D70FF0DCA05E25253DAD4",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Views/Shell/WebShellWindow.axaml",
+      "baselineHash": "95B3FA9DDEE6857AD251FB80FAE92AF98B9C43071EF468AAD591013100519D32",
+      "currentHash": "95B3FA9DDEE6857AD251FB80FAE92AF98B9C43071EF468AAD591013100519D32",
+      "snapshotHash": "95B3FA9DDEE6857AD251FB80FAE92AF98B9C43071EF468AAD591013100519D32",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher.Views/Shell/WebShellWindow.axaml.cs",
+      "baselineHash": "41E9B59A4994FCBB3AE35AA0386E91781E4373730D61EC5DEA673993184A19F5",
+      "currentHash": "41E9B59A4994FCBB3AE35AA0386E91781E4373730D61EC5DEA673993184A19F5",
+      "snapshotHash": "41E9B59A4994FCBB3AE35AA0386E91781E4373730D61EC5DEA673993184A19F5",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher/App.axaml",
+      "baselineHash": "7E96344FDC826E74BCEA5B12457D139BE16D13A157E104D19E490E7127570C9C",
+      "currentHash": "7E96344FDC826E74BCEA5B12457D139BE16D13A157E104D19E490E7127570C9C",
+      "snapshotHash": "7E96344FDC826E74BCEA5B12457D139BE16D13A157E104D19E490E7127570C9C",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher/App.cs",
+      "baselineHash": "4E8B9369DF3165999EEE2A99153E8AAD130E776C7BEA99BA35E251BF86934A48",
+      "currentHash": "4E8B9369DF3165999EEE2A99153E8AAD130E776C7BEA99BA35E251BF86934A48",
+      "snapshotHash": "4E8B9369DF3165999EEE2A99153E8AAD130E776C7BEA99BA35E251BF86934A48",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Pineglow.Launcher/Program.cs",
+      "baselineHash": "02768DD95076D5014E769D4F6F96E8429057E8D32C4F59177E608FFB4725B4B5",
+      "currentHash": "02768DD95076D5014E769D4F6F96E8429057E8D32C4F59177E608FFB4725B4B5",
+      "snapshotHash": "02768DD95076D5014E769D4F6F96E8429057E8D32C4F59177E608FFB4725B4B5",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Properties/AssemblyInfo.cs",
+      "baselineHash": "F168DFF6D6DC2DFF33F13438E0F6F6ACDEC2D04501A6BA317CDD892411412DF1",
+      "currentHash": "F168DFF6D6DC2DFF33F13438E0F6F6ACDEC2D04501A6BA317CDD892411412DF1",
+      "snapshotHash": "F168DFF6D6DC2DFF33F13438E0F6F6ACDEC2D04501A6BA317CDD892411412DF1",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/Themes/ControlStyles.axaml",
+      "baselineHash": "79C05285F0EADB500127423E52CC37603D25FBEE9E3820F6B7FEA89F4FBC807B",
+      "currentHash": "79C05285F0EADB500127423E52CC37603D25FBEE9E3820F6B7FEA89F4FBC807B",
+      "snapshotHash": "79C05285F0EADB500127423E52CC37603D25FBEE9E3820F6B7FEA89F4FBC807B",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/VerifyHost/BisectSmoke.cs",
+      "baselineHash": "083B22B20EF5C9ED7AE5C18B0658B3F2B51E5838B8C44A4868542517E0305D9F",
+      "currentHash": "083B22B20EF5C9ED7AE5C18B0658B3F2B51E5838B8C44A4868542517E0305D9F",
+      "snapshotHash": "083B22B20EF5C9ED7AE5C18B0658B3F2B51E5838B8C44A4868542517E0305D9F",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/VerifyHost/Program.cs",
+      "baselineHash": "675CE7E9F8DBDAB21418305693440FA9F33A41B4687A99D1A8B3E304F5F26555",
+      "currentHash": "675CE7E9F8DBDAB21418305693440FA9F33A41B4687A99D1A8B3E304F5F26555",
+      "snapshotHash": "675CE7E9F8DBDAB21418305693440FA9F33A41B4687A99D1A8B3E304F5F26555",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "dev/PineglowLauncher/VerifyHost/VerifyHost.csproj",
+      "baselineHash": "79C18D1853E6C630971C965F5A36A953C65D3CCFFB19EF711BEBA373CAA6B64E",
+      "currentHash": "79C18D1853E6C630971C965F5A36A953C65D3CCFFB19EF711BEBA373CAA6B64E",
+      "snapshotHash": "79C18D1853E6C630971C965F5A36A953C65D3CCFFB19EF711BEBA373CAA6B64E",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "global.json",
+      "baselineHash": "1497BDA77AC26A91600F9EAA9D733BE95A970961816C63738A4AAFE1DC9C14E3",
+      "currentHash": "1497BDA77AC26A91600F9EAA9D733BE95A970961816C63738A4AAFE1DC9C14E3",
+      "snapshotHash": "1497BDA77AC26A91600F9EAA9D733BE95A970961816C63738A4AAFE1DC9C14E3",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "LICENSE",
+      "baselineHash": "3972DC9744F6499F0F9B2DBF76696F2AE7AD8AF9B23DDE66D6AF86C9DFB36986",
+      "currentHash": "3972DC9744F6499F0F9B2DBF76696F2AE7AD8AF9B23DDE66D6AF86C9DFB36986",
+      "snapshotHash": "3972DC9744F6499F0F9B2DBF76696F2AE7AD8AF9B23DDE66D6AF86C9DFB36986",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "README.md",
+      "baselineHash": "B2D3643C5F79964366A53ADE50808DD73AFB56C0B55C874079C3104AB432133B",
+      "currentHash": "B2D3643C5F79964366A53ADE50808DD73AFB56C0B55C874079C3104AB432133B",
+      "snapshotHash": "B2D3643C5F79964366A53ADE50808DD73AFB56C0B55C874079C3104AB432133B",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/audit-claimed-tests.ps1",
+      "baselineHash": "8108172B0A7FC3D55C65945AB5E78CB667E986A4153FA779A618168A1E14C048",
+      "currentHash": "8108172B0A7FC3D55C65945AB5E78CB667E986A4153FA779A618168A1E14C048",
+      "snapshotHash": "8108172B0A7FC3D55C65945AB5E78CB667E986A4153FA779A618168A1E14C048",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/audit-evidence-tree.ps1",
+      "baselineHash": "BE90F8163A3FBC05762F2BD66DE272F9E256A4A8F813C89D891D72122D1535E0",
+      "currentHash": "BE90F8163A3FBC05762F2BD66DE272F9E256A4A8F813C89D891D72122D1535E0",
+      "snapshotHash": "BE90F8163A3FBC05762F2BD66DE272F9E256A4A8F813C89D891D72122D1535E0",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/audit-goal-evidence.py",
+      "baselineHash": "F4121D33933F22C3A32BB556F36FF8F7E83A622C6CAEFF594533A2BE2673099E",
+      "currentHash": "F4121D33933F22C3A32BB556F36FF8F7E83A622C6CAEFF594533A2BE2673099E",
+      "snapshotHash": "F4121D33933F22C3A32BB556F36FF8F7E83A622C6CAEFF594533A2BE2673099E",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/audit-plan-ledger.ps1",
+      "baselineHash": "92D20C6E1B243522AD88602CB2380ACE45017D9348DCA669282F6A66D9838327",
+      "currentHash": "92D20C6E1B243522AD88602CB2380ACE45017D9348DCA669282F6A66D9838327",
+      "snapshotHash": "92D20C6E1B243522AD88602CB2380ACE45017D9348DCA669282F6A66D9838327",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/capture-goal-baseline.ps1",
+      "baselineHash": "ABF05B09FBA32623AA3871C86DF55D055E6C805915A1CD830F28449E814EAACC",
+      "currentHash": "ABF05B09FBA32623AA3871C86DF55D055E6C805915A1CD830F28449E814EAACC",
+      "snapshotHash": "ABF05B09FBA32623AA3871C86DF55D055E6C805915A1CD830F28449E814EAACC",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/check-ui-resource-closure.cjs",
+      "baselineHash": "5C4D344E45755DC37F79E8B3E7E2C28D8115F09566F4900905E0FA3EDE2CC306",
+      "currentHash": "5C4D344E45755DC37F79E8B3E7E2C28D8115F09566F4900905E0FA3EDE2CC306",
+      "snapshotHash": "5C4D344E45755DC37F79E8B3E7E2C28D8115F09566F4900905E0FA3EDE2CC306",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/lib/StepRunner.psm1",
+      "baselineHash": "0177941B744E027737748C40BACB9BAE9957965A1EA31EFC7462BB2C5DF282C5",
+      "currentHash": "0177941B744E027737748C40BACB9BAE9957965A1EA31EFC7462BB2C5DF282C5",
+      "snapshotHash": "0177941B744E027737748C40BACB9BAE9957965A1EA31EFC7462BB2C5DF282C5",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/measure-mr21.ps1",
+      "baselineHash": "9863CAA171AA9021F67E8FF99E9E356907ED32A3782C058116BC7FBCC94FEAB2",
+      "currentHash": "9863CAA171AA9021F67E8FF99E9E356907ED32A3782C058116BC7FBCC94FEAB2",
+      "snapshotHash": "9863CAA171AA9021F67E8FF99E9E356907ED32A3782C058116BC7FBCC94FEAB2",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/measure-singlefile-drivecheck.ps1",
+      "baselineHash": "9356C0BBE88D2DE41131ABBC3DED35D42404E62E817BB73141B742A29AA6C843",
+      "currentHash": "9356C0BBE88D2DE41131ABBC3DED35D42404E62E817BB73141B742A29AA6C843",
+      "snapshotHash": "9356C0BBE88D2DE41131ABBC3DED35D42404E62E817BB73141B742A29AA6C843",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/measure-singlefile-pathcheck.ps1",
+      "baselineHash": "7EAABF2CF8236134AE521018E24931073825D7AF3B93B1CC5A5C28B2D7F93C40",
+      "currentHash": "7EAABF2CF8236134AE521018E24931073825D7AF3B93B1CC5A5C28B2D7F93C40",
+      "snapshotHash": "7EAABF2CF8236134AE521018E24931073825D7AF3B93B1CC5A5C28B2D7F93C40",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/measure-singlefile-pathlen.ps1",
+      "baselineHash": "4B9EDF440E5DB01355B0CFBBD94D61FBAF5DB1CFD930A70A41033167B74B2B95",
+      "currentHash": "4B9EDF440E5DB01355B0CFBBD94D61FBAF5DB1CFD930A70A41033167B74B2B95",
+      "snapshotHash": "4B9EDF440E5DB01355B0CFBBD94D61FBAF5DB1CFD930A70A41033167B74B2B95",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/measure-singlefile-repro.ps1",
+      "baselineHash": "F1AD9C85DCBF8099079451862ECBFE88C3D9FDBF26209ABA8B1E583D255F3FCA",
+      "currentHash": "F1AD9C85DCBF8099079451862ECBFE88C3D9FDBF26209ABA8B1E583D255F3FCA",
+      "snapshotHash": "F1AD9C85DCBF8099079451862ECBFE88C3D9FDBF26209ABA8B1E583D255F3FCA",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/mirror-gitee.mjs",
+      "baselineHash": "EF36A7BD5D43650BD4E2C903FA62A12A325517E4C4AB053D2EF96FC8EAEA44D1",
+      "currentHash": "EF36A7BD5D43650BD4E2C903FA62A12A325517E4C4AB053D2EF96FC8EAEA44D1",
+      "snapshotHash": "EF36A7BD5D43650BD4E2C903FA62A12A325517E4C4AB053D2EF96FC8EAEA44D1",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/repair-evidence-manifests.ps1",
+      "baselineHash": "0D7C39A749CA58317AFF53C8F78BA0FDA78A748775D89423299F2651BB2D5A23",
+      "currentHash": "0D7C39A749CA58317AFF53C8F78BA0FDA78A748775D89423299F2651BB2D5A23",
+      "snapshotHash": "0D7C39A749CA58317AFF53C8F78BA0FDA78A748775D89423299F2651BB2D5A23",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/run-diagnostic-benchmark.ps1",
+      "baselineHash": "44B7E0EA13A96D905D88DF3EEDDE41FC62ED36D222B6625E38D106533E30726E",
+      "currentHash": "44B7E0EA13A96D905D88DF3EEDDE41FC62ED36D222B6625E38D106533E30726E",
+      "snapshotHash": "44B7E0EA13A96D905D88DF3EEDDE41FC62ED36D222B6625E38D106533E30726E",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/run-goal-validation.ps1",
+      "baselineHash": "84B4A4B5FFDBA7186836A4963F4ACBEC8911D34BFB2CA19B0B9F1DD37E0BFDD7",
+      "currentHash": "84B4A4B5FFDBA7186836A4963F4ACBEC8911D34BFB2CA19B0B9F1DD37E0BFDD7",
+      "snapshotHash": "84B4A4B5FFDBA7186836A4963F4ACBEC8911D34BFB2CA19B0B9F1DD37E0BFDD7",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/run-inventory-tests.cjs",
+      "baselineHash": "5CF907B32520FA3E46F541B6AA8D8EB8970531AD0C81687CF2C42241CD178267",
+      "currentHash": "5CF907B32520FA3E46F541B6AA8D8EB8970531AD0C81687CF2C42241CD178267",
+      "snapshotHash": "5CF907B32520FA3E46F541B6AA8D8EB8970531AD0C81687CF2C42241CD178267",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/source-snapshot-inputs.txt",
+      "baselineHash": "4DFC3726A53279E80451E7B9F653296AF0A17206016C4E6928631909169BFF1C",
+      "currentHash": "4DFC3726A53279E80451E7B9F653296AF0A17206016C4E6928631909169BFF1C",
+      "snapshotHash": "4DFC3726A53279E80451E7B9F653296AF0A17206016C4E6928631909169BFF1C",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/test-inventory.txt",
+      "baselineHash": "887E63FF6C64202369D963B1C1E9012044234F052375979AABCAA039B38A4C07",
+      "currentHash": "887E63FF6C64202369D963B1C1E9012044234F052375979AABCAA039B38A4C07",
+      "snapshotHash": "887E63FF6C64202369D963B1C1E9012044234F052375979AABCAA039B38A4C07",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/tests/audit-goal-evidence.test.py",
+      "baselineHash": "85AC69812F1F55FDF3D27CC476C133DDDFF0B4DB2F9D869CC25B8D0241585E36",
+      "currentHash": "85AC69812F1F55FDF3D27CC476C133DDDFF0B4DB2F9D869CC25B8D0241585E36",
+      "snapshotHash": "85AC69812F1F55FDF3D27CC476C133DDDFF0B4DB2F9D869CC25B8D0241585E36",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/tests/goal-validation.test.cjs",
+      "baselineHash": "A6A5284955AC418D1E15FB11F64967A0924E27B30ABDFBACBB8662C754962749",
+      "currentHash": "A6A5284955AC418D1E15FB11F64967A0924E27B30ABDFBACBB8662C754962749",
+      "snapshotHash": "A6A5284955AC418D1E15FB11F64967A0924E27B30ABDFBACBB8662C754962749",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/tests/step-runner.test.ps1",
+      "baselineHash": "451175DD35101AF684814E0109EAD43C5EC791DEBD8C8D22E720CBC30CD68A50",
+      "currentHash": "451175DD35101AF684814E0109EAD43C5EC791DEBD8C8D22E720CBC30CD68A50",
+      "snapshotHash": "451175DD35101AF684814E0109EAD43C5EC791DEBD8C8D22E720CBC30CD68A50",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/tests/ui-live-cdp.test.cjs",
+      "baselineHash": "DD67A8F2B9646140BD3B25C920D6B360F5030B13EAA21B740664C2E9519D1560",
+      "currentHash": "DD67A8F2B9646140BD3B25C920D6B360F5030B13EAA21B740664C2E9519D1560",
+      "snapshotHash": "DD67A8F2B9646140BD3B25C920D6B360F5030B13EAA21B740664C2E9519D1560",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/tests/ui-resource-closure.test.cjs",
+      "baselineHash": "E68BED3432E878C5A72A85AE7FE14503D65E19EE822254BE709E2B6B1AED7345",
+      "currentHash": "E68BED3432E878C5A72A85AE7FE14503D65E19EE822254BE709E2B6B1AED7345",
+      "snapshotHash": "E68BED3432E878C5A72A85AE7FE14503D65E19EE822254BE709E2B6B1AED7345",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/verify-mg0.ps1",
+      "baselineHash": "0E3B02B28C7720555358A60D2434150E60B2AC9733824B396926D5471B497154",
+      "currentHash": "0E3B02B28C7720555358A60D2434150E60B2AC9733824B396926D5471B497154",
+      "snapshotHash": "0E3B02B28C7720555358A60D2434150E60B2AC9733824B396926D5471B497154",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/verify-mg1.ps1",
+      "baselineHash": "BD49A473078F358DF8C6BD4A72827516B1F56E966357CE6CABF8B16C137652D6",
+      "currentHash": "BD49A473078F358DF8C6BD4A72827516B1F56E966357CE6CABF8B16C137652D6",
+      "snapshotHash": "BD49A473078F358DF8C6BD4A72827516B1F56E966357CE6CABF8B16C137652D6",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/verify-mg2.ps1",
+      "baselineHash": "7276D04CCA15A626BE669F9244BA54550B7D7AD7DD2B20AB99296CECC1CFA2DE",
+      "currentHash": "7276D04CCA15A626BE669F9244BA54550B7D7AD7DD2B20AB99296CECC1CFA2DE",
+      "snapshotHash": "7276D04CCA15A626BE669F9244BA54550B7D7AD7DD2B20AB99296CECC1CFA2DE",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/verify-mg3.ps1",
+      "baselineHash": "2296F5DCC4E46BB520D422D48D406CD10483940BD075D3A732C64819E9BCDF68",
+      "currentHash": "2296F5DCC4E46BB520D422D48D406CD10483940BD075D3A732C64819E9BCDF68",
+      "snapshotHash": "2296F5DCC4E46BB520D422D48D406CD10483940BD075D3A732C64819E9BCDF68",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/verify-single-file-standalone.ps1",
+      "baselineHash": "BDAEA20AFC7D02EFC65772AEFA1C95EB1962B9933877F6DEBC9AF2C5EFED9368",
+      "currentHash": "BDAEA20AFC7D02EFC65772AEFA1C95EB1962B9933877F6DEBC9AF2C5EFED9368",
+      "snapshotHash": "BDAEA20AFC7D02EFC65772AEFA1C95EB1962B9933877F6DEBC9AF2C5EFED9368",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/verify-source-snapshot.ps1",
+      "baselineHash": "FB029ABA02DF1FBF5685DC746A341050C2BDD5BD2C6C9622BF7C32F5557243F3",
+      "currentHash": "FB029ABA02DF1FBF5685DC746A341050C2BDD5BD2C6C9622BF7C32F5557243F3",
+      "snapshotHash": "FB029ABA02DF1FBF5685DC746A341050C2BDD5BD2C6C9622BF7C32F5557243F3",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/verify-ui-pages-live.cjs",
+      "baselineHash": "1DC992465E5D6561D88315D146EF0EDDCA67FB11447F78C5FC995E9405935B9C",
+      "currentHash": "1DC992465E5D6561D88315D146EF0EDDCA67FB11447F78C5FC995E9405935B9C",
+      "snapshotHash": "1DC992465E5D6561D88315D146EF0EDDCA67FB11447F78C5FC995E9405935B9C",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "scripts/verify-update-live-download.ps1",
+      "baselineHash": "66FE1F85CD3C7B3E29F5CD18B6B26DC8185F8640CE7EB66BE2EA14B89A306DA6",
+      "currentHash": "66FE1F85CD3C7B3E29F5CD18B6B26DC8185F8640CE7EB66BE2EA14B89A306DA6",
+      "snapshotHash": "66FE1F85CD3C7B3E29F5CD18B6B26DC8185F8640CE7EB66BE2EA14B89A306DA6",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/assets/pine-forest.svg",
+      "baselineHash": "23FD38619008D5291661F941FFE1262B726AD51BC128394FD5FB02778F206C46",
+      "currentHash": "23FD38619008D5291661F941FFE1262B726AD51BC128394FD5FB02778F206C46",
+      "snapshotHash": "23FD38619008D5291661F941FFE1262B726AD51BC128394FD5FB02778F206C46",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/css/figma.css",
+      "baselineHash": "7DD6B77DCE06920A58B89CE57DB7FCA6A33C0E64404B6117A7C78CDDDEA62F2E",
+      "currentHash": "7DD6B77DCE06920A58B89CE57DB7FCA6A33C0E64404B6117A7C78CDDDEA62F2E",
+      "snapshotHash": "7DD6B77DCE06920A58B89CE57DB7FCA6A33C0E64404B6117A7C78CDDDEA62F2E",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/css/pineglow.css",
+      "baselineHash": "002D76A630BAC963AD1D7F9A0B8589A4444F06FB2D2556B814D534987A19B73D",
+      "currentHash": "002D76A630BAC963AD1D7F9A0B8589A4444F06FB2D2556B814D534987A19B73D",
+      "snapshotHash": "002D76A630BAC963AD1D7F9A0B8589A4444F06FB2D2556B814D534987A19B73D",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/index.html",
+      "baselineHash": "39933134AD98FAFD51B2D22106B5E692371106610BEB62302A68B6938C72D02F",
+      "currentHash": "39933134AD98FAFD51B2D22106B5E692371106610BEB62302A68B6938C72D02F",
+      "snapshotHash": "39933134AD98FAFD51B2D22106B5E692371106610BEB62302A68B6938C72D02F",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/js/api.js",
+      "baselineHash": "6303604F1150BE72B6590071BAD0AE69C7D58E9366741D9581A6DA56F9EF90E6",
+      "currentHash": "6303604F1150BE72B6590071BAD0AE69C7D58E9366741D9581A6DA56F9EF90E6",
+      "snapshotHash": "6303604F1150BE72B6590071BAD0AE69C7D58E9366741D9581A6DA56F9EF90E6",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/js/i18n.js",
+      "baselineHash": "C22558915C9769B0205E5D23D7794D4BF79E380AA524E99A11EC9C8BEBC8E3D2",
+      "currentHash": "C22558915C9769B0205E5D23D7794D4BF79E380AA524E99A11EC9C8BEBC8E3D2",
+      "snapshotHash": "C22558915C9769B0205E5D23D7794D4BF79E380AA524E99A11EC9C8BEBC8E3D2",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/js/launcher.js",
+      "baselineHash": "88B4688524FBB93DE6796502590FEDF94741F80BF36C71C3D8B03E2F0F77E313",
+      "currentHash": "88B4688524FBB93DE6796502590FEDF94741F80BF36C71C3D8B03E2F0F77E313",
+      "snapshotHash": "88B4688524FBB93DE6796502590FEDF94741F80BF36C71C3D8B03E2F0F77E313",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/js/skin3d-core.js",
+      "baselineHash": "3852F56DFC9C178BCBCFA98F453E07A1767F254875917836D64F45F5EB287FE9",
+      "currentHash": "3852F56DFC9C178BCBCFA98F453E07A1767F254875917836D64F45F5EB287FE9",
+      "snapshotHash": "3852F56DFC9C178BCBCFA98F453E07A1767F254875917836D64F45F5EB287FE9",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/js/skin3d.js",
+      "baselineHash": "7DAEB486489FFE731D44AEEDD41A204A8A816CBE4C6AEA2030A257E16E0D7ED1",
+      "currentHash": "7DAEB486489FFE731D44AEEDD41A204A8A816CBE4C6AEA2030A257E16E0D7ED1",
+      "snapshotHash": "7DAEB486489FFE731D44AEEDD41A204A8A816CBE4C6AEA2030A257E16E0D7ED1",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/tests/a11y-keyboard.test.cjs",
+      "baselineHash": "81157BD9300BD0C82A046B9CD6ECBB6EE3CD3EBAC4E66E6A6D34528B8A160999",
+      "currentHash": "81157BD9300BD0C82A046B9CD6ECBB6EE3CD3EBAC4E66E6A6D34528B8A160999",
+      "snapshotHash": "81157BD9300BD0C82A046B9CD6ECBB6EE3CD3EBAC4E66E6A6D34528B8A160999",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/tests/a13-doubles-and-taborder.test.cjs",
+      "baselineHash": "B79DD3F28A52FB50211927AD89FB26A55C2DB0962E39657D29A9C512D9470A3C",
+      "currentHash": "B79DD3F28A52FB50211927AD89FB26A55C2DB0962E39657D29A9C512D9470A3C",
+      "snapshotHash": "B79DD3F28A52FB50211927AD89FB26A55C2DB0962E39657D29A9C512D9470A3C",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/tests/a6-bisect-safety-guidance.test.cjs",
+      "baselineHash": "4B3146E14C0EEF68DDC82B761D9662DB1F930A9C82169AEA298DE858993EA5A7",
+      "currentHash": "4B3146E14C0EEF68DDC82B761D9662DB1F930A9C82169AEA298DE858993EA5A7",
+      "snapshotHash": "4B3146E14C0EEF68DDC82B761D9662DB1F930A9C82169AEA298DE858993EA5A7",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/tests/ai-diagnose.test.cjs",
+      "baselineHash": "169081E6C267E4629FB8AA6ADF3597F3F6E5D1A2B5F452425551839DA5D267E1",
+      "currentHash": "169081E6C267E4629FB8AA6ADF3597F3F6E5D1A2B5F452425551839DA5D267E1",
+      "snapshotHash": "169081E6C267E4629FB8AA6ADF3597F3F6E5D1A2B5F452425551839DA5D267E1",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/tests/api-contract.test.cjs",
+      "baselineHash": "9E6CA4F5295B749E8A05959561117D0BF22A23BB818725AEB54B14068AEBACC6",
+      "currentHash": "9E6CA4F5295B749E8A05959561117D0BF22A23BB818725AEB54B14068AEBACC6",
+      "snapshotHash": "9E6CA4F5295B749E8A05959561117D0BF22A23BB818725AEB54B14068AEBACC6",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/tests/bisect-recovery.test.cjs",
+      "baselineHash": "50D9169FF38D6513E85AA4EE268D2BA4595A3F534984B702D9267DCFF47AFF66",
+      "currentHash": "50D9169FF38D6513E85AA4EE268D2BA4595A3F534984B702D9267DCFF47AFF66",
+      "snapshotHash": "50D9169FF38D6513E85AA4EE268D2BA4595A3F534984B702D9267DCFF47AFF66",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/tests/content-icon.test.cjs",
+      "baselineHash": "CD6164B925734370307BC2F3C9E248A8876B559CC2CE9D8BEDC4DC4F90B1BC88",
+      "currentHash": "CD6164B925734370307BC2F3C9E248A8876B559CC2CE9D8BEDC4DC4F90B1BC88",
+      "snapshotHash": "CD6164B925734370307BC2F3C9E248A8876B559CC2CE9D8BEDC4DC4F90B1BC88",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/tests/current-version-errors.test.cjs",
+      "baselineHash": "F02D59FA8A0CD3FC0D9B90E4E49001DFD3E2E0572984137EC9DB4E5069E023EB",
+      "currentHash": "F02D59FA8A0CD3FC0D9B90E4E49001DFD3E2E0572984137EC9DB4E5069E023EB",
+      "snapshotHash": "F02D59FA8A0CD3FC0D9B90E4E49001DFD3E2E0572984137EC9DB4E5069E023EB",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/tests/diagnostic-history.test.cjs",
+      "baselineHash": "F8047A5A40F161F6BC5BDFA0ADF0C78E9F5122E4A8350F6D7DAE10658CB7020F",
+      "currentHash": "F8047A5A40F161F6BC5BDFA0ADF0C78E9F5122E4A8350F6D7DAE10658CB7020F",
+      "snapshotHash": "F8047A5A40F161F6BC5BDFA0ADF0C78E9F5122E4A8350F6D7DAE10658CB7020F",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/tests/file-recovery.test.cjs",
+      "baselineHash": "50B4F8A7B3C4571D58C2ECCC932DD9D0D21131CB2282144513E57A6A4E4D6FBD",
+      "currentHash": "50B4F8A7B3C4571D58C2ECCC932DD9D0D21131CB2282144513E57A6A4E4D6FBD",
+      "snapshotHash": "50B4F8A7B3C4571D58C2ECCC932DD9D0D21131CB2282144513E57A6A4E4D6FBD",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/tests/goal-core-flow.test.cjs",
+      "baselineHash": "59B8FC0F43CDAC6BCFBBD1F7BA98CD5556D6C791644199961A4A6741F61F3B50",
+      "currentHash": "59B8FC0F43CDAC6BCFBBD1F7BA98CD5556D6C791644199961A4A6741F61F3B50",
+      "snapshotHash": "59B8FC0F43CDAC6BCFBBD1F7BA98CD5556D6C791644199961A4A6741F61F3B50",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/tests/import-cancel.test.cjs",
+      "baselineHash": "CFBA075674DCD3E1EB38F3D8C8411DA5785C2984D8F9491758CA573C161C0A3F",
+      "currentHash": "CFBA075674DCD3E1EB38F3D8C8411DA5785C2984D8F9491758CA573C161C0A3F",
+      "snapshotHash": "CFBA075674DCD3E1EB38F3D8C8411DA5785C2984D8F9491758CA573C161C0A3F",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/tests/instance-removal.test.cjs",
+      "baselineHash": "2F0AE7ECB477176A64E22263239F25CBF31A45F391487494975D89AF86621556",
+      "currentHash": "2F0AE7ECB477176A64E22263239F25CBF31A45F391487494975D89AF86621556",
+      "snapshotHash": "2F0AE7ECB477176A64E22263239F25CBF31A45F391487494975D89AF86621556",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/tests/launcher-behavior.test.cjs",
+      "baselineHash": "60C33214736364488EE21D8D8C517BB6370909CEE331312B349AF846869AEEB1",
+      "currentHash": "60C33214736364488EE21D8D8C517BB6370909CEE331312B349AF846869AEEB1",
+      "snapshotHash": "60C33214736364488EE21D8D8C517BB6370909CEE331312B349AF846869AEEB1",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/tests/launcher-content.test.cjs",
+      "baselineHash": "969A85A53FD5B3C02A0135AE954118010E3E05D65DAD93975025B2920ECB33AE",
+      "currentHash": "969A85A53FD5B3C02A0135AE954118010E3E05D65DAD93975025B2920ECB33AE",
+      "snapshotHash": "969A85A53FD5B3C02A0135AE954118010E3E05D65DAD93975025B2920ECB33AE",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/tests/launcher-v3.test.cjs",
+      "baselineHash": "38976F23D0CC47A8BFF159B22A3BE9FDA5E7F84ED0D75103948CBCD5B7FF75AE",
+      "currentHash": "38976F23D0CC47A8BFF159B22A3BE9FDA5E7F84ED0D75103948CBCD5B7FF75AE",
+      "snapshotHash": "38976F23D0CC47A8BFF159B22A3BE9FDA5E7F84ED0D75103948CBCD5B7FF75AE",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/tests/launcher-v4.test.cjs",
+      "baselineHash": "CE235CD6EA898F65119391FF4F3015165FBA6922BDEC62E139EDF53088331B28",
+      "currentHash": "CE235CD6EA898F65119391FF4F3015165FBA6922BDEC62E139EDF53088331B28",
+      "snapshotHash": "CE235CD6EA898F65119391FF4F3015165FBA6922BDEC62E139EDF53088331B28",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/tests/launcher-v5.test.cjs",
+      "baselineHash": "AD7E4BBF5AAA39F9CD729D03370D7632E48EC51162FA7249E989B86EFE421A6F",
+      "currentHash": "AD7E4BBF5AAA39F9CD729D03370D7632E48EC51162FA7249E989B86EFE421A6F",
+      "snapshotHash": "AD7E4BBF5AAA39F9CD729D03370D7632E48EC51162FA7249E989B86EFE421A6F",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/tests/news-behavior.test.cjs",
+      "baselineHash": "44932878B9B8AB1321FDC0F2A6B3BFF6F43A383BD721F6708BE5BF4D906A8FA8",
+      "currentHash": "44932878B9B8AB1321FDC0F2A6B3BFF6F43A383BD721F6708BE5BF4D906A8FA8",
+      "snapshotHash": "44932878B9B8AB1321FDC0F2A6B3BFF6F43A383BD721F6708BE5BF4D906A8FA8",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/tests/news-link.test.cjs",
+      "baselineHash": "BB760F7FBC69CAA429D02BAD3E68DCA3CB6A59DFC99D9D2E095F818CE1143EE8",
+      "currentHash": "BB760F7FBC69CAA429D02BAD3E68DCA3CB6A59DFC99D9D2E095F818CE1143EE8",
+      "snapshotHash": "BB760F7FBC69CAA429D02BAD3E68DCA3CB6A59DFC99D9D2E095F818CE1143EE8",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/tests/skin3d-core.test.cjs",
+      "baselineHash": "077CF4CDB657E196171E21A1E45AD4EBBB9EE2C3DC055CFCD3C7BE9077E0B246",
+      "currentHash": "077CF4CDB657E196171E21A1E45AD4EBBB9EE2C3DC055CFCD3C7BE9077E0B246",
+      "snapshotHash": "077CF4CDB657E196171E21A1E45AD4EBBB9EE2C3DC055CFCD3C7BE9077E0B246",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/tests/update-recovery.test.cjs",
+      "baselineHash": "F630701CFF2E0C0C03097889A28B26C992DC81FAF375FD50763EC852B4EA26F8",
+      "currentHash": "F630701CFF2E0C0C03097889A28B26C992DC81FAF375FD50763EC852B4EA26F8",
+      "snapshotHash": "F630701CFF2E0C0C03097889A28B26C992DC81FAF375FD50763EC852B4EA26F8",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/vendor/README.md",
+      "baselineHash": "9D4A3B1BAA6A5A10CA003283FEA15C7B4608AB501F11A75AF6180E2CA13C5F2C",
+      "currentHash": "9D4A3B1BAA6A5A10CA003283FEA15C7B4608AB501F11A75AF6180E2CA13C5F2C",
+      "snapshotHash": "9D4A3B1BAA6A5A10CA003283FEA15C7B4608AB501F11A75AF6180E2CA13C5F2C",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/vendor/THREE-LICENSE.txt",
+      "baselineHash": "78396B5FE83D62267384403D46DA1009747088000DEA0C02D4ABFA4EFDC99098",
+      "currentHash": "78396B5FE83D62267384403D46DA1009747088000DEA0C02D4ABFA4EFDC99098",
+      "snapshotHash": "78396B5FE83D62267384403D46DA1009747088000DEA0C02D4ABFA4EFDC99098",
+      "sourceStable": true,
+      "snapshotMatches": true
+    },
+    {
+      "path": "ui/vendor/three.min.js",
+      "baselineHash": "170C6789F43217C96B3170F4B42FAFE135DE7F7CD48497A4218F9757EE1D49FA",
+      "currentHash": "170C6789F43217C96B3170F4B42FAFE135DE7F7CD48497A4218F9757EE1D49FA",
+      "snapshotHash": "170C6789F43217C96B3170F4B42FAFE135DE7F7CD48497A4218F9757EE1D49FA",
+      "sourceStable": true,
+      "snapshotMatches": true
+    }
+  ]
+}

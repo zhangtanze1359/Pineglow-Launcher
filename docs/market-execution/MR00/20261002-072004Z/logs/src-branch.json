@@ -1,0 +1,13 @@
+{
+  "command": "git branch --show-current",
+  "cwd": "D:\\\\松光启动器",
+  "startUtc": "2026-10-02T07:20:37Z",
+  "endUtc": "2026-10-02T07:20:38Z",
+  "durationSec": 1,
+  "exitCode": 0,
+  "stdoutPath": "C:\\\\Users\\\\Administrator\\\\.codex\\\\worktrees\\\\ed41\\\\松光启动器\\\\docs\\\\market-execution\\\\MR00\\\\20261002-072004Z\\\\logs\\\\src-branch.json.stdout.txt",
+  "stderrPath": "C:\\\\Users\\\\Administrator\\\\.codex\\\\worktrees\\\\ed41\\\\松光启动器\\\\docs\\\\market-execution\\\\MR00\\\\20261002-072004Z\\\\logs\\\\src-branch.json.stderr.txt",
+  "stdoutLines": 2,
+  "stderrLines": 1,
+  "exitCode": 0
+}

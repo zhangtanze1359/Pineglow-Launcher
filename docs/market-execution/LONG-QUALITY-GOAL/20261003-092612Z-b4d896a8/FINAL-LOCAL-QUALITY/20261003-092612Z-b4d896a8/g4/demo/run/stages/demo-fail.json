@@ -1,0 +1,46 @@
+{
+    "schemaVersion":  1,
+    "id":  "demo-fail",
+    "runId":  "demo-pass2",
+    "fingerprint":  "40214E726103376A75EAB5DAFBD3821274563338791B4066AC7E100D141F6A7C",
+    "inputManifestSha256":  "0999050FB2E0DADB89E14C02707B33CB0D8225F3BCF56EA2941D8EE6E1C73089",
+    "command":  "C:\\Program Files\\nodejs\\node.exe C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\g4\\demo\\synth-stage.cjs results/demo-fail.trx 0 4 4 0 0",
+    "workingDirectory":  "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-GOAL\\20261003-092612Z-b4d896a8\\g4\\demo\\run",
+    "startUtc":  "2026-10-03T10:25:51Z",
+    "endUtc":  "2026-10-03T10:25:51Z",
+    "exitCode":  0,
+    "timedOut":  false,
+    "stillRunning":  false,
+    "counters":  {
+                     "total":  4,
+                     "executed":  4,
+                     "passed":  4,
+                     "failed":  0,
+                     "notExecuted":  0
+                 },
+    "trx":  "results/demo-fail.trx",
+    "artifacts":  [
+                      {
+                          "path":  "results/demo-fail.trx",
+                          "sha256":  "F2702DFE1EA856A551C480AC370F62976169A2BE53EA16157D5321E259B39987",
+                          "sizeBytes":  226
+                      }
+                  ],
+    "rawEvidence":  [
+                        {
+                            "path":  "demo-fail.stdout.log",
+                            "sha256":  "3AD339037293CC49FC5C93090AF01DAE534C18266B49F36BFB4632B5D6A21F15",
+                            "sizeBytes":  37
+                        },
+                        {
+                            "path":  "demo-fail.stderr.log",
+                            "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                            "sizeBytes":  0
+                        }
+                    ],
+    "reasons":  [
+
+                ],
+    "status":  "COMPLETED",
+    "reused":  false
+}

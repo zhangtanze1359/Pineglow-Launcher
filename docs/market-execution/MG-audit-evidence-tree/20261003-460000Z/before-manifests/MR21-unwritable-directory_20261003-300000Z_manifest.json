@@ -1,0 +1,119 @@
+﻿{
+    "runId":  "20261003-300000Z",
+    "task":  "MR21 补测之二：目录不可写与路径无效（A12 剩余项）",
+    "generatedUtc":  "2026-10-03T01:24:16Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "gap-register A12 remainder (unwritable directory)",
+    "result":  {
+                   "testsAdded":  3,
+                   "green":  "3 passed / 0 failed",
+                   "csharpFull":  "804 passed / 0 failed / 0 skipped (801 + 3)",
+                   "nodeFull":  "230 passed / 0 failed (18 files)",
+                   "productionCodeNetChanges":  false,
+                   "productionFilesRestored":  "LocalApiService.cs and ModService.cs byte-identical after all three REDs",
+                   "currentDriftNumbers":  "mg0: 264/1/98/0 ; mg1: 74/0/75/0 ; mg2: 264/1/97/0 ; mg3: 74/0/75/0 ; ledger audit exit 0"
+               },
+    "measured":  {
+                     "modsPathIsAFile":  "GET mods -\u003e 500 with a readable error (Cannot create ... because a file or directory with the same name already exists). The file was left byte-identical - no pretending success.",
+                     "gameDirUnderAFile":  "POST register with \u003cfile\u003e\\sub -\u003e 400 \"目录不存在，无法挂回：...\" (readable, actionable)",
+                     "dataSafety":  "after both failing operations the whole synthetic tree (3 files) is byte-identical",
+                     "mechanism":  "both failures flow through the top-level mapping LocalApiService.cs:291-296 (catch -\u003e 500 { error })"
+                 },
+    "injectionChoice":  "Deterministic and ACL-free: make the path that should be a DIRECTORY be a FILE. A real icacls /deny was deliberately NOT used (it mutates permissions and, if the removal fails, leaves an unwritable temp dir) - stated as still-untested.",
+    "redBaselines":  {
+                         "red1":  "remove the Directory.Exists check in register -\u003e 1 failed (case 2)",
+                         "red2":  "swallow only the CreateDirectory failure in ModService -\u003e 0 failed: NOT a silent-success scenario, because the following EnumerateFiles still throws (the error just changes source). Reported honestly as a RED that did not go red.",
+                         "red3":  "make the ROUTE swallow the failure and return an empty mod list (200) -\u003e 1 failed with \"mods 路径是文件时不得假装成功返回 200\" - this is the RED that proves the test catches silent success."
+                     },
+    "selfFoundIssue":  "Case 3 first failed on MY OWN precondition (I asserted \u003e= 4 fixture files while the fixture has exactly 3: mods, options.txt, saves/world1/level.dat). Fixed to == 3 and print the list. Same class as the round-38 egress-count and round-39 quoting mistakes: count the facts before writing a boundary value.",
+    "stillNotCovered":  [
+                            "a real ACL deny (icacls /deny) was not tested",
+                            "read-only media / full disk not tested",
+                            "the WebView2-missing path (installed here)",
+                            "real desktop rendering",
+                            "an actionable \"port in use\" message still not implemented (product decision)"
+                        ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "AE94D8129CBD5A6B382C3D618A094E46CB1533AF0D6CF09EE344B15E301B7728",
+                      "sizeBytes":  6218
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "3C869BCA927645F3A7C54AECA0D95B03397E8C50479771366AC7DB3EAC2E8A18",
+                      "sizeBytes":  13708
+                  },
+                  {
+                      "path":  "green/01-unwritable-first.log",
+                      "sha256":  "D3ACFE3B13EB9D45174FDEEB3E9AF4162AACEB638EEE1E195F0D410075278A38",
+                      "sizeBytes":  2543
+                  },
+                  {
+                      "path":  "green/02-unwritable-final.log",
+                      "sha256":  "A8090A359F877D31A7B7FC9298B27378429FEF19EBCA2219F3B045B92658EFE2",
+                      "sizeBytes":  1668
+                  },
+                  {
+                      "path":  "green/03-csharp-full.log",
+                      "sha256":  "ECA05D1A0B87018C8F5DF19BAF4524159332823FB01F6D4B18D66CA4536A5E17",
+                      "sizeBytes":  490
+                  },
+                  {
+                      "path":  "green/04-node-full.log",
+                      "sha256":  "E8A3C74B0DC8A8BF7C6B8DE7CFEFE5AED7AFFEB2B4D71442DEC2756B0AE7C839",
+                      "sizeBytes":  23800
+                  },
+                  {
+                      "path":  "green/05-unwritable-final.log",
+                      "sha256":  "18DDB4613F8552FE8D14FFC4FF3DEDA3E523DCB68451CE53DFD780B08DEF3275",
+                      "sizeBytes":  1668
+                  },
+                  {
+                      "path":  "green/06-csharp-full-final.log",
+                      "sha256":  "6B82984B69A056F904139730C5D51C084FD4F730168AB7CC3AE4BD769F8F5EC9",
+                      "sizeBytes":  978
+                  },
+                  {
+                      "path":  "green/07-node-full.log",
+                      "sha256":  "03BC731CD82FE504FD64C0DC4F8E9CA3CD61336953843BDFCFE64EC010A677CE",
+                      "sizeBytes":  23794
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "5425549A527A846D81BCC2F6594B67D4FB7EE6B16B6AD57A88A107C1E8D40655",
+                      "sizeBytes":  227
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "38A9909BCB90205CB515693D8F3E19C51F96016724F44B2924C2D568968B0A83",
+                      "sizeBytes":  115955
+                  },
+                  {
+                      "path":  "red/01-red-no-dir-check.log",
+                      "sha256":  "5408DE6AD709C804621081ECD968218D8E1A34B2E1BE50A4A75DC9BA4C5450DA",
+                      "sizeBytes":  3069
+                  },
+                  {
+                      "path":  "red/02-red-swallow-mods-error.log",
+                      "sha256":  "AE309CD0B15A0813900041E743EB60A2441CFF64454FD4FB5009DBD80755FE1A",
+                      "sizeBytes":  1610
+                  },
+                  {
+                      "path":  "red/03-red-silent-success.log",
+                      "sha256":  "D0DA1CF76FAE49DB2AA35834CF75BB948821548EA8726592AB71100FFDDBFB07",
+                      "sizeBytes":  3081
+                  },
+                  {
+                      "path":  "red/LocalApiService.cs.before",
+                      "sha256":  "DDAC2BD86D71BF6806DEC5AEE7F9C279F279BC725DF88D0A71758795706ABD43",
+                      "sizeBytes":  190620
+                  },
+                  {
+                      "path":  "red/ModService.cs.before",
+                      "sha256":  "7464A8CF83EEE3D261C323A9985FCF19EF168E441476729A8A7C6314EE94B13F",
+                      "sizeBytes":  16636
+                  }
+              ]
+}

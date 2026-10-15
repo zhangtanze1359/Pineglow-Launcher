@@ -1,0 +1,122 @@
+<!-- PG_CLOSURE_LEGACY_UI --><!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minecraft Launcher</title>
+<link rel="stylesheet" href="css/figma.css">
+</head>
+<body>
+<div class="win">
+	<!-- ============ 标题栏 ============ -->
+	<header class="title-bar" id="titleBar">
+		<div class="brand">
+			<span class="brand-pixel"></span>
+			<span class="brand-name">MINECRAFT</span>
+			<span class="brand-sub">LAUNCHER v2.44</span>
+		</div>
+		<div class="window-controls">
+			<button class="wc wc-min" id="btnMinimize" aria-label="最小化"><svg viewBox="0 0 12 12"><path d="M2 6h8"/></svg></button>
+			<button class="wc wc-max" id="btnMaximize" aria-label="最大化"><svg viewBox="0 0 12 12"><rect x="2" y="2" width="8" height="8" rx="1"/></svg></button>
+			<button class="wc wc-close" id="btnClose" aria-label="关闭"><svg viewBox="0 0 12 12"><path d="M3 3l6 6M9 3l-6 6"/></svg></button>
+		</div>
+	</header>
+
+	<!-- ============ 主区 ============ -->
+	<div class="main-row">
+		<!-- 侧边栏 -->
+		<aside class="sidebar">
+			<div class="profile">
+				<div class="avatar" id="profileAvatar"></div>
+				<div class="profile-info">
+					<span class="profile-name" id="profileName">Steve_Adv</span>
+					<span class="profile-status"><span class="status-dot"></span><span id="profileStatus">Online</span></span>
+				</div>
+			</div>
+
+			<nav class="navigation" id="navigation">
+				<span class="nav-group-label" data-i18n="nav.group.game">GAME</span>
+				<button class="nav-item active" data-nav="home">
+					<span class="nav-ico nav-ico-play"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8V4Z"/></svg></span>
+					<span class="nav-text" data-i18n="nav.home">Play</span>
+				</button>
+				<button class="nav-item" data-nav="installations">
+					<span class="nav-ico"><svg viewBox="0 0 24 24"><path d="M4 5a1 1 0 0 1 1-1h5l2 2h7a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5Z"/></svg></span>
+					<span class="nav-text" data-i18n="nav.installations">Installations</span>
+				</button>
+				<button class="nav-item" data-nav="worlds">
+					<span class="nav-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg></span>
+					<span class="nav-text" data-i18n="nav.worlds">Worlds</span>
+				</button>
+				<button class="nav-item" data-nav="servers">
+					<span class="nav-ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/><path d="M7 7.5h.01M7 16.5h.01"/></svg></span>
+					<span class="nav-text" data-i18n="nav.servers">Servers</span>
+				</button>
+
+				<span class="nav-group-label" data-i18n="nav.group.library">LIBRARY</span>
+				<button class="nav-item" data-nav="content">
+					<span class="nav-ico"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 17l9 5 9-5"/></svg></span>
+					<span class="nav-text" data-i18n="nav.content">Content</span>
+				</button>
+				<button class="nav-item" data-nav="skins">
+					<span class="nav-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M5 21v-1a6 6 0 0 1 6-6h2a6 6 0 0 1 6 6v1"/></svg></span>
+					<span class="nav-text" data-i18n="nav.skins">Skins</span>
+				</button>
+				<button class="nav-item" data-nav="downloads">
+					<span class="nav-ico"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"/></svg></span>
+					<span class="nav-text" data-i18n="nav.downloads">Downloads</span>
+				</button>
+				<button class="nav-item" data-nav="news">
+					<span class="nav-ico"><svg viewBox="0 0 24 24"><path d="M4 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5Z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>
+					<span class="nav-text" data-i18n="nav.news">News</span>
+				</button>
+				<button class="nav-item" data-nav="settings">
+					<span class="nav-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 13a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1.08-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1.08 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
+					<span class="nav-text" data-i18n="nav.settings">Settings</span>
+				</button>
+			</nav>
+
+			<div class="sidebar-footer">
+				<button class="lang-toggle" id="btnLangToggle" aria-label="Language">
+					<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg>
+					<span id="langToggleText" data-i18n="lang.toggle">EN</span>
+				</button>
+				<div class="realms-status">
+					<svg viewBox="0 0 24 24"><path d="M3 17l4-4 3 3 5-6 6 7"/></svg>
+					<span data-i18n="sidebar.realms">Realms Connection Stable</span>
+				</div>
+			</div>
+		</aside>
+
+		<!-- 内容面板 -->
+		<section class="content-panel" id="contentPanel">
+			<!-- Play -->
+			<div class="view" id="view-home"></div>
+			<!-- Installations -->
+			<div class="view" id="view-installations" hidden></div>
+			<!-- Worlds -->
+			<div class="view" id="view-worlds" hidden></div>
+			<!-- Servers -->
+			<div class="view" id="view-servers" hidden></div>
+			<!-- Content -->
+			<div class="view" id="view-content" hidden></div>
+			<!-- Skins -->
+			<div class="view" id="view-skins" hidden></div>
+			<!-- Downloads -->
+			<div class="view" id="view-downloads" hidden></div>
+			<!-- News -->
+			<div class="view" id="view-news" hidden></div>
+			<!-- Settings -->
+			<div class="view" id="view-settings" hidden></div>
+		</section>
+	</div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="modal-host" id="modalHost" hidden></div>
+
+<script src="js/i18n.js"></script>
+<script src="js/api.js"></script>
+<script src="js/launcher.js"></script>
+</body>
+</html>

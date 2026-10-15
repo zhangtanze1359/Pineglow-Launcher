@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 1,
+  "scope": "windows-local-offline-quality",
+  "runId": "20261003-092612Z-b4d896a8",
+  "note": [
+    "Real stage definitions for the G4 run. Every command must be executed with cwd = a freshly materialised GUID ExecutionRoot and with {runDir} pointing at the run package, so that TRX/results never land in D:\\松光启动器.",
+    "Every count below is a MINIMUM read from the real output of the previous run (g3): 13 / 5 / 6 / 49 / 266 / 19. A lower count fails the stage; the recorded counters are the measured ones, not these minima.",
+    "The seal stages (terminal capture -> seal -> out-of-package audit) must run only after the bound input set stops changing; the final package does not exist yet, so the audit stage is expected to fail until then."
+  ],
+  "stages": [
+    {
+      "id": "g4-build-tests",
+      "file": "dotnet",
+      "argv": [
+        "build",
+        "dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj",
+        "-c",
+        "Release"
+      ],
+      "cwd": "{executionRoot}",
+      "produces": [],
+      "expect": {
+        "forbidPattern": "error [A-Z]{2}[0-9]{4}"
+      }
+    },
+    {
+      "id": "g4-secrets",
+      "file": "dotnet",
+      "argv": [
+        "test",
+        "dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj",
+        "-c",
+        "Release",
+        "--no-build",
+        "--filter",
+        "FullyQualifiedName~ConfigPreservationTests|FullyQualifiedName~SecretStoreBackendTests",
+        "--logger",
+        "trx;LogFileName=secrets.trx",
+        "--results-directory",
+        "{runDir}/results"
+      ],
+      "cwd": "{executionRoot}",
+      "produces": [
+        "results/secrets.trx"
+      ],
+      "expect": {
+        "trx": "results/secrets.trx",
+        "minTests": 13,
+        "maxSkipped": 0
+      }
+    },
+    {
+      "id": "g4-ordinary-r2",
+      "file": "dotnet",
+      "argv": [
+        "test",
+        "dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj",
+        "-c",
+        "Release",
+        "--no-build",
+        "--filter",
+        "FullyQualifiedName~RollbackFailure_HttpExposesStructuredRecoveryFields|FullyQualifiedName~RollbackSuccess_HttpReportsNoRecoveryNeeded|FullyQualifiedName~MetadataFailure_HttpExposesStructuredFields|FullyQualifiedName~ModReplaceUndo_NormalRestore_StillWorksWithTrustedRoot|FullyQualifiedName~SecretBackend_ConcurrentAsyncFlowsStayIsolated",
+        "--logger",
+        "trx;LogFileName=ordinary-r2.trx",
+        "--results-directory",
+        "{runDir}/results"
+      ],
+      "cwd": "{executionRoot}",
+      "produces": [
+        "results/ordinary-r2.trx"
+      ],
+      "expect": {
+        "trx": "results/ordinary-r2.trx",
+        "minTests": 5,
+        "maxSkipped": 0
+      }
+    },
+    {
+      "id": "g4-recovery-normal",
+      "file": "dotnet",
+      "argv": [
+        "test",
+        "dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj",
+        "-c",
+        "Release",
+        "--no-build",
+        "--filter",
+        "FullyQualifiedName~DeleteMod_QuarantinesJarAndSidecar_KeepsByteIdenticalCopies|FullyQualifiedName~DeleteMod_DisabledMod_QuarantinesDotDisabledName|FullyQualifiedName~Restore_PutsJarAndSidecarBackByteIdentical|FullyQualifiedName~Restore_Twice_IsIdempotent_AndKeepsFileContent|FullyQualifiedName~Restore_WithDifferentFileAtOriginalPath_ReportsConflictAndDoesNotOverwrite|FullyQualifiedName~DeleteMod_LeavesEveryOtherFileUntouched",
+        "--logger",
+        "trx;LogFileName=recovery-normal.trx",
+        "--results-directory",
+        "{runDir}/results"
+      ],
+      "cwd": "{executionRoot}",
+      "produces": [
+        "results/recovery-normal.trx"
+      ],
+      "expect": {
+        "trx": "results/recovery-normal.trx",
+        "minTests": 6,
+        "maxSkipped": 0
+      }
+    },
+    {
+      "id": "g4-flows",
+      "file": "dotnet",
+      "argv": [
+        "test",
+        "dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj",
+        "-c",
+        "Release",
+        "--no-build",
+        "--filter",
+        "(FullyQualifiedName~InstanceRemovalTests|FullyQualifiedName~ImportCancellationTests|FullyQualifiedName~DiagnosticReportTests|FullyQualifiedName~BisectRecoveryTests|FullyQualifiedName~UpdateRecoveryTests|FullyQualifiedName~RecoveryVersionDisplayEndToEndTests)&FullyQualifiedName!~ImportWithALiveTokenButCancelledMidway",
+        "--logger",
+        "trx;LogFileName=flows.trx",
+        "--results-directory",
+        "{runDir}/results"
+      ],
+      "cwd": "{executionRoot}",
+      "produces": [
+        "results/flows.trx"
+      ],
+      "expect": {
+        "trx": "results/flows.trx",
+        "minTests": 49,
+        "maxSkipped": 0
+      }
+    },
+    {
+      "id": "g4-node-all",
+      "file": "node",
+      "argv": [
+        "--test",
+        "--test-reporter=tap",
+        "ui/tests/*.test.cjs"
+      ],
+      "cwd": "{executionRoot}",
+      "produces": [],
+      "expect": {
+        "countPattern": "# pass (\\d+)",
+        "minCount": 266,
+        "forbidPattern": "# fail [1-9]"
+      },
+      "note": "A directory argument makes node treat it as an entry module (MODULE_NOT_FOUND); the quoted glob is expanded by node itself and matched 266/266 in the seal copy."
+    },
+    {
+      "id": "g4-verifyhost-build",
+      "file": "dotnet",
+      "argv": [
+        "build",
+        "dev/PineglowLauncher/VerifyHost/VerifyHost.csproj",
+        "-c",
+        "Release"
+      ],
+      "cwd": "{executionRoot}",
+      "produces": [],
+      "expect": {
+        "forbidPattern": "error [A-Z]{2}[0-9]{4}"
+      }
+    },
+    {
+      "id": "g4-bisect-smoke",
+      "file": "dev/PineglowLauncher/VerifyHost/bin/Release/net10.0/VerifyHost.exe",
+      "argv": [
+        "--bisect-smoke"
+      ],
+      "cwd": "{executionRoot}",
+      "produces": [],
+      "expect": {
+        "countPattern": "\\[PASS\\]",
+        "minCount": 19,
+        "forbidPattern": "\\[FAIL\\]"
+      }
+    }
+  ]
+}

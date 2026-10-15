@@ -1,0 +1,7 @@
+{
+  "status": "INTERRUPTED_SUPERSEDED_INPUT",
+  "pid": 29812,
+  "snapshot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-b5252d41d9e3481e8085d75818ad6498",
+  "reason": "CV07 Authorization short-token fix changed validator and test inputs; original restore was waiting on local existing proxy; final r2 retained",
+  "time": "2026-10-13T16:37:30.4086699+08:00"
+}

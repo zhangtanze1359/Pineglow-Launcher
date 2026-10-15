@@ -1,0 +1,15 @@
+﻿{
+    "probe":  "ui-level-cdp",
+    "fixture":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\install",
+    "exe":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\install\\Pineglow.Launcher.exe",
+    "apiPort":  63877,
+    "debugPort":  63878,
+    "chrome":  "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "healthReady":  true,
+    "tokenFound":  true,
+    "probeExit":  1,
+    "probeStdout":  "{\r\n  \"ok\": false,\r\n  \"visitedViewCount\": 2,\r\n  \"viewsWithJsErrors\": 0,\r\n  \"exceptions\": 0,\r\n  \"views\": [\r\n    {\r\n      \"label\": \"内容中心\",\r\n      \"clicked\": true,\r\n      \"heading\": \"PINEGLOW\\n\\t\\t\\t松光启动器\",\r\n      \"textLen\": 3383,\r\n      \"shot\": 167738,\r\n      \"jsErr\": 0,\r\n      \"httpErr\": 1\r\n    },\r\n    {\r\n      \"label\": \"下载\",\r\n      \"clicked\": true,\r\n      \"heading\": \"PINEGLOW\\n\\t\\t\\t松光启动器\",\r\n      \"textLen\": 1615,\r\n      \"shot\": 60582,\r\n      \"jsErr\": 0,\r\n      \"httpErr\": 0\r\n    }\r\n  ]\r\n}\r\n",
+    "probeStderr":  "",
+    "ownedProcessesStopped":  true,
+    "timeHK":  "2026-10-11T15:02:24.7206226"
+}

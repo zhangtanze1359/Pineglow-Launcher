@@ -1,0 +1,13 @@
+{
+  "scope": "Actual current source helpers; synthetic inputs; no live Java/network/game invocation",
+  "stringOnlyJavaMajor": 17,
+  "metadataJavaMajor": 21,
+  "inputOptionCount": 2,
+  "outputOptionCount": 1,
+  "output": [
+    "--add-opens",
+    "java.base/java.util.jar=cpw.mods.securejarhandler",
+    "java.base/java.lang.invoke=cpw.mods.securejarhandler"
+  ],
+  "defectsReproduced": true
+}

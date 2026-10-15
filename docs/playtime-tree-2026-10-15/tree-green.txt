@@ -1,0 +1,15 @@
+✔ playtime: hierarchy separates instance identities and groups actual sessions by descending date (17.3756ms)
+✔ playtime: tree conserves cross-midnight duration and counts the original session once (0.9625ms)
+✔ playtime: range summary counts unique sessions, active days and clipped longest duration (0.1852ms)
+✔ playtime: ISO calendar dates reject rollover and custom range preserves 120 day limit (1.2409ms)
+✔ playtime: Monday based week and rolling range include today exactly once (0.1282ms)
+✔ playtime: midnight sessions split actual seconds across dates without inventing history (0.1661ms)
+✔ playtime: treemap conserves area, contains rectangles and has no overlaps (0.4384ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 81.737

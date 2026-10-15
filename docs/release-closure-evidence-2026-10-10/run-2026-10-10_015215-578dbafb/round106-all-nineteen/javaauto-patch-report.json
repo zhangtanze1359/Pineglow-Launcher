@@ -1,0 +1,18 @@
+﻿[
+    {
+        "label":  "P-JAVAAUTO 1/4 the helper",
+        "ok":  true
+    },
+    {
+        "label":  "P-JAVAAUTO 2/4 wrong version -\u003e auto-install",
+        "ok":  true
+    },
+    {
+        "label":  "P-JAVAAUTO 3/4 no Java -\u003e auto-install",
+        "ok":  true
+    },
+    {
+        "label":  "P-JAVAAUTO 4/4 configured paths must exist",
+        "ok":  true
+    }
+]

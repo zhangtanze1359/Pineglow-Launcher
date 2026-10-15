@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "sourceRoot": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\demo\\fixture",
+  "executionRoot": "C:\\Users\\Administrator\\.codex\\worktrees\\34ca\\松光启动器\\docs\\market-execution\\LONG-QUALITY-REWORK\\20261004-092504Z-dab448e2\\r3\\demo\\fixture",
+  "inputs": [
+    {
+      "path": "source.txt",
+      "sizeBytes": 12,
+      "sha256": "8169690BDFE1A0422CCCC0E7E8E8664F8BC48EB0C1947A3EBD4E9306A165BE06"
+    }
+  ]
+}

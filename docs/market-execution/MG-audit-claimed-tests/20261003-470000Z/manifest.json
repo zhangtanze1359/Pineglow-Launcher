@@ -1,0 +1,69 @@
+{
+    "runId":  "20261003-470000Z",
+    "task":  "声称的用例名 ↔ 真实用例名 交叉审计（新增验收侧工具）",
+    "generatedUtc":  "2026-10-03T04:12:00Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "验收侧第二项：deliverable 点名的用例是否真实存在（幽灵用例）",
+    "result":  "49 份 deliverable / 71 个候选名 → 0 幽灵；2 个 A16 修复前的旧名有理由地被排除（MR04 已写明删除/改名）",
+    "redBaseline":  "注入 Totally_Fake_GhostTest_Name_ThatDoesNotExist → exit 1 并精确点名；注入后逐字节还原",
+    "selfFoundIssues":  [
+                            "空文件导致 regex 抛异常 → 加 IsNullOrEmpty 守卫",
+                            "全大写常量误报（6）→ 要求含小写",
+                            "纯小写状态字符串误报（1）→ 要求含大写（PascalCase）"
+                        ],
+    "verification":  [
+                         "audit-claimed-tests: exit 0",
+                         "audit-evidence-tree: exit 0",
+                         "audit-plan-ledger: exit 0",
+                         "白名单八类计数一致"
+                     ],
+    "stillNotCovered":  [
+                            "用例存在 ≠ 用例通过（未校验断言内容）",
+                            "未检查反向（有用例但没被点名）",
+                            "中文 JS 标题不参与候选",
+                            "deliverable 里的数字（如 RED → 2 失败）未校验"
+                        ],
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "427F943575B4EB9DB8494495BF57A285646AE562B03EB7EE8BC5DA0912BF9295",
+                      "sizeBytes":  4926
+                  },
+                  {
+                      "path":  "green/audit-claimed-tests.log",
+                      "sha256":  "68BBA21F7E20541AADE2CA0F0FCA046F3C2950C1B99045738C5902BEF27B8B39",
+                      "sizeBytes":  482
+                  },
+                  {
+                      "path":  "green/audit-evidence-tree.log",
+                      "sha256":  "BE0A2D81A02E75C22AE4BD66CBEC2AF7D2607EC696DC5CC8ABFFB853F9DABD28",
+                      "sizeBytes":  577
+                  },
+                  {
+                      "path":  "green/audit-plan-ledger.log",
+                      "sha256":  "90B26BCE51330CCB317DE3A53E75C2AC63564FCE376F8A706A1EF08376861825",
+                      "sizeBytes":  538
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "14911C457647513585A016C65E97166A0DFF8B9DC70F29E9AED3518D0679FD8F",
+                      "sizeBytes":  301
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "B1C0BF1805A22519F308AC532B1362EB82BD1A10AB4A6ED2C4058F58C5AFE898",
+                      "sizeBytes":  116463
+                  },
+                  {
+                      "path":  "green/target-deliverable.md.fixed",
+                      "sha256":  "3936CA36E071338CAD59E460EF9FD028591778C3AE3CE5628C1733EE1C6C9411",
+                      "sizeBytes":  5730
+                  },
+                  {
+                      "path":  "red/01-red-injected-ghost.log",
+                      "sha256":  "5B623CD4B6A1001E0C397E3FB6D562F575485442680C4F4A547108AEEEE8F0E6",
+                      "sizeBytes":  487
+                  }
+              ]
+}

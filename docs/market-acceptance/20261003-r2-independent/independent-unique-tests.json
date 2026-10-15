@@ -1,0 +1,30 @@
+{
+  "executed": 24,
+  "unique": 24,
+  "names": [
+    "Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.RollbackFailure_HttpExposesStructuredRecoveryFields",
+    "Pineglow.Launcher.Tests.ConfigPreservationTests.LoadAsync_MustNotCreateOrModifyTheRealCredentialStore",
+    "Pineglow.Launcher.Tests.ConfigPreservationTests.LoadAsync_FillsUpdateUrl_OnlyWhenItIsBlank",
+    "Pineglow.Launcher.Tests.SecretStoreBackendTests.InvalidNames_AreRejectedBeforeReachingAnyBackend",
+    "Pineglow.Launcher.Tests.ConfigPreservationTests.LoadAsync_PreservesEveryNonSecretField_FromAnExistingConfig",
+    "Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.MetadataFailure_HttpExposesStructuredFields",
+    "Pineglow.Launcher.Tests.ConfigPreservationTests.LoadAsync_DoesNotInjectADefaultInstance_WhenInstancesExist",
+    "Pineglow.Launcher.Tests.SecretStoreBackendTests.Load_MissingName_ReturnsEmptyString_AndGoesThroughTheInjectedBackend",
+    "Pineglow.Launcher.Tests.SecretStoreBackendTests.OverrideScope_NestsAndRestores_ThePreviousBackend",
+    "Pineglow.Launcher.Tests.SecretStoreBackendTests.ProcessDefaultBackend_IsTheInMemoryTestBackend_NotTheNativeOne",
+    "Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.ModReplaceUndo_NormalRestore_StillWorksWithTrustedRoot",
+    "Pineglow.Launcher.Tests.SecretStoreBackendTests.ProductionBackend_IsNeverEntered_WhenTheIsolatedBackendIsArmed",
+    "Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.SecretBackend_ConcurrentAsyncFlowsStayIsolated",
+    "Pineglow.Launcher.Tests.RemediationBoundaryRegressionTests.RollbackSuccess_HttpReportsNoRecoveryNeeded",
+    "Pineglow.Launcher.Tests.SecretStoreBackendTests.BackendFailures_Propagate_InsteadOfBeingSwallowed",
+    "Pineglow.Launcher.Tests.SecretStoreBackendTests.WriteThenRead_RoundTrips_WithTheSameKeyNamesAsProduction",
+    "Pineglow.Launcher.Tests.ConfigPreservationTests.LoadAsync_IfItWritesBack_StillPreservesExistingFields",
+    "Pineglow.Launcher.Tests.SecretStoreBackendTests.Save_EmptyOrNull_DeletesThroughTheInjectedBackend",
+    "Pineglow.Launcher.Tests.FileRecoveryTests.Restore_Twice_IsIdempotent_AndKeepsFileContent",
+    "Pineglow.Launcher.Tests.FileRecoveryTests.DeleteMod_DisabledMod_QuarantinesDotDisabledName",
+    "Pineglow.Launcher.Tests.FileRecoveryTests.Restore_WithDifferentFileAtOriginalPath_ReportsConflictAndDoesNotOverwrite",
+    "Pineglow.Launcher.Tests.FileRecoveryTests.Restore_PutsJarAndSidecarBackByteIdentical",
+    "Pineglow.Launcher.Tests.FileRecoveryTests.DeleteMod_LeavesEveryOtherFileUntouched",
+    "Pineglow.Launcher.Tests.FileRecoveryTests.DeleteMod_QuarantinesJarAndSidecar_KeepsByteIdenticalCopies"
+  ]
+}

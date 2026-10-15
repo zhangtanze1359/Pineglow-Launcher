@@ -1,0 +1,16 @@
+{
+  "root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\dsh-audit-fixtures-ac314d5531c141f1a23c9a2757d8bfa2\\bad-detached",
+  "manifestCount": 1,
+  "fileEntries": 1,
+  "selfEntries": [],
+  "knownMismatches": [],
+  "failures": [],
+  "runs": [
+    {
+      "manifest": "RUN-1/manifest.json",
+      "package": "RUN-1",
+      "filesChecked": 1,
+      "declaredRunId": "RUN-1"
+    }
+  ]
+}

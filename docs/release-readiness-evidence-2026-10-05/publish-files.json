@@ -1,0 +1,66 @@
+[
+  {
+    "FullName": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-66830ccdb8284f699212aa1a04f44ced\\dist\\av_libglesv2.dll",
+    "Length": 5394096
+  },
+  {
+    "FullName": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-66830ccdb8284f699212aa1a04f44ced\\dist\\libHarfBuzzSharp.dll",
+    "Length": 1816088
+  },
+  {
+    "FullName": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-66830ccdb8284f699212aa1a04f44ced\\dist\\libHarfBuzzSharp.pdb",
+    "Length": 20918272
+  },
+  {
+    "FullName": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-66830ccdb8284f699212aa1a04f44ced\\dist\\libSkiaSharp.dll",
+    "Length": 11628896
+  },
+  {
+    "FullName": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-66830ccdb8284f699212aa1a04f44ced\\dist\\libSkiaSharp.pdb",
+    "Length": 84033536
+  },
+  {
+    "FullName": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-66830ccdb8284f699212aa1a04f44ced\\dist\\Pineglow.Launcher.exe",
+    "Length": 45828872
+  },
+  {
+    "FullName": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-66830ccdb8284f699212aa1a04f44ced\\dist\\UI\\index.html",
+    "Length": 7221
+  },
+  {
+    "FullName": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-66830ccdb8284f699212aa1a04f44ced\\dist\\UI\\css\\figma.css",
+    "Length": 50949
+  },
+  {
+    "FullName": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-66830ccdb8284f699212aa1a04f44ced\\dist\\UI\\js\\api.js",
+    "Length": 66589
+  },
+  {
+    "FullName": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-66830ccdb8284f699212aa1a04f44ced\\dist\\UI\\js\\i18n.js",
+    "Length": 60744
+  },
+  {
+    "FullName": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-66830ccdb8284f699212aa1a04f44ced\\dist\\UI\\js\\launcher.js",
+    "Length": 203877
+  },
+  {
+    "FullName": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-66830ccdb8284f699212aa1a04f44ced\\dist\\UI\\js\\skin3d-core.js",
+    "Length": 2262
+  },
+  {
+    "FullName": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-66830ccdb8284f699212aa1a04f44ced\\dist\\UI\\js\\skin3d.js",
+    "Length": 10589
+  },
+  {
+    "FullName": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-66830ccdb8284f699212aa1a04f44ced\\dist\\UI\\vendor\\README.md",
+    "Length": 479
+  },
+  {
+    "FullName": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-66830ccdb8284f699212aa1a04f44ced\\dist\\UI\\vendor\\THREE-LICENSE.txt",
+    "Length": 1153
+  },
+  {
+    "FullName": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-66830ccdb8284f699212aa1a04f44ced\\dist\\UI\\vendor\\three.min.js",
+    "Length": 669884
+  }
+]

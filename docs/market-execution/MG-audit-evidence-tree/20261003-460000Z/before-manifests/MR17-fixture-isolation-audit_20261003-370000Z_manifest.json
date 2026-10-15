@@ -1,0 +1,80 @@
+﻿{
+    "runId":  "20261003-370000Z",
+    "task":  "测试夹具隔离清点与共享守卫（A21）",
+    "generatedUtc":  "2026-10-03T02:30:00Z",
+    "sourceRoot":  "D:\\松光启动器",
+    "headSource":  "f145d14eb26b0b7459a28491e764ac8c573085d3",
+    "closes":  "gap-register A21 - PARTIAL: the audit is done and a shared guard is in place, but three hand-rolled fixtures are still outside its protection",
+    "auditTable":  {
+                       "LocalApiTestHarness":  "config OK, recovery OK, bisect OK, diagnostic OK (the main fixture)",
+                       "AiCancelAndRedirectTests":  "config OK, recovery MISSING, bisect MISSING, diagnostic OK (fixed in round 47)",
+                       "LauncherStartupBoundaryTests":  "ALL FOUR MISSING - my own file from round 40; fixed this round",
+                       "ContentIconServiceTests":  "ALL FOUR MISSING - still unprotected",
+                       "NewsFakeIpConfigTests":  "config OK, recovery MISSING, bisect MISSING, diagnostic MISSING - still unprotected",
+                       "NewsLinkHandlerTests":  "config OK, recovery MISSING, bisect MISSING, diagnostic MISSING - still unprotected"
+                   },
+    "keyJudgement":  "Missing redirection is NOT the same as actually writing. Measured in the real %APPDATA%: diagnostics exists with 259 files (polluted, fixed in round 47) while recovery and bisect directories DO NOT EXIST AT ALL, and config.json is still dated 09-07. So instead of blindly adding overrides to every fixture, I added a SHARED GUARD.",
+    "changes":  {
+                    "guard":  "RealConfigGuard now snapshots the file counts of diagnostics/recovery/bisect and compares them in Equals/ToString. Because that class is already asserted in LocalApiTestHarness.DisposeAsync, this automatically protects EVERY test that uses the main fixture.",
+                    "scopeLimit":  "Only the three roots that have dedicated override seams; cache/content-icons are used legitimately by the product and have no seam, so they are excluded to avoid false positives.",
+                    "myFixture":  "LauncherStartupBoundaryTests now installs four overrides in its constructor and releases them in Dispose (xUnit constructs a new instance per test), so the whole class is isolated."
+                },
+    "verification":  {
+                         "csharpFull":  "817 passed / 0 failed / 0 skipped (with the extended guard active)",
+                         "realRoots":  "diagnostics 259 -\u003e 259, recovery 0 -\u003e 0, bisect 0 -\u003e 0 (unchanged)",
+                         "noFalsePositives":  "the suite stayed green, so the guard does not fire on legitimate behaviour",
+                         "nodeFull":  "230 passed / 0 failed (18 files)",
+                         "productionCodeChanged":  false
+                     },
+    "honesty":  "I did NOT build a RED proving the guard fires, because doing so would require deliberately writing files into the user real data directory - the very behaviour this task removes. The guard compares exactly the quantity that changed in round 47 measured leak (file counts), and it uses the same mechanism and assertion point as the pre-existing config guard.",
+    "stillNotCovered":  [
+                            "ContentIconServiceTests - all four roots unredirected and outside the guard",
+                            "NewsFakeIpConfigTests and NewsLinkHandlerTests - recovery/bisect unredirected and outside the guard",
+                            "the 259 leftover test files in the real diagnostics directory are NOT deleted (needs user consent)",
+                            "cache/content-icons are not covered by the guard (no override seam)"
+                        ],
+    "nextMinimalStep":  "Add the same four overrides plus a RealConfigGuard before/after comparison to the three remaining files.",
+    "files":  [
+                  {
+                      "path":  "deliverable.md",
+                      "sha256":  "961AB61A51133A3C13825FC1B3579D4DDB3E8C6FD54340A37898FD68966EDCE5",
+                      "sizeBytes":  5962
+                  },
+                  {
+                      "path":  "gap-register.md",
+                      "sha256":  "E6A36185291D569FED53C2BA8C72C4C5FFF8664E81A543D59AB57C56979FB677",
+                      "sizeBytes":  17049
+                  },
+                  {
+                      "path":  "green/01-csharp-full.log",
+                      "sha256":  "35AB1E8382E72A9B4E667C9960ABA95233C1111A739FE057FB9E419503A5406E",
+                      "sizeBytes":  490
+                  },
+                  {
+                      "path":  "green/02-node-full.log",
+                      "sha256":  "A0142FD715806D7D2017C5BD2228B996A7E79BC7A7CCC7E1C64D1BAE71F122D5",
+                      "sizeBytes":  23801
+                  },
+                  {
+                      "path":  "green/changed-files.sha256.txt",
+                      "sha256":  "E0256899C43489C857743C7B2124532EE5D3D40073F2CBC39C36B606A92B2631",
+                      "sizeBytes":  246
+                  },
+                  {
+                      "path":  "green/git-status-after.txt",
+                      "sha256":  "BDED79C4D295998716AA44346384F075BCEE9CEF3151947E0631B13867BEAF14",
+                      "sizeBytes":  116072
+                  },
+                  {
+                      "path":  "green/LauncherStartupBoundaryTests.cs.fixed",
+                      "sha256":  "C2CEC0A74C0C9ED3CF009110D6F568D1E1AA13F3C5996923AF29F0C17C03DB91",
+                      "sizeBytes":  7702
+                  },
+                  {
+                      "path":  "green/LocalApiTestHarness.cs.fixed",
+                      "sha256":  "A2A7017866D119BD2E2AF740388DB08DEE76861F0F4F1FA61DC1C5C1A22F9BB6",
+                      "sizeBytes":  11708
+                  }
+              ],
+    "currentDriftNumbers":  "mg0: 266/1/111/0 ; mg1: 78/0/86/0 ; mg2: 266/1/110/0 ; mg3: 78/0/86/0 ; all exit 0 ; ledger audit exit 0"
+}

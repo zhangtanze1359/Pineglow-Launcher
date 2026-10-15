@@ -1,0 +1,128 @@
+{
+  "kind": "Native WebView2, actual local API, existing isolated preview data",
+  "checks": [
+    {
+      "name": "Preview loads this source candidate",
+      "status": "PASS"
+    },
+    {
+      "name": "Fixture has 8 actual persisted sessions",
+      "status": "PASS"
+    },
+    {
+      "name": "All sessions appear as tree leaves at 1280",
+      "status": "PASS"
+    },
+    {
+      "name": "Tree and page fit viewport at 1280",
+      "status": "PASS"
+    },
+    {
+      "name": "All sessions appear as tree leaves at 960",
+      "status": "PASS"
+    },
+    {
+      "name": "Tree and page fit viewport at 960",
+      "status": "PASS"
+    },
+    {
+      "name": "All sessions appear as tree leaves at 1600",
+      "status": "PASS"
+    },
+    {
+      "name": "Tree and page fit viewport at 1600",
+      "status": "PASS"
+    },
+    {
+      "name": "Collapse all closes instance branches",
+      "status": "PASS"
+    },
+    {
+      "name": "Keyboard expands the focused instance",
+      "status": "PASS"
+    },
+    {
+      "name": "Keyboard expands a date branch",
+      "status": "PASS"
+    },
+    {
+      "name": "Focus reads date, instance and duration",
+      "status": "PASS"
+    },
+    {
+      "name": "Session activation applies its date filter",
+      "status": "PASS"
+    },
+    {
+      "name": "Filtered summary and tree agree",
+      "status": "PASS"
+    },
+    {
+      "name": "Invalid range retains last valid tree and summary",
+      "status": "PASS"
+    },
+    {
+      "name": "Empty range shows honest empty state",
+      "status": "PASS"
+    },
+    {
+      "name": "Tree labels are localized",
+      "status": "PASS"
+    },
+    {
+      "name": "Long names and 200 sessions stay inside the scrollable tree",
+      "status": "PASS"
+    },
+    {
+      "name": "No uncaught page errors",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "pages": [
+    {
+      "width": 1280,
+      "height": 800,
+      "treeOverflow": 0,
+      "pageOverflow": 0,
+      "instances": 2,
+      "dates": 8,
+      "oldRectangles": 0
+    },
+    {
+      "width": 960,
+      "height": 800,
+      "treeOverflow": 0,
+      "pageOverflow": 0,
+      "instances": 2,
+      "dates": 8,
+      "oldRectangles": 0
+    },
+    {
+      "width": 1600,
+      "height": 900,
+      "treeOverflow": 0,
+      "pageOverflow": 0,
+      "instances": 2,
+      "dates": 8,
+      "oldRectangles": 0
+    }
+  ],
+  "bindings": [
+    {
+      "path": "js/playtime.js",
+      "source": "8ba66acc93386234fc1f010d1030cb5b33d5b9f0208eb236a922b51154dcdd3a",
+      "execution": "8ba66acc93386234fc1f010d1030cb5b33d5b9f0208eb236a922b51154dcdd3a"
+    },
+    {
+      "path": "css/redesign.css",
+      "source": "23d316e730a1dcfe70e78d2f6f3cc644bc258640d96665ccbac33d5f8b93c0a9",
+      "execution": "23d316e730a1dcfe70e78d2f6f3cc644bc258640d96665ccbac33d5f8b93c0a9"
+    },
+    {
+      "path": "js/i18n.js",
+      "source": "80bc15ecd65fc076cd91ee5dbba5a724e7dd96434a643fb4d35898af8ce876b8",
+      "execution": "80bc15ecd65fc076cd91ee5dbba5a724e7dd96434a643fb4d35898af8ce876b8"
+    }
+  ]
+}

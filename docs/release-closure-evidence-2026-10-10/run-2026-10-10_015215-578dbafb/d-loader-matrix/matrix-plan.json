@@ -1,0 +1,31 @@
+﻿{
+    "entries":  [
+                    {
+                        "loader":  "fabric",
+                        "mc":  "1.21.11",
+                        "ver":  "0.19.5",
+                        "dep":  "fabric-loader"
+                    },
+                    {
+                        "loader":  "quilt",
+                        "mc":  "1.21.11",
+                        "ver":  "0.30.1",
+                        "dep":  "quilt-loader"
+                    },
+                    {
+                        "loader":  "forge",
+                        "mc":  "1.21.11",
+                        "ver":  "61.2.1",
+                        "dep":  "forge"
+                    },
+                    {
+                        "loader":  "neoforge",
+                        "mc":  "1.21.11",
+                        "ver":  "21.11.45",
+                        "dep":  "neoforge"
+                    }
+                ],
+    "java":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-jre-92310fa5235b45c9bd1b4690811899bc\\jdk-21.0.12.1+1-jre\\bin\\javaw.exe",
+    "fixture":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-d6-install-2e702e2614d34bc0aea14a06959bb6fc\\install",
+    "quilt":  "0.30.1"
+}

@@ -1,0 +1,7 @@
+{
+  "startHK": "2026-10-03T16:59:10.4398169+08:00",
+  "endHK": "2026-10-03T16:59:23.0348127+08:00",
+  "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-r2-79578cd926db4451a6c4f85bdc37e515",
+  "command": "dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --filter FullyQualifiedName~ConfigPreservationTests|FullyQualifiedName~SecretStoreBackendTests|FullyQualifiedName~RollbackFailure_HttpExposesStructuredRecoveryFields|FullyQualifiedName~RollbackSuccess_HttpReportsNoRecoveryNeeded|FullyQualifiedName~MetadataFailure_HttpExposesStructuredFields|FullyQualifiedName~ModReplaceUndo_NormalRestore_StillWorksWithTrustedRoot|FullyQualifiedName~SecretBackend_ConcurrentAsyncFlowsStayIsolated",
+  "exitCode": 0
+}

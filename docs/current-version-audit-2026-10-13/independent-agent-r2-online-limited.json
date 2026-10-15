@@ -1,0 +1,7 @@
+{
+  "status": "LIMITED_DEFAULT_ONLINE_RESTORE",
+  "pid": 28592,
+  "snapshot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-snapshot-d9ecb469e9f34d93a4086435b5e7a8eb",
+  "reason": "Default restore remained active without step output; full existing locked cache restores succeeded independently in <1sec each; parent authorized existing local nupkg source for final technical gate",
+  "time": "2026-10-13T16:41:49.9802643+08:00"
+}

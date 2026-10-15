@@ -1,0 +1,16 @@
+﻿[
+    {
+        "launch":  1,
+        "healthReady":  true,
+        "servedSha256":  "8872D55812F43D523E4898A95FEB86AC35927C39B51D1602C2BFDE5A7014442F",
+        "cfgUiKeyDirs":  "",
+        "tempUiKeyDirs":  ""
+    },
+    {
+        "launch":  2,
+        "healthReady":  true,
+        "servedSha256":  "13AD0D144D6EE0E34EEC2BBD4309B3D6AB10EDE806E75479939E3FDEBCD2A4E2",
+        "cfgUiKeyDirs":  "",
+        "tempUiKeyDirs":  ""
+    }
+]

@@ -1,0 +1,63 @@
+﻿=> 		return ResolveUiRootCore(
+<= 		string env = Environment.GetEnvironmentVariable("PINEGLOW_UI_DIR");
+=> 			Environment.GetEnvironmentVariable("PINEGLOW_UI_DIR"),
+<= 		if (!string.IsNullOrWhiteSpace(env) && Directory.Exists(env))
+=> 			UiBundle.IsSingleFileDeployment(),
+<= 			return env;
+=> 			Path.Combine(AppContext.BaseDirectory, "UI"),
+<= 		string baseDir = Path.Combine(AppContext.BaseDirectory, "UI");
+=> 			Path.Combine(PlatformPaths.GetConfigDirectory(), "UI"),
+<= 		if (Directory.Exists(baseDir))
+=> 			UiBundle.EnsureExtracted);
+<= 			return baseDir;
+=> 	/// UI 根目录选择（纯决策；IO 只做存在性判断，便于聚焦测试）。
+<= 		// R01：单文件发行时 EXE 旁没有 UI/ 目录，资源嵌在程序集里（UiBundle），
+=> 	///
+<= 		// 按「版本 + 内容指纹」解包后再服务。放在下面 configDir/UI 兼容回退之前，
+=> 	/// R02：正式**单文件发行**必须让「当前 EXE 自带的内嵌界面」优先。
+=> 	/// 原实现把 EXE 旁的 UI/ 排在内嵌解包之前，于是目录式旧安装原地换 EXE 后，
+=> 	/// 安装目录里残留的旧 UI/ 会继续被服务，形成「新后端 + 旧界面」——
+=> 	/// 全新安装的冷启动通过并不能覆盖这条升级路径。
+=> 	/// 现在的次序：
+=> 	///   1. PINEGLOW_UI_DIR 显式覆盖（开发/测试用的既有接缝，行为不变）；
+=> 	///   2. 单文件部署：先内嵌解包（版本 + 内容指纹，天然不会复用到旧界面）；
+=> 	///   3. EXE 旁 UI/（开发树、目录包的有意外置 UI，行为不变）；
+=> 	///   4. 内嵌解包的兜底尝试；
+=> 	///   5. 配置目录 UI/；
+=> 	///   6. 都没有时返回外置路径（与既有回退语义一致，启动不因缺 UI 而中断）。
+=> 	internal static string ResolveUiRootCore(
+=> 		string? explicitUiDir,
+=> 		bool singleFileDeployment,
+=> 		string externalUiDir,
+=> 		string configUiDir,
+=> 		Func<string?> extractEmbedded)
+=> 		if (!string.IsNullOrWhiteSpace(explicitUiDir) && Directory.Exists(explicitUiDir))
+=> 			return explicitUiDir!;
+=> 		if (singleFileDeployment)
+=> 			string? bundled = extractEmbedded();
+=> 			if (!string.IsNullOrWhiteSpace(bundled) && Directory.Exists(bundled))
+=> 				return bundled!;
+=> 		if (Directory.Exists(externalUiDir))
+=> 			return externalUiDir;
+=> 		string? extracted = extractEmbedded();
+=> 		if (Directory.Exists(configUiDir))
+=> 			return configUiDir;
+=> 		return externalUiDir;
+=> 	///
+=> 	/// <summary>
+=> 	/// </summary>
+=> 			}
+=> 			{
+=> 
+=> 		{
+=> 		}
+=> 
+=> 	{
+=> 	}
+<= 		// 是为了保证用的是**当前 EXE 自带**的界面，而不是历史版本留下的目录。
+<= 		string? extracted = UiBundle.EnsureExtracted();
+<= 		string configDir = PlatformPaths.GetConfigDirectory();
+<= 		string cfgUi = Path.Combine(configDir, "UI");
+<= 		if (Directory.Exists(cfgUi))
+<= 			return cfgUi;
+<= 		return baseDir;
