@@ -1,0 +1,14 @@
+[
+  {
+    "name": "old-exact-neutral",
+    "exit": 1
+  },
+  {
+    "name": "current-neutral",
+    "exit": 0
+  },
+  {
+    "name": "current-workspace",
+    "exit": 1
+  }
+]

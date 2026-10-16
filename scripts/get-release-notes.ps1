@@ -1,4 +1,4 @@
-param(
+﻿param(
     [Parameter(Mandatory = $true)][string]$Version,
     [string]$NotesRoot = (Join-Path $PSScriptRoot '../release-notes')
 )

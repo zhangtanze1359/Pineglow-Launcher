@@ -1,0 +1,15 @@
+[
+  "node",
+  "D:\\松光启动器\\docs\\harness-independent-acceptance-2026-10-16-run01\\verify-ui-pages-visible-images.cjs",
+  "--app",
+  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-accept-20261016-6fcd0ad64cca4554aa22e2e637b5f6d2\\publish\\Pineglow.Launcher.exe",
+  "--out",
+  "D:\\松光启动器\\docs\\harness-independent-acceptance-2026-10-16-run01\\ui-shots-calibrated",
+  "--json",
+  "D:\\松光启动器\\docs\\harness-independent-acceptance-2026-10-16-run01\\native-ui-calibrated.json",
+  "--keep",
+  "--timeout",
+  "40",
+  "--settle-timeout",
+  "45"
+]

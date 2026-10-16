@@ -1,0 +1,7 @@
+﻿本轮跑真实更新链路时遇到的一个退化运行（保留作为证据，不作为通过依据）：
+runDir = <TEMP>\松光 更新 真实验收 6e58279b91f740df9faba7ee42d4a89a
+现象：GitHub 瞬时 DNS 解析失败（错误串：网络错误: 不知道这样的主机。 (github.com:443)），
+      阶段 A 走了『逐源失败』分支（该分支脚本明确允许），但紧随其后的断言无条件读取 manifestSource，
+      StrictMode 抛 PropertyNotFound，脚本中止，阶段 B/C 未执行。
+      这就是 README 第 5.2 节记录的缺陷 2；修复后同一命令 PASS。
+该次运行的完整日志未纳入仓库；修复后的完整日志为 live-update-abc-final2.log。

@@ -1,0 +1,19 @@
+{
+  "work": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-accept-20261016-6fcd0ad64cca4554aa22e2e637b5f6d2\\交互与图片 验收",
+  "apiPort": 65268,
+  "debugPort": 65269,
+  "checks": [
+    {
+      "name": "real_native_live_api",
+      "ok": true,
+      "detail": "http://127.0.0.1:65268/?v=20261016125806"
+    }
+  ],
+  "images": {},
+  "errors": [
+    "Page.wait_for_selector: Timeout 45000ms exceeded.\nCall log:\n  - waiting for locator(\"#view-content .content-card\") to be visible\n"
+  ],
+  "verdict": "FAIL",
+  "pid": 28784,
+  "url": "http://127.0.0.1:65268/?v=20261016125806"
+}

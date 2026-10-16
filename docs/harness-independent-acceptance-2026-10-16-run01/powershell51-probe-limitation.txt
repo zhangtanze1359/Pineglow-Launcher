@@ -1,0 +1,3 @@
+2026-10-16 Asia/Hong_Kong。为独立核对 get-release-notes.ps1 的 Windows PowerShell 5.1 解析兼容性，本轮尝试用只读 Parser::ParseFile 探针脚本采集结果。
+Windows PowerShell 拒绝加载未签名的本轮探针脚本，输出 FullyQualifiedErrorId: UnauthorizedAccess、SecurityError，并说明脚本未数字签名，不能在当前系统运行。
+没有使用 ExecutionPolicy Bypass、改变签名/执行策略或通过另一入口继续被拒脚本执行。该项记为未完成独立复验，不记产品FAIL；PowerShell7下正式版本说明提取和JSON往返已实际通过。

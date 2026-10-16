@@ -1,0 +1,47 @@
+﻿{
+    "generatedUtc":  "2026-10-16T05:45:13Z",
+    "exePath":  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pg-rp02-verify\\bad.exe",
+    "exeSizeBytes":  53089586,
+    "exeSha256":  "72eae380db265a97c16938fd6086441e0409fd192f6b5cce1c01c65a33a32534",
+    "coldDir":  "D:\\松光启动器\\.testagent\\rp02-work\\中文 冷启动 e2d716341aa4439ca5ba0e5c596d42b7",
+    "port":  48315,
+    "expectedUiRoot":  "",
+    "alive":  true,
+    "mainWindowTitle":  "松光启动器",
+    "health":  null,
+    "stderr":  "[LocalApi] ���ʧ��: �����Ч��\r\n",
+    "checks":  [
+                   {
+                       "name":  "冷启动目录无外置 UI/ 目录",
+                       "ok":  true,
+                       "detail":  "dirs="
+                   },
+                   {
+                       "name":  "冷启动目录无外置原生 DLL",
+                       "ok":  true,
+                       "detail":  "dlls="
+                   },
+                   {
+                       "name":  "冷启动不继承开发旋钮（PINEGLOW_UI_DIR 等已清除）",
+                       "ok":  true,
+                       "detail":  "scrubbed=PINEGLOW_WEBVIEW_DEBUG=9222"
+                   },
+                   {
+                       "name":  "进程在冷启动后仍然存活（R01 原始 RED 是直接退出）",
+                       "ok":  true,
+                       "detail":  "stderr=[LocalApi] ���ʧ��: �����Ч��"
+                   },
+                   {
+                       "name":  "/api/health 就绪",
+                       "ok":  false,
+                       "detail":  "health="
+                   }
+               ],
+    "failures":  [
+                     "/api/health 就绪 :: health="
+                 ],
+    "servedAssets":  {
+
+                     },
+    "verdict":  "FAIL"
+}

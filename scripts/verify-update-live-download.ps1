@@ -34,6 +34,12 @@
 
 .PARAMETER JsonPath
     证据 JSON 输出路径。
+
+.PARAMETER FixtureVersion
+    阶段 B/C 夹具清单里声明的"新版本"号。默认取脚本自身程序集版本再进一位
+    （**不是**硬编码常量）。理由：夹具必须比被测候选**新**才会被客户端视为可更新；
+    旧实现把夹具版本硬编码为 1.0.1，于是「验收 1.0.1 候选」时 1.0.1 > 1.0.1 不成立，
+    阶段 B 的第一条断言必然失败 —— 深度验收路径会自相矛盾。需要时可显式覆盖。
 #>
 [CmdletBinding()]
 param(
@@ -42,6 +48,7 @@ param(
     [string] $WorkRoot,
     [int] $StartupTimeoutSec = 90,
     [int] $DownloadTimeoutSec = 180,
+    [string] $FixtureVersion,
     [string] $JsonPath,
     [switch] $KeepWorkDir
 )
@@ -93,6 +100,20 @@ function Read-TextShared {
     } catch { return '' }
 }
 
+# 版本序比较（major.minor.patch 数值比较，不做字符串比较）
+function Test-VersionGreater {
+    param([string] $Newer, [string] $Older)
+    if ($Newer -notmatch '^\d+(\.\d+){1,3}$' -or $Older -notmatch '^\d+(\.\d+){1,3}$') { return $false }
+    $a = @($Newer.Split('.') | ForEach-Object { [int]$_ })
+    $b = @($Older.Split('.') | ForEach-Object { [int]$_ })
+    while ($a.Count -lt 4) { $a += 0 }
+    while ($b.Count -lt 4) { $b += 0 }
+    for ($i = 0; $i -lt 4; $i++) {
+        if ($a[$i] -ne $b[$i]) { return ($a[$i] -gt $b[$i]) }
+    }
+    return $false
+}
+
 # ---------------------------------------------------------------- 现场
 
 $exe = (Resolve-Path -LiteralPath $ExePath).Path
@@ -122,6 +143,26 @@ $assetSha = ''
 $fixturePort = 0
 $serverProc = $null
 
+# 夹具清单声明的"新版本"必须严格高于被测候选，否则客户端不会把它视为可更新。
+# 默认从**发布产物自身**读取版本再进一位 patch，不硬编码版本号。
+$fixtureVersion = $FixtureVersion
+if ([string]::IsNullOrWhiteSpace($fixtureVersion)) {
+    # 单文件发布产物没有可读的程序集清单（AssemblyName.GetAssemblyName 会抛
+    # "该模块应包含一个程序集清单"），所以主路径必须是 FileVersionInfo；
+    # 两者都读不到才退回常量。2026-10-16 实测：单文件 EXE 的
+    # FileVersion=1.0.1.0、ProductVersion=1.0.1+<commit>。
+    $candidateVersion = ''
+    try { $candidateVersion = ([System.Diagnostics.FileVersionInfo]::GetVersionInfo($exe)).FileVersion } catch { $candidateVersion = '' }
+    if ([string]::IsNullOrWhiteSpace($candidateVersion)) {
+        try { $candidateVersion = [Reflection.AssemblyName]::GetAssemblyName($exe).Version.ToString(3) } catch { $candidateVersion = '' }
+    }
+    if ($candidateVersion -match '^(\d+)\.(\d+)\.(\d+)') {
+        $fixtureVersion = "$($Matches[1]).$($Matches[2]).$([int]$Matches[3] + 1)"
+    } else {
+        $fixtureVersion = '1.0.1'
+    }
+}
+
 # ---------------------------------------------------------------- 真实资产（先自己下一份，拿到大小与 SHA256 作为断言基准）
 
 if ($withAsset) {
@@ -139,7 +180,7 @@ if ($withAsset) {
     # ------------------------------------------------------------ 夹具 HTTP 服务器（清单允许 http；资产仍必须是 https）
 
     $manifestGood = [ordered]@{
-        version     = '1.0.1'
+        version     = $fixtureVersion
         url         = $AssetUrl
         fallbackUrl = ''
         size        = $assetSize
@@ -148,7 +189,7 @@ if ($withAsset) {
         mandatory   = $false
     }
     $manifestBad = [ordered]@{
-        version     = '1.0.1'
+        version     = $fixtureVersion
         url         = $AssetUrl
         fallbackUrl = ''
         size        = $assetSize
@@ -266,8 +307,14 @@ try {
                         (-not [string]::IsNullOrWhiteSpace([string]$checkA.error))
     Add-Check '阶段A：默认地址链要么取到清单，要么逐源说明失败原因' ($gotManifest -or $perSourceFailure) `
         ("gotManifest=$gotManifest perSourceFailure=$perSourceFailure")
+    # 这条断言在两种通过形态下的证据展示方式不同：取到清单时看 manifestSource/usedFallback，
+    # 逐源失败时那两个属性**根本不存在**。旧实现直接拼 "$($checkA.manifestSource)"，
+    # StrictMode 下会在"逐源失败"这条**本就允许**的分支上抛 PropertyNotFound，
+    # 于是整个验收在断言中途崩掉、阶段 B/C 全被跳过（2026-10-16 实测：GitHub 瞬时 DNS 解析失败触发）。
+    $manifestSourceA = if ($gotManifest) { [string]$checkA.manifestSource } else { '(逐源失败，无清单)' }
+    $usedFallbackA = if ($checkA.PSObject.Properties.Name -contains 'usedFallback') { [string]$checkA.usedFallback } else { 'n/a' }
     Add-Check '阶段A：取到清单时来源可辨认（manifestSource 非空）' ($gotManifest -or $perSourceFailure) `
-        ("manifestSource=$($checkA.manifestSource) usedFallback=$($checkA.usedFallback)")
+        ("manifestSource=$manifestSourceA usedFallback=$usedFallbackA")
 
     # 环境事实（证据，不作为门槛）：默认主源 Gitee 固定 update.json 本轮是否失败
     $giteeNote = 'primary-ok'
@@ -276,7 +323,7 @@ try {
         if ($gitee) { $giteeNote = "gitee ok=$($gitee.ok) reason=$($gitee.reason)" }
     } elseif ($checkA.usedFallback -eq $true) {
         # 走到备用源才拿到清单 ⇒ 主源必然失败（成功分支不回传逐源明细）
-        $giteeNote = "primary-failed（已按设计降级到备用源: $($checkA.manifestSource)）"
+        $giteeNote = "primary-failed（已按设计降级到备用源: $manifestSourceA）"
     }
     $results['stageANote'] = $giteeNote
     Write-Host "     默认主源本轮实测: $giteeNote" -ForegroundColor DarkGray
@@ -295,7 +342,10 @@ try {
     $checkB = Invoke-Api -Port $b.Port -Token $b.Token -Path '/api/update/check' -TimeoutSec 60
     $results['stageB'] = $checkB
     Write-Host ("     check: " + ($checkB | ConvertTo-Json -Depth 6 -Compress))
-    Add-Check '阶段B：检查更新看到 1.0.1' ($checkB.updateAvailable -eq $true -and $checkB.latestVersion -eq '1.0.1') ("latest=$($checkB.latestVersion)")
+    # 断言用夹具版本号，而不是硬编码的 1.0.1：候选自身就是 1.0.1 时，
+    # 旧断言（latest 必须等于 1.0.1）失去意义，且会与"夹具必须更新"的前提冲突。
+    Add-Check "阶段B：检查更新看到夹具版本 $fixtureVersion" ($checkB.updateAvailable -eq $true -and $checkB.latestVersion -eq $fixtureVersion) ("latest=$($checkB.latestVersion) current=$($checkB.currentVersion) fixture=$fixtureVersion")
+    Add-Check '阶段B：夹具版本确实高于当前版本（否则这条验收没有意义）' (Test-VersionGreater -Newer $fixtureVersion -Older ([string]$checkB.currentVersion)) ("current=$($checkB.currentVersion) fixture=$fixtureVersion")
     Add-Check '阶段B：清单来自用户自定义源（不标记为备用源）' ($checkB.usedFallback -eq $false) ("manifestSource=$($checkB.manifestSource)")
 
     $null = Invoke-Api -Port $b.Port -Token $b.Token -Path '/api/update/download' -Method 'POST' -TimeoutSec 60
@@ -364,6 +414,7 @@ try {
         assetUrl     = $AssetUrl
         assetSize    = $assetSize
         assetSha256  = $assetSha
+        fixtureVersion = $fixtureVersion
         runDir       = $runDir
         checks       = $script:Checks.ToArray()
         failures     = $script:Failures.ToArray()

@@ -1,0 +1,2 @@
+?? docs/harness-independent-acceptance-2026-10-16-run01/context.json
+?? docs/harness-independent-acceptance-2026-10-16-run01/input-manifest.json
