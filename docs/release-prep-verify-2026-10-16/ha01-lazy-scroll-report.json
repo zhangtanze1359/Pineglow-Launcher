@@ -1,0 +1,101 @@
+{
+  "problems": [],
+  "before": {
+    "total": 1,
+    "loaded": 1,
+    "broken": 0,
+    "offscreen": 0,
+    "slots": 0,
+    "pendingSlots": 0
+  },
+  "geoBefore": {
+    "panelScrollTop": 0,
+    "winY": 0,
+    "deepTop": 745,
+    "deepHasSrc": false,
+    "deepComplete": true,
+    "deepNatural": 0
+  },
+  "offscreenTargets": 2,
+  "afterScroll": {
+    "total": 1,
+    "loaded": 1,
+    "broken": 0,
+    "offscreen": 0,
+    "slots": 0,
+    "pendingSlots": 0
+  },
+  "httpPngRequestsAfterScroll": 2,
+  "perTarget": [
+    {
+      "res": {
+        "scrolled": true,
+        "containerCount": 1
+      },
+      "geo": {
+        "top": 261,
+        "complete": true,
+        "natural": 1,
+        "hasSrc": true
+      }
+    },
+    {
+      "res": {
+        "scrolled": true,
+        "containerCount": 1
+      },
+      "geo": {
+        "top": 261,
+        "complete": true,
+        "natural": 0,
+        "hasSrc": true
+      }
+    }
+  ],
+  "afterAllScrolls": {
+    "total": 3,
+    "loaded": 2,
+    "broken": 1,
+    "offscreen": 2,
+    "slots": 0,
+    "pendingSlots": 0
+  },
+  "geoAfterScroll": {
+    "panelScrollTop": 1228,
+    "winY": 0,
+    "deepTop": -483,
+    "deepComplete": true,
+    "deepNatural": 1
+  },
+  "restored": 1,
+  "geoRestored": {
+    "panelScrollTop": 0,
+    "winY": 0
+  },
+  "afterAriaBroken": {
+    "total": 4,
+    "loaded": 2,
+    "broken": 2,
+    "offscreen": 2,
+    "slots": 0,
+    "pendingSlots": 0
+  },
+  "withPending": {
+    "total": 5,
+    "loaded": 2,
+    "broken": 2,
+    "offscreen": 2,
+    "slots": 0,
+    "pendingSlots": 0
+  },
+  "afterSlowLoaded": {
+    "total": 5,
+    "loaded": 3,
+    "broken": 2,
+    "offscreen": 2,
+    "slots": 0,
+    "pendingSlots": 0
+  },
+  "slowRequests": 1,
+  "verdict": "PASS"
+}

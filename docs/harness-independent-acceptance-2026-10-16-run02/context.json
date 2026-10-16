@@ -1,0 +1,44 @@
+{
+  "time": "2026-10-16T23:19:05.2371787+08:00",
+  "head": "f9b109d9ac3b665a926acbad3bdd96c8d57ac77e",
+  "sourceRoot": "D:\\松光启动器",
+  "evidenceRoot": "D:\\松光启动器\\docs\\harness-independent-acceptance-2026-10-16-run02",
+  "neutralRoot": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pineglow-codex-ha01-20261016-0794491e32d04fc99da50232dbf1b495",
+  "files": [
+    {
+      "path": "scripts/verify-ui-pages-live.cjs",
+      "sha256": "613B352128EC39BC95BFA0B22B5E9CFF9B6BCE67598C3F9ED6DB4F7B61D3B5D9",
+      "bytes": 45436
+    },
+    {
+      "path": "scripts/ha01-image-visibility-behavior.py",
+      "sha256": "B9775350753E12D9C71764355A863E0DC38E7217CE137EB9E661ADBA6D344341",
+      "bytes": 12056
+    },
+    {
+      "path": "scripts/verify-update-live-download.ps1",
+      "sha256": "7E2E39F151D7A638AE757EFE7738EBE628BD17003DBEFA76E665D0A9A5783AD8",
+      "bytes": 23656
+    },
+    {
+      "path": "scripts/get-release-notes.ps1",
+      "sha256": "956A99EF9A526D20292E72B04B1385783CA9122DA3F53B1F46741CA276D51D80",
+      "bytes": 649
+    },
+    {
+      "path": "docs/release-prep-verify-2026-10-16/README.md",
+      "sha256": "DA4191B4F446FA410262A9E37A5BE890564377C7900DD926F1E2F58B8FBA6B68",
+      "bytes": 24400
+    },
+    {
+      "path": "docs/release-prep-verify-2026-10-16/ui-live-fixed.json",
+      "sha256": "8BF272CC2BA445B7462A663F8B544616EC217D8DE72F2948D4D634A01EF74AA0",
+      "bytes": 9430
+    },
+    {
+      "path": "docs/release-prep-verify-2026-10-16/ha01-behavior-report.json",
+      "sha256": "1FC7A6BF00EDEFBDDA090379B2ACBCF85A57295A151432F91E558BEE332D7D76",
+      "bytes": 1049
+    }
+  ]
+}

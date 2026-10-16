@@ -161,6 +161,34 @@ skins 页唯一被计入的 `#localSkinTexture` 是 `hidden`、无 `src`、宽�
 只有显式 `width:0;height:0`（或 `display:none`）才会被排除。测试里 `zero-box` /
 `zero-box-sized` 两个节点就是用来钉住这条边界的。
 
+#### 3.2.1 第二轮独立验收的返工（H2-01/H2-02/H2-03）与修复
+
+`../harness-independent-acceptance-2026-10-16-run02/` 对上一版 HA-01 修复判定
+`FAIL_REWORK_REQUIRED`，指出三个问题。三项均已修复并重跑：
+
+| 编号 | 问题 | 修复 | 重跑证据 |
+| --- | --- | --- | --- |
+| **H2-01** / P1 | 新增第十页后，正式回归预期仍停在九页：`scripts/tests/ui-live-cdp.test.cjs` 断言 `VIEWS.length === 9`，全量清单在此失败 | 断言改为 10，并新增**双向核对**：`VIEWS` 必须与 `ui/index.html` 的 `data-nav` 集合完全一致、无重复、含 `playtime` | 全量清单 **380/380 通过，0 失败 0 跳过**（379 + 新增契约用例） |
+| **H2-02** / P2 | 把可访问性元数据/MIME 提示当成视觉隐藏条件：对 `aria-hidden="true"` 和 `type` 直接返回 false，导致可见破图被漏报 | `IMG_VISIBLE_FN` 只依据**实际渲染/布局/来源**判断；不再依据 `aria-hidden`（只对辅助技术隐藏）或 `type`（不会把 HTML `<img>` 变成 SVG `<image>`） | 两个反例节点纳入行为脚本，判定 **PASS**（计数 10 张、`broken=4`） |
+| **H2-03** / P2 | 懒加载滚动固定作用于 window（产品实际滚动的是 `.content-panel`）、连续同步滚动后立即复位、且没有断言「滚动有效」 | 逐个目标滚入其**真实可滚动祖先**，每个目标之间等待复测，`block:'nearest'`，测完复位 | 新脚本 `scripts/ha01-lazy-scroll-behavior.py` **PASS**，见下 |
+
+**H2-03 的诚实验证（两次独立求值）：** 用内层 `overflow` 容器 + IntersectionObserver
+延迟加载夹具，执行与生产**同一份** `LAZY_SCROLL_FN`：
+
+- 滚动前：内层容器 `scrollTop=0`、图片 HTTP 请求 1 次（延迟项未请求）
+- 逐个滚入后：`scrollTop=1228`、请求变为 **2** 次、两个目标均 `top=261`
+  （其一 `naturalWidth=1` 已加载；其二 404 `naturalWidth=0` 正确计为 `broken`）
+- 复位后：容器与 window 均回到 0
+
+过程中另有两处实测记录，避免后人重复踩：
+1. **headless Chromium 会把 `loading="lazy"` 的图片在滚动前全部取走**，因此无法用它表达
+   「进入视口才加载」；夹具改用 IntersectionObserver。
+2. `scrollIntoView({block:'center'})` 对容器内靠后的元素会把容器滚到**最大值**、
+   把元素推到视口**上方**（实测 `top=-487`）；`block:'nearest'` 才正确。
+
+**修复后正式十页巡检重跑：** `ui-live-fixed2.json` → `UI-PAGES RESULT=PASS views=10/10`，
+`exceptions/consoleErrors/uiAssetFailures/productLocalFailures` 全为 0。
+
 ### 3.1 真实更新链路验收（本轮新增）
 
 `scripts/verify-update-live-download.ps1` 带 `-AssetUrl`（GitHub 上真实的 v1.0.0 附件）对**本轮候选**跑完三个阶段：

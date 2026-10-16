@@ -298,7 +298,23 @@ test('CV-07: 验收主流程只在本文件被直接运行时执行（require �
 	assert.equal(typeof mod.connectCdp, 'function');
 	assert.equal(typeof mod.classifyViewState, 'function');
 	assert.equal(typeof mod.redactReport, 'function');
-	assert.equal(mod.VIEWS.length, 9, '九个页面的巡检范围不变');
+});
+
+test('HA-01: 巡检范围覆盖实际存在的十个页面，且不重复、不遗漏 playtime', () => {
+	// 旧契约写死「九个页面」。ui/index.html 里实际有十个 nav-item（含 data-nav="playtime"），
+	// 漏掉它会少巡检一整页且不给该页截图 —— 契约必须跟随真实页面集合。
+	assert.equal(mod.VIEWS.length, 10, `巡检范围应为 10 个页面，实际 ${mod.VIEWS.length}：${mod.VIEWS.join(',')}`);
+	assert.equal(new Set(mod.VIEWS).size, mod.VIEWS.length, `页面不得重复：${mod.VIEWS.join(',')}`);
+	assert.ok(mod.VIEWS.includes('playtime'), '必须包含实际存在的 playtime 页');
+
+	// 与 ui/index.html 的真实 nav 集合做双向核对，避免契约和页面各自漂移。
+	const html = fs.readFileSync(path.join(ROOT, 'ui', 'index.html'), 'utf8');
+	const navs = [...html.matchAll(/data-nav="([a-z0-9_-]+)"/g)].map(m => m[1]);
+	assert.deepEqual(
+		[...mod.VIEWS].sort(),
+		[...new Set(navs)].sort(),
+		'VIEWS 必须与 ui/index.html 的 data-nav 集合完全一致',
+	);
 });
 
 test('CV-07: 旧缺陷代码形态已被移除（pending 必须保存 method）', () => {

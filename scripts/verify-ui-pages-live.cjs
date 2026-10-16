@@ -47,6 +47,120 @@ const { spawn } = require('child_process');
 
 const VIEWS = ['home', 'installations', 'worlds', 'servers', 'playtime', 'content', 'skins', 'downloads', 'news', 'settings'];
 
+/* ------------------------------------------------------------------ *
+ * HA-01：界面图片统计口径与懒加载滚动（模块作用域，便于行为验证直接执行同一份源码）
+ *
+ * 为什么放在这里而不是内联在循环里：第二轮独立验收指出，只断言「会触发分支」
+ * 不能证明「滚动有效」。这里把它们做成可导出的字符串函数，测试可以注入到真实浏览器里
+ * 执行**生产同一份**逻辑，而不是另写一套判定。
+ * ------------------------------------------------------------------ */
+
+/* 只统计「可能渲染真实图片」的节点，否则会把自己的隐藏占位当成加载失败：
+ * 内容库 24 张图被 .mod-icon{display:none} 隐藏、布局宽高为 0；skins 页只有一个
+ * hidden 且无 src 的本地文件预览占位 —— 它们不可能加载出图片，旧实现却把整份巡检
+ * 判成 FAIL（exit 1）。
+ * 判定只依据**实际渲染 / 布局 / 来源**，不依据可访问性元数据：
+ *   - `aria-hidden="true"` 只对辅助技术隐藏，元素照样可见（独立验收反例：一个
+ *     aria-hidden 的可见破图被旧实现漏报）。因此不据此排除。
+ *   - `type` 属性不会把 HTML <img> 变成 SVG <image>；选择器已是 'img'，
+ *     再按 type 文本排除会把可见 HTML 图片错当成 SVG 而漏报。因此不据此排除。
+ * 仍在文档内、但滚出视口的节点保留统计（懒加载），由 LAZY_SCROLL_FN 处理。 */
+const IMG_VISIBLE_FN = `function (i) {
+  if (!i || !i.isConnected) return false;
+  if (!i.getAttribute('src') && !i.getAttribute('srcset')) return false;   // 无来源 => 尚未选择文件的占位
+  if (i.hidden) return false;                                             // hidden 属性：整元素不渲染
+  let n = i;
+  while (n && n.nodeType === 1 && n !== document.documentElement) {
+    const s = getComputedStyle(n);
+    if (s.display === 'none' || s.visibility === 'hidden' || s.visibility === 'collapse') return false;
+    n = n.parentElement;
+  }
+  const r = i.getBoundingClientRect();
+  if (r.width <= 0 || r.height <= 0) return false;   // 隐藏祖先 / 未参与布局 => 无法验证可见性
+  return true;
+}`;
+
+/* 图片统计探针。__VIEW__ 替换为页面 id，__VISIBLE_FN__ 替换为 IMG_VISIBLE_FN。
+ * 用占位符而不是嵌套模板字符串：嵌套反引号会让外部工具（含本文件自己的字符串抽取）
+ * 无法可靠地取出这段源码，而行为验证必须能拿到**同一份**逻辑。 */
+const IMG_PROBE_TEMPLATE = `(() => {
+  const root = document.getElementById('view-__VIEW__');
+  if (!root) return { total: 0, loaded: 0, broken: 0, offscreen: 0, slots: 0, pendingSlots: 0 };
+  const visible = (__VISIBLE_FN__);
+  const imgs = Array.from(root.querySelectorAll('img')).filter(visible);
+  const slots = Array.from(root.querySelectorAll('[data-news-art-id]'));
+  const pendingSlots = slots.filter(s => !s.querySelector('img') && !s.classList.contains('news-art-failed')).length;
+  return {
+    total: imgs.length,
+    loaded: imgs.filter(i => i.complete && i.naturalWidth > 0).length,
+    broken: imgs.filter(i => i.complete && i.naturalWidth === 0 && (i.currentSrc || i.getAttribute('src') || i.getAttribute('srcset'))).length,
+    offscreen: imgs.filter(i => { const r = i.getBoundingClientRect(); return r.bottom <= 0 || r.top >= innerHeight; }).length,
+    slots: slots.length,
+    pendingSlots
+  };
+})()`;
+
+/* 组装某个页面的探针表达式（生产路径与行为验证共用同一套替换规则）。 */
+function buildImgProbeExpr(view) {
+  return IMG_PROBE_TEMPLATE
+    .replace('__VIEW__', view)
+    .replace('__VISIBLE_FN__', IMG_VISIBLE_FN);
+}
+
+/* 懒加载滚动：把滚出视口的候选真正带进可视区域。
+ * 修旧实现的三个问题：
+ *   1. 产品实际滚动的是内层容器（.content-panel，ui/css/figma.css 的 overflow-y:auto），
+ *      固定滚 window 对它没有任何作用 => 找每个图片**真实的可滚动祖先**。
+ *   2. 连续同步滚动后立即复位不给浏览器渲染/懒加载调度机会
+ *      => 由调用方**逐个目标**调用本函数，并在两次之间等待复测。
+ *      逐个是必要的：多目标时滚到较远那个会把较近那个又推出视口
+ *      （实测两个目标、一次性 scrollIntoView 后近端 top=-483），
+ *      于是近端永远不会真正进入视口。
+ *   3. 不复位滚动位置 => LAZY_RESTORE_FN 复位。 */
+const LAZY_SCROLL_FN = `function (img) {
+  if (!img) return { scrolled: false, containerCount: 0 };
+  const scrollable = (el) => {
+    if (!el || el.nodeType !== 1) return false;
+    const s = getComputedStyle(el);
+    const canY = /(auto|scroll|overlay)/.test(s.overflowY) && el.scrollHeight > el.clientHeight + 1;
+    const canX = /(auto|scroll|overlay)/.test(s.overflowX) && el.scrollWidth > el.clientWidth + 1;
+    return canY || canX;
+  };
+  let containers = 0;
+  let p = img.parentElement;
+  while (p && p !== document.documentElement) {
+    if (scrollable(p)) containers++;
+    p = p.parentElement;
+  }
+  // block:'nearest' 而非 'center'：center 对容器内靠后的元素会把容器滚到最大值，
+  // 反而把元素推到视口**上方**（实测 top=-487）。nearest 只带到最近的边缘。
+  try { img.scrollIntoView({ block: 'nearest', inline: 'nearest' }); } catch (e) { return { scrolled: false, containerCount: containers }; }
+  const r = img.getBoundingClientRect();
+  return { scrolled: r.top < innerHeight && r.bottom > 0, containerCount: containers };
+}`;
+
+/* 复位滚动位置（截图前恢复原状），返回复位的容器数。 */
+const LAZY_RESTORE_FN = `function (root) {
+  const scrollable = (el) => {
+    if (!el || el.nodeType !== 1) return false;
+    const s = getComputedStyle(el);
+    const canY = /(auto|scroll|overlay)/.test(s.overflowY) && el.scrollHeight > el.clientHeight + 1;
+    const canX = /(auto|scroll|overlay)/.test(s.overflowX) && el.scrollWidth > el.clientWidth + 1;
+    return canY || canX;
+  };
+  let n = 0;
+  const seen = new Set();
+  for (const img of Array.from(root.querySelectorAll('img'))) {
+    let p = img.parentElement;
+    while (p && p !== document.documentElement) {
+      if (scrollable(p) && !seen.has(p)) { seen.add(p); p.scrollTop = 0; p.scrollLeft = 0; n++; }
+      p = p.parentElement;
+    }
+  }
+  window.scrollTo(0, 0);
+  return n;
+}`;
+
 /*
  * 每页"正常有内容"的最小内容量（字符数）。
  * 为什么不能只判"非空/非占位"：本轮实测 news 曾停在 80 字的中间态（标题+副标题+正在加载），
@@ -528,44 +642,10 @@ async function main() {
       // 截图前必须等它们真的画出来，否则会把"还没加载"误记成"界面坏了"（本轮实测踩过）。
       // 注意占位符：news 用的是 [data-news-art-id] 容器 + 事后 append <img>，
       // 所以不能只看 <img> 数量 —— 一开始是 0 个 img、有 N 个待填槽位。
-      // HA-01：只统计「可能渲染真实图片」的节点，否则会把自己的隐藏占位当成加载失败。
-      // 注意 22 行注释里的错误结论就是从这里来的：内容库 24 张图被 .mod-icon{display:none}
-      // 隐藏、布局宽高为 0，skins 页只有一个 hidden 且无 src 的本地文件预览占位，
-      // 它们**不可能**加载出图片，却把整个验证器判成 FAIL（exit 1）。
-      // 判定与"可见图片优先"一致：隐藏/无来源/非图片 resource 的节点不参与统计；
-      // 仍在文档内、但滚出视口的节点保留统计（懒加载），由下方滚动与 pending 预算处理。
-      const IMG_VISIBLE_FN = `function (i) {
-        if (!i || !i.isConnected) return false;
-        if (!i.getAttribute('src') && !i.getAttribute('srcset')) return false;   // 无来源 => 尚未选择文件的占位
-        if (i.hidden || i.getAttribute('aria-hidden') === 'true') return false;
-        if ((i.getAttribute('type') || '').toLowerCase() === 'image/svg+xml') return false; // <image> 非 HTMLImageElement
-        let n = i, st = null;
-        while (n && n.nodeType === 1 && n !== document.documentElement) {
-          const s = getComputedStyle(n);
-          if (s.display === 'none' || s.visibility === 'hidden' || s.visibility === 'collapse') return false;
-          n = n.parentElement;
-        }
-        st = getComputedStyle(i);
-        const r = i.getBoundingClientRect();
-        if (r.width <= 0 || r.height <= 0) return false;   // 隐藏祖先/未参与布局 => 无法验证可见性
-        return true;
-      }`;
-      const imgProbeExpr = `(() => {
-        const root = document.getElementById('view-${view}');
-        if (!root) return { total: 0, loaded: 0, broken: 0, offscreen: 0, slots: 0, pendingSlots: 0 };
-        const visible = (${IMG_VISIBLE_FN});
-        const imgs = Array.from(root.querySelectorAll('img')).filter(visible);
-        const slots = Array.from(root.querySelectorAll('[data-news-art-id]'));
-        const pendingSlots = slots.filter(s => !s.querySelector('img') && !s.classList.contains('news-art-failed')).length;
-        return {
-          total: imgs.length,
-          loaded: imgs.filter(i => i.complete && i.naturalWidth > 0).length,
-          broken: imgs.filter(i => i.complete && i.naturalWidth === 0 && (i.currentSrc || i.getAttribute('src') || i.getAttribute('srcset'))).length,
-          offscreen: imgs.filter(i => { const r = i.getBoundingClientRect(); return r.bottom <= 0 || r.top >= innerHeight; }).length,
-          slots: slots.length,
-          pendingSlots
-        };
-      })()`;
+      // HA-01 的图片判定与懒加载滚动逻辑定义在模块作用域（IMG_VISIBLE_FN /
+      // IMG_PROBE_TEMPLATE / LAZY_SCROLL_FN / LAZY_RESTORE_FN），并对外导出，
+      // 使行为验证能执行与生产**同一份**源码而不是另写一份判定。
+      const imgProbeExpr = buildImgProbeExpr(view);
       const imgWaitStart = Date.now();
       let imgStats = { total: 0, loaded: 0, broken: 0, offscreen: 0, slots: 0, pendingSlots: 0 };
       while (true) {
@@ -578,26 +658,62 @@ async function main() {
         if (Date.now() - imgWaitStart > 20000) break;
         await sleep(500);
       }
-      // HA-01 懒加载：滚出视口的候选把它带回可视区域再测一次，避免"没进视口"被当成"没渲染"。
+      // HA-01 懒加载：把滚出视口的候选真正带进可视区域，避免"没进视口"被当成"没渲染"。
+      // 第二轮独立验收的反例说明旧实现的三个问题，这里逐条修：
+      //   1. 产品实际滚动的是内层容器（.content-panel，ui/css/figma.css 的 overflow-y:auto），
+      //      固定滚 window 对它没有任何作用 => 改为找每个图片**真实的可滚动祖先**。
+      //   2. 旧实现连续同步滚动后立即复位，不给浏览器渲染/懒加载调度机会
+      //      => 改为逐项滚入视口，并在每步之间留出等待。
+      //   3. 旧实现不复位滚动位置 => 记录每个滚动容器的 scrollTop/scrollLeft，
+      //      测完复位（截图前恢复原状）。
+      // 注意仍不做「滚过就放行」：滚完继续按原预算统计 loaded/broken，
+      // 可见破图与真实未完成依旧算失败。
+      // 逐个目标滚入（见 LAZY_SCROLL_FN 注释：多目标一次性滚动会互相挤出视口）。
+      const listOffscreenExpr = `(() => {
+        const root = document.getElementById('view-${view}');
+        if (!root) return [];
+        const visible = (${IMG_VISIBLE_FN});
+        return Array.from(root.querySelectorAll('img'))
+          .filter(visible)
+          .filter(i => { const r = i.getBoundingClientRect(); return r.bottom <= 0 || r.top >= innerHeight; });
+      })()`;
+      const scrollOneExpr = `(img) => (${LAZY_SCROLL_FN})(img)`;
+      const runLazyRestoreExpr = `(() => {
+        const root = document.getElementById('view-${view}');
+        if (!root) return 0;
+        return (${LAZY_RESTORE_FN})(root);
+      })()`;
       if (imgStats && imgStats.offscreen > 0) {
         try {
-          await evaluate(`(() => {
-            const root = document.getElementById('view-${view}');
-            if (!root) return;
-            let last = 0;
-            for (let y = 0; y <= root.scrollHeight; y += 400) {
-              window.scrollTo(0, y); last = y;
-              const r = root.getBoundingClientRect();
-              if (r.bottom < -100) break;
+          const targets = await evaluate(listOffscreenExpr);
+          let inView = 0;
+          let containers = 0;
+          const budgetEnd = Date.now() + 8000;
+          for (const target of (targets || [])) {
+            const res = await evaluate(scrollOneExpr, target);
+            if (res) {
+              if (res.scrolled) inView++;
+              containers = Math.max(containers, res.containerCount || 0);
             }
-            window.scrollTo(0, 0);
-          })()`);
-          const scrollDeadline = Date.now() + 8000;
-          while (Date.now() < scrollDeadline) {
-            imgStats = await evaluate(imgProbeExpr);
-            if (imgStats.loaded + imgStats.broken >= imgStats.total && imgStats.pendingSlots === 0) break;
-            await sleep(400);
+            // 每个目标之间等待，给渲染 / 懒加载调度留机会
+            const stepEnd = Math.min(budgetEnd, Date.now() + 1200);
+            while (Date.now() < stepEnd) {
+              imgStats = await evaluate(imgProbeExpr);
+              if (imgStats.loaded + imgStats.broken >= imgStats.total && imgStats.pendingSlots === 0) break;
+              await sleep(300);
+            }
+            if (Date.now() >= budgetEnd) break;
           }
+          imgStats = await evaluate(imgProbeExpr);
+          const restored = await evaluate(runLazyRestoreExpr);
+          report.lazyScroll = report.lazyScroll || [];
+          report.lazyScroll.push({
+            view,
+            offscreen: (targets || []).length,
+            scrolledInView: inView,
+            scrolledContainers: containers,
+            restoredContainers: restored,
+          });
         } catch (e) {
           report.problems.push(`视图 ${view}: 懒加载滚动探测失败 ${e.message}`);
         }
@@ -854,6 +970,11 @@ if (isMainModule) {
 module.exports = {
   VIEWS,
   VIEW_MIN_TEXT,
+  IMG_VISIBLE_FN,
+  IMG_PROBE_TEMPLATE,
+  buildImgProbeExpr,
+  LAZY_SCROLL_FN,
+  LAZY_RESTORE_FN,
   LOADING_MARKERS,
   EMPTY_MARKERS,
   ERROR_MARKERS,

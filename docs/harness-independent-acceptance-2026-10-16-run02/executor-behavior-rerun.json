@@ -1,0 +1,50 @@
+{
+  "visible": {
+    "visible-broken": true,
+    "offscreen-lazy": true,
+    "pending-img": true,
+    "zero-box": true,
+    "zero-box-sized": true,
+    "below-viewport": true,
+    "scrolled-out": true
+  },
+  "hidden": {
+    "no-src-attr": false,
+    "hidden-attr": false,
+    "aria-hidden": false,
+    "ancestor-display-none": false,
+    "ancestor-visibility": false,
+    "content-icon-hidden": false,
+    "zero-explicit": false,
+    "svg-image": false,
+    "detached": false
+  },
+  "counts": {
+    "rawImgs": 15,
+    "total": 8,
+    "loaded": 5,
+    "broken": 2,
+    "offscreen": 4,
+    "ids": [
+      "below-viewport",
+      "inside-scroller",
+      "offscreen-lazy",
+      "pending-img",
+      "scrolled-out",
+      "visible-broken",
+      "zero-box",
+      "zero-box-sized"
+    ]
+  },
+  "legacyCounts": {
+    "total": 15,
+    "loaded": 11
+  },
+  "problems": [],
+  "detachedDetail": {
+    "connectedWhenAttached": true,
+    "afterRemove": false,
+    "isConnected": false
+  },
+  "verdict": "PASS"
+}

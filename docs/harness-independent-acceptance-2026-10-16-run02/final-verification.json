@@ -1,0 +1,57 @@
+{
+  "time": "2026-10-16T23:33:34.1242437+08:00",
+  "head": "f9b109d9ac3b665a926acbad3bdd96c8d57ac77e",
+  "headUnchanged": true,
+  "keySourceDrift": [],
+  "productTrees": [
+    {
+      "path": "dev",
+      "before": "ea943bd9cf26a7a353cd8e16cb34b2b1620206d8",
+      "after": "ea943bd9cf26a7a353cd8e16cb34b2b1620206d8",
+      "unchanged": true
+    },
+    {
+      "path": "ui",
+      "before": "cebda1f2937d62d985496682c3ad9aae8d2820f7",
+      "after": "cebda1f2937d62d985496682c3ad9aae8d2820f7",
+      "unchanged": true
+    },
+    {
+      "path": ".github",
+      "before": "3e8913d346d7bc7608196e1a8b29f63328baee66",
+      "after": "3e8913d346d7bc7608196e1a8b29f63328baee66",
+      "unchanged": true
+    },
+    {
+      "path": "release-notes",
+      "before": "4d1dc32b51d8c9238acb287cb3e29922c495b08f",
+      "after": "4d1dc32b51d8c9238acb287cb3e29922c495b08f",
+      "unchanged": true
+    }
+  ],
+  "candidateHashMatches": true,
+  "node": {
+    "skip": 0,
+    "pass": 378,
+    "fail": 1,
+    "exit": 1,
+    "tests": 379
+  },
+  "officialUi": {
+    "verdict": "PASS",
+    "views": 10
+  },
+  "boundaryProbes": "COUNTEREXAMPLES_CONFIRMED",
+  "liveUpdate": {
+    "verdict": "PASS",
+    "failures": 0,
+    "checks": 16
+  },
+  "ownedLiveProcesses": [],
+  "trackedChanged": [],
+  "stagedChanged": [],
+  "technicalAcceptance": "FAIL_REWORK_REQUIRED",
+  "formalPhaseApproval": "NOT_GRANTED",
+  "committed": false,
+  "published": false
+}

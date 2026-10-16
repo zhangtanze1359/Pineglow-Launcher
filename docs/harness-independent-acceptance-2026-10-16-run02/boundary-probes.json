@@ -1,0 +1,150 @@
+{
+  "sourceHead": "f9b109d9ac3b665a926acbad3bdd96c8d57ac77e",
+  "uses": [
+    "official IMG_VISIBLE_FN",
+    "official imgProbeExpr",
+    "official imagesPending expression",
+    "official scroll expression"
+  ],
+  "counterexamples": [
+    {
+      "name": "visible_broken_excluded_by_aria_or_type",
+      "stats": {
+        "total": 1,
+        "loaded": 1,
+        "broken": 0,
+        "offscreen": 0,
+        "slots": 0,
+        "pendingSlots": 0
+      },
+      "wouldFlagImages": false,
+      "nodes": [
+        {
+          "id": "decorative-broken",
+          "complete": true,
+          "naturalWidth": 0,
+          "rectWidth": 84,
+          "rectHeight": 84,
+          "hidden": false,
+          "ariaHidden": "true",
+          "type": null
+        },
+        {
+          "id": "svg-typed-broken",
+          "complete": true,
+          "naturalWidth": 0,
+          "rectWidth": 84,
+          "rectHeight": 84,
+          "hidden": false,
+          "ariaHidden": null,
+          "type": "image/svg+xml"
+        },
+        {
+          "id": "good",
+          "complete": true,
+          "naturalWidth": 1,
+          "rectWidth": 84,
+          "rectHeight": 84,
+          "hidden": false,
+          "ariaHidden": null,
+          "type": null
+        },
+        {
+          "id": "actually-hidden",
+          "complete": true,
+          "naturalWidth": 0,
+          "rectWidth": 0,
+          "rectHeight": 0,
+          "hidden": false,
+          "ariaHidden": null,
+          "type": null
+        },
+        {
+          "id": "upload-placeholder",
+          "complete": true,
+          "naturalWidth": 0,
+          "rectWidth": 0,
+          "rectHeight": 0,
+          "hidden": true,
+          "ariaHidden": null,
+          "type": null
+        }
+      ],
+      "actualVisibleBroken": 2,
+      "confirmed": true
+    },
+    {
+      "name": "nested_lazy_scroll_not_exercised",
+      "before": {
+        "stats": {
+          "total": 1,
+          "loaded": 0,
+          "broken": 0,
+          "offscreen": 1,
+          "slots": 0,
+          "pendingSlots": 0
+        },
+        "wouldFlagImages": true
+      },
+      "afterOfficialScroll": {
+        "stats": {
+          "total": 1,
+          "loaded": 0,
+          "broken": 0,
+          "offscreen": 1,
+          "slots": 0,
+          "pendingSlots": 0
+        },
+        "wouldFlagImages": true
+      },
+      "positions": {
+        "windowY": 0,
+        "nestedTop": 0,
+        "lazyTop": 12055
+      },
+      "requestsBefore": 0,
+      "requestsAfterOfficialScroll": 0,
+      "afterActualElementScroll": {
+        "stats": {
+          "total": 1,
+          "loaded": 1,
+          "broken": 0,
+          "offscreen": 0,
+          "slots": 0,
+          "pendingSlots": 0
+        },
+        "wouldFlagImages": false
+      },
+      "confirmed": true
+    }
+  ],
+  "controls": [
+    {
+      "name": "real_pending_then_loaded",
+      "pending": {
+        "stats": {
+          "total": 1,
+          "loaded": 0,
+          "broken": 0,
+          "offscreen": 0,
+          "slots": 0,
+          "pendingSlots": 0
+        },
+        "wouldFlagImages": true
+      },
+      "loaded": {
+        "stats": {
+          "total": 1,
+          "loaded": 1,
+          "broken": 0,
+          "offscreen": 0,
+          "slots": 0,
+          "pendingSlots": 0
+        },
+        "wouldFlagImages": false
+      },
+      "ok": true
+    }
+  ],
+  "verdict": "COUNTEREXAMPLES_CONFIRMED"
+}

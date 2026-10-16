@@ -1,0 +1,27 @@
+﻿第二轮独立验收（docs/harness-independent-acceptance-2026-10-16-run02/）判定 FAIL_REWORK_REQUIRED，
+针对本目录 HA-01 修复提出 H2-01/H2-02/H2-03。本节记录这三项的修复与重跑证据：
+
+H2-01（P1）新增第十页后正式回归预期仍停留在九页：
+  scripts/tests/ui-live-cdp.test.cjs 的 VIEWS 长度断言已改为 10，并新增双向核对 ——
+  VIEWS 必须与 ui/index.html 的 data-nav 集合完全一致、无重复、包含 playtime。
+  全量清单重跑：380/380 通过，0 失败 0 跳过（379 + 本次新增的契约用例）。
+
+H2-02（P2）把可访问性元数据/MIME 提示误当成视觉隐藏条件：
+  IMG_VISIBLE_FN 不再依据 aria-hidden 或 type 属性排除节点 —— aria-hidden 只对辅助技术隐藏，
+  HTML <img> 的 type 属性也不会把它变成 SVG <image>。两个可见破图反例已纳入行为脚本。
+  运行：scripts/ha01-image-visibility-behavior.py => PASS（计数 10 张，broken=4，含两个反例）。
+
+H2-03（P2）懒加载滚动未作用于真实滚动容器、也未给渲染机会：
+  改为逐个目标滚入其真实可滚动祖先（.content-panel 这类 overflow 容器），每个目标之间等待复测，
+  scrollIntoView 用 block:nearest（center 会把容器滚到最大值、把元素推到视口上方，实测 top=-487），
+  测完复位滚动位置。新脚本 scripts/ha01-lazy-scroll-behavior.py 用内层 overflow 容器 +
+  IntersectionObserver 延迟加载夹具做两次独立求值验证，结果 PASS：
+    滚动前 内层容器 scrollTop=0、HTTP 图片请求 1 次（无延迟项）
+    逐个滚入后 scrollTop=1228、请求变为 2 次、两个目标均 top=261（其一 natural=1 已加载，
+    其二 natural=0 正确计为 broken），复位后容器与 window 均为 0。
+  实测记录：headless Chromium 会把 loading=lazy 的图片在滚动前全部取走，
+  因此夹具改用 IntersectionObserver 模拟真实懒加载，否则无法表达「进入视口才加载」。
+
+正式十页巡检（修复后重跑）：ui-live-fixed2.json => UI-PAGES RESULT=PASS views=10/10，
+exceptions/consoleErrors/uiAssetFailures/productLocalFailures 全为 0。
+UI 资源闭包 0 缺失；测试清单双向一致。

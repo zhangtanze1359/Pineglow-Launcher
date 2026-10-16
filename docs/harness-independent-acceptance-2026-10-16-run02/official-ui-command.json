@@ -1,0 +1,15 @@
+[
+  "node",
+  "D:\\松光启动器\\scripts\\verify-ui-pages-live.cjs",
+  "--app",
+  "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pg-verify-20261016\\cold2-中文冷启动\\Pineglow-Launcher-win-x64-single-file.exe",
+  "--out",
+  "D:\\松光启动器\\docs\\harness-independent-acceptance-2026-10-16-run02\\ui-shots",
+  "--json",
+  "D:\\松光启动器\\docs\\harness-independent-acceptance-2026-10-16-run02\\official-ui.json",
+  "--keep",
+  "--timeout",
+  "40",
+  "--settle-timeout",
+  "45"
+]

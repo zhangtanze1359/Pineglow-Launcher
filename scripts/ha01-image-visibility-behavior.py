@@ -66,7 +66,8 @@ PAGE = f"""<!doctype html><html><head><meta charset="utf-8"><style>
   <img id="offscreen-lazy" src="{PNG}" loading="lazy" width="20" height="20">
   <img id="no-src-attr" hidden width="20" height="20">
   <img id="hidden-attr" src="{PNG}" hidden width="20" height="20">
-  <img id="aria-hidden" src="{PNG}" aria-hidden="true" width="20" height="20">
+  <img id="aria-hidden-visible" src="{DEAD}?ah=1" aria-hidden="true" width="84" height="84">
+  <img id="type-mislabeled-visible" src="{DEAD}?tp=1" type="image/svg+xml" width="84" height="84">
   <div id="hiddenAncestor"><img id="ancestor-display-none" src="{PNG}" width="20" height="20"></div>
   <div id="invisibleAncestor"><img id="ancestor-visibility" src="{PNG}" width="20" height="20"></div>
   <div class="mod-icon"><img id="content-icon-hidden" src="{PNG}" width="20" height="20"></div>
@@ -113,13 +114,18 @@ EXPECT_VISIBLE = [
     "zero-box-sized",    # 实测 20x20
     "below-viewport",    # 视口外但仍在布局内 => 保留统计（懒加载分支）
     "scrolled-out",
+    # 第二轮独立验收的反例：aria-hidden 只对辅助技术隐藏，元素照样可见；
+    # HTML <img> 的 type 属性也不会把它变成 SVG <image>。二者都必须参与统计，
+    # 否则可见破图会被漏报（旧实现在这里错排除，已被反例证伪）。
+    "aria-hidden-visible",
+    "type-mislabeled-visible",
 ]
 EXPECT_HIDDEN = [
-    "no-src-attr", "hidden-attr", "aria-hidden",
+    "no-src-attr", "hidden-attr",
     "ancestor-display-none", "ancestor-visibility",
     "content-icon-hidden",   # 真实 .mod-icon display:none -> 0x0
     "zero-explicit",         # 显式 width:0;height:0
-    "svg-image",             # SVG <image> 不是 HTMLImageElement
+    "svg-image",             # 真正的 SVG <image> 节点（不是 HTMLImageElement）
     "detached",              # isConnected=false
 ]
 EXPECT_OFFSCREEN = ["below-viewport", "scrolled-out"]
