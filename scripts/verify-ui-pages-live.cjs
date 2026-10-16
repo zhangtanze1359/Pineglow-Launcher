@@ -45,7 +45,7 @@ const net = require('net');
 const path = require('path');
 const { spawn } = require('child_process');
 
-const VIEWS = ['home', 'installations', 'worlds', 'servers', 'content', 'skins', 'downloads', 'news', 'settings'];
+const VIEWS = ['home', 'installations', 'worlds', 'servers', 'playtime', 'content', 'skins', 'downloads', 'news', 'settings'];
 
 /*
  * 每页"正常有内容"的最小内容量（字符数）。
@@ -528,22 +528,79 @@ async function main() {
       // 截图前必须等它们真的画出来，否则会把"还没加载"误记成"界面坏了"（本轮实测踩过）。
       // 注意占位符：news 用的是 [data-news-art-id] 容器 + 事后 append <img>，
       // 所以不能只看 <img> 数量 —— 一开始是 0 个 img、有 N 个待填槽位。
+      // HA-01：只统计「可能渲染真实图片」的节点，否则会把自己的隐藏占位当成加载失败。
+      // 注意 22 行注释里的错误结论就是从这里来的：内容库 24 张图被 .mod-icon{display:none}
+      // 隐藏、布局宽高为 0，skins 页只有一个 hidden 且无 src 的本地文件预览占位，
+      // 它们**不可能**加载出图片，却把整个验证器判成 FAIL（exit 1）。
+      // 判定与"可见图片优先"一致：隐藏/无来源/非图片 resource 的节点不参与统计；
+      // 仍在文档内、但滚出视口的节点保留统计（懒加载），由下方滚动与 pending 预算处理。
+      const IMG_VISIBLE_FN = `function (i) {
+        if (!i || !i.isConnected) return false;
+        if (!i.getAttribute('src') && !i.getAttribute('srcset')) return false;   // 无来源 => 尚未选择文件的占位
+        if (i.hidden || i.getAttribute('aria-hidden') === 'true') return false;
+        if ((i.getAttribute('type') || '').toLowerCase() === 'image/svg+xml') return false; // <image> 非 HTMLImageElement
+        let n = i, st = null;
+        while (n && n.nodeType === 1 && n !== document.documentElement) {
+          const s = getComputedStyle(n);
+          if (s.display === 'none' || s.visibility === 'hidden' || s.visibility === 'collapse') return false;
+          n = n.parentElement;
+        }
+        st = getComputedStyle(i);
+        const r = i.getBoundingClientRect();
+        if (r.width <= 0 || r.height <= 0) return false;   // 隐藏祖先/未参与布局 => 无法验证可见性
+        return true;
+      }`;
       const imgProbeExpr = `(() => {
         const root = document.getElementById('view-${view}');
-        if (!root) return { total: 0, loaded: 0, slots: 0, pendingSlots: 0 };
-        const imgs = Array.from(root.querySelectorAll('img'));
+        if (!root) return { total: 0, loaded: 0, broken: 0, offscreen: 0, slots: 0, pendingSlots: 0 };
+        const visible = (${IMG_VISIBLE_FN});
+        const imgs = Array.from(root.querySelectorAll('img')).filter(visible);
         const slots = Array.from(root.querySelectorAll('[data-news-art-id]'));
         const pendingSlots = slots.filter(s => !s.querySelector('img') && !s.classList.contains('news-art-failed')).length;
-        return { total: imgs.length, loaded: imgs.filter(i => i.complete && i.naturalWidth > 0).length, slots: slots.length, pendingSlots };
+        return {
+          total: imgs.length,
+          loaded: imgs.filter(i => i.complete && i.naturalWidth > 0).length,
+          broken: imgs.filter(i => i.complete && i.naturalWidth === 0 && (i.currentSrc || i.getAttribute('src') || i.getAttribute('srcset'))).length,
+          offscreen: imgs.filter(i => { const r = i.getBoundingClientRect(); return r.bottom <= 0 || r.top >= innerHeight; }).length,
+          slots: slots.length,
+          pendingSlots
+        };
       })()`;
       const imgWaitStart = Date.now();
-      let imgStats = { total: 0, loaded: 0, slots: 0, pendingSlots: 0 };
+      let imgStats = { total: 0, loaded: 0, broken: 0, offscreen: 0, slots: 0, pendingSlots: 0 };
       while (true) {
         imgStats = await evaluate(imgProbeExpr);
-        const pending = imgStats && ((imgStats.pendingSlots > 0) || (imgStats.total > 0 && imgStats.loaded < imgStats.total));
+        // 目标函数：所有被统计的图片都出结果（成功或明确失败），且没有待填的异步槽位。
+        // 旧实现把 pending 定义为 loaded < total，于是"永久 0/24"会一直等到超时；
+        // 现在旧的隐藏/无来源节点已被排除，可见而仍在加载的才继续等。
+        const pending = imgStats && ((imgStats.pendingSlots > 0) || (imgStats.total > 0 && imgStats.loaded + imgStats.broken < imgStats.total));
         if (!pending) break;
         if (Date.now() - imgWaitStart > 20000) break;
         await sleep(500);
+      }
+      // HA-01 懒加载：滚出视口的候选把它带回可视区域再测一次，避免"没进视口"被当成"没渲染"。
+      if (imgStats && imgStats.offscreen > 0) {
+        try {
+          await evaluate(`(() => {
+            const root = document.getElementById('view-${view}');
+            if (!root) return;
+            let last = 0;
+            for (let y = 0; y <= root.scrollHeight; y += 400) {
+              window.scrollTo(0, y); last = y;
+              const r = root.getBoundingClientRect();
+              if (r.bottom < -100) break;
+            }
+            window.scrollTo(0, 0);
+          })()`);
+          const scrollDeadline = Date.now() + 8000;
+          while (Date.now() < scrollDeadline) {
+            imgStats = await evaluate(imgProbeExpr);
+            if (imgStats.loaded + imgStats.broken >= imgStats.total && imgStats.pendingSlots === 0) break;
+            await sleep(400);
+          }
+        } catch (e) {
+          report.problems.push(`视图 ${view}: 懒加载滚动探测失败 ${e.message}`);
+        }
       }
       const imagesMs = Date.now() - imgWaitStart;
 
@@ -566,7 +623,15 @@ async function main() {
         ? (state === 'empty' ? 'empty' : 'ok')
         : (state === 'error' && active === view ? 'external-error'
           : ((state === 'loading' && active === view && probe && probe.exists === true) ? 'external-pending' : 'broken'));
-      const imagesPending = imgStats && ((imgStats.pendingSlots > 0) || (imgStats.total > 0 && imgStats.loaded < imgStats.total));
+      // HA-01：区分三件事，别再混成一句「图片未在预算内渲染」。
+      //   - 明确失败：可见且 complete 但 naturalWidth=0（真破图）=> 一定进 problems。
+      //   - 未完成：被统计的可见图片里还有没出结果的 => 预算内没画出来 => 进 problems。
+      //   - 待填槽位：news 这类需要异步 fetch 的占位，仍按原逻辑计入 pending。
+      const imagesPending = imgStats && (
+        (imgStats.pendingSlots > 0)
+        || (imgStats.broken > 0)
+        || (imgStats.total > 0 && imgStats.loaded + imgStats.broken < imgStats.total)
+      );
       report.views[view] = {
         ok,
         outcome,
@@ -576,6 +641,7 @@ async function main() {
         imagesMs,
         imagesTotal: imgStats ? imgStats.total : 0,
         imagesLoaded: imgStats ? imgStats.loaded : 0,
+        imagesBroken: imgStats ? imgStats.broken : 0,
         imageSlots: imgStats ? imgStats.slots : 0,
         pendingSlots: imgStats ? imgStats.pendingSlots : 0,
         activeNav: active,
@@ -587,7 +653,7 @@ async function main() {
       };
       const tag = ok ? (state === 'empty' ? 'EMPTY' : 'OK  ')
         : (outcome === 'external-error' ? 'ERR ' : (outcome === 'external-pending' ? 'WAIT' : 'FAIL'));
-      console.log(`[ui-pages] ${tag} ${view.padEnd(14)} state=${state} active=${active} textLen=${probe ? probe.textLen : 0} settle=${settleMs}ms img=${imgStats ? imgStats.loaded + '/' + imgStats.total : '-'} slots=${imgStats ? imgStats.slots : 0}(pending=${imgStats ? imgStats.pendingSlots : 0},${imagesMs}ms) shot=${shotBytes}B`);
+      console.log(`[ui-pages] ${tag} ${view.padEnd(14)} state=${state} active=${active} textLen=${probe ? probe.textLen : 0} settle=${settleMs}ms img=${imgStats ? imgStats.loaded + '/' + imgStats.total : '-'} broken=${imgStats ? imgStats.broken : 0} slots=${imgStats ? imgStats.slots : 0}(pending=${imgStats ? imgStats.pendingSlots : 0},${imagesMs}ms) shot=${shotBytes}B`);
       if (state === 'error' && active === view) {
         report.landedErrorStates.push({ view, settleMs, sample: probe ? probe.sample : '' });
       } else if (state === 'empty' && active === view) {
@@ -598,10 +664,14 @@ async function main() {
         report.problems.push(`视图 ${view}: state=${state} active=${active} exists=${probe && probe.exists} textLen=${probe && probe.textLen} shot=${shotBytes}`);
       }
       if (imagesPending) {
-        const item = { view, total: imgStats.total, loaded: imgStats.loaded, slots: imgStats.slots, pendingSlots: imgStats.pendingSlots, waitedMs: imagesMs };
+        const item = { view, total: imgStats.total, loaded: imgStats.loaded, broken: imgStats.broken, slots: imgStats.slots, pendingSlots: imgStats.pendingSlots, waitedMs: imagesMs };
         report.imagesPending.push(item);
         if (!args.allowMissingImages) {
-          report.problems.push(`视图 ${view}: 图片未在预算内渲染（img ${imgStats.loaded}/${imgStats.total}，待填槽位 ${imgStats.pendingSlots}，等 ${imagesMs}ms）`);
+          const reasons = [];
+          if (imgStats.broken > 0) reasons.push(`可见破图 ${imgStats.broken}/${imgStats.total}`);
+          if (imgStats.loaded + imgStats.broken < imgStats.total) reasons.push(`可见未完成 ${imgStats.total - imgStats.loaded - imgStats.broken}/${imgStats.total}`);
+          if (imgStats.pendingSlots > 0) reasons.push(`待填槽位 ${imgStats.pendingSlots}`);
+          report.problems.push(`视图 ${view}: 图片未在预算内渲染（img ${imgStats.loaded}/${imgStats.total}，${reasons.join('，')}，等 ${imagesMs}ms）`);
         }
       }
     }

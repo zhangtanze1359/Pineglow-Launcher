@@ -1,0 +1,10 @@
+﻿HA-01 行为验证脚本的退出码语义实测（全 ASCII 路径布局下，避免批处理无法承载中文路径）：
+  PASS_EXIT=0  (判定 PASS)
+  SKIP_EXIT=3  (浏览器不可用，明确跳过，不伪装成通过)
+  另测：正式脚本路径不存在 => exit 2 (FATAL)
+
+通过日志尾部：HA-01 ��Ϊ��֤�ж�: PASS
+跳过日志尾部：      ���� PLAYWRIGHT_CHANNEL �� HA01_BROWSER_PATH ָ�����������
+
+复现：python scripts/ha01-image-visibility-behavior.py scripts/verify-ui-pages-live.cjs <报告>
+前置：python playwright；浏览器默认 channel=msedge，可用 PLAYWRIGHT_CHANNEL / HA01_BROWSER_PATH 覆盖。

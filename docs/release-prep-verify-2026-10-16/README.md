@@ -96,7 +96,8 @@
 | 测试清单双向一致 | 通过（Node 28 + C# 1，磁盘一致） | `test-inventory.json`、`inv-check.log` |
 | UI 资源闭包 | 12 个文件、14 条本地引用、0 缺失 | `ui-resource-closure.json`、`closure.log` |
 | 全量 C# 测试（957 项） | **957/957 通过，0 失败 0 跳过** | `csharp-tests-outside2.log` |
-| 真实 WebView2 九页界面 | **总判定 FAIL（exit 1）**；九个视图都到达终态、未捕获异常 0、console.error 0、本机资源失败 0，但 4 项 problems 未通过 —— 见下方第 3.2 节 | `ui-live-report.json`、`ui-live2.log`、`ui-shots/` |
+| 真实 WebView2 界面（正式验证器，修复后） | **PASS — 10/10 视图，exit 0**；未捕获异常 0、console.error 0、本机资源失败 0。修复前的 FAIL 报告按原样保留 | `ui-live-fixed.json`、`ui-live-fixed.log` |
+| HA-01 行为验证（真实浏览器布局） | **PASS** — 16 个节点分类全部符合预期，含可见破图仍报错、可见未完成不提前通过 | `ha01-behavior-report.json`、`ha01-pass.log`、`ha01-exit-code-check.txt` |
 | 更新清单与最终附件一致 | 7/7 断言通过（version/notes/url/sha256/size 全部与实际附件相符） | `manifest.json` |
 | **真实更新链路（阶段 A/B/C，真实外网）** | **PASS** — 见下方第 3.1 节 | `live-update-abc-final2.json`、`live-update-abc-final2.log` |
 
@@ -112,15 +113,53 @@
 - `视图 skins: 图片未在预算内渲染（img 0/1，待填槽位 0，等 20431ms）`
 - 另两项来自第一次（含空格路径）运行的同类统计。
 
-独立验收的进一步结论（**新增，本轮未修**）：被计入的图片节点本就不该算作「可见图片加载失败」——
+独立验收的进一步结论：被计入的图片节点本就不该算作「可见图片加载失败」——
 内容库那 24 张图由 `ui/css/redesign.css` 的 `.mod-icon { display:none; }` 隐藏、布局宽高为 0；
 skins 页唯一被计入的 `#localSkinTexture` 是 `hidden`、无 `src`、宽高 0 的本地文件预览占位。
 也就是说这是**验证器统计口径缺陷（HA-01）**，不是界面真的没渲染出来。
-同时正式 `VIEWS` 只有 9 项，漏了实际存在的 `playtime` 页。
+同时正式 `VIEWS` 只有 9 项，漏了实际存在的 `playtime` 页（`ui/index.html:61`）。
 
-本轮**没有修改** `scripts/verify-ui-pages-live.cjs`：该修复需要独立的 RED→GREEN 行为验证，
-已由独立验收写出后续流程（`../release-acceptance-followup-workflow-2026-10-16.md` 第 2–4 项）。
-因此本目录的界面证据应记为「九个视图均达终态，但正式验证器总判定 FAIL，原因待修」。
+**HA-01 已修复（本轮后续）：**
+
+1. `scripts/verify-ui-pages-live.cjs` 新增可见性判定 `IMG_VISIBLE_FN`：只统计
+   仍在文档内、**有来源**（`src`/`srcset`）、非 `hidden`/`aria-hidden`、
+   自身及全部祖先既非 `display:none` 也非 `visibility:hidden`、且布局盒非零的
+   `HTMLImageElement`。无来源的占位、隐藏节点、SVG `<image>` 一律不参与统计。
+2. `pending` 的定义同时修正：原为 `loaded < total`，会把「永久 0/24」一直等到超时；
+   现在只要所有**被统计**的图片都出了结果（成功或明确失败）、且没有待填槽位就结束等待。
+   新增 `broken` 判定（`complete && naturalWidth===0`，并用 `getAttribute('src')` 兜底
+   `currentSrc`——实测相对地址 404 时 `currentSrc` 为空串），**可见破图仍然计入并 FAIL**。
+3. `VIEWS` 补入 `playtime`（`data-nav="playtime"` 确实存在），正式验证器改为十页。
+4. 懒加载：被统计节点里若有滚出视口者，先滚动覆盖可视区域再复测一次，
+   避免把「还没进视口」当成「没渲染」；滚动探测失败会记入 problems 而不是静默通过。
+
+**GREEN 证据（正式脚本、真实 WebView2、当前候选 EXE）：**
+
+- `ui-live-fixed.json` / `ui-live-fixed.log`：`UI-PAGES RESULT=PASS views=10/10`，
+  退出码 0，`exceptions=0 consoleErrors=0 uiAssetFailures=0 productLocalFailures=0`，
+  `playtime` 页 `OK state=content textLen=325`。
+- 修复前同一命令（九页）为 `FAIL`、4 项 problems —— 该原始 FAIL 报告 `ui-live-report.json` 按原样保留，未篡改。
+
+**行为验证（RED→GREEN 的最小行为覆盖，真实浏览器布局，非 DOM 桩）：**
+
+`scripts/ha01-image-visibility-behavior.py` 直接从正式脚本源码抽出 `IMG_VISIBLE_FN`
+（不是复制一份），在真实 Edge（Playwright `channel=msedge`）里对 16 个节点求值：
+
+| 覆盖项 | 结果 |
+| --- | --- |
+| A 不应误报：无 `src`、`hidden`、`aria-hidden`、隐藏祖先（`display:none` / `visibility:hidden`）、真实 `.mod-icon`、显式 0 尺寸、SVG `<image>`、已移出文档（`isConnected=false`） | 9/9 全部 `visible=false` |
+| B 可见破图仍必须报错 | `broken=2`（可见失败图片被计入） |
+| C 可见未完成不能提前算作完成 | `loaded=5 + broken=2 < total=8`，仍计 pending |
+| D 视口外节点保留统计并触发滚动分支 | `offscreen=4`，`below-viewport`/`scrolled-out` 均在统计内 |
+| 区分力对照 | 修复前口径 `raw img=15 loaded=11`，修复后 `计数=8`：确认用例能区分两种口径 |
+
+判定 PASS，退出码 0；浏览器不可用时以 **exit 3 明确跳过**（`ha01-skip.log`），
+正式脚本路径缺失时 exit 2，见 `ha01-exit-code-check.txt`。
+
+**语义边界（实测记录，避免后人误判）：** 父容器 0×0 **不会**自动让 `<img>` 被排除——
+若 `img` 自带 `width`/`height` 属性，其自身布局盒仍是 20×20，按可见统计是正确行为；
+只有显式 `width:0;height:0`（或 `display:none`）才会被排除。测试里 `zero-box` /
+`zero-box-sized` 两个节点就是用来钉住这条边界的。
 
 ### 3.1 真实更新链路验收（本轮新增）
 
@@ -244,7 +283,7 @@ UTF-8 读取，但 Windows PowerShell 5.1 按 ANSI 解码 → **3 处语法错�
 | HA-02a | 「9/9 视图渲染」当作通过 | 归档报告 `verdict=FAIL`、4 项 problems；已改为按原样记录（第 3.2 节） |
 | HA-02b | RP-02 的归档 failpath 证据 | 该文件实际是健康成功 PASS；已替换为真实健康失败的 FAIL 报告（第 2.1 节） |
 | HA-02c | 把沙箱服务/`bindflt` 写成根因，并断言「不是用户会遇到的缺陷」 | 降级为「本机路径相关环境差异，机制未证实，影响范围不明」（第 1 节） |
-| HA-01 | 未提及 | 正式九页验证器存在统计口径缺陷（误计隐藏/无 src 图片）且漏 `playtime` 页；本轮**未修**，交后续流程 |
+| HA-01 | 未提及 | 正式验证器存在统计口径缺陷（误计隐藏/无 src 图片）且漏 `playtime` 页 —— **已修复**，见第 3.2 节 |
 | — | 「`--app` 含空格路径是脚本缺陷」 | 已撤销，属我的调用方式（第 7 节） |
 | — | PS 5.1 BOM 兼容性表述过宽 | 限定为「在允许执行/可解析的环境下已复现」，非 `pwsh` 发布阻断（第 6 节） |
 
@@ -252,8 +291,9 @@ UTF-8 读取，但 Windows PowerShell 5.1 按 ANSI 解码 → **3 处语法错�
 资源闭包、同 SHA 旧候选与当前候选在中性目录均 18/18、冻结副本重新发布 + 冷启动 18/18、
 阶段 A 真实更新源链、版本介绍与 manifest 一致。
 
-**本轮之后仍未闭环（发布前必须处理）：** HA-01（正式九页验证器的统计口径与缺页修复，
-需要自己的 RED→GREEN 行为验证）；`json` 证据包因此还不能记为「全部通过」。
+**本轮之后仍未闭环：** HA-01 已按后续流程第 2–4 项修复并通过行为验证（第 3.2 节）；
+其余未验证边界仍见第 4 节（真实账户/游戏、真实升级安装、Gitee 镜像）。
+发布批准与技术检查分开，仍需人工决定。
 
 ## 8. 复现命令
 ```powershell
