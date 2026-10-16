@@ -65,6 +65,10 @@ try { [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 } catch { }
 
 $script:Failures = New-Object System.Collections.Generic.List[string]
 $script:Checks = New-Object System.Collections.Generic.List[object]
+# 必须在分区之外初始化：界面资源采集（第 3 段）只在 /api/health 就绪时执行，
+# 而报告（servedAssets）无条件引用它。不要因为「健康检查失败」再叠一个
+# 「变量未初始化」的次生异常，否则最需要证据的 FAIL 场景反而写不出 JSON。
+$served = [ordered]@{}
 
 function Add-Check {
     param([string] $Name, [bool] $Ok, [string] $Detail = '')
@@ -229,7 +233,6 @@ try {
             @{ Path = '/js/skin3d-core.js';      Type = 'application/javascript'; Min = 100 },
             @{ Path = '/vendor/three.min.js';    Type = 'application/javascript'; Min = 10000 }
         )
-        $served = [ordered]@{}
         $downloadDir = Join-Path $coldDir 'served'
         [void](New-Item -ItemType Directory -Path $downloadDir -Force)
         foreach ($item in $matrix) {

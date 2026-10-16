@@ -1,0 +1,5 @@
+﻿在 D:\松光启动器 内执行 dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release
+结果：失败 492，通过 465，已跳过 0，总计 957
+失败构成为沙箱环境所致：HttpListenerException 句柄无效 + ContentIconServiceTests 在 %TEMP% 建目录被拒 UnauthorizedAccessException。
+同一命令在工作区外副本 D:\pg-testrepo 执行：失败 0，通过 957（先为 13 项缺 .github/workflows 导致的 WorkflowInvariantTests 失败，补齐后全绿）。
+完整原始日志 421,772 字节，未纳入仓库；可按 README 第 6 节复现。
