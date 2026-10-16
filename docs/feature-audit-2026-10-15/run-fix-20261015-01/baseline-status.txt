@@ -1,0 +1,10 @@
+?? docs/existing-features-execution-prompt-2026-10-15.md
+?? docs/existing-features-remediation-workflow-2026-10-15.md
+?? docs/feature-audit-2026-10-15/.gitignore
+?? docs/feature-audit-2026-10-15/README.md
+?? docs/feature-audit-2026-10-15/browser-audit.json
+?? docs/feature-audit-2026-10-15/configured-proxy-looks-empty.png
+?? docs/feature-audit-2026-10-15/input-hashes.json
+?? docs/feature-audit-2026-10-15/probe-browser.py
+?? docs/feature-audit-2026-10-15/saved-instance-lost.png
+?? docs/feature-audit-2026-10-15/self-evaluation.md

@@ -28,6 +28,7 @@ node ui/tests/content-icon.test.cjs
 node ui/tests/current-version-errors.test.cjs
 node ui/tests/diagnostic-history.test.cjs
 node ui/tests/file-recovery.test.cjs
+node ui/tests/feature-state-regression.test.cjs
 node ui/tests/goal-core-flow.test.cjs
 node ui/tests/import-cancel.test.cjs
 node ui/tests/instance-removal.test.cjs
@@ -41,4 +42,5 @@ node ui/tests/news-link.test.cjs
 node ui/tests/playtime.test.cjs
 node ui/tests/skin3d-core.test.cjs
 node ui/tests/update-recovery.test.cjs
+node ui/tests/update-monitor.test.cjs
 project dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj

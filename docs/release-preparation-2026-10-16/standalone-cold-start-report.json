@@ -1,0 +1,45 @@
+{
+  "generatedUtc": "2026-10-15T16:19:11Z",
+  "exePath": "D:\\松光启动器\\docs\\release-preparation-2026-10-16\\publish\\Pineglow.Launcher.exe",
+  "exeSizeBytes": 53089586,
+  "exeSha256": "f665c26db60941335def1f5b9f6f743aaf23d148b9ae54b6a53336e4a0bf2900",
+  "coldDir": "D:\\松光启动器\\docs\\release-preparation-2026-10-16\\cold-start\\中文 冷启动 ce4c43d2cae74277a8c3116e10a1aae8",
+  "port": 48263,
+  "expectedUiRoot": "D:\\松光启动器\\ui",
+  "alive": true,
+  "mainWindowTitle": "松光启动器",
+  "health": null,
+  "stderr": "[LocalApi] ����ʧ��: �����Ч��\r\n",
+  "checks": [
+    {
+      "name": "冷启动目录无外置 UI/ 目录",
+      "ok": true,
+      "detail": "dirs="
+    },
+    {
+      "name": "冷启动目录无外置原生 DLL",
+      "ok": true,
+      "detail": "dlls="
+    },
+    {
+      "name": "冷启动不继承开发旋钮（PINEGLOW_UI_DIR 等已清除）",
+      "ok": true,
+      "detail": "scrubbed=PINEGLOW_WEBVIEW_DEBUG=9222"
+    },
+    {
+      "name": "进程在冷启动后仍然存活（R01 原始 RED 是直接退出）",
+      "ok": true,
+      "detail": "stderr=[LocalApi] ����ʧ��: �����Ч��"
+    },
+    {
+      "name": "/api/health 就绪",
+      "ok": false,
+      "detail": "health="
+    }
+  ],
+  "failures": [
+    "/api/health 就绪 :: health="
+  ],
+  "servedAssets": {},
+  "verdict": "FAIL"
+}

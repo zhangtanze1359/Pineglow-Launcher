@@ -1,0 +1,183 @@
+{
+  "sourceRoot": "D:\\松光启动器",
+  "executionRoot": "D:\\松光启动器\\dev\\PineglowLauncher\\bin\\Release\\net10.0\\UI",
+  "layer": "Real Edge + Release build UI + intercepted API fixtures",
+  "checks": [
+    {
+      "name": "FA01_SavedInstanceLaunchTarget",
+      "status": "PASS"
+    },
+    {
+      "name": "FA02_ProxyRoundTripPreservesValuesAndSecrets",
+      "status": "PASS"
+    },
+    {
+      "name": "FA03_SourceListSelectionPersistenceAndRetry",
+      "status": "PASS"
+    },
+    {
+      "name": "FA03_LateSourceResponsePreservesBusinessDialog",
+      "status": "PASS"
+    },
+    {
+      "name": "FA04_AiToggleSuccessFailureRollbackAndRetry",
+      "status": "PASS"
+    },
+    {
+      "name": "FA04_PendingSaveDeduplicatesAcrossRerender",
+      "status": "PASS"
+    }
+  ],
+  "smoke": [],
+  "errors": [],
+  "requests": [
+    {
+      "path": "/api/accounts",
+      "method": "GET"
+    },
+    {
+      "path": "/api/news",
+      "method": "GET"
+    },
+    {
+      "path": "/api/state",
+      "method": "GET"
+    },
+    {
+      "path": "/api/stats",
+      "method": "GET"
+    },
+    {
+      "path": "/api/downloads",
+      "method": "GET"
+    },
+    {
+      "path": "/api/instances/b/prelaunch-check",
+      "method": "GET"
+    },
+    {
+      "path": "/api/instances/b/launch",
+      "method": "POST"
+    },
+    {
+      "path": "/api/accounts",
+      "method": "GET"
+    },
+    {
+      "path": "/api/update",
+      "method": "GET"
+    },
+    {
+      "path": "/api/config",
+      "method": "POST"
+    },
+    {
+      "path": "/api/state",
+      "method": "GET"
+    },
+    {
+      "path": "/api/sources",
+      "method": "GET"
+    },
+    {
+      "path": "/api/sources/select",
+      "method": "POST"
+    },
+    {
+      "path": "/api/accounts",
+      "method": "GET"
+    },
+    {
+      "path": "/api/update",
+      "method": "GET"
+    },
+    {
+      "path": "/api/sources",
+      "method": "GET"
+    },
+    {
+      "path": "/api/update/check",
+      "method": "GET"
+    },
+    {
+      "path": "/api/sources",
+      "method": "GET"
+    },
+    {
+      "path": "/api/sources",
+      "method": "GET"
+    },
+    {
+      "path": "/api/sources",
+      "method": "GET"
+    },
+    {
+      "path": "/api/sources",
+      "method": "GET"
+    },
+    {
+      "path": "/api/sources",
+      "method": "GET"
+    },
+    {
+      "path": "/api/config",
+      "method": "POST"
+    },
+    {
+      "path": "/api/state",
+      "method": "GET"
+    },
+    {
+      "path": "/api/accounts",
+      "method": "GET"
+    },
+    {
+      "path": "/api/update",
+      "method": "GET"
+    },
+    {
+      "path": "/api/config",
+      "method": "POST"
+    },
+    {
+      "path": "/api/config",
+      "method": "POST"
+    },
+    {
+      "path": "/api/state",
+      "method": "GET"
+    },
+    {
+      "path": "/api/config",
+      "method": "POST"
+    },
+    {
+      "path": "/api/accounts",
+      "method": "GET"
+    },
+    {
+      "path": "/api/update",
+      "method": "GET"
+    },
+    {
+      "path": "/api/state",
+      "method": "GET"
+    },
+    {
+      "path": "/api/worlds",
+      "method": "GET"
+    },
+    {
+      "path": "/api/worlds",
+      "method": "GET"
+    },
+    {
+      "path": "/api/worlds",
+      "method": "GET"
+    },
+    {
+      "path": "/api/instances",
+      "method": "GET"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "generatedAt": "2026-10-16T00:21:44.2814134+08:00",
+  "sourceHead": "1356efa70cfd91f6289ee6e0dc6af5160b444ab3",
+  "sourceState": "dirty FA01-FA05 candidate, not committed",
+  "version": "1.0.1",
+  "assemblyVersion": "1.0.1.0",
+  "exePath": "D:\\松光启动器\\docs\\release-preparation-2026-10-16\\publish\\Pineglow.Launcher.exe",
+  "bytes": 53089586,
+  "sha256": "F665C26DB60941335DEF1F5B9F6F743AAF23D148B9AE54B6A53336E4A0BF2900",
+  "runtimeConfig": {
+    "runtimeOptions": {
+      "tfm": "net10.0",
+      "includedFrameworks": [
+        {
+          "name": "Microsoft.NETCore.App",
+          "version": "10.0.9"
+        }
+      ],
+      "configProperties": {
+        "MVVMTOOLKIT_ENABLE_INOTIFYPROPERTYCHANGING_SUPPORT": true,
+        "System.Globalization.Invariant": false,
+        "System.Reflection.Metadata.MetadataUpdater.IsSupported": false,
+        "System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization": false
+      }
+    }
+  },
+  "verdict": "BLOCKED",
+  "committed": false,
+  "pushed": false,
+  "tagged": false,
+  "published": false,
+  "formalPhaseApproval": "NOT_GRANTED"
+}

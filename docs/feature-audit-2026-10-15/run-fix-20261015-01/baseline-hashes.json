@@ -1,0 +1,17 @@
+[
+  {
+    "Algorithm": "SHA256",
+    "Hash": "D367558D0C837E21673C77BA446E2E3FD0FAE99F33DD7073235D4A43516D149A",
+    "Path": "D:\\松光启动器\\ui\\js\\api.js"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "14362357C8611A427BCBDA49490B2E73CA084A6C732881B62AA5676E1D003F99",
+    "Path": "D:\\松光启动器\\ui\\js\\launcher.js"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "CE10898D425B7B0E673125B93FDA3D5B023F763E3B626C5287CF4D9B5E3FF5B4",
+    "Path": "D:\\松光启动器\\ui\\js\\i18n.js"
+  }
+]

@@ -1,0 +1,258 @@
+{
+  "sourceRoot": "D:\\松光启动器",
+  "head": "1356efa70cfd91f6289ee6e0dc6af5160b444ab3",
+  "layer": "Real Edge + source UI + controlled API fixtures; no real user writes",
+  "findings": [
+    {
+      "id": "FA-01",
+      "title": "Saved selected instance is dropped by live API adapter",
+      "actual": {
+        "serverSelected": "inst-b",
+        "actualSelected": "inst-a",
+        "homeTitle": "Audit Vanilla",
+        "dispatchedLaunchPath": "/api/instances/inst-a/launch"
+      },
+      "status": "REPRODUCED"
+    },
+    {
+      "id": "FA-02",
+      "title": "Existing proxy and other settings disappear from UI; saving can overwrite them",
+      "actual": {
+        "enabled": "false",
+        "host": "",
+        "port": "",
+        "missingFields": [
+          "selectedInstanceId",
+          "downloadSource",
+          "proxyEnabled",
+          "proxyHost",
+          "proxyPort",
+          "proxyUsername",
+          "proxyPasswordConfigured",
+          "newsFakeIpCompat",
+          "minimizeOnLaunch",
+          "autoCloseOnExit"
+        ],
+        "savedPatch": {
+          "proxyEnabled": false,
+          "proxyHost": "",
+          "proxyPort": 0,
+          "proxyUsername": "",
+          "proxyPassword": ""
+        }
+      },
+      "status": "REPRODUCED"
+    },
+    {
+      "id": "FA-03",
+      "title": "Download-source selector throws a ReferenceError",
+      "actual": {
+        "error": [
+          "dlSource is not defined"
+        ],
+        "availableSourceCount": 2,
+        "renderedSourceCount": 0
+      },
+      "status": "REPRODUCED"
+    },
+    {
+      "id": "FA-04",
+      "title": "AI enable switch does not update cached state after successful save",
+      "actual": {
+        "persistedInFixture": true,
+        "cachedState": false,
+        "afterLocaleRerender": "false"
+      },
+      "status": "REPRODUCED",
+      "failedSaveAlsoLeavesSwitchOn": true
+    },
+    {
+      "id": "FA-05",
+      "title": "World and server read failures are rendered as empty collections",
+      "actual": {
+        "worldText": "Singleplayer worlds\n🗺️\nNo saves yet. Enter the game to create a world.",
+        "serverText": "Add Server\nSaved servers\n🖥️\nNo servers added yet. Click the top right to add one.",
+        "fixtureServerCount": 1,
+        "fixtureWorldCount": 1,
+        "serviceStatus": 503
+      },
+      "status": "REPRODUCED"
+    }
+  ],
+  "smoke": [
+    {
+      "view": "home",
+      "visible": true,
+      "textLength": 251,
+      "horizontalOverflow": 0
+    },
+    {
+      "view": "installations",
+      "visible": true,
+      "textLength": 247,
+      "horizontalOverflow": 0
+    },
+    {
+      "view": "worlds",
+      "visible": true,
+      "textLength": 70,
+      "horizontalOverflow": 0
+    },
+    {
+      "view": "servers",
+      "visible": true,
+      "textLength": 81,
+      "horizontalOverflow": 0
+    },
+    {
+      "view": "playtime",
+      "visible": true,
+      "textLength": 642,
+      "horizontalOverflow": 0
+    },
+    {
+      "view": "content",
+      "visible": true,
+      "textLength": 190,
+      "horizontalOverflow": 0
+    },
+    {
+      "view": "skins",
+      "visible": true,
+      "textLength": 534,
+      "horizontalOverflow": 0
+    },
+    {
+      "view": "downloads",
+      "visible": true,
+      "textLength": 99,
+      "horizontalOverflow": 0
+    },
+    {
+      "view": "news",
+      "visible": true,
+      "textLength": 71,
+      "horizontalOverflow": 0
+    },
+    {
+      "view": "settings",
+      "visible": true,
+      "textLength": 1147,
+      "horizontalOverflow": 0
+    }
+  ],
+  "errors": [
+    "dlSource is not defined"
+  ],
+  "requests": [
+    {
+      "path": "/api/accounts",
+      "method": "GET"
+    },
+    {
+      "path": "/api/news",
+      "method": "GET"
+    },
+    {
+      "path": "/api/state",
+      "method": "GET"
+    },
+    {
+      "path": "/api/stats",
+      "method": "GET"
+    },
+    {
+      "path": "/api/downloads",
+      "method": "GET"
+    },
+    {
+      "path": "/api/instances/inst-a/prelaunch-check",
+      "method": "GET"
+    },
+    {
+      "path": "/api/instances/inst-a/launch",
+      "method": "POST"
+    },
+    {
+      "path": "/api/accounts",
+      "method": "GET"
+    },
+    {
+      "path": "/api/update",
+      "method": "GET"
+    },
+    {
+      "path": "/api/config",
+      "method": "POST"
+    },
+    {
+      "path": "/api/state",
+      "method": "GET"
+    },
+    {
+      "path": "/api/sources",
+      "method": "GET"
+    },
+    {
+      "path": "/api/config",
+      "method": "POST"
+    },
+    {
+      "path": "/api/state",
+      "method": "GET"
+    },
+    {
+      "path": "/api/accounts",
+      "method": "GET"
+    },
+    {
+      "path": "/api/update",
+      "method": "GET"
+    },
+    {
+      "path": "/api/config",
+      "method": "POST"
+    },
+    {
+      "path": "/api/worlds",
+      "method": "GET"
+    },
+    {
+      "path": "/api/servers",
+      "method": "GET"
+    },
+    {
+      "path": "/api/stats",
+      "method": "GET"
+    },
+    {
+      "path": "/api/downloads",
+      "method": "GET"
+    },
+    {
+      "path": "/api/stats",
+      "method": "GET"
+    },
+    {
+      "path": "/api/content/search",
+      "method": "GET"
+    },
+    {
+      "path": "/api/accounts",
+      "method": "GET"
+    },
+    {
+      "path": "/api/versions",
+      "method": "GET"
+    },
+    {
+      "path": "/api/downloads",
+      "method": "GET"
+    },
+    {
+      "path": "/api/versions/remote",
+      "method": "GET"
+    }
+  ],
+  "status": "COMPLETE_WITH_REPRODUCED_FINDINGS"
+}

@@ -1,0 +1,106 @@
+{
+  "head": "1356efa70cfd91f6289ee6e0dc6af5160b444ab3",
+  "time": "2026-10-15T23:54:05.0614857+08:00",
+  "sourceRoot": "D:\\松光启动器",
+  "executionRoot": "D:\\松光启动器\\dev\\PineglowLauncher\\bin\\Release\\net10.0\\UI",
+  "files": [
+    {
+      "path": "D:\\松光启动器\\ui\\js\\api.js",
+      "size": 67894,
+      "sha256": "3222ABDAC0954475BCC2EE4B002EC45D5D001ED3B882B375F7FD227C41E78211"
+    },
+    {
+      "path": "D:\\松光启动器\\ui\\js\\launcher.js",
+      "size": 245962,
+      "sha256": "CBB9839A6B96E4A33281C45961360C0AB8AFF8BA3B9D269A399B04A83B759D7D"
+    },
+    {
+      "path": "D:\\松光启动器\\ui\\js\\i18n.js",
+      "size": 72258,
+      "sha256": "177DEBA2C5D563C831AA38DFABCCC9F61CC8E7D827D69C28536EDFB6466D95B4"
+    },
+    {
+      "path": "D:\\松光启动器\\ui\\css\\figma.css",
+      "size": 52336,
+      "sha256": "EC41C3240DD6D7B21C67E3A0B7484ECCEF9EC91B2D54767372D7EB814C2C99F7"
+    },
+    {
+      "path": "D:\\松光启动器\\ui\\tests\\feature-state-regression.test.cjs",
+      "size": 10648,
+      "sha256": "3AFBD43C1646B92DF4EE3E4D367F8AB875D9A13F49C16E345FE98BD65662FF9D"
+    },
+    {
+      "path": "D:\\松光启动器\\ui\\tests\\helpers\\live-launcher.cjs",
+      "size": 5474,
+      "sha256": "52A7EDDA9A1732FF8A34DDDBA9BE7EB6C5F7EB277C10C63FEF414DEA91EFAABC"
+    },
+    {
+      "path": "D:\\松光启动器\\scripts\\test-inventory.txt",
+      "size": 2445,
+      "sha256": "12A19CFD7CA532E075F424D10D4A0E7FB7A710183592F5FD76FB332CAD1E5003"
+    },
+    {
+      "path": "D:\\松光启动器\\scripts\\source-snapshot-inputs.txt",
+      "size": 16086,
+      "sha256": "E4F7B0E897C99CF63418AFC801319D1E145435998E87ABEE5F9321BBCB43A8C8"
+    },
+    {
+      "path": "D:\\松光启动器\\.testagent\\research.md",
+      "size": 2018,
+      "sha256": "3AE93EB31219AA7FA4A2ECEE9E56CD2C70ED9619AC320B6693F1DC984872671F"
+    },
+    {
+      "path": "D:\\松光启动器\\.testagent\\plan.md",
+      "size": 2503,
+      "sha256": "DE9726646098DBC3509BCAB751708B750AF2B24C391FE42C80894A42ACD3920D"
+    },
+    {
+      "path": "D:\\松光启动器\\.testagent\\status.md",
+      "size": 2584,
+      "sha256": "645145DC3B9C7F0A395E22A1B24779E90A24A7EAEE518AEEBB7E9648E404D81D"
+    },
+    {
+      "path": "D:\\松光启动器\\dev\\PineglowLauncher\\bin\\Release\\net10.0\\Pineglow.Launcher.dll",
+      "size": 4861440,
+      "sha256": "C4029F42115D9429004F061292DA0C4FB76A89EA11D3C8789298B9BB398F3236"
+    },
+    {
+      "path": "D:\\松光启动器\\dev\\PineglowLauncher.Tests\\bin\\Debug\\net10.0\\Pineglow.Launcher.Tests.dll",
+      "size": 1307136,
+      "sha256": "FD80BC700675AFFC4ED79F027B47CC70AD1F2E67B6C43E4DA6142B5C189E504D"
+    }
+  ],
+  "builtUi": [
+    {
+      "relative": "js/api.js",
+      "source": "D:\\松光启动器\\ui\\js\\api.js",
+      "built": "D:\\松光启动器\\dev\\PineglowLauncher\\bin\\Release\\net10.0\\UI\\js\\api.js",
+      "sha256": "3222ABDAC0954475BCC2EE4B002EC45D5D001ED3B882B375F7FD227C41E78211",
+      "match": true
+    },
+    {
+      "relative": "js/launcher.js",
+      "source": "D:\\松光启动器\\ui\\js\\launcher.js",
+      "built": "D:\\松光启动器\\dev\\PineglowLauncher\\bin\\Release\\net10.0\\UI\\js\\launcher.js",
+      "sha256": "CBB9839A6B96E4A33281C45961360C0AB8AFF8BA3B9D269A399B04A83B759D7D",
+      "match": true
+    },
+    {
+      "relative": "js/i18n.js",
+      "source": "D:\\松光启动器\\ui\\js\\i18n.js",
+      "built": "D:\\松光启动器\\dev\\PineglowLauncher\\bin\\Release\\net10.0\\UI\\js\\i18n.js",
+      "sha256": "177DEBA2C5D563C831AA38DFABCCC9F61CC8E7D827D69C28536EDFB6466D95B4",
+      "match": true
+    },
+    {
+      "relative": "css/figma.css",
+      "source": "D:\\松光启动器\\ui\\css\\figma.css",
+      "built": "D:\\松光启动器\\dev\\PineglowLauncher\\bin\\Release\\net10.0\\UI\\css\\figma.css",
+      "sha256": "EC41C3240DD6D7B21C67E3A0B7484ECCEF9EC91B2D54767372D7EB814C2C99F7",
+      "match": true
+    }
+  ],
+  "committed": false,
+  "pushed": false,
+  "published": false
+}

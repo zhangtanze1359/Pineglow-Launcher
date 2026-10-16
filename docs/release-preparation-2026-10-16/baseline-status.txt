@@ -1,0 +1,35 @@
+ M .testagent/plan.md
+ M .testagent/research.md
+ M .testagent/status.md
+ M scripts/source-snapshot-inputs.txt
+ M scripts/test-inventory.txt
+ M ui/css/figma.css
+ M ui/js/api.js
+ M ui/js/i18n.js
+ M ui/js/launcher.js
+?? docs/existing-features-execution-prompt-2026-10-15.md
+?? docs/existing-features-remediation-workflow-2026-10-15.md
+?? docs/feature-audit-2026-10-15/.gitignore
+?? docs/feature-audit-2026-10-15/README.md
+?? docs/feature-audit-2026-10-15/browser-audit.json
+?? docs/feature-audit-2026-10-15/configured-proxy-looks-empty.png
+?? docs/feature-audit-2026-10-15/input-hashes.json
+?? docs/feature-audit-2026-10-15/probe-browser.py
+?? docs/feature-audit-2026-10-15/run-fix-20261015-01/.gitignore
+?? docs/feature-audit-2026-10-15/run-fix-20261015-01/README.md
+?? docs/feature-audit-2026-10-15/run-fix-20261015-01/baseline-hashes.json
+?? docs/feature-audit-2026-10-15/run-fix-20261015-01/baseline-status.txt
+?? docs/feature-audit-2026-10-15/run-fix-20261015-01/browser-first-report.json
+?? docs/feature-audit-2026-10-15/run-fix-20261015-01/browser-report.json
+?? docs/feature-audit-2026-10-15/run-fix-20261015-01/final-input-hashes.json
+?? docs/feature-audit-2026-10-15/run-fix-20261015-01/implementation-plan.md
+?? docs/feature-audit-2026-10-15/run-fix-20261015-01/inventory.json
+?? docs/feature-audit-2026-10-15/run-fix-20261015-01/self-evaluation.md
+?? docs/feature-audit-2026-10-15/run-fix-20261015-01/servers-failure-green.png
+?? docs/feature-audit-2026-10-15/run-fix-20261015-01/source-picker-green.png
+?? docs/feature-audit-2026-10-15/run-fix-20261015-01/verify-fix.py
+?? docs/feature-audit-2026-10-15/run-fix-20261015-01/worlds-failure-green.png
+?? docs/feature-audit-2026-10-15/saved-instance-lost.png
+?? docs/feature-audit-2026-10-15/self-evaluation.md
+?? ui/tests/feature-state-regression.test.cjs
+?? ui/tests/helpers/live-launcher.cjs

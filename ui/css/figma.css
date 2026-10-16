@@ -748,6 +748,15 @@ svg { display: block; }
 .update-notes { overflow-wrap: anywhere; max-height: 280px; overflow-y: auto; }
 .update-downloading { font-size: 13px; color: var(--green); }
 
+/* Download-source choices use full-width rows, including latency and current selection. */
+.source-list { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.source-option { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 44px; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--r-btn); background: var(--card-2); color: var(--text); text-align: left; cursor: pointer; }
+.source-option:hover { border-color: var(--green); }
+.source-option:disabled { opacity: .55; cursor: wait; }
+.source-name { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.source-lat { color: var(--muted); font-size: 12px; }
+.source-check { width: 16px; text-align: center; }
+
 /* 拖拽导入遮罩 */
 .drop-overlay {
 	position: fixed; inset: 0; z-index: 9999;

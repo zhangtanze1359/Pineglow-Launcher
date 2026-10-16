@@ -1,0 +1,22 @@
+{
+  "generatedAt": "2026-10-16T00:22:25.1160376+08:00",
+  "head": "1356efa70cfd91f6289ee6e0dc6af5160b444ab3",
+  "headUnchanged": true,
+  "sourceInputsChecked": 3724,
+  "sourceDrift": [],
+  "stagedPaths": [],
+  "ownedLiveProcesses": [],
+  "tests": {
+    "skipped": 0,
+    "node": 379,
+    "passed": 379
+  },
+  "coldStarts": {
+    "attempted": 2,
+    "passed": 0,
+    "failed": 2
+  },
+  "verdict": "BLOCKED",
+  "committed": false,
+  "published": false
+}

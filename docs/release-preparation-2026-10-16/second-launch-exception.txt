@@ -1,0 +1,6 @@
+2026-10-16 00:18:55.672 [INFO] === Pineglow Launcher 启动 v1.0.1 ===
+2026-10-16 00:18:55.750 [ERROR] [LocalApi] 启动失败: 句柄无效。 | System.Net.HttpListenerException (6): 句柄无效。
+   at System.Net.HttpListener.SetupV2Config()
+   at System.Net.HttpListener.Start()
+   at Pineglow.Launcher.Services.LocalApiService.Start(Nullable`1 portOverride)
+   at Pineglow.Launcher.App.OnFrameworkInitializationCompleted()

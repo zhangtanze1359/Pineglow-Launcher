@@ -1,0 +1,48 @@
+{
+  "head": "1356efa70cfd91f6289ee6e0dc6af5160b444ab3",
+  "time": "2026-10-15T23:27:28.8937968+08:00",
+  "sourceRoot": "D:\\松光启动器",
+  "files": [
+    {
+      "path": "D:\\松光启动器\\ui\\js\\api.js",
+      "sha256": "D367558D0C837E21673C77BA446E2E3FD0FAE99F33DD7073235D4A43516D149A",
+      "size": 67236
+    },
+    {
+      "path": "D:\\松光启动器\\ui\\js\\launcher.js",
+      "sha256": "14362357C8611A427BCBDA49490B2E73CA084A6C732881B62AA5676E1D003F99",
+      "size": 242844
+    },
+    {
+      "path": "D:\\松光启动器\\ui\\js\\i18n.js",
+      "sha256": "CE10898D425B7B0E673125B93FDA3D5B023F763E3B626C5287CF4D9B5E3FF5B4",
+      "size": 71700
+    },
+    {
+      "path": "D:\\松光启动器\\ui\\js\\update-monitor.js",
+      "sha256": "607488A99443131492CAAD00D8CE379D537ADE2DA3A0560518AD3ABC791592A9",
+      "size": 2683
+    },
+    {
+      "path": "D:\\松光启动器\\ui\\index.html",
+      "sha256": "76EA9F3964E76DAB105E71541ACB2BCEFF3C642666ADDCFDA3ED22666B64527E",
+      "size": 8811
+    },
+    {
+      "path": "D:\\松光启动器\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\LocalApiService.cs",
+      "sha256": "17CF00C6FFA819A801198935B59DBD80E998EAEA407A014F2D6F2CD1E39AA938",
+      "size": 212772
+    },
+    {
+      "path": "D:\\松光启动器\\dev\\PineglowLauncher\\Pineglow.Launcher.Services\\UpdateService.cs",
+      "sha256": "42CCF14D91B6C58690F4EDDBB1CF650360B7144CC2A5D7533C1A68ED2AC386B9",
+      "size": 26679
+    },
+    {
+      "path": "D:\\松光启动器\\dev\\PineglowLauncher.Tests\\bin\\Debug\\net10.0\\Pineglow.Launcher.Tests.dll",
+      "sha256": "FD80BC700675AFFC4ED79F027B47CC70AD1F2E67B6C43E4DA6142B5C189E504D",
+      "size": 1307136
+    }
+  ],
+  "productSourceModified": false
+}

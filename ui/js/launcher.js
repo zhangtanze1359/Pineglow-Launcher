@@ -42,6 +42,7 @@ let STATE = null;      // { config, instances, accounts, java }
 let ACCOUNTS = [];     // getAccounts 结果（含 skins/capes）
 let activeSkinViewer = null;
 let selectedInstanceId = null;
+let aiSettingsSaving = false;
 // 关键：stateLoadFailedLast 用于区分"未加载"与"上一次失败"。
 // loadState 失败时不把失败结果写进 STATE（避免永久缓存），但记录错误消息。
 // UI 据此显示"重试实例状态"入口。
@@ -734,7 +735,7 @@ async function renderSettings() {
 						<span class="setting-name">${esc(t('set.aiEnableName'))}</span>
 						<span class="setting-desc">${esc(t('set.aiEnableDesc'))}</span>
 					</div>
-					<button class="toggle ${cfg.aiDiagnosisEnabled ? 'on' : ''}" data-toggle="aiDiag" aria-label="${esc(t('set.aiEnableName'))}" role="switch" aria-checked="${!!cfg.aiDiagnosisEnabled}"></button>
+					<button class="toggle ${cfg.aiDiagnosisEnabled ? 'on' : ''}" data-toggle="aiDiag" aria-label="${esc(t('set.aiEnableName'))}" role="switch" aria-checked="${!!cfg.aiDiagnosisEnabled}"${aiSettingsSaving ? ' disabled' : ''}></button>
 				</div>
 				<div class="setting-divider"></div>
 				<div class="setting-row">
@@ -2502,11 +2503,29 @@ function bindContentInstalls(el) {
 /* ================================================================
    Worlds 世界
    ================================================================ */
+function collectionErrorHtml(nav, error) {
+	return `<div class="download-source-error" data-list-error="${esc(nav)}" role="alert" style="grid-column:1 / -1">
+		<div class="state-main"><div class="state-title">${esc(t(nav + '.loadFailed'))}</div>
+		<p class="state-desc">${esc(t('collection.loadFailedDesc'))}</p>
+		<details class="tech-details"><summary>${esc(t('content.techDetails'))}</summary><pre class="tech-body">${esc(error && error.message || error || t('common.unknownError'))}</pre></details>
+		<div class="state-actions"><button class="download-retry-btn" data-list-retry="${esc(nav)}">${esc(t('dl.retry'))}</button></div></div></div>`;
+}
+
+function bindCollectionRetry(el, nav) {
+	el.querySelector('[data-list-retry]')?.addEventListener('click', async e => {
+		const button = e.currentTarget;
+		if (button.disabled || currentView !== nav || !el.isConnected) return;
+		button.disabled = true;
+		try { invalidate(nav); await goTo(nav); }
+		finally { if (button.isConnected) button.disabled = false; }
+	});
+}
+
 async function renderWorlds() {
 	let worlds = [];
-	try { worlds = await SG.api.getWorlds(); } catch (e) { worlds = []; }
- navigationCounts.worlds=worlds.length;
-	const cards = worlds.length ? worlds.map(w => `
+	let error = null;
+	try { worlds = await SG.api.getWorlds(); navigationCounts.worlds = worlds.length; } catch (e) { error = e; }
+	const cards = error ? collectionErrorHtml('worlds', error) : worlds.length ? worlds.map(w => `
 		<div class="world-card" data-inst="${esc(w.instanceId)}" data-folder="${esc(w.folderName)}">
 			<div class="world-icon">${uiIcon('world')}</div>
 			<div class="world-meta">
@@ -2528,6 +2547,7 @@ async function renderWorlds() {
 	</div>`;
 }
 function bindWorlds(el) {
+ bindCollectionRetry(el, 'worlds');
  bindListSearch(el,'worldSearch','.world-card');
 	el.querySelectorAll('.world-card').forEach(c => c.addEventListener('click', async () => {
 		const instanceId = c.dataset.inst;
@@ -2644,9 +2664,9 @@ function serverCardHtml(s) {
 }
 async function renderServers() {
 	let servers = [];
-	try { servers = await SG.api.getServers(); } catch (e) { servers = []; }
- navigationCounts.servers=servers.length;
-	const cards = servers.length ? servers.map(serverCardHtml).join('')
+	let error = null;
+	try { servers = await SG.api.getServers(); navigationCounts.servers = servers.length; } catch (e) { error = e; }
+	const cards = error ? collectionErrorHtml('servers', error) : servers.length ? servers.map(serverCardHtml).join('')
 		: `<div class="empty-state"><div class="es-icon">🖥️</div>${esc(t('servers.empty'))}</div>`;
 	return `
 	<div class="content-view">
@@ -2664,6 +2684,7 @@ async function renderServers() {
 	</div>`;
 }
 function bindServers(el) {
+ bindCollectionRetry(el, 'servers');
  bindListSearch(el,'serverSearch','.server-card');
 	el.querySelector('#btnAddServer')?.addEventListener('click', () => {
 		openModal(`
@@ -3621,6 +3642,53 @@ function sourceLabel(key) {
 	const names = { official: t('set.sourceOfficial'), bmclapi: 'BMCLAPI', mcbbs: t('set.sourceMcbbs') };
 	return names[key] || key || t('set.sourceOfficial');
 }
+async function openSourcePicker() {
+	const host = openModal(`<div class="modal-title">${esc(t('set.sourceName'))}</div>
+		<div class="source-list"><div class="loading-state">${esc(t('common.loading'))}</div></div>
+		<div class="modal-actions"><button class="modal-btn" id="scClose">${esc(t('common.close'))}</button></div>`);
+	if (!host) return;
+	const generation = host.dataset.modalGeneration;
+	const isCurrent = () => !host.hidden && host.dataset.modalGeneration === generation;
+	document.getElementById('scClose').onclick = closeModal;
+	try {
+		const response = await SG.api.getSources();
+		if (!isCurrent()) return;
+		const sources = response.sources || [];
+		if (!sources.length) throw new Error(t('set.sourceLoadFailed'));
+		const selected = response.selected || (STATE && STATE.config.downloadSource) || 'official';
+		host.querySelector('.source-list').innerHTML = sources.map(s => {
+			const latency = s.available ? (s.latencyMs >= 0 ? Math.round(s.latencyMs) + ' ms' : '—') : t('set.sourceUnavailable');
+			return `<button class="source-option" data-source="${esc(s.key)}"><span class="source-name">${esc(sourceLabel(s.key))}</span>
+				<span class="source-lat">${esc(latency)}</span>${s.key === selected ? '<span class="source-check">✓</span>' : ''}</button>`;
+		}).join('');
+		let saving = false;
+		const sourceEls = host.querySelectorAll('.source-option');
+		sourceEls.forEach(opt => opt.addEventListener('click', async () => {
+			if (saving || !isCurrent()) return;
+			saving = true;
+			sourceEls.forEach(button => { button.disabled = true; });
+			try {
+				const result = await SG.api.selectSource(opt.dataset.source);
+				if (!result.ok) throw new Error(t('set.sourceSwitchFailed'));
+				STATE.config.downloadSource = result.selected;
+				STATE.config.useMirror = result.useMirror;
+				toast(t('set.sourceSwitched', { name: sourceLabel(result.selected) }));
+				if (isCurrent()) closeModal();
+				invalidate('settings');
+				const button = document.getElementById('btnSourceChange');
+				if (button) button.textContent = t('set.sourceCurrent', { name: sourceLabel(result.selected) });
+			} catch (error) { toast(t('set.sourceSwitchFailed') + (error.message || t('common.unknownError'))); }
+			finally { saving = false; sourceEls.forEach(button => { button.disabled = false; }); }
+		}));
+	} catch (error) {
+		if (!isCurrent()) return;
+		host.querySelector('.source-list').innerHTML = `<div role="alert"><p>${esc(t('set.sourceLoadFailed'))}</p>
+			<details class="tech-details"><summary>${esc(t('content.techDetails'))}</summary><pre class="tech-body">${esc(error.message || t('common.unknownError'))}</pre></details>
+			<button class="modal-btn primary" id="scRetry">${esc(t('dl.retry'))}</button></div>`;
+		document.getElementById('scRetry').onclick = openSourcePicker;
+	}
+}
+
 function bindSettings(el) {
 	// 内存滑块（2–16 GB）→ 真实写入 maxMemoryMb
  const slider=el.querySelector('#memSlider');
@@ -3630,7 +3698,7 @@ function bindSettings(el) {
  }
 
 	// 开关 → 真实写入
-	// R2-02：newsFakeIp 需要连点去重 + 失败回滚 + 成功同步；autoMem/aiDiag 沿用旧行为
+	// 保存期间去重；AI 分支同时保护语言重绘后的新控件，成功同步状态、失败回滚。
 	// 注意：参数名用 toggle 而非 t，避免遮蔽顶层 i18n 函数 t(key)
 	// 注意：必须用 contains + 显式设 on，避免依赖 DOM classList.toggle() 的返回值
 	// （测试桩的 classList.toggle 不返回 boolean，会让 on 变 undefined）
@@ -3650,10 +3718,21 @@ function bindSettings(el) {
 				if (s) s.disabled = on;
 				invalidate('home');
 			} else if (key === 'aiDiag') {
-				const on = !toggle.classList.contains('on');
-				toggle.classList.toggle('on', on);
-				toggle.setAttribute('aria-checked', on ? 'true' : 'false');
-				SG.api.updateConfig({ aiDiagnosisEnabled: on }).catch(() => {});
+				if (aiSettingsSaving) return;
+				aiSettingsSaving = true;
+				const previous = !!STATE.config.aiDiagnosisEnabled;
+				const desired = !previous;
+				const show = (value, busy) => document.querySelectorAll('[data-toggle="aiDiag"]').forEach(button => {
+					button.classList.toggle('on', value); button.setAttribute('aria-checked', String(value)); button.disabled = busy;
+				});
+				show(desired, true);
+				SG.api.updateConfig({ aiDiagnosisEnabled: desired }).then(result => {
+					const value = result && result.config && typeof result.config.aiDiagnosisEnabled === 'boolean' ? result.config.aiDiagnosisEnabled : desired;
+					STATE.config.aiDiagnosisEnabled = value; show(value, true);
+				}).catch(error => {
+					STATE.config.aiDiagnosisEnabled = previous; show(previous, true);
+					toast(t('set.aiToggleSaveFailed') + (error.message || t('common.unknownError')));
+				}).finally(() => { aiSettingsSaving = false; show(!!STATE.config.aiDiagnosisEnabled, false); });
 			} else if (key === 'newsFakeIp') {
 				// R2-02：连点去重（in-flight 时第二次点击直接拒绝）
 				if (submittingToggles.has(key)) return;
@@ -3684,44 +3763,7 @@ function bindSettings(el) {
 		});
 	});
 	// 下载源选择
-	el.querySelector('#btnSourceChange')?.addEventListener('click', async () => {
-		let sources = [];
-		try { sources = (await SG.api.getSources()).sources || []; } catch (e) { sources = []; }
-		const rows = sources.length ? sources.map(s => {
-			const lat = s.available ? (s.latencyMs >= 0 ? Math.round(s.latencyMs) + ' ms' : '—') : '不可用';
-			return `<button class="source-option" data-source="${esc(s.key)}">
-				<span class="source-name">${esc(sourceLabel(s.key))}</span>
-				<span class="source-lat">${esc(lat)}</span>
-				${s.key === dlSource ? '<span class="source-check">✓</span>' : ''}
-			</button>`;
-		}).join('') : `<div style="padding:12px;color:var(--muted,#8b91a1);font-size:12px">${esc(t('set.sourceLoadFailed'))}</div>`;
-		openModal(`
-			<div class="modal-title">${esc(t('set.sourceName'))}</div>
-			<div class="source-list">${rows}</div>
-			<div class="modal-actions"><button class="modal-btn" id="scClose">${esc(t('common.close'))}</button></div>
-		`);
-		document.getElementById('scClose').onclick = closeModal;
-		const modal = document.querySelector('.modal');
-		const sourceEls = modal ? modal.querySelectorAll('.source-option') : document.querySelectorAll('.source-option');
-		sourceEls.forEach(opt => opt.addEventListener('click', async () => {
-			const key = opt.dataset.source;
-			if (!key) return;
-			try {
-				const res = await SG.api.selectSource(key);
-				if (res.ok) {
-					STATE.config.downloadSource = res.selected;
-					STATE.config.useMirror = !!res.useMirror;
-					toast(t('set.sourceSwitched', { name: sourceLabel(key) }));
-					closeModal();
-					invalidate('settings');
-					const v = document.getElementById('view-settings');
-					v.innerHTML = await renderSettings(); bindSettings(v);
-				}
-			} catch (err) {
-				toast(t('set.sourceSwitchFailed') + (err.message || t('common.unknownError')));
-			}
-		}));
-	});
+	el.querySelector('#btnSourceChange')?.addEventListener('click', openSourcePicker);
 	// 代理配置
 	el.querySelector('#btnProxy')?.addEventListener('click', () => {
 		const cfg = STATE.config || {};

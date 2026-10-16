@@ -268,3 +268,7 @@ ui/assets/pine-forest-night.svg
 ui/tests/playtime.test.cjs
 dev/PineglowLauncher.Tests/GamePlaySessionTests.cs
 scripts/start-new-ui.ps1
+
+# FA-01–FA-05：真实 API 到页面的状态与恢复回归，包含共享 DOM 夹具。
+ui/tests/feature-state-regression.test.cjs
+ui/tests/helpers/live-launcher.cjs
