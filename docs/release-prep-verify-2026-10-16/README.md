@@ -3,6 +3,28 @@
 用户决定：「提交已审查修复，并按修正后的流程重跑发布验证」。本目录是这次重跑的交付记录。
 日期：2026-10-16（Asia/Hong_Kong）。**本轮未推送、未打标签、未上传 Release。**
 
+## 0. 本包当前状态（供独立复验）
+
+第二轮独立验收在 `f9b109d` 上判定 `FAIL_REWORK_REQUIRED`（H2-01/H2-02/H2-03）。
+三项**已全部修复并重跑**，最新提交为 `0e0bcdd`。正文第 3.2.1 节记录修复方式与证据，
+本节只列复验入口：
+
+| 复验项 | 命令 | 期望 |
+| --- | --- | --- |
+| 全量清单 Node（H2-01） | `node scripts/run-inventory-tests.cjs` | 380/380，0 失败 0 跳过，exit 0 |
+| 资源闭包 | `node scripts/check-ui-resource-closure.cjs --root ui` | 0 缺失 |
+| 图片可见性行为（H2-02） | `python scripts/ha01-image-visibility-behavior.py scripts/verify-ui-pages-live.cjs <报告>` | PASS，exit 0；浏览器不可用则 exit 3 |
+| 懒加载滚动行为（H2-03） | `python scripts/ha01-lazy-scroll-behavior.py scripts/verify-ui-pages-live.cjs <报告>` | PASS，exit 0；含滚动前后请求数与 scrollTop 断言 |
+| 正式十页原生巡检 | `node scripts/verify-ui-pages-live.cjs --app <单文件EXE> --out <截图> --json <报告>` | PASS，views=10/10，exit 0 |
+
+两个行为脚本**不需要**运行产品 EXE（只需本机 Chromium 内核浏览器 + python playwright），
+因此可以和原生巡检分开独立复跑。`verify-ui-pages-live.cjs` 的图片判定与滚动逻辑
+已导出为 `IMG_VISIBLE_FN` / `IMG_PROBE_TEMPLATE` / `buildImgProbeExpr` /
+`LAZY_SCROLL_FN` / `LAZY_RESTORE_FN`，行为脚本据此执行**同一份**源码。
+
+**仍未验证的边界**：真实账号/皮肤、Minecraft 启动、真实升级应用/回滚、Gitee 镜像、
+同 SHA 远程 CI 与签名上传。发布批准与技术检查分开。
+
 ## 1. 结论：RP-01 是本机「路径相关」的运行环境差异，不是产品缺陷（机制未证实）
 
 > **2026-10-16 更正（独立验收 HA-02）。** 本节初版把「本机运行着 `CodexSandboxService` /
