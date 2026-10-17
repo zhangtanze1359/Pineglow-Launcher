@@ -5,22 +5,23 @@
 
 ## 0. 本包当前状态（供独立复验）
 
-第二轮独立验收在 `f9b109d` 上判定 `FAIL_REWORK_REQUIRED`（H2-01/H2-02/H2-03）。
-三项**已全部修复并重跑**，最新提交为 `0e0bcdd`。正文第 3.2.1 节记录修复方式与证据，
-本节只列复验入口：
+第二轮独立验收在 `f9b109d` 判定 `FAIL_REWORK_REQUIRED`（H2-01/H2-02/H2-03）；
+第三轮在 `73ad9c4` 判定 `FAIL_REWORK_REQUIRED`（R3-01/R3-02，均针对 H2-03 的 CDP 接线与恢复语义）。
+**两轮的指认均已修复并重跑**。本节只列复验入口：
 
 | 复验项 | 命令 | 期望 |
 | --- | --- | --- |
 | 全量清单 Node（H2-01） | `node scripts/run-inventory-tests.cjs` | 380/380，0 失败 0 跳过，exit 0 |
 | 资源闭包 | `node scripts/check-ui-resource-closure.cjs --root ui` | 0 缺失 |
 | 图片可见性行为（H2-02） | `python scripts/ha01-image-visibility-behavior.py scripts/verify-ui-pages-live.cjs <报告>` | PASS，exit 0；浏览器不可用则 exit 3 |
-| 懒加载滚动行为（H2-03） | `python scripts/ha01-lazy-scroll-behavior.py scripts/verify-ui-pages-live.cjs <报告>` | PASS，exit 0；含滚动前后请求数与 scrollTop 断言 |
+| 懒加载滚动行为（H2-03，**走正式 CDP 接线**） | `python scripts/ha01-cdp-lazy-scroll-behavior.py scripts/verify-ui-pages-live.cjs <报告>` | PASS，exit 0 |
 | 正式十页原生巡检 | `node scripts/verify-ui-pages-live.cjs --app <单文件EXE> --out <截图> --json <报告>` | PASS，views=10/10，exit 0 |
 
 两个行为脚本**不需要**运行产品 EXE（只需本机 Chromium 内核浏览器 + python playwright），
-因此可以和原生巡检分开独立复跑。`verify-ui-pages-live.cjs` 的图片判定与滚动逻辑
-已导出为 `IMG_VISIBLE_FN` / `IMG_PROBE_TEMPLATE` / `buildImgProbeExpr` /
-`LAZY_SCROLL_FN` / `LAZY_RESTORE_FN`，行为脚本据此执行**同一份**源码。
+因此可以和原生巡检分开独立复跑。滚动相关的表达式由导出的 `buildLazyExprs(view)`
+统一构造（生产路径与行为验证共用**同一批字符串**），CDP 包装器也与正式脚本一致
+（只发 `expression`、`returnByValue: true`），因此行为验证覆盖的是真实接线，
+而不是另写一套判定 —— 这正是第三轮指出上一版验证方式会掩盖接线缺陷的地方。
 
 **仍未验证的边界**：真实账号/皮肤、Minecraft 启动、真实升级应用/回滚、Gitee 镜像、
 同 SHA 远程 CI 与签名上传。发布批准与技术检查分开。
@@ -210,6 +211,41 @@ skins 页唯一被计入的 `#localSkinTexture` 是 `hidden`、无 `src`、宽�
 
 **修复后正式十页巡检重跑：** `ui-live-fixed2.json` → `UI-PAGES RESULT=PASS views=10/10`，
 `exceptions/consoleErrors/uiAssetFailures/productLocalFailures` 全为 0。
+
+#### 3.2.2 第三轮独立验收的返工（R3-01/R3-02）与修复
+
+`../harness-independent-acceptance-2026-10-17-run03/` 在 `73ad9c4` 上判定
+`FAIL_REWORK_REQUIRED`：H2-01/H2-02 已确认修复，但 H2-03 的**正式调用路径**没真正生效。
+两个指认都成立，且第一项是"测试以错误方式通过"的典型案例：
+
+| 编号 | 问题 | 修复 |
+| --- | --- | --- |
+| **R3-01** / P2 | 正式 CDP 路径丢失元素身份：`evaluate` 包装器只接收一个 expression 且 `returnByValue:true`。`evaluate(listOffscreenExpr)` 返回 DOM 元素数组 → 跨 CDP 变成 `[{}]`；`evaluate(scrollOneExpr, target)` 的**第二参数被丢弃**；`scrollOneExpr` 只是函数表达式，**只创建函数对象而不执行**，返回 `{}`。结果 targets=`[{}]`、滚动 0 次、请求 0、loaded 0 —— 滚动从未发生 | 元素查询与调用**全部在页面表达式内部**完成，跨边界只传可序列化数据（下标 + 已保存位置）。表达式由导出的 `buildLazyExprs(view)` 统一构造，生产与行为验证共用同一批字符串 |
+| **R3-02** / P2 | 恢复函数把所有容器 `scrollTop/scrollLeft` 一律清零、window 归 0，从未保存原值（实测初值 137 → 恢复成 0） | 新增 `LAZY_SAVE_FN` 记录即将被触碰的容器与 window 的**原始位置**；`LAZY_RESTORE_FN` 只复位本轮记录过的容器并恢复**原值** |
+
+**顺带修掉一个真实缺口：** 视口外候选原本要求"已有 `src` 且可见"，于是
+`data-defer-src` 的懒加载占位（恰恰是要等滚动才赋 `src` 的那批）永不被计数、
+也永不会被滚到。现在两类都计入候选。
+
+**走正式 CDP 接线的验证（新增 `scripts/ha01-cdp-lazy-scroll-behavior.py`）：**
+它与正式脚本使用**相同的包装器**（`Runtime.evaluate` + `returnByValue`）发送
+`buildLazyExprs` 产出的表达式，结果 PASS：
+
+- `count` = 1（正式表达式返回可用数字，旧实现连计数都拿不到）
+- `scrollAt(0)` = `{scrolled: True, containerCount: 1}`
+- 滚动前 容器 `scrollTop=0`、`deep-img` `top=745`、尚无 `src`
+- 滚动后 容器 `scrollTop=484`、`deep-img` `top=261`、`complete=True naturalWidth=1`、已获 `src`
+- 图片 HTTP 请求 **1 → 2**（懒加载确由滚动触发）
+- **R3-01 对照**：按值取 DOM 元素得到 `{}` —— 证明元素身份确实不能跨边界传
+- **R3-02 对照**：设初值 137 → `save` 记录 137 → 滚到 900 → `restore` 后仍为 **137**
+
+**已删除** `scripts/ha01-lazy-scroll-behavior.py`：它用 Playwright 活 `ElementHandle`
+直接调用辅助函数，绕过了正式 CDP 包装器与值序列化，其 PASS 不能证明主流程有效
+（第三轮复验正是据此给出反例）。覆盖已被上述 CDP 接线验证取代。
+
+**回归（修复后重跑）：** 全量 Node 清单 **380/380**（0 失败 0 跳过）；
+正式十页原生 WebView **PASS views=10/10**（`ui-live-fixed3.json`），
+异常/console.error/资源失败全为 0；可见性行为验证仍 PASS。
 
 ### 3.1 真实更新链路验收（本轮新增）
 

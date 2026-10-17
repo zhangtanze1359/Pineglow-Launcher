@@ -1,0 +1,76 @@
+{
+  "head": "73ad9c4a6def0d967127e8a3a86fe95c96372a94",
+  "uses": [
+    "official evaluate wrapper via eval",
+    "official listOffscreenExpr",
+    "official scrollOneExpr",
+    "actual Runtime.evaluate over Chromium CDP",
+    "official LAZY_RESTORE_FN"
+  ],
+  "counterexamples": [
+    {
+      "name": "main_cdp_does_not_invoke_scroll_helper",
+      "before": {
+        "total": 1,
+        "loaded": 0,
+        "broken": 0,
+        "offscreen": 1,
+        "slots": 0,
+        "pendingSlots": 0
+      },
+      "targets": [
+        {}
+      ],
+      "results": [
+        {
+          "valueType": "object",
+          "value": {}
+        }
+      ],
+      "after": {
+        "total": 1,
+        "loaded": 0,
+        "broken": 0,
+        "offscreen": 1,
+        "slots": 0,
+        "pendingSlots": 0
+      },
+      "geometry": {
+        "scrollTop": 0,
+        "lazyTop": 12055,
+        "windowY": 0
+      },
+      "requestsBefore": 0,
+      "requestsAfter": 0,
+      "control": {
+        "scrolled": true,
+        "containerCount": 1
+      },
+      "afterControl": {
+        "total": 1,
+        "loaded": 1,
+        "broken": 0,
+        "offscreen": 0,
+        "slots": 0,
+        "pendingSlots": 0
+      },
+      "confirmed": false
+    },
+    {
+      "name": "restore_zeros_instead_of_original_scroll",
+      "original": {
+        "top": 137,
+        "left": 0,
+        "windowY": 0
+      },
+      "restoredContainers": 1,
+      "restored": {
+        "top": 0,
+        "left": 0,
+        "windowY": 0
+      },
+      "confirmed": true
+    }
+  ],
+  "verdict": "INCONCLUSIVE"
+}

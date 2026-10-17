@@ -1,0 +1,49 @@
+{
+  "time": "2026-10-17T17:57:22.0855224+08:00",
+  "head": "73ad9c4a6def0d967127e8a3a86fe95c96372a94",
+  "headUnchanged": true,
+  "keySourceDrift": [],
+  "unchangedProductTrees": [
+    {
+      "path": "dev",
+      "unchanged": true
+    },
+    {
+      "path": "ui",
+      "unchanged": true
+    },
+    {
+      "path": ".github",
+      "unchanged": true
+    },
+    {
+      "path": "release-notes",
+      "unchanged": true
+    }
+  ],
+  "candidateHashMatches": true,
+  "node": {
+    "skip": 0,
+    "tests": 380,
+    "fail": 0,
+    "pass": 380
+  },
+  "officialUi": {
+    "views": 10,
+    "lazyBranches": 0,
+    "verdict": "PASS"
+  },
+  "cdpCounterexamples": "CONFIRMED_2",
+  "ownedLiveProcesses": [],
+  "trackedChanges": [],
+  "stagedChanges": [],
+  "technicalAcceptance": "FAIL_REWORK_REQUIRED",
+  "passed": [
+    "H2-01",
+    "H2-02"
+  ],
+  "remaining": "H2-03: CDP invocation and restore original position",
+  "formalPhaseApproval": "NOT_GRANTED",
+  "committed": false,
+  "published": false
+}

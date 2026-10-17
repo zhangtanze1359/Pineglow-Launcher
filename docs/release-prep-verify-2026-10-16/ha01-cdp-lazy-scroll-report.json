@@ -1,0 +1,54 @@
+{
+  "problems": [],
+  "steps": {
+    "count": 1,
+    "save": {
+      "containers": [
+        {
+          "top": 0,
+          "left": 0
+        }
+      ],
+      "windowX": 0,
+      "windowY": 0
+    },
+    "scrolls": [
+      {
+        "scrolled": true,
+        "containerCount": 1
+      }
+    ],
+    "elementByValueIsEmptyObject": true,
+    "elementByValue": "{}",
+    "saveNonZero": {
+      "containers": [
+        {
+          "top": 137,
+          "left": 0
+        }
+      ],
+      "windowX": 0,
+      "windowY": 0
+    },
+    "restoreResult": 1,
+    "finalScrollTop": 137
+  },
+  "exprsFromProduction": true,
+  "before": {
+    "panelScrollTop": 0,
+    "deepTop": 745,
+    "deepHasSrc": false
+  },
+  "after": {
+    "panelScrollTop": 484,
+    "deepTop": 261,
+    "deepComplete": true,
+    "deepNatural": 1,
+    "deepHasSrc": true
+  },
+  "httpRequests": {
+    "before": 1,
+    "after": 2
+  },
+  "verdict": "PASS"
+}

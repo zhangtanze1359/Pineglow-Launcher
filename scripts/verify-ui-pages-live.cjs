@@ -64,7 +64,7 @@ const VIEWS = ['home', 'installations', 'worlds', 'servers', 'playtime', 'conten
  *     aria-hidden 的可见破图被旧实现漏报）。因此不据此排除。
  *   - `type` 属性不会把 HTML <img> 变成 SVG <image>；选择器已是 'img'，
  *     再按 type 文本排除会把可见 HTML 图片错当成 SVG 而漏报。因此不据此排除。
- * 仍在文档内、但滚出视口的节点保留统计（懒加载），由 LAZY_SCROLL_FN 处理。 */
+ * 仍在文档内、但滚出视口的节点保留统计（懒加载），由 LAZY_SCROLL_INDEX_FN 处理。 */
 const IMG_VISIBLE_FN = `function (i) {
   if (!i || !i.isConnected) return false;
   if (!i.getAttribute('src') && !i.getAttribute('srcset')) return false;   // 无来源 => 尚未选择文件的占位
@@ -100,6 +100,41 @@ const IMG_PROBE_TEMPLATE = `(() => {
   };
 })()`;
 
+/* 懒加载滚动相关的表达式工厂：生产路径与行为验证共用**同一套**构造，
+ * 避免"测试自己拼一套表达式"导致验证不到真实接线（第三轮独立复验 R3-01 的教训）。
+ * 所有表达式只接收可序列化数据（下标 / JSON），DOM 元素一律在页面内部查询。 */
+function buildLazyExprs(view) {
+  const rootExpr = `document.getElementById('view-${view}')`;
+  return {
+    save: `(() => {
+      const root = ${rootExpr};
+      if (!root) return { containers: [], windowX: 0, windowY: 0 };
+      return (${LAZY_SAVE_FN})(root);
+    })()`,
+    count: `(() => {
+      const root = ${rootExpr};
+      if (!root) return 0;
+      const visible = (${IMG_VISIBLE_FN});
+      return Array.from(root.querySelectorAll('img')).filter(i => {
+        if (i.getAttribute('data-defer-src') && !i.getAttribute('src')) return true;   // 懒加载占位
+        if (!visible(i)) return false;
+        const r = i.getBoundingClientRect();
+        return r.bottom <= 0 || r.top >= innerHeight;
+      }).length;
+    })()`,
+    scrollAt: (index) => `(() => {
+      const root = ${rootExpr};
+      if (!root) return { scrolled: false, containerCount: 0 };
+      return (${LAZY_SCROLL_INDEX_FN.replace('__VISIBLE__', IMG_VISIBLE_FN)})(root, ${index});
+    })()`,
+    restore: (savedJson) => `(() => {
+      const root = ${rootExpr};
+      if (!root) return 0;
+      return (${LAZY_RESTORE_FN})(root, ${savedJson});
+    })()`,
+  };
+}
+
 /* 组装某个页面的探针表达式（生产路径与行为验证共用同一套替换规则）。 */
 function buildImgProbeExpr(view) {
   return IMG_PROBE_TEMPLATE
@@ -116,9 +151,14 @@ function buildImgProbeExpr(view) {
  *      逐个是必要的：多目标时滚到较远那个会把较近那个又推出视口
  *      （实测两个目标、一次性 scrollIntoView 后近端 top=-483），
  *      于是近端永远不会真正进入视口。
- *   3. 不复位滚动位置 => LAZY_RESTORE_FN 复位。 */
-const LAZY_SCROLL_FN = `function (img) {
-  if (!img) return { scrolled: false, containerCount: 0 };
+ *   3. 不复位滚动位置 => 由 __SAVE__FN__ / __RESTORE__FN__ 记录并恢复**原值**。
+ *
+ * 第三轮独立复验 R3-01：**函数只接受可序列化的下标**，不接受 DOM 元素。
+ * 原因：正式路径的 evaluate 包装器只接收一个 expression 且用 returnByValue:true，
+ * 第二参数会被丢弃、DOM 元素跨 CDP 按值转换会变成 {}（实测 targets 变 [{}]、
+ * 返回 {}、滚动 0 次），滚动根本没发生。所以元素查询与调用必须都在页面表达式内完成。 */
+const LAZY_SCROLL_INDEX_FN = `function (root, index) {
+  if (!root) return { scrolled: false, containerCount: 0 };
   const scrollable = (el) => {
     if (!el || el.nodeType !== 1) return false;
     const s = getComputedStyle(el);
@@ -126,6 +166,19 @@ const LAZY_SCROLL_FN = `function (img) {
     const canX = /(auto|scroll|overlay)/.test(s.overflowX) && el.scrollWidth > el.clientWidth + 1;
     return canY || canX;
   };
+  const visible = (__VISIBLE__);
+  // 视口外候选 = 「已可见且有来源、但还没进视口」**或**「声明了延迟来源、尚未赋 src
+  //   （data-defer-src）的懒加载占位」。
+  //   第二类必须先被滚到才会拿到 src，否则它们永远不会加载、也不会被统计 ——
+  //   而它们恰恰是懒加载真正要等的那批（第三轮独立复验 R3-01 联测暴露）。
+  const imgs = Array.from(root.querySelectorAll('img')).filter(i => {
+    if (i.getAttribute('data-defer-src') && !i.getAttribute('src')) return true;   // 懒加载占位
+    if (!visible(i)) return false;
+    const r = i.getBoundingClientRect();
+    return r.bottom <= 0 || r.top >= innerHeight;
+  });
+  const img = imgs[index];
+  if (!img) return { scrolled: false, containerCount: 0 };
   let containers = 0;
   let p = img.parentElement;
   while (p && p !== document.documentElement) {
@@ -139,8 +192,8 @@ const LAZY_SCROLL_FN = `function (img) {
   return { scrolled: r.top < innerHeight && r.bottom > 0, containerCount: containers };
 }`;
 
-/* 复位滚动位置（截图前恢复原状），返回复位的容器数。 */
-const LAZY_RESTORE_FN = `function (root) {
+/* 记录即将被触碰的滚动容器与 window 的**原始位置**（供恢复用）。 */
+const LAZY_SAVE_FN = `function (root) {
   const scrollable = (el) => {
     if (!el || el.nodeType !== 1) return false;
     const s = getComputedStyle(el);
@@ -148,16 +201,53 @@ const LAZY_RESTORE_FN = `function (root) {
     const canX = /(auto|scroll|overlay)/.test(s.overflowX) && el.scrollWidth > el.clientWidth + 1;
     return canY || canX;
   };
-  let n = 0;
   const seen = new Set();
   for (const img of Array.from(root.querySelectorAll('img'))) {
     let p = img.parentElement;
     while (p && p !== document.documentElement) {
-      if (scrollable(p) && !seen.has(p)) { seen.add(p); p.scrollTop = 0; p.scrollLeft = 0; n++; }
+      if (scrollable(p)) seen.add(p);
       p = p.parentElement;
     }
   }
-  window.scrollTo(0, 0);
+  return {
+    containers: Array.from(seen).map(el => ({ top: el.scrollTop, left: el.scrollLeft })),
+    windowX: window.scrollX,
+    windowY: window.scrollY,
+  };
+}`;
+
+/* 恢复：只复位**本轮实际触碰过**的容器与 window，并恢复保存的**原值**（不是清零）。
+ * R3-02：旧实现把所有容器 scrollTop/scrollLeft 一律设为 0、window 归 0，
+ * 初值非零时会把状态改坏（实测 137 -> 0）。 */
+const LAZY_RESTORE_FN = `function (root, saved) {
+  const scrollable = (el) => {
+    if (!el || el.nodeType !== 1) return false;
+    const s = getComputedStyle(el);
+    const canY = /(auto|scroll|overlay)/.test(s.overflowY) && el.scrollHeight > el.clientHeight + 1;
+    const canX = /(auto|scroll|overlay)/.test(s.overflowX) && el.scrollWidth > el.clientWidth + 1;
+    return canY || canX;
+  };
+  const state = saved || { containers: [], windowX: 0, windowY: 0 };
+  const seen = new Set();
+  for (const img of Array.from(root.querySelectorAll('img'))) {
+    let p = img.parentElement;
+    while (p && p !== document.documentElement) {
+      if (scrollable(p)) seen.add(p);
+      p = p.parentElement;
+    }
+  }
+  const list = Array.from(seen);
+  let n = 0;
+  for (let i = 0; i < list.length; i++) {
+    const original = state.containers && state.containers[i];
+    if (!original) continue;                 // 只恢复本轮记录过的容器
+    if (list[i].scrollTop !== original.top) { list[i].scrollTop = original.top; n++; }
+    if (list[i].scrollLeft !== original.left) { list[i].scrollLeft = original.left; n++; }
+  }
+  if (window.scrollX !== state.windowX || window.scrollY !== state.windowY) {
+    window.scrollTo(state.windowX || 0, state.windowY || 0);
+    n++;
+  }
   return n;
 }`;
 
@@ -668,29 +758,22 @@ async function main() {
       //      测完复位（截图前恢复原状）。
       // 注意仍不做「滚过就放行」：滚完继续按原预算统计 loaded/broken，
       // 可见破图与真实未完成依旧算失败。
-      // 逐个目标滚入（见 LAZY_SCROLL_FN 注释：多目标一次性滚动会互相挤出视口）。
-      const listOffscreenExpr = `(() => {
-        const root = document.getElementById('view-${view}');
-        if (!root) return [];
-        const visible = (${IMG_VISIBLE_FN});
-        return Array.from(root.querySelectorAll('img'))
-          .filter(visible)
-          .filter(i => { const r = i.getBoundingClientRect(); return r.bottom <= 0 || r.top >= innerHeight; });
-      })()`;
-      const scrollOneExpr = `(img) => (${LAZY_SCROLL_FN})(img)`;
-      const runLazyRestoreExpr = `(() => {
-        const root = document.getElementById('view-${view}');
-        if (!root) return 0;
-        return (${LAZY_RESTORE_FN})(root);
-      })()`;
+      // R3-01：**元素身份不能跨 CDP 传递**。正式路径的 evaluate 只接收一个 expression
+      // 且 returnByValue:true —— 传 DOM 元素会变成 {}，传第二参数会被直接丢弃，
+      // 传 `(img) => ...` 这样的函数表达式只会创建函数对象、不会调用它（实测 targets=[{}]、
+      // 返回 {}、滚动 0 次）。因此元素查询与调用都在**页面表达式内部**完成，
+      // 跨边界只传可序列化的下标与已保存的滚动位置。
+      // 表达式由 buildLazyExprs 统一构造，保证行为验证跑的是同一套接线。
+      const lazyExprs = buildLazyExprs(view);
       if (imgStats && imgStats.offscreen > 0) {
         try {
-          const targets = await evaluate(listOffscreenExpr);
+          const saved = await evaluate(lazyExprs.save);
+          const targetCount = await evaluate(lazyExprs.count);
           let inView = 0;
           let containers = 0;
           const budgetEnd = Date.now() + 8000;
-          for (const target of (targets || [])) {
-            const res = await evaluate(scrollOneExpr, target);
+          for (let index = 0; index < targetCount; index++) {
+            const res = await evaluate(lazyExprs.scrollAt(index));
             if (res) {
               if (res.scrolled) inView++;
               containers = Math.max(containers, res.containerCount || 0);
@@ -705,11 +788,11 @@ async function main() {
             if (Date.now() >= budgetEnd) break;
           }
           imgStats = await evaluate(imgProbeExpr);
-          const restored = await evaluate(runLazyRestoreExpr);
+          const restored = await evaluate(lazyExprs.restore(JSON.stringify(saved || { containers: [], windowX: 0, windowY: 0 })));
           report.lazyScroll = report.lazyScroll || [];
           report.lazyScroll.push({
             view,
-            offscreen: (targets || []).length,
+            offscreen: targetCount,
             scrolledInView: inView,
             scrolledContainers: containers,
             restoredContainers: restored,
@@ -973,7 +1056,9 @@ module.exports = {
   IMG_VISIBLE_FN,
   IMG_PROBE_TEMPLATE,
   buildImgProbeExpr,
-  LAZY_SCROLL_FN,
+  buildLazyExprs,
+  LAZY_SCROLL_INDEX_FN,
+  LAZY_SAVE_FN,
   LAZY_RESTORE_FN,
   LOADING_MARKERS,
   EMPTY_MARKERS,
