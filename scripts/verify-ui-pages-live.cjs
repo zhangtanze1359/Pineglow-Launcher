@@ -85,9 +85,13 @@ const IMG_VISIBLE_FN = `function (i) {
  * 无法可靠地取出这段源码，而行为验证必须能拿到**同一份**逻辑。 */
 const IMG_PROBE_TEMPLATE = `(() => {
   const root = document.getElementById('view-__VIEW__');
-  if (!root) return { total: 0, loaded: 0, broken: 0, offscreen: 0, slots: 0, pendingSlots: 0 };
+  if (!root) return { total: 0, loaded: 0, broken: 0, offscreen: 0, deferred: 0, slots: 0, pendingSlots: 0 };
   const visible = (__VISIBLE_FN__);
   const imgs = Array.from(root.querySelectorAll('img')).filter(visible);
+  // R4-02：合法的延迟加载目标（仍带 data-defer-src 且尚未拿到 src）必须进入完成判定，
+  // 否则它们既不参与统计、也不让流程等待 —— 滚动分支会被入口条件整个跳过。
+  // 普通「无来源的隐藏上传占位」没有 data-defer-src，仍按原口径不参与。
+  const deferredImgs = Array.from(root.querySelectorAll('img[data-defer-src]')).filter(i => !i.getAttribute('src'));
   const slots = Array.from(root.querySelectorAll('[data-news-art-id]'));
   const pendingSlots = slots.filter(s => !s.querySelector('img') && !s.classList.contains('news-art-failed')).length;
   return {
@@ -95,6 +99,7 @@ const IMG_PROBE_TEMPLATE = `(() => {
     loaded: imgs.filter(i => i.complete && i.naturalWidth > 0).length,
     broken: imgs.filter(i => i.complete && i.naturalWidth === 0 && (i.currentSrc || i.getAttribute('src') || i.getAttribute('srcset'))).length,
     offscreen: imgs.filter(i => { const r = i.getBoundingClientRect(); return r.bottom <= 0 || r.top >= innerHeight; }).length,
+    deferred: deferredImgs.length,
     slots: slots.length,
     pendingSlots
   };
@@ -122,10 +127,17 @@ function buildLazyExprs(view) {
         return r.bottom <= 0 || r.top >= innerHeight;
       }).length;
     })()`,
-    scrollAt: (index) => `(() => {
+    /* 本轮目标集合：返回可序列化的 DOM 序号数组（身份固定，不受滚动导致的候选变化影响）。 */
+    targets: `(() => {
       const root = ${rootExpr};
-      if (!root) return { scrolled: false, containerCount: 0 };
-      return (${LAZY_SCROLL_INDEX_FN.replace('__VISIBLE__', IMG_VISIBLE_FN)})(root, ${index});
+      if (!root) return [];
+      return (${LAZY_COLLECT_FN.replace('__VISIBLE__', IMG_VISIBLE_FN)})(root);
+    })()`,
+    /* 按 DOM 序号滚入单个目标。 */
+    scrollAt: (domIndex) => `(() => {
+      const root = ${rootExpr};
+      if (!root) return { scrolled: false, containerCount: 0, deferred: false };
+      return (${LAZY_SCROLL_DOM_FN})(root, ${domIndex});
     })()`,
     restore: (savedJson) => `(() => {
       const root = ${rootExpr};
@@ -142,21 +154,53 @@ function buildImgProbeExpr(view) {
     .replace('__VISIBLE_FN__', IMG_VISIBLE_FN);
 }
 
-/* 懒加载滚动：把滚出视口的候选真正带进可视区域。
- * 修旧实现的三个问题：
- *   1. 产品实际滚动的是内层容器（.content-panel，ui/css/figma.css 的 overflow-y:auto），
- *      固定滚 window 对它没有任何作用 => 找每个图片**真实的可滚动祖先**。
- *   2. 连续同步滚动后立即复位不给浏览器渲染/懒加载调度机会
- *      => 由调用方**逐个目标**调用本函数，并在两次之间等待复测。
- *      逐个是必要的：多目标时滚到较远那个会把较近那个又推出视口
- *      （实测两个目标、一次性 scrollIntoView 后近端 top=-483），
- *      于是近端永远不会真正进入视口。
- *   3. 不复位滚动位置 => 由 __SAVE__FN__ / __RESTORE__FN__ 记录并恢复**原值**。
- *
- * 第三轮独立复验 R3-01：**函数只接受可序列化的下标**，不接受 DOM 元素。
- * 原因：正式路径的 evaluate 包装器只接收一个 expression 且用 returnByValue:true，
- * 第二参数会被丢弃、DOM 元素跨 CDP 按值转换会变成 {}（实测 targets 变 [{}]、
- * 返回 {}、滚动 0 次），滚动根本没发生。所以元素查询与调用必须都在页面表达式内完成。 */
+/* 懒加载目标集合：<img> 按 DOM 顺序编号 + 标记本轮候选。
+ * 为什么不用「每次重新过滤 + 递增下标」（第四轮独立复验 R4-01）：
+ *   候选口径含「目前在视口外」，滚动第一张后它就退出候选数组，
+ *   下一次 index=1 会**跳过**当前 index=0 的第二张 —— 实测两张目标只滚到一张。
+ * 这里把候选身份**固定**在 DOM 序号上，滚动时按序号取元素，与数组是否变化无关。 */
+const LAZY_COLLECT_FN = `function (root) {
+  const visible = (__VISIBLE__);
+  return Array.from(root.querySelectorAll('img')).map((img, domIndex) => {
+    // 既有来源又可见、但还没进视口 => 需要滚进来
+    const offscreen = visible(img) && (() => { const r = img.getBoundingClientRect(); return r.bottom <= 0 || r.top >= innerHeight; })();
+    // 声明了延迟来源、尚未赋 src 的占位 => 必须滚到才会加载（它们按设计没有 src，
+    // 所以永远过不了 visible()，必须单独识别，否则入口条件会把整段滚动跳过）
+    const deferredPlaceholder = !!img.getAttribute('data-defer-src') && !img.getAttribute('src');
+    return { domIndex, offscreen: offscreen, deferred: deferredPlaceholder };
+  }).filter(t => t.offscreen || t.deferred).map(t => ({ domIndex: t.domIndex, deferred: t.deferred }));
+}`;
+
+/* 按 DOM 序号滚入单个目标（跨 CDP 只传可序列化序号）。 */
+const LAZY_SCROLL_DOM_FN = `function (root, domIndex) {
+  if (!root) return { scrolled: false, containerCount: 0, deferred: false };
+  const imgs = Array.from(root.querySelectorAll('img'));
+  const img = imgs[domIndex];
+  if (!img) return { scrolled: false, containerCount: 0, deferred: false };
+  const deferred = !!img.getAttribute('data-defer-src') && !img.getAttribute('src');
+  const scrollable = (el) => {
+    if (!el || el.nodeType !== 1) return false;
+    const s = getComputedStyle(el);
+    const canY = /(auto|scroll|overlay)/.test(s.overflowY) && el.scrollHeight > el.clientHeight + 1;
+    const canX = /(auto|scroll|overlay)/.test(s.overflowX) && el.scrollWidth > el.clientWidth + 1;
+    return canY || canX;
+  };
+  let containers = 0;
+  let p = img.parentElement;
+  while (p && p !== document.documentElement) {
+    if (scrollable(p)) containers++;
+    p = p.parentElement;
+  }
+  // block:'nearest' 而非 'center'：center 对容器内靠后的元素会把容器滚到最大值，
+  // 反而把元素推到视口**上方**（实测 top=-487）。nearest 只带到最近的边缘。
+  // 延迟占位同样要滚动：它靠进入视口后才由页面自己的懒加载拿到 src。
+  try { img.scrollIntoView({ block: 'nearest', inline: 'nearest' }); } catch (e) { return { scrolled: false, containerCount: containers, deferred }; }
+  const r = img.getBoundingClientRect();
+  return { scrolled: r.top < innerHeight && r.bottom > 0, containerCount: containers, deferred };
+}`;
+
+/* 兼容旧的按「变化候选数组下标」滚动（保留导出以便既有验证脚本对比），
+ * 但正式路径一律使用 LAZY_SCROLL_DOM_FN + LAZY_COLLECT_FN。 */
 const LAZY_SCROLL_INDEX_FN = `function (root, index) {
   if (!root) return { scrolled: false, containerCount: 0 };
   const scrollable = (el) => {
@@ -762,18 +806,28 @@ async function main() {
       // 且 returnByValue:true —— 传 DOM 元素会变成 {}，传第二参数会被直接丢弃，
       // 传 `(img) => ...` 这样的函数表达式只会创建函数对象、不会调用它（实测 targets=[{}]、
       // 返回 {}、滚动 0 次）。因此元素查询与调用都在**页面表达式内部**完成，
-      // 跨边界只传可序列化的下标与已保存的滚动位置。
+      // 跨边界只传可序列化的 DOM 序号与已保存的滚动位置。
+      // R4-01：目标集合与身份在滚动前**固定**（DOM 序号），不能对「随滚动变化的候选数组」
+      // 递增下标 —— 滚走第一张后它会退出候选，index=1 就跳过了真正的第二张。
+      // R4-02：入口条件必须与目标口径一致。旧入口用 imgStats.offscreen>0，而该探针按
+      // IMG_VISIBLE_FN 排除「无 src」的节点，于是延迟占位（正是要等滚动的那批）永远
+      // 进不了流程；现在入口看 lazyExprs.targets 的长度。
+      // R4-03：恢复必须放在 finally —— 探测中途抛错时也要复位，否则残留滚动会污染
+      // 后续截图与判定（实测注入一次可恢复错误后停在 11808 未恢复）。
       // 表达式由 buildLazyExprs 统一构造，保证行为验证跑的是同一套接线。
       const lazyExprs = buildLazyExprs(view);
-      if (imgStats && imgStats.offscreen > 0) {
+      const lazyTargets = await evaluate(lazyExprs.targets);
+      const lazyTargetList = Array.isArray(lazyTargets) ? lazyTargets : [];
+      if (lazyTargetList.length > 0) {
+        let saved = null;
+        let inView = 0;
+        let containers = 0;
+        let probeError = null;
         try {
-          const saved = await evaluate(lazyExprs.save);
-          const targetCount = await evaluate(lazyExprs.count);
-          let inView = 0;
-          let containers = 0;
+          saved = await evaluate(lazyExprs.save);
           const budgetEnd = Date.now() + 8000;
-          for (let index = 0; index < targetCount; index++) {
-            const res = await evaluate(lazyExprs.scrollAt(index));
+          for (const target of lazyTargetList) {
+            const res = await evaluate(lazyExprs.scrollAt(target.domIndex));
             if (res) {
               if (res.scrolled) inView++;
               containers = Math.max(containers, res.containerCount || 0);
@@ -782,23 +836,34 @@ async function main() {
             const stepEnd = Math.min(budgetEnd, Date.now() + 1200);
             while (Date.now() < stepEnd) {
               imgStats = await evaluate(imgProbeExpr);
-              if (imgStats.loaded + imgStats.broken >= imgStats.total && imgStats.pendingSlots === 0) break;
+              if (imgStats.loaded + imgStats.broken >= imgStats.total && imgStats.deferred === 0 && imgStats.pendingSlots === 0) break;
               await sleep(300);
             }
             if (Date.now() >= budgetEnd) break;
           }
           imgStats = await evaluate(imgProbeExpr);
-          const restored = await evaluate(lazyExprs.restore(JSON.stringify(saved || { containers: [], windowX: 0, windowY: 0 })));
-          report.lazyScroll = report.lazyScroll || [];
-          report.lazyScroll.push({
-            view,
-            offscreen: targetCount,
-            scrolledInView: inView,
-            scrolledContainers: containers,
-            restoredContainers: restored,
-          });
         } catch (e) {
+          probeError = e;
           report.problems.push(`视图 ${view}: 懒加载滚动探测失败 ${e.message}`);
+        } finally {
+          // 无论探测是否抛错都必须复位；恢复本身的失败单独记录，不掩盖原始探测错误。
+          try {
+            const restored = await evaluate(lazyExprs.restore(JSON.stringify(saved || { containers: [], windowX: 0, windowY: 0 })));
+            report.lazyScroll = report.lazyScroll || [];
+            report.lazyScroll.push({
+              view,
+              targets: lazyTargetList.length,
+              scrolledInView: inView,
+              scrolledContainers: containers,
+              restoredContainers: restored,
+              probeError: probeError ? String(probeError.message || probeError) : null,
+            });
+          } catch (restoreError) {
+            report.problems.push(
+              `视图 ${view}: 懒加载滚动恢复失败 ${restoreError.message}` +
+              (probeError ? `（原始探测错误：${probeError.message}）` : '')
+            );
+          }
         }
       }
       const imagesMs = Date.now() - imgWaitStart;
@@ -826,10 +891,13 @@ async function main() {
       //   - 明确失败：可见且 complete 但 naturalWidth=0（真破图）=> 一定进 problems。
       //   - 未完成：被统计的可见图片里还有没出结果的 => 预算内没画出来 => 进 problems。
       //   - 待填槽位：news 这类需要异步 fetch 的占位，仍按原逻辑计入 pending。
+      // R4-02：仍未拿到 src 的合法延迟目标也算未完成 —— 它们没被滚到／没加载出来
+      // 就不能算通过；只对有 data-defer-src 的节点生效，普通无来源占位不受影响。
       const imagesPending = imgStats && (
         (imgStats.pendingSlots > 0)
         || (imgStats.broken > 0)
         || (imgStats.total > 0 && imgStats.loaded + imgStats.broken < imgStats.total)
+        || (imgStats.deferred > 0)
       );
       report.views[view] = {
         ok,
@@ -841,6 +909,7 @@ async function main() {
         imagesTotal: imgStats ? imgStats.total : 0,
         imagesLoaded: imgStats ? imgStats.loaded : 0,
         imagesBroken: imgStats ? imgStats.broken : 0,
+        imagesDeferred: imgStats ? (imgStats.deferred || 0) : 0,
         imageSlots: imgStats ? imgStats.slots : 0,
         pendingSlots: imgStats ? imgStats.pendingSlots : 0,
         activeNav: active,
@@ -852,7 +921,7 @@ async function main() {
       };
       const tag = ok ? (state === 'empty' ? 'EMPTY' : 'OK  ')
         : (outcome === 'external-error' ? 'ERR ' : (outcome === 'external-pending' ? 'WAIT' : 'FAIL'));
-      console.log(`[ui-pages] ${tag} ${view.padEnd(14)} state=${state} active=${active} textLen=${probe ? probe.textLen : 0} settle=${settleMs}ms img=${imgStats ? imgStats.loaded + '/' + imgStats.total : '-'} broken=${imgStats ? imgStats.broken : 0} slots=${imgStats ? imgStats.slots : 0}(pending=${imgStats ? imgStats.pendingSlots : 0},${imagesMs}ms) shot=${shotBytes}B`);
+      console.log(`[ui-pages] ${tag} ${view.padEnd(14)} state=${state} active=${active} textLen=${probe ? probe.textLen : 0} settle=${settleMs}ms img=${imgStats ? imgStats.loaded + '/' + imgStats.total : '-'} broken=${imgStats ? imgStats.broken : 0} deferred=${imgStats ? (imgStats.deferred || 0) : 0} slots=${imgStats ? imgStats.slots : 0}(pending=${imgStats ? imgStats.pendingSlots : 0},${imagesMs}ms) shot=${shotBytes}B`);
       if (state === 'error' && active === view) {
         report.landedErrorStates.push({ view, settleMs, sample: probe ? probe.sample : '' });
       } else if (state === 'empty' && active === view) {
@@ -870,6 +939,7 @@ async function main() {
           if (imgStats.broken > 0) reasons.push(`可见破图 ${imgStats.broken}/${imgStats.total}`);
           if (imgStats.loaded + imgStats.broken < imgStats.total) reasons.push(`可见未完成 ${imgStats.total - imgStats.loaded - imgStats.broken}/${imgStats.total}`);
           if (imgStats.pendingSlots > 0) reasons.push(`待填槽位 ${imgStats.pendingSlots}`);
+          if (imgStats.deferred > 0) reasons.push(`延迟加载目标仍未取得来源 ${imgStats.deferred}`);
           report.problems.push(`视图 ${view}: 图片未在预算内渲染（img ${imgStats.loaded}/${imgStats.total}，${reasons.join('，')}，等 ${imagesMs}ms）`);
         }
       }

@@ -5,9 +5,9 @@
 
 ## 0. 本包当前状态（供独立复验）
 
-第二轮独立验收在 `f9b109d` 判定 `FAIL_REWORK_REQUIRED`（H2-01/H2-02/H2-03）；
-第三轮在 `73ad9c4` 判定 `FAIL_REWORK_REQUIRED`（R3-01/R3-02，均针对 H2-03 的 CDP 接线与恢复语义）。
-**两轮的指认均已修复并重跑**。本节只列复验入口：
+已历四轮独立验收，全部针对**验证脚本**本身：第二轮 H2-01/H2-02/H2-03、
+第三轮 R3-01/R3-02、第四轮 R4-01/R4-02/R4-03。**三轮指认均已修复并复验**。
+本节只列复验入口：
 
 | 复验项 | 命令 | 期望 |
 | --- | --- | --- |
@@ -15,6 +15,7 @@
 | 资源闭包 | `node scripts/check-ui-resource-closure.cjs --root ui` | 0 缺失 |
 | 图片可见性行为（H2-02） | `python scripts/ha01-image-visibility-behavior.py scripts/verify-ui-pages-live.cjs <报告>` | PASS，exit 0；浏览器不可用则 exit 3 |
 | 懒加载滚动行为（H2-03，**走正式 CDP 接线**） | `python scripts/ha01-cdp-lazy-scroll-behavior.py scripts/verify-ui-pages-live.cjs <报告>` | PASS，exit 0 |
+| 懒加载**主流程**分支（R4-02 入口 / R4-03 finally 恢复） | `python scripts/ha01-cdp-main-flow-behavior.py scripts/verify-ui-pages-live.cjs <报告>` | PASS，exit 0 |
 | 正式十页原生巡检 | `node scripts/verify-ui-pages-live.cjs --app <单文件EXE> --out <截图> --json <报告>` | PASS，views=10/10，exit 0 |
 
 两个行为脚本**不需要**运行产品 EXE（只需本机 Chromium 内核浏览器 + python playwright），
@@ -246,6 +247,31 @@ skins 页唯一被计入的 `#localSkinTexture` 是 `hidden`、无 `src`、宽�
 **回归（修复后重跑）：** 全量 Node 清单 **380/380**（0 失败 0 跳过）；
 正式十页原生 WebView **PASS views=10/10**（`ui-live-fixed3.json`），
 异常/console.error/资源失败全为 0；可见性行为验证仍 PASS。
+
+#### 3.2.3 第四轮独立验收的返工（R4-01/R4-02/R4-03）与修复
+
+`../harness-independent-acceptance-2026-10-17-run04/` 在 `08e9668` 上判定
+`FAIL_REWORK_REQUIRED`，三项均位于懒加载验收流程内部。三项都成立：
+
+| 编号 | 问题 | 修复 |
+| --- | --- | --- |
+| **R4-01** / P2 | **对变化中的候选数组递增下标**：`targetCount` 在滚动前固定，而 `scrollAt(index)` 每次都重新过滤「目前在视口外」的图片 —— 滚走第一张后它退出候选，`index=1` 就**跳过**了真正的第二张（实测 2 个目标只滚到 1 个） | 候选身份改为**固定的 DOM 序号**（`LAZY_COLLECT_FN` 产出 `[{domIndex,deferred}]`），滚动按序号取元素（`LAZY_SCROLL_DOM_FN`），与数组是否变化无关；跨 CDP 仍只传序号 |
+| **R4-02** / P2 | **延迟占位被入口条件排除**：入口用 `imgStats.offscreen > 0`，而该探针按 `IMG_VISIBLE_FN` 排除「无 `src`」节点 —— 延迟占位（正是要等滚动的那批）永远进不了流程 | 入口改用 `buildLazyExprs().targets` 的长度（与目标口径一致）；图片探针新增 `deferred` 计数，仍未取得来源的合法延迟目标进入最终完成判定；普通无来源/隐藏上传占位（没有 `data-defer-src`）不受影响 |
+| **R4-03** / P2 | **探测异常跳过恢复**：`restore` 位于 `try` 的成功路径内，探测中途抛错就走 `catch`，恢复不执行，残留滚动污染后续截图与判定（实测停在 11808） | 恢复移入 **`finally`**；恢复自身的失败单独记录、不掩盖原始探测错误；`lazyScroll` 记录的作用域覆盖清理逻辑并带上原始探测错误 |
+
+**复验（新增主流程隔离复验脚本 `scripts/ha01-cdp-main-flow-behavior.py`）：**
+第四轮指出「只调用 `count`/`scrollAt` 会绕过入口」，因此该脚本复刻正式脚本里
+**整段**懒加载分支（入口判断 → 保存 → 逐目标滚动 → 复测 → 恢复）：
+
+- R4-02：正式探针 `total=1 offscreen=0 deferred=2` 时入口**进入**（旧实现直接跳过）；
+  滚完后两个延迟目标均取得 `src` 且 `naturalWidth=1`，复测 `total=3 loaded=3 deferred=0`
+- R4-03：注入一次可恢复错误后，恢复仍执行，`scrollTop` 回到 **137**（旧实现停在 11808）
+- R4-01（辅助函数级，`ha01-cdp-lazy-scroll-behavior.py`）：`targets=[{domIndex:1},{domIndex:2}]`，
+  两个目标都被滚到，`a.naturalWidth=1`、`b.naturalWidth=1`，图片 HTTP 请求 **+2**
+
+**回归：** 全量 Node **380/380**；正式十页 **PASS views=10/10**（`ui-live-fixed4.json`）；
+可见性行为 PASS；资源闭包 0 缺失。十页原生本轮未触发 `lazyScroll`
+（产品页面没有 `data-defer-src` 目标，与第四轮观察一致），边界覆盖由上述两个隔离复验脚本承担。
 
 ### 3.1 真实更新链路验收（本轮新增）
 

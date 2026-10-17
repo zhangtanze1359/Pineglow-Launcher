@@ -1,0 +1,35 @@
+﻿第四轮独立验收（docs/harness-independent-acceptance-2026-10-17-run04/）判定 FAIL_REWORK_REQUIRED，
+针对正式脚本的懒加载验收流程提出 R4-01/R4-02/R4-03。三项均已修复并复验。
+
+R4-01（对变化中的候选数组递增下标，跳过后续目标）：
+  根因：targetCount 在滚动前固定，而 scrollAt(index) 每次重新过滤"目前在视口外"的图片；
+  滚动第一张后它退出候选数组，下一次 index=1 就跳过当前 index=0 的第二张。
+  修法：候选身份改为**固定的 DOM 序号**（LAZY_COLLECT_FN 产出 [{domIndex,deferred}]），
+  滚动按 DOM 序号取元素（LAZY_SCROLL_DOM_FN），与数组是否变化无关；跨 CDP 仍只传序号。
+  复验：两个延迟目标 targets=[{domIndex:1},{domIndex:2}]，两个都被滚到，
+        a.naturalWidth=1、b.naturalWidth=1，图片 HTTP 请求 +2（旧实现只滚到 1 个）。
+
+R4-02（延迟占位图被入口条件排除，主流程漏验）：
+  根因：入口条件用 imgStats.offscreen>0，而该探针按 IMG_VISIBLE_FN 排除"无 src"节点，
+  于是延迟占位（正是要等滚动的那批）永远进不了流程；count/scrollAt 纳入 data-defer-src 也无用。
+  修法：入口条件改用 buildLazyExprs().targets 的长度（与目标口径一致）；
+  图片探针新增 deferred 计数，仍未取得来源的合法延迟目标进入最终完成判定（但不影响
+  普通无来源/隐藏上传占位，它们没有 data-defer-src）。
+  复验（主流程隔离复验脚本）：探针 total=1 offscreen=0 deferred=2 时入口**进入**，
+        滚完后 two deferred 均取得 src 并加载，复测 total=3 loaded=3 deferred=0。
+
+R4-03（滚动后探测异常跳过恢复，污染后续截图和状态）：
+  根因：restore 位于 try 的成功路径内；探测中途抛错就走 catch，恢复不执行。
+  修法：恢复移入 finally；恢复自身的失败单独记录，不掩盖原始探测错误；
+  记录 lazyScroll 的作用域覆盖清理逻辑，并把原始探测错误写进记录。
+  复验：注入一次可恢复错误后，恢复仍执行，scrollTop 回到 137（旧实现停在 11808）。
+
+验证入口（均走正式 buildLazyExprs 表达式 + 与正式脚本相同的 Runtime.evaluate 包装器）：
+  python scripts/ha01-cdp-lazy-scroll-behavior.py scripts/verify-ui-pages-live.cjs <报告>
+  python scripts/ha01-cdp-main-flow-behavior.py scripts/verify-ui-pages-live.cjs <报告>
+  python scripts/ha01-image-visibility-behavior.py scripts/verify-ui-pages-live.cjs <报告>
+
+回归：全量 Node 清单 380/380（0 失败 0 跳过）；正式十页原生 WebView PASS views=10/10
+（ui-live-fixed4.json，异常/console.error/资源失败全为 0）；可见性行为 PASS；资源闭包 0 缺失。
+十页原生本轮未触发 lazyScroll（产品页面没有 data-defer-src 目标），与第四轮观察一致；
+因此边界覆盖由上述两个隔离复验脚本承担。

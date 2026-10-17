@@ -1,0 +1,86 @@
+{
+  "problems": [],
+  "steps": {
+    "probeBefore": {
+      "total": 1,
+      "loaded": 1,
+      "broken": 0,
+      "offscreen": 0,
+      "deferred": 2,
+      "slots": 0,
+      "pendingSlots": 0
+    },
+    "targets": [
+      {
+        "domIndex": 1,
+        "deferred": true
+      },
+      {
+        "domIndex": 2,
+        "deferred": true
+      }
+    ],
+    "entryCondition": {
+      "probeOffscreen": 0,
+      "probeTotal": 1,
+      "probeDeferred": 2,
+      "targets": 2
+    },
+    "blockA": {
+      "saved": {
+        "containers": [
+          {
+            "top": 0,
+            "left": 0
+          }
+        ],
+        "windowX": 0,
+        "windowY": 0
+      },
+      "inView": 2,
+      "containers": 1,
+      "probeError": null,
+      "restoreResult": 1,
+      "restoreError": null,
+      "problems": []
+    },
+    "afterA": {
+      "aHasSrc": true,
+      "aNatural": 1,
+      "bHasSrc": true,
+      "bNatural": 1,
+      "panelScrollTop": 0
+    },
+    "probeAfter": {
+      "total": 3,
+      "loaded": 3,
+      "broken": 0,
+      "offscreen": 2,
+      "deferred": 0,
+      "slots": 0,
+      "pendingSlots": 0
+    },
+    "blockB": {
+      "saved": {
+        "containers": [
+          {
+            "top": 137,
+            "left": 0
+          }
+        ],
+        "windowX": 0,
+        "windowY": 0
+      },
+      "inView": 1,
+      "containers": 1,
+      "probeError": "注入的可恢复探测错误",
+      "restoreResult": 1,
+      "restoreError": null,
+      "problems": [
+        "懒加载滚动探测失败 注入的可恢复探测错误"
+      ]
+    },
+    "scrollTopAfterErrorInjection": 137
+  },
+  "verdict": "PASS"
+}

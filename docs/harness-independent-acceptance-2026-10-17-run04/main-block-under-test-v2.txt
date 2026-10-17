@@ -1,0 +1,37 @@
+      const lazyExprs = buildLazyExprs(view);
+      if (imgStats && imgStats.offscreen > 0) {
+        try {
+          const saved = await evaluate(lazyExprs.save);
+          const targetCount = await evaluate(lazyExprs.count);
+          let inView = 0;
+          let containers = 0;
+          const budgetEnd = Date.now() + 8000;
+          for (let index = 0; index < targetCount; index++) {
+            const res = await evaluate(lazyExprs.scrollAt(index));
+            if (res) {
+              if (res.scrolled) inView++;
+              containers = Math.max(containers, res.containerCount || 0);
+            }
+            // 每个目标之间等待，给渲染 / 懒加载调度留机会
+            const stepEnd = Math.min(budgetEnd, Date.now() + 1200);
+            while (Date.now() < stepEnd) {
+              imgStats = await evaluate(imgProbeExpr);
+              if (imgStats.loaded + imgStats.broken >= imgStats.total && imgStats.pendingSlots === 0) break;
+              await sleep(300);
+            }
+            if (Date.now() >= budgetEnd) break;
+          }
+          imgStats = await evaluate(imgProbeExpr);
+          const restored = await evaluate(lazyExprs.restore(JSON.stringify(saved || { containers: [], windowX: 0, windowY: 0 })));
+          report.lazyScroll = report.lazyScroll || [];
+          report.lazyScroll.push({
+            view,
+            offscreen: targetCount,
+            scrolledInView: inView,
+            scrolledContainers: containers,
+            restoredContainers: restored,
+          });
+        } catch (e) {
+          report.problems.push(`视图 ${view}: 懒加载滚动探测失败 ${e.message}`);
+        }
+      }

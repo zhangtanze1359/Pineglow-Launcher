@@ -1,7 +1,16 @@
 {
   "problems": [],
   "steps": {
-    "count": 1,
+    "targets": [
+      {
+        "domIndex": 1,
+        "deferred": true
+      },
+      {
+        "domIndex": 2,
+        "deferred": true
+      }
+    ],
     "save": {
       "containers": [
         {
@@ -14,11 +23,22 @@
     },
     "scrolls": [
       {
-        "scrolled": true,
-        "containerCount": 1
+        "domIndex": 1,
+        "res": {
+          "scrolled": true,
+          "containerCount": 1,
+          "deferred": true
+        }
+      },
+      {
+        "domIndex": 2,
+        "res": {
+          "scrolled": true,
+          "containerCount": 1,
+          "deferred": true
+        }
       }
     ],
-    "elementByValueIsEmptyObject": true,
     "elementByValue": "{}",
     "saveNonZero": {
       "containers": [
@@ -33,22 +53,23 @@
     "restoreResult": 1,
     "finalScrollTop": 137
   },
-  "exprsFromProduction": true,
   "before": {
     "panelScrollTop": 0,
-    "deepTop": 745,
-    "deepHasSrc": false
+    "aTop": 745,
+    "aHasSrc": false,
+    "bTop": 1489,
+    "bHasSrc": false
   },
   "after": {
-    "panelScrollTop": 484,
-    "deepTop": 261,
-    "deepComplete": true,
-    "deepNatural": 1,
-    "deepHasSrc": true
+    "panelScrollTop": 1228,
+    "aHasSrc": true,
+    "aNatural": 1,
+    "bHasSrc": true,
+    "bNatural": 1
   },
   "httpRequests": {
     "before": 1,
-    "after": 2
+    "after": 3
   },
   "verdict": "PASS"
 }

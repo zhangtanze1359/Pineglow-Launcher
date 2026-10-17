@@ -1,0 +1,184 @@
+{
+  "head": "08e96680748f7c7804cea8ac052c269efd0c7810",
+  "uses": [
+    "exact official main branch incl guard, loop, catch and restore",
+    "exact official evaluate wrapper",
+    "actual Edge Runtime.evaluate CDP",
+    "local HTTP native-lazy and IntersectionObserver fixtures"
+  ],
+  "cases": [
+    {
+      "name": "native-two",
+      "before": {
+        "stats": {
+          "total": 2,
+          "loaded": 0,
+          "broken": 0,
+          "offscreen": 2,
+          "slots": 0,
+          "pendingSlots": 0
+        },
+        "count": 2,
+        "top": 0
+      },
+      "after": {
+        "stats": {
+          "total": 2,
+          "loaded": 1,
+          "broken": 0,
+          "offscreen": 2,
+          "slots": 0,
+          "pendingSlots": 0
+        },
+        "count": 2,
+        "top": 0,
+        "images": [
+          {
+            "id": "a",
+            "src": "/img?a=/native-two",
+            "natural": 1,
+            "top": 12002
+          },
+          {
+            "id": "b",
+            "src": "/img?b=/native-two",
+            "natural": 0,
+            "top": 24054
+          }
+        ],
+        "hits": [
+          "/img?a=/native-two"
+        ],
+        "report": {
+          "problems": [],
+          "lazyScroll": [
+            {
+              "view": "fixture",
+              "offscreen": 2,
+              "scrolledInView": 1,
+              "scrolledContainers": 1,
+              "restoredContainers": 1
+            }
+          ]
+        },
+        "injected": false
+      },
+      "control": {
+        "bLoaded": 1,
+        "hits": [
+          "/img?a=/native-two",
+          "/img?b=/native-two"
+        ]
+      },
+      "cleanupTop": 0,
+      "confirmed": true
+    },
+    {
+      "name": "deferred-only",
+      "before": {
+        "stats": {
+          "total": 1,
+          "loaded": 1,
+          "broken": 0,
+          "offscreen": 0,
+          "slots": 0,
+          "pendingSlots": 0
+        },
+        "count": 2,
+        "top": 0
+      },
+      "after": {
+        "stats": {
+          "total": 1,
+          "loaded": 1,
+          "broken": 0,
+          "offscreen": 0,
+          "slots": 0,
+          "pendingSlots": 0
+        },
+        "count": 2,
+        "top": 0,
+        "images": [
+          {
+            "id": "a",
+            "src": null,
+            "natural": 0,
+            "top": 12054
+          },
+          {
+            "id": "b",
+            "src": null,
+            "natural": 0,
+            "top": 24106
+          }
+        ],
+        "hits": [],
+        "report": {
+          "problems": []
+        },
+        "injected": false
+      },
+      "control": {
+        "bLoaded": 1,
+        "hits": [
+          "/img?b=/deferred-only"
+        ]
+      },
+      "cleanupTop": 0,
+      "confirmed": true
+    },
+    {
+      "name": "native-fault",
+      "before": {
+        "stats": {
+          "total": 2,
+          "loaded": 0,
+          "broken": 0,
+          "offscreen": 2,
+          "slots": 0,
+          "pendingSlots": 0
+        },
+        "count": 2,
+        "top": 137
+      },
+      "after": {
+        "stats": {
+          "total": 2,
+          "loaded": 1,
+          "broken": 0,
+          "offscreen": 1,
+          "slots": 0,
+          "pendingSlots": 0
+        },
+        "count": 1,
+        "top": 11808,
+        "images": [
+          {
+            "id": "a",
+            "src": "/img?a=/native-fault",
+            "natural": 1,
+            "top": 194
+          },
+          {
+            "id": "b",
+            "src": "/img?b=/native-fault",
+            "natural": 0,
+            "top": 12246
+          }
+        ],
+        "hits": [
+          "/img?a=/native-fault"
+        ],
+        "report": {
+          "problems": [
+            "视图 fixture: 懒加载滚动探测失败 OWNED_FIXTURE_CDP_TRANSIENT_ERROR"
+          ]
+        },
+        "injected": true
+      },
+      "cleanupTop": 137,
+      "confirmed": true
+    }
+  ],
+  "verdict": "COUNTEREXAMPLES_CONFIRMED"
+}

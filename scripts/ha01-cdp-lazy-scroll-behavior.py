@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
-"""HA-01 懒加载滚动：**走正式 CDP 接线**的行为验证（R3-01 / R3-02）。
+"""HA-01 懒加载滚动：**走正式 CDP 接线**的行为验证（辅助函数级）。
 
-为什么重写：上一版用 Playwright 的活 ElementHandle 直接调用辅助函数，
-绕过了正式路径的 CDP 值序列化与 evaluate 包装器，因此它的 PASS **不能**证明主流程有效
-（第三轮独立复验据此给出反例）。本版改为：
-
-  1. 从正式脚本取 `buildLazyExprs(view)` 生成的**同一批表达式字符串**；
-  2. 用与正式脚本**同样的包装器**发送 —— `Runtime.evaluate { expression, returnByValue: true }`；
-  3. 断言元素身份没有跨边界传递（回归 R3-01：DOM 元素按值转换会变成 {}）；
-  4. 断言非零初值的滚动位置被**恢复为原值**（回归 R3-02：旧实现是清零）。
+覆盖范围（与 ha01-cdp-main-flow-behavior.py 互补）：
+  - 表达式由正式脚本的 buildLazyExprs(view) 产出，用与正式脚本**相同**的包装器发送
+    （Runtime.evaluate + returnByValue），因此覆盖真实接线而不是另写一套判定；
+  - targets 返回**固定的 DOM 序号**，两个目标都会被滚到（回归 R4-01：
+    旧实现对"随滚动变化的候选数组"递增下标，会跳过第二个目标）；
+  - 非零初值的滚动位置恢复为**原值**（回归 R3-02，旧实现是清零）；
+  - 元素身份不能跨 CDP 传递的对照（回归 R3-01）。
 
 夹具用内层 overflow 容器 + IntersectionObserver 延迟加载（headless Chromium 会把
 loading=lazy 的图片在滚动前全部取走，无法表达「进入视口才加载」）。
@@ -17,9 +16,9 @@ loading=lazy 的图片在滚动前全部取走，无法表达「进入视口才�
 import json
 import os
 import socket
+import subprocess
 import sys
 import threading
-import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
@@ -77,14 +76,15 @@ def free_port():
 
 PAGE = """<!doctype html><html><head><meta charset="utf-8"><style>
   body { margin: 0; }
-  /* 复刻 ui/css/figma.css 的 .content-panel：真正的滚动容器 */
   .content-panel { height: 300px; overflow-y: auto; border: 1px solid #ccc; }
   .spacer { height: 700px; }
 </style></head><body>
   <div id="view-fixture"><div class="content-panel" id="panel">
     <img id="top-img" src="/ok.png?top=1" width="40" height="40">
     <div class="spacer"></div>
-    <img id="deep-img" data-defer-src="/ok.png?deferred=1" width="40" height="40">
+    <img id="deep-a" data-defer-src="/ok.png?deferred=a" width="40" height="40">
+    <div class="spacer"></div>
+    <img id="deep-b" data-defer-src="/ok.png?deferred=b" width="40" height="40">
   </div></div>
   <script>
     (function () {
@@ -96,7 +96,8 @@ PAGE = """<!doctype html><html><head><meta charset="utf-8"><style>
           io.unobserve(el);
         }
       }, { root: document.getElementById('panel'), threshold: 0 });
-      io.observe(document.getElementById('deep-img'));
+      io.observe(document.getElementById('deep-a'));
+      io.observe(document.getElementById('deep-b'));
     })();
   </script>
 </body></html>"""
@@ -124,88 +125,85 @@ def main():
         page = browser.new_page(viewport={"width": 900, "height": 700})
         page.set_content(page_html, wait_until="load")
         page.wait_for_timeout(1200)
-
         cdp = page.context.new_cdp_session(page)
 
-        # ==== 与正式脚本完全相同的包装器（scripts/verify-ui-pages-live.cjs:583-586） ====
+        # ==== 与正式脚本完全相同的包装器 ====
         def evaluate(expression):
             r = cdp.send("Runtime.evaluate", {"expression": expression, "returnByValue": True, "awaitPromise": True})
             if r.get("exceptionDetails"):
                 raise RuntimeError(f"页面异常: {r['exceptionDetails'].get('text')}")
             result = r.get("result", {})
-            if result.get("subtype") == "error":
-                raise RuntimeError("页面返回 error 对象")
             return result.get("value")
 
-        # ==== 从正式脚本取同一批表达式 ====
-        # scrollAt 取多个下标（真实页面可能有多个视口外目标）；restore 需要把保存值传进去，
-        # 所以先构造表达式骨架：用不可能出现的哨兵值填充，运行时再按需替换。
-        import subprocess
+        # ==== 表达式全部来自正式脚本 ====
         script = (
             "const m=require(process.argv[1]);"
             "const e=m.buildLazyExprs('fixture');"
-            "process.stdout.write(JSON.stringify({save:e.save,count:e.count,"
-            "scroll0:e.scrollAt(0),scroll1:e.scrollAt(1),"
-            "restore:e.restore('__SAVED__')}));"
+            "const scroll={}; for (let i=0;i<12;i++) scroll[i]=e.scrollAt(i);"
+            "process.stdout.write(JSON.stringify({save:e.save,count:e.count,targets:e.targets,"
+            "scroll:scroll,restore:e.restore('__SAVED__')}));"
         )
-        out = subprocess.run(
-            ["node", "-e", script, str(VERIFIER)], capture_output=True, text=True, encoding="utf-8"
-        )
+        out = subprocess.run(["node", "-e", script, str(VERIFIER)], capture_output=True, text=True, encoding="utf-8")
         if out.returncode != 0:
             print(f"FATAL: 无法从正式脚本构造表达式：{out.stderr[:300]}")
             httpd.shutdown()
             return 2
         exprs = json.loads(out.stdout)
-        results["exprsFromProduction"] = True
+        scroll_exprs = exprs["scroll"]
 
-        # ---- 前置：容器未滚动、延迟图未加载 ----
         before = page.evaluate(
             """() => {
               const p = document.getElementById('panel');
-              const d = document.getElementById('deep-img');
-              return { panelScrollTop: p.scrollTop, deepTop: Math.round(d.getBoundingClientRect().top),
-                       deepHasSrc: !!d.getAttribute('src') };
+              const a = document.getElementById('deep-a'), b = document.getElementById('deep-b');
+              return { panelScrollTop: p.scrollTop,
+                       aTop: Math.round(a.getBoundingClientRect().top), aHasSrc: !!a.getAttribute('src'),
+                       bTop: Math.round(b.getBoundingClientRect().top), bHasSrc: !!b.getAttribute('src') };
             }"""
         )
         results["before"] = before
         req_before = len(HITS)
 
-        # ---- 走正式表达式：计数 + 逐个滚入 ----
-        target_count = evaluate(exprs["count"])
-        results["steps"]["count"] = target_count
+        targets = evaluate(exprs["targets"])
+        results["steps"]["targets"] = targets
+        target_list = targets if isinstance(targets, list) else []
         saved = evaluate(exprs["save"])
         results["steps"]["save"] = saved
+
         scrolls = []
-        for i in range(int(target_count or 0)):
-            res = evaluate(exprs[f"scroll{i}"] if f"scroll{i}" in exprs else exprs["scroll0"])
-            scrolls.append(res)
+        for t in target_list:
+            idx = t.get("domIndex") if isinstance(t, dict) else t
+            expr = scroll_exprs.get(str(idx))
+            if not expr:
+                results["problems"].append(f"没有为 DOM 序号 {idx} 生成滚动表达式")
+                continue
+            scrolls.append({"domIndex": idx, "res": evaluate(expr)})
             page.wait_for_timeout(1500)
         results["steps"]["scrolls"] = scrolls
+
         req_after = len(HITS)
         after = page.evaluate(
             """() => {
               const p = document.getElementById('panel');
-              const d = document.getElementById('deep-img');
-              return { panelScrollTop: p.scrollTop, deepTop: Math.round(d.getBoundingClientRect().top),
-                       deepComplete: d.complete, deepNatural: d.naturalWidth,
-                       deepHasSrc: !!d.getAttribute('src') };
+              const a = document.getElementById('deep-a'), b = document.getElementById('deep-b');
+              return { panelScrollTop: p.scrollTop,
+                       aHasSrc: !!a.getAttribute('src'), aNatural: a.naturalWidth,
+                       bHasSrc: !!b.getAttribute('src'), bNatural: b.naturalWidth };
             }"""
         )
         results["after"] = after
         results["httpRequests"] = {"before": req_before, "after": req_after}
 
-        # ---- R3-01 回归：元素身份不能跨 CDP 传递（旧实现正是这样丢的） ----
-        element_by_value = evaluate("document.getElementById('deep-img')")
-        results["steps"]["elementByValueIsEmptyObject"] = (element_by_value == {} or element_by_value is None)
-        results["steps"]["elementByValue"] = repr(element_by_value)[:80]
+        # R3-01 对照：按值取 DOM 元素拿不到元素
+        by_value = evaluate("document.getElementById('deep-a')")
+        results["steps"]["elementByValue"] = repr(by_value)[:60]
 
-        # ---- R3-02 回归：非零初值必须被恢复为原值，而不是清零 ----
+        # R3-02 回归：非零初值必须恢复原值
         page.evaluate("() => { document.getElementById('panel').scrollTop = 137; }")
-        page.wait_for_timeout(200)
+        page.wait_for_timeout(150)
         saved2 = evaluate(exprs["save"])
         results["steps"]["saveNonZero"] = saved2
         page.evaluate("() => { document.getElementById('panel').scrollTop = 900; }")
-        page.wait_for_timeout(200)
+        page.wait_for_timeout(150)
         restored = evaluate(exprs["restore"].replace("__SAVED__", json.dumps(saved2)))
         results["steps"]["restoreResult"] = restored
         final_top = page.evaluate("() => document.getElementById('panel').scrollTop")
@@ -215,47 +213,43 @@ def main():
     httpd.shutdown()
 
     # ============================== 断言 ==============================
-    if before["panelScrollTop"] != 0:
-        results["problems"].append(f"前置：容器初值应为 0，实际 {before['panelScrollTop']}")
-    if before["deepHasSrc"]:
+    if before["aHasSrc"] or before["bHasSrc"]:
         results["problems"].append("前置：延迟图在滚动前就已有 src，夹具没有延迟语义")
-    # 计数必须真的看到视口外目标（旧实现返回 [{}]，count 也拿不到数字）
-    if not isinstance(target_count, int) or target_count < 1:
-        results["problems"].append(f"正式表达式 count 未返回可用的视口外目标数：{target_count!r}（R3-01 回归）")
-    # 滚动必须真的发生
-    if not scrolls or not any(isinstance(s, dict) and s.get("scrolled") for s in scrolls):
-        results["problems"].append(f"正式路径滚动未生效：{scrolls!r}（R3-01）")
+    # targets 必须是可序列化的序号数组
+    if not isinstance(targets, list) or len(targets) != 2:
+        results["problems"].append(f"targets 应为 2 个固定序号，实际 {targets!r}（R4-01 回归）")
+    # R4-01：两个目标都必须被滚到并加载
+    if len(scrolls) != 2:
+        results["problems"].append(f"实际只滚了 {len(scrolls)} 个目标，应滚 2 个（R4-01：递增下标会跳过）")
+    for s in scrolls:
+        if not (isinstance(s["res"], dict) and s["res"].get("scrolled")):
+            results["problems"].append(f"DOM 序号 {s['domIndex']} 未滚入视口：{s['res']!r}")
+    if not (after["aNatural"] > 0 and after["bNatural"] > 0):
+        results["problems"].append(
+            f"两个延迟目标未全部加载：a.natural={after['aNatural']} b.natural={after['bNatural']}（R4-01）"
+        )
     if after["panelScrollTop"] <= 0:
-        results["problems"].append(f"内层容器 scrollTop 仍为 {after['panelScrollTop']}：滚动没有作用于真实滚动祖先")
-    # 懒加载必须被真正触发
-    if req_after <= req_before:
-        results["problems"].append("滚动后没有新的图片 HTTP 请求：懒加载未被触发")
-    if not (after["deepComplete"] and after["deepNatural"] > 0):
-        results["problems"].append(
-            f"延迟图未加载成功：complete={after['deepComplete']} natural={after['deepNatural']}"
-        )
-    # R3-01 回归：按值取 DOM 元素必然得不到元素
-    if not results["steps"]["elementByValueIsEmptyObject"]:
-        results["problems"].append(
-            f"预期 DOM 元素按值返回为空对象，实际 {results['steps']['elementByValue']}；回归前提不成立"
-        )
-    # R3-02 回归：非零原值必须恢复
+        results["problems"].append(f"容器 scrollTop 仍为 {after['panelScrollTop']}：滚动未作用于真实滚动祖先")
+    if req_after - req_before < 2:
+        results["problems"].append(f"滚动后新增图片请求只有 {req_after - req_before} 个，应为 2")
+    if not (by_value == {} or by_value is None):
+        results["problems"].append(f"预期按值取元素为空对象，实际 {by_value!r}")
     if not saved2 or not saved2.get("containers") or saved2["containers"][0]["top"] != 137:
         results["problems"].append(f"保存的原值不是 137：{saved2!r}")
     if final_top != 137:
-        results["problems"].append(f"恢复后 scrollTop={final_top}，期望 137（R3-02：旧实现清零）")
+        results["problems"].append(f"恢复后 scrollTop={final_top}，期望 137（R3-02）")
 
     results["verdict"] = "PASS" if not results["problems"] else "FAIL"
     REPORT.write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")
 
     print("\n--- 走正式 CDP 接线的表达式（buildLazyExprs 产出） ---")
-    print(f"  count(视口外目标) = {target_count!r}")
-    print(f"  save(原位置)      = {saved!r}")
-    for i, s in enumerate(scrolls):
-        print(f"  scrollAt({i})      = {s!r}")
+    print(f"  targets = {targets!r}")
+    print(f"  save    = {saved!r}")
+    for s in scrolls:
+        print(f"  scrollAt(domIndex={s['domIndex']}) = {s['res']!r}")
     print(f"--- 滚动前 {before} ---")
     print(f"--- 滚动后 {after} ---")
-    print(f"--- 图片 HTTP 请求 {req_before} -> {req_after} ---")
+    print(f"--- 图片 HTTP 请求 {req_before} -> {req_after}（应 +2） ---")
     print(f"--- R3-01 对照：按值取元素 = {results['steps']['elementByValue']}（应为空对象） ---")
     print(f"--- R3-02 对照：保存 {saved2.get('containers') if saved2 else None} -> 最终 scrollTop={final_top}（期望 137） ---")
     print(f"\nHA-01 CDP 接线行为验证判定: {results['verdict']}")

@@ -1,0 +1,25 @@
+{
+  "sourceRoot": "D:\\松光启动器",
+  "evidenceRoot": "D:\\松光启动器\\docs\\harness-independent-acceptance-2026-10-17-run04",
+  "executionRoot": "D:\\松光启动器",
+  "time": "2026-10-17T18:20:10.5571141+08:00",
+  "head": "08e96680748f7c7804cea8ac052c269efd0c7810",
+  "files": [
+    {
+      "path": "scripts/verify-ui-pages-live.cjs",
+      "sha256": "76EA1467CC238AD4259F4B58D52EAE3671C72F8D12C14BF9353A4340EFD6B913"
+    },
+    {
+      "path": "scripts/ha01-cdp-lazy-scroll-behavior.py",
+      "sha256": "5A7F576D962CF541A6DF877BF606F1F07E33C5596021479E0AB81479D853CB00"
+    },
+    {
+      "path": "scripts/ha01-image-visibility-behavior.py",
+      "sha256": "82087F742F91323FC58F2AF99DB282FD06F3ABAB2746E54679185AF5771FDB8A"
+    },
+    {
+      "path": "scripts/tests/ui-live-cdp.test.cjs",
+      "sha256": "EA220CF01AE07DDF629115217D4F741E61DC377EE3AF39F85FC3F0E6012E6FBF"
+    }
+  ]
+}
