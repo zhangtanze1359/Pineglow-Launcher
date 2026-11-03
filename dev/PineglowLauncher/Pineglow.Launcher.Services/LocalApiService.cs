@@ -1931,7 +1931,17 @@ public static class LocalApiService
 		string? javaVersion = null;
 		try
 		{
-			JavaInfo javaInstallation = await JavaLocator.FindAsync();
+			// Java metadata is supplementary; cap its cost and share the operation's cancellation.
+			using var javaBudget = CancellationTokenSource.CreateLinkedTokenSource(linkedToken);
+			javaBudget.CancelAfter(TimeSpan.FromSeconds(1));
+			string javaPath = !string.IsNullOrWhiteSpace(instance.JavaPath) ? instance.JavaPath : config.JavaPath;
+			JavaInfo javaInstallation;
+			if (!string.IsNullOrWhiteSpace(javaPath))
+			{
+				var installation = await JavaLocator.ValidateInstallationAsync(javaPath, cancellationToken: javaBudget.Token);
+				javaInstallation = installation == null ? null : new JavaInfo { Path = installation.JavaPath, VersionText = installation.VersionText, VersionMajor = installation.VersionMajor };
+			}
+			else javaInstallation = await JavaLocator.FindAsync(javaBudget.Token);
 			javaVersion = javaInstallation?.VersionText ?? javaInstallation?.Path;
 		}
 		catch

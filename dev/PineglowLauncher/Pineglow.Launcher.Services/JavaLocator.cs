@@ -28,8 +28,9 @@ public static class JavaLocator
 		};
 	}
 
-	public static async Task<JavaInstallation?> ValidateInstallationAsync(string javaPath, Action<string>? log = null)
+	public static async Task<JavaInstallation?> ValidateInstallationAsync(string javaPath, Action<string>? log = null, CancellationToken cancellationToken = default)
 	{
+		cancellationToken.ThrowIfCancellationRequested();
 		if (string.IsNullOrWhiteSpace(javaPath))
 		{
 			return null;
@@ -63,9 +64,29 @@ public static class JavaLocator
 			{
 				return null;
 			}
-			string stderr = await process.StandardError.ReadToEndAsync();
-			string stdout = await process.StandardOutput.ReadToEndAsync();
-			await process.WaitForExitAsync();
+			using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+			timeout.CancelAfter(TimeSpan.FromSeconds(2));
+			Task<string> stderrTask = process.StandardError.ReadToEndAsync(timeout.Token);
+			Task<string> stdoutTask = process.StandardOutput.ReadToEndAsync(timeout.Token);
+			try
+			{
+				await Task.WhenAll(stderrTask, stdoutTask, process.WaitForExitAsync(timeout.Token));
+			}
+			catch
+			{
+				// Own the process lifetime: never leave a timed-out -version in the background.
+				if (!process.HasExited) process.Kill(entireProcessTree: true);
+				await process.WaitForExitAsync();
+				cancellationToken.ThrowIfCancellationRequested();
+				if (timeout.IsCancellationRequested)
+				{
+					log?.Invoke("Java 版本检测超时");
+					return null;
+				}
+				throw;
+			}
+			string stderr = await stderrTask;
+			string stdout = await stdoutTask;
 			string text = (string.IsNullOrWhiteSpace(stderr) ? stdout : stderr);
 			string text2 = FirstLine(text);
 			int num = ParseMajorVersion(text);
@@ -80,6 +101,10 @@ public static class JavaLocator
 				IsValid = true
 			} : null;
 		}
+		catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+		{
+			throw;
+		}
 		catch (Exception ex)
 		{
 			log?.Invoke("Java 校验失败：" + javaPath + " - " + ex.Message);
@@ -87,45 +112,41 @@ public static class JavaLocator
 		}
 	}
 
-	public static async Task<JavaInfo?> FindAsync()
+	public static async Task<JavaInfo?> FindAsync(CancellationToken cancellationToken = default)
 	{
-		JavaInstallation javaInstallation = (await ScanAsync()).FirstOrDefault((JavaInstallation x) => x.IsValid);
-		return (javaInstallation == null) ? null : new JavaInfo
-		{
-			Path = javaInstallation.JavaPath,
-			VersionText = javaInstallation.VersionText,
-			VersionMajor = javaInstallation.VersionMajor
-		};
+		return await FindFromCandidatesAsync(EnumerateCandidatesCore(cancellationToken), cancellationToken);
 	}
 
-	public static async Task<List<JavaInstallation>> ScanAsync(Action<string>? log = null)
+	internal static async Task<JavaInfo?> FindFromCandidatesAsync(IEnumerable<string> candidates, CancellationToken cancellationToken = default)
+	{
+		foreach (string candidate in candidates.Distinct(StringComparer.OrdinalIgnoreCase))
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			JavaInstallation? java = await ValidateInstallationAsync(candidate, cancellationToken: cancellationToken);
+			if (java != null) return new JavaInfo { Path = java.JavaPath, VersionText = java.VersionText, VersionMajor = java.VersionMajor };
+		}
+		return null;
+	}
+
+	public static async Task<List<JavaInstallation>> ScanAsync(Action<string>? log = null, CancellationToken cancellationToken = default)
 	{
 		log?.Invoke("扫描 Java 开始");
-		List<string> source = EnumerateCandidates().Distinct<string>(StringComparer.OrdinalIgnoreCase).ToList();
+		List<string> source = EnumerateCandidatesCore(cancellationToken).Distinct<string>(StringComparer.OrdinalIgnoreCase).ToList();
 		List<JavaInstallation> results = new List<JavaInstallation>();
 		object lockObj = new object();
-		SemaphoreSlim semaphore = new SemaphoreSlim(4);
-		await Parallel.ForEachAsync(source, async delegate(string candidate, CancellationToken ct)
+		await Parallel.ForEachAsync(source, new ParallelOptions { MaxDegreeOfParallelism = 4, CancellationToken = cancellationToken }, async delegate(string candidate, CancellationToken ct)
 		{
-			await semaphore.WaitAsync(ct);
-			try
+			log?.Invoke("检测到 Java 路径：" + candidate);
+			JavaInstallation info = await ValidateInstallationAsync(candidate, log, ct);
+			if (info != null)
 			{
-				log?.Invoke("检测到 Java 路径：" + candidate);
-				JavaInstallation info = await ValidateInstallationAsync(candidate, log);
-				if (info != null)
+				lock (lockObj)
 				{
-					lock (lockObj)
+					if (results.All((JavaInstallation x) => !x.JavaPath.Equals(info.JavaPath, StringComparison.OrdinalIgnoreCase)))
 					{
-						if (results.All((JavaInstallation x) => !x.JavaPath.Equals(info.JavaPath, StringComparison.OrdinalIgnoreCase)))
-						{
-							results.Add(info);
-						}
+						results.Add(info);
 					}
 				}
-			}
-			finally
-			{
-				semaphore.Release();
 			}
 		});
 		return (from x in results
@@ -197,7 +218,11 @@ public static class JavaLocator
 	}
 
 	private static IEnumerable<string> EnumerateCandidates()
+		=> EnumerateCandidatesCore(CancellationToken.None);
+
+	private static IEnumerable<string> EnumerateCandidatesCore(CancellationToken cancellationToken)
 	{
+		cancellationToken.ThrowIfCancellationRequested();
 		string environmentVariable = Environment.GetEnvironmentVariable("JAVA_HOME");
 		if (!string.IsNullOrWhiteSpace(environmentVariable))
 		{
@@ -210,7 +235,7 @@ public static class JavaLocator
 		string text = Path.Combine(PlatformPaths.GetConfigDirectory(), "runtimes");
 		if (Directory.Exists(text))
 		{
-			foreach (string item2 in SafeEnumerateFiles(text, JavaExeName()))
+			foreach (string item2 in SafeEnumerateFiles(text, JavaExeName(), cancellationToken))
 			{
 				yield return item2;
 			}
@@ -243,7 +268,8 @@ public static class JavaLocator
 			}
 			foreach (string item5 in roots.Where((string x) => !string.IsNullOrWhiteSpace(x) && Directory.Exists(x)))
 			{
-				foreach (string item6 in SafeEnumerateDirectories(item5, "*jdk*", SearchOption.AllDirectories).Concat(SafeEnumerateDirectories(item5, "*jre*", SearchOption.AllDirectories)))
+				foreach (string item6 in BoundedDirectories(item5, cancellationToken).Where(path =>
+					Path.GetFileName(path).Contains("jdk", StringComparison.OrdinalIgnoreCase) || Path.GetFileName(path).Contains("jre", StringComparison.OrdinalIgnoreCase)))
 				{
 					yield return Path.Combine(item6, "bin", JavaExeName());
 				}
@@ -274,6 +300,9 @@ public static class JavaLocator
 
 	private static IEnumerable<string> SafeEnumerateDirectories(string root, string pattern, SearchOption option)
 	{
+		if (option == SearchOption.AllDirectories)
+			return BoundedDirectories(root, CancellationToken.None).Where(path =>
+				System.IO.Enumeration.FileSystemName.MatchesSimpleExpression(pattern, Path.GetFileName(path), ignoreCase: true));
 		try
 		{
 			return Directory.EnumerateDirectories(root, pattern, option).ToList();
@@ -284,17 +313,47 @@ public static class JavaLocator
 		}
 	}
 
-	private static IEnumerable<string> SafeEnumerateFiles(string root, string fileName)
+	// Automatic discovery is a fallback, not a whole-disk crawler. Explicit paths,
+	// JAVA_HOME, PATH and normal vendor directories retain priority. Skip junctions.
+	private static IEnumerable<string> BoundedDirectories(string root, CancellationToken cancellationToken)
 	{
-		try
+		var pending = new Queue<(string Path, int Depth)>();
+		pending.Enqueue((root, 0));
+		int count = 0;
+		var options = new EnumerationOptions { IgnoreInaccessible = true, AttributesToSkip = FileAttributes.ReparsePoint };
+		while (pending.Count > 0 && count < 4096)
 		{
-			return (from path in Directory.EnumerateFiles(root, fileName, SearchOption.AllDirectories)
-				where string.Equals(Path.GetFileName(Path.GetDirectoryName(path)), "bin", StringComparison.OrdinalIgnoreCase)
-				select path).ToList();
+			cancellationToken.ThrowIfCancellationRequested();
+			var current = pending.Dequeue();
+			IEnumerator<string>? entries = null;
+			try { entries = Directory.EnumerateDirectories(current.Path, "*", options).GetEnumerator(); }
+			catch (IOException) { }
+			catch (UnauthorizedAccessException) { }
+			if (entries == null) continue;
+			using (entries)
+			{
+				while (count < 4096)
+				{
+					cancellationToken.ThrowIfCancellationRequested();
+					string path;
+					try { if (!entries.MoveNext()) break; path = entries.Current; }
+					catch (IOException) { break; }
+					catch (UnauthorizedAccessException) { break; }
+					count++;
+					yield return path;
+					if (current.Depth < 3) pending.Enqueue((path, current.Depth + 1));
+				}
+			}
 		}
-		catch
+	}
+
+	private static IEnumerable<string> SafeEnumerateFiles(string root, string fileName, CancellationToken cancellationToken)
+	{
+		foreach (string directory in BoundedDirectories(root, cancellationToken))
 		{
-			return Array.Empty<string>();
+			if (!Path.GetFileName(directory).Equals("bin", StringComparison.OrdinalIgnoreCase)) continue;
+			string candidate = Path.Combine(directory, fileName);
+			if (File.Exists(candidate)) yield return candidate;
 		}
 	}
 
