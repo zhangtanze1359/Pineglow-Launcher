@@ -25,7 +25,7 @@
     <ItemGroup>
       <JavaProbeFiles Include="JavaProbe/bin/$(Configuration)/net10.0/*" />
     </ItemGroup>
-    <Copy SourceFiles="@(JavaProbeFiles)" DestinationFolder="$(OutDir)JavaProbe" />
+    <Copy SourceFiles="@(JavaProbeFiles)" DestinationFolder="$(OutDir)JavaProbeFixture" />
   </Target>
 
   <ItemGroup>

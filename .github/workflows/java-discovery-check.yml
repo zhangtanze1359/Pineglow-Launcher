@@ -44,8 +44,15 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
       - uses: actions/setup-node@v4
         with:
           node-version: '24.19.0'
       - name: Front-end inventory and full tests
         run: node scripts/run-inventory-tests.cjs
+      - name: Locked restore and full Linux tests
+        run: |
+          dotnet restore dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj --locked-mode
+          dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --no-restore --logger "console;verbosity=minimal"

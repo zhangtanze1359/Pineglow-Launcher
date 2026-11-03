@@ -28,7 +28,7 @@ public sealed class JavaLocatorProcessTests : IDisposable
     private string Probe(string mode)
     {
         Directory.CreateDirectory(root);
-        foreach (string file in Directory.GetFiles(Path.Combine(AppContext.BaseDirectory, "JavaProbe")))
+        foreach (string file in Directory.GetFiles(Path.Combine(AppContext.BaseDirectory, "JavaProbeFixture")))
             File.Copy(file, Path.Combine(root, Path.GetFileName(file)));
         File.WriteAllText(Path.Combine(root, "mode.txt"), mode);
         return Path.Combine(root, OperatingSystem.IsWindows() ? "JavaProbe.exe" : "JavaProbe");
