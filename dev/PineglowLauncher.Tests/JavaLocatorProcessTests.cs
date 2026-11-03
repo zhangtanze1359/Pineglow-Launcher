@@ -132,6 +132,10 @@ public sealed class JavaLocatorProcessTests : IDisposable
             try { using var process = Process.GetProcessById(int.Parse(File.ReadAllText(pidPath))); if (!process.HasExited) { process.Kill(true); process.WaitForExit(5000); } }
             catch (ArgumentException) { }
         }
-        if (Directory.Exists(root)) Directory.Delete(root, true);
+        // Process exit is asserted in the test body. Windows can still deny deletion
+        // of an exited apphost briefly; retain only this fixture's files in that case.
+        try { if (Directory.Exists(root)) Directory.Delete(root, true); }
+        catch (IOException) { }
+        catch (UnauthorizedAccessException) { }
     }
 }

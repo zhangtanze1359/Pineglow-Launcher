@@ -29,6 +29,8 @@ The missing-shell counterexample reproduces the Ubuntu `null` process exit. The 
 
 ## Remote evidence and release boundary
 
-Windows comparison and full suite: https://github.com/zhangtanze1359/Pineglow-Launcher/actions/runs/41597873626 . The baseline job pins `98465ead60ebc91be014b0c01b8214118058e473`, whose production code equals the original base. Detailed logging retains passing test measurements. Its result must be inspected before release; starting the job alone is not acceptance.
+Windows comparison: https://github.com/zhangtanze1359/Pineglow-Launcher/actions/runs/41597873626 . The baseline job pins `98465ead60ebc91be014b0c01b8214118058e473`, whose production code equals the original base. Candidate enumeration took 130214.6 ms before repair and 4914.1 ms after repair. Repaired FindAsync took 79.6/80.9/112.7 ms; local diagnosis p95 was 97.6 ms. Normal Java installations were found in both runs.
+
+The first remote full suite was 966/967: the sole failure was a Windows UnauthorizedAccessException deleting an exited JavaProbe.exe in test Dispose. Its product assertions and the focused stage had passed. Cleanup now preserves only the fixture files if the filesystem denies deletion; the explicit process-exit assertion remains unchanged. A fresh full Windows run is required before release.
 
 The unmodified release workflow still requires tests on the exact tag SHA, standalone cold start and final manifest checks before uploading EXE, manifest and LICENSE. Published asset verification and mirror/source status are recorded in the final local delivery report after the actual run; this document alone does not assert publication or independent visual acceptance.

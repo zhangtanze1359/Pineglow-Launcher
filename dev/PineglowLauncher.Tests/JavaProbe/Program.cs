@@ -1,6 +1,8 @@
 // Real subprocess fixture: behaviour is selected by a file next to its copied apphost.
 string mode = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "mode.txt")).Trim();
-File.WriteAllText(Path.Combine(AppContext.BaseDirectory, "pid.txt"), Environment.ProcessId.ToString());
+string pidPath = Path.Combine(AppContext.BaseDirectory, "pid.txt");
+File.WriteAllText(pidPath + ".tmp", Environment.ProcessId.ToString());
+File.Move(pidPath + ".tmp", pidPath);
 if (mode == "slow") await Task.Delay(TimeSpan.FromSeconds(15));
 if (mode == "flood")
 {
