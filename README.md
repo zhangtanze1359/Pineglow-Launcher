@@ -1,42 +1,54 @@
 # Pineglow Launcher · 松光启动器
 
-跨平台 Minecraft 启动器 —— 轻量、现代、开箱即用。
+**把 Minecraft 的版本、实例和资源，放在一个顺手的地方。**
 
-> **纯 Web UI 架构**:Avalonia 仅作 WebView2 宿主,界面由 `ui/` 下的 HTML/CSS/JS 实现,通过本地 `LocalApiService`(127.0.0.1:48123)与 C# 服务层通信。
+松光启动器是一款开源 Minecraft 启动器，面向希望方便地安装游戏、管理多个实例和整理内容的玩家。无论是启动原版、配置模组环境，还是为不同玩法保留独立的游戏目录，都可以从这里开始。
 
-## ✨ 功能
+[下载与版本](https://github.com/zhangtanze1359/Pineglow-Launcher/releases) · [反馈问题](https://github.com/zhangtanze1359/Pineglow-Launcher/issues) · [许可证](./LICENSE)
 
-- **账号**:离线 / 微软正版（浏览器授权登录）/ Authlib 第三方皮肤站
-- **版本**:官方版本安装 / 校验 / 修复,断点续传 + 可恢复任务队列
-- **加载器与整合包**:Forge / Fabric / NeoForge / Quilt / OptiFine,Modrinth 整合包导入安装
-- **实例**:独立隔离目录、实例级 Java、Mod 启停 / 依赖解析 / 健康检查
-- **内容**:Modrinth 搜索、资源包 / 光影 / 存档管理、服务器收藏与状态 Ping
-- **Java**:自动检测与自动安装、内存智能推荐
-- **工程**:日志落盘、崩溃分析、诊断包导出、自更新框架、双语界面
+## 你可以用它做什么
 
-## 🚀 构建
+- **管理账号**：使用离线账号、微软账号或 Authlib 第三方皮肤站账号。
+- **安装游戏与加载器**：安装、校验和修复官方版本，并配置 Forge、Fabric、NeoForge、Quilt 或 OptiFine。
+- **整理不同玩法**：使用独立实例管理游戏目录、Java 设置和模组；支持导入 Modrinth 整合包。
+- **寻找和管理内容**：浏览 Modrinth 内容，管理资源包、光影和存档，收藏服务器并查看状态。
+- **处理运行环境**：检测或安装 Java，调整内存设置；通过日志、崩溃分析和诊断包排查问题。
 
-```bash
-cd dev/PineglowLauncher
-dotnet publish -c Release -r win-x64 --self-contained /p:PublishSingleFile=true
+下载、登录和在线内容依赖相应的网络与第三方服务；具体可用性请以所使用的版本和服务状态为准。
+
+## 开始使用
+
+1. 前往 [Releases](https://github.com/zhangtanze1359/Pineglow-Launcher/releases)，查看版本说明并下载适合的 Windows x64 附件。
+2. 启动程序，按界面提示添加账号、选择或安装游戏版本，再配置 Java 和内存。
+3. 选择实例并启动游戏。使用微软账号时，需要相应的 Minecraft 使用资格。
+
+Windows 运行界面需要 WebView2 Runtime；如果系统尚未安装，请先安装。发布附件与所需文件以对应 Release 的说明和实际内容为准。
+
+## 从源码构建
+
+项目使用 .NET 10、Avalonia 和 HTML/CSS/JavaScript。需要安装 .NET 10 SDK；以下命令在仓库根目录运行：
+
+```powershell
+dotnet build dev/PineglowLauncher/Pineglow.Launcher.csproj -c Release
 ```
 
-产物为单文件自包含 exe（无需安装 .NET 运行时）。Linux / macOS 同理替换 `-r`。
+发布工作流的目标为 Windows x64。项目包含跨平台框架，但目前不将 Linux 和 macOS 视为已验证的正式支持平台。
 
-## 🏗 架构
+## 项目结构
 
-```
-Avalonia 壳(WebView2) ──加载──▶ ui/ 前端(HTML/CSS/JS)
-        │                            │ fetch
-        └──── LocalApiService ◀──────┘
-                  │
-        C# 服务层(LauncherService 等 67 个服务,SQLite 存储)
-```
+- `dev/PineglowLauncher/`：桌面宿主和 C# 服务。
+- `dev/PineglowLauncher.Tests/`：测试项目。
+- `ui/`：启动器的 HTML、CSS 和 JavaScript 界面。
+- `.github/workflows/`：构建和发布工作流。
 
-## 📄 许可证
+界面由 Avalonia WebView 承载，通过本地 API 与 C# 服务通信。
 
-[GPL-3.0](./LICENSE)
+## 参与和反馈
 
----
+欢迎通过 [Issues](https://github.com/zhangtanze1359/Pineglow-Launcher/issues) 报告问题或提出建议。反馈问题时，提供启动器版本、Windows 版本、复现步骤和相关日志会有助于定位；分享日志前请检查并移除账号信息等敏感内容。
 
-*松光启动器是一个独立开源项目,与 Mojang/Microsoft 无关联。Minecraft 是 Mojang AB 的商标。*
+## 许可证
+
+项目采用 [GNU General Public License v3.0](./LICENSE)。
+
+松光启动器是独立开源项目，与 Mojang 或 Microsoft 没有关联。Minecraft 是 Mojang AB 的商标。
