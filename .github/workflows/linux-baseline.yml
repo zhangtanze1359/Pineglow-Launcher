@@ -1,0 +1,22 @@
+name: Original Linux test baseline
+on:
+  push:
+    branches: ['codex/release-linux-baseline-20261103']
+permissions:
+  contents: read
+jobs:
+  baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+      - name: Original 8845574 full tests (no product or test changes)
+        run: dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --logger "console;verbosity=normal" --logger "trx;LogFileName=baseline-linux.trx" --results-directory results
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-linux-full-tests
+          path: results/*.trx
