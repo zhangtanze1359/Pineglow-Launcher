@@ -1,0 +1,16 @@
+name: Diagnose release latency
+on:
+  push:
+    branches: [codex/release-diagnose-20261103]
+permissions:
+  contents: read
+jobs:
+  diagnose:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+      - name: Measure diagnostic stages
+        run: dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --filter "FullyQualifiedName~LocalDiagnose_StageBreakdown_IsMeasured" --logger "console;verbosity=detailed"
