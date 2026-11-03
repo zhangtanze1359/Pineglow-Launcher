@@ -4,7 +4,11 @@ window.SG = window.SG || {};
 SG.pages = {};
 SG.registerPage = (name, def) => { SG.pages[name] = def; };
 
-SG.apiMode = typeof location !== 'undefined' && location.protocol === 'http:' ? 'live' : 'mock';
+// The shipped UI must never display sample accounts or simulated successes after API startup fails.
+// Standalone test/demo contexts without the product marker retain their explicit mock seam.
+const productUi = document.documentElement && document.documentElement.getAttribute && document.documentElement.getAttribute('data-pineglow-product') === 'true';
+SG.apiMode = productUi || (typeof location !== 'undefined' && location.protocol === 'http:') ? 'live' : 'mock';
+SG.apiToken = (document.querySelector('meta[name="pineglow-session-token"]') || {}).content || '';
 
 /* ================= mock 数据（验收 / 降级兜底） ================= */
 SG.mock = {
@@ -23,6 +27,13 @@ SG.mock = {
 		useMirror: false,
 		modSource: 'Modrinth',
 		curseForgeApiKeyConfigured: false,
+		aiDiagnosisEnabled: false,
+		selectedAiProviderId: 'p1',
+		aiProviders: [
+			{ id: 'p1', name: 'DeepSeek', baseUrl: 'https://api.deepseek.com/v1', model: 'deepseek-chat', keyConfigured: false },
+		],
+		// R2-02：新闻图片 fake-ip/TUN 兼容开关（默认关闭，fail closed）
+		newsFakeIpCompat: false,
 	},
 	memoryRecommendation: { minimumMb: 2048, recommendedMb: 4096, maximumMb: 16384, formatText: '4 GB · 智能' },
 	instances: [
@@ -143,7 +154,23 @@ SG.mock = {
 			{ fileName: 'continuity-3.0.0.jar', displayName: 'Continuity', version: '3.0.0', loader: 'Fabric', enabled: false, sizeText: '240 KB' },
 		],
 	},
+	news: {
+		items: [
+			{ id: 'n1', title: 'Minecraft 官方新闻示例', category: 'Minecraft', date: '2026-08-30T00:00:00Z', text: 'mock 模式示例内容。', imageId: null, link: 'https://www.minecraft.net/article', linkOk: true },
+		],
+		meta: { source: 'launchercontent.mojang.com', state: 'live', validatedAt: '2026-09-05T12:00:00+00:00', fetchedAt: '2026-09-05T12:00:00+00:00', isStale: false, canRetry: false, errorKind: null, error: null },
+	},
 	downloads: [],
+	diagnose: {
+		ok: true,
+		hasTail: true,
+		rule: { summary: '游戏因内存不足或内存参数不合适而退出。', suggestions: ['适当增加游戏内存，同时不要超过电脑可用内存。', '大型整合包建议关闭其他高内存程序后重试。'] },
+		mods: { enabledCount: 87, disabledCount: 3, onlineManagedCount: 80, issues: [{ severity: 'Warning', title: '发现重复安装的在线 Mod', description: 'Sodium 有 2 个启用文件。' }] },
+		ai: '**崩溃原因**：日志中出现 OutOfMemoryError，说明游戏分配的内存不足。\n\n**修复步骤**：\n1. 在设置中把内存上调到 6GB 以上\n2. 关闭后台高占用程序\n3. 若仍崩溃，尝试移除 Sodium 的重复文件\n\n**可疑 Mod**：`Sodium` 存在重复安装。\n\n{"explain":"内存不足","fixes":["上调内存"],"suspectMods":["sodium-0.6.8.jar"]}',
+			aiError: null,
+		configured: true,
+		suspectMods: ['sodium-0.6.8'],
+	},
 };
 
 /* ================= 统一异步接口（live：fetch 真实 API；mock：内存数据） ================= */
@@ -155,23 +182,33 @@ SG.api = (() => {
 	const _mock = async value => { await new Promise(r => setTimeout(r, delay)); return value; };
 
 	const _req = async (path, options) => {
+		options = options || {};
+		options.headers = Object.assign({}, options.headers || {}, { 'X-Pineglow-Token': SG.apiToken });
 		const res = await fetch(BASE + path, options);
 		if (!res.ok) {
 			let msg = 'HTTP ' + res.status;
+			let payload = null;
 			try {
 				const j = await res.json();
+				payload = j;
 				if (j && (j.error || j.message)) msg = j.error || j.message;
 			} catch (e) { /* 非 JSON 错误体 */ }
-			throw new Error(msg + ' (' + path + ')');
+			// MR06：把结构化错误体一起抛出——调用方（如二分定位）需要 needsRecovery/逐文件原因。
+			const err = new Error(msg + ' (' + path + ')');
+			err.status = res.status;
+			err.payload = payload;
+			throw err;
 		}
 		return res.json();
 	};
 
-	const _post = (path, body) => _req(path, {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify(body || {}),
-	});
+	const _post = (path, body, options) => {
+		const opts = Object.assign({}, options || {});
+		opts.method = 'POST';
+		opts.headers = Object.assign({}, opts.headers || {}, { 'Content-Type': 'application/json' });
+		opts.body = JSON.stringify(body || {});
+		return _req(path, opts);
+	};
 
 	const fmtBytes = n => {
 		if (!n && n !== 0) return '—';
@@ -234,11 +271,13 @@ SG.api = (() => {
 		skinCount: a.skinCount || 0,
 		capeCount: a.capeCount || 0,
 		skinUrl: a.skinUrl || '',
+		skinModel: a.skinModel || 'classic',
 		selected: a.id === selectedId,
-		skins: (a.skins && a.skins.length ? a.skins : (a.skinUrl ? [{ id: a.id + '-skin', name: a.userName + ' 的皮肤', url: a.skinUrl, colors: { head: '#f0b98a', body: '#e8714f', arm: '#e8714f', leg: '#3d5a80' } }] : [])).map(s => ({
+		skins: (a.skins && a.skins.length ? a.skins : (a.skinUrl ? [{ id: a.id + '-skin', name: a.userName + ' 的皮肤', url: a.skinUrl, model: a.skinModel || 'classic', colors: { head: '#f0b98a', body: '#e8714f', arm: '#e8714f', leg: '#3d5a80' } }] : [])).map(s => ({
 			id: s.id || s.skinId,
 			name: s.name || '皮肤',
 			url: s.url || s.skinUrl || '',
+			model: s.model || a.skinModel || 'classic',
 			colors: s.colors || { head: '#f0b98a', body: '#e8714f', arm: '#e8714f', leg: '#3d5a80' },
 		})),
 	});
@@ -282,19 +321,43 @@ SG.api = (() => {
 		};
 	};
 
+	// Phase 2：构造受保护的本地资源图标端点。
+	// 客户端只接受 source/category/projectId 三元组，绝不写入任何上游 URL。
+	// 缺少 token 时返回空串（让前端直接走 missing 占位，避免无 token 仍发起请求）。
+	const buildContentIconUrl = (source, category, projectId) => {
+		const src = (source && /^(modrinth|curseforge)$/i.test(source)) ? source.toLowerCase() : 'modrinth';
+		const cat = (category && /^(mod|modpack|shader|resourcepack)$/i.test(category)) ? category.toLowerCase() : 'mod';
+		const pid = (projectId == null) ? '' : String(projectId);
+		// projectId 必须是 [a-zA-Z0-9_-] 才合法；其它字符（防止被注入路径）一律视为无效
+		if (!/^[a-zA-Z0-9_-]{1,80}$/.test(pid)) return '';
+		const token = (window.SG && window.SG.apiToken) ? String(window.SG.apiToken) : '';
+		if (!token) return '';
+		return '/api/content/icon?source=' + encodeURIComponent(src)
+			+ '&category=' + encodeURIComponent(cat)
+			+ '&projectId=' + encodeURIComponent(pid)
+			+ '&token=' + encodeURIComponent(token);
+	};
+
 	const mapContent = c => ({
 		id: c.id || c.projectId,
 		title: c.title || '未知项目',
 		desc: c.desc || c.description || '',
 		author: c.author || '',
 		downloads: fmtCount(c.downloads),
-		icon: c.icon === '📦' ? '📦' : (c.icon && c.icon.startsWith('data:') ? '📦' : '📦'),
+		// icon 字段：仅用于 emoji 占位，不写入 <img src>。上游 iconUrl 不再透传给 DOM。
+		icon: '📦',
 		iconBg: 'linear-gradient(135deg,#90c4ff,#1f5ff1)',
 		versions: c.versions || [],
+		loaders: c.loaders || (c.loader ? [c.loader] : []),
 		loader: c.loader || '',
 		category: c.category || 'mod',
+		source: (c.source && /^(modrinth|curseforge)$/i.test(c.source)) ? c.source.toLowerCase() : 'modrinth',
 		rating: c.rating || 4.5,
-		iconUrl: c.icon || '',
+		// Phase 2：iconUrl 始终是本地受保护端点；上游 URL 不可达前端
+		iconUrl: (c.iconUrl && c.iconUrl.startsWith && c.iconUrl.startsWith('/api/content/icon'))
+			? c.iconUrl + (c.iconUrl.indexOf('token=') >= 0 ? '' : ('&token=' + encodeURIComponent((window.SG && window.SG.apiToken) || '')))
+			: buildContentIconUrl(c.source, c.category, c.id || c.projectId),
+		websiteUrl: c.websiteUrl || '',
 	});
 
 	const mapVersion = (v, local) => ({
@@ -312,7 +375,7 @@ SG.api = (() => {
 		icon: '⛏️',
 		iconBg: 'linear-gradient(135deg,#5eead4,#0f766e)',
 		size: '—',
-		progress: t.progress || 0,
+		progress: Math.round(Math.min(1, Math.max(0, Number(t.progress) || 0)) * 100),
 		status: t.status || 'queued',
 		statusLabel: t.status === 'completed' ? '已完成' : t.status === 'failed' ? '失败' : t.status === 'downloading' ? '下载中' : '排队中',
 		message: t.message || '',
@@ -335,8 +398,24 @@ SG.api = (() => {
 					serverPort: String(data.config.serverPort || '25565'),
 					accountMode: data.config.accountMode || 'offline',
 					useMirror: !!data.config.useMirror,
+					selectedInstanceId: data.config.selectedInstanceId || '',
+					selectedAccountId: data.config.selectedAccountId || '',
+					downloadSource: data.config.downloadSource || 'official',
+					proxyEnabled: !!data.config.proxyEnabled,
+					proxyHost: data.config.proxyHost || '',
+					proxyPort: Number.isFinite(data.config.proxyPort) ? data.config.proxyPort : 0,
+					proxyUsername: data.config.proxyUsername || '',
+					proxyPasswordConfigured: !!data.config.proxyPasswordConfigured,
+					newsFakeIpCompat: !!data.config.newsFakeIpCompat,
+					minimizeOnLaunch: !!data.config.minimizeOnLaunch,
+					autoCloseOnExit: !!data.config.autoCloseOnExit,
 					modSource: 'Modrinth',
-					curseForgeApiKeyConfigured: !!data.config.curseForgeApiKey,
+					curseForgeApiKeyConfigured: !!data.config.curseForgeApiKeyConfigured,
+					aiDiagnosisEnabled: !!data.config.aiDiagnosisEnabled,
+					selectedAiProviderId: data.config.selectedAiProviderId || '',
+					aiProviders: (data.config.aiProviders || []).map(p => ({
+						id: p.id, name: p.name, baseUrl: p.baseUrl, model: p.model, keyConfigured: !!p.keyConfigured,
+					})),
 				},
 				memory: SG.mock.memoryRecommendation,
 				instances: (data.instances || []).map(i => mapInstance(i, data.config.selectedInstanceId)),
@@ -366,13 +445,81 @@ SG.api = (() => {
 			const data = await _req('/api/servers');
 			return (data.servers || []).map(mapServer);
 		},
-		async searchContent(query, category) {
+		async getNews(options) {
+			const data = await _req('/api/news?refresh=' + (options && options.refresh ? '1' : '0'));
+			if (data && data.error) throw new Error(data.error);
+			// Phase 3A 契约：items 携带服务端注册的 imageId / linkOk / linkId；meta 提供稳定状态元数据
+			return {
+				items: (data.items || []).map(n => ({
+					id: n.id || '',
+					title: n.title || '',
+					category: n.category || '',
+					date: n.date || '',
+					text: n.text || '',
+					imageId: n.imageId || null,
+					link: n.link || '',
+					linkOk: n.linkOk === true,
+					linkId: (n.linkId && typeof n.linkId === 'string') ? n.linkId : null,
+				})),
+				meta: {
+					source: (data.meta && data.meta.source) || data.source || '',
+					state: (data.meta && data.meta.state) || (data.isStale ? 'cached' : 'live'),
+					validatedAt: (data.meta && data.meta.validatedAt) || data.fetchedAt || null,
+					fetchedAt: (data.meta && data.meta.fetchedAt) || data.fetchedAt || null,
+					isStale: (data.meta && data.meta.isStale) != null ? data.meta.isStale : !!data.isStale,
+					canRetry: (data.meta && data.meta.canRetry) != null ? data.meta.canRetry : true,
+					errorKind: (data.meta && data.meta.errorKind) || null,
+					error: (data.meta && data.meta.error) || data.error || null,
+				},
+			};
+		},
+		// R2-03：客户端只传 linkId，服务端取回 URL 并二次白名单校验后经受控 opener 打开。
+		// 不得在 body 中携带 raw URL / href / link 字段。
+		async openNewsLink(linkId) {
+			if (!linkId || typeof linkId !== 'string') {
+				throw new Error('openNewsLink: linkId must be a non-empty string');
+			}
+			const data = await _req('/api/news-open', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ linkId }),
+			});
+			if (data && data.error) {
+				const err = new Error('news-open: ' + data.error);
+				err.code = data.error;
+				throw err;
+			}
+			return data || { ok: true };
+		},
+		async getNewsImage(id) {
+			// <img src> 无法携带自定义认证头（真实 WebView 实测 401）：
+			// 图片统一经 fetch+blob 加载，令牌仅存在于请求头，不进 URL/日志
+			const res = await fetch('/api/news-image?id=' + encodeURIComponent(id), {
+				headers: { 'X-Pineglow-Token': SG.apiToken },
+			});
+			if (!res.ok) throw new Error('HTTP ' + res.status);
+			return URL.createObjectURL(await res.blob());
+		},
+		async searchContent(query, category, options) {
+			const opt = options || {};
 			const cat = category && category !== 'all' ? category : 'mod';
 			// 后端对空 query 返回空列表；首屏用分类默认热词兜底，保证进页即有内容（与 mock 一致）
 			const DEFAULT_QUERY = { mod: 'sodium', modpack: 'fabulously', shader: 'shaders', resourcepack: 'faithful' };
 			const q = (query && query.trim()) ? query.trim() : (DEFAULT_QUERY[cat] || 'sodium');
-			const params = new URLSearchParams({ q, category: cat, source: contentSource || 'modrinth' });
+			// 只使用调用方显式传入的 source；api.js 不读取其他脚本的私有变量。
+			// 调用方必须负责从 UI 状态传入 source（launcher.js → searchContentOptions）。
+			const source = (opt.source && /^(modrinth|curseforge)$/i.test(opt.source))
+				? opt.source.toLowerCase()
+				: 'modrinth';
+			const params = new URLSearchParams({
+				q,
+				category: cat,
+				source,
+				gameVersion: opt.gameVersion || '',
+				loader: opt.loader || '',
+			});
 			const data = await _req('/api/content/search?' + params.toString());
+			if (data && data.error) throw new Error(data.error);
 			return (data.results || []).map(mapContent);
 		},
 		async getAccounts() {
@@ -409,7 +556,39 @@ SG.api = (() => {
 		},
 		async deleteMod(instanceId, fileName) {
 			const res = await _post('/api/instances/' + encodeURIComponent(instanceId) + '/mods/' + encodeURIComponent(fileName) + '/delete', {});
-			return { ok: !!res.ok };
+			return { ok: !!res.ok, operationId: res.operationId || '', recoverable: !!res.recoverable };
+		},
+		// MR04：恢复区 —— 列出可还原的移除操作
+		async listRecoveries(instanceId) {
+			const data = await _req('/api/instances/' + encodeURIComponent(instanceId) + '/recovery');
+			return {
+				retentionDays: data.retentionDays || 30,
+				recoveries: (data.recoveries || []).map(r => ({
+					operationId: r.operationId,
+					reason: r.reason || '',
+					status: r.status || '',
+					createdAt: r.createdAt || '',
+					expiresAt: r.expiresAt || '',
+					totalBytes: r.totalBytes || 0,
+					files: (r.files || []).map(f => ({
+						relativePath: f.relativePath,
+						state: f.state,
+						sizeBytes: f.sizeBytes,
+						error: f.error || '',
+					})),
+				})),
+			};
+		},
+		// MR05：overwrite=true 用于"撤销本次更新"（把旧版本覆盖回去）；默认 false 不覆盖。
+		async restoreRecovery(instanceId, operationId, overwrite) {
+			const res = await _post('/api/instances/' + encodeURIComponent(instanceId) + '/recovery/' + encodeURIComponent(operationId) + '/restore', { overwrite: !!overwrite });
+			return {
+				ok: !!(res && res.ok),
+				status: (res && res.status) || '',
+				overwrite: !!(res && res.overwrite),
+				conflicts: (res && res.conflicts) || 0,
+				files: (res && res.files) || [],
+			};
 		},
 		async installContent(data) {
 			const res = await _post('/api/content/install', {
@@ -468,13 +647,19 @@ SG.api = (() => {
 			const res = await _post('/api/sources/select', { key });
 			return { ok: !!res.ok, selected: res.selected || '', useMirror: !!res.useMirror };
 		},
-		async getRemoteVersions() {
+		async getRemoteVersions(options) {
 			const data = await _req('/api/versions');
 			try {
 				const r = await _req('/api/versions/remote');
 				return (r.versions || []).map(v => mapVersion(v, data.local));
 			} catch (e) {
-				return (data.local || []).map(id => ({ id, type: 'release', releaseTime: '', sizeText: '已安装', installed: true }));
+				const localVersions = (data.local || []).map(id => ({ id, type: 'release', releaseTime: '', sizeText: '已安装', installed: true }));
+				if (options && options.throwOnRemoteError) {
+					const error = new Error((e && e.message) || String(e));
+					error.localVersions = localVersions;
+					throw error;
+				}
+				return localVersions;
 			}
 		},
 		async downloadVersion(versionId) {
@@ -506,12 +691,31 @@ SG.api = (() => {
 			const a = await this.getAccounts();
 			return { ok: true, account: acc, accounts: a.accounts };
 		},
-		async microsoftLogin() {
+		async microsoftDeviceStart() {
+			const res = await _post('/api/accounts/microsoft/device', {});
+			if (!res || !res.ok) throw new Error((res && res.message) || '无法创建微软登录码');
+			return res;
+		},
+		async microsoftDevicePoll() {
+			const res = await _post('/api/accounts/microsoft/poll', {});
+			if (!res) throw new Error('微软登录轮询失败');
+			return res;
+		},
+		async deleteAccount(accountId) {
+			await _req('/api/accounts/' + encodeURIComponent(accountId), { method: 'DELETE' });
+			const a = await this.getAccounts();
+			return { ok: true, selectedAccountId: a.accounts.find(x => x.selected) && a.accounts.find(x => x.selected).id, accounts: a.accounts };
+		},		async microsoftLogin() {
 			const res = await _post('/api/accounts/microsoft', {});
 			if (!res || !res.ok) throw new Error((res && res.message) || '微软登录失败');
 			const acc = mapAccount(res.account, res.account.id);
 			const a = await this.getAccounts();
 			return { ok: true, account: acc, accounts: a.accounts };
+		},
+		async refreshSkin(accountId) {
+			const res = await _post('/api/accounts/refresh-skin', { accountId });
+			if (!res || !res.ok) throw new Error((res && res.message) || 'refresh skin failed');
+			return { ok: true, account: mapAccount(res.account, res.account && res.account.id) };
 		},
 		async authlibLogin(serverUrl, userName, password) {
 			const res = await _post('/api/accounts/authlib', { serverUrl, userName, password });
@@ -560,7 +764,10 @@ SG.api = (() => {
 			return await _post('/api/update/download', {});
 		},
 		async getUpdateStatus() {
-			return await _req('/api/update');
+			const data = await _req('/api/update');
+			// MR20：信任链声明与"上次替换结果"必须透给界面 ——
+			// 界面不能因为"脚本已启动"就显示更新完成，只有 applied 才算替换成功。
+			return Object.assign({ trustNote: '', lastApplyResult: null }, data || {});
 		},
 		async applyUpdate() {
 			return await _post('/api/update/apply', {});
@@ -569,14 +776,147 @@ SG.api = (() => {
 			const res = await _post('/api/instances/' + encodeURIComponent(instanceId) + '/launch', {});
 			return { ok: !!res.ok, launched: !!res.ok, pid: res.pid || 0, message: res.error || '' };
 		},
+		async diagnoseInstance(instanceId, options) {
+			const opts = options || {};
+			const reqOpts = {};
+			if (opts.signal) reqOpts.signal = opts.signal;
+			// Phase 3B LANG 透传：locale 只允许 'zh' / 'en'，缺失或非法一律回落到安全默认 'zh'。
+			// 优先采纳 launcher 显式传入的 opts.locale；未提供时回退读 SG.locale；
+			// 任何不可信任字符串绝不直接透传到后端，避免污染 AiDiagnoseService 的指令语言。
+			const candidate = (typeof opts.locale === 'string' && opts.locale)
+				? opts.locale
+				: (typeof SG !== 'undefined' && SG ? SG.locale : undefined);
+			const safeLocale = (candidate === 'zh' || candidate === 'en') ? candidate : 'zh';
+			return await _post('/api/instances/' + encodeURIComponent(instanceId) + '/diagnose', {
+				// Phase 3B v4 步骤 3 P0 修复：把客户端生成的 operationId 一并写入 diagnose body，
+				// 否则后端按 v3 报告对缺 ID 请求返回 400。
+				operationId: typeof opts.operationId === 'string' ? opts.operationId : '',
+				confirmAiSend: !!opts.confirmAiSend,
+				localOnly: !!opts.localOnly,
+				locale: safeLocale,
+			}, reqOpts);
+		},
+		async cancelDiagnoseInstance(instanceId, operationId, options) {
+			const opts = options || {};
+			const reqOpts = {};
+			// Phase 3B v4 步骤 3 P1-2 修复：cancel 请求**绝不**复用已 abort 的 diagnose signal。
+			// 故意不把 opts.signal 透传到 fetch——唯一在作用域里的 signal 就是已被 abort 的 diagnose
+			// signal，一旦透传，cancel 自己会被立即 abort 而永远到不了后端，等于把"已调用 fetch"
+			// 冒充"服务端已收到"，违反 v4 prompt §3 第 6 条（不得用无认证方案绕过）。
+			// 如果将来需要给 cancel 加独立的可取消信号，由调用方在 opts 中提供**新的** signal，
+			// api 层仅在不破坏上述契约的前提下透传；当前契约要求 cancel 始终真正抵达服务端。
+			return await _post('/api/instances/' + encodeURIComponent(instanceId) + '/diagnose/cancel', {
+				operationId: typeof operationId === 'string' ? operationId : '',
+			}, reqOpts);
+		},
+		async bisectStart(instanceId) {
+			const res = await _post('/api/instances/' + encodeURIComponent(instanceId) + '/bisect/start', {});
+			return this._normalizeBisect(res);
+		},
+		async bisectTest(instanceId, crashed, step) {
+			const body = { crashed: !!crashed };
+			// MR06：带上所回答的轮次，服务端据此拒绝"过期轮次"的重复提交。
+			if (typeof step === 'number') body.step = step;
+			const res = await _post('/api/instances/' + encodeURIComponent(instanceId) + '/bisect/test', body);
+			return this._normalizeBisect(res);
+		},
+		async bisectGiveUp(instanceId) {
+			const res = await _post('/api/instances/' + encodeURIComponent(instanceId) + '/bisect/giveup', {});
+			return this._normalizeBisect(res);
+		},
+		// MR07：查询是否有未完成的二分定位会话（重启后）
+		async bisectPending(instanceId) {
+			const data = await _req('/api/instances/' + encodeURIComponent(instanceId) + '/bisect');
+			return Object.assign({ pending: !!(data && data.pending) }, data || {});
+		},
+		// MR07：action = 'restore' | 'continue'
+		async bisectResume(instanceId, action) {
+			const res = await _post('/api/instances/' + encodeURIComponent(instanceId) + '/bisect/resume', { action: action || 'restore' });
+			return this._normalizeBisect(res);
+		},
+		// MR08：诊断历史（只读本地）
+		async diagnoseHistory(instanceId) {
+			const data = await _req('/api/instances/' + encodeURIComponent(instanceId) + '/diagnose/history');
+			return {
+				limit: (data && data.limit) || 50,
+				retentionDays: (data && data.retentionDays) || 30,
+				overLimitCount: (data && data.overLimitCount) || 0,
+				olderThanRetentionCount: (data && data.olderThanRetentionCount) || 0,
+				notice: (data && data.notice) || '',
+				reports: (data && data.reports) || [],
+			};
+		},
+		// MR08：导出报告。返回 { ok, status, text }，不抛错，便于界面直接展示失败原因。
+		async diagnoseExport(instanceId, reportId, format, includeEvidence) {
+			const qs = '?reportId=' + encodeURIComponent(reportId)
+				+ '&format=' + encodeURIComponent(format || 'md')
+				+ '&includeEvidence=' + (includeEvidence ? '1' : '0');
+			const res = await fetch(BASE + '/api/instances/' + encodeURIComponent(instanceId) + '/diagnose/export' + qs, {
+				headers: { 'X-Pineglow-Token': SG.apiToken },
+			});
+			const text = await res.text();
+			return { ok: res.ok, status: res.status, text };
+		},
+		_normalizeBisect(data) {
+			return {
+				enabledAtStart: (data && data.enabledAtStart) || [],
+				candidates: (data && data.candidates) || [],
+				step: (data && data.step) || 0,
+				waitingForReport: !!(data && data.waitingForReport),
+				disabledHalf: (data && data.disabledHalf) || [],
+				culprit: (data && data.culprit) || null,
+				finished: !!(data && data.finished),
+				finishReason: (data && data.finishReason) || null,
+				// MR06：文件操作失败时的恢复上下文，UI 必须能区分"定位完成/恢复完成/恢复未完成"。
+				needsRecovery: !!(data && data.needsRecovery),
+				recoveryError: (data && data.recoveryError) || null,
+				lastResults: (data && data.lastResults) || [],
+				version: (data && data.version) || 0,
+				// MR07：依赖有效性与会话标识
+				sessionId: (data && data.sessionId) || '',
+				roundInvalid: !!(data && data.roundInvalid),
+				roundValidity: (data && data.roundValidity) || 'ok',
+				roundIssues: (data && data.roundIssues) || [],
+			};
+		},
 		async deleteInstance(instanceId) {
 			await _post('/api/instances/' + encodeURIComponent(instanceId) + '/delete', {});
 			return { ok: true };
 		},
-		async importInstance(fileName, fileBase64) {
-			const res = await _post('/api/instances/import', { fileName, fileBase64 });
-			if (!res || !res.ok) throw new Error((res && res.message) || '导入失败');
-			return { ok: true, instanceId: res.instanceId || '', name: res.name || '' };
+		// MR03：把已存在的游戏目录挂回实例列表；只写配置，不触碰文件。
+		async registerInstance(gameDirectory, name) {
+			const res = await _post('/api/instances/register', { gameDirectory: gameDirectory || '', name: name || '' });
+			if (!res || !res.ok) throw new Error((res && res.message) || (res && res.error) || '添加失败');
+			return { ok: true, instance: res.instance || null };
+		},
+		async importInstance(fileName, fileBase64, operationId) {
+			try {
+				const res = await _post('/api/instances/import', { fileName, fileBase64, operationId: operationId || '' });
+				if (!res || !res.ok) {
+					const err = new Error((res && res.message) || (res && res.error) || '导入失败');
+					err.cancelled = !!(res && res.cancelled);
+					throw err;
+				}
+				return { ok: true, instanceId: res.instanceId || '', name: res.name || '' };
+			} catch (err) {
+				// _post 在非 2xx 时会自己抛错，服务端 payload 挂在 err.payload 上。
+				// MR11：取消（409 + cancelled）必须能被界面识别，不能混成"导入失败"。
+				if (err && err.payload && err.payload.cancelled) {
+					err.cancelled = true;
+					err.message = err.payload.error || err.message;
+				}
+				throw err;
+			}
+		},
+		// MR11：取消进行中的导入。必须总是调用（服务端也靠它登记"取消先到"的墓碑）。
+		async cancelImport(operationId) {
+			const res = await _post('/api/instances/import/cancel', { operationId: operationId || '' });
+			return {
+				ok: !!(res && res.ok),
+				cancelled: !!(res && res.cancelled),
+				pendingCancel: !!(res && res.pendingCancel),
+				message: (res && res.message) || '',
+			};
 		},
 		async prelaunchCheck(instanceId) {
 			const data = await _req('/api/instances/' + encodeURIComponent(instanceId) + '/prelaunch-check');
@@ -607,12 +947,14 @@ SG.api = (() => {
 		async getInstances() { return this._mock(SG.mock.instances); },
 		async getWorlds() { return this._mock(SG.mock.worlds); },
 		async getServers() { return this._mock(SG.mock.servers); },
-		async searchContent(query, category) {
+		async getNews() { return this._mock(SG.mock.news); },
+		async getNewsImage(id) { return 'blob:mock-' + id; },		async searchContent(query, category) {
 			let list = SG.mock.content;
 			if (category && category !== 'all') list = list.filter(c => c.category === category);
 			if (query) { const q = query.toLowerCase(); list = list.filter(c => c.title.toLowerCase().includes(q) || c.desc.toLowerCase().includes(q) || c.author.toLowerCase().includes(q)); }
 			return this._mock(list);
-		},		async getAccounts() { return this._mock({ accounts: SG.mock.accounts, capes: SG.mock.capes }); },
+		},
+		async getAccounts() { return this._mock({ accounts: SG.mock.accounts, capes: SG.mock.capes }); },
 		async getJava() { return this._mock(SG.mock.java); },
 		async getVersions() { return this._mock({ local: SG.mock.localVersions, remote: SG.mock.remoteVersions }); },
 		async getMods(instanceId) { return this._mock(SG.mock.mods[instanceId] || []); },
@@ -626,7 +968,39 @@ SG.api = (() => {
 			const list = SG.mock.mods[instanceId] || [];
 			const idx = list.findIndex(m => m.fileName === fileName);
 			if (idx >= 0) list.splice(idx, 1);
-			return this._mock({ ok: true });
+			// MR04：mock 侧同样留一条可恢复记录，行为与 live 一致。
+			SG.mock.recoveries = SG.mock.recoveries || {};
+			const ops = SG.mock.recoveries[instanceId] = SG.mock.recoveries[instanceId] || [];
+			const operationId = 'mock-' + Date.now();
+			ops.unshift({
+				operationId,
+				reason: 'mod-delete',
+				status: 'quarantined',
+				createdAt: new Date().toISOString(),
+				expiresAt: '',
+				totalBytes: 0,
+				files: [{ relativePath: 'mods/' + fileName, state: 'quarantined', sizeBytes: 0, error: '' }],
+			});
+			return this._mock({ ok: true, operationId, recoverable: true });
+		},
+		async listRecoveries(instanceId) {
+			SG.mock.recoveries = SG.mock.recoveries || {};
+			return this._mock({ retentionDays: 30, recoveries: SG.mock.recoveries[instanceId] || [] });
+		},
+		async restoreRecovery(instanceId, operationId, overwrite) {
+			SG.mock.recoveries = SG.mock.recoveries || {};
+			const ops = SG.mock.recoveries[instanceId] || [];
+			const op = ops.find(x => x.operationId === operationId) || null;
+			// MR05：mock 侧同样区分"默认不覆盖"与"撤销更新时显式覆盖"。
+			if (op && op.status === 'restored' && !overwrite) {
+				op.files = op.files.map(f => Object.assign({}, f, { state: 'conflict' }));
+				return this._mock({ ok: false, status: 'conflict', overwrite: false, conflicts: op.files.length, files: op.files });
+			}
+			if (op) {
+				op.status = 'restored';
+				op.files = op.files.map(f => Object.assign({}, f, { state: 'restored' }));
+			}
+			return this._mock({ ok: true, status: 'restored', overwrite: !!overwrite, conflicts: 0, files: op ? op.files : [] });
 		},
 		async installContent(data) {
 			const task = {
@@ -729,6 +1103,16 @@ SG.api = (() => {
 			SG.mock.settings.accountMode = 'offline';
 			return this._mock({ ok: true, account: acc, accounts: SG.mock.accounts });
 		},
+		async microsoftDeviceStart() {
+			return this._mock({ ok: true, userCode: 'ABCD1234', verificationUri: 'https://microsoft.com/link', verificationUriComplete: '', expiresIn: 900, interval: 5 });
+		},
+		async microsoftDevicePoll() {
+			const acc = { id: 'ms-' + Date.now(), userName: 'Steve_Adv', type: 'microsoft', selected: true, avatarBg: 'linear-gradient(135deg,#1e7a54,#0f3d2a)' };
+			SG.mock.accounts.forEach(a => a.selected = false);
+			SG.mock.accounts.push(acc);
+			SG.mock.settings.accountMode = 'microsoft';
+			return this._mock({ ok: true, status: 'completed', account: acc, accounts: SG.mock.accounts });
+		},
 		async microsoftLogin() {
 			const acc = { id: 'ms-' + Date.now(), userName: 'Steve_Adv', type: 'microsoft', selected: true, avatarBg: 'linear-gradient(135deg,#1e7a54,#0f3d2a)' };
 			SG.mock.accounts.forEach(a => a.selected = false);
@@ -736,7 +1120,12 @@ SG.api = (() => {
 			SG.mock.settings.accountMode = 'microsoft';
 			return this._mock({ ok: true, account: acc, accounts: SG.mock.accounts });
 		},
-		async authlibLogin(serverUrl, userName, password) {
+		async refreshSkin(accountId) {
+			const acc = SG.mock.accounts.find(a => a.id === accountId) || SG.mock.accounts[0];
+			if (acc) { acc.skinCount = (acc.skinCount || 0) + 1; acc.type = 'authlib'; }
+			return this._mock({ ok: true, account: acc });
+		},
+				async authlibLogin(serverUrl, userName, password) {
 			const acc = { id: 'al-' + Date.now(), userName, type: 'authlib', selected: true, avatarBg: 'linear-gradient(135deg,#6d5ae0,#3b2d8f)', authServerUrl: serverUrl };
 			SG.mock.accounts.forEach(a => a.selected = false);
 			SG.mock.accounts.push(acc);
@@ -748,6 +1137,10 @@ SG.api = (() => {
 			const acc = SG.mock.accounts.find(a => a.id === accountId);
 			if (acc) acc.skinCount = (acc.skinCount || 0) + 1;
 			return this._mock({ ok: true, account: acc || SG.mock.accounts[0] });
+		},
+		async deleteAccount(accountId) {
+			SG.mock.accounts = SG.mock.accounts.filter(a => a.id !== accountId);
+			return this._mock({ ok: true, selectedAccountId: SG.mock.accounts[0] && SG.mock.accounts[0].id, accounts: SG.mock.accounts });
 		},
 		async createSaveBackup(instanceId, folderName) {
 			return this._mock({ ok: true, path: '[备份] ' + folderName + '.zip', folderName });
@@ -775,10 +1168,149 @@ SG.api = (() => {
 			const inst = SG.mock.instances.find(x => x.id === instanceId);
 			return this._mock({ ok: true, launched: true, message: inst ? '已发出启动指令' : '' });
 		},
+		async diagnoseInstance(instanceId, options) {
+			const opts = options || {};
+			if (opts.signal && opts.signal.aborted) {
+				throw new DOMException('aborted', 'AbortError');
+			}
+			// mock 端 fail-closed：无 confirmAiSend 也不要求 localOnly 时，按 confirmation_required 返回。
+			if (!opts.confirmAiSend && !opts.localOnly) {
+				return this._mock({
+					ok: true,
+					hasTail: true,
+					snapshot: null,
+					rule: SG.mock.diagnose.rule,
+					mods: SG.mock.diagnose.mods,
+					aiResult: {
+						ok: false,
+						status: 'failed',
+						confidence: 0,
+						summary: '请在 UI 中确认后再发送 AI 诊断',
+						causes: [],
+						actions: [],
+						warnings: ['请在 UI 中确认后再发送 AI 诊断'],
+						missingInformation: ['confirmAiSend'],
+						errorCode: 'confirmation_required',
+					},
+					aiError: 'confirmation_required: 请在 UI 中确认后再发送 AI 诊断',
+					configured: true,
+					suspectMods: [],
+				});
+			}
+			if (opts.localOnly) {
+				return this._mock({
+					ok: true,
+					hasTail: true,
+					snapshot: null,
+					rule: SG.mock.diagnose.rule,
+					mods: SG.mock.diagnose.mods,
+					aiResult: {
+						ok: true,
+						status: 'insufficient_information',
+						confidence: 1.0,
+						summary: SG.mock.diagnose.rule.summary || '本地分析',
+						causes: [{ title: '本地规则', description: SG.mock.diagnose.rule.summary || '', kind: 'fact', confidence: 1.0, evidence: SG.mock.diagnose.rule.suggestions || [] }],
+						actions: [],
+						warnings: ['未发送至 AI；显示本地规则与 Mod 健康分析'],
+						missingInformation: ['ai_provider', 'user_confirmation'],
+						errorCode: null,
+					},
+					aiError: null,
+					configured: true,
+					suspectMods: [],
+				});
+			}
+			// 模拟网络延迟以允许 abort
+			return await new Promise((resolve, reject) => {
+				const timer = setTimeout(() => resolve(this._mockSync(SG.mock.diagnose)), 100);
+				if (opts.signal) {
+					opts.signal.addEventListener('abort', () => {
+						clearTimeout(timer);
+						reject(new DOMException('aborted', 'AbortError'));
+					}, { once: true });
+				}
+			});
+		},
+		// Phase 3B v4 步骤 3 P0 修复：mock 端提供 cancelDiagnoseInstance，保持 live/mock 边界。
+		async cancelDiagnoseInstance(instanceId, operationId, options) {
+			return this._mock({ ok: true, cancelled: true, instanceId: instanceId || '', operationId: operationId || '' });
+		},
+		_mockSync(value) { return value; },
+		async bisectStart(instanceId) {
+			const list = (SG.mock.mods[instanceId] || []).filter(m => m.enabled).map(m => m.fileName);
+			this._bisectState = { instanceId, enabledAtStart: list.slice(), candidates: list.slice(), step: 0, waitingForReport: false, disabledHalf: [], culprit: null, finished: false, finishReason: null };
+			this._bisectApplyStep();
+			return this._mock(this._bisectPayload());
+		},
+		async bisectTest(instanceId, crashed) {
+			const s = this._bisectState;
+			if (!s || s.instanceId !== instanceId) return this._mock({ error: 'no session' });
+			s.candidates = crashed ? s.candidates.filter(n => !s.disabledHalf.includes(n)) : s.disabledHalf.slice();
+			s.waitingForReport = false;
+			s.disabledHalf = [];
+			if (s.candidates.length === 1) { s.finished = true; s.culprit = s.candidates[0]; }
+			else this._bisectApplyStep();
+			if (s.finished) this._bisectRestore();
+			return this._mock(this._bisectPayload());
+		},
+		async bisectGiveUp(instanceId) {
+			const s = this._bisectState;
+			if (s && s.instanceId === instanceId) {
+				s.finished = true;
+				s.finishReason = 'giveup';
+				this._bisectRestore();
+			}
+			return this._mock(this._bisectPayload());
+		},
+		_bisectApplyStep() {
+			const s = this._bisectState;
+			if (!s || s.finished) return;
+			if (s.candidates.length === 0) { s.finished = true; s.finishReason = 'empty'; this._bisectRestore(); return; }
+			if (s.candidates.length === 1) { s.finished = true; s.culprit = s.candidates[0]; this._bisectRestore(); return; }
+			const half = Math.floor(s.candidates.length / 2);
+			s.disabledHalf = s.candidates.slice(0, half);
+			s.waitingForReport = true;
+			s.step++;
+			const mods = SG.mock.mods[s.instanceId] || [];
+			s.disabledHalf.forEach(name => { const m = mods.find(x => x.fileName === name); if (m) m.enabled = false; });
+		},
+		_bisectRestore() {
+			const s = this._bisectState;
+			if (!s) return;
+			const mods = SG.mock.mods[s.instanceId] || [];
+			s.enabledAtStart.forEach(name => { const m = mods.find(x => x.fileName === name); if (m) m.enabled = true; });
+		},
+		_bisectPayload() {
+			const s = this._bisectState;
+			return {
+				enabledAtStart: s ? s.enabledAtStart : [],
+				candidates: s ? s.candidates : [],
+				step: s ? s.step : 0,
+				waitingForReport: s ? s.waitingForReport : false,
+				disabledHalf: s ? s.disabledHalf : [],
+				culprit: s ? s.culprit : null,
+				finished: s ? s.finished : false,
+				finishReason: s ? s.finishReason : null,
+			};
+		},
 		async deleteInstance(instanceId) {
 			const idx = SG.mock.instances.findIndex(x => x.id === instanceId);
 			if (idx >= 0) SG.mock.instances.splice(idx, 1);
 			return this._mock({ ok: true });
+		},
+		// MR03：mock 侧同样只新增列表记录，不产生任何文件操作。
+		async registerInstance(gameDirectory, name) {
+			const inst = {
+				id: 'reg-' + Date.now(),
+				name: (name || '').trim() || '已存在的实例',
+				gameDirectory: gameDirectory || '',
+				type: 'vanilla',
+				version: '',
+				savesCount: 0,
+				modsCount: 0,
+			};
+			SG.mock.instances.push(inst);
+			return this._mock({ ok: true, instance: inst });
 		},
 		async importInstance(fileName, fileBase64) {
 			const inst = { id: 'imp-' + Date.now(), name: fileName.replace(/\.(zip|mrpack|mcm)$/i, '') + ' 导入', type: 'vanilla', version: '1.21.4' };
@@ -795,6 +1327,10 @@ SG.api = (() => {
 		},
 	};
 
+	// 显式开关：默认 false（正式模式绝不静默回退到 mock）。
+	// 设为 true 仅在 demo / 前端无后端环境（如 file:// 调试页）时由调用方主动打开。
+	// 任何 catch 回退路径都必须把原始错误附在结果上，禁止吞掉。
+	const allowMockFallback = !!(window.SG && window.SG.apiAllowMockFallback);
 	const impl = isLive ? live : mock;
 	const wrapped = {};
 	const isReadOnly = k => k.startsWith('get') || k === 'searchContent';
@@ -802,15 +1338,36 @@ SG.api = (() => {
 		wrapped[k] = (...args) => {
 			const p = impl[k].apply(impl, args);
 			if (!p || !p.catch) return p;
-			if (isLive && isReadOnly(k)) {
+			// 仅在显式开启 allowMockFallback 时才允许回退，且仅限只读方法。
+			// 回退必须把真实错误以 _liveError 形式透传给上层，便于 UI 区分"无网络"与"无结果"。
+			if (isLive && allowMockFallback && isReadOnly(k)) {
 				return p.catch(err => {
-					console.warn('[api] ' + k + ' failed, falling back to mock:', err && err.message);
-					return mock[k].apply(mock, args);
+					console.warn('[api] ' + k + ' live failed, fallback to mock (opt-in):', err && err.message);
+					return mock[k].apply(mock, args).then(value => {
+						if (value && typeof value === 'object') value._liveError = err && err.message ? String(err.message) : 'live_error';
+						return value;
+					});
 				});
 			}
 			return p;
 		};
 	});
 	wrapped._mock = mock._mock.bind(mock);
+	wrapped._implMode = isLive ? 'live' : 'mock';
+	wrapped._allowMockFallback = allowMockFallback;
 	return wrapped;
 })();
+
+// Phase 2：暴露本地图标 URL 构造器，供 launcher.js 和测试复用
+SG.buildContentIconUrl = (source, category, projectId) => {
+	const src = (source && /^(modrinth|curseforge)$/i.test(source)) ? source.toLowerCase() : 'modrinth';
+	const cat = (category && /^(mod|modpack|shader|resourcepack)$/i.test(category)) ? category.toLowerCase() : 'mod';
+	const pid = (projectId == null) ? '' : String(projectId);
+	if (!/^[a-zA-Z0-9_-]{1,80}$/.test(pid)) return '';
+	const token = (window.SG && window.SG.apiToken) ? String(window.SG.apiToken) : '';
+	if (!token) return '';
+	return '/api/content/icon?source=' + encodeURIComponent(src)
+		+ '&category=' + encodeURIComponent(cat)
+		+ '&projectId=' + encodeURIComponent(pid)
+		+ '&token=' + encodeURIComponent(token);
+};

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 380" shape-rendering="crispEdges">
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#29494c"/><stop offset="1" stop-color="#658d78"/></linearGradient>
+    <linearGradient id="mist" x2="0" y2="1"><stop stop-color="#afbb91" stop-opacity=".25"/><stop offset="1" stop-color="#afbb91" stop-opacity="0"/></linearGradient>
+    <g id="pine"><path d="M0 0h16v16h16v16h16v16h16v16H48v16h32v16H48v16h48v16H16v32H0v-32h-80v-16h48V96h-32V80h32V64h-16V48h16V32h16V16H0Z"/></g>
+  </defs>
+  <path fill="url(#sky)" d="M0 0h1000v380H0z"/>
+  <path fill="#e2c48e" opacity=".85" d="M764 38h48v12h12v48h-12v12h-48V98h-12V50h12z"/>
+  <path fill="#d1c097" opacity=".13" d="M690 0h16v380h-16zm45 0h8v380h-8zm106 0h24v380h-24z"/>
+  <path fill="#547569" d="M0 216h64v-24h64v-24h64v32h72v-32h72v-32h80v40h64v-16h64v-24h64v24h64v-40h64v-32h64v24h80v32h64v-16h64v32h80v220H0z"/>
+  <g fill="#3a6158"><use href="#pine" x="570" y="92" transform="translate(110 0) scale(.8)"/><use href="#pine" x="710" y="62" transform="translate(80 0) scale(.9)"/><use href="#pine" x="870" y="30" transform="translate(85 0) scale(.9)"/><use href="#pine" x="970" y="70" transform="translate(130 0) scale(.8)"/></g>
+  <path fill="url(#mist)" d="M0 184h1000v138H0z"/>
+  <path fill="#2b4c42" d="M0 284h120v-24h136v16h152v-32h136v16h88v-24h104v-24h104v24h160v144H0z"/>
+  <g fill="#203e34"><use href="#pine" x="674" y="128"/><use href="#pine" x="890" y="112"/><use href="#pine" x="1010" y="158"/><use href="#pine" x="475" y="194" transform="translate(150 80) scale(.7)"/></g>
+  <path fill="#142d27" d="M0 352h256v-16h192v16h96v-16h160v-16h128v-16h168v76H0z"/>
+  <path fill="#456847" d="M682 316h112v8H682zm156-16h80v8h-80zm-454 44h48v8h-48z"/>
+  <path fill="#d7bb83" opacity=".7" d="M706 232h4v4h-4zm126-64h4v4h-4zm98 110h4v4h-4zm-328 22h4v4h-4z"/>
+</svg>

@@ -8,19 +8,46 @@
     <RootNamespace></RootNamespace>
     <ApplicationIcon>app.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <!-- 版本单一来源：运行时以程序集版本为准（AssemblyInfo.cs，GenerateAssemblyInfo=False 手动管理），
-         此处 Version 供发布/打包脚本引用，二者必须保持一致。 -->
+    <!-- MSBuild Version 是程序集、文件和发布产物的唯一版本来源。 -->
     <Version>1.0.0</Version>
-    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
-    <Nullable>disable</Nullable>
+    <!-- 保留现有可空注解并消除 CS8632；逐模块启用流分析。 -->
+    <Nullable>annotations</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
     <InvariantGlobalization>false</InvariantGlobalization>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="VerifyHost\**\*.cs" />
+  </ItemGroup>
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
+  <!-- R01：单文件发行必须自足。
+       原生库（libSkiaSharp/libHarfBuzzSharp/av_libglesv2 等）默认**不会**进入 PublishSingleFile
+       产物，它们会留在 publish 目录里，于是「只上传 EXE」的发布包缺少运行时依赖；
+       实测单独 EXE 冷启动会以 DllNotFoundException 崩溃在 Skia 初始化。
+       IncludeNativeLibrariesForSelfExtract 让这些原生库随单文件打包并在启动时自解压。 -->
+  <PropertyGroup Condition="'$(PublishSingleFile)' == 'true'">
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <IncludeAllContentForSelfExtract>false</IncludeAllContentForSelfExtract>
+    <!-- 发布目录只应有可执行文件：原生符号（libSkiaSharp.pdb 等）体积很大且不是运行依赖。
+         **2026-10-06 实测更正**：即使 PublishSingleFile=true 且设了下面这个开关，
+         发布目录里**仍然**会出现 libSkiaSharp.pdb(84MB) / libHarfBuzzSharp.pdb(20MB)。
+         真正让发行物干净的是 release.yml「Assert artifact is a self-contained single EXE」
+         里的 `Get-ChildItem dist -Filter *.pdb -File | Remove-Item`。
+         所以：**手工 dotnet publish 会带出这 ~104MB 的 PDB**，别以为这个开关就够了。
+         （本次实测同时确认这不是 DebugSymbols/DebugType 造成的：带与不带 /p:Version 的两次发布
+          都带 PDB；而带不带 PDB 与 EXE 体积差异无关。） -->
+    <CopyOutputSymbolsToPublishDirectory>false</CopyOutputSymbolsToPublishDirectory>
+  </PropertyGroup>
   <ItemGroup>
-    <Content Include="..\..\ui\**\*" Link="UI\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <!-- R01：UI 静态资源嵌入程序集，单文件发行时由 UiBundle 按内容指纹解包后提供服务。 -->
+    <EmbeddedResource Include="..\..\ui\**\*" Exclude="..\..\ui\tests\**\*" LogicalName="Pineglow.Launcher.Ui.%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- 目录包 / 开发树：仍把 UI 复制到输出目录（单文件发行时由嵌入资源取代，避免发布目录里
+         同时存在一个 EXE 和一份外置 UI/，那正是 R01 里「交付范围与运行依赖不一致」的来源）。 -->
+    <Content Condition="'$(PublishSingleFile)' != 'true'" Include="..\..\ui\**\*" Exclude="..\..\ui\tests\**\*" Link="UI\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="12.0.5" />
@@ -30,4 +57,17 @@
     <PackageReference Include="Avalonia.Fonts.Inter" Version="12.0.5" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
   </ItemGroup>
+  <Target Name="VerifySkinViewerResources" AfterTargets="Build" Condition="'$(PublishSingleFile)' != 'true'">
+    <Error Condition="!Exists('$(TargetDir)UI\vendor\three.min.js')" Text="Missing Three.js in build output." />
+    <Error Condition="!Exists('$(TargetDir)UI\vendor\THREE-LICENSE.txt')" Text="Missing Three.js license in build output." />
+    <Error Condition="!Exists('$(TargetDir)UI\js\skin3d-core.js')" Text="Missing skin3d-core.js in build output." />
+    <Error Condition="!Exists('$(TargetDir)UI\js\skin3d.js')" Text="Missing skin3d.js in build output." />
+  </Target>
+  <!-- 单文件发行没有外置 UI/ 目录：资源完整性由 EmbeddedResource 非空断言 + UiBundleTests 覆盖。
+       UiBundleTests 会逐项断言入口 HTML/CSS/SVG/vendor 确实在嵌入清单里，并且嵌入的
+       index.html 引用闭包可从包内解析——比在 MSBuild 里做字符串比较更可靠。 -->
+  <Target Name="VerifyEmbeddedUiResources" AfterTargets="Build" Condition="'$(PublishSingleFile)' == 'true'">
+    <Error Condition="'@(EmbeddedResource)' == ''" Text="单文件发行要求把 UI 嵌入程序集，但 EmbeddedResource 为空。" />
+    <Message Importance="high" Text="R01: 单文件发行已嵌入 @(EmbeddedResource->Count()) 项 UI 资源（由 UiBundle 解包）。" />
+  </Target>
 </Project>

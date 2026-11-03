@@ -31,6 +31,12 @@ mcp/
 axolotl-src/
 assets/
 ui/assets/
+# Keep historical assets local; the runtime Pineglow cover is source material.
+!ui/assets/
+ui/assets/*
+!ui/assets/app-icon.png
+!ui/assets/pine-forest.svg
+!ui/assets/pine-forest-night.svg
 松光启动器*.md
 新界面预览-首页.png
 验收截图-live/
@@ -44,3 +50,26 @@ dev/rel*.json
 dev/rel*_log.txt
 dev/rel*.json
 dev/rel*_log.txt
+
+# ===== 调试 / 验证宿主 =====
+dev/PineglowLauncher/VerifyHost/bin/
+dev/PineglowLauncher/VerifyHost/obj/
+dev/_orig_check.js
+dev/_orig_*.js
+
+# Local UI verification hosts contain copied runtimes and browser/account state.
+docs/ui-integration-2026-10-15/runtime/
+docs/ui-integration-2026-10-15/preview/
+docs/ui-integration-2026-10-15/listener-probe/bin/
+docs/ui-integration-2026-10-15/listener-probe/obj/
+docs/ui-fix-2026-10-15/native/
+docs/ui-fix-2026-10-15/native-final/
+
+# Original historical captures with local session tokens; sanitized copies are committed.
+/docs/current-version-audit-2026-10-13/baseline-ui.json
+/docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/round107-loader-ui-runtime/ui-dom.html
+/docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/round18-ui-focus-content/ui-nav-sweep.json
+/docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/round18-ui-level/ui-dom.html
+/docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/round18-ui-nav-sweep/ui-nav-sweep.json
+/docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/round44-ui-level-on-patched/factory-ab/ui-dom.html
+/docs/release-closure-evidence-2026-10-10/run-2026-10-10_015215-578dbafb/round44-ui-level-on-patched/ui-dom.html

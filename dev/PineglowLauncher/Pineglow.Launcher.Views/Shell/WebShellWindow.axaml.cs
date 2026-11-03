@@ -7,6 +7,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform;
 using Avalonia.Threading;
+using Pineglow.Launcher.Services;
 
 namespace Pineglow.Launcher.Views.Shell;
 
@@ -181,22 +182,30 @@ public sealed partial class WebShellWindow : Window
 		// cache-busting：避免 WebView 缓存旧版 UI（每次启动加时间戳参数）
 		string cacheBuster = "?v=" + DateTime.Now.ToString("yyyyMMddHHmmss");
 
+		// A19 修复（MR21 边界）：端口**必须**取自 LocalApiService.Port。
+		// 修复前这里硬编码 48123，而 LocalApiService.Start() 支持 PINEGLOW_API_PORT 覆盖
+		// （LocalApiService.cs:169）—— 端口一旦被覆盖，健康检查就会探错端口、走进下面的 catch，
+		// **静默**加载静态 UI/index.html：界面看起来能用，但完全没有 API。
+		int apiPort = LocalApiService.Port;
 		try
 		{
 			using var client = new HttpClient
 			{
 				Timeout = TimeSpan.FromSeconds(2)
 			};
-			using var response = await client.GetAsync("http://127.0.0.1:48123/api/health");
+			using var response = await client.GetAsync($"http://127.0.0.1:{apiPort}/api/health");
 			if (!response.IsSuccessStatusCode)
 			{
 				throw new InvalidOperationException("API unavailable");
 			}
-			Web.Source = new Uri("http://127.0.0.1:48123/" + cacheBuster);
+			Web.Source = new Uri($"http://127.0.0.1:{apiPort}/" + cacheBuster);
 		}
 		catch
 		{
-			string index = Path.Combine(AppContext.BaseDirectory, "UI", "index.html");
+			// R01：单文件发行的 UI 不在 EXE 旁，而在 UiBundle 解包目录里；
+			// 这里统一问 LocalApiService 要实际 UI 根，不再自己拼 AppContext.BaseDirectory/UI。
+			string? uiRoot = LocalApiService.UiRoot;
+			string index = uiRoot == null ? string.Empty : Path.Combine(uiRoot, "index.html");
 			Web.Source = File.Exists(index) ? new Uri(index) : new Uri("about:blank");
 		}
 	}

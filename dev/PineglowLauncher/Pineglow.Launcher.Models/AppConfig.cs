@@ -63,6 +63,21 @@ public sealed class AppConfig
 	[JsonIgnore]
 	public string CurseForgeApiKey { get; set; } = string.Empty;
 
+	/// <summary>AI 诊断提供商列表（多提供商预设，Key 经 SecretStore 持久化）。</summary>
+	public List<AiProviderProfile> AiProviders { get; set; } = new List<AiProviderProfile>();
+
+	/// <summary>当前选中的 AI 提供商 Id（对应 AiProviders 中一项）。</summary>
+	public string SelectedAiProviderId { get; set; } = string.Empty;
+
+	/// <summary>AI 诊断功能开关</summary>
+	public bool AiDiagnosisEnabled { get; set; }
+
+	/// <summary>
+	/// MR08：诊断时是否保留**脱敏后**的证据摘录。
+	/// 默认 false —— 历史只保存脱敏摘要，不落原始日志正文；开启后导出才带证据摘录。
+	/// </summary>
+	public bool DiagnosticKeepEvidence { get; set; }
+
 	public bool UseMirror { get; set; }
 
 	/// <summary>下载源：official / bmclapi / mcbbs</summary>
@@ -84,6 +99,7 @@ public sealed class AppConfig
 	public string ProxyUsername { get; set; } = string.Empty;
 
 	/// <summary>HTTP 代理密码（可选）</summary>
+	[JsonIgnore]
 	public string ProxyPassword { get; set; } = string.Empty;
 
 	/// <summary>游戏启动后自动最小化启动器</summary>
@@ -91,4 +107,12 @@ public sealed class AppConfig
 
 	/// <summary>游戏退出后自动关闭启动器</summary>
 	public bool AutoCloseOnExit { get; set; }
+
+	/// <summary>
+	/// R2-02：是否启用"Clash 类 TUN/fake-ip 新闻图片兼容"。
+	/// 默认 false（fail closed）；仅在用户显式开启后，才允许 NewsImageProxyService 选择 198.18/15 fake-ip 地址。
+	/// 序列化/反序列化与 PatchConfig 必须保留精确布尔语义；缺字段、字符串或数字均视为缺省。
+	/// </summary>
+	[JsonPropertyName("newsFakeIpCompat")]
+	public bool NewsFakeIpCompat { get; set; }
 }

@@ -48,9 +48,12 @@ public class InstanceIsolationServiceTests
 		try
 		{
 			string dir = InstanceIsolationService.GetAvailableInstanceDirectory(tempRoot, name, "fallback-id");
-			Assert.True(System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(dir)));
-			// 目录名不能包含路径分隔符（跨平台通用约束）
+			// 目录名必须可用（无路径分隔符、无平台非法字符）
 			Assert.DoesNotContain(System.IO.Path.DirectorySeparatorChar, System.IO.Path.GetFileName(dir));
+			foreach (char invalid in System.IO.Path.GetInvalidFileNameChars())
+			{
+				Assert.DoesNotContain(invalid, System.IO.Path.GetFileName(dir));
+			}
 			if (expectedDir != null)
 			{
 				Assert.Equal(expectedDir, System.IO.Path.GetFileName(dir));
@@ -71,7 +74,9 @@ public class InstanceIsolationServiceTests
 		try
 		{
 			string dir = InstanceIsolationService.GetAvailableInstanceDirectory(tempRoot, "Bad*Name?", "fallback-id");
-			Assert.True(System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(dir)));
+			// 非法字符应被替换为下划线，而不是抛异常或创建失败
+			Assert.DoesNotContain("*", System.IO.Path.GetFileName(dir));
+			Assert.DoesNotContain("?", System.IO.Path.GetFileName(dir));
 		}
 		finally
 		{

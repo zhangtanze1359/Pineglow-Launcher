@@ -1,0 +1,9 @@
+# CV-02（本轮修复）：冻结案例集必须以 LF 字节存储与检出。
+#
+# 背景：本仓库的冻结数据 dev/PineglowLauncher.Tests/TestAssets/Diagnostics/diagnostic-cases.json
+# 的冻结哈希 D9F55189FA05845BAC0403A058AA63912A725AFF61555BDF25A6865DD5AB45AF 是**LF 原始字节**的哈希；
+# 在全局 core.autocrlf=true 的环境里检出会得到 CRLF，字节哈希随之变化（133E610B...），
+# DiagnosticCaseSetInvariantTests 的冻结哈希门槛就会误报失败——内容其实一字未改。
+# 因此这里只精确约束这一条路径，刻意不引入 `* text=auto` 之类会改写其他文件字节的全局规则，
+# 也刻意不改冻结案例内容、不更新基准哈希。
+dev/PineglowLauncher.Tests/TestAssets/Diagnostics/diagnostic-cases.json text eol=lf

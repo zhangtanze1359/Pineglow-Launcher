@@ -7,6 +7,8 @@ public sealed class MinecraftAppearance
 {
 	public string SkinUrl { get; init; } = string.Empty;
 
+	public bool IsSlim { get; init; }
+
 	public int SkinCount { get; init; }
 
 	public int CapeCount { get; init; }

@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +21,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PineglowLauncher\Pineglow.Launcher.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="TestAssets\ContentIcons\*" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

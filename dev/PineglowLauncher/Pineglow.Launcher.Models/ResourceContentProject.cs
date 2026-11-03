@@ -17,4 +17,6 @@ public sealed class ResourceContentProject
 	public long Downloads { get; set; }
 
 	public ResourceContentKind Kind { get; set; }
+
+	public string IconUrl { get; set; } = string.Empty;
 }

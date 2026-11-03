@@ -100,6 +100,7 @@ public static class AccountService
 		launcherAccount.AccessToken = value.AccessToken;
 		launcherAccount.AccessTokenExpiresAt = value.AccessTokenExpiresAt;
 		launcherAccount.SkinUrl = value.SkinUrl;
+		launcherAccount.SkinModel = value.IsSlim ? "slim" : "classic";
 		launcherAccount.SkinCount = value.SkinCount;
 		launcherAccount.CapeCount = value.CapeCount;
 		launcherAccount.Capes = value.Capes.Select((MinecraftCapeInfo cape) => new MinecraftCapeInfo
@@ -128,6 +129,16 @@ public static class AccountService
 		launcherAccount.Uuid = value.Uuid;
 		launcherAccount.AccessToken = value.AccessToken;
 		launcherAccount.AuthServerUrl = value.ServerUrl;
+		launcherAccount.SkinUrl = value.SkinUrl;
+		launcherAccount.CapeCount = string.IsNullOrWhiteSpace(value.CapeUrl) ? 0 : 1;
+		launcherAccount.SkinCount = string.IsNullOrWhiteSpace(value.SkinUrl) ? 0 : 1;
+		if (!string.IsNullOrWhiteSpace(value.CapeUrl))
+		{
+			launcherAccount.Capes = new List<MinecraftCapeInfo>
+			{
+				new MinecraftCapeInfo { Url = value.CapeUrl, IsActive = false }
+			};
+		}
 		launcherAccount.RefreshToken = string.Empty;
 		launcherAccount.Xuid = string.Empty;
 		launcherAccount.ClientId = string.Empty;

@@ -154,6 +154,28 @@ public sealed class LoaderInstallHelper
 		processStartInfo.ArgumentList.Add(installerPath);
 		processStartInfo.ArgumentList.Add("--installClient");
 		processStartInfo.ArgumentList.Add(_gameDirectory);
+		string launcherProfiles = Path.Combine(_gameDirectory, "launcher_profiles.json");
+		if (!File.Exists(launcherProfiles))
+		{
+			FileStream? profile = null;
+			try
+			{
+				// CreateNew protects an existing user profile, including a concurrent creator.
+				profile = new FileStream(launcherProfiles, FileMode.CreateNew, FileAccess.Write, FileShare.Read);
+			}
+			catch (IOException) when (File.Exists(launcherProfiles))
+			{
+				// Another installer created the file. Never overwrite its profiles.
+			}
+			if (profile != null)
+			{
+				using (profile)
+				{
+					JsonSerializer.Serialize(profile, new { profiles = new { }, settings = new { }, version = 3 });
+					profile.Flush(flushToDisk: true);
+				}
+			}
+		}
 		_log("运行 " + label + " installer...");
 		using Process process = Process.Start(processStartInfo) ?? throw new InvalidOperationException(label + " installer 启动失败。");
 		Task<string> stdoutTask = process.StandardOutput.ReadToEndAsync();

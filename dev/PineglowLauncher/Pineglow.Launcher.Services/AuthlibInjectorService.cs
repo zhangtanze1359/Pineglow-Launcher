@@ -51,7 +51,41 @@ public sealed class AuthlibInjectorService(HttpClient http)
 		{
 			throw new InvalidOperationException("第三方认证没有返回可用角色。");
 		}
-		return new AuthlibAccount(userName2, text3, text2, normalizedUrl);
+		string skinUrl = string.Empty;
+		string capeUrl = string.Empty;
+		bool isSlim = false;
+		if (property.TryGetProperty("properties", out JsonElement properties) && properties.ValueKind == JsonValueKind.Array)
+		{
+			foreach (JsonElement p in properties.EnumerateArray())
+			{
+				if (p.TryGetProperty("name", out JsonElement pName) && pName.GetString() == "textures" &&
+					p.TryGetProperty("value", out JsonElement pValue))
+				{
+					try
+					{
+						string texturesJson = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(pValue.GetString() ?? string.Empty));
+						using JsonDocument texDoc = JsonDocument.Parse(texturesJson);
+						if (texDoc.RootElement.TryGetProperty("textures", out JsonElement texRoot))
+						{
+							if (texRoot.TryGetProperty("SKIN", out JsonElement skin) && skin.TryGetProperty("url", out JsonElement skinUrlEl))
+							{
+								skinUrl = skinUrlEl.GetString() ?? string.Empty;
+								isSlim = skin.TryGetProperty("metadata", out JsonElement meta) && meta.TryGetProperty("model", out JsonElement modelEl) && modelEl.GetString() == "slim";
+							}
+							if (texRoot.TryGetProperty("CAPE", out JsonElement cape) && cape.TryGetProperty("url", out JsonElement capeUrlEl))
+							{
+								capeUrl = capeUrlEl.GetString() ?? string.Empty;
+							}
+						}
+					}
+					catch
+					{
+						// textures 解析失败不影响登录
+					}
+				}
+			}
+		}
+		return new AuthlibAccount(userName2, text3, text2, normalizedUrl, skinUrl, capeUrl, isSlim);
 	}
 
 	public async Task<string> EnsureAgentAsync(CancellationToken ct)

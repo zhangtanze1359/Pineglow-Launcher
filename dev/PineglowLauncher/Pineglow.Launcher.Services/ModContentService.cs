@@ -27,9 +27,13 @@ public sealed class ModContentService
 
 	private readonly HttpClient _http;
 
-	public ModContentService(HttpClient http)
+	/// <summary>MR05：非空时，更新"已安装的同一个在线项目"会走事务化替换而不是并列导入。</summary>
+	private readonly FileRecoveryService? _recovery;
+
+	public ModContentService(HttpClient http, FileRecoveryService? recovery = null)
 	{
 		_http = http;
+		_recovery = recovery;
 		if (!_http.DefaultRequestHeaders.UserAgent.Any())
 		{
 			_http.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("Pineglow-Launcher", "1.0"));
@@ -121,6 +125,29 @@ public sealed class ModContentService
 			}
 			File.Move(tempPath, text2);
 			tempPath = text2;
+
+			// MR05：若这个在线项目已经装过，就做事务化替换（保留启用状态、旧版本进恢复区可撤销），
+			// 而不是像以前那样在旧版本旁边再放一个 "xxx (1).jar" 副本。
+			if (_recovery != null && !string.IsNullOrWhiteSpace(version.ProjectId))
+			{
+				ModFile? installed = (await modService.GetModsAsync(instance)).FirstOrDefault(x =>
+					x.HasOnlineMetadata
+					&& string.Equals(x.OnlineSource, version.Source.ToString(), StringComparison.OrdinalIgnoreCase)
+					&& string.Equals(x.ProjectId, version.ProjectId, StringComparison.OrdinalIgnoreCase));
+				if (installed != null)
+				{
+					var replacement = new ModReplacementService(_recovery);
+					ModReplacementResult replaced = await replacement.ReplaceAsync(
+						instance, modService, installed.FileName, text2, null, version);
+					if (!replaced.Ok)
+					{
+						throw new InvalidOperationException($"更新失败（{replaced.Status}）：{replaced.Error}");
+					}
+
+					return Path.Combine(modService.GetModsDirectory(instance), replaced.FileName ?? installed.FileName);
+				}
+			}
+
 			string text3 = modService.ImportMod(instance, tempPath);
 			modService.WriteOnlineMetadata(text3, version);
 			return text3;
@@ -307,9 +334,9 @@ public sealed class ModContentService
 		{
 			list.Add("modLoaderType=" + num);
 		}
-		using HttpRequestMessage message = CreateCurseForgeRequest(HttpMethod.Get, "https://api.curseforge.com/v1/mods/search?" + string.Join("&", list), apiKey);
-		using HttpResponseMessage response = await _http.SendAsync(message, ct);
-		response.EnsureSuccessStatusCode();
+		// MR12：走统一策略（Retry-After / 退避 / 分类），不再裸 EnsureSuccessStatusCode。
+		using HttpResponseMessage response = await CurseForgeRequestPolicy.SendAsync(
+			_http, () => CreateCurseForgeRequest(HttpMethod.Get, "https://api.curseforge.com/v1/mods/search?" + string.Join("&", list), apiKey), ct);
 		using JsonDocument jsonDocument = JsonDocument.Parse(await response.Content.ReadAsStreamAsync(ct));
 		List<ModSearchResult> list2 = new List<ModSearchResult>();
 		foreach (JsonElement item in jsonDocument.RootElement.GetProperty("data").EnumerateArray())
@@ -349,9 +376,8 @@ public sealed class ModContentService
 		{
 			list.Add("modLoaderType=" + num);
 		}
-		using HttpRequestMessage message = CreateCurseForgeRequest(HttpMethod.Get, $"{"https://api.curseforge.com/v1"}/mods/{project.ProjectId}/files?{string.Join("&", list)}", apiKey);
-		using HttpResponseMessage response = await _http.SendAsync(message, ct);
-		response.EnsureSuccessStatusCode();
+		using HttpResponseMessage response = await CurseForgeRequestPolicy.SendAsync(
+			_http, () => CreateCurseForgeRequest(HttpMethod.Get, $"{"https://api.curseforge.com/v1"}/mods/{project.ProjectId}/files?{string.Join("&", list)}", apiKey), ct);
 		using JsonDocument jsonDocument = JsonDocument.Parse(await response.Content.ReadAsStreamAsync(ct));
 		List<ModVersion> list2 = new List<ModVersion>();
 		foreach (JsonElement item in jsonDocument.RootElement.GetProperty("data").EnumerateArray())
@@ -400,9 +426,8 @@ public sealed class ModContentService
 
 	private async Task<string> GetCurseForgeDownloadUrlAsync(ModVersion version, string apiKey, CancellationToken ct)
 	{
-		using HttpRequestMessage message = CreateCurseForgeRequest(HttpMethod.Get, $"{"https://api.curseforge.com/v1"}/mods/{version.ProjectId}/files/{version.VersionId}/download-url", apiKey);
-		using HttpResponseMessage response = await _http.SendAsync(message, ct);
-		response.EnsureSuccessStatusCode();
+		using HttpResponseMessage response = await CurseForgeRequestPolicy.SendAsync(
+			_http, () => CreateCurseForgeRequest(HttpMethod.Get, $"{"https://api.curseforge.com/v1"}/mods/{version.ProjectId}/files/{version.VersionId}/download-url", apiKey), ct);
 		using JsonDocument jsonDocument = JsonDocument.Parse(await response.Content.ReadAsStreamAsync(ct));
 		return GetString(jsonDocument.RootElement, "data");
 	}

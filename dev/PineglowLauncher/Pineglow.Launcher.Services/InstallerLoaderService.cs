@@ -154,6 +154,6 @@ public abstract class InstallerLoaderService
 
 	private string GetInstallerUrl(string mavenVersion)
 	{
-		return $"{_artifactBaseUrl}/{_groupPath}/{_artifactId}/{mavenVersion}/{_artifactId}-{mavenVersion}-installer.jar";
+		return $"{_artifactBaseUrl}/{_groupPath}/{mavenVersion}/{_artifactId}-{mavenVersion}-installer.jar";
 	}
 }

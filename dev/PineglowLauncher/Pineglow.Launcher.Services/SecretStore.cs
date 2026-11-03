@@ -1,56 +1,107 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
-using System.Text.Json;
+using System.Threading;
 
 namespace Pineglow.Launcher.Services;
 
+/// <summary>
+/// 启动器凭据存储（公开 API 不变）。
+///
+/// 本轮 R0（验收阻断项 F-02）修复：读/写/删**全部**经由可注入的
+/// <see cref="ISecretStoreBackend"/>，不再内联原生调用。
+///
+/// 为什么必须改：修复前 5 个配置用例会真实进入 Windows 凭据管理器并产生
+/// **20 次 delete-intent**（独立验收 <c>credential-intents.jsonl</c> 实测），
+/// 也就是说"跑一遍测试"可能删掉用户真实凭据。
+///
+/// 三条硬约束（本轮保持不变）：
+///   1. **生产默认行为不变**：Windows 走原生凭据管理器，非 Windows 走 <c>secrets.json</c>；
+///   2. **凭据命名/前缀/迁移策略不变**：目标名仍是 <c>MCMiniLauncher/{name}</c>，
+///      常量值仍是 <c>MicrosoftRefreshToken</c> / <c>CurseForgeApiKey</c> / <c>ProxyPassword</c>；
+///   3. **测试不再可达原生 API**：测试程序集可安装内存后端（见
+///      <see cref="InstallProductionBackendForTest"/>），并且可证明原生调用次数为 0。
+/// </summary>
 public static class SecretStore
 {
-	[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-	private struct NativeCredential
-	{
-		public uint Flags;
-
-		public uint Type;
-
-		public string TargetName;
-
-		public string? Comment;
-
-		public FILETIME LastWritten;
-
-		public uint CredentialBlobSize;
-
-		public nint CredentialBlob;
-
-		public uint Persist;
-
-		public uint AttributeCount;
-
-		public nint Attributes;
-
-		public string? TargetAlias;
-
-		public string UserName;
-	}
-
 	public const string MicrosoftRefreshToken = "MicrosoftRefreshToken";
 
 	public const string CurseForgeApiKey = "CurseForgeApiKey";
 
-	private const string TargetPrefix = "MCMiniLauncher/";
+	public const string ProxyPassword = "ProxyPassword";
 
-	private const uint CredentialTypeGeneric = 1u;
+	private static ISecretStoreBackend _productionBackend = CreateProductionBackend();
 
-	private const uint CredentialPersistLocalMachine = 2u;
+	/// <summary>
+	/// 作用域内（当前异步流）生效的后端覆盖。用 <see cref="AsyncLocal{T}"/> 而不是普通静态字段：
+	/// xUnit 按测试类并行调度，普通静态字段会让并行用例互相串后端。
+	/// </summary>
+	private static readonly AsyncLocal<ISecretStoreBackend?> BackendOverrideForTest = new AsyncLocal<ISecretStoreBackend?>();
 
-	private const int ErrorNotFound = 1168;
+	private static long _productionBackendCallCount;
+
+	/// <summary>生产后端（Windows 原生 / 受限文件）被真正进入的次数。测试用它证明"原生不可达"。</summary>
+	internal static long ProductionBackendCallCount => Interlocked.Read(ref _productionBackendCallCount);
+
+	/// <summary>由后端实现调用：每进入一次生产后端计一次数（内存后端不计）。</summary>
+	internal static void CountProductionBackendCall() => Interlocked.Increment(ref _productionBackendCallCount);
+
+	/// <summary>当前实际生效的后端。</summary>
+	internal static ISecretStoreBackend CurrentBackend => BackendOverrideForTest.Value ?? _productionBackend;
+
+	/// <summary>当前是否处于测试注入的作用域内。</summary>
+	internal static bool IsBackendOverriddenForTest => BackendOverrideForTest.Value != null;
+
+	/// <summary>
+	/// 测试程序集专用：替换**进程默认后端**。
+	///
+	/// 测试程序集在 <c>[ModuleInitializer]</c> 里调用它，把整个测试进程的默认后端换成内存后端 ——
+	/// 这样"忘记加作用域"的未来用例也碰不到真实凭据（fail-safe），
+	/// 而生产代码路径（GUI / VerifyHost）永远不会执行到这里（<c>internal</c> + InternalsVisibleTo）。
+	/// </summary>
+	internal static void InstallProductionBackendForTest(ISecretStoreBackend backend)
+	{
+		_productionBackend = backend ?? throw new ArgumentNullException(nameof(backend));
+	}
+
+	/// <summary>测试程序集专用：在当前异步流内临时覆盖后端；<see cref="IDisposable.Dispose"/> 时还原。</summary>
+	internal static IDisposable OverrideBackendForTest(ISecretStoreBackend backend)
+	{
+		if (backend == null)
+		{
+			throw new ArgumentNullException(nameof(backend));
+		}
+
+		ISecretStoreBackend? previous = BackendOverrideForTest.Value;
+		BackendOverrideForTest.Value = backend;
+		return new BackendOverrideScope(previous);
+	}
+
+	/// <summary>测试程序集专用：把计数清零，便于"某段操作期间原生调用为 0"的差分断言。</summary>
+	internal static void ResetProductionBackendCallCountForTest() => Interlocked.Exchange(ref _productionBackendCallCount, 0L);
+
+	private sealed class BackendOverrideScope : IDisposable
+	{
+		private readonly ISecretStoreBackend? _previous;
+		private bool _disposed;
+
+		public BackendOverrideScope(ISecretStoreBackend? previous) => _previous = previous;
+
+		public void Dispose()
+		{
+			if (_disposed)
+			{
+				return;
+			}
+
+			_disposed = true;
+			BackendOverrideForTest.Value = _previous;
+		}
+	}
+
+	private static ISecretStoreBackend CreateProductionBackend() =>
+		OperatingSystem.IsWindows()
+			? (ISecretStoreBackend)new WindowsCredentialSecretBackend()
+			: new RestrictedFileSecretBackend();
 
 	public static string MicrosoftAccountToken(string accountId)
 	{
@@ -62,157 +113,26 @@ public static class SecretStore
 		return "AccountToken_" + accountId;
 	}
 
+	/// <summary>读取凭据；不存在返回空串（与修复前一致）。</summary>
 	public static string Load(string name)
 	{
 		ValidateName(name);
-		if (!OperatingSystem.IsWindows())
-		{
-			return LoadRestrictedFile(name);
-		}
-		return LoadWindows(name);
+		return CurrentBackend.Read(name) ?? string.Empty;
 	}
 
+	/// <summary>写入凭据；<paramref name="value"/> 为空/null 表示删除（与修复前一致）。</summary>
 	public static void Save(string name, string? value)
 	{
 		ValidateName(name);
-		if (OperatingSystem.IsWindows())
+		ISecretStoreBackend backend = CurrentBackend;
+		if (string.IsNullOrEmpty(value))
 		{
-			SaveWindows(name, value ?? string.Empty);
+			backend.Delete(name);
 		}
 		else
 		{
-			SaveRestrictedFile(name, value ?? string.Empty);
+			backend.Write(name, value);
 		}
-	}
-
-	private static string LoadWindows(string name)
-	{
-		if (!CredReadW("MCMiniLauncher/" + name, 1u, 0u, out var credentialPointer))
-		{
-			int lastWin32Error = Marshal.GetLastWin32Error();
-			if (lastWin32Error == 1168)
-			{
-				return string.Empty;
-			}
-			throw new Win32Exception(lastWin32Error, "无法从 Windows 凭据管理器读取启动器凭据。");
-		}
-		try
-		{
-			NativeCredential nativeCredential = Marshal.PtrToStructure<NativeCredential>(credentialPointer);
-			if (nativeCredential.CredentialBlob == IntPtr.Zero || nativeCredential.CredentialBlobSize == 0)
-			{
-				return string.Empty;
-			}
-			byte[] array = new byte[nativeCredential.CredentialBlobSize];
-			Marshal.Copy(nativeCredential.CredentialBlob, array, 0, array.Length);
-			return Encoding.Unicode.GetString(array).TrimEnd('\0');
-		}
-		finally
-		{
-			CredFree(credentialPointer);
-		}
-	}
-
-	private static void SaveWindows(string name, string value)
-	{
-		string text = "MCMiniLauncher/" + name;
-		if (string.IsNullOrEmpty(value))
-		{
-			if (!CredDeleteW(text, 1u, 0u))
-			{
-				int lastWin32Error = Marshal.GetLastWin32Error();
-				if (lastWin32Error != 1168)
-				{
-					throw new Win32Exception(lastWin32Error, "无法删除 Windows 凭据管理器中的启动器凭据。");
-				}
-			}
-			return;
-		}
-		byte[] bytes = Encoding.Unicode.GetBytes(value);
-		nint num = Marshal.AllocCoTaskMem(bytes.Length);
-		try
-		{
-			Marshal.Copy(bytes, 0, num, bytes.Length);
-			NativeCredential credential = new NativeCredential
-			{
-				Type = 1u,
-				TargetName = text,
-				CredentialBlobSize = (uint)bytes.Length,
-				CredentialBlob = num,
-				Persist = 2u,
-				UserName = Environment.UserName
-			};
-			if (!CredWriteW(ref credential, 0u))
-			{
-				throw new Win32Exception(Marshal.GetLastWin32Error(), "无法将启动器凭据写入 Windows 凭据管理器。");
-			}
-		}
-		finally
-		{
-			for (int i = 0; i < bytes.Length; i++)
-			{
-				Marshal.WriteByte(num, i, 0);
-			}
-			Marshal.FreeCoTaskMem(num);
-		}
-	}
-
-	private static string LoadRestrictedFile(string name)
-	{
-		string restrictedFilePath = GetRestrictedFilePath();
-		if (!File.Exists(restrictedFilePath))
-		{
-			return string.Empty;
-		}
-		try
-		{
-			Dictionary<string, string> dictionary = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(restrictedFilePath));
-			string value;
-			return (dictionary != null && dictionary.TryGetValue(name, out value)) ? value : string.Empty;
-		}
-		catch (JsonException)
-		{
-			return string.Empty;
-		}
-	}
-
-	private static void SaveRestrictedFile(string name, string value)
-	{
-		string restrictedFilePath = GetRestrictedFilePath();
-		Directory.CreateDirectory(Path.GetDirectoryName(restrictedFilePath));
-		Dictionary<string, string> dictionary;
-		try
-		{
-			dictionary = (File.Exists(restrictedFilePath) ? (JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(restrictedFilePath)) ?? new Dictionary<string, string>()) : new Dictionary<string, string>());
-		}
-		catch (JsonException)
-		{
-			dictionary = new Dictionary<string, string>();
-		}
-		if (string.IsNullOrEmpty(value))
-		{
-			dictionary.Remove(name);
-		}
-		else
-		{
-			dictionary[name] = value;
-		}
-		File.WriteAllText(restrictedFilePath, JsonSerializer.Serialize(dictionary));
-		try
-		{
-			if (!OperatingSystem.IsWindows())
-			{
-				File.SetUnixFileMode(restrictedFilePath, UnixFileMode.UserWrite | UnixFileMode.UserRead);
-			}
-		}
-		catch (PlatformNotSupportedException)
-		{
-		}
-	}
-
-	private static string GetRestrictedFilePath()
-	{
-		return Path.Combine(PlatformPaths.GetConfigDirectory(), "secrets.json");
 	}
 
 	private static void ValidateName(string name)
@@ -231,19 +151,4 @@ public static class SecretStore
 			throw new ArgumentException("凭据名称无效。", "name");
 		}
 	}
-
-	[DllImport("advapi32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-	[return: MarshalAs(UnmanagedType.Bool)]
-	private static extern bool CredWriteW(ref NativeCredential credential, uint flags);
-
-	[DllImport("advapi32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-	[return: MarshalAs(UnmanagedType.Bool)]
-	private static extern bool CredReadW(string target, uint type, uint flags, out nint credentialPointer);
-
-	[DllImport("advapi32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-	[return: MarshalAs(UnmanagedType.Bool)]
-	private static extern bool CredDeleteW(string target, uint type, uint flags);
-
-	[DllImport("advapi32.dll")]
-	private static extern void CredFree(nint buffer);
 }
