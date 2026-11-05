@@ -84,7 +84,8 @@ function launchHarness(check) {
 	const calls = { checks: 0, launches: 0 };
 	const ctx = { document, STATE: { config: {} }, NATIVE_SHELL: false,
 		SG: { api: { async prelaunchCheck() { calls.checks++; return check(calls.checks); }, async launchInstance() { calls.launches++; return { ok: true }; } } },
-		t: k => k, esc: s => String(s), toast() {}, openModal(html) { host.innerHTML = html; }, closeModal() {}, console };
+		t: k => k, esc: s => String(s), toast() {}, openModal(html) { host.innerHTML = html; }, closeModal() {}, console,
+		setTimeout, clearTimeout, setInterval, clearInterval };
 	vm.createContext(ctx);
 	const start = LAUNCHER_JS.indexOf('let launchInFlight = false;');
 	const end = LAUNCHER_JS.indexOf('/* ---------------- Play 页', start);
