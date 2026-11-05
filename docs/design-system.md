@@ -1,6 +1,8 @@
 # 设计系统（Design System）
 
-> 更新于 2026-10-03。基础样式在 `ui/css/figma.css`，视觉修订在随后加载的 `ui/css/pineglow.css`；**最终激活 token 以 pineglow.css 为准**。采用松林晨光主题，深色基底与柔和绿色强调。
+> **最后核对日：2026-11-06**。样式分三层加载：`ui/css/figma.css`（基础）→ `ui/css/pineglow.css`（主题覆盖）→ `ui/css/redesign.css`（视觉修订）。
+> **token 以「后加载者胜出」为准**：同名变量最终生效值取 `pineglow.css`，`figma.css` 里的同名声明会被覆盖（例如 `--base` 最终为 `#10191b`，而非 figma.css 的 `#0d0e11`）。不要在两层之间写互相冲突的同名 token。
+> 采用松林晨光主题，深色基底与柔和绿色强调。
 > ⚠️ 旧《UI-UX 设计文档》的"天光蓝 `#7C9CFF`"方案**已被取代**，仅供历史参考（归档中）。
 
 ## 一、当前激活 Token（pineglow.css）

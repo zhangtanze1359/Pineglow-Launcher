@@ -1,6 +1,6 @@
 # 架构（纯 Web UI）
 
-> 反映 2026-08-16 状态。本文是架构层面的唯一可信源，取代旧的《纯WebUI架构说明》。
+> **最后核对日：2026-11-06**。本文是架构层面的唯一可信源，取代旧的《纯WebUI架构说明》。
 
 ## 一、总体架构
 
@@ -11,8 +11,8 @@
 │         │ 加载 http://127.0.0.1:48123/?v=<时间戳> │
 ├────────────────────────────────────────────────┤
 │  Web 前端（ui/ 目录：HTML/CSS/JS）              │
-│   9 视图：home/installations/worlds/servers/    │
-│           content/skins/downloads/news/settings │
+│   10 视图：home/installations/worlds/servers/   │
+│   content/skins/downloads/news/settings/playtime│
 │   i18n 双语（zh/en）｜ live/mock 双模式         │
 └──────────────────┬─────────────────────────────┘
                    │ fetch http://127.0.0.1:48123/api/*
@@ -21,7 +21,7 @@
 │  C# 服务层（原样复用，勿重写）                   │
 │   LocalApiService（HttpListener 桥接 + 静态托管） │
 │   InstanceService/LauncherService/下载/账号/     │
-│   版本/Mod/Java/更新 等约 67 个服务              │
+│   版本/Mod/Java/更新 等 85 个 .cs 文件          │
 └────────────────────────────────────────────────┘
 ```
 
@@ -43,7 +43,7 @@
 ### 2. Web 前端（`ui/`）
 
 - `index.html`：页面骨架 + 9 个 `<div class="view">` 容器。
-- `js/launcher.js`：`VIEWS` 表定义 9 视图（render + bind 成对），`goTo()` 懒渲染 + 导航竞态保护。
+- `js/launcher.js`：`VIEWS` 表定义 **10** 视图（9 个常规视图 + `playtime` 委托给 `SG.playtime` 模块），render + bind 成对注册，`goTo()` 懒渲染 + 导航竞态保护。
 - `js/api.js`：所有后端调用封装，`live`（HTTP）+ `_mock`（file:// 内存降级）双通道。
 - `js/i18n.js`：中英双语键。
 - `css/figma.css`：设计系统（见 design-system.md）。
@@ -52,14 +52,14 @@
 
 ### 3. C# 服务层（`Pineglow.Launcher.Services/`）
 
-- 约 67 个服务，静态类/实例类并存，构造注入，无 IoC 容器。
+- **85 个服务**（`Pineglow.Launcher.Services/*.cs` 磁盘实测，2026-11-06 计数；早期文档写的「约 67 个」已过时），静态类/实例类并存，构造注入，无 IoC 容器。
 - 均以 `Pineglow.Launcher.*` 命名空间（MCMini 残留已清零，仅剩用户数据路径 `%AppData%\MCMiniLauncher`）。
 - `LocalApiService` 是唯一对前端暴露的网关（详见 engineering.md / api-reference.md）。
 
 ## 三、通信协议
 
 - 本体：`http://127.0.0.1:48123`（端口可用环境变量 `PINEGLOW_API_PORT` 覆盖）。
-- 前端 → 后端：`fetch` + HTTP（GET/POST/DELETE/OPTIONS），CORS 全放开（`*`）。
+- 前端 → 后端：`fetch` + HTTP（GET/POST/DELETE/OPTIONS），每请求携带进程内会话令牌 `X-Pineglow-Token`；Origin 仅接受回环同端口，CORS 只回显校验通过的 Origin（**不是** `*`）。完整机制见 [api-reference.md](api-reference.md) 1.1 节。
 - 前端 → 窗口：`window.postMessage`（`window-control` / `drag-*`）。
 - 降级：`file://` 模式下 `api.js` 走 `_mock`，界面可独立演示。
 

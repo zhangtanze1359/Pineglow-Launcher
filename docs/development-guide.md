@@ -1,6 +1,6 @@
 # 开发指南（Pineglow Launcher）
 
-> 反映 2026-08-16 状态。面向日常开发 / 构建 / 测试 / 发布，与本知识库其他文档配套阅读。
+> **最后核对日：2026-11-06**。面向日常开发 / 构建 / 测试 / 发布，与本知识库其他文档配套阅读。
 > 技术栈：Avalonia 12（仅作 WebView2 宿主）+ Web 前端（HTML/CSS/JS）+ .NET 10 服务层。
 
 ## 一、仓库与盘子结构
@@ -13,8 +13,8 @@
 ├── dev/
 │   ├── PineglowLauncher/            # 主项目（net10.0, x64, WinExe）
 │   │   ├── Pineglow.Launcher/       #   入口（App/Program）
-│   │   ├── Pineglow.Launcher.Models/#   数据模型（约 49 个）
-│   │   ├── Pineglow.Launcher.Services/# 服务层（约 67 个，核心业务）
+│   │   ├── Pineglow.Launcher.Models/#   数据模型（52 个 .cs）
+│   │   ├── Pineglow.Launcher.Services/# 服务层（85 个 .cs，核心业务）
 │   │   ├── Pineglow.Launcher.Views/ #   WebShellWindow（Avalonia 宿主）
 │   │   ├── Pineglow.Launcher.csproj
 │   │   └── VerifyHost/              # 轻量控制台宿主：起 LocalApiService + --bisect-smoke 冒烟
@@ -99,13 +99,14 @@ dev/PineglowLauncher/VerifyHost/bin/Debug/net10.0/VerifyHost.exe --bisect-smoke
 
 ## 六、改动纪律（重要）
 
-1. **服务层原样复用，勿重写**：核心逻辑在 `Pineglow.Launcher.Services`（约 67 个），前端 / API / UI 只是"接通 + 写盘"。改功能先改服务，再补 API 端点与前端封装。
-2. **新增 API 端点**：在 `LocalApiService.HandleApiAsync` 的手工路由处加分支（`seg` 逐段匹配），并同步更新 `docs/api-reference.md`。
-3. **前后端双写**：`api.js` 的 `live` 与 `_mock` 必须同步（见第四节）。
-4. **版本单一来源**：`AssemblyInfo.cs`（`GenerateAssemblyInfo=False` 手动管理）运行时为准，csproj 的 `<Version>` 供发布脚本引用，二者必须一致。
+1. **服务层原样复用，勿重写**：核心逻辑在 `Pineglow.Launcher.Services`（85 个 `.cs`，2026-11-06 实测），前端 / API / UI 只是"接通 + 写盘"。改功能先改服务，再补 API 端点与前端封装。
+2. **新增 API 端点**：在 `LocalApiService.HandleApiAsync` 的手工路由处加分支（`seg` 逐段匹配），并同步更新 `docs/api-reference.md`。**新增分支必须同时补一条打到 HTTP 层的路由可达测试**——只测服务层发现不了「守卫条件恒假、路由落进 404 兜底」这类缺陷（2026-10-03 曾有 10 条路由因此永不可达）。
+3. **前后端双写**：`api.js` 的 `live` 与 `_mock` 必须同步（见第四节）。**新请求必须带 `X-Pineglow-Token` 头**，`live` 通道里由统一封装注入，不要在业务代码里逐个手写。
+4. **版本单一来源**：`dev/PineglowLauncher/Pineglow.Launcher.csproj` 的 `<Version>` 是程序集、文件与发布产物的**唯一来源**（csproj 内已有注释说明）。仓库中**不存在** `AssemblyInfo.cs`；`GenerateAssemblyInfo` 保持默认（true）。历史文档曾写「AssemblyInfo.cs 为运行时准、csproj 供发布脚本引用」，与代码不符，已更正——不要按旧说法手写第二处版本号。
 5. **配置改动**：`AppConfig` 增删字段涉及全量落盘 `config.json`；含密钥的字段加 `[JsonIgnore]` 避免明文落盘（先例：`CurseForgeKey`）。
-6. **设计令牌**：颜色值一律走 `ui/css/figma.css` 顶部 token（`--base/--card/--green/--text/...`），禁止在组件里硬编码色值（见 `docs/design-system.md`）。
-7. **隐私**：涉及日志/崩溃内容外发（如未来 AI 诊断）时，需提示用户内容含用户名/绝对路径。
+6. **设计令牌**：颜色值一律走 CSS token，禁止在组件里硬编码色值（见 `docs/design-system.md`）。**激活来源**：`ui/css/figma.css` 先加载、`pineglow.css` 随后覆盖、`redesign.css` 最后；同名 token 以**后加载者**为准（`--base` 最终为 `pineglow.css` 的 `#10191b`，不是 figma.css 的 `#0d0e11`）。
+7. **本地 API 安全边界**：进程内会话令牌 + Origin 回环同端口白名单 + `PathSafetyGuard`。改 `LocalApiService` 的静态资源投放或鉴权时先读 `docs/api-reference.md` 1.1 节，**不要**把 CORS 改回 `*`，也不要把令牌写进日志或落盘。
+8. **隐私**：涉及日志/崩溃内容外发（如 AI 诊断）时，需提示用户内容含用户名/绝对路径。
 
 ## 七、发布与镜像
 

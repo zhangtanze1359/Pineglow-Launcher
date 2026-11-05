@@ -1,10 +1,12 @@
 # 工程与服务层
 
-> 反映 2026-08-16 状态。包含服务层索引与 **LocalApiService 实现逻辑深析**（2026-08-16 对话产出）。
+> **最后核对日：2026-11-06**。包含服务层索引与 **LocalApiService 实现逻辑深析**。
 
-## 一、服务层索引（约 67 个服务）
+## 一、服务层索引（85 个 `.cs`，2026-11-06 磁盘实测）
 
-位于 `dev/PineglowLauncher/Pineglow.Launcher.Services/`，按职责分组：
+位于 `dev/PineglowLauncher/Pineglow.Launcher.Services/`，按职责分组。
+
+> 口径：85 = 该目录下 `*.cs` 文件数（含模型/接口/内部辅助类），不等于「可注入的业务服务」数量。历史文档写的「约 67 个」「76 个」分别是 2026-08 与 2026-10-02 的旧快照，均已过时。该数字会随文件增删漂移，**引用时须注明核对日**。
 
 ### 启动与运行
 - `LauncherService` — 构建 Java 启动命令、解析版本/classpath/natives、进程托管、游玩统计
