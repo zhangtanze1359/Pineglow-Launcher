@@ -2931,12 +2931,31 @@ function bindDownloads(el) {
 	}));
 	el.querySelectorAll('[data-dlver]').forEach(b => b.addEventListener('click', async () => {
 		const id = b.dataset.dlver;
-		b.textContent = t('dl.queuing'); b.classList.add('installed');
+		const original = b.textContent;
+		// 与 Play 按钮相同的形变：先固定当前宽度，再收缩为圆形加载
+		const full = b.offsetWidth;
+		b.style.width = full + 'px';
+		void b.offsetWidth;
+		b.classList.add('is-queuing');
+		b.style.width = '28px';
+		b.setAttribute('aria-label', t('dl.queuing'));
+		// 动效完整播完（约 0.9 秒）后再刷新列表，即使请求很快返回也不截断动画
+		const minWait = new Promise(res => setTimeout(res, 900));
 		try {
 			await SG.api.downloadVersion(id);
+			await minWait;
 			toast(t('dl.queued', { id }));
 			await reloadDownloadsView(el);
-		} catch (e) { toast(t('dl.downloadFailed') + (e.message || t('common.unknownError'))); }
+		} catch (e) {
+			await minWait;
+			// 失败时展开回原按钮，避免一直停在加载状态
+			b.classList.remove('is-queuing');
+			b.removeAttribute('aria-label');
+			b.style.width = full + 'px';
+			setTimeout(() => { b.style.width = ''; }, 900);
+			b.textContent = original;
+			toast(t('dl.downloadFailed') + (e.message || t('common.unknownError')));
+		}
 	}));
 	// CV-04：真实的"重试"入口（版本源与下载任务各自独立）。
 	el.querySelectorAll('[data-dl-retry]').forEach(b => b.addEventListener('click', () => { reloadDownloadsView(el, b); }));
@@ -3114,10 +3133,64 @@ async function doLaunch(instanceId, label) {
 	} finally { launchInFlight = false; }
 }
 
+let playLaunchStartedAt = 0;
+let playLaunchTimer = null;
+let playDoneTimer = null;
+let playSettleTimer = null;
+const PLAY_LAUNCH_MIN_MS = 1200; // 保证加载形变至少可见，启动请求很快返回时也不会一闪而过
+const PLAY_DONE_MS = 1500;        // 成功对勾停留时长，之后按钮展开回原宽度
+const PLAY_MORPH_MS = 500;        // 与 CSS 中宽度过渡时长保持一致
+// 形变链：宽按钮 → 圆形加载 → (成功)圆形对勾 → 宽按钮
+// 宽度必须在两个像素值之间过渡（auto 无法过渡），因此收缩前记录实际宽度，展开后再清除内联宽度
+function setPlayLaunching(on, ok) {
+	clearTimeout(playLaunchTimer);
+	clearTimeout(playDoneTimer);
+	clearTimeout(playSettleTimer);
+	const btn = document.getElementById('btnPlay');
+	if (!btn) return;
+	if (on) {
+		playLaunchStartedAt = Date.now();
+		// 若上一轮对勾尚未收起，当前宽度是 44px，应沿用已记录的原宽度
+		const shrunk = btn.classList.contains('is-done') || btn.classList.contains('is-launching');
+		const full = (shrunk && Number(btn.dataset.fullW)) || btn.offsetWidth;
+		btn.dataset.fullW = full;
+		btn.style.width = full + 'px';
+		void btn.offsetWidth; // 先固定当前宽度，再开始收缩
+		btn.classList.remove('is-done');
+		btn.classList.add('is-launching');
+		btn.style.width = '44px';
+		// 文字在加载/完成态被隐藏，这里保留可访问名称并标记忙碌状态
+		btn.setAttribute('aria-busy', 'true');
+		btn.setAttribute('aria-label', t('home.play'));
+		return;
+	}
+	const wait = Math.max(0, PLAY_LAUNCH_MIN_MS - (Date.now() - playLaunchStartedAt));
+	playLaunchTimer = setTimeout(() => {
+		btn.classList.remove('is-launching');
+		btn.removeAttribute('aria-busy');
+		if (ok) {
+			btn.classList.add('is-done');
+			playDoneTimer = setTimeout(expandPlayBtn, PLAY_DONE_MS);
+		} else {
+			expandPlayBtn();
+		}
+	}, wait);
+}
+function expandPlayBtn() {
+	const btn = document.getElementById('btnPlay');
+	if (!btn) return;
+	btn.classList.remove('is-done');
+	btn.removeAttribute('aria-label');
+	btn.style.width = (btn.dataset.fullW || '') + 'px';
+	playSettleTimer = setTimeout(() => { btn.style.width = ''; }, PLAY_MORPH_MS);
+}
+
 function doLaunchInternal(instanceId, label) {
 	toast(t('launch.starting', { name: label || t('launch.game') }));
+	setPlayLaunching(true);
 	return SG.api.launchInstance(instanceId)
 		.then(r => {
+			setPlayLaunching(false, !!(r && r.ok));
 			if (r && r.ok) {
 				toast(t('launch.sent'));
 				// 快捷操作：启动后最小化启动器
@@ -3128,7 +3201,7 @@ function doLaunchInternal(instanceId, label) {
 				}
 			} else toast((r && r.message) || t('launch.failed'));
 		})
-		.catch(err => toast(t('launch.failedPrefix') + ((err && err.message) || t('common.unknownError'))));
+		.catch(err => { setPlayLaunching(false); toast(t('launch.failedPrefix') + ((err && err.message) || t('common.unknownError'))); });
 }
 
 /* ---------------- Play 页 ---------------- */

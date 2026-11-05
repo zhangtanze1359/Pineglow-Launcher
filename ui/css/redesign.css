@@ -252,6 +252,49 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .home-hero-art { position:relative; inset:auto; height:120px; background:url('../assets/pine-forest-night.svg') center top/cover; opacity:1; border-bottom:1px solid var(--border); }
 .home-hero-art::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg,transparent 14%,rgba(16,17,17,.94) 100%); }
 .home-hero-content { padding:20px; gap:20px; }
+/* Play button: loading morph while the real launch request is in flight (driven by doLaunchInternal) */
+.play-btn { transition:width .5s cubic-bezier(.2,.8,.2,1), border-radius .5s ease, background-color .35s ease; }
+.home-launch-controls .play-btn.is-launching { pointer-events:none; width:44px; min-width:0; max-width:none; height:44px; padding:0; justify-content:center; border-radius:22px; }
+.home-launch-controls .play-btn.is-launching span { display:none; }
+.home-launch-controls .play-btn.is-launching svg { display:none; }
+.home-launch-controls .play-btn.is-launching::before { content:""; display:block; width:18px; height:18px; box-sizing:border-box; border:2px solid currentColor; border-right-color:transparent; border-radius:50%; animation:play-btn-spin .8s linear infinite; }
+@keyframes play-btn-spin { to { transform:rotate(360deg); } }
+/* Success state: same circle, spinner becomes a check, then the button expands back to full width */
+.home-launch-controls .play-btn.is-done { pointer-events:none; width:44px; min-width:0; max-width:none; height:44px; padding:0; justify-content:center; border-radius:22px; }
+.home-launch-controls .play-btn.is-done span { display:none; }
+.home-launch-controls .play-btn.is-done svg { display:none; }
+.home-launch-controls .play-btn.is-done::after { content:""; display:block; width:7px; height:13px; border-right:2px solid currentColor; border-bottom:2px solid currentColor; transform:rotate(45deg); animation:play-btn-check .45s cubic-bezier(.2,.8,.2,1) .15s both; }
+@keyframes play-btn-check { from { opacity:0; transform:rotate(45deg) scale(.4); } to { opacity:1; transform:rotate(45deg) scale(1); } }
+@media (prefers-reduced-motion: reduce) { .play-btn, .home-launch-controls .play-btn.is-launching::before, .home-launch-controls .play-btn.is-done::after { transition:none; animation:none; } }
+
+/* One-shape morph language on real controls: state changes spring-ease, no decorative loops */
+.toggle::after { transition:transform .42s cubic-bezier(.34,1.4,.64,1), width .3s cubic-bezier(.34,1.4,.64,1), background-color .3s ease; }
+.toggle { transition:background-color .3s ease, border-color .3s ease; }
+/* Knob stretches toward its travel direction while pressed, then springs back on release */
+.toggle:not(.on):active::after { width:20px; }
+.toggle.on:active::after { width:20px; transform:translateX(8px); }
+.memory-range::-webkit-slider-thumb { transition:transform .32s cubic-bezier(.34,1.4,.64,1); }
+.memory-range:active::-webkit-slider-thumb { transform:scale(1.25); }
+/* Selected-tab indicator grows from the centre instead of appearing instantly */
+.mod-filters button, .drawer-tabs button { position:relative; transition:background-color .3s ease, color .3s ease; }
+.mod-filters button::after, .drawer-tabs button::after { content:""; position:absolute; left:12px; right:12px; bottom:0; height:2px; background:var(--fg); transform:scaleX(0); transition:transform .4s cubic-bezier(.34,1.4,.64,1); }
+.mod-filters button[aria-pressed="true"]::after, .drawer-tabs button[aria-pressed="true"]::after { transform:scaleX(1); }
+.palette-item { transition:background-color .15s ease, transform .15s ease; }
+.palette-item:active { transform:scale(.98); }
+.toast { transition:opacity .3s ease, transform .45s cubic-bezier(.34,1.4,.64,1); }
+/* Toast rises from its bottom anchor with a spring; the palette results enter in a short stagger */
+.toast.show { transform:translateX(-50%) translateY(0) scale(1); }
+.toast:not(.show) { transform:translateX(-50%) translateY(20px) scale(.96); }
+.palette-results .palette-item { animation:palette-item-in .36s cubic-bezier(.2,.8,.2,1) both; }
+.palette-results .palette-item:nth-child(2) { animation-delay:50ms; }
+.palette-results .palette-item:nth-child(3) { animation-delay:100ms; }
+.palette-results .palette-item:nth-child(4) { animation-delay:150ms; }
+.palette-results .palette-item:nth-child(n+5) { animation-delay:200ms; }
+@keyframes palette-item-in { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+@media (prefers-reduced-motion: reduce) {
+  .toggle, .toggle::after, .memory-range::-webkit-slider-thumb, .mod-filters button, .mod-filters button::after, .drawer-tabs button, .drawer-tabs button::after, .palette-item, .toast { transition:none; }
+  .palette-results .palette-item { animation:none; }
+}
 .home-launch-row { flex-wrap:wrap; gap:20px; }
 .home-instance-info { min-width:0; flex:1; }
 .home-kicker { font:12px var(--font-data); letter-spacing:.2px; color:var(--meta); }
@@ -375,7 +418,13 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .version-row { border:0; border-top:1px solid var(--border); border-radius:0; background:transparent; padding:12px 8px; min-height:72px; }
 .version-row:first-child { border-top:0; }
 .version-name { font-size:14px; }
-.version-dl-btn { min-height:28px; height:28px; padding:0 12px; font-size:12px; background:transparent; color:var(--fg); border:1px solid rgba(249,249,249,.10); }
+.version-dl-btn { position:relative; min-height:28px; height:28px; padding:0 12px; font-size:12px; background:transparent; color:var(--fg); border:1px solid rgba(249,249,249,.10); white-space:nowrap; transition:width .9s cubic-bezier(.45,0,.2,1), border-radius .9s ease, background-color .6s ease, color .6s ease, border-color .6s ease, transform .5s cubic-bezier(.34,1.4,.64,1); }
+/* 按下明显压缩，松开弹回 */
+.version-dl-btn:not(.installed):active { transform:scale(.9); }
+/* 排队：收缩为圆形，文字隐去，中间转动加载圈 */
+.version-dl-btn.is-queuing { color:transparent; padding:0; border-radius:50%; border-color:var(--fg); pointer-events:none; }
+.version-dl-btn.is-queuing::before { content:""; position:absolute; left:50%; top:50%; width:12px; height:12px; margin:-6px 0 0 -6px; box-sizing:border-box; border:2px solid var(--fg); border-right-color:transparent; border-radius:50%; animation:play-btn-spin .8s linear infinite; }
+@media (prefers-reduced-motion: reduce) { .version-dl-btn, .version-dl-btn.is-queuing::before { transition:none; animation:none; } .version-dl-btn:not(.installed):active { transform:none; } }
 .download-tasks .download-card,.download-tasks .dl-task { padding:12px 8px; border:0; border-top:1px solid var(--border); border-radius:0; background:transparent; }
 .dl-task-icon { background:var(--bg)!important; }
 .content-view.news-view { padding:16px; background:var(--surface); border:1px solid var(--border); }
