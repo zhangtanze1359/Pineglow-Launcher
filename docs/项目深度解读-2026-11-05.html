@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>松光启动器 · 项目深度解读（2026-11-05）</title>
+<style>
+:root{
+  --bg:#0b0d10; --surface:#14181d; --surface-2:#1b2027; --line:#2a3038;
+  --text:#e9edf1; --muted:#9aa5b1; --faint:#6f7a86;
+  --green:#7fdca6; --red:#ff7a7a; --amber:#e8bd6a; --blue:#82b9f2; --purple:#bba4f0;
+  --mono:'Cascadia Mono',Consolas,'SF Mono',Menlo,monospace;
+  --sans:'Inter','PingFang SC','Microsoft YaHei',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px 100px}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+code{font-family:var(--mono);font-size:.88em;background:var(--surface-2);padding:2px 6px;border-radius:4px;color:#d7e2ee}
+pre{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.6;color:#c9d6e3}
+pre code{background:none;padding:0;color:inherit}
+
+/* header */
+header.hero{padding:64px 0 40px;border-bottom:1px solid var(--line)}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.18em;color:var(--green);text-transform:uppercase}
+h1{font-size:38px;line-height:1.25;margin:14px 0 10px;letter-spacing:-.02em}
+.sub{color:var(--muted);font-size:16px;margin:0;max-width:760px}
+.meta{margin-top:22px;font-family:var(--mono);font-size:12px;color:var(--faint)}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:32px}
+.metric{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.metric b{display:block;font-size:24px;font-family:var(--mono);color:var(--green);line-height:1.2}
+.metric span{font-size:12px;color:var(--muted)}
+
+/* nav */
+nav.toc{margin:28px 0 0;padding:16px 20px;background:var(--surface);border:1px solid var(--line);border-radius:12px;columns:2;column-gap:32px;font-size:13.5px}
+nav.toc a{display:block;padding:3px 0;color:var(--muted);break-inside:avoid}
+nav.toc a:hover{color:var(--text)}
+nav.toc .num{font-family:var(--mono);color:var(--faint);margin-right:8px}
+
+section{padding-top:56px}
+h2{font-size:25px;margin:0 0 6px;letter-spacing:-.01em;display:flex;align-items:baseline;gap:12px}
+h2 .n{font-family:var(--mono);font-size:14px;color:var(--green);font-weight:400}
+.lead{color:var(--muted);margin:0 0 22px;font-size:14.5px}
+h3{font-size:17px;margin:30px 0 10px;color:#f2f5f8}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 16px;padding-left:22px}
+li{margin-bottom:7px}
+strong{color:#fff;font-weight:600}
+hr{border:0;border-top:1px solid var(--line);margin:40px 0}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:16px 0}
+.card.tight{padding:14px 18px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.tag{display:inline-block;font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:20px;border:1px solid var(--line);color:var(--muted);margin-right:6px}
+.tag.g{color:var(--green);border-color:#2c5a40}
+.tag.r{color:var(--red);border-color:#5c3030}
+.tag.a{color:var(--amber);border-color:#5c4a28}
+.tag.b{color:var(--blue);border-color:#2c4660}
+
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+th{text-align:left;background:var(--surface-2);color:var(--muted);font-weight:500;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td code{font-size:12px}
+
+.callout{border-left:3px solid var(--green);background:rgba(127,220,166,.06);padding:14px 18px;border-radius:0 10px 10px 0;margin:18px 0;font-size:14px}
+.callout.warn{border-left-color:var(--amber);background:rgba(232,189,106,.06)}
+.callout.risk{border-left-color:var(--red);background:rgba(255,122,122,.06)}
+.callout .t{font-weight:600;color:#fff;display:block;margin-bottom:4px}
+
+/* architecture figure */
+figure{margin:20px 0;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;overflow-x:auto}
+figure svg{display:block;margin:0 auto;min-width:640px}
+figcaption{text-align:center;color:var(--faint);font-size:12px;margin-top:12px;font-family:var(--mono)}
+
+/* timeline */
+.timeline{position:relative;padding-left:26px;margin:20px 0}
+.timeline:before{content:'';position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl{position:relative;margin-bottom:20px}
+.tl:before{content:'';position:absolute;left:-23px;top:8px;width:10px;height:10px;border-radius:50%;background:var(--surface);border:2px solid var(--green)}
+.tl.bad:before{border-color:var(--red)}
+.tl.mid:before{border-color:var(--amber)}
+.tl .d{font-family:var(--mono);font-size:12px;color:var(--green)}
+.tl.bad .d{color:var(--red)}
+.tl.mid .d{color:var(--amber)}
+.tl .h{font-weight:600;margin:2px 0 3px}
+.tl .b{color:var(--muted);font-size:13.5px}
+
+.risk-p0{border-left:3px solid var(--red)}
+.risk-p1{border-left:3px solid var(--amber)}
+.risk-p2{border-left:3px solid var(--blue)}
+.foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);color:var(--faint);font-size:12.5px}
+@media(max-width:760px){.metrics,.grid2,.grid3{grid-template-columns:1fr}nav.toc{columns:1}h1{font-size:29px}.wrap{padding:0 18px 60px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div class="kicker">Pineglow Launcher / 工程解读快照</div>
+  <h1>松光启动器：一个被「独立验收」雕出来的<br>Minecraft 启动器</h1>
+  <p class="sub">这不是一份功能介绍。它回答的是：这个项目到底怎么运转、为什么长成现在这样、哪些地方扎实、哪些地方正在拖后腿，以及现在这一刻它真实处在什么状态。</p>
+  <div class="meta">解读时间 2026-11-05 · 依据 D:\松光启动器 工作区源码、CI 配置、538 份文档与 11-03 发布候选证据 · 快照性质，非项目官方知识库条目</div>
+  <div class="metrics">
+    <div class="metric"><b>26.6k</b><span>C# 主源码行数（85 个服务 / 52 个模型）</span></div>
+    <div class="metric"><b>1,337</b><span>已通过的自动化测试（957 C# + 380 前端）</span></div>
+    <div class="metric"><b>~60</b><span>本地 HTTP API 端点，全在一个 5,816 行类里</span></div>
+    <div class="metric"><b>538</b><span>docs/ 下的 Markdown，远超源码文件数</span></div>
+  </div>
+  <nav class="toc">
+    <a href="#s1"><span class="num">01</span>一句话结论</a>
+    <a href="#s2"><span class="num">02</span>它是什么：定位与规模</a>
+    <a href="#s3"><span class="num">03</span>架构解剖：三层与一条数据总线</a>
+    <a href="#s4"><span class="num">04</span>六个真正决定成败的机制</a>
+    <a href="#s5"><span class="num">05</span>安全模型：被反复返工的部分</a>
+    <a href="#s6"><span class="num">06</span>质量体系与「独立验收」文化</a>
+    <a href="#s7"><span class="num">07</span>项目沿革：从 8 月到 11 月</a>
+    <a href="#s8"><span class="num">08</span>此刻的真实状态（未提交改动与发布失败）</a>
+    <a href="#s9"><span class="num">09</span>技术债与风险清单（分级）</a>
+    <a href="#s10"><span class="num">10</span>建议的下一步</a>
+    <a href="#s11"><span class="num">11</span>关键文件索引</a>
+  </nav>
+</header>
+
+<section id="s1">
+  <h2><span class="n">01</span> 一句话结论</h2>
+  <p class="lead">先给判断，后面全部是证据。</p>
+  <div class="card">
+    <p><strong>这是一个功能完整度远超个人项目平均水平、安全与交付纪律近乎偏执，但架构复杂度已经明显超出其文档治理能力的 Windows 原生启动器。</strong></p>
+    <p>它的核心不是 UI，也不是 Minecraft 协议，而是<strong>一个把 Web 前端当作「远程客户端」来对待的本地 HTTP 服务</strong>。所有能力——启动游戏、装 Mod、二分定位崩溃、AI 诊断、自更新——都被收拢到 <code>LocalApiService</code> 这一个静态类里。这个决定带来了极快的迭代速度和极强的可测试性，也留下了项目最重的一笔债。</p>
+    <p>更值得注意的是<strong>它的开发方式</strong>：docs/ 里有 538 份 Markdown，大量是「执行提示词 → 工作流 → 独立验收 → 返工 → 复验」的成对记录，代码里到处是 <code>MR04</code>、<code>R01</code>、<code>Phase 3B</code> 这类返工编号的注释。项目是被 AI 辅助执行 + 人工独立验收反复雕出来的，因此「证据链完整」和「文档严重滞后」这两个特征同时存在。</p>
+  </div>
+  <div class="grid3">
+    <div class="card tight"><span class="tag g">扎实</span><h3 style="margin:8px 0 6px">安全边界</h3><p style="margin:0;color:var(--muted);font-size:13.5px">会话令牌、Origin 白名单、SSRF 精确域名白名单、路径重解析点钉住、凭据隔离、导出脱敏，都有代码与测试双重落地。</p></div>
+    <div class="card tight"><span class="tag g">扎实</span><h3 style="margin:8px 0 6px">发布工程</h3><p style="margin:0;color:var(--muted);font-size:13.5px">单文件自包含、嵌入 UI 内容指纹解包、冷启动真窗口验收、测试清单双向断言，是发布级而非玩具级。</p></div>
+    <div class="card tight"><span class="tag r">吃紧</span><h3 style="margin:8px 0 6px">可维护性</h3><p style="margin:0;color:var(--muted);font-size:13.5px">5,816 行上帝类 + 249KB 单文件 JS + 三套叠加 CSS + 标着 8 月却描述着 10 月行为的「唯一可信源」文档。</p></div>
+  </div>
+</section>
+
+<section id="s2">
+  <h2><span class="n">02</span> 它是什么：定位与规模</h2>
+  <p class="lead">GPL-3.0 开源，仓库 github.com/zhangtanze1359/Pineglow-Launcher，.NET 10 / Avalonia 12。</p>
+  <p><strong>产品定位</strong>：对标 HMCL、PCL2、Prism Launcher、Modrinth App 的第三方 Minecraft 启动器。功能面已经很宽——离线 / 微软正版 / Authlib 外置登录；官方版本安装与 SHA1 校验、断点续传与可恢复任务；Forge / Fabric / NeoForge / Quilt / OptiFine；Modrinth / CurseForge 内容搜索与安装；实例隔离、实例级 Java；Mod 健康检查、依赖解析、二分定位；存档备份、服务器 Ping；皮肤 3D 预览（内嵌 Three.js）；崩溃规则分析 + OpenAI 兼容 AI 诊断；自更新与中英双语。</p>
+  <p><strong>它的差异化</strong>不是功能数量，而是两件事：纯 Web UI 带来的前端迭代成本，以及「崩溃日志 → AI 解释 + 一键禁用嫌疑 Mod」这条闭环（roadmap 明确论证：竞品里 HMCL-AE 仍停留在试验阶段）。另外工程底子里的<strong>可逆性设计</strong>很突出——删 Mod 进恢复区、替换失败回滚、二分定位结束自动恢复、删除实例只删配置不删文件。</p>
+
+  <table>
+    <tr><th>层面</th><th>实际规模</th><th>说明</th></tr>
+    <tr><td>后端</td><td>26,618 行 C# / 85 个服务文件 / 52 个模型</td><td>文档 claims「约 67 个服务、49 个模型」，已过时</td></tr>
+    <tr><td>API 层</td><td><code>LocalApiService.cs</code> 单文件 5,816 行</td><td>约 60 个端点，手工 <code>seg.Length</code> 路由</td></tr>
+    <tr><td>前端</td><td>7,756 行 JS / 1,977 行 CSS</td><td><code>launcher.js</code> 单文件 249 KB；零构建、零 npm 依赖</td></tr>
+    <tr><td>测试</td><td>23,156 行 C# 测试 + 10,847 行前端测试</td><td>957 + 380 = 1,337 项，11-03 快照全绿</td></tr>
+    <tr><td>文档</td><td>538 份 .md，docs/ 共 5,242 个文件</td><td>含大量 JSON/日志/截图证据包</td></tr>
+    <tr><td>视图</td><td>10 个（home / installations / worlds / servers / playtime / content / skins / downloads / news / settings）</td><td>知识库写「9 视图」，缺 playtime</td></tr>
+  </table>
+
+  <div class="callout warn">
+    <span class="t">一个必须知道的限制</span>
+    README 自称「跨平台」，但正式支持只有 <strong>Windows x64</strong>。Avalonia 壳里是 <code>user32.dll</code> / <code>dwmapi.dll</code> 的 P/Invoke（无边框缩放、Win11 圆角、窗口拖拽），Web 界面依赖 WebView2 Runtime。CI 会编出 Linux/macOS 产物，但端到端只在 Windows 验证过——文档自己也明确写了「不能视为正式跨平台发布支持」。
+  </div>
+</section>
+
+<section id="s3">
+  <h2><span class="n">03</span> 架构解剖：三层与一条数据总线</h2>
+  <p class="lead">最常见的误读是把它当成「Avalonia 应用」。实际上 Avalonia 只负责画一个窗口和承载 WebView2。</p>
+
+  <figure>
+  <svg viewBox="0 0 700 360" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Microsoft YaHei',sans-serif">
+    <defs>
+      <marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#7fdca6"/></marker>
+      <marker id="arb" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#82b9f2"/></marker>
+    </defs>
+    <!-- shell -->
+    <rect x="30" y="26" width="640" height="72" rx="10" fill="#1b2027" stroke="#2a3038"/>
+    <text x="48" y="52" fill="#e9edf1" font-size="14" font-weight="600">Avalonia 12 壳（WebShellWindow）</text>
+    <text x="48" y="74" fill="#9aa5b1" font-size="12">Win32 hook · 无边框缩放 / 圆角 / 拖拽 · WebMessageReceived 窗口控制</text>
+    <text x="48" y="91" fill="#6f7a86" font-size="11" font-family="monospace">Program.cs → App.cs → LocalApiService.Start() → Web.Source</text>
+
+    <!-- web -->
+    <rect x="30" y="130" width="640" height="76" rx="10" fill="#1b2027" stroke="#2a3038"/>
+    <text x="48" y="156" fill="#e9edf1" font-size="14" font-weight="600">ui/ 纯 Web 前端（HTML/CSS/JS，零构建）</text>
+    <text x="48" y="178" fill="#9aa5b1" font-size="12">10 个视图 · launcher.js（render/bind + navSeq 竞态）· api.js（live/_mock 双通道）</text>
+    <text x="48" y="196" fill="#6f7a86" font-size="11" font-family="monospace">i18n.js · playtime.js · update-monitor.js · skin3d + vendor/three.min.js</text>
+
+    <!-- api -->
+    <rect x="30" y="238" width="640" height="94" rx="10" fill="#14281d" stroke="#2c5a40"/>
+    <text x="48" y="264" fill="#7fdca6" font-size="14" font-weight="600">LocalApiService · HttpListener 127.0.0.1:48123</text>
+    <text x="48" y="286" fill="#c9d6e3" font-size="12">API 服务器 + 静态文件服务器 · Session Token / Origin 校验 · 手工路由</text>
+    <text x="48" y="305" fill="#9aa5b1" font-size="11.5" font-family="monospace">DownloadTasks / ContentTasks / UpdateGate 三套异步状态机 · ConfigGate 全量落盘</text>
+    <text x="48" y="322" fill="#6f7a86" font-size="11">下方是 85 个 C# 服务：LauncherService / ModService / AiDiagnoseService / UpdateService / SecretStore …</text>
+
+    <line x1="350" y1="98" x2="350" y2="128" stroke="#82b9f2" stroke-width="2" marker-end="url(#arb)"/>
+    <text x="360" y="118" fill="#82b9f2" font-size="11" font-family="monospace">加载 http://127.0.0.1:port/?v=时间戳</text>
+    <line x1="250" y1="206" x2="250" y2="236" stroke="#7fdca6" stroke-width="2" marker-end="url(#ar)"/>
+    <text x="258" y="226" fill="#7fdca6" font-size="11" font-family="monospace">fetch /api/* + X-Pineglow-Token</text>
+    <line x1="560" y1="236" x2="560" y2="208" stroke="#82b9f2" stroke-width="2" marker-end="url(#arb)"/>
+    <text x="450" y="226" fill="#82b9f2" font-size="11" font-family="monospace">托管 HTML/CSS/JS</text>
+  </svg>
+  <figcaption>图 1 · 三层职责与唯一的数据总线（端口可用 PINEGLOW_API_PORT 覆盖）</figcaption>
+  </figure>
+
+  <h3>为什么这个架构值得肯定</h3>
+  <ul>
+    <li><strong>前后端彻底解耦</strong>：改 <code>ui/</code> 不需要重编 C#；<code>file://</code> 直接打开 index.html 就是一套内存 mock 的完整可演示界面。这让 UI 验收可以脱离后端独立进行。</li>
+    <li><strong>业务逻辑只有一份</strong>：开发纪律明确写「前端禁止重复实现启动/下载逻辑」，前端只是「接通 + 渲染」。</li>
+    <li><strong>API 天然可被测试驱动</strong>：HTTP 接口比 WebView 桥接好测得多，项目里有 <code>VerifyHost --bisect-smoke</code> 这种进程内起服务、自建 portable 沙盒、跑完自动清理的 API 级 E2E。</li>
+  </ul>
+  <h3>代价</h3>
+  <ul>
+    <li>浏览器里跑的页面可以调用能启动任意 Java 进程、删改游戏文件的本地 API——所以<strong>会话令牌不是可选项而是生死线</strong>（见第 5 节）。</li>
+    <li>静态类 + 全局可变状态承担了全部编排，<code>LoadConfig()</code> 里还有 <code>GetAwaiter().GetResult()</code> 的同步阻塞，并发下有锁竞争与线程池压力隐患。</li>
+    <li>手工路由靠 <code>seg.Length</code> 逐段匹配，历史上真的出过事故：10 条路由因为被嵌在 <code>seg.Length == 4</code> 块内而<strong>恒假、永远 404</strong>（2026-10-03 才修复并补了静态断言测试）。</li>
+  </ul>
+</section>
+
+<section id="s4">
+  <h2><span class="n">04</span> 六个真正决定成败的机制</h2>
+  <p class="lead">读懂这六处，就读懂了这个项目 80% 的设计取舍。</p>
+
+  <h3>① 本地 API 的会话令牌闭环</h3>
+  <p>进程启动时生成 <code>RandomNumberGenerator.GetBytes(32)</code> 的十六进制令牌，只存在内存里。<code>ServeStaticAsync</code> 返回 <code>index.html</code> 时，把其中的 <code>__PINEGLOW_SESSION_TOKEN__</code> 占位符替换成真令牌；<code>api.js</code> 从 <code>&lt;meta name="pineglow-session-token"&gt;</code> 读出，注入每个 <code>fetch</code> 的 <code>X-Pineglow-Token</code>。除 <code>/api/health</code> 外所有接口都校验，用 <code>CryptographicOperations.FixedTimeEquals</code> 防时序侧信道。<code>&lt;img src&gt;</code> 无法带 header 的两个接口（皮肤图、内容图标）走等价的 <code>token=</code> 查询参数。</p>
+  <p>这解决了本地 HTTP 服务最经典的漏洞：任意网页 / DNS rebinding 通过 <code>127.0.0.1:48123</code> 暗中调用本机 API。配套的 <code>IsAllowedOrigin</code> 要求 Origin 必须是同端口的 loopback HTTP，否则 403。</p>
+
+  <h3>② 单文件发行与 UiBundle 内容指纹</h3>
+  <p>发布物是「一个 EXE，别的什么都不带」。这逼出了两处非平凡工程：</p>
+  <ul>
+    <li><code>csproj</code> 里 <code>IncludeNativeLibrariesForSelfExtract=true</code>——否则 SkiaSharp / HarfBuzz 原生库留在 publish 目录，单独拷 EXE 冷启动直接 <code>DllNotFoundException</code> 崩在 Skia 初始化（注释里记录了这次实测）。</li>
+    <li>UI 资源以 <code>EmbeddedResource</code> 嵌进程序集（发布时不再外置 <code>UI/</code>），由 <code>UiBundle</code> 按「版本 + 资源内容 SHA」解包到 <code>data/UI/&lt;key&gt;</code>，先写临时目录再整体改名。指纹的作用是<strong>防止「新后端 + 旧界面」</strong>：目录式旧安装原地换 EXE 时，残留的外置 UI/ 不会被复用。</li>
+  </ul>
+  <p>11-03 冷启动证据里，解包目录是 <code>1.0.1-5e83ae616088</code>，并逐字节比对了「解包界面 == 候选源码」，同时断言冷启动目录里没有外置 <code>UI/</code> 和原生 DLL、真实主窗口标题出现、<code>/api/health</code> 就绪。这是很硬的验收。</p>
+
+  <h3>③ 三套异步任务状态机</h3>
+  <p>重操作一律「入队即返回 + 后台跑 + 前端轮询」：<code>DownloadTasks</code>（装版本）、<code>ContentTasks</code>（装 Mod / 整合包 / 光影 / 资源包）、<code>UpdateGate</code>（自更新单任务）。分别用 <code>DownloadGate</code> / <code>ContentGate</code> / <code>UpdateGate</code> 分锁，进度通过加锁的 <code>UpdateContentTask</code> 更新。配置写入另有 <code>ConfigGate</code> + 原子替换 + <code>.bak/.prev</code> 保护。设计上干净，代价是状态全在静态字段里，进程重启后只能靠 <code>ResumableTasks</code> 这类落盘结构恢复。</p>
+
+  <h3>④ 启动参数装配（最核心的一段业务逻辑）</h3>
+  <p><code>LauncherService.BuildCommandAsync</code> → 解析版本 JSON → <code>BuildReplacements</code> 生成占位符表 → <code>ResolveJvmArguments</code> / <code>ResolveGameArguments</code> → classpath（含 natives 与加载器 client jar 判定）→ <code>Process.Start</code>。</p>
+  <div class="callout">
+    <span class="t">一处能说明项目性格的注释</span>
+    代码里明确写着「不能对整张参数表去重」：现代 Forge / NeoForge 的版本 JSON 会重复 <code>--add-opens</code> / <code>--add-exports</code> token，去重会把第二个取值当成主类，JVM 立刻退出。11-03 那次重构把 <code>goto</code> 改成 if/else 后，专门写了差分探针：19 种 JSON 形态 × 5 种 legacy 参数 × 4 种窗口 × 5 种服务器 × 2 种账号 = <strong>3,800 组输入 / 7,600 个结果，重构前后逐字节相同</strong>。这是「行为保持重构」的正确做法。
+  </div>
+
+  <h3>⑤ 数据持久化与凭据隔离</h3>
+  <p>默认配置目录仍是历史遗留的 <code>%APPDATA%\MCMiniLauncher</code>（命名空间已统一为 <code>Pineglow.Launcher.*</code>，但用户数据路径没改，避免迁移风险）。<code>AppConfig</code> 里 Microsoft token / CurseForge Key / 代理密码标 <code>[JsonIgnore]</code> 不入盘，真值走 <code>SecretStore</code>：Windows 凭据管理器（目标名 <code>MCMiniLauncher/{name}</code>），非 Windows 降级 <code>secrets.json</code>。</p>
+  <p><code>SecretStore</code> 自身也是一次安全返工的产物：修复前测试跑 5 个配置用例就会真实产生 <strong>20 次 delete-intent</strong> 打到用户凭据管理器。现在原生调用被抽成可注入的 <code>ISecretStoreBackend</code>，测试程序集在 <code>[ModuleInitializer]</code> 里换成内存后端（fail-safe），并用 <code>ProductionBackendCallCount</code> 证明「原生调用次数为 0」。</p>
+
+  <h3>⑥ 前端竞态防护（被返工次数最多的地方）</h3>
+  <p>没有框架、没有虚拟 DOM，10 个视图全靠模板字符串 <code>innerHTML</code> + 事件绑定。因此项目自己造了一套并发控制：<code>navSeq</code> 全局递增做导航代次，<code>contentPageGen</code> 单独处理资源页内交错，<code>dataset.rendered</code> 做懒渲染，<code>_modalAborters</code> 在切页时取消进行中的 AI 诊断请求，<code>NEWS_REQ_GEN</code> / <code>dlReqGen</code> 各自防陈旧响应。</p>
+  <p><code>goTo()</code> 里那段注释把「为什么必须在写 DOM 之前再校验一次 navSeq」讲得很清楚：否则过期请求会先清空 <code>innerHTML</code>、打好 <code>rendered</code> 标记、绑完事件，才被短路返回——<strong>污染已经不可逆</strong>。这类注释在 <code>launcher.js</code> 里密度极高，是四轮独立验收（10-16 run01 到 10-17 run04）留下的痕迹。</p>
+</section>
+
+<section id="s5">
+  <h2><span class="n">05</span> 安全模型：被反复返工的部分</h2>
+  <p class="lead">这一节最能解释「85 个服务」是怎么来的——其中相当一部分不产功能，只产边界。</p>
+  <table>
+    <tr><th>威胁</th><th>落地机制</th><th>所在文件</th></tr>
+    <tr><td>本机未授权调用 / DNS rebinding</td><td>32 字节会话令牌 + FixedTimeEquals + Origin 精确 loopback 同端口白名单</td><td><code>LocalApiService.cs</code> 328–415</td></tr>
+    <tr><td>静态资源路径穿越</td><td><code>Path.GetFullPath</code> + <code>IsPathWithinRoot</code>（基于相对路径，非字符串前缀）</td><td><code>LocalApiService.cs</code> 5717+</td></tr>
+    <tr><td>AI endpoint SSRF</td><td>固定 HTTPS allowlist，拒绝 HTTP / userinfo / IP literal / localhost / 相似后缀；专用 HttpClient 禁用自动重定向，防止首跳白名单被 302 绕过</td><td><code>AiEndpointPolicy.cs</code> · <code>AiHttpClientFactory.cs</code></td></tr>
+    <tr><td>新闻图片 / 外链 SSRF</td><td>精确 host 白名单（launchercontent.mojang.com / minecraft.net / aka.ms / youtube.com）；客户端只提交 <code>linkId</code>，URL 由服务端持有；fake-ip（198.18/15）兼容默认 fail closed</td><td><code>NewsEndpointPolicy.cs</code> · <code>NewsLinkService.cs</code> · <code>NewsImageProxyService.cs</code></td></tr>
+    <tr><td>junction / 符号链接替换目录后越界写入</td><td><code>CreateFileW(FILE_FLAG_OPEN_REPARSE_POINT)</code> 逐级取 <code>GetFinalPathNameByHandleW</code> 真实路径比对，并用不含 FILE_SHARE_DELETE 的句柄「钉住」目录链，关闭检查→写入之间的竞态</td><td><code>PathSafetyGuard.cs</code></td></tr>
+    <tr><td>凭据被测试误删 / 明文落盘</td><td><code>[JsonIgnore]</code> + 可注入 SecretStoreBackend + AsyncLocal 作用域 + 调用计数断言</td><td><code>SecretStore.cs</code> · <code>SecretStoreBackend.cs</code></td></tr>
+    <tr><td>诊断报告外发泄露隐私</td><td>导出物脱敏 token / API Key / authorization / session / 地址 / 用户路径 / provider URL；证据摘录默认不含，需显式 <code>includeEvidence=1</code></td><td><code>DiagnosticReportService.cs</code></td></tr>
+    <tr><td>误删用户数据</td><td>Mod 删除进恢复区、替换失败回滚、二分结束自动恢复、删除实例只删配置不删游戏目录、可 <code>register</code> 挂回</td><td><code>FileRecoveryService.cs</code> · <code>ModReplacementService.cs</code> · <code>ModBisectService.cs</code></td></tr>
+  </table>
+  <div class="callout risk">
+    <span class="t">文档与代码在这里出现了危险的偏差</span>
+    <code>docs/api-reference.md</code> 头部至今写着「CORS：<code>*</code> 全放开」，<code>docs/architecture.md</code> 也写「CORS 全放开（<code>*</code>）」。而<strong>代码早已改成严格 Origin 校验 + 必填会话令牌</strong>。如果有人按文档做安全评审或写第三方集成，会得到完全错误的结论。这是本次解读里最该立刻修的一处。
+  </div>
+</section>
+
+<section id="s6">
+  <h2><span class="n">06</span> 质量体系与「独立验收」文化</h2>
+  <p class="lead">这个项目最不寻常的地方：它把「不许悄悄少跑几个测试」做成了 CI 硬门槛。</p>
+  <ul>
+    <li><strong>R04 测试清单双向断言</strong>：<code>scripts/test-inventory.txt</code> 是唯一权威清单（29 条 node 测试 + 1 个 C# 项目）。起因是发现 <code>build.yml</code> 曾硬编码 11 个前端测试文件，而磁盘上有 21 个，漏掉的 10 个在 CI 里从未执行过。现在 <code>run-inventory-tests.cjs --check</code> 双向断言：清单里写的必须存在，磁盘上 <code>*.test.cjs</code> 必须都在清单里，少列、多出、被删都非零失败。</li>
+    <li><strong>R02 UI 资源闭包</strong>：<code>check-ui-resource-closure.cjs</code> 校验 index.html 引用的资源全部存在，缺一个就拦下发布。</li>
+    <li><strong>发布门槛</strong>：<code>release.yml</code> 的 <code>verify</code> job 在 Windows 上跑资源闭包 → 清单一致性 → 380 项前端测试 → 957 项 C# 测试，全过才进入 <code>release</code>。<code>build.yml</code> 另做 win/linux/osx 三平台 RID 发布，Linux 上跑 xUnit 与前端测试，Windows 上跑 bisect 冒烟。</li>
+    <li><strong>独立验收证据包</strong>：docs 下按 run01/run02/run03/run04 分目录存着 CDP 探针脚本、日志、截图、exit code、SHA256 清单。文档里反复出现「本报告不构成实现或发布授权」「未启动真实 GUI，相关行为仍为未验证」「不能据此代替 GitHub 同版本通过」这类克制的边界声明。</li>
+  </ul>
+  <div class="callout warn">
+    <span class="t">但证据链并不等于全绿</span>
+    11-03 发布候选的实际结果：<code>node-tests.exitcode=0</code>（380/380）、<code>dotnet-tests.exitcode=0</code>（957/957）、<code>publish.exitcode=0</code>、<code>cold-start-outside.exitcode=0</code>（工作区外冷启动 PASS），但 <strong><code>cold-start.exitcode=1</code></strong>——工作区内的冷启动因 HttpListener 失败。诊断文档如实记录了这一点，没有把它写成「已解决」。
+  </div>
+</section>
+
+<section id="s7">
+  <h2><span class="n">07</span> 项目沿革：从 8 月到 11 月</h2>
+  <p class="lead">一条「快速堆功能 → 独立验收挖出阻断 → 返工 → 再验收」的循环线。</p>
+  <div class="timeline">
+    <div class="tl"><div class="d">2026-08-16</div><div class="h">知识库建立</div><div class="b">整合 5 份文档，确立「纯 Web UI 架构」与「docs 是唯一可信知识源」规约。9 视图、约 50 个 API、约 67 个服务。此后这里的头部日期再没更新过。</div></div>
+    <div class="tl"><div class="d">2026-10-02</div><div class="h">MR01 刷新过一次「事实基线」，但没合回主知识库</div><div class="b"><code>docs/market-execution/MR01/20261002-072004Z/outputs/docs/README.md</code> 把标题改成「事实基线 2026-10-02」，按磁盘实测写下 76 个 .cs 服务、8 页、约 50 个 API、.NET 10，并明确注明旧「约 67 个服务」已过时。<strong>这份刷新后的知识库停在 MR01 产物目录里，从未合回根 <code>docs/README.md</code></strong>——这才是「唯一可信源」滞后的机制性原因，不是单纯忘记更新。</div></div>
+    <div class="tl"><div class="d">2026-10-01 ~ 10-04</div><div class="h">AI 诊断与长线质量闭环</div><div class="b">竞品对标（HMCL / PCL2 / Prism / Modrinth），确认 AI 崩溃诊断是差异化优势；同时识别出 Cleanroom / Legacy Fabric 缺口、Quilt 投入产出存疑、Mod 删除回收站语义等可借鉴项。DeepSeek Harness 多轮「目标模式 → 独立验收 → 返工」。</div></div>
+    <div class="tl bad"><div class="d">2026-10-03</div><div class="h">首批独立验收 NOT_PASSED：F-01~05</div><div class="b"><code>deepseek-harness-final-acceptance-2026-10-03.md</code> 给出 F-01~05（恢复接口可越界写、配置测试触发真实凭据删除、回滚误报「已回滚」等）——这三条正是后来 <code>PathSafetyGuard</code>、<code>SecretStoreBackend</code>、<code>FileRecoveryService</code> 的由来。R2 复验仍不通过（封存后重写致 SHA 漂移）。同期 W1 路由闭包批次查出 10 条 API（<code>/bisect/*</code>、<code>mods/{file}/toggle|delete</code>、<code>saves/...</code>）因长度守卫嵌套而恒假、端到端一律 404；服务层与 UI「已实现」但路由层不成立。修复后补 <code>RouteReachabilityTests</code> 与「禁止互斥嵌套长度守卫」静态断言。</div></div>
+    <div class="tl mid"><div class="d">2026-10-04 ~ 10-06</div><div class="h">长线质量 FAIL、发布就绪复评与真机缺陷</div><div class="b">10-04 长线质量独立验收 <strong>FAIL（3/5 阶段）</strong>，LQ-01~06 含「取消意图误报导入已取消」「运行器 7 个契约反例误判 PASS」。10-05 <code>release-readiness-review-2026-10-05.md</code> 列出 6 类阻断 <strong>R01–R06</strong>：单 EXE 漏 UI/原生 DLL 崩溃、<code>pineglow.css</code>+SVG 漏输入、更新清单 404、CI 漏跑 10 个测试、中文路径 .cmd 造成 PASS 失真、升级证据缺失。10-06 <code>FINAL-ANSWER</code> 回答「能否发布 → 不能」，并在加载器/首次运行路径挖出 4 个真机缺陷 <strong>B0/B1/B2/B2b</strong>（默认实例不落盘、加载器实例缺 <code>-Djava.library.path</code>、Forge 安装器 URL 404、缺 <code>launcher_profiles.json</code> 桩），C# 904/904。</div></div>
+    <div class="tl"><div class="d">2026-10-07</div><div class="h">三份终态报告：技术 PASS，但都不构成发布批准</div><div class="b"><code>FINAL-VERIFICATION</code>（本地技术 PASS，但工作区缺两补丁，按现状不可发布）、<code>FINAL-ACCEPTANCE</code>（RED 5/9 → GREEN 9/9、C# 926/926、Forge/NeoForge/Vanilla/Fabric/Quilt 六类真实启动全 PASS）、<code>FINAL-ACCEPTANCE-REWORK</code>（客户端识别边界返工 14/14、C# 931/931，用独立验收自己的 BoundaryProbe 把 P2 从 <code>failures:2</code> 降到 0）。三份均写「等待 Codex 独立验收，不构成发布授权」。</div></div>
+    <div class="tl mid"><div class="d">2026-10-11</div><div class="h">执行链路中断</div><div class="b"><code>deepseek-harness-execution-diagnosis-2026-10-11.md</code>：模型侧连续 5 次 400 INVALID_REQUEST，长会话累计 66.4 万 token；已做 /compact，但恢复结果未验证。这条解释了为何项目后来把「可复制执行提示词 + 工作流 + 证据包」拆成独立文件，而不是依赖单次长会话。</div></div>
+    <div class="tl bad"><div class="d">2026-10-10</div><div class="h">源码被清理软件误删并恢复</div><div class="b">HiBit 清理记录删除了项目源码与项目内 .git。最终按 SHA-256 找回并核对 312 个核心文件（其中 2 个采用 10-07 17:42 的较晚版本），在 C 盘独立副本上验证：Release 编译 0 错误、前端 305/305、C# 931/931。<strong>但原本地 HEAD 与未推送提交的 Git 对象永久丢失</strong>，远端历史只到 2026-08-11。这次事故解释了为什么项目对哈希、证据包、隔离沙盒如此执着。</div></div>
+    <div class="tl"><div class="d">2026-10-13 ~ 10-15</div><div class="h">当前版本审计与功能巡检</div><div class="b">10-13 <code>current-version-audit/final-acceptance.md</code>：<strong>PASS_SCOPED_CV01_CV08</strong>（42/42、Node 347/347、C# 941/941、冷启动 19/19、WebView 13/13），但<strong>默认在线九页 FAIL 6/9</strong>，在线 NuGet 还原 LIMITED、RID <code>NU1004</code>，真实账号/游戏/发布未放行，<code>FormalPhaseApproval=NOT_GRANTED</code>。10-15 <code>feature-audit</code> 只读巡检给出 <strong>FA-01~05</strong>：丢 <code>selectedInstanceId</code> 误启另一实例、设置保存覆盖代理、<code>dlSource is not defined</code>、AI 开关不同步、读失败误显空列表——这五项正是 <code>release-notes/v1.0.1.md</code> 的修复清单。同日 <code>auto-update</code> 实现启动 3s / 每 10min / 前台补查，并修 Gitee 主源遮蔽 GitHub 新版。</div></div>
+    <div class="tl mid"><div class="d">2026-10-16 ~ 10-17</div><div class="h">四轮 CDP 独立验收，逐轮返工验证器</div><div class="b">run01 <strong>PASS_SCOPED_RP02_RP03_COLDSTART_API_REGRESSION</strong>（Node 379/379、C# 957/957、冷启动 18/18），但 HA-01 验证器误计隐藏图片且漏掉第 10 页 playtime、HA-02 报告漏记 FAIL 总判定，正式九页验证器仍 exit 1。run02 → run03 → run04 依次返工 CDP 接线、滚动恢复、懒加载脚本（H2-01~03 / R3-01~02 / R4-01~03）；run04 结论 <strong>FAIL_REWORK_REQUIRED</strong>（Node 380/380、原生十页 PASS）。git log 最后几条提交全部是这些返工——<strong>连验收工具本身都在被反复验收</strong>。</div></div>
+    <div class="tl"><div class="d">2026-11-03</div><div class="h">启动参数行为保持重构 + 发布候选</div><div class="b">只改 <code>LauncherService.cs</code>（+40/−38），去 <code>goto</code>、提 <code>TryGetArgumentArray</code>；用 3,800 组输入 / 7,600 个结果做前后差分，逐字节相同。同日产出发布候选：957 + 380 全绿、单文件发布成功、工作区外冷启动 PASS。</div></div>
+    <div class="tl bad"><div class="d">2026-11-03（同日）</div><div class="h">v1.0.1 发布失败诊断</div><div class="b">GitHub 发布工作流两次在 Windows .NET 测试 <strong>953/957 失败</strong>，发布作业 skipped。定位到 <code>JavaLocator.FindAsync</code> 在 runner 上耗时 <strong>124,990.9 ms</strong>（另两次 7,038 / 7,105 ms），根因是递归枚举 Program Files 下的 <code>*jdk*</code>/<code>*jre*</code>；AI 诊断同步等它，触发 fake handler 5 秒超时与 p95 延迟断言。本地独立快照 957/957 通过，不能代替 CI 结论。</div></div>
+    <div class="tl mid"><div class="d">2026-11-04</div><div class="h">v1.1.0 计划落盘，尚未实施</div><div class="b">以文档所称「已发布的 v1.0.3」为基线（与 11-03 诊断口径不一致，见第 8 节），规划五个任务包：P0 存档删除可恢复与统一备份入口、P1 退出后自动备份、P1 Mod 批量更新与逐项撤销、P1 启动检查处理入口、P0 发布门槛收尾。文档明确写「仅保存计划文档；实施、提交、推送、打标签与正式发布沿用后续明确授权」。</div></div>
+  </div>
+
+  <h3>验收结论速查（按证据文件，不按宣传口径）</h3>
+  <table>
+    <tr><th>日期</th><th>结论</th><th>关键数字 / 限制</th></tr>
+    <tr><td>10-03</td><td><span class="tag r">NOT_PASSED</span> F-01~05 + W1 路由闭包</td><td>10 条路由恒假 404；R2 复验因 SHA 漂移仍不通过</td></tr>
+    <tr><td>10-04</td><td><span class="tag r">FAIL</span> 长线质量 3/5 阶段</td><td>LQ-01~06，运行器误把 7 个反例判成 PASS</td></tr>
+    <tr><td>10-05 / 10-06</td><td><span class="tag a">不可发布</span> R01–R06 → B0/B1/B2/B2b</td><td>C# 904/904（已打补丁构建）</td></tr>
+    <tr><td>10-07</td><td><span class="tag g">技术 PASS</span> 三份终态</td><td>9/9、14/14、C# 926/926 与 931/931；六类真实启动全 PASS；<strong>但均声明不构成发布批准</strong></td></tr>
+    <tr><td>10-13</td><td><span class="tag a">PASS_SCOPED</span> CV-01~08</td><td>42/42、347/347、941/941、冷启动 19/19、WebView 13/13；默认在线九页 FAIL 6/9</td></tr>
+    <tr><td>10-15</td><td><span class="tag b">只读巡检</span> FA-01~05</td><td>313/313 前端、101/101 后端；未修未提交</td></tr>
+    <tr><td>10-16 run01</td><td><span class="tag a">PASS_SCOPED</span></td><td>379/379、957/957、冷启动 18/18；验证器自身有 HA-01/02 缺陷</td></tr>
+    <tr><td>10-17 run04</td><td><span class="tag r">FAIL_REWORK_REQUIRED</span></td><td>R4-01~03；Node 380/380、原生十页 PASS</td></tr>
+    <tr><td>11-03</td><td><span class="tag a">候选快照</span> 本地全绿</td><td>957/957 + 380/380；工作区外冷启动 PASS、工作区内 exit 1；CI 953/957 失败</td></tr>
+  </table>
+
+  <h3>代码与文档里的代号，到底指什么</h3>
+  <div class="card">
+    <p style="margin-bottom:10px">项目源码注释里到处是 <code>MR</code> / <code>R</code> / <code>W</code> / <code>CV</code> / <code>HA</code> 编号，不查 <code>docs/market-execution/README.md</code> 基本读不懂。扼要对应：</p>
+    <table style="margin-bottom:0">
+      <tr><th>代号</th><th>含义</th></tr>
+      <tr><td><code>MR00–MR27</code></td><td>市场调研执行路线。MR01 = 刷新事实基线（当时实测 76 个 .cs 服务，已指出「旧文档约 67 过时」）；MR15/16 = Cleanroom / Legacy Fabric 未授权；MR21 = 性能基线 / 启动边界 / 目录不可写实测，修掉了外壳硬编码 48123 导致自定义端口下<strong>静默降级到无 API 的静态界面</strong>。</td></tr>
+      <tr><td><code>W1–W3</code></td><td>路由闭包批次；W1 提升那 10 条恒假路由，W2 16/16。</td></tr>
+      <tr><td><code>R01–R06</code> / <code>R2-02/03</code> / <code>R3/R4</code></td><td>不同轮次的阻断项 / 返工项编号，命名空间各轮独立，<strong>不能跨轮连读</strong>。</td></tr>
+      <tr><td><code>A15/A19/A20</code></td><td>MR20 配置保持缺陷三件套：A15 = 配置主备轮转（<code>config.json/.bak/.prev</code>）、A19 = <code>LoadAsync</code> 回写会触碰真实凭据存储、A20 = 配置测试会写进真实 <code>%APPDATA%</code>。三者共同催生了 <code>ConfigPathOverrideForTest</code> 与 <code>portable.flag</code> 沙盒。</td></tr>
+      <tr><td><code>MR19</code></td><td>win-x64 RID 锁定还原边界（<code>NU1004</code>）的归属条目；多轮报告如实保留为未通过，不掩盖。</td></tr>
+      <tr><td><code>Phase 3A / 3B</code></td><td>3A = 新闻状态机（首页骨架先行、异步刷新、外链 linkId 注册表）；3B = AI 诊断（AbortController、cancelOnce、取消与并发门控）。</td></tr>
+      <tr><td><code>F / F-R2 / LQ / CV / FA / HA / R4 / B0-B2b</code></td><td>各轮独立的问题编号族，分别对应 10-03 首批验收、10-04 长线质量、10-13 当前版本、10-15 功能巡检、10-16 验证器、10-17 第四轮、10-06 真机缺陷。</td></tr>
+      <tr><td><code>NU1004</code></td><td>win-x64 RID 锁定还原的已知未通过边界，多轮报告如实保留，没有被悄悄抹掉。</td></tr>
+    </table>
+  </div>
+  <div class="callout warn">
+    <span class="t">文档治理本身也自相矛盾</span>
+    <code>development-guide.md:107</code> 要求「颜色一律走 <code>figma.css</code> 顶部 token、禁止硬编码」，而 <code>design-system.md</code> 写「最终激活 token 以 <code>pineglow.css</code> 为准，figma.css 仍有 50+ 处硬编码」。<code>docs/README.md</code> 声称「历史过时文档已归档 archive/」，实际根目录堆着 100+ 份 10/11 月日期文档未归档，且最新文档已到 11-04（<code>docs/superpowers/plans/</code>）。<code>features.md</code> 仍写「反映 2026-08-16 状态、9 视图」，<code>roadmap.md:134</code> 自己承认「其后大量改动未落文档，决策依据已失真」。<strong>结合 10-02 的 MR01 分叉看，这不是单纯忘记更新，而是「唯一可信源」规约失去执行主体后，真相被分散到 27 个 MR 产物目录与各轮独立验收报告里。</strong>
+  </div>
+</section>
+
+<section id="s8">
+  <h2><span class="n">08</span> 此刻的真实状态</h2>
+  <p class="lead">这一节只看工作区，不看宣传口径。</p>
+  <div class="grid2">
+    <div class="card">
+      <h3 style="margin-top:0">版本与发布</h3>
+      <ul style="margin-bottom:0">
+        <li>版本号至少有四处口径：<code>csproj &lt;Version&gt;1.0.0</code>、<code>release-notes/v1.0.1.md</code>、11-04 计划所称「已发布的 v1.0.3 基线」、规划目标 v1.1.0。v1.1.0 计划第 5 包因此把「统一版本号」列为发布门槛。</li>
+        <li><strong>两份相距一天的文档结论不一致，本次未联网核实远端实况</strong>：11-03 <code>发布阻断修复流程.md</code> 记录「GitHub main 与 v1.0.1 tag 均指向 <code>8845574f…</code>，Release 尚不存在」，并建议不要移动已公开 tag、改用新版本号；11-04 <code>v1.1.0 主更新计划</code> 却以「已发布的 v1.0.3」为基线、核实远端源码 <code>30f7b56e…</code>。可确认的是 v1.0.1 发布工作流两次 953/957 失败、发布作业 skipped；v1.0.3 是否确为已上线 Release 需查远端确认。</li>
+        <li>发布失败根因（Java 扫描）尚未闭环；正式支持仍只有 Windows x64 + WebView2 Runtime，EXE 自包含 .NET 运行时。</li>
+        <li>正式支持仍只有 Windows x64 + WebView2 Runtime，EXE 自包含 .NET 运行时。</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">工作区（git status）</h3>
+      <ul style="margin-bottom:0">
+        <li>HEAD <code>47e939c</code>（2026-10-17 第四轮独立验收返工）。</li>
+        <li><strong>10 个已修改文件</strong>：品牌图标（app.ico / AppIcon.*）、<code>LauncherService.cs</code> 重构、<code>WebShellWindow.axaml</code> 窗口图标、<code>index.html</code> favicon 与全套 SVG 图标、<code>pineglow.css</code> / <code>redesign.css</code> 动效、<code>launcher.js</code>。</li>
+        <li><strong>6 个未跟踪条目</strong>：11-03 三份新文档目录、v1.1.0 计划、<code>ui/assets/app-icon.png</code>、<code>ui/preview-motion.html</code>（启动动效预览页）。</li>
+        <li>这些正好对应 v1.1.0 计划第 5 包说的「收拢已有图标、启动动效、启动参数重构」，但计划要求「从发布基线建立隔离分支」，目前改动仍直接压在主工作区且未提交。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout warn">
+    <span class="t">「唯一可信知识源」已经不可信</span>
+    <code>docs/README.md</code> 自称反映 2026-08-16 状态并声明是唯一可信源，但源码推进到 11-04。可核对的具体偏差：文档说 9 视图（实际 10，多了 playtime）、约 67 个服务（实际 85 个文件）、约 50 处路由（实际约 60）、CORS 全放开（实际严格白名单 + 必需令牌）、UI 通过 <code>Content Include</code> 外置拷贝（实际单文件发行改为 EmbeddedResource + 指纹解包）。<code>roadmap.md</code> 自己第 11 项就写着「刷新 features.md 功能基线，决策依据已失真」——这个提醒本身已经躺了两个月。
+  </div>
+</section>
+
+<section id="s9">
+  <h2><span class="n">09</span> 技术债与风险清单</h2>
+  <p class="lead">按「如果不处理，会先伤到什么」排序。</p>
+
+  <div class="card risk-p0"><span class="tag r">P0</span><strong>文档与代码的安全描述相反</strong><p style="margin:8px 0 0;color:var(--muted)">api-reference / architecture 仍写「CORS <code>*</code> 全放开、无令牌」，代码已强制令牌 + Origin 白名单。任何按文档做的安全评审、集成或渗透测试都会得出错误结论。<strong>建议立刻修这两处，并把 docs 头部日期改成实际核对日。</strong></p></div>
+
+  <div class="card risk-p0"><span class="tag r">P0</span><strong>发布阻塞根因未闭环</strong><p style="margin:8px 0 0;color:var(--muted)">v1.0.1 两次 CI 失败于 JavaLocator 递归扫描（单次 125 秒），本地快照全绿不能替代 runner。诊断流程文档已写好 6 步并明确禁止「调高阈值 / 删测试 / 放宽工作流」这种假修复，但<strong>实施证据尚未出现</strong>。另有 Ubuntu Node 测试 <code>goal-validation.test.cjs</code> 进程未启动的独立失败待定位。</p></div>
+
+  <div class="card risk-p0"><span class="tag r">P0</span><strong>LocalApiService 5,816 行上帝类 + 手工路由</strong><p style="margin:8px 0 0;color:var(--muted)">约 60 个端点、全部业务编排、静态文件服务、配置读写、三套任务状态机都挤在一个静态类里，靠 <code>seg.Length is 5 or 6 or 8</code> 这类条件区分。已经出过一次「10 条路由恒假」事故，静态断言只能防同类嵌套，防不了新增分支时的长度混淆。<code>engineering.md</code> 早在 8-16 就把「手工路由缺乏集中注册表」列为改进点，至今未动。</p></div>
+
+  <div class="card risk-p1"><span class="tag a">P1</span><strong>前端单文件与三套 CSS 叠加</strong><p style="margin:8px 0 0;color:var(--muted)"><code>launcher.js</code> 249 KB / 4,500+ 行，10 个视图、所有弹窗、Markdown 渲染、AI/二分/新闻逻辑全在里面；<code>figma.css</code> → <code>pineglow.css</code> → <code>redesign.css</code> 三层按序覆盖，后者是 10-14 的暗色重设计并重新定义了同一批 token。<code>design-system.md</code> 统计 <code>figma.css</code> 有 50+ 处硬编码色值，违反项目自己定的 token 红线，且与 <code>development-guide.md</code> 的「一律走 figma.css token」要求互相打架。零构建是优点，但也意味着没有模块边界、没有 tree-shaking、没有类型检查。</p></div>
+
+  <div class="card risk-p1"><span class="tag a">P1</span><strong>「跨平台」名不副实</strong><p style="margin:8px 0 0;color:var(--muted)">Win32 P/Invoke 硬编码在宿主层、WebView2 强依赖、无边框窗口逻辑无 Linux/macOS 分支。三平台 CI 只保证「能编译」，不保证「能跑」。README 与 roadmap 都如实标注了，但产品名与首页仍容易让人误解。</p></div>
+
+  <div class="card risk-p1"><span class="tag a">P1</span><strong>工作区改动与 v1.1.0 计划的隔离要求冲突</strong><p style="margin:8px 0 0;color:var(--muted)">计划要求「从发布基线建立隔离分支，保留原工作区与历史证据」，但 10 个产品文件改动 + 6 个未跟踪条目仍堆在主工作区未提交。考虑到 10-10 那次误删事故和「未推送提交永久丢失」的教训，这批改动是当前最实际的资产风险。</p></div>
+
+  <div class="card risk-p2"><span class="tag b">P2</span><strong>测试覆盖的结构性缺口</strong><p style="margin:8px 0 0;color:var(--muted)">开发指南明确「不写 GUI / WebView 集成测试，UI 靠 mock 模式人工验收」；<code>bisect-smoke</code> 曾在路由修复前长期失败而没人发现，文档也注明「尚未在真实 GitHub Actions 中运行，不能当作 CI 已覆盖」。1,337 项测试里绝大多数是纯逻辑与静态扫描，真实启动链路靠人工证据包补。</p></div>
+
+  <div class="card risk-p2"><span class="tag b">P2</span><strong>生态兼容硬缺口</strong><p style="margin:8px 0 0;color:var(--muted)">缺 Cleanroom / Legacy Fabric（HMCL 已覆盖，MR15/16 明确记为未授权）；自定义 <code>.mcm</code> 实例格式不与 Modrinth <code>.mrpack</code> / Prism 互通；主题系统、共享实例协作、插件扩展均未做。roadmap 已按优先级列清，属于「知道但没做」，不是盲区。</p></div>
+
+  <div class="card risk-p2"><span class="tag b">P2</span><strong>大量验证项仍是 BLOCKED / NOT_RUN</strong><p style="margin:8px 0 0;color:var(--muted)">多轮独立验收如实标注：真实微软账号、真实 AI Key、Gitee token、进入世界长时游玩、在线 NuGet 还原（LIMITED）、win-x64 RID 锁定还原（<code>NU1004</code>）、真实发版与替换重启均未跑通或未放行；10-13 默认在线九页 <strong>FAIL 6/9</strong>；公开报告还保留着 <code>TOCTOU</code> 竞态、默认皮肤 / favicon 404 等条目（当前工作区已补 favicon，但未见闭环证据）。<strong>这些「未验证」标签是项目可信度的一部分，不应被 1,337 项全绿的数字盖过去。</strong></p></div>
+</section>
+
+<section id="s10">
+  <h2><span class="n">10</span> 建议的下一步</h2>
+  <p class="lead">不替团队承诺排期；以下只按依赖关系排序，且都已有项目自己的文档作为依据。</p>
+  <ol>
+    <li><strong>先保资产</strong>：把当前 10 个修改 + 6 个未跟踪条目按 v1.1.0 计划第 5 包迁到隔离分支并提交（图标 / 动效 / 启动参数重构各自独立提交），恢复「工作区干净」这个所有验收流程的默认前提。</li>
+    <li><strong>再修文档的安全错误与治理断点</strong>：<code>docs/api-reference.md</code>、<code>docs/architecture.md</code>、<code>docs/README.md</code> 三处一次性对齐到真实代码（令牌、Origin、10 视图、85 服务、EmbeddedResource 发布路径）；把 10-02 MR01 那份已刷新过的事实基线合回主知识库，或明确废弃根 README 的「唯一可信源」地位改为「按日期索引」，并给每份文档加「最后核对日」。</li>
+    <li><strong>关闭发布阻塞</strong>：按 <code>docs/release-diagnosis-2026-11-03/发布阻断修复流程.md</code> 执行 Java 扫描分段测量与最小修复，在 Windows runner 上复测阶段耗时与完整门槛；Ubuntu Node 测试单独定位。禁止通过放宽阈值、删测试绕过。</li>
+    <li><strong>版本号与发布口径统一</strong>：csproj / AssemblyInfo / 程序集 / 更新清单 / release-notes / tag 收敛成单一来源，v1.1.0 计划第 5 包已列为完成标准。</li>
+    <li><strong>架构债分期还</strong>：第一步不必拆类，先把 <code>HandleApiAsync</code> 的手工路由换成集中路由表（method + 段数 + 段名 → handler），保留现有 handler 不动，配一张自动生成的端点清单测试；第二步再按域拆 <code>LocalApiService</code> 成 partial 或独立 coordinator。前端同理，先把 <code>launcher.js</code> 按视图切成 ES module（仍可不引入构建工具）。</li>
+    <li><strong>功能侧按 v1.1.0 计划走</strong>：存档删除可恢复 → 自动备份 → Mod 批量更新 → 启动检查引导。这四项都是「可逆性 / 防误删」主线的延续，与项目已有的 <code>FileRecoveryService</code> / <code>ModReplacementService</code> 复用关系清晰，是低风险高感知的方向。</li>
+  </ol>
+</section>
+
+<section id="s11">
+  <h2><span class="n">11</span> 关键文件索引</h2>
+  <table>
+    <tr><th>想了解…</th><th>先读这里</th></tr>
+    <tr><td>产品定位与构建</td><td><code>README.md</code> · <code>global.json</code> · <code>dev/PineglowLauncher/Pineglow.Launcher.csproj</code></td></tr>
+    <tr><td>启动入口与壳</td><td><code>dev/PineglowLauncher/Pineglow.Launcher/{Program,App}.cs</code> · <code>Pineglow.Launcher.Views/Shell/WebShellWindow.axaml.cs</code></td></tr>
+    <tr><td>全部 API 与业务编排</td><td><code>dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.cs</code>（从 <code>HandleApiAsync</code> 第 417 行读起）</td></tr>
+    <tr><td>启动命令装配</td><td><code>…/Services/LauncherService.cs</code></td></tr>
+    <tr><td>安全边界</td><td><code>…/Services/{PathSafetyGuard,AiEndpointPolicy,NewsEndpointPolicy,SecretStore,SecretStoreBackend}.cs</code></td></tr>
+    <tr><td>单文件发行</td><td><code>…/Services/UiBundle.cs</code> · csproj 的 EmbeddedResource / NativeLibraries 段</td></tr>
+    <tr><td>前端</td><td><code>ui/index.html</code> · <code>ui/js/{api,launcher,i18n}.js</code> · <code>ui/css/{figma,pineglow,redesign}.css</code></td></tr>
+    <tr><td>质量门槛</td><td><code>.github/workflows/{build,release}.yml</code> · <code>scripts/test-inventory.txt</code> · <code>scripts/run-inventory-tests.cjs</code></td></tr>
+    <tr><td>知识库（需核对时效）</td><td><code>docs/{README,architecture,engineering,api-reference,features,development-guide,design-system,roadmap}.md</code></td></tr>
+    <tr><td>当前状态与下一步</td><td><code>docs/superpowers/plans/2026-11-04-v1.1.0-main-update-plan.md</code> · <code>docs/release-diagnosis-2026-11-03/发布阻断修复流程.md</code> · <code>docs/csharp-refactoring-2026-11-03/README.md</code></td></tr>
+    <tr><td>事故与恢复</td><td><code>项目恢复说明-2026-10-10.md</code></td></tr>
+  </table>
+  <hr>
+  <p style="color:var(--muted);font-size:13.5px">本解读基于工作区静态阅读，未执行构建、未启动程序、未修改任何产品代码，也未访问网络核实远端仓库状态。所有数字均来自仓库内文件。特别说明：11-04 计划称「已发布的 v1.0.3」，而 11-03 诊断称 v1.0.1 tag 已推送但 Release 不存在——两份文档相隔一天、结论不一致，本文只如实并列，未联网裁定哪个是远端实况；「CI 两次 953/957 失败」来自 <code>docs/release-diagnosis-2026-11-03/发布阻断修复流程.md</code>。对外使用前请核对远端 Release 与 CI 实况。</p>
+</section>
+
+  <div class="callout warn" style="margin-top:34px">
+    <span class="t">资料属性：内部版，不作为客户 / 对外材料</span>
+    本文包含未公开的安全边界细节、发布失败诊断、未提交改动清单与技术债判断，属于内部工程评估。若需对外同步，应另出客户可见版本，剥离内部风险判断、人员 / 成本信息与未确认承诺。
+  </div>
+
+<div class="foot">松光启动器 · 项目深度解读快照 · 2026-11-05 · 独立开源项目，与 Mojang / Microsoft 无关联</div>
+
+</div>
+</body>
+</html>
