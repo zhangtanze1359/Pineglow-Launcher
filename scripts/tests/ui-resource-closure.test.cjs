@@ -41,9 +41,30 @@ function copyUi(destRoot) {
   for (const dir of ['css', 'js', 'assets', 'vendor']) {
     const src = path.join(REAL_UI, dir);
     if (!fs.existsSync(src)) continue;
-    fs.cpSync(src, path.join(destRoot, dir), { recursive: true });
+    const target = path.join(destRoot, dir);
+    fs.mkdirSync(target, { recursive: true });
+    // M0-4（2026-11-06）：原实现直接 `fs.cpSync(src, target, {recursive:true})`，
+    // 让 cpSync 自己创建目标目录。实测在本机 Node v22.22.2 + Windows 上，
+    // 当**祖先目录名含非 ASCII**（CL-05 的 `松光 启动器 资源闭合 测试`）时，
+    // cpSync 会用 GBK 解码后的乱码名另建一个目录（如 `鏉惧厜 娴嬭瘯`），
+    // 返回值不报错，但目标目录里 0 个文件 —— 于是 CL-05 的"资源闭合完整"断言
+    // 必然失败，且失败原因完全掩盖在 `code !== 0` 里。
+    // 这是测试夹具的缺陷，不是被检查对象（check-ui-resource-closure.cjs）的缺陷：
+    // 检查器单独在中文路径下 exit=0。改为先显式建目录再逐文件复制，绕开该行为。
+    copyDirRecursive(src, target);
   }
   return destRoot;
+}
+
+/** 逐文件递归复制（不用 fs.cpSync，避开其对非 ASCII 祖先路径的编码问题）。 */
+function copyDirRecursive(src, dest) {
+  fs.mkdirSync(dest, { recursive: true });
+  for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
+    const from = path.join(src, entry.name);
+    const to = path.join(dest, entry.name);
+    if (entry.isDirectory()) copyDirRecursive(from, to);
+    else if (entry.isFile()) fs.copyFileSync(from, to);
+  }
 }
 
 function tmpDir(label) {
