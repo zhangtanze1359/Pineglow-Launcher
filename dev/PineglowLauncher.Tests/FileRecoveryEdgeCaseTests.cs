@@ -66,8 +66,51 @@ public class FileRecoveryEdgeCaseTests
 		}
 	}
 
-	/// <summary>用 `mklink /J` 建目录联接（Windows 上不需要管理员权限；符号链接才需要）。</summary>
-	private static bool TryCreateJunction(string linkPath, string targetPath)
+	/// <summary>
+	/// 建一个指向目录的链接，让「祖先目录是重解析点」这条检查可验证。
+	///
+	/// **M0-4（2026-11-06）**：原实现固定 `cmd.exe /c mklink /J`，在 Linux 上 `cmd.exe`
+	/// 根本不存在，`Process.Start` 抛 `Win32Exception`，整个用例连带 Ubuntu 的
+	/// `dotnet test` 一起失败。这里按平台分流，语义不变：
+	///   * Windows：优先 junction（`mklink /J`，不需要管理员权限）；失败则退回
+	///     `Directory.CreateSymbolicLink`（需要开发者模式，作为兜底）。
+	///   * Unix：直接用 `Directory.CreateSymbolicLink`，普通用户即可创建，
+	///     .NET 会把它映射成 `FileAttributes.ReparsePoint`，与 Windows 的判定口径一致。
+	/// 断言口径未改：产物必须真实存在且被服务识别为重解析点。
+	/// </summary>
+	private static bool TryCreateDirectoryLink(string linkPath, string targetPath)
+	{
+		if (!OperatingSystem.IsWindows())
+		{
+			try
+			{
+				Directory.CreateSymbolicLink(linkPath, targetPath);
+				return Directory.Exists(linkPath);
+			}
+			catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException)
+			{
+				return false;
+			}
+		}
+
+		// Windows：优先 junction —— 不需要特权，也不受开发者模式影响。
+		if (TryRunMklinkJunction(linkPath, targetPath) && Directory.Exists(linkPath))
+		{
+			return true;
+		}
+
+		try
+		{
+			Directory.CreateSymbolicLink(linkPath, targetPath);
+			return Directory.Exists(linkPath);
+		}
+		catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException)
+		{
+			return false;
+		}
+	}
+
+	private static bool TryRunMklinkJunction(string linkPath, string targetPath)
 	{
 		var psi = new ProcessStartInfo("cmd.exe", $"/c mklink /J \"{linkPath}\" \"{targetPath}\"")
 		{
@@ -83,7 +126,7 @@ public class FileRecoveryEdgeCaseTests
 		}
 
 		p.WaitForExit(15000);
-		return p.ExitCode == 0 && Directory.Exists(linkPath);
+		return p.ExitCode == 0;
 	}
 
 	/* ===================== 1. 重解析点：祖先目录是联接 → 拒绝 ===================== */
@@ -100,9 +143,9 @@ public class FileRecoveryEdgeCaseTests
 		File.WriteAllText(outsideJar, "LINKED-CONTENT");
 
 		string link = Path.Combine(fx.ModsDir, "linked");
-		bool created = TryCreateJunction(link, outside);
-		_out.WriteLine($"[A2] 创建目录联接 = {created}（{link} → {outside}）");
-		Assert.True(created, "本机应能创建目录联接（mklink /J 不需要管理员权限）；若失败说明环境异常");
+		bool created = TryCreateDirectoryLink(link, outside);
+		_out.WriteLine($"[A2] 创建目录链接 = {created}（{link} → {outside}，平台 {Environment.OSVersion.Platform}）");
+		Assert.True(created, "本机应能创建目录链接（Windows 用 junction，Unix 用 symlink）；若失败说明环境异常");
 
 		// 经由联接访问那个 jar：其**祖先目录**含重解析点
 		string viaLink = Path.Combine(link, "linked-mod.jar");

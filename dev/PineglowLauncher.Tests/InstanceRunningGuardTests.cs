@@ -93,12 +93,8 @@ public class InstanceRunningGuardTests
 		string id = "inst-" + Guid.NewGuid().ToString("N");
 
 		// 起一个立刻退出的进程，拿到"真实但已死"的进程对象
-		using var dead = Process.Start(new ProcessStartInfo("cmd.exe", "/c exit")
-		{
-			CreateNoWindow = true,
-			UseShellExecute = false
-		})!;
-		dead.WaitForExit();
+		// M0-4：改用跨平台替身（原来是 cmd.exe，Linux 上抛 Win32Exception）。断言未变。
+		using var dead = CrossPlatformTestProcess.StartExited();
 
 		RunningInstanceRegistry.MarkRunning(id, dead);
 		Assert.Equal(1, RunningInstanceRegistry.Count);
@@ -115,13 +111,9 @@ public class InstanceRunningGuardTests
 		string id = "inst-" + Guid.NewGuid().ToString("N");
 
 		// 起一个立刻退出的进程，用它已经消失的 PID 登记
-		using var dead = Process.Start(new ProcessStartInfo("cmd.exe", "/c exit")
-		{
-			CreateNoWindow = true,
-			UseShellExecute = false
-		})!;
+		// M0-4：改用跨平台替身（原来是 cmd.exe，Linux 上抛 Win32Exception）。断言未变。
+		using var dead = CrossPlatformTestProcess.StartExited();
 		int deadPid = dead.Id;
-		dead.WaitForExit();
 
 		RunningInstanceRegistry.MarkRunningPid(id, deadPid);
 		Assert.False(RunningInstanceRegistry.IsRunning(id, out _));
@@ -183,12 +175,8 @@ public class InstanceRunningGuardTests
 		await using var h = await LocalApiTestHarness.StartAsync(fx.Config);
 
 		// 模拟"退出监听失败，留下了陈旧条目"：登记一个真实但已死的进程
-		using var dead = Process.Start(new ProcessStartInfo("cmd.exe", "/c exit")
-		{
-			CreateNoWindow = true,
-			UseShellExecute = false
-		})!;
-		dead.WaitForExit();
+		// M0-4：改用跨平台替身（原来是 cmd.exe，Linux 上抛 Win32Exception）。断言未变。
+		using var dead = CrossPlatformTestProcess.StartExited();
 		RunningInstanceRegistry.ResetForTest();
 		RunningInstanceRegistry.MarkRunning(fx.InstanceId, dead);
 
