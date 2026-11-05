@@ -74,17 +74,11 @@ public class InstanceLaunchGuardTests
 		}
 	}
 
-	/// <summary>起一个立刻退出的进程，拿到"真实但已死"的 PID。</summary>
-	private static int DeadPid()
-	{
-		using Process dead = Process.Start(new ProcessStartInfo("cmd.exe", "/c exit")
-		{
-			CreateNoWindow = true,
-			UseShellExecute = false
-		})!;
-		dead.WaitForExit();
-		return dead.Id;
-	}
+	/// <summary>
+	/// 起一个立刻退出的进程，拿到"真实但已死"的 PID。
+	/// M0-4：改用跨平台替身（原来固定 cmd.exe，Linux 上抛 Win32Exception）。返回语义未变。
+	/// </summary>
+	private static int DeadPid() => CrossPlatformTestProcess.StartAndReapPid();
 
 	/* ===================== ① 已在运行 → 必须拒绝 ===================== */
 
