@@ -1,6 +1,8 @@
 # M0-4 Ubuntu Node/.NET 测试失败定位
 
-> 日期：2026-11-06 | 基线：`30f7b56e`（v1.0.3 源码） | 状态：**根因已缩小到候选范围，未在 runner 复测**
+> 日期：2026-11-06 | 基线：`30f7b56e`（v1.0.3 源码）
+> 状态：**根因已定位并按方案 B 完成改造；本地 967/967 + 380/380 通过；runner 复测待推送**
+> 改造实现见 `m0-consolidated-report-2026-11-06.md` 第一节与提交 `98f2a26`、`7212793`。
 
 ## 一、先纠正一处过时结论
 
@@ -53,31 +55,50 @@ Linux 上 `Process.GetProcessById` 语义与 Windows 有差异（`/proc` 权限�
 
 `FileShare.None` 在 Linux 上不产生独占锁，`UnwritableDirectoryTests` 用「把目录做成文件」的绕法虽然跨平台，但 `FileRecovery` 在 Linux 上的错误路径可能不同。概率中低。
 
-## 四、为什么这次**不**直接改测试
+## 四、已选定并实施：方案 B（2026-11-06 更新）
 
-`docs/superpowers/plans/2026-11-04-v1.1.0-main-update-plan.md` 与总控计划的完成定义都写明「**禁止**通过放宽超时阈值、删除测试、修改工作流绕过失败」。
+**已采纳方案 B**，不是给用例加平台守卫。决定性理由：xunit 2.9.3 **没有动态 skip**
+（`Assert.Skip` 是 v3 才引入）。若改用 `if (!IsWindows()) return;`，那 5 个用例在 Linux 上
+会**静默 return 并显示为通过**——测试是绿的，实际什么都没验。它们保的是
+「拒绝隔离重解析点」「陈旧条目自愈」这类安全语义，在开发主力平台之外永久跳过比失败更危险。
 
-给 5 个用例加 `if (!OperatingSystem.IsWindows()) return;` 表面上合理（它们测的确实是 Windows 专有行为），但**等于把 5 个用例在三平台中最能暴露问题的平台上永久跳过**，属于需要 owner 明确决策的取舍，不是我能单方面做的。三个选项：
+实施：
+- 新增 `CrossPlatformTestProcess.cs`：Windows `cmd.exe /c exit`，Unix `/bin/sh -c "exit 0"`，
+  都返回「真实 PID + 已退出」，调用方断言不变。
+- `TryCreateJunction` → `TryCreateDirectoryLink`：Windows 优先 `mklink /J`（免特权），
+  失败退回 `Directory.CreateSymbolicLink`；Unix 直接 `Directory.CreateSymbolicLink`，
+  .NET 会映射为 `FileAttributes.ReparsePoint`，与 Windows 判定口径一致。
+
+本地验证：三项测试类 19/19，.NET 全量 967/967（0 跳过），前端 380/380。
+
+三个方案的原始取舍记录保留在下文，供回溯。
 
 | 方案 | 做法 | 代价 |
 |---|---|---|
-| A. 加平台守卫 | 5 个用例在非 Windows 直接 return，并用 `Assert.Skip` 或等价方式**明确记为跳过**而非静默通过 | Ubuntu 上这 5 项永久不再验证；需在 coverage 说明里登记 |
-| B. 改用跨平台替身进程 | 把 `cmd.exe /c exit` 换成 `Process.Start` 一个跨平台即可运行的东西（如测试自身带 `--noop` 参数，或 `/bin/sh -c exit`），junction 用例改用 `ln -s` 分支 | 真正恢复三平台覆盖，但要改写 5 个用例且需确认替身在 Windows 也可靠 |
-| C. 拆分作业 | Ubuntu 作业只跑与平台无关的测试子集（`--filter`），Windows 作业跑全量 | 改动工作流本身，风险最高，且总控计划禁止「放宽工作流」 |
-
-**推荐 B**：它是唯一既保留三平台覆盖、又不放宽门槛的方案。A 次之（可接受但必须显式记跳过）。C 不建议。
+| A. 加平台守卫 | 非 Windows 直接 return，用 `Assert.Skip` 明确记为跳过 | xunit 2.9.3 不支持动态 skip → 会变成静默通过；Ubuntu 上 5 项永久不再验证 |
+| **B. 跨平台替身（已采纳）** | 进程替换为平台自带 shell；junction 用例加 symlink 分支 | 需改写 5 个用例并确认替身在 Windows 也可靠（已验证） |
+| C. 拆分作业 | Ubuntu 只跑平台无关子集（`--filter`） | 改动工作流本身，风险最高，且计划禁止「放宽工作流」 |
 
 ## 五、下一步（需要 runner）
 
-1. 拿到 Ubuntu 失败日志（需要仓库 admin 权限，或 owner 手动导出 Artifact `build-verify-evidence`）。
-2. 在隔离分支按方案 B 改写 5 个用例，本地 Windows 先验 967/967 不退步。
-3. 推送到临时分支触发 `java-discovery-check.yml` 或 build.yml，确认 Ubuntu 转绿。
-4. 结论回填本文件，并把「具体失败测试名」替换掉第三节的假设。
+1. 推送 `remediation/v1.1.0` 到远端（当前网络 `schannel: server closed abruptly`，且属对外动作需授权）。
+2. 触发 `build.yml`，确认 Ubuntu 第 11 步 `Run tests` 转绿。
+3. 若仍失败，用仓库 admin 权限导出 Artifact / 日志，按具体失败测试名继续定位。
+4. 结论回填本文件。
 
 ## 六、本地可复现部分（已做）
 
 | 检验 | 结果 |
 |---|---|
 | Windows 全量 .NET（隔离分支 `remediation/v1.1.0`） | **967/967 通过**，0 跳过（前提：PATH 里 `C:\Windows\System32` 优先，否则 `tasklist`/`find` 会被 Git Bash 的同名工具遮蔽，见 M0-3 文档） |
-| 5 个无守卫用例在 Windows | 全部通过（说明它们测的确实是 Windows 行为） |
+| 5 个改造后的用例在 Windows | 全部通过，且 `mklink /J` 分支实际被执行（`创建目录链接 = True ... 平台 Win32NT`） |
+| 前端清单测试 | **380/380 通过** |
 | Linux | **本机无 WSL（被安全策略禁用）、无 Docker，无法本地复现** |
+
+## 七、附带修掉的另一处夹具缺陷（CL-05）
+
+排查过程中发现 `scripts/tests/ui-resource-closure.test.cjs` 的 CL-05 也是假失败，
+根因不在 Ubuntu 而在**本机 Node v22.22.2 + Windows 的 `fs.cpSync`**：
+祖先目录含非 ASCII 时会另建一个 GBK 乱码目录（`松光 测试` → `鏉惧厜 娴嬭瘯`），
+返回值不报错但目标目录 0 个文件。对照实验证据见 `m0-consolidated-report-2026-11-06.md` 第二节。
+已在干净基线 `30f7b56e` 上复现，确认与本次改动无关。
