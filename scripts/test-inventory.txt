@@ -24,6 +24,7 @@ node ui/tests/a13-doubles-and-taborder.test.cjs
 node ui/tests/a6-bisect-safety-guidance.test.cjs
 node ui/tests/ai-diagnose.test.cjs
 node ui/tests/api-contract.test.cjs
+node ui/tests/api-live-contract.test.cjs
 node ui/tests/bisect-recovery.test.cjs
 node ui/tests/content-icon.test.cjs
 node ui/tests/current-version-errors.test.cjs
