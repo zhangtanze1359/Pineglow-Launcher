@@ -41,6 +41,8 @@ node ui/tests/launcher-v4.test.cjs
 node ui/tests/launcher-v5.test.cjs
 node ui/tests/news-behavior.test.cjs
 node ui/tests/news-link.test.cjs
+node ui/tests/save-recovery-ui.test.cjs
+node ui/tests/prelaunch-guide.test.cjs
 node ui/tests/playtime.test.cjs
 node ui/tests/launcher-ui-pure.test.cjs
 node ui/tests/skin3d-core.test.cjs

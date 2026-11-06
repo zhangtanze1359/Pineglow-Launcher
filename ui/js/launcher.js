@@ -2525,6 +2525,13 @@ async function renderWorlds() {
 	let worlds = [];
 	let error = null;
 	try { worlds = await SG.api.getWorlds(); navigationCounts.worlds = worlds.length; } catch (e) { error = e; }
+	// M2-1①：「已删除的存档」与存档列表**同页**展示。分开一页会让用户以为删掉就是没了，
+	// 而这一版的核心承诺恰恰是"删了还能找回"——入口必须就在删除发生的那个页面。
+	let recoveries = [];
+	let recoveryError = null;
+	try {
+		recoveries = typeof SG.api.listSaveRecoveries === 'function' ? await SG.api.listSaveRecoveries(instanceIdForWorlds(worlds)) : [];
+	} catch (e) { recoveryError = e; }
 	const cards = error ? collectionErrorHtml('worlds', error) : worlds.length ? worlds.map(w => `
 		<div class="world-card" data-inst="${esc(w.instanceId)}" data-folder="${esc(w.folderName)}">
 			<div class="world-icon">${uiIcon('world')}</div>
@@ -2535,6 +2542,7 @@ async function renderWorlds() {
 			<span class="world-size">${esc(w.size || '—')}</span><button class="world-btn" data-world-manage>${uiText('管理存档','Manage world')}</button>
 		</div>`).join('')
 		: `<div class="empty-state"><div class="es-icon">🗺️</div>${esc(t('worlds.empty'))}</div>`;
+	const recoveryHtml = renderSaveRecoveryList(recoveries, recoveryError);
 	return `
 	<div class="content-view">
 		<div class="page-head">
@@ -2544,8 +2552,42 @@ async function renderWorlds() {
 			</div>
 		</div>
 		<div class="list-panel-head"><div class="list-heading"><h2>${uiText('单人存档','Singleplayer worlds')}</h2></div>${uiSearch('worldSearch',uiText('搜索存档…','Search worlds…'))}</div><div class="list-grid">${cards}</div>
+		${recoveryHtml}
 	</div>`;
 }
+
+/* M2-1①：已删除存档列表。**查询失败必须显示错误与重试入口**，不能显示成空列表 ——
+ * 那会让用户以为"没东西可恢复"，从而放弃本该能找回的存档。 */
+function renderSaveRecoveryList(recoveries, error) {
+	if (error) {
+		return `<div class="recovery-panel"><div class="wb-label">${esc(t('worlds.deletedList'))}</div>
+			<div class="content-error" role="alert"><p>${esc(t('worlds.loadFailed'))}</p>
+			<button class="ui-button" data-recovery-retry>${esc(t('content.retry'))}</button></div></div>`;
+	}
+	if (!recoveries || !recoveries.length) {
+		return `<div class="recovery-panel"><div class="wb-label">${esc(t('worlds.deletedList'))}</div>
+			<p class="ui-muted">${esc(t('worlds.deletedEmpty'))}</p></div>`;
+	}
+	const days = recoveries[0].retentionDays || 30;
+	const rows = recoveries.map(r => `
+		<div class="recovery-row" data-op="${esc(r.operationId)}" data-inst="${esc(r.instanceId || '')}" data-name="${esc(r.saveFolderName)}">
+			<span class="recovery-name">${esc(r.saveFolderName)}</span>
+			<span class="recovery-meta">${esc(r.sizeText || '')}${r.fileCount ? ' · ' + r.fileCount + ' 个文件' : ''}</span>
+			<button class="world-btn" data-recovery-restore>${esc(t('restoreDeleted'))}</button>
+			<button class="world-btn danger" data-recovery-purge>${esc(t('purgeDeleted'))}</button>
+		</div>`).join('');
+	return `<div class="recovery-panel"><div class="wb-label">${esc(t('worlds.deletedList'))}</div>
+		<p class="ui-muted">${esc(t('worlds.deletedHint', { days }))}</p>
+		<div class="recovery-list">${rows}</div></div>`;
+}
+
+/* 存档列表跨实例，但恢复接口是实例级的。取第一条的 instanceId 作为查询锚点；
+ * 没有任何存档时退化为当前选中实例（仍能列出该实例的已删除项）。 */
+function instanceIdForWorlds(worlds) {
+	if (worlds && worlds.length && worlds[0].instanceId) return worlds[0].instanceId;
+	return selectedInstanceId || '';
+}
+
 function bindWorlds(el) {
  bindCollectionRetry(el, 'worlds');
  bindListSearch(el,'worldSearch','.world-card');
@@ -2556,6 +2598,48 @@ function bindWorlds(el) {
 		if (!instanceId || !folderName) return;
 		openWorldActions(instanceId, folderName, name);
 	}));
+
+	// M2-1①：已删除存档的恢复 / 永久清理
+	el.querySelector('[data-recovery-retry]')?.addEventListener('click', async () => {
+		const v = document.getElementById('view-worlds');
+		if (v) { v.innerHTML = await renderWorlds(); bindWorlds(v); }
+	});
+	el.querySelectorAll('.recovery-row').forEach(row => {
+		const operationId = row.dataset.op;
+		const instanceId = row.dataset.inst || selectedInstanceId || '';
+		const name = row.dataset.name || '';
+		row.querySelector('[data-recovery-restore]')?.addEventListener('click', async (ev) => {
+			ev.stopPropagation();
+			const btn = ev.currentTarget;
+			btn.disabled = true;
+			try {
+				const res = await SG.api.restoreSaveRecovery(instanceId, operationId);
+				toast(res && res.restoredPath && res.restoredPath !== name
+					? t('restoredFromRecovery') + ' → ' + res.restoredPath
+					: t('restoredFromRecovery'));
+				const v = document.getElementById('view-worlds');
+				if (v) { v.innerHTML = await renderWorlds(); bindWorlds(v); }
+			} catch (err) {
+				toast(t('recoveryFailed') + (err.message || t('common.unknownError')));
+				btn.disabled = false;
+			}
+		});
+		row.querySelector('[data-recovery-purge]')?.addEventListener('click', async (ev) => {
+			ev.stopPropagation();
+			if (!confirm(t('purgeConfirm', { name }))) return;
+			const btn = ev.currentTarget;
+			btn.disabled = true;
+			try {
+				await SG.api.purgeSaveRecovery(instanceId, operationId);
+				toast(t('purged'));
+				const v = document.getElementById('view-worlds');
+				if (v) { v.innerHTML = await renderWorlds(); bindWorlds(v); }
+			} catch (err) {
+				toast(t('recoveryFailed') + (err.message || t('common.unknownError')));
+				btn.disabled = false;
+			}
+		});
+	});
 }
 
 /* 存档操作弹窗：备份 / 查看备份 / 打开目录 / 删除 */
@@ -2599,6 +2683,7 @@ async function openWorldActions(instanceId, folderName, name) {
 	document.getElementById('waDelete').onclick = async () => {
 		if (!confirm(t('worlds.deleteConfirm', { name }))) return;
 		try {
+			// M2-1①：删除已改为"移入恢复区"，后端返回 recoveryId，文案如实说"可找回"。
 			await SG.api.deleteSave(instanceId, folderName);
 			toast(t('worlds.deleted'));
 			closeModal();
@@ -3078,6 +3163,54 @@ function invalidate(nav) {
 
 /* ---------------- 启动 ---------------- */
 let launchInFlight = false;
+
+/* M2-1④：把后端的结构化问题归一成前端可用的形状。
+ *
+ * 为什么要归一而不是直接用 check.issues：
+ *   老后端（或降级到 mock 的 `_mock` 通道）只返回 errors/warnings 两个字符串数组。
+ *   如果不兜底，界面在旧内核上会变成"有问题但不显示任何内容"——比现在更糟。
+ *   所以：**issues 优先，缺失时用 errors/warnings 合成**，并统一补上 severity。
+ * 刻意不给合成项补 action：旧数据里没有动作信息，硬猜一个跳转是错的。 */
+function normPrelaunchIssues(check) {
+	if (Array.isArray(check.issues) && check.issues.length) {
+		return check.issues.map(x => ({
+			code: x.code || '',
+			severity: x.severity === 'warning' ? 'warning' : 'error',
+			message: x.message == null ? '' : String(x.message),
+			action: x.action || null,
+			actionLabel: x.actionLabel || null,
+		}));
+	}
+	const out = [];
+	(check.errors || []).forEach(m => out.push({ code: '', severity: 'error', message: String(m), action: null, actionLabel: null }));
+	(check.warnings || []).forEach(m => out.push({ code: '', severity: 'warning', message: String(m), action: null, actionLabel: null }));
+	return out;
+}
+
+/* M2-1④：按后端的 action 标识跳转到处理入口。
+ *
+ * 只认白名单里的三个值，其余一律 toast 提示"请到设置页处理"——
+ * 不认识的 action 静默无反应是最糟的，用户会以为按钮坏了。 */
+function runPrelaunchAction(action, instanceId) {
+	if (action === 'install-version') {
+		SG.goTo('downloads');
+		return;
+	}
+	if (action === 'select-java') {
+		Promise.resolve(SG.goTo('settings')).then(() => {
+			const btn = document.getElementById('btnJrePath');
+			if (btn) { btn.scrollIntoView({ block: 'center' }); btn.focus(); }
+		}).catch(() => { /* 导航失败不影响用户手动去设置页 */ });
+		return;
+	}
+	if (action === 'open-instance-settings') {
+		// 实例设置目前没有独立弹窗，内存与游戏目录都在设置页；直接跳过去。
+		SG.goTo('settings');
+		return;
+	}
+	toast(t('launch.fixHint'));
+}
+
 async function doLaunch(instanceId, label) {
 	if (!instanceId) { toast(t('launch.selectFirst')); return; }
 	if (launchInFlight) return;
@@ -3100,27 +3233,46 @@ async function doLaunch(instanceId, label) {
 		return;
 	}
 	if (check && !check.ok) {
-		const errs = (check.errors || []).map(x => `<div class="check-line err">⚠ ${esc(x)}</div>`).join('');
+		const issues = normPrelaunchIssues(check);
+		// 主按钮是「去处理」：直接跳到该问题的处理入口，不再让用户自己去翻设置页。
+		// 只取**第一条带 action 的错误**——引导必须唯一，给三个按钮等于没给。
+		const first = issues.find(x => x.severity === 'error' && x.action);
+		const errs = issues.filter(x => x.severity === 'error')
+			.map(x => `<div class="check-line err">⚠ ${esc(x.message)}</div>`).join('');
 		openModal(`
 			<div class="modal-title">${esc(t('launch.checkTitle'))}</div>
 			<div class="prelaunch-issues">${errs}</div>
+			${first ? `<p class="ui-muted">${esc(t('launch.fixHint'))}</p>` : ''}
 			<div class="modal-actions">
 				<button class="modal-btn" id="pcClose">${esc(t('common.close'))}</button>
+				${first ? `<button class="modal-btn primary" id="pcFix">${esc(first.actionLabel || t('launch.fix'))}</button>` : ''}
 			</div>`);
 		document.getElementById('pcClose').onclick = closeModal;
+		const fixBtn = document.getElementById('pcFix');
+		if (fixBtn && first) {
+			fixBtn.onclick = () => { closeModal(); runPrelaunchAction(first.action, instanceId); };
+		}
 		toast(t('launch.checkFailed'));
 		return;
 	}
 	if (check && check.warnings && check.warnings.length) {
-		const warns = (check.warnings || []).map(x => `<div class="check-line warn">⚠ ${esc(x)}</div>`).join('');
+		const issues = normPrelaunchIssues(check);
+		const firstWarn = issues.find(x => x.severity === 'warning' && x.action);
+		const warns = issues.filter(x => x.severity === 'warning')
+			.map(x => `<div class="check-line warn">⚠ ${esc(x.message)}</div>`).join('');
 		openModal(`
 			<div class="modal-title">${esc(t('launch.checkWarnTitle'))}</div>
 			<div class="prelaunch-issues">${warns}</div>
 			<div class="modal-actions">
 				<button class="modal-btn" id="pcCancel">${esc(t('common.cancel'))}</button>
+				${firstWarn ? `<button class="modal-btn" id="pcFix">${esc(firstWarn.actionLabel || t('launch.fix'))}</button>` : ''}
 				<button class="modal-btn primary" id="pcOk">${esc(t('launch.continue'))}</button>
 			</div>`);
 		document.getElementById('pcCancel').onclick = closeModal;
+		const warnFix = document.getElementById('pcFix');
+		if (warnFix && firstWarn) {
+			warnFix.onclick = () => { closeModal(); runPrelaunchAction(firstWarn.action, instanceId); };
+		}
 		document.getElementById('pcOk').onclick = async () => {
 			if (launchInFlight) return;
 			launchInFlight = true;
@@ -4610,6 +4762,17 @@ SG.__test__ = {
 	skinAvatar,
 	newsStateText,
 	newsErrorText,
+	// M2-1④：启动前检查的结构化引导（纯函数 + 一个按 action 跳转的动作分发）。
+	// 同样只在 __test__ 上挂引用，生产路径不引用 SG.__test__。
+	normPrelaunchIssues,
+	runPrelaunchAction,
+	doLaunch,
+	getLaunchInFlight() { return launchInFlight; },
+	// M2-1①：已删除存档（可恢复）区块的渲染与实例锚点选择。
+	renderSaveRecoveryList,
+	instanceIdForWorlds,
+	renderWorlds,
+	bindWorlds,
 	// LONG-QUALITY-GOAL / G2：六条普通用户流程的行为测试入口。
 	// 只导出既有内部函数，不改变任何运行时行为；生产路径不引用 SG.__test__。
 	openModal,

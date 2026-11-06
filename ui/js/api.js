@@ -751,6 +751,25 @@ SG.api = (() => {
 		},
 		async deleteSave(instanceId, folderName) {
 			const res = await _post('/api/instances/' + encodeURIComponent(instanceId) + '/saves/' + encodeURIComponent(folderName) + '/delete', {});
+			// M2-1①：删除已改为"移入恢复区"，后端返回 recoveryId 供"已删除存档"列表使用。
+			return {
+				ok: !!res.ok,
+				recoveryId: res.recoveryId || '',
+				sizeBytes: Number(res.sizeBytes) || 0,
+				recoverable: res.recoverable === true,
+				retentionDays: Number(res.retentionDays) || 0,
+			};
+		},
+		async listSaveRecoveries(instanceId) {
+			const res = await _req('/api/instances/' + encodeURIComponent(instanceId) + '/saves/recoveries');
+			return Array.isArray(res.recoveries) ? res.recoveries : [];
+		},
+		async restoreSaveRecovery(instanceId, operationId) {
+			const res = await _post('/api/instances/' + encodeURIComponent(instanceId) + '/saves/recoveries/' + encodeURIComponent(operationId) + '/restore', {});
+			return { ok: !!res.ok, restoredPath: res.restoredPath || '', saveFolderName: res.saveFolderName || '' };
+		},
+		async purgeSaveRecovery(instanceId, operationId) {
+			const res = await _post('/api/instances/' + encodeURIComponent(instanceId) + '/saves/recoveries/' + encodeURIComponent(operationId) + '/purge', {});
 			return { ok: !!res.ok };
 		},
 		async openSaveDirectory(instanceId, folderName) {
@@ -1155,6 +1174,16 @@ SG.api = (() => {
 			const list = SG.mock.worlds;
 			const idx = list.findIndex(w => w.name === folderName);
 			if (idx >= 0) list.splice(idx, 1);
+			// mock 通道也要给出与 live 同形的返回，否则演示模式下界面分支不一致。
+			return this._mock({ ok: true, recoveryId: 'mock-' + Date.now().toString(36), sizeBytes: 0, recoverable: true, retentionDays: 30 });
+		},
+		async listSaveRecoveries(instanceId) {
+			return this._mock([]);
+		},
+		async restoreSaveRecovery(instanceId, operationId) {
+			return this._mock({ ok: true, restoredPath: '[恢复] ' + operationId, saveFolderName: '' });
+		},
+		async purgeSaveRecovery(instanceId, operationId) {
 			return this._mock({ ok: true });
 		},
 		async openSaveDirectory(instanceId, folderName) {
