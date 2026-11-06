@@ -34,6 +34,16 @@ dotnet build dev/PineglowLauncher/Pineglow.Launcher.csproj -c Release
 
 发布工作流的目标为 Windows x64。项目包含跨平台框架，但目前不将 Linux 和 macOS 视为已验证的正式支持平台。
 
+### 平台支持范围（如实说明）
+
+| 平台 | 状态 | 具体含义 |
+|---|---|---|
+| **Windows x64** | **正式支持** | 唯一发布目标。单文件 EXE + 更新清单 + 冷启动验证都在这条链上实跑。运行界面需要 WebView2 Runtime。 |
+| Linux x64 | 仅构建验证 | CI 会编译 `linux-x64` 并跑前端测试，但**不保证能运行**。桌面宿主依赖 Win32 P/Invoke（窗口控制、进程管理）与 WebView2，Linux 上缺失这些能力，没有可用的边界替代。 |
+| macOS x64 | 仅构建验证 | 同上。且 CI 的 `Run tests` 步骤刻意跳过 macOS（Avalonia WinExe 主项目在 testhost 下无法加载 `Pineglow.Launcher.dll`，属测试宿主依赖解析问题，非测试逻辑失败）。 |
+
+**不要把"三平台 CI 通过"读成"三平台可用"。** CI 的三平台矩阵只保证**能编译**，Linux/macOS 不跑桌面宿主的真实链路。若需要在 Linux/macOS 上运行，需要先替换窗口宿主与 P/Invoke 层，这是独立的工作量，当前不在 v1.1.0 范围内。
+
 ## 项目结构
 
 - `dev/PineglowLauncher/`：桌面宿主和 C# 服务。
