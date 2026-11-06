@@ -54,6 +54,7 @@
 - **崩溃分析**：`CrashAnalyzerService` 为纯规则引擎，已通过 `instances/{id}/diagnose` 暴露 + AI 增强（见 ai-diagnosis-plan.md）。
 - **配置**：`AppConfig`，密钥字段（CurseForgeKey、Microsoft tokens）用 `[JsonIgnore]` 不掉盘。
 - **前端双模式**：`api.js` 的 `live` / `_mock` 双通道，`file://` 下走 mock 降级。
+- **测试与覆盖率（2026-11-06 补测后实测，引用前请核对日）**：C# **1325 / 1325**、前端 Node **448 / 448**（31 个文件），均 0 跳过；整体行覆盖 **63.3%**（8455 / 13360）、分支 **58.6%**。**覆盖率不是通过证据**——GUI 交互层与真实外部集成仍未自动化，详见 [test-coverage-supplement-2026-11-06.md](test-coverage-supplement-2026-11-06.md)。引用旧数字（982 / 385）的文档一律视为过期。
 
 ## 四、维护规约（必读）
 
