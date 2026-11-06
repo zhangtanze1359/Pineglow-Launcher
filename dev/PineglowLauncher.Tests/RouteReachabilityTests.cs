@@ -276,8 +276,27 @@ public class RouteReachabilityTests
 
 	/* ===================== 第 4 层：静态结构守卫（防复发） ===================== */
 
+	/// <summary>
+	/// M1-1（2026-11-06）改造后本测试的**语义反转**：
+	///
+	/// 原实现扫描 <c>HandleApiAsync</c> 方法体内所有 <c>if (seg.Length == N</c> 守卫，
+	/// 断言「不得有互斥长度嵌套」。它抓的是 2026-10-03 那次事故的**形态**。
+	///
+	/// 路由改成 <see cref="ApiRoute"/> 表驱动后，<c>HandleApiAsync</c> 里已经不存在任何
+	/// <c>seg.Length</c> 分支——那种嵌套结构在语法上已经无法写出。所以「扫描嵌套」变成
+	/// 恒真、无意义的断言（首次运行报的是「只识别到 0 个守卫，解析可能已失效」，
+	/// 正是本测试自己设计的"宁可吵闹地失败"保护，说明它诚实报了"我已经没东西可查"）。
+	///
+	/// **本测试没有删，而是换成同强度、甚至更强的断言**：
+	///   1. 旧形态必须彻底消失（方法体内不得再出现 <c>seg.Length</c> 约束分支）；
+	///   2. 路由表必须真实存在且非空；
+	///   3. 兜底 404 仍在（干的活没丢）。
+	/// 路由集合本身的正确性由 <c>ApiRouteInventoryTests</c> 逐条断言（11 个用例覆盖
+	/// 可达性、遮蔽、顺序契约、未登记路径、实例子路由不嵌套等）。两个测试合起来
+	/// 比原来那条静态扫描更强：原来只能发现"嵌套"，现在连"漏登记"都能发现。
+	/// </summary>
 	[Fact]
-	public void NoConflictingNestedSegLengthGuards_InHandleApiAsync()
+	public void HandleApiAsync_NoLongerContainsSegLengthBranches()
 	{
 		string src = File.ReadAllText(SourceFilePath());
 
@@ -303,71 +322,33 @@ public class RouteReachabilityTests
 		Assert.True(end > open, "HandleApiAsync 方法体未闭合，提取失败");
 
 		string body = src.Substring(open, end - open + 1);
-		Assert.Contains(FallbackMarker, body); // 提取区间必须覆盖到末尾的兜底 404
 
-		// 字符级扫描：不能按行首锚定——修复前的 :531 形如 "}				if (seg.Length == 6 ..."，
-		// 行首不是 if，按行锚定会漏掉最隐蔽的那一条。
-		// token 必须带上 "if ("：否则注释里出现的同名文本会被误当成守卫（本文件自己踩过一次）。
-		const string lengthToken = "if (seg.Length == ";
-		var scopeGuards = new Stack<int>(); // 0 = 无长度约束
-		var violations = new List<string>();
-		int guardCount = 0;
-		int pendingGuard = -1;
+		// 1) 兜底 404 必须还在（改造不得顺手把兜底删掉，否则未命中请求会返回空 200）。
+		Assert.Contains(FallbackMarker, body);
 
-		for (int i = 0; i < body.Length; i++)
+		// 2) 旧形态彻底消失：不得再有任何"用 seg.Length 做条件分支"的写法。
+		//    注意 token 带 "if ("：注释里出现的同名文本不算。
+		int legacyBranches = 0;
+		int scan = 0;
+		const string lengthToken = "if (seg.Length";
+		while ((scan = body.IndexOf(lengthToken, scan, StringComparison.Ordinal)) >= 0)
 		{
-			char c = body[i];
-
-			if (c == '{')
-			{
-				int inherited = scopeGuards.Count > 0 ? scopeGuards.Peek() : 0;
-				scopeGuards.Push(pendingGuard >= 0 ? pendingGuard : inherited);
-				pendingGuard = -1;
-				continue;
-			}
-
-			if (c == '}')
-			{
-				if (scopeGuards.Count > 0) scopeGuards.Pop();
-				continue;
-			}
-
-			if (c != 'i' || i + lengthToken.Length > body.Length
-				|| string.CompareOrdinal(body, i, lengthToken, 0, lengthToken.Length) != 0)
-			{
-				continue;
-			}
-
-			int j = i + lengthToken.Length;
-			int len = 0;
-			bool hasDigits = false;
-			while (j < body.Length && body[j] >= '0' && body[j] <= '9')
-			{
-				len = len * 10 + (body[j] - '0');
-				hasDigits = true;
-				j++;
-			}
-
-			if (hasDigits)
-			{
-				guardCount++;
-				int inherited = scopeGuards.Count > 0 ? scopeGuards.Peek() : 0;
-				if (inherited != 0 && inherited != len)
-				{
-					violations.Add(
-						$"    第 {LineNumberOf(body, i)} 行：{SnippetAt(body, i)}"
-						+ $"   ← 被嵌套在 seg.Length == {inherited} 的作用域内，条件恒假");
-				}
-				pendingGuard = len;
-			}
-
-			i = j - 1;
+			legacyBranches++;
+			scan += lengthToken.Length;
 		}
 
-		Assert.True(guardCount >= 25,
-			$"静态扫描只识别到 {guardCount} 个 seg.Length == N 守卫（下限 25），解析可能已失效——宁可吵闹地失败，不要静默通过");
-		Assert.True(violations.Count == 0,
-			"检测到互斥嵌套的长度守卫，相关路由将永远不可达：\n" + string.Join("\n", violations));
+		Assert.True(legacyBranches == 0,
+			$"HandleApiAsync 内仍有 {legacyBranches} 处 seg.Length 分支。"
+			+ "路由必须全部登记到 ApiRoute 表（LocalApiService.Routes），否则无法被清单测试校验——"
+			+ "2026-10-03 的 10 条恒 404 路由正是因为路由集合只存在于执行路径里。");
+
+		// 3) 必须真的通过路由表分发，而不是另起一套隐式逻辑。
+		Assert.Contains("ResolveRoute", body);
+
+		// 4) 路由表必须可枚举且非空（这是清单测试的前提）。
+		Assert.NotNull(LocalApiService.Routes);
+		Assert.True(LocalApiService.Routes.Count >= 50,
+			$"路由表仅 {LocalApiService.Routes.Count} 条，疑似未正确初始化");
 	}
 
 	private static int LineNumberOf(string text, int index)
