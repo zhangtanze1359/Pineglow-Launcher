@@ -4597,6 +4597,19 @@ SG.__test__ = {
 	resetNews() { LIVE_NEWS = null; NEWS_META = null; NEWS_INFLIGHT = 0; NEWS_REQ_GEN = 0; NEWS_LAST_ATTEMPT = 0; },
 	getNewsMeta() { return NEWS_META; },
 	getNewsItems() { return LIVE_NEWS; },
+	// 纯函数区（无 DOM / 无网络 / 无状态）：一个字符改错就静默出错，必须能直测。
+	// 仅在同一 __test__ 对象里增加引用，不改任何运行时行为；生产路径不引用 SG.__test__。
+	esc,
+	loaderColor,
+	firstLetter,
+	uiText,
+	uiIcon,
+	uiPlayTime,
+	parseValidatedAt,
+	steveSvg,
+	skinAvatar,
+	newsStateText,
+	newsErrorText,
 	// LONG-QUALITY-GOAL / G2：六条普通用户流程的行为测试入口。
 	// 只导出既有内部函数，不改变任何运行时行为；生产路径不引用 SG.__test__。
 	openModal,
