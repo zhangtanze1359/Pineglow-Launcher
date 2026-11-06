@@ -36,6 +36,10 @@ public static partial class LocalApiService
 
 	private static FileRecoveryService CreateRecoveryService() => new FileRecoveryService(ResolveRecoveryRoot());
 
+	// M2-1①：存档级可恢复删除。与文件恢复共用同一个根，但记录与数据放在 saves/ 子目录下，
+	// 两套 ListAsync 天然互不可见（否则 Mod 恢复界面会看到它无法恢复的存档条目）。
+	private static SaveRecoveryService CreateSaveRecoveryService() => new SaveRecoveryService(ResolveRecoveryRoot());
+
 	internal static IDisposable OverrideRecoveryRootForTest(string root)
 	{
 		if (string.IsNullOrWhiteSpace(root)) throw new ArgumentNullException(nameof(root));

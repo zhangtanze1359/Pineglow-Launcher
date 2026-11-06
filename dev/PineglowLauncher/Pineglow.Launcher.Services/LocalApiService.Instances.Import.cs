@@ -175,92 +175,100 @@ public static partial class LocalApiService
 		});
 	}
 
+	/// <summary>
+	/// M2-1④ 启动前自检。
+	///
+	/// 本方法只做两件事：**采集事实**（IO）与**序列化**。判定全部交给
+	/// <see cref="PrelaunchCheckEvaluator.Evaluate"/>，因为判定逻辑是纯函数，
+	/// 可以脱离文件系统直测——这正是原来做不到的（原先判定和 IO 混在一起，
+	/// 想测「内存接近上限时要给警告」就得先造一台内存刚好不够的机器）。
+	///
+	/// 返回体的兼容性口径：
+	///   * <c>errors</c> / <c>warnings</c> 两个字符串数组**保留**，旧前端与外部调用方不受影响；
+	///   * 新增 <c>issues</c> 结构化数组（code / severity / message / action / actionLabel），
+	///     新前端只按 code 与 action 分支，**不解析任何中文文案**。
+	/// </summary>
 	private static async Task HandlePrelaunchCheckAsync(HttpListenerResponse response, string instanceId)
 	{
 		AppConfig config = LoadConfig();
 		GameInstance instance = RequireInstance(config, instanceId);
-		List<string> errors = new List<string>();
-		List<string> warnings = new List<string>();
 
-		if (string.IsNullOrWhiteSpace(instance.MinecraftVersion))
-		{
-			errors.Add("实例未关联游戏版本，请先在设置中安装版本");
-		}
-
-		// Java 检查
+		// ---- 采集：Java ----
+		string javaPath = string.Empty;
+		bool javaExists = false;
+		string javaError = string.Empty;
 		try
 		{
-			string javaPath = ResolveJavaPath(config, instance, instance.MinecraftVersion ?? string.Empty);
-			if (!File.Exists(javaPath))
-			{
-				errors.Add("Java 运行时不存在：" + javaPath);
-			}
+			javaPath = ResolveJavaPath(config, instance, instance.MinecraftVersion ?? string.Empty);
+			javaExists = File.Exists(javaPath);
 		}
 		catch (Exception ex)
 		{
-			errors.Add(ex.Message);
+			// 解析抛异常是"该去重新选 Java"，与"路径存在但文件没了"不是一回事，
+			// 所以单独记在 JavaResolveError 上，由判定层给出不同的问题码。
+			javaError = ex.Message;
 		}
 
-		// 游戏目录存在性
+		// ---- 采集：游戏目录 ----
 		string gameDir = ResolveGameDirectory(config, instance);
-		if (!Directory.Exists(gameDir))
-		{
-			warnings.Add("游戏目录不存在（首次启动将自动创建）：" + gameDir);
-		}
+		bool gameDirExists = Directory.Exists(gameDir);
 
-		// 磁盘空间
+		// ---- 采集：磁盘剩余 ----
+		long driveFree = 0;
 		try
 		{
 			string root = Path.GetPathRoot(Path.GetFullPath(gameDir));
 			if (!string.IsNullOrWhiteSpace(root) && Directory.Exists(root))
 			{
 				DriveInfo drive = new DriveInfo(root);
-				if (drive.IsReady && drive.AvailableFreeSpace < 512L * 1024 * 1024)
+				if (drive.IsReady)
 				{
-					warnings.Add($"磁盘剩余空间不足：{FormatBytes(drive.AvailableFreeSpace)}，建议保留至少 512MB");
+					driveFree = drive.AvailableFreeSpace;
 				}
 			}
 		}
 		catch
 		{
+			// 拿不到就按 0 处理，判定层把 0 视为"未知，不提示"——不把未知当成通过。
 		}
 
-		// 内存检查（TotalAvailableMemoryBytes 为当前进程可用内存预算，跨平台无依赖）
+		// ---- 采集：内存 ----
+		// TotalAvailableMemoryBytes 是当前进程的可用内存预算，跨平台无依赖。
 		int maxMemoryMb = instance.MaxMemoryMb > 0 ? instance.MaxMemoryMb : config.MaxMemoryMb;
-		long availableMb = 0;
+		long availableBytes = 0;
 		try
 		{
-			availableMb = GC.GetGCMemoryInfo().TotalAvailableMemoryBytes / (1024 * 1024);
+			availableBytes = GC.GetGCMemoryInfo().TotalAvailableMemoryBytes;
 		}
 		catch
 		{
 		}
 
-		if (availableMb > 0 && maxMemoryMb >= availableMb * 0.9)
-		{
-			warnings.Add($"分配内存 {maxMemoryMb}MB 接近当前可用内存 {availableMb}MB，可能导致卡顿或启动失败");
-		}
+		PrelaunchFacts facts = new PrelaunchFacts(
+			instance.MinecraftVersion ?? string.Empty,
+			javaPath,
+			javaExists,
+			javaError,
+			gameDir,
+			gameDirExists,
+			driveFree,
+			availableBytes,
+			maxMemoryMb);
+
+		List<PrelaunchIssue> issues = PrelaunchCheckEvaluator.Evaluate(facts);
+
+		// 由 issues 派生旧字段，保证两套口径**不可能**互相矛盾。
+		List<string> errors = issues.Where(x => x.IsError).Select(x => x.Message).ToList();
+		List<string> warnings = issues.Where(x => !x.IsError).Select(x => x.Message).ToList();
 
 		await WriteJsonAsync(response, 200, new
 		{
 			ok = errors.Count == 0,
 			errors,
 			warnings,
+			issues,
 			maxMemoryMb,
 			gameDir
 		});
-	}
-
-	private static string FormatBytes(long bytes)
-	{
-		string[] units = new string[4] { "B", "KB", "MB", "GB" };
-		double value = bytes;
-		int idx = 0;
-		while (value >= 1024.0 && idx < units.Length - 1)
-		{
-			value /= 1024.0;
-			idx++;
-		}
-		return $"{value:0.##} {units[idx]}";
 	}
 }

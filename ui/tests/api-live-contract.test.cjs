@@ -209,6 +209,41 @@ test('live: deleteSave → POST .../saves/{folder}/delete', async () => {
 	assertCall(lastCall(calls), 'POST', '/api/instances/inst1/saves/world1/delete');
 });
 
+test('live: listSaveRecoveries → GET .../saves/recoveries', async () => {
+	// M2-1①：已删除存档列表。注意路径是 saves/recoveries，**没有 folder 段**——
+	// 写成 .../saves/{folder}/recoveries 会命中不了后端登记的路由（段数不同）。
+	const { api, calls } = loadApi();
+	await api.listSaveRecoveries('inst1');
+	assertCall(lastCall(calls), 'GET', '/api/instances/inst1/saves/recoveries');
+});
+
+test('live: restoreSaveRecovery → POST .../saves/recoveries/{op}/restore', async () => {
+	const { api, calls } = loadApi();
+	await api.restoreSaveRecovery('inst1', 'op-1');
+	assertCall(lastCall(calls), 'POST', '/api/instances/inst1/saves/recoveries/op-1/restore');
+});
+
+test('live: purgeSaveRecovery → POST .../saves/recoveries/{op}/purge', async () => {
+	const { api, calls } = loadApi();
+	await api.purgeSaveRecovery('inst1', 'op-1');
+	assertCall(lastCall(calls), 'POST', '/api/instances/inst1/saves/recoveries/op-1/purge');
+});
+
+test('live: deleteSave 会把 recoveryId 与 recoverable 透传给界面', async () => {
+	// 前端靠这两个字段决定"是否提示可从恢复区找回"，丢了就变成一句笼统的"已删除"。
+	// 用既有的 payloadFor 钩子覆写响应体（不新增测试专用入口）。
+	const { api } = loadApi({
+		payloadFor: () => ({ ok: true, folderName: 'world1', recoveryId: 'op-42', sizeBytes: 2048, recoverable: true, retentionDays: 30 }),
+	});
+	const res = await api.deleteSave('inst1', 'world1');
+
+	assert.equal(res.ok, true);
+	assert.equal(res.recoveryId, 'op-42');
+	assert.equal(res.sizeBytes, 2048);
+	assert.equal(res.recoverable, true);
+	assert.equal(res.retentionDays, 30);
+});
+
 test('live: listSaveBackups → GET .../saves/{folder}/backups', async () => {
 	const { api, calls } = loadApi();
 	await api.listSaveBackups('inst1', 'world1');

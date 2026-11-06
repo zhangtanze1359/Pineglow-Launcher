@@ -136,13 +136,119 @@ public static partial class LocalApiService
 		await WriteJsonAsync(response, 200, new { ok = true, path = restoredPath, backupName });
 	}
 
+	/// <summary>
+	/// M2-1①：删除存档 = **移入恢复区**，不再物理删除。
+	///
+	/// 修复前这里直接 <c>Directory.Delete(recursive: true)</c> —— 用户点错一次存档就永久没了，
+	/// 而本版把「存档保护」定为 P0 目标，这条是最大的缺口。
+	///
+	/// 行为变化：
+	///   * 成功：返回 <c>recoveryId</c>（恢复记录 ID）与占用空间，前端可据此提示"可在恢复区找回"；
+	///   * 失败：**源存档保持原样**，返回明确原因（SaveRecoveryService 保证这个不变量）。
+	/// </summary>
 	private static async Task HandleDeleteSaveAsync(HttpListenerResponse response, string instanceId, string folderName)
 	{
 		AppConfig config = LoadConfig();
-		SaveInfo save = RequireSave(config, instanceId, folderName);
-		string gameDir = ResolveGameDirectory(config, RequireInstance(config, instanceId));
-		new SaveService(gameDir).DeleteSave(save);
-		await WriteJsonAsync(response, 200, new { ok = true, folderName });
+		GameInstance instance = RequireInstance(config, instanceId);
+
+		// 与"打开目录"同一处并发守卫：游戏正在跑时删存档会同时被 Java 写入，属于必然冲突。
+		if (RunningInstanceRegistry.IsRunning(instanceId, out int runningPid))
+		{
+			throw new InvalidOperationException($"该实例正在运行（进程 {runningPid}），请先退出游戏再删除存档。");
+		}
+
+		RequireSave(config, instanceId, folderName);
+		string gameDir = ResolveGameDirectory(config, instance);
+
+		SaveRecoveryRecord record = await CreateSaveRecoveryService()
+			.DeleteAsync(instanceId, gameDir, folderName)
+			.ConfigureAwait(false);
+
+		await WriteJsonAsync(response, 200, new
+		{
+			ok = true,
+			folderName,
+			recoveryId = record.OperationId,
+			sizeBytes = record.SizeBytes,
+			// 前端据此决定要不要提示"可在恢复区找回"，不解析文案
+			recoverable = true,
+			retentionDays = SaveRecoveryService.DefaultRetentionDays,
+		});
+	}
+
+	/// <summary>M2-1①：列出该实例已删除（可恢复）的存档。</summary>
+	private static async Task HandleListSaveRecoveriesAsync(HttpListenerResponse response, string instanceId)
+	{
+		AppConfig config = LoadConfig();
+		RequireInstance(config, instanceId);
+
+		List<SaveRecoveryRecord> records = await CreateSaveRecoveryService()
+			.ListAsync(instanceId)
+			.ConfigureAwait(false);
+
+		await WriteJsonAsync(response, 200, new
+		{
+			instanceId,
+			retentionDays = SaveRecoveryService.DefaultRetentionDays,
+			recoveries = records.Select(r => new
+			{
+				r.OperationId,
+				r.SaveFolderName,
+				r.CreatedAt,
+				expiresAt = SaveRecoveryService.GetExpiresAt(r),
+				r.Status,
+				r.FileCount,
+				r.SizeBytes,
+				sizeText = SaveProgressText(r.SizeBytes),
+				r.RestoredAt,
+				r.RestoredPath,
+				r.Error,
+			}),
+		});
+	}
+
+	/// <summary>M2-1①：把已删除的存档恢复回 saves 目录（同名冲突恢复为副本，不覆盖）。</summary>
+	private static async Task HandleRestoreSaveRecoveryAsync(HttpListenerResponse response, string instanceId, string operationId)
+	{
+		AppConfig config = LoadConfig();
+		GameInstance instance = RequireInstance(config, instanceId);
+		string gameDir = ResolveGameDirectory(config, instance);
+
+		SaveRecoveryRecord record = await CreateSaveRecoveryService()
+			.RestoreAsync(instanceId, operationId, gameDir)
+			.ConfigureAwait(false);
+
+		await WriteJsonAsync(response, 200, new
+		{
+			ok = true,
+			operationId,
+			restoredPath = record.RestoredPath,
+			saveFolderName = record.SaveFolderName,
+		});
+	}
+
+	/// <summary>M2-1①：永久清理恢复区副本。恢复区**不自动清空**，只有用户显式操作才会删。</summary>
+	private static async Task HandlePurgeSaveRecoveryAsync(HttpListenerResponse response, string instanceId, string operationId)
+	{
+		AppConfig config = LoadConfig();
+		RequireInstance(config, instanceId);
+
+		await CreateSaveRecoveryService().PurgeAsync(instanceId, operationId).ConfigureAwait(false);
+		await WriteJsonAsync(response, 200, new { ok = true, operationId });
+	}
+
+	private static string SaveProgressText(long bytes)
+	{
+		string[] units = { "B", "KB", "MB", "GB" };
+		double value = bytes;
+		int idx = 0;
+		while (value >= 1024.0 && idx < units.Length - 1)
+		{
+			value /= 1024.0;
+			idx++;
+		}
+
+		return $"{value:0.##} {units[idx]}";
 	}
 
 	private static async Task HandleOpenSaveDirectoryAsync(HttpListenerResponse response, string instanceId, string folderName)
