@@ -370,7 +370,5 @@ public class RouteReachabilityTests
 		return text.Substring(start, end - start).Trim();
 	}
 
-	private static string SourceFilePath() => Path.Combine(
-		AppContext.BaseDirectory, "..", "..", "..", "..",
-		"PineglowLauncher", "Pineglow.Launcher.Services", "LocalApiService.cs");
+	private static string SourceFilePath() => LocalApiServiceSource.PathOf("LocalApiService.Routing.cs");
 }

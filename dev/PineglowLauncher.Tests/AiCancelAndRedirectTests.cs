@@ -96,16 +96,20 @@ public class AiCancelAndRedirectTests
 
 	// ====== RED-1：路由不可达（v3：cancel 路由被通用 diagnose 截获）======
 	// v3 实现后 GREEN：精确 seg.Length==5 cancel 路由先于 seg.Length==4 diagnose 路由。
+	//
+	// M1-2（2026-11-06）：路由表已从 LocalApiService.cs 迁到 LocalApiService.Routing.cs，
+	// 因此"谁在前"必须在该文件的 BuildRoutes 内比较，而不是在原来那个单文件里比方法定义位置——
+	// 方法体早就分散到 LocalApiService.Diagnostics.cs 了，跨文件比位置没有意义。
 	[Fact]
 	public void RED1_CancelRoutePath_MustComeBeforeDiagnoseRoute()
 	{
-		string src = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "PineglowLauncher", "Pineglow.Launcher.Services", "LocalApiService.cs"));
+		string src = LocalApiServiceSource.Single("LocalApiService.Routing.cs");
 		const string cancelMarker = "HandleCancelDiagnoseAsync";
 		const string diagnoseMarker = "HandleDiagnoseInstanceAsync";
 		int cancelIdx = src.IndexOf(cancelMarker, StringComparison.Ordinal);
 		int diagnoseIdx = src.IndexOf(diagnoseMarker, StringComparison.Ordinal);
-		Assert.True(cancelIdx > 0, "cancel route must exist in LocalApiService.cs");
-		Assert.True(diagnoseIdx > 0, "diagnose route must exist in LocalApiService.cs");
+		Assert.True(cancelIdx > 0, "cancel route must be registered in LocalApiService.Routing.cs");
+		Assert.True(diagnoseIdx > 0, "diagnose route must be registered in LocalApiService.Routing.cs");
 		Assert.True(cancelIdx < diagnoseIdx, "cancel route must come BEFORE diagnose route");
 	}
 
@@ -113,7 +117,7 @@ public class AiCancelAndRedirectTests
 	[Fact]
 	public void RED2_ServerDoesNotGenerateOperationId_MissingReturns400()
 	{
-		string src = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "PineglowLauncher", "Pineglow.Launcher.Services", "LocalApiService.cs"));
+		string src = LocalApiServiceSource.All();
 		Assert.False(
 			src.Contains("operationId = Guid.NewGuid().ToString(\"N\")"),
 			"RED 当前：服务端不再生成 operationId；必须由客户端预生成"
@@ -128,24 +132,10 @@ public class AiCancelAndRedirectTests
 	[Fact]
 	public void RED3_CancelEndpoint_ReturnsCancelContract_NotDiagnoseObject()
 	{
-		string src = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "PineglowLauncher", "Pineglow.Launcher.Services", "LocalApiService.cs"));
+		string src = LocalApiServiceSource.Single("LocalApiService.Diagnostics.cs");
 		// 找方法定义：形如 "private static async Task HandleCancelDiagnoseAsync("
-		int sigIdx = src.IndexOf("private static async Task HandleCancelDiagnoseAsync(", StringComparison.Ordinal);
-		Assert.True(sigIdx > 0, "HandleCancelDiagnoseAsync definition must exist");
-		int bodyStart = src.IndexOf('{', sigIdx);
-		Assert.True(bodyStart > 0, "cancel method body open brace must exist");
-		int depth = 0;
-		int bodyEnd = bodyStart;
-		for (int i = bodyStart; i < src.Length; i++)
-		{
-			if (src[i] == '{') depth++;
-			else if (src[i] == '}')
-			{
-				depth--;
-				if (depth == 0) { bodyEnd = i + 1; break; }
-			}
-		}
-		string body = src.Substring(bodyStart, bodyEnd - bodyStart);
+		string body = LocalApiServiceSource.MethodBody(
+			src, "private static async Task HandleCancelDiagnoseAsync(");
 		Assert.Contains("cancelled", body);
 		Assert.Contains("message", body);
 		Assert.Contains("operationId", body);
@@ -263,7 +253,7 @@ public class AiCancelAndRedirectTests
 	[Fact]
 	public void RED4_NewsService_MustNotBeWiredToAiHttp()
 	{
-		string src = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "PineglowLauncher", "Pineglow.Launcher.Services", "LocalApiService.cs"));
+		string src = LocalApiServiceSource.All();
 		Assert.False(
 			src.Contains("LauncherContentNewsProvider(() => AiHttp)"),
 			"RED 当前：NewsService 仍通过 () => AiHttp 获取客户端"
