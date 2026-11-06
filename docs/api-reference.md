@@ -1,6 +1,6 @@
 # API 协议（LocalApiService）
 
-> **最后核对日：2026-11-06**（对照 `dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.cs` 与 `Ui` 静态资源投放路径实测）。
+> **最后核对日：2026-11-06**（对照 `dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService*.cs`（18 个 partial）与 `Ui` 静态资源投放路径实测）。
 > 协议约定：错误响应体含 `error` 或 `message` 字段；业务错误返回 400，未捕获异常返回 500。
 
 ## 一、基础信息
@@ -32,7 +32,10 @@
 
 ## 二、完整端点表
 
-> 口径说明：下表按**端点路径**计数（同路径不同方法合并为一行，路径参数以 `{id}` 标注），共 59 条，与源码中 43 个 `seg[n].Equals(...)` 字面量分支对应——字面量是「路由段」数量，端点表是「可访问路径」数量，两者不同层级、不应互相校验。
+> 口径说明：下表按**端点路径**计数（同路径不同方法合并为一行，路径参数以 `{id}` 标注），共 59 条。
+> 源码口径是 **72 条路由项**（`LocalApiService.Routes.Count`，2026-11-06 实测；M1-1 起为可枚举表，
+> 与「可访问路径」不同层级：同路径不同方法在表里是两条）。两者不应互相校验，但比例失控即说明漏登记。
+> **旧口径作废**：此前写的「43 个 `seg[n].Equals(...)` 字面量分支」是手工 if 链时代的计数，M1-1 改造后该形态已不存在。
 
 ### 系统
 | 端点 | 方法 | 用途 |
@@ -136,20 +139,33 @@
 |---|---|---|
 | `/api/worlds` | GET | 世界/存档列表 |
 
-## 三、路由实现逻辑（手工路由）
+## 三、路由实现逻辑（表驱动）
 
-`HandleApiAsync` 基于路径分割手工匹配，**不使用 ASP.NET/框架**：
+**2026-11-06（M1-1）起不再是手工 `if` 链**：路由集合是一份可枚举的 `ApiRoute` 表，
+位于 `dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Routing.cs`。
 
 ```
 seg = path.Trim('/').Split('/')   // ["api", "instances", "{id}", "launch", ...]
+→ LocalApiService.ResolveRoute(method, seg)   // 取第一个命中项
+→ route.Handler(context, seg)
+→ 未命中：末尾兜底 404（"未找到接口：{method} {path}"）
 ```
 
-- 每个端点一个 `if` 条件，匹配 `seg.Length` + `seg[i].Equals(...)` + `method`。
-- 命中即调用对应 `HandleXxxAsync` 并 `return`。
-- 未命中落到末尾 `404`。
+- 一条路由 = 方法 + 段数区间（`MinSegments`/`MaxSegments`）+ 段索引→字面值 + handler，
+  由 `ApiRoute.Exact` / `ApiRoute.Range` 声明。
+- **顺序即优先级**：`ResolveRoute` 取第一个命中项，与原手工 `if` 链语义一致。
+  典型约束：`instances/{id}/diagnose/cancel`（5 段）必须早于通用 `diagnose`（4 段）；
+  `accounts/microsoft/device|poll` 必须早于 `accounts/microsoft` 的任意长度兜底。
+- 路由项 **72 条**（2026-11-06 实测 `LocalApiService.Routes.Count`）。
 - 异常：`InvalidOperationException` → 400（业务错误）；其他 → 500。
 
-**新增接口的接入点**：在 `HandleApiAsync` 的对应 `seg` 区段追加 `if`，并新增一个 `HandleXxxAsync` 方法。
+> **为什么改表**：2026-10-03 出过一次真实事故——要求段长 5/6/8 的 4 组守卫被嵌进
+> 约束「段长 4」的块内，条件恒假，**10 条路由永久 404**，当时 796 个绿色测试毫无感知。
+> 根因不是写错，而是"路由集合只存在于执行路径里"，没有可枚举、可断言、可对着文档核对的清单。
+
+**新增接口的接入点**：在 `BuildRoutes()` 里加一行 `r.Add(ApiRoute.Exact(...))`，
+并在对应域文件（`LocalApiService.<Domain>.cs`）里新增 `HandleXxxAsync`。
+**漏登记会被 `ApiRouteInventoryTests` 抓到**——那条测试会枚举 `Routes` 并逐条断言可达性。
 
 ## 四、关键坑点
 

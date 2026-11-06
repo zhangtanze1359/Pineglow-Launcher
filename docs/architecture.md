@@ -21,7 +21,7 @@
 │  C# 服务层（原样复用，勿重写）                   │
 │   LocalApiService（HttpListener 桥接 + 静态托管） │
 │   InstanceService/LauncherService/下载/账号/     │
-│   版本/Mod/Java/更新 等 85 个 .cs 文件          │
+│   版本/Mod/Java/更新 等 103 个 .cs 文件         │
 └────────────────────────────────────────────────┘
 ```
 
@@ -52,7 +52,7 @@
 
 ### 3. C# 服务层（`Pineglow.Launcher.Services/`）
 
-- **85 个服务**（`Pineglow.Launcher.Services/*.cs` 磁盘实测，2026-11-06 计数；早期文档写的「约 67 个」已过时），静态类/实例类并存，构造注入，无 IoC 容器。
+- **103 个 `.cs`**（`Pineglow.Launcher.Services/*.cs` 磁盘实测，2026-11-06；其中 18 个是 `LocalApiService` 按域拆分的 partial）。早期文档写的「约 67 个」「85 个」分别是 2026-08 与 M1-2 拆分前的旧快照。静态类/实例类并存，构造注入，无 IoC 容器。
 - 均以 `Pineglow.Launcher.*` 命名空间（MCMini 残留已清零，仅剩用户数据路径 `%AppData%\MCMiniLauncher`）。
 - `LocalApiService` 是唯一对前端暴露的网关（详见 engineering.md / api-reference.md）。
 

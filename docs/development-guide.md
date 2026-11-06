@@ -14,7 +14,7 @@
 │   ├── PineglowLauncher/            # 主项目（net10.0, x64, WinExe）
 │   │   ├── Pineglow.Launcher/       #   入口（App/Program）
 │   │   ├── Pineglow.Launcher.Models/#   数据模型（52 个 .cs）
-│   │   ├── Pineglow.Launcher.Services/# 服务层（85 个 .cs，核心业务）
+│   │   ├── Pineglow.Launcher.Services/# 服务层（103 个 .cs，核心业务）
 │   │   ├── Pineglow.Launcher.Views/ #   WebShellWindow（Avalonia 宿主）
 │   │   ├── Pineglow.Launcher.csproj
 │   │   └── VerifyHost/              # 轻量控制台宿主：起 LocalApiService + --bisect-smoke 冒烟
@@ -99,8 +99,8 @@ dev/PineglowLauncher/VerifyHost/bin/Debug/net10.0/VerifyHost.exe --bisect-smoke
 
 ## 六、改动纪律（重要）
 
-1. **服务层原样复用，勿重写**：核心逻辑在 `Pineglow.Launcher.Services`（85 个 `.cs`，2026-11-06 实测），前端 / API / UI 只是"接通 + 写盘"。改功能先改服务，再补 API 端点与前端封装。
-2. **新增 API 端点**：在 `LocalApiService.HandleApiAsync` 的手工路由处加分支（`seg` 逐段匹配），并同步更新 `docs/api-reference.md`。**新增分支必须同时补一条打到 HTTP 层的路由可达测试**——只测服务层发现不了「守卫条件恒假、路由落进 404 兜底」这类缺陷（2026-10-03 曾有 10 条路由因此永不可达）。
+1. **服务层原样复用，勿重写**：核心逻辑在 `Pineglow.Launcher.Services`（103 个 `.cs`，2026-11-06 实测），前端 / API / UI 只是"接通 + 写盘"。改功能先改服务，再补 API 端点与前端封装。
+2. **新增 API 端点**：在 `LocalApiService.Routing.cs` 的 `BuildRoutes()` 里登记一行 `ApiRoute`，handler 放进对应的域文件（`LocalApiService.<Domain>.cs`，见 `docs/engineering.md` 的文件布局表），并同步更新 `docs/api-reference.md`。**新增路由必须同时补一条打到 HTTP 层的路由可达测试**——只测服务层发现不了「守卫条件恒假、路由落进 404 兜底」这类缺陷（2026-10-03 曾有 10 条路由因此永不可达）。`ApiRouteInventoryTests` 会枚举 `Routes` 抓漏登记。
 3. **前后端双写**：`api.js` 的 `live` 与 `_mock` 必须同步（见第四节）。**新请求必须带 `X-Pineglow-Token` 头**，`live` 通道里由统一封装注入，不要在业务代码里逐个手写。
 4. **版本单一来源**：`dev/PineglowLauncher/Pineglow.Launcher.csproj` 的 `<Version>` 是程序集、文件与发布产物的**唯一来源**（csproj 内已有注释说明）。仓库中**不存在** `AssemblyInfo.cs`；`GenerateAssemblyInfo` 保持默认（true）。历史文档曾写「AssemblyInfo.cs 为运行时准、csproj 供发布脚本引用」，与代码不符，已更正——不要按旧说法手写第二处版本号。
 5. **配置改动**：`AppConfig` 增删字段涉及全量落盘 `config.json`；含密钥的字段加 `[JsonIgnore]` 避免明文落盘（先例：`CurseForgeKey`）。
@@ -118,7 +118,7 @@ dev/PineglowLauncher/VerifyHost/bin/Debug/net10.0/VerifyHost.exe --bisect-smoke
 | 现象 | 排查方向 |
 |---|---|
 | 前端改了但运行没变化 | 检查 `ui/` 是否被拷入输出目录（csproj `PreserveNewest`）；确认访问的是 `http://127.0.0.1:48123` 而非缓存旧资源 |
-| API 请求 404 | `LocalApiService.HandleApiAsync` 手工路由未匹配；对照 `docs/api-reference.md` 检视 `seg` 长度与 action 拼写 |
+| API 请求 404 | `LocalApiService.Routes` 未命中；对照 `docs/api-reference.md` 检查该端点是否已登记到 `BuildRoutes()`，以及 `seg` 段数字面值与 action 拼写 |
 | 端口被占用 | 换环境变量 `PINEGLOW_API_PORT` 指定端口 |
 | 测试在本地跑失败 | 确认是本机 .NET 版本差异，还是逻辑改动；CI 只在 Linux 跑 |
 | 页面串叠 / 渲染竞态 | `launcher.js` 用 `navSeq` 做渲染竞态抑制，改动导航逻辑时勿破坏该机制 |

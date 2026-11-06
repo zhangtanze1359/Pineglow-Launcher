@@ -18,7 +18,7 @@
 
 ## 一、项目一句话
 
-**Pineglow Launcher（松光启动器）** —— Minecraft 启动器，**纯 Web UI 架构**：Avalonia 仅作 WebView2 宿主，界面由 `ui/` 下的 HTML/CSS/JS 实现，通过本地 `LocalApiService`（HttpListener，127.0.0.1:48123）与 C# 服务层（**85 个 `.cs`**，2026-11-06 磁盘实测）通信。
+**Pineglow Launcher（松光启动器）** —— Minecraft 启动器，**纯 Web UI 架构**：Avalonia 仅作 WebView2 宿主，界面由 `ui/` 下的 HTML/CSS/JS 实现，通过本地 `LocalApiService`（HttpListener，127.0.0.1:48123）与 C# 服务层（**103 个 `.cs`**，2026-11-06 拆分后实测）通信。
 
 ## 二、知识库导航
 
@@ -40,8 +40,16 @@
 - **远端实况**：远端 `main` = `30f7b56`（v1.0.3 源码，2026-11-03）；已发布 Release 两个：`v1.0.3`（3 个附件）与 `v1.0.0`（2 个附件）；`v1.0.1` / `v1.0.2` 只有 tag，**无 Release**（v1.0.1 发布失败、v1.0.2 被取消）。
 - **版本号**：`dev/PineglowLauncher/Pineglow.Launcher.csproj` 的 `<Version>` 是程序集、文件与发布产物的**唯一来源**（远端为 `1.0.3`）。本地主工作区 HEAD `47e939c` 的 csproj 仍是 `1.0.0`，属**落后于远端的旧状态**，不要当作当前版本。
 - **CI**：`.github/workflows/build.yml`（三平台构建 + Linux 测试）+ `release.yml`（发布 + Gitee 镜像）。最近一次 `main` 构建（run 41599393945）Windows/macOS 通过，**Ubuntu 在 "Run tests" 步骤失败**；`Release v1.0.3` 工作流为 success。
+- **平台支持范围（重要，别把"三平台 CI 通过"读成"三平台可用"）**：
+
+| 平台 | 状态 | 含义 |
+|---|---|---|
+| **Windows x64** | **正式支持** | 唯一发布目标。单文件 EXE、更新清单、冷启动验证都在这条链上实跑；运行界面需要 WebView2 Runtime。 |
+| Linux x64 | 仅构建验证 | CI 编译 + 跑前端测试，但不保证能运行。桌面宿主依赖 Win32 P/Invoke（窗口控制、进程管理）与 WebView2，Linux 上缺失这些能力且无边界替代。 |
+| macOS x64 | 仅构建验证 | 同上，且 CI 的 `Run tests` 刻意跳过 macOS（Avalonia WinExe 主项目在 testhost 下无法加载 `Pineglow.Launcher.dll`，属测试宿主依赖解析问题）。 |
 - **前端视图**：**10 个**（home / installations / worlds / servers / content / skins / downloads / news / settings / playtime）。
-- **API**：端点表 59 条（路径口径），源码 43 个路由段字面量分支；覆盖 health / state / instances / accounts / versions / downloads / update / config / worlds / content / java / stats / sources / servers（含 `instances/{id}/diagnose` AI 诊断）。
+- **API**：端点表 59 条（路径口径）；源码为 **72 条 `ApiRoute` 路由项**（`LocalApiService.Routes.Count`，2026-11-06 实测，M1-1 起由手工 if 链改为可枚举表）。覆盖 health / state / instances / accounts / versions / downloads / update / config / worlds / content / java / stats / sources / servers（含 `instances/{id}/diagnose` AI 诊断）。
+- **后端文件布局**：`LocalApiService` 已于 2026-11-06（M1-2）按域拆为 **18 个 partial 文件**，单文件 ≤ 600 行（拆分前 5,487 行）；文件清单见 [engineering.md](engineering.md) 第二节。**静态字段全部留在宿主文件**，因字段初始化顺序按声明文本顺序决定。
 - **API 安全边界**：每请求 `X-Pineglow-Token`（进程内 32 字节随机令牌，`FixedTimeEquals` 比较）+ Origin 回环同端口白名单 + AI 出站固定 allowlist + `PathSafetyGuard` 路径越界校验。**不是** CORS `*` 全放开。详见 [api-reference.md](api-reference.md) 1.1。
 - **崩溃分析**：`CrashAnalyzerService` 为纯规则引擎，已通过 `instances/{id}/diagnose` 暴露 + AI 增强（见 ai-diagnosis-plan.md）。
 - **配置**：`AppConfig`，密钥字段（CurseForgeKey、Microsoft tokens）用 `[JsonIgnore]` 不掉盘。
