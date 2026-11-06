@@ -18,6 +18,7 @@
 node scripts/tests/goal-validation.test.cjs
 node scripts/tests/ui-live-cdp.test.cjs
 node scripts/tests/ui-resource-closure.test.cjs
+node scripts/tests/css-token-contract.test.cjs
 node ui/tests/a11y-keyboard.test.cjs
 node ui/tests/a13-doubles-and-taborder.test.cjs
 node ui/tests/a6-bisect-safety-guidance.test.cjs

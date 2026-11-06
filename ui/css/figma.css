@@ -4,6 +4,9 @@
    ================================================================ */
 
 /* ---------------- Design Tokens ---------------- */
+/* M1-3（2026-11-06）：本文件的 :root 只保留**本层默认值**，会被 pineglow.css
+   与 redesign.css 依次覆盖（最终生效值见 redesign.css 的 :root）。
+   新增语义 token 时，三层的同名项要同步，否则会出现"改了不生效"的假象。 */
 :root {
 	--base:        #0d0e11;   /* 窗口/内容底色 */
 	--sidebar-bg:  #0b0c0e;   /* 侧栏更深 */
@@ -17,6 +20,22 @@
 	--subtle:      #5f6473;   /* 更弱文字 */
 	--danger:      #e0463c;   /* 危险/错误 */
 	--warn:        #ffd650;   /* 警告 */
+
+	/* M1-3 新增：此前散落在各选择器里的硬编码色值，收上来成为语义 token。
+	   三层同名覆盖，本处只是第一层默认值。 */
+	--info:        #60a5fa;   /* 信息/中性提示（蓝） */
+	--success:     #34d399;   /* 成功/已发起（青绿） */
+	--line:        #2a2f3a;   /* 弱分隔线（比 --border 更轻） */
+	--mono:        "Cascadia Mono", Consolas, monospace;
+	--ink-on-green: #06210b;  /* 绿底上的深色文字 */
+	--brand-curseforge: #f16436; /* CurseForge 品牌橙（第三方标识，不参与主题） */
+	--art-banner-bg: #1b1408;  /* 首屏 banner 兜底底色 */
+	--art-news-bg: #222222;    /* 新闻图兜底底色 */
+	--art-news-gradient-from: #2a2f3a;
+	--art-news-gradient-mid: #241a0d;
+	--art-news-gradient-to: #1c2028;
+	--skeleton-base: #23262e;
+	--skeleton-highlight: #2c303b;
 
 	--r-win: 16px;
 	--r-card: 12px;
@@ -169,7 +188,7 @@ svg { display: block; }
 	overflow: hidden;
 	height: 200px;
 	flex: 0 0 200px;
-	background: #1b1408 center/cover no-repeat;
+	background: var(--art-banner-bg) center/cover no-repeat;
 	display: flex;
 	align-items: flex-end;
 	justify-content: space-between;
@@ -179,7 +198,7 @@ svg { display: block; }
 	position: absolute; inset: 0;
 	background:
 		radial-gradient(120% 90% at 70% 30%, rgba(93,214,255,.20), transparent 55%),
-		linear-gradient(120deg, #3a2a12 0%, #241a0d 45%, #14100a 100%);
+		linear-gradient(120deg, var(--art-news-gradient-from) 0%, var(--art-news-gradient-mid) 45%, var(--art-banner-bg) 100%);
 }
 .banner-art::after {
 	content: "";
@@ -190,7 +209,7 @@ svg { display: block; }
 .banner-badge {
 	display: inline-block;
 	background: var(--green);
-	color: #06210b;
+	color: var(--ink-on-green);
 	font-family: var(--font-head); font-weight: 700; font-size: 10px; letter-spacing: .8px;
 	padding: 4px 8px; border-radius: 4px; margin-bottom: 12px;
 }
@@ -220,21 +239,21 @@ svg { display: block; }
 	transition: transform .12s, border-color .12s;
 }
 .news-card:hover { transform: translateY(-2px); border-color: var(--border); }
-.news-art { height: 96px; background: #222 center/cover no-repeat; }
+.news-art { height: 96px; background: var(--art-news-bg) center/cover no-repeat; }
 
 /* ===== Phase 3A：新闻状态样式 ===== */
 .news-art-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-.news-card-art, .news-full-art, .news-art { position: relative; overflow: hidden; background: linear-gradient(135deg, #2a2f3a, #1c2028) center/cover no-repeat; }
-.news-art-failed { background: repeating-linear-gradient(45deg, #23262e, #23262e 10px, #1d2027 10px, #1d2027 20px) !important; }
+.news-card-art, .news-full-art, .news-art { position: relative; overflow: hidden; background: linear-gradient(135deg, var(--art-news-gradient-from), var(--art-news-gradient-to)) center/cover no-repeat; }
+.news-art-failed { background: repeating-linear-gradient(45deg, var(--skeleton-base), var(--skeleton-base) 10px, var(--art-news-gradient-to) 10px, var(--art-news-gradient-to) 20px) !important; }
 .news-skeleton { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
-.news-skeleton-card { height: 150px; border-radius: 12px; background: linear-gradient(100deg, #23262e 40%, #2c303b 50%, #23262e 60%); background-size: 200% 100%; animation: news-shimmer 1.4s ease infinite; }
+.news-skeleton-card { height: 150px; border-radius: 12px; background: linear-gradient(100deg, var(--skeleton-base) 40%, var(--skeleton-highlight) 50%, var(--skeleton-base) 60%); background-size: 200% 100%; animation: news-shimmer 1.4s ease infinite; }
 @keyframes news-shimmer { to { background-position: -200% 0; } }
 .news-banner { margin: 0 0 12px; padding: 8px 12px; border-radius: 10px; font-size: 12px; border: 1px solid; }
-.news-banner-warn { color: #fbbf24; border-color: rgba(251, 191, 36, .35); background: rgba(251, 191, 36, .08); }
-.news-error-state { color: var(--danger, #f87171); }
-.news-error-detail { font-size: 12px; color: var(--muted, #8b91a1); margin: 4px 0 10px; }
+.news-banner-warn { color: var(--warn); border-color: rgba(251, 191, 36, .35); background: rgba(251, 191, 36, .08); }
+.news-error-state { color: var(--danger); }
+.news-error-detail { font-size: 12px; color: var(--muted); margin: 4px 0 10px; }
 .news-retry-row { margin: 8px 0 14px; }
-.home-news-error { font-size: 12px; color: var(--muted, #8b91a1); padding: 8px 0; }
+.home-news-error { font-size: 12px; color: var(--muted); padding: 8px 0; }
 .news-body { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 4px; }
 .news-cat { font-family: var(--font-body); font-weight: 600; font-size: 10px; letter-spacing: .6px; color: var(--green); text-transform: uppercase; }
 .news-title { font-family: var(--font-head); font-weight: 600; font-size: 13px; color: var(--text); line-height: 1.3; }
@@ -375,8 +394,8 @@ svg { display: block; }
 .skin3d-canvas:focus-visible { outline: 2px solid var(--green); outline-offset: -3px; border-radius: var(--r-card); }
 .skin2d-fallback { min-height: 240px; padding: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: var(--muted); font-size: 12px; text-align: center; }
 .skin2d-fallback[hidden] { display: none; }
-.skin3d-hint { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 11px; color: var(--muted, #8b91a1); margin-top: -6px; }
-.skin3d-hint-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green, #3aa06a); }
+.skin3d-hint { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 11px; color: var(--muted); margin-top: -6px; }
+.skin3d-hint-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
 .skin3d-controls { display: flex; justify-content: center; gap: 8px; }
 .skin-control { padding: 5px 9px; border: 1px solid var(--border); border-radius: 7px; color: var(--muted); background: var(--base); font-size: 11px; }
 .skin-control:hover, .skin-control:focus-visible { color: var(--text); border-color: var(--green); }
@@ -618,7 +637,7 @@ svg { display: block; }
 }
 .source-btn .dot { width: 7px; height: 7px; border-radius: 50%; flex: 0 0 auto; }
 .source-btn[data-source="modrinth"] .dot { background: var(--green); }
-.source-btn[data-source="curseforge"] .dot { background: #f16436; }
+.source-btn[data-source="curseforge"] .dot { background: var(--brand-curseforge); }
 .source-btn.active { background: var(--card-2); color: var(--text); }
 .source-btn:not(.active):hover { color: var(--text); }
 
@@ -834,24 +853,24 @@ svg { display: block; }
 .diag-confidence { margin-top: 6px; font-size: 12px; color: var(--muted, var(--muted)); display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
 .diag-confidence-value { color: var(--text, var(--text)); }
 .diag-confidence-note { color: var(--muted, var(--muted)); font-style: italic; }
-.diag-confidence-low .diag-confidence-value { color: var(--warn, #fbbf24); }
-.diag-low-confidence { margin-top: 6px; padding: 8px 10px; background: rgba(251, 191, 36, 0.08); border-left: 3px solid var(--warn, #fbbf24); color: var(--text, var(--text)); font-size: 12px; border-radius: 4px; }
+.diag-confidence-low .diag-confidence-value { color: var(--warn); }
+.diag-low-confidence { margin-top: 6px; padding: 8px 10px; background: rgba(251, 191, 36, 0.08); border-left: 3px solid var(--warn); color: var(--text, var(--text)); font-size: 12px; border-radius: 4px; }
 .diag-kind-badge { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 11px; font-weight: 500; line-height: 18px; white-space: nowrap; }
-.diag-kind-badge.diag-kind-fact { background: rgba(34, 197, 94, 0.18); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.35); }
-.diag-kind-badge.diag-kind-inference { background: rgba(96, 165, 250, 0.18); color: #60a5fa; border: 1px solid rgba(96, 165, 250, 0.35); }
-.diag-kind-badge.diag-kind-unknown { background: rgba(148, 163, 184, 0.18); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.35); }
+.diag-kind-badge.diag-kind-fact { background: rgba(34, 197, 94, 0.18); color: var(--success); border: 1px solid rgba(34, 197, 94, 0.35); }
+.diag-kind-badge.diag-kind-inference { background: rgba(96, 165, 250, 0.18); color: var(--info); border: 1px solid rgba(96, 165, 250, 0.35); }
+.diag-kind-badge.diag-kind-unknown { background: rgba(148, 163, 184, 0.18); color: var(--subtle); border: 1px solid rgba(148, 163, 184, 0.35); }
 .diag-evidence-title { margin-top: 6px; font-size: 11px; color: var(--muted, var(--muted)); text-transform: uppercase; letter-spacing: 0.05em; }
 .diag-evidence { margin: 4px 0 4px 18px; font-size: 12px; color: var(--muted, var(--muted)); }
 .diag-evidence li { margin: 2px 0; }
-.diag-missing-info-title { color: var(--warn, #fbbf24); }
-.diag-missing-info { background: rgba(251, 191, 36, 0.05); padding: 4px 10px; border-radius: 4px; border-left: 3px solid var(--warn, #fbbf24); }
+.diag-missing-info-title { color: var(--warn); }
+.diag-missing-info { background: rgba(251, 191, 36, 0.05); padding: 4px 10px; border-radius: 4px; border-left: 3px solid var(--warn); }
 .diag-action-unknown .diag-action-note { color: var(--muted, var(--muted)); font-size: 11px; font-style: italic; }
-.diag-action-modify .diag-action-modify-label { color: var(--warn, #fbbf24); font-size: 11px; margin-left: 4px; }
-.diag-insufficient-info { margin-top: 8px; padding: 8px 10px; background: rgba(248, 113, 113, 0.08); border-left: 3px solid var(--danger, #f87171); border-radius: 4px; }
-.diag-insufficient-info-title { font-size: 12px; font-weight: 600; color: var(--danger, #f87171); }
+.diag-action-modify .diag-action-modify-label { color: var(--warn); font-size: 11px; margin-left: 4px; }
+.diag-insufficient-info { margin-top: 8px; padding: 8px 10px; background: rgba(248, 113, 113, 0.08); border-left: 3px solid var(--danger); border-radius: 4px; }
+.diag-insufficient-info-title { font-size: 12px; font-weight: 600; color: var(--danger); }
 .diag-insufficient-info-note { margin-top: 4px; font-size: 12px; color: var(--text, var(--text)); }
 .diag-local-only-hint { margin-top: 6px; }
-.diag-local-only-banner { padding: 6px 10px; background: rgba(96, 165, 250, 0.08); border-left: 3px solid #60a5fa; color: var(--text, var(--text)); font-size: 12px; border-radius: 4px; }
+.diag-local-only-banner { padding: 6px 10px; background: rgba(96, 165, 250, 0.08); border-left: 3px solid var(--info); color: var(--text, var(--text)); font-size: 12px; border-radius: 4px; }
 
 /* Phase 3C-2：真实发送元数据 badge。
  * - 仅在服务端 SendAsync 入口被触发时显示；
@@ -862,18 +881,18 @@ svg { display: block; }
 .diag-dispatch {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 4px 10px; background: rgba(52, 211, 153, 0.08);
-  border-left: 3px solid #34d399; color: var(--text, var(--text));
+  border-left: 3px solid var(--success); color: var(--text, var(--text));
   font-size: 12px; border-radius: 4px; font-family: var(--mono, monospace);
 }
 .diag-dispatch-failed {
   background: rgba(251, 191, 36, 0.08);
-  border-left-color: #fbbf24;
+  border-left-color: var(--warn);
 }
 .diag-dispatch-dot {
   width: 6px; height: 6px; border-radius: 50%;
-  background: #34d399; flex-shrink: 0;
+  background: var(--success); flex-shrink: 0;
 }
-.diag-dispatch-failed .diag-dispatch-dot { background: #fbbf24; }
+.diag-dispatch-failed .diag-dispatch-dot { background: var(--warn); }
 .diag-dispatch-text { line-height: 1.4; word-break: break-word; }
 
 /* 快捷操作 */
@@ -885,21 +904,21 @@ svg { display: block; }
 .mod-del {
 	background: transparent;
 	border: 0;
-	color: var(--muted, #8b91a1);
+	color: var(--muted);
 	cursor: pointer;
 	font-size: 14px;
 	line-height: 1;
 	padding: 4px 6px;
 	border-radius: 6px;
 }
-.mod-del:hover { color: #e0463c; background: rgba(224, 70, 60, 0.12); }
+.mod-del:hover { color: var(--danger); background: rgba(224, 70, 60, 0.12); }
 .mod-del:disabled { opacity: 0.5; cursor: default; }
-.rec-row { border: 1px solid var(--line, #2a2f3a); border-radius: 10px; padding: 10px 12px; margin-bottom: 10px; }
-.rec-row-head { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; color: var(--muted, #8b91a1); margin-bottom: 6px; }
-.rec-status { color: var(--text, #e6e9ef); font-weight: 600; }
+.rec-row { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin-bottom: 10px; }
+.rec-row-head { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+.rec-status { color: var(--text); font-weight: 600; }
 .rec-files { font-size: 12px; line-height: 1.7; margin-bottom: 8px; word-break: break-all; }
-.rec-file { color: var(--text, #e6e9ef); }
-.rec-file-state { color: var(--muted, #8b91a1); }
+.rec-file { color: var(--text); }
+.rec-file-state { color: var(--muted); }
 
 /* ================================================================
    MR17 无障碍：键盘、焦点与缩放

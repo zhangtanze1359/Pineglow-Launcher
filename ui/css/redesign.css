@@ -4,6 +4,15 @@
   --bg: #07080a; --surface: #101111; --fg: #f9f9f9; --fg-2: #cecece;
   --muted: #9c9c9d; --meta: #6a6b6c; --border: rgba(255,255,255,.06);
   --accent: #ff6363; --accent-hover: #ff7777; --success: hsl(151,59%,59%);
+  --hairline: #1b1c1e; --art-news-bg: #222222;
+  --art-news-gradient-from: #2a2f3a; --art-news-gradient-mid: #241a0d; --art-news-gradient-to: #1c2028;
+  --skeleton-base: #23262e; --skeleton-highlight: #2c303b;
+  --ink-on-green: #07080a; --brand-curseforge: #f16436; --line: #2a2f3a;
+  /* M1-3：以下三个 token 由 JS 在渲染每个树图块时用行内 style 覆盖（instance-specific），
+     这里给的是**兜底默认值**。当前 playtime.js 走的是 play-tree 列表视图，
+     .treemap/.tm-* 系列暂未被任何 HTML 使用；保留默认值是为了将来重新启用时不出现
+     "属性值为空 → 背景透明"的静默失效。 */
+  --tm-fill: rgba(249,249,249,.06); --tm-head: rgba(249,249,249,.10); --color: var(--accent);
   --danger: #ff6363; --warn: hsl(43,100%,60%); --info: hsl(202,100%,67%);
   --base: var(--bg); --sidebar-bg: var(--bg); --card: var(--surface);
   --card-2: #202121; --border-hover: rgba(255,255,255,.16);
@@ -248,7 +257,7 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .search-box { width:200px; flex:0 1 200px; height:34px; padding:0 12px; border:1px solid rgba(249,249,249,.10); gap:8px; }
 .search-box input { width:100%; background:transparent; border:0; font-size:14px; color:var(--fg); }
 .search-box svg { width:13px; height:13px; }
-.home-hero { padding:0; box-shadow:0 0 0 1px #1b1c1e,0 0 0 1px var(--bg) inset; border-color:transparent; }
+.home-hero { padding:0; box-shadow:0 0 0 1px var(--hairline),0 0 0 1px var(--bg) inset; border-color:transparent; }
 .home-hero-art { position:relative; inset:auto; height:120px; background:url('../assets/pine-forest-night.svg') center top/cover; opacity:1; border-bottom:1px solid var(--border); }
 .home-hero-art::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg,transparent 14%,rgba(16,17,17,.94) 100%); }
 .home-hero-content { padding:20px; gap:20px; }
