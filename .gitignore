@@ -34,6 +34,7 @@ ui/assets/
 # Keep historical assets local; the runtime Pineglow cover is source material.
 !ui/assets/
 ui/assets/*
+!ui/assets/app-icon.png
 !ui/assets/pine-forest.svg
 !ui/assets/pine-forest-night.svg
 松光启动器*.md
