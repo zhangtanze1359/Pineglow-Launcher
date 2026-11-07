@@ -32,10 +32,8 @@ const { spawnSync } = require('node:child_process');
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const RUNNER = path.join(ROOT, 'scripts', 'run-goal-validation.ps1');
-// This host has no PowerShell 7: the harness shell is Windows PowerShell 5.1
-// (C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe). The runner is written to parse
-// and run identically there, and that is what these tests exercise.
-const PWSH = process.env.DSH_PWSH || 'powershell.exe';
+// Keep Windows PowerShell 5.1 coverage on Windows; Linux/macOS use PowerShell 7.
+const PWSH = process.env.DSH_PWSH || (process.platform === 'win32' ? 'powershell.exe' : 'pwsh');
 
 /* SYNTH: argv = <trxPath> <exitCode> <total> <passed> <failed> <skipped> [logLine]
  * It writes a TRX whose Counters and UnitTestResult rows describe the SAME population, so the
@@ -126,6 +124,7 @@ function stageDef(fx, over) {
 function runRunner(args) {
 	const proc = spawnSync(PWSH, ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', RUNNER].concat(args),
 		{ encoding: 'utf8', timeout: 120000 });
+	if (proc.error) throw new Error(`Cannot execute ${PWSH}: ${proc.error.message}`, { cause: proc.error });
 	return { code: proc.status, stdout: proc.stdout || '', stderr: proc.stderr || '' };
 }
 
