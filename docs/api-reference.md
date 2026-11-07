@@ -1,16 +1,41 @@
 # API 协议（LocalApiService）
 
-> 反映 2026-08-16 状态，从 [LocalApiService.cs](file:///d:/松光启动器/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.cs) 路由代码逐条核实。
+> **最后核对日：2026-11-06**（对照 `dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService*.cs`（18 个 partial）与 `Ui` 静态资源投放路径实测）。
 > 协议约定：错误响应体含 `error` 或 `message` 字段；业务错误返回 400，未捕获异常返回 500。
 
 ## 一、基础信息
 
 - 基址：`http://127.0.0.1:48123`（端口可用 `PINEGLOW_API_PORT` 覆盖）。
-- CORS：`*` 全放开，`Cache-Control: no-store`。
 - 方法：GET / POST / DELETE / OPTIONS（OPTIONS 预检返回 204）。
+- 响应头：`Cache-Control: no-store`。
+
+### 1.1 会话令牌与来源校验（不要按「无鉴权」理解）
+
+本地 API **不是**对任意网页开放的接口。实际机制如下（均可在源码定位）：
+
+| 机制 | 实现位置 | 行为 |
+|---|---|---|
+| 进程内会话令牌 | `LocalApiService.SessionToken` = `RandomNumberGenerator.GetBytes(32)` 的十六进制串 | 每次进程启动重新生成，不落盘、不可预测 |
+| 令牌注入前端 | 投放 `index.html` 时把 `__PINEGLOW_SESSION_TOKEN__` 占位符替换为真实令牌 | 前端从 meta 读取后作为请求头携带 |
+| 每请求校验 | `HasValidSessionToken` → `IsValidSessionToken` | 除 `/api/health` 外全部端点要求 `X-Pineglow-Token`；用 `CryptographicOperations.FixedTimeEquals` 比较，先比长度再比内容，避免时序侧信道 |
+| 无法设头部的场景 | `/skin-image`、`/api/content/icon` | 由 `<img src>` 加载，改接受 `?token=` 查询参数做等价校验 |
+| Origin 白名单 | `IsAllowedOrigin` | 仅接受 `http` + 回环地址（`IPAddress.IsLoopback`）+ 端口等于本进程端口；无 Origin 头（同源导航、非浏览器客户端）放行 |
+| CORS 回显 | `SetCors` | `Access-Control-Allow-Origin` 只回显**校验通过**的 Origin，不写 `*`；允许头固定为 `Content-Type, X-Pineglow-Token` |
+| AI 出站域名 | `AiEndpointPolicy` 的代码内固定 HTTPS allowlist | 自定义端点不在 allowlist 内一律拒绝（`endpoint_not_allowed`） |
+| AI 禁跟随重定向 | `AiHttpClientFactory` 的 `AllowAutoRedirect = false` | 防止首跳白名单被 302/307/308 绕过 |
+| 图片出站域名 | `ContentIconService.AllowedHosts` + `IsAllowedUri`/`IsAllowedHost` | 内容图标与皮肤图只允许白名单主机与 http/https |
+| 路径越界 | `PathSafetyGuard` | 所有由请求参数拼接的文件路径统一做越界校验 |
+
+> 早期文档写的「CORS `*` 全放开、无令牌」与代码相反，已按上表更正。安全评审请以源码为准，不要引用历史结论。
+> 若后续把令牌改为可配置或持久化，**必须**同步改动本节，并说明密钥的保存位置与轮换方式。
 - 前端封装：`ui/js/api.js` 的 `_req`（GET）/ `_post`（POST），`live` 走 HTTP、`_mock` 走内存。
 
 ## 二、完整端点表
+
+> 口径说明：下表按**端点路径**计数（同路径不同方法合并为一行，路径参数以 `{id}` 标注），共 59 条。
+> 源码口径是 **72 条路由项**（`LocalApiService.Routes.Count`，2026-11-06 实测；M1-1 起为可枚举表，
+> 与「可访问路径」不同层级：同路径不同方法在表里是两条）。两者不应互相校验，但比例失控即说明漏登记。
+> **旧口径作废**：此前写的「43 个 `seg[n].Equals(...)` 字面量分支」是手工 if 链时代的计数，M1-1 改造后该形态已不存在。
 
 ### 系统
 | 端点 | 方法 | 用途 |
@@ -114,20 +139,33 @@
 |---|---|---|
 | `/api/worlds` | GET | 世界/存档列表 |
 
-## 三、路由实现逻辑（手工路由）
+## 三、路由实现逻辑（表驱动）
 
-`HandleApiAsync` 基于路径分割手工匹配，**不使用 ASP.NET/框架**：
+**2026-11-06（M1-1）起不再是手工 `if` 链**：路由集合是一份可枚举的 `ApiRoute` 表，
+位于 `dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Routing.cs`。
 
 ```
 seg = path.Trim('/').Split('/')   // ["api", "instances", "{id}", "launch", ...]
+→ LocalApiService.ResolveRoute(method, seg)   // 取第一个命中项
+→ route.Handler(context, seg)
+→ 未命中：末尾兜底 404（"未找到接口：{method} {path}"）
 ```
 
-- 每个端点一个 `if` 条件，匹配 `seg.Length` + `seg[i].Equals(...)` + `method`。
-- 命中即调用对应 `HandleXxxAsync` 并 `return`。
-- 未命中落到末尾 `404`。
+- 一条路由 = 方法 + 段数区间（`MinSegments`/`MaxSegments`）+ 段索引→字面值 + handler，
+  由 `ApiRoute.Exact` / `ApiRoute.Range` 声明。
+- **顺序即优先级**：`ResolveRoute` 取第一个命中项，与原手工 `if` 链语义一致。
+  典型约束：`instances/{id}/diagnose/cancel`（5 段）必须早于通用 `diagnose`（4 段）；
+  `accounts/microsoft/device|poll` 必须早于 `accounts/microsoft` 的任意长度兜底。
+- 路由项 **72 条**（2026-11-06 实测 `LocalApiService.Routes.Count`）。
 - 异常：`InvalidOperationException` → 400（业务错误）；其他 → 500。
 
-**新增接口的接入点**：在 `HandleApiAsync` 的对应 `seg` 区段追加 `if`，并新增一个 `HandleXxxAsync` 方法。
+> **为什么改表**：2026-10-03 出过一次真实事故——要求段长 5/6/8 的 4 组守卫被嵌进
+> 约束「段长 4」的块内，条件恒假，**10 条路由永久 404**，当时 796 个绿色测试毫无感知。
+> 根因不是写错，而是"路由集合只存在于执行路径里"，没有可枚举、可断言、可对着文档核对的清单。
+
+**新增接口的接入点**：在 `BuildRoutes()` 里加一行 `r.Add(ApiRoute.Exact(...))`，
+并在对应域文件（`LocalApiService.<Domain>.cs`）里新增 `HandleXxxAsync`。
+**漏登记会被 `ApiRouteInventoryTests` 抓到**——那条测试会枚举 `Routes` 并逐条断言可达性。
 
 ## 四、关键坑点
 
