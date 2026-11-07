@@ -103,11 +103,37 @@ public sealed class RemediationBoundaryRegressionTests
 		}
 	}
 
+	/// <summary>
+	/// 在 <paramref name="link"/> 位置造一个"重解析点"，模拟链上某一级被替换成联接。
+	///
+	/// Windows：目录联接（New-Item -ItemType Junction，不需要管理员权限，也不受
+	/// "创建符号链接"权限限制）；
+	/// POSIX：目录符号链接（Directory.CreateSymbolicLink）。
+	/// 两种都是产品判定口径里的重解析点 —— FileRecoveryService.IsReparsePoint 与
+	/// PathSafetyGuard 的非 Windows 分支都读 <see cref="FileAttributes.ReparsePoint"/>，
+	/// 而 .NET 在 Unix 上对符号链接会置该位，所以复制出来的是同一个场景，不是另一套行为。
+	/// 建不出来时返回 false，由调用方断言失败（不允许静默通过）。
+	/// </summary>
 	private static async Task<bool> TryCreateJunctionAsync(string link, string target)
 	{
 		if (Directory.Exists(link))
 		{
 			Directory.Delete(link, true);
+		}
+
+		if (!OperatingSystem.IsWindows())
+		{
+			try
+			{
+				Directory.CreateSymbolicLink(link, target);
+			}
+			catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException)
+			{
+				Console.WriteLine("symlink setup failed: " + ex.Message);
+				return false;
+			}
+
+			return (File.GetAttributes(link) & FileAttributes.ReparsePoint) != 0;
 		}
 
 		var psi = new ProcessStartInfo("powershell.exe")
@@ -401,8 +427,16 @@ public sealed class RemediationBoundaryRegressionTests
 
 		ModReplacementService.BeforeCommitForTest = path =>
 		{
-			File.WriteAllText(path, "foreign-readonly");
-			File.SetAttributes(path, FileAttributes.ReadOnly);
+			// 让"回滚放不回旧文件"在 Windows 与 POSIX 上都成立：用**同名目录**占住目标路径。
+			// 文件/目录同名冲突是每种文件系统都拒绝的情况，因此不依赖平台特有语义。
+			//
+			// 这里不能再用"写一个只读的 foreign 文件"：
+			//   - Windows：ReadOnly 属性会让 unlink/覆盖失败 → 回滚真的失败；
+			//   - POSIX：unlink 只看**父目录**的写权限，只读文件照样能删 → 回滚会成功，
+			//     needsRecovery 恒为 false，这条用例在 Linux 上就什么也没验到
+			//     （CI 实测：recoveryStatus=restored）。
+			File.Delete(path);
+			Directory.CreateDirectory(path);
 			throw new IOException("injected commit failure");
 		};
 		try
@@ -428,7 +462,12 @@ public sealed class RemediationBoundaryRegressionTests
 		finally
 		{
 			ModReplacementService.BeforeCommitForTest = null;
-			File.SetAttributes(Path.Combine(fx.Mods, "a.jar"), FileAttributes.Normal);
+			// 清掉占位的同名目录，避免污染夹具清理（夹具的递归删除对符号链接/目录都安全）。
+			string occupant = Path.Combine(fx.Mods, "a.jar");
+			if (Directory.Exists(occupant))
+			{
+				Directory.Delete(occupant, true);
+			}
 		}
 	}
 

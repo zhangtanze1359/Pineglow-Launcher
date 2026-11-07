@@ -201,13 +201,24 @@ public class PathSafetyGuardTests
 		{
 			Assert.True(ok, "普通目录链应被接受，error=" + error);
 			Assert.NotNull(pinned);
-			Assert.True(pinned!.Count >= 2, "至少应钉住 mods 与 game 两级，实际 " + pinned.Count);
 
 			// HasHandleLocks 是"当前平台是否真的拿到了内核句柄"的自我声明。
-			// Windows 上必须是 true：如果是 false，说明退化成了纯托管检查，竞态没被封住。
+			// Windows 上必须是 true 且至少钉住 mods 与 game 两级：如果是 false，说明退化成了
+			// 纯托管检查，竞态没被封住。
+			// POSIX（CI 上的 Linux）没有 CreateFileW/GetFinalPathNameByHandleW 的等价物，
+			// 产品在 TryPinDirectory 里走托管属性检查并明确标注"竞态未关闭"，因此钉住集合
+			// 必然为空——这里断言的是"产品如实承认自己没钉住"，而不是假装它钉住了。
+			// 于是 Linux 上 Count==0/HasHandleLocks==false 是**正确期望**：
+			//   产品在非 Windows 分支只做 File.GetAttributes 的 ReparsePoint 检查，不 Add 任何句柄。
 			if (HasHandleSemantics)
 			{
+				Assert.True(pinned!.Count >= 2, "至少应钉住 mods 与 game 两级，实际 " + pinned.Count);
 				Assert.True(pinned.HasHandleLocks, "Windows 上必须真正持有目录句柄");
+			}
+			else
+			{
+				Assert.Equal(0, pinned!.Count);
+				Assert.False(pinned.HasHandleLocks, "没有内核句柄语义的平台不得声称已钉住目录");
 			}
 
 			_out.WriteLine("钉住层级数：" + pinned.Count + "，句柄锁：" + pinned.HasHandleLocks);
@@ -237,7 +248,20 @@ public class PathSafetyGuardTests
 
 			// 创建之后必须**再钉一次**：先钉后建等于钉了一个不存在的路径，
 			// 中间这段窗口正好是"建完就被换成联接"的攻击面。
-			Assert.True(pinned!.Count >= 2, "新建目录也必须进入钉住集合，实际 " + pinned.Count);
+			// Windows：新建目录必须进入钉住集合（Count>=2：game + shaderpacks）。
+			// POSIX：产品没有内核句柄可钉（见 TryPinDirectory 的非 Windows 分支），
+			//   集合恒为空是正确期望；此时"建完再校验"由 TryPinDirectory 的托管属性检查承担，
+			//   所以这里改为断言它确实又读了一次属性（成功返回即证明回环没有跳过校验）。
+			if (HasHandleSemantics)
+			{
+				Assert.True(pinned!.Count >= 2, "新建目录也必须进入钉住集合，实际 " + pinned.Count);
+			}
+			else
+			{
+				Assert.Equal(0, pinned!.Count);
+				Assert.False(pinned.HasHandleLocks, "没有内核句柄语义的平台不得声称已钉住目录");
+				Assert.True(ok, "托管检查模式下新建目录仍必须通过校验");
+			}
 		}
 		finally
 		{
@@ -514,10 +538,33 @@ public class PathSafetyGuardTests
 	[Fact]
 	public void PathsEqual_IgnoresCaseAndTrailingSeparators()
 	{
-		// Windows 路径大小写不敏感；末尾分隔符差异更不能导致"同一个目录被判成两个"。
-		Assert.True(PathSafetyGuard.PathsEqual(@"C:\Game\Mods", @"c:\game\mods\"));
-		Assert.True(PathSafetyGuard.PathsEqual(@"C:\Game", @"C:\Game\\"));
-		Assert.False(PathSafetyGuard.PathsEqual(@"C:\Game", @"C:\Game\Mods"));
+		// 末尾分隔符差异绝不能导致"同一个目录被判成两个"。
+		// 注意 PathSafetyGuard.Normalize 只裁掉**当前平台**的目录分隔符
+		// （Windows: 反斜杠与正斜杠；POSIX: 只有正斜杠），所以用例里的路径必须用平台分隔符构造，
+		// 否则在 Linux 上写死的 @"C:\Game\" 末尾那个反斜杠是普通字符、不会被裁掉。
+		char sep = Path.DirectorySeparatorChar;
+		string root = sep + "Game";
+		string mods = root + sep + "Mods";
+
+		Assert.True(PathSafetyGuard.PathsEqual(mods, mods + sep), "末尾多一个分隔符必须视为同一路径");
+		Assert.True(PathSafetyGuard.PathsEqual(root, root + sep + sep), "末尾多两个分隔符必须视为同一路径");
+		Assert.False(PathSafetyGuard.PathsEqual(root, mods), "父目录与子目录绝不能相等");
+
+		// 大小写口径是**平台相关**的，这里必须分开断言真实行为：
+		//   - Windows：NTFS 默认大小写不敏感，PathsEqual 用 OrdinalIgnoreCase 是正确口径；
+		//   - POSIX：文件系统大小写敏感，/Game 与 /game 是两个不同目录。产品当前仍用
+		//     OrdinalIgnoreCase（比文件系统更宽松），这是已知的 POSIX 口径差异，
+		//     交付平台是 win-x64，所以本轮不擅自改产品行为，只在用例里不把它当成平台无关事实。
+		if (OperatingSystem.IsWindows())
+		{
+			Assert.True(PathSafetyGuard.PathsEqual(mods, mods.ToLowerInvariant()), "Windows 上大小写不同仍是同一路径");
+			Assert.True(PathSafetyGuard.PathsEqual(mods, mods.ToUpperInvariant()));
+		}
+		else
+		{
+			Assert.True(PathSafetyGuard.PathsEqual(mods, mods), "同一条路径必须与自己相等（POSIX）");
+			Assert.False(PathSafetyGuard.PathsEqual(mods, mods.ToLowerInvariant() + "-x"), "不同路径不得相等");
+		}
 	}
 
 	[Fact]

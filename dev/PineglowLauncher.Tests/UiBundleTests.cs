@@ -40,9 +40,27 @@ public class UiBundleTests
 		return dir;
 	}
 
+	/// <summary>
+	/// 相对路径 → 嵌入资源名。
+	///
+	/// 不能用 <c>ResourcePrefix + relative.Replace('/', '\\')</c>：csproj 的 LogicalName 是
+	/// <c>Pineglow.Launcher.Ui.%(RecursiveDir)%(Filename)%(Extension)</c>，而 <c>%(RecursiveDir)</c>
+	/// 是**构建平台的文件系统分隔符** —— Windows 上是 <c>css\pineglow.css</c>，
+	/// Linux/macOS 上是 <c>css/pineglow.css</c>。写死反斜杠只会在 Windows 上碰巧命中，
+	/// 在 CI 的 ubuntu 上就变成"找不到嵌入资源"。
+	/// 因此从程序集真实的资源清单里按**规范化后的相对路径**（UiBundle.RelativePathOf 统一用 '/'）反查。
+	/// </summary>
 	private static string ResourceNameOf(string relative)
 	{
-		return UiBundle.ResourcePrefix + relative.Replace('/', '\\');
+		string wanted = relative.Replace('\\', '/');
+		string? match = UiBundle.ResourceNames
+			.FirstOrDefault(name => string.Equals(UiBundle.RelativePathOf(name), wanted, StringComparison.Ordinal));
+		if (match == null)
+		{
+			throw new InvalidOperationException("嵌入资源里没有相对路径 " + wanted + "（构建期未嵌入？）");
+		}
+
+		return match;
 	}
 
 	/* ===================== ① 嵌入清单与入口闭包 ===================== */

@@ -258,8 +258,15 @@ public class DiagnoseProgressGateTests
 
 	private static string FindUiFile(string name)
 	{
-		string dir = AppContext.BaseDirectory;
-		for (int i = 0; i < 6 && dir != null; i++)
+		// AppContext.BaseDirectory **末尾带分隔符**，而 Path.GetDirectoryName(".../net10.0/")
+		// 返回的是同一个目录（只去掉末尾分隔符），所以旧写法（固定 6 次循环）实际只向上走了
+		// 4~5 层。Windows 上碰巧在 i=0 就命中 —— 主项目会把 ui 复制到输出目录的 UI/，
+		// 而 NTFS 大小写不敏感，Path.Combine(dir, "ui", "js", name) 能匹配 "UI/js/..."。
+		// Linux 上两者都不成立：文件系统大小写敏感（ui ≠ UI），再加上少走一层，
+		// 于是仓库根下的 ui/js/launcher.js 永远找不到。
+		// 正确写法：先剥掉末尾分隔符，再按"仓库根标记"向上找，不依赖层数。
+		string dir = Path.TrimEndingDirectorySeparator(AppContext.BaseDirectory);
+		for (int i = 0; i < 8 && !string.IsNullOrEmpty(dir); i++)
 		{
 			string candidate = Path.Combine(dir, "ui", "js", name);
 			if (File.Exists(candidate))
@@ -267,9 +274,9 @@ public class DiagnoseProgressGateTests
 				return candidate;
 			}
 
-			dir = Path.GetDirectoryName(dir);
+			dir = Path.GetDirectoryName(dir) ?? string.Empty;
 		}
 
-		throw new FileNotFoundException("找不到 UI 文件：" + name);
+		throw new FileNotFoundException("找不到 UI 文件：" + name + "（起点 " + AppContext.BaseDirectory + "）");
 	}
 }

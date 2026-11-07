@@ -127,7 +127,10 @@ public class UpdateRecoveryTests
 	{
 		byte[] full = Encoding.UTF8.GetBytes(new string('A', 4096));
 		byte[] truncated = full.Take(1000).ToArray();
-		const string url = "https://cdn.example.com/Pineglow-Launcher-9.9.9-win-x64-single-file.exe";
+		// 资产名必须带**当前平台**记号：DownloadUpdateAsync 在下载之前先做平台匹配，
+		// 写死 win-x64 只会在 Windows 上走到"下载截断"分支；在 Linux 上会被平台匹配提前拒绝，
+		// 于是这条用例在 CI（ubuntu）上根本测不到截断，失败原因也不是截断。
+		string url = "https://cdn.example.com/Pineglow-Launcher-9.9.9-" + UpdateService.CurrentRid() + "-single-file";
 
 		using HttpClient http = new HttpClient(new BytesHandler(new Dictionary<string, byte[]> { [url] = truncated }));
 		var manifest = new UpdateManifest
@@ -150,7 +153,10 @@ public class UpdateRecoveryTests
 	[Fact]
 	public async Task ForeignPlatformAsset_IsRejectedBeforeDownloading()
 	{
-		const string url = "https://cdn.example.com/Pineglow-Launcher-9.9.9-linux-x64-single-file";
+		// "外来平台"是相对当前 RID 而言的：Windows 上是 linux 包，Linux 上是 win 包。
+		string currentRid = UpdateService.CurrentRid();
+		string foreignRid = currentRid.StartsWith("win", StringComparison.OrdinalIgnoreCase) ? "linux-x64" : "win-x64";
+		string url = "https://cdn.example.com/Pineglow-Launcher-9.9.9-" + foreignRid + "-single-file";
 		using HttpClient http = new HttpClient(new BytesHandler(new Dictionary<string, byte[]> { [url] = new byte[] { 1, 2, 3 } }));
 		var manifest = new UpdateManifest { Version = "9.9.9", Url = url, Sha256 = new string('a', 64), Size = 3 };
 
@@ -159,6 +165,7 @@ public class UpdateRecoveryTests
 
 		_out.WriteLine("[foreign asset] " + ex.Message);
 		Assert.Contains("不匹配", ex.Message);
+		Assert.Contains(foreignRid, ex.Message);
 	}
 
 	/* ===================== 4. 替换脚本被真实执行 ===================== */

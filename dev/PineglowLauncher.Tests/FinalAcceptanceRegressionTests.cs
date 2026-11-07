@@ -114,11 +114,32 @@ public sealed class FinalAcceptanceRegressionTests
 		}
 	}
 
+	/// <summary>
+	/// 在 <paramref name="link"/> 位置造一个重解析点（产品判定口径见 FileAttributes.ReparsePoint）。
+	/// Windows 用目录联接（New-Item -ItemType Junction，无需特权）；
+	/// POSIX 用目录符号链接（Directory.CreateSymbolicLink）—— .NET 在 Unix 上对符号链接
+	/// 置 ReparsePoint 位，因此对产品是同一个"链上有重解析点"场景。
+	/// </summary>
 	private static async Task<bool> TryCreateJunctionAsync(string link, string target)
 	{
 		if (Directory.Exists(link))
 		{
 			Directory.Delete(link, true);
+		}
+
+		if (!OperatingSystem.IsWindows())
+		{
+			try
+			{
+				Directory.CreateSymbolicLink(link, target);
+			}
+			catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException)
+			{
+				Console.WriteLine("symlink setup failed: " + ex.Message);
+				return false;
+			}
+
+			return (File.GetAttributes(link) & FileAttributes.ReparsePoint) != 0;
 		}
 
 		var psi = new ProcessStartInfo("powershell.exe")
@@ -420,9 +441,16 @@ public sealed class FinalAcceptanceRegressionTests
 
 		ModReplacementService.BeforeCommitForTest = path =>
 		{
-			// 让目标变成只读的"外来内容"，并让提交失败 —— 回滚将无法覆盖它
-			File.WriteAllText(path, "foreign-readonly");
-			File.SetAttributes(path, FileAttributes.ReadOnly);
+			// 让"回滚放不回旧文件"在 Windows 与 POSIX 上都成立：用**同名目录**占住目标路径。
+			//
+			// 旧写法（写一个只读的 foreign 文件）只在 Windows 上成立：
+			//   - Windows：ReadOnly 属性让删除/覆盖失败，回滚真的失败；
+			//   - POSIX：unlink 只看**父目录**写权限，只读文件照样被删 → 回滚成功、
+			//     needsRecovery=false、错误信息真的可以说"已回滚"（CI 实测 recoveryStatus=restored），
+			//     于是本条用例在 Linux 上不但失败，而且什么都没验到。
+			// 文件名被目录占用是每种文件系统都拒绝写入的情况，两边行为一致。
+			File.Delete(path);
+			Directory.CreateDirectory(path);
 			throw new IOException("injected commit failure");
 		};
 		ModReplacementResult result;
@@ -439,7 +467,7 @@ public sealed class FinalAcceptanceRegressionTests
 		FileRecoveryRecord? record = await recovery.LoadAsync(fx.Instance.Id, result.OperationId!);
 		_out.WriteLine($"[F-03] status={result.Status} ok={result.Ok} needsRecovery={result.NeedsRecovery} " +
 			$"recoveryStatus={result.RecoveryStatus} error={result.Error}");
-		_out.WriteLine($"[F-03] target={File.ReadAllText(target)} recoveryStatus={record?.Status} " +
+		_out.WriteLine($"[F-03] targetOccupiedByDir={Directory.Exists(target)} recoveryStatus={record?.Status} " +
 			$"storedStillThere={record?.Files.Any(x => x.StoredPath != null && File.Exists(x.StoredPath))}");
 
 		Assert.False(result.Ok);
@@ -452,11 +480,10 @@ public sealed class FinalAcceptanceRegressionTests
 		Assert.Contains("人工恢复", result.Error ?? string.Empty);
 		Assert.NotNull(record);
 		Assert.True(record!.Files.Any(x => x.StoredPath != null && File.Exists(x.StoredPath)), "旧文件必须仍留在恢复区");
-		Assert.Equal("foreign-readonly", File.ReadAllText(target));
+		Assert.True(Directory.Exists(target), "占位的外来内容必须原样留在原位置（回滚没能覆盖它）");
 
-		// 解除只读阻断 + 删掉外来内容后，必须仍然可以再次恢复
-		File.SetAttributes(target, FileAttributes.Normal);
-		File.Delete(target);
+		// 清掉占位目录后，必须仍然可以再次恢复（隔离副本没被消耗）
+		Directory.Delete(target, true);
 		FileRecoveryRecord retry = await recovery.RestoreAsync(record, overwrite: true);
 		_out.WriteLine($"[R2/retry] status={retry.Status} states={string.Join(",", retry.Files.Select(x => x.State))}");
 		Assert.Equal("restored", retry.Status);

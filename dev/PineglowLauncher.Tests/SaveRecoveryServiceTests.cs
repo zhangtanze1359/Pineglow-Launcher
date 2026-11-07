@@ -178,10 +178,14 @@ public sealed class SaveRecoveryServiceTests : IDisposable
 	public async Task Delete_RejectsNestedSubdirectory_OnlyTopLevelSavesAllowed()
 	{
 		// `World/region` 这种二级路径不属于"一个存档"，允许删它等于给了一个删任意子目录的口子。
+		// 用 Path.Combine 而不是写死Windows风格的反斜杠分隔：反斜杠只在 Windows 上是分隔符，
+		// 在 POSIX 上它是普通文件名字符，于是同一个字符串会变成一个**合法但不存在**的文件名，
+		// 先撞上 DirectoryNotFoundException，这条用例在 Linux 上就测不到"拒绝嵌套"。
 		string saveDir = CreateSave("World");
 		string nested = Path.Combine(saveDir, "region");
 
-		await Assert.ThrowsAsync<InvalidOperationException>(() => Service().DeleteAsync("inst-1", _gameDir, @"World\region"));
+		await Assert.ThrowsAsync<InvalidOperationException>(
+			() => Service().DeleteAsync("inst-1", _gameDir, Path.Combine("World", "region")));
 
 		Assert.True(Directory.Exists(nested), "嵌套目录不能被删");
 		Assert.True(File.Exists(Path.Combine(saveDir, "level.dat")));

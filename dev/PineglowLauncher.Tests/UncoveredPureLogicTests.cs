@@ -570,13 +570,38 @@ public class UncoveredPureLogicTests
 	public void LaunchCommand_ToScript_EmptyArgument_IsQuotedAsEmptyPair()
 	{
 		string script = Cmd("", "-Xmx2G").ToScript();
-		Assert.Contains("\"\"", script);
+
+		// 脚本语法随平台不同：Windows 生成 .bat（Quote → 双引号 ""），
+		// POSIX 生成 bash（BashQuote → 单引号 ''）。空参数在两边都必须被"引成一对空引号"，
+		// 而不是被悄悄丢掉——丢掉会让 Java 的参数错位。
+		if (OperatingSystem.IsWindows())
+		{
+			Assert.Contains("\"\"", script);
+		}
+		else
+		{
+			Assert.Contains("''", script);
+			Assert.DoesNotContain("\"\"", script);
+		}
 	}
 
 	[Fact]
 	public void LaunchCommand_ToScript_ArgumentWithQuote_IsEscaped()
 	{
 		string script = Cmd("-Dname=he said \"hi\"").ToScript();
-		Assert.Contains("\\\"", script);
+
+		if (OperatingSystem.IsWindows())
+		{
+			// cmd.exe 没有可嵌套的引号，Quote 用反斜杠转义内部的 "。
+			Assert.Contains("\\\"", script);
+		}
+		else
+		{
+			// bash 的 BashQuote 用单引号包裹整个参数，内部的 " 是普通字符、不需要转义；
+			// 真正需要处理的是参数里的单引号（bash 里写成 反斜杠 + 单引号）。所以这里断言"原样的双引号被完整保留在
+			// 单引号内"，而不是断言 Windows 才有的反斜杠转义。
+			Assert.Contains("'-Dname=he said \"hi\"'", script);
+			Assert.DoesNotContain("\\\"", script);
+		}
 	}
 }

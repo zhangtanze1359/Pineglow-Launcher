@@ -2796,9 +2796,21 @@ public sealed class ContentIconServiceTests : IDisposable
 		using (FileStream lockStream = File.Open(a.ImagePath, FileMode.Open, FileAccess.Read, FileShare.None))
 		{
 			svc.EnforceCacheBudget(); // 图片删除失败被吞掉，函数必须返回
+			if (OperatingSystem.IsWindows())
+			{
+				// Windows：FileShare.None 的句柄会阻止删除（共享冲突），图片留下来。
+				Assert.False(File.Exists(a.ManifestPath), "manifest 已删除（可见性已撤销）");
+				Assert.True(File.Exists(a.ImagePath), "图片删除失败应保留");
+			}
+			else
+			{
+				// POSIX：unlink 只看**父目录**的写权限，打开中的句柄（flock 咨询锁）不阻止删除，
+				// 所以"图片删除失败"这个前提在 Linux 上不成立。这里改为断言真实行为：
+				// 锁定中的条目也会被完整淘汰，且预算记账不变（不存在"删不掉就死循环/多删"）。
+				Assert.False(File.Exists(a.ManifestPath), "manifest 已删除");
+				Assert.False(File.Exists(a.ImagePath), "POSIX 上打开中的句柄不阻止 unlink，图片应被删除");
+			}
 		}
-		Assert.False(File.Exists(a.ManifestPath), "manifest 已删除（可见性已撤销）");
-		Assert.True(File.Exists(a.ImagePath), "图片删除失败应保留");
 		Assert.True(File.Exists(b.ManifestPath) && File.Exists(b.ImagePath), "后续条目不应多删");
 		// 第二次运行：A 无 manifest → 不计入预算，B 保留；
 		// A 图片（时间戳已被回溯 3 天）成为无 manifest 引用的孤立版本，被宽限期清理移除

@@ -74,9 +74,30 @@ public class InstanceIsolationServiceTests
 		try
 		{
 			string dir = InstanceIsolationService.GetAvailableInstanceDirectory(tempRoot, "Bad*Name?", "fallback-id");
-			// 非法字符应被替换为下划线，而不是抛异常或创建失败
-			Assert.DoesNotContain("*", System.IO.Path.GetFileName(dir));
-			Assert.DoesNotContain("?", System.IO.Path.GetFileName(dir));
+			string name = System.IO.Path.GetFileName(dir);
+
+			// 通用契约：平台非法字符必须被替换成下划线，而不是抛异常或创建失败
+			foreach (char invalid in System.IO.Path.GetInvalidFileNameChars())
+			{
+				Assert.DoesNotContain(invalid, name);
+			}
+
+			if (OperatingSystem.IsWindows())
+			{
+				// Windows 的非法集含 '*' 与 '?'，两者都变成下划线
+				Assert.DoesNotContain("*", name);
+				Assert.DoesNotContain("?", name);
+				Assert.Equal("Bad_Name_", name);
+			}
+			else
+			{
+				// POSIX 的 Path.GetInvalidFileNameChars() 只有 '/' 与 '\0'：
+				// '*' 与 '?' 在 Linux/macOS 上是**合法文件名字符**，产品（InstanceIsolationService
+				// 直接按 GetInvalidFileNameChars 过滤）因此原样保留。若这里也被替换成下划线，
+				// 说明产品的过滤表被硬编码成了 Windows 规则，反而会误改合法名字。
+				Assert.Equal("Bad*Name?", name);
+				Assert.Equal(System.IO.Path.Combine(tempRoot, "instances", "Bad*Name?"), dir);
+			}
 		}
 		finally
 		{

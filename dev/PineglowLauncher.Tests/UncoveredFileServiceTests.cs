@@ -375,19 +375,46 @@ public class UncoveredFileServiceTests : IDisposable
 	[Fact]
 	public void SaveBackup_Sanitize_StripsInvalidFileNameCharacters()
 	{
-		// 存档名里可能有 : ? * 等非法字符（来自 CurseForge 整合包命名）。
+		// 存档名里可能有 : ? * 等字符（来自 CurseForge 整合包命名）。
+		// "非法"是按**当前平台**的文件名规则判定的：SaveBackupService.Sanitize 用的就是
+		// Path.GetInvalidFileNameChars()。Windows 的非法集包含 : ? * \ / < > | "，
+		// POSIX（Linux CI）只有 '/' 与 '\0' 非法 —— 所以同一份名字在两边必须得到不同结果，
+		// 这里分别断言真实行为，而不是把 Windows 的规则当成跨平台事实。
 		string gameDir = Path.Combine(_root, "game");
 		string saves = Path.Combine(gameDir, "saves");
 		string dir = MakeSave(saves, "World");
 		var svc = new SaveBackupService(gameDir);
 
-		// FolderName 带非法字符，但 FullPath 指向真实目录 → 备份名必须被清洗
+		// FolderName 带特殊字符，但 FullPath 指向真实目录 → 备份名按平台规则清洗
 		string zip = svc.CreateBackup(Instance(gameDir), new SaveInfo { FolderName = "a:b?c*d", FullPath = dir });
 
 		string name = Path.GetFileName(zip);
-		Assert.DoesNotContain(':', name);
-		Assert.DoesNotContain('?', name);
-		Assert.DoesNotContain('*', name);
+		Assert.False(string.IsNullOrWhiteSpace(name));
+		Assert.True(File.Exists(zip), "备份包必须真的生成");
+
+		// 所有平台上都不得出现"平台非法字符"（这一条是通用契约）
+		foreach (char invalid in Path.GetInvalidFileNameChars())
+		{
+			Assert.DoesNotContain(invalid, name);
+		}
+
+		if (OperatingSystem.IsWindows())
+		{
+			Assert.DoesNotContain(':', name);
+			Assert.DoesNotContain('?', name);
+			Assert.DoesNotContain('*', name);
+			// Windows 的清洗是"直接剔除"（不是替换成下划线）
+			Assert.StartsWith("abcd-", name);
+		}
+		else
+		{
+			// POSIX：: ? * 都是合法文件名字符，SaveBackupService 没有理由改写它们，
+			// 原样保留是正确期望（若这里被清理，说明产品在做与平台无关的硬编码过滤）。
+			Assert.Contains(':', name);
+			Assert.Contains('?', name);
+			Assert.Contains('*', name);
+			Assert.StartsWith("a:b?c*d-", name);
+		}
 	}
 
 	/* ===================== ResourcePackService ===================== */

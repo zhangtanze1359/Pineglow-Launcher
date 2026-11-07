@@ -266,9 +266,26 @@ public class InstancePackTests
 		string nested = InstancePackService.GetSafeTargetPath(dir.Path, "config/deep/nested/file.json");
 		Assert.StartsWith(Path.GetFullPath(dir.Path), nested, StringComparison.OrdinalIgnoreCase);
 
-		foreach (string evil in new[] { "../escaped.txt", "mods/../../escaped.txt", "..\\escaped.txt" })
+		// 穿越写法必须被拒：'/' 是两边都认的分隔符，所以这两种在 Windows 与 POSIX 上都逃逸。
+		foreach (string evil in new[] { "../escaped.txt", "mods/../../escaped.txt" })
 		{
 			Assert.Throws<InvalidDataException>(() => InstancePackService.GetSafeTargetPath(dir.Path, evil));
+		}
+
+		// 反斜杠写法是**平台相关**的：
+		//   - Windows：'\' 是目录分隔符，`..\escaped.txt` 同样逃逸，必须拒绝；
+		//   - POSIX：'\' 只是普通文件名字符，`..\escaped.txt` 是目录内一个合法文件名（不逃逸），
+		//     GetSafeTargetPath 按"不越界即放行"的契约原样返回它。若这里也抛异常，说明产品
+		//     硬编码了 Windows 的分隔符规则，反而会误拒合法文件名。
+		if (OperatingSystem.IsWindows())
+		{
+			Assert.Throws<InvalidDataException>(() => InstancePackService.GetSafeTargetPath(dir.Path, "..\\escaped.txt"));
+		}
+		else
+		{
+			string backslashName = InstancePackService.GetSafeTargetPath(dir.Path, "..\\escaped.txt");
+			Assert.StartsWith(Path.GetFullPath(dir.Path) + Path.DirectorySeparatorChar, backslashName);
+			Assert.Equal("..\\escaped.txt", Path.GetFileName(backslashName));
 		}
 
 		// 逃逸文件绝不能真的被写出去
