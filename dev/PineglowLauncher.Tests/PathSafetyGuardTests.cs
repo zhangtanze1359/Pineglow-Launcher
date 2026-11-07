@@ -289,41 +289,64 @@ public class PathSafetyGuardTests
 	[Fact]
 	public void PinnedPath_PreventsDirectoryRenameWhileHeld()
 	{
-		if (!HasHandleSemantics)
-		{
-			// 非 Windows 没有等价内核语义，产品自身也如实标注"竞态未关闭"，这里不做断言。
-			_out.WriteLine("跳过：当前平台无内核目录句柄语义（产品已如实标注竞态未关闭）");
-			return;
-		}
-
 		using Fixture fx = new Fixture();
 		string anchor = fx.Dir("game");
 		string mods = fx.Dir("game/mods");
 		string target = Path.Combine(mods, "a.jar");
 
 		Assert.True(PathSafetyGuard.TryPinDirectoryChain(anchor, target, false, out PathSafetyGuard.PinnedPath? pinned, out string error), error);
+		Assert.NotNull(pinned);
+
+		bool movedWhileHeld = TryMoveDirectory(mods, mods + "-moved");
 
 		try
 		{
-			Directory.Move(mods, mods + "-moved");
-			Assert.Fail("钉住期间 mods 目录不应能被改名——若这条通过，说明句柄共享模式漏了 FILE_SHARE_DELETE 之外的约束");
-		}
-		catch (IOException)
-		{
-			// 期望路径：共享模式不含 FILE_SHARE_DELETE，改名需要 DELETE 权限，被内核拒绝。
-		}
-		catch (UnauthorizedAccessException)
-		{
-			// 某些文件系统返回的是拒绝访问而不是 IO 错误，两者都算"挡住了"。
+			if (HasHandleSemantics)
+			{
+				// 期望路径：共享模式不含 FILE_SHARE_DELETE，改名需要 DELETE 权限，被内核拒绝。
+				Assert.True(pinned!.HasHandleLocks, "Windows 上必须真正持有目录句柄（HasHandleLocks=false 说明退化成纯托管检查，竞态没封住）");
+				Assert.False(movedWhileHeld, "钉住期间 mods 目录不应能被改名——若这条通过，说明句柄共享模式漏了 FILE_SHARE_DELETE 之外的约束");
+			}
+			else
+			{
+				// 非 Windows 没有等价的内核目录句柄语义，产品自身如实标注"竞态未关闭"。
+				// 这类平台**不允许**把用例算成通过（xUnit 2.x 没有动态 skip，return 会被计为通过），
+				// 这里改断言可证明的行为：自我声明必须诚实——没拿到句柄就不得声称 HasHandleLocks，
+				// 且改名确实发生在释放之前（产品没有伪装成"已封住竞态"）。
+				Assert.False(pinned!.HasHandleLocks, "没有内核句柄语义的平台不得声称已钉住目录");
+				Assert.True(movedWhileHeld, "无句柄语义时产品必须如实暴露竞态未关闭：改名不应被挡住");
+			}
 		}
 		finally
 		{
-			pinned?.Dispose();
+			pinned!.Dispose();
 		}
 
 		// 释放后必须能改名：否则就是句柄泄漏，用户会发现实例目录"锁死"了。
-		Directory.Move(mods, mods + "-moved");
-		Assert.True(Directory.Exists(mods + "-moved"), "Dispose 之后目录必须可以被正常改名");
+		if (!movedWhileHeld)
+		{
+			Assert.True(TryMoveDirectory(mods, mods + "-moved"), "Dispose 之后目录必须可以被正常改名");
+		}
+
+		Assert.True(Directory.Exists(mods + "-moved"), "Dispose 之后目录必须留在新名字上");
+	}
+
+	/// <summary>改名尝试；被内核挡住时返回 false（IO/访问拒绝都算"挡住了"）。</summary>
+	private static bool TryMoveDirectory(string from, string to)
+	{
+		try
+		{
+			Directory.Move(from, to);
+			return true;
+		}
+		catch (IOException)
+		{
+			return false;
+		}
+		catch (UnauthorizedAccessException)
+		{
+			return false;
+		}
 	}
 
 	/* ============================ 3. 重解析点：链上任意一级都要拒 ============================ */
@@ -338,8 +361,15 @@ public class PathSafetyGuardTests
 
 		if (!TryCreateDirectoryLink(link, outside))
 		{
-			// 不静默通过：环境不允许建链接时明确记录，避免"以为测了其实没测"。
-			_out.WriteLine("跳过：本机无法创建目录联接（需要 mklink /J 或符号链接权限）");
+			// 本机建不出目录联接（例如无符号链接权限 / 文件系统不支持重解析点）。
+			// 既不能报绿（xUnit 2.x 没有动态 skip，return 会被计为通过），也不能无条件 Assert.Fail
+			// （那会让这类机器整片变红）。改为断言同一条"链上有无法验证的一级"的 fail-closed 行为：
+			// 把 game/mods 占成普通文件，守卫必须在写入之前拒绝并给出非空原因，而不是把 a.jar 放行到不可验证的位置。
+			File.WriteAllText(link, "occupied");
+			bool blocked = PathSafetyGuard.TryPinDirectoryChain(anchor, Path.Combine(link, "a.jar"), false, out _, out string blockedError);
+			Assert.False(blocked, "链上有无法验证的一级时必须 fail-closed，而不是放行写入");
+			Assert.False(string.IsNullOrWhiteSpace(blockedError), "fail-closed 拒绝时必须给出非空原因");
+			_out.WriteLine("本机无法创建目录联接，已改断言同一路径的 fail-closed 拒绝：" + blockedError);
 			return;
 		}
 
@@ -372,7 +402,13 @@ public class PathSafetyGuardTests
 
 		if (!TryCreateDirectoryLink(anchorLink, realGame))
 		{
-			_out.WriteLine("跳过：本机无法创建目录联接");
+			// 同上：不能报绿，也不能无条件失败。把锚点占成普通文件后，守卫必须以"锚点不可用"fail-closed，
+			// 且错误信息指向锚点——没有锚点就没有信任根，不能自己造一个再放行。
+			File.WriteAllText(anchorLink, "occupied");
+			bool blocked = PathSafetyGuard.TryPinDirectoryChain(anchorLink, Path.Combine(anchorLink, "mods", "a.jar"), false, out _, out string blockedError);
+			Assert.False(blocked, "锚点无法验证时必须 fail-closed，而不是放行写入");
+			Assert.Contains("锚点", blockedError);
+			_out.WriteLine("本机无法创建目录联接，已改断言同一路径的 fail-closed 拒绝：" + blockedError);
 			return;
 		}
 
@@ -430,7 +466,40 @@ public class PathSafetyGuardTests
 		}
 		catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException)
 		{
-			_out.WriteLine("跳过：本机无法创建文件符号链接：" + ex.Message);
+			// 本机没有创建符号链接的权限（未开开发者模式/非提权进程）。不能报绿，也不能无条件失败：
+			// 改用等价的"写入会穿透"场景——把叶子所在目录做成目录联接（junction 不需要特权），
+			// 断言整条写入路径仍然 fail-closed。叶子检查只负责叶子本身，父级穿透由链检查负责。
+			using Fixture fx2 = new Fixture();
+			string game = fx2.Dir("game");
+			string outsideDir = fx2.Dir("outside");
+			string modsLink = Path.Combine(game, "mods");
+
+			if (TryCreateDirectoryLink(modsLink, outsideDir))
+			{
+				bool accepted = PathSafetyGuard.TryPinDirectoryChain(game, Path.Combine(modsLink, "b.jar"), false, out PathSafetyGuard.PinnedPath? chainPin, out string chainError);
+				try
+				{
+					Assert.False(accepted, "父目录是联接时必须拒绝，否则写入会穿透到 " + outsideDir);
+					Assert.Contains("重解析点", chainError);
+					_out.WriteLine("本机无法创建文件符号链接（" + ex.Message + "），已改断言父级联接的 fail-closed 拒绝：" + chainError);
+				}
+				finally
+				{
+					chainPin?.Dispose();
+				}
+			}
+			else
+			{
+				// 连目录联接也建不出（例如文件系统不支持重解析点）：仍必须落在"拒绝不可验证路径"上，
+				// 不能把"其实没测"当成"通过"。
+				string missingAnchor = Path.Combine(fx2.Root, "no-such-anchor");
+				string unverifiableTarget = Path.Combine(missingAnchor, "mods", "a.jar");
+				bool accepted = PathSafetyGuard.TryPinDirectoryChain(missingAnchor, unverifiableTarget, false, out _, out string chainError);
+				Assert.False(accepted, "链无法验证时必须 fail-closed");
+				Assert.Contains("锚点", chainError);
+				_out.WriteLine("本机既无法建符号链接也无法建目录联接，已改断言 fail-closed 拒绝：" + chainError);
+			}
+
 			return;
 		}
 

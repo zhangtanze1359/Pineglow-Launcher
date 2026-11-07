@@ -50,3 +50,16 @@ node ui/tests/skin3d-core.test.cjs
 node ui/tests/update-recovery.test.cjs
 node ui/tests/update-monitor.test.cjs
 project dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj
+
+# ---- R5-05：发布线独有的 C# 测试随该 project 行一起执行（2026-11-07 合流）----
+# 本清单对 C# 的口径与既有 50+ 个测试文件一致：一律由上面的 project 行整体运行，
+# 不逐文件登记（逐文件登记的是 *.test.cjs，因为 node --test 必须显式给路径）。
+# 因此下面这些新增源文件不再有单独的清单行，它们的"已登记"由两件事保证：
+#   1) 在 Pineglow.Launcher.Tests.csproj 的默认 Compile glob 内 → dotnet test 必然编译并运行；
+#   2) JavaProbe 夹具项目用 ProjectReference(ReferenceOutputAssembly=false) + AfterBuild 复制到
+#      $(OutDir)JavaProbeFixture，并以 <Compile Remove="JavaProbe/**/*.cs" /> 排除出测试程序集，
+#      因此它既不会漏建，也不会被当成测试源混进程序集（也不会产生第二份重复运行）。
+#   dev/PineglowLauncher.Tests/JavaDiscoveryTimingTests.cs        （候选枚举与逐项版本探测的耗时分离）
+#   dev/PineglowLauncher.Tests/JavaLocatorProcessTests.cs         （真实子进程夹具：慢/灌满管道/退出码/取消）
+#   dev/PineglowLauncher.Tests/JavaProbe/                         （夹具 exe，非测试项目，故无 project 行）
+

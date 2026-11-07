@@ -16,8 +16,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="JavaProbe/**/*.cs" />
+    <ProjectReference Include="JavaProbe/JavaProbe.csproj" ReferenceOutputAssembly="false" />
     <Using Include="Xunit" />
   </ItemGroup>
+
+  <Target Name="CopyJavaProbe" AfterTargets="Build">
+    <ItemGroup>
+      <JavaProbeFiles Include="JavaProbe/bin/$(Configuration)/net10.0/*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(JavaProbeFiles)" DestinationFolder="$(OutDir)JavaProbeFixture" />
+  </Target>
 
   <ItemGroup>
     <ProjectReference Include="..\PineglowLauncher\Pineglow.Launcher.csproj" />
