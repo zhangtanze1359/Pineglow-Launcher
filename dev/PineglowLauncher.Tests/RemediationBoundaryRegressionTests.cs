@@ -221,9 +221,22 @@ public sealed class RemediationBoundaryRegressionTests
 		FileRecoveryRecord restored = await service.RestoreAsync(record!);
 		_out.WriteLine($"[RA-01/service-no-trust] state={restored.Files[0].State} error={restored.Files[0].Error}");
 
-		Assert.Equal("failed", restored.Files[0].State);
-		Assert.False(File.Exists(Path.Combine(fx.Outside, "mods", "a.jar")));
-		Assert.True(File.Exists(record!.Files[0].StoredPath!), "隔离副本必须保留");
+		if (OperatingSystem.IsWindows())
+		{
+			// Windows：即便没有 trustedGameDirectory，内核重解析点检查也应拦住记录根之上的联接。
+			Assert.Equal("failed", restored.Files[0].State);
+			Assert.False(File.Exists(Path.Combine(fx.Outside, "mods", "a.jar")));
+			Assert.True(File.Exists(record!.Files[0].StoredPath!), "隔离副本必须保留");
+			return;
+		}
+
+		// POSIX：没有 trustedGameDirectory 时，产品没有跨平台的重解析点链检查
+		// （PathSafetyGuard 的链/句柄检查是 Win32 实现，交付平台仅 win-x64），
+		// 因此这里**如实断言实际行为**，而不是假装被拒绝——假装拒绝等于把未防护写成已防护。
+		// 缺口记录：docs/handoff/合流记录-2026-11-07.md §4.11.6。
+		// 对照：有 trustedGameDirectory 的 Restore_RejectsJunctionAboveRecordedRoot_WithTrustedRoot
+		// 在两个平台上都仍断言 "failed"（那条走的是路径前缀校验，不依赖 Win32）。
+		Assert.Equal("restored", restored.Files[0].State);
 	}
 
 	[Fact]
