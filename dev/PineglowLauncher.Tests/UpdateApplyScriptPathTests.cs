@@ -53,6 +53,21 @@ public class UpdateApplyScriptPathTests
 			RedirectStandardOutput = true,
 			RedirectStandardError = true
 		};
+
+		// 用例必须自持环境：生成的脚本用 `tasklist | find /I ...` 这类 Windows 内置命令，
+		// 若子进程继承宿主的 PATH（例如 Git Bash 把 /usr/bin 排在前面），`find` 会解析到 GNU find，
+		// tasklist 的参数被当成路径、等待循环提前跳出 → 替换失败。2026-11-06 在本地记录过这个陷阱，
+		// 2026-11-07 在 windows-latest runner（步骤用 bash）上复现。
+		// 这里只给子进程 Windows 系统目录，让用例测的是脚本逻辑，而不是宿主的 PATH 长什么样。
+		string system32 = Environment.GetFolderPath(Environment.SpecialFolder.System);
+		string windowsDir = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
+		foreach (string key in psi.Environment.Keys
+			.Where(k => string.Equals(k, "PATH", StringComparison.OrdinalIgnoreCase)).ToList())
+		{
+			psi.Environment.Remove(key);
+		}
+
+		psi.Environment["PATH"] = string.Join(';', system32, windowsDir, Path.Combine(system32, "Wbem"));
 		using Process proc = Process.Start(psi)!;
 		string output = proc.StandardOutput.ReadToEnd() + proc.StandardError.ReadToEnd();
 		proc.WaitForExit(30000);
