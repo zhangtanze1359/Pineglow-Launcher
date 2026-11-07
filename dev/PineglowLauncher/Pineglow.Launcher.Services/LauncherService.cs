@@ -196,52 +196,41 @@ public sealed class LauncherService
 
 	private static List<string> ResolveJvmArguments(MinecraftVersion version, Dictionary<string, string> replacements, string nativesDir, string classpath, LaunchProfile profile)
 	{
-		List<string> list = new List<string>();
-		JsonElement? arguments = version.Arguments;
-		if (arguments.HasValue)
+		List<string> resolvedArguments = new List<string>();
+		if (TryGetArgumentArray(version, "jvm", out JsonElement jvmArguments))
 		{
-			JsonElement valueOrDefault = arguments.GetValueOrDefault();
-			if (valueOrDefault.ValueKind == JsonValueKind.Object && valueOrDefault.TryGetProperty("jvm", out var value) && value.ValueKind == JsonValueKind.Array)
-			{
-				list.AddRange(FlattenArguments(value, replacements, BuildLaunchFeatures(profile)));
-				goto IL_0091;
-			}
+			resolvedArguments.AddRange(FlattenArguments(jvmArguments, replacements, BuildLaunchFeatures(profile)));
 		}
-		list.Add("-Djava.library.path=" + nativesDir);
-		list.Add("-Dminecraft.launcher.brand=PineglowLauncher");
-		list.Add("-Dminecraft.launcher.version=" + LauncherVersion);
-		list.Add("-cp");
-		list.Add(classpath);
-		goto IL_0091;
-		IL_0091:
+		else
+		{
+			resolvedArguments.Add("-Djava.library.path=" + nativesDir);
+			resolvedArguments.Add("-Dminecraft.launcher.brand=PineglowLauncher");
+			resolvedArguments.Add("-Dminecraft.launcher.version=" + LauncherVersion);
+			resolvedArguments.Add("-cp");
+			resolvedArguments.Add(classpath);
+		}
 		// 这里**不能**对整张参数表去重：现代 Forge/NeoForge 的版本 JSON 会**重复使用同一个选项 token**
 		// （`--add-opens` / `--add-exports` 各出现两次，各自跟一个模块 spec）。整表去重会把第二个 token 吃掉，
 		// JVM 随后把它的取值当成主类并立刻退出：
 		//   错误: 找不到或无法加载主类 java.base/java.lang.invoke=cpw.mods.securejarhandler
 		// 语义 token（选项与其取值）必须原样、按序保留。
-		return list;
+		return resolvedArguments;
 	}
 
 	private static List<string> ResolveGameArguments(MinecraftVersion version, Dictionary<string, string> replacements, LaunchProfile profile)
 	{
-		List<string> list = new List<string>();
-		JsonElement? arguments = version.Arguments;
-		if (arguments.HasValue)
+		List<string> resolvedArguments = new List<string>();
+		if (TryGetArgumentArray(version, "game", out JsonElement gameArguments))
 		{
-			JsonElement valueOrDefault = arguments.GetValueOrDefault();
-			if (valueOrDefault.ValueKind == JsonValueKind.Object && valueOrDefault.TryGetProperty("game", out var value) && value.ValueKind == JsonValueKind.Array)
-			{
-				list.AddRange(FlattenArguments(value, replacements, BuildLaunchFeatures(profile)));
-				goto IL_0177;
-			}
+			resolvedArguments.AddRange(FlattenArguments(gameArguments, replacements, BuildLaunchFeatures(profile)));
 		}
-		if (!string.IsNullOrWhiteSpace(version.MinecraftArguments))
+		else if (!string.IsNullOrWhiteSpace(version.MinecraftArguments))
 		{
-			list.AddRange(SplitLegacyArguments(JsonUtil.ReplacePlaceholders(version.MinecraftArguments, replacements)));
+			resolvedArguments.AddRange(SplitLegacyArguments(JsonUtil.ReplacePlaceholders(version.MinecraftArguments, replacements)));
 		}
 		else
 		{
-			list.AddRange(new string[18]
+			resolvedArguments.AddRange(new string[18]
 			{
 				"--username",
 				profile.PlayerName,
@@ -263,24 +252,37 @@ public sealed class LauncherService
 				version.Type ?? "release"
 			});
 		}
-		goto IL_0177;
-		IL_0177:
 		if (profile.WindowWidth > 0 && profile.WindowHeight > 0)
 		{
-			AddOrReplaceArg(list, "--width", profile.WindowWidth.ToString());
-			AddOrReplaceArg(list, "--height", profile.WindowHeight.ToString());
+			AddOrReplaceArg(resolvedArguments, "--width", profile.WindowWidth.ToString());
+			AddOrReplaceArg(resolvedArguments, "--height", profile.WindowHeight.ToString());
 		}
 		if (!string.IsNullOrWhiteSpace(profile.ServerHost))
 		{
-			list.Add("--server");
-			list.Add(profile.ServerHost.Trim());
+			resolvedArguments.Add("--server");
+			resolvedArguments.Add(profile.ServerHost.Trim());
 			if (!string.IsNullOrWhiteSpace(profile.ServerPort))
 			{
-				list.Add("--port");
-				list.Add(profile.ServerPort.Trim());
+				resolvedArguments.Add("--port");
+				resolvedArguments.Add(profile.ServerPort.Trim());
 			}
 		}
-		return list;
+		return resolvedArguments;
+	}
+
+	private static bool TryGetArgumentArray(MinecraftVersion version, string argumentKind, out JsonElement array)
+	{
+		array = default;
+		JsonElement? arguments = version.Arguments;
+		if (!arguments.HasValue)
+		{
+			return false;
+		}
+		JsonElement argumentObject = arguments.GetValueOrDefault();
+		// 空数组也是有效声明：只有缺失或类型不符时才使用旧版/默认参数。
+		return argumentObject.ValueKind == JsonValueKind.Object
+			&& argumentObject.TryGetProperty(argumentKind, out array)
+			&& array.ValueKind == JsonValueKind.Array;
 	}
 
 	private static void AddOrReplaceArg(List<string> args, string key, string value)

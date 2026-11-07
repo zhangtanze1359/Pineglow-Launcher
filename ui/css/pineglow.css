@@ -39,7 +39,7 @@ button:disabled:hover { filter: none; transform: none; }
 /* A quiet shell and a compact, recognisable pine mark. */
 .title-bar { height: 48px; flex-basis: 48px; padding: 0 22px; border-bottom: 1px solid var(--border); }
 .brand { gap: 10px; }
-.brand-pixel { width: 20px; height: 23px; border-radius: 0; clip-path: polygon(50% 0, 80% 33%, 65% 33%, 100% 70%, 60% 70%, 60% 100%, 40% 100%, 40% 70%, 0 70%, 35% 33%, 20% 33%); }
+.brand-pixel { width: 23px; height: 23px; object-fit: contain; }
 .brand-name { font-size: 12px; letter-spacing: 2px; font-weight: 750; }
 .brand-sub { padding-left: 11px; border-left: 1px solid var(--border); font-size: 11px; letter-spacing: .3px; }
 .wc { width: 34px; height: 30px; }

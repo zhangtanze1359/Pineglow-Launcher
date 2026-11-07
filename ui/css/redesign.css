@@ -31,7 +31,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,[t
 }
 [hidden] { display: none !important; }
 .title-bar { height:40px; flex-basis:40px; padding:0 0 0 18px; }
-.brand-pixel { width:15px; height:17px; background:var(--fg); }
+.brand-pixel { width:23px; height:23px; object-fit:contain; }
 .brand-name { letter-spacing:1.6px; font-size:12px; }
 .brand-sub { color:var(--muted); font-size:12px; }
 .window-controls { height:100%; gap:0; }
@@ -229,7 +229,7 @@ h1,h2,h3,h4 { font-family:var(--font-head); font-weight:600; letter-spacing:-.01
 button,input,select,textarea { font-family:inherit; letter-spacing:inherit; }
 button:disabled { opacity:.45; cursor:not-allowed; }
 .brand-sub { border-left:1px solid var(--border); margin-left:4px; padding-left:12px; }
-.brand-pixel { width:12px; height:14px; }
+.brand-pixel { width:23px; height:23px; }
 .sidebar { width:236px; flex-basis:236px; }
 .navigation { gap:2px; }
 .nav-item { font-weight:500; }
