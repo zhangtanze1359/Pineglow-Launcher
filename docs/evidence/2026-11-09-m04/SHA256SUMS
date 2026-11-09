@@ -1,0 +1,7 @@
+# M0-4 证据包哈希（sha256sum -c 可复核）
+# 生成于 2026-11-09，基线 integration/v1.1.0-20261107 @ 5e8ae56
+# 注：原始捕获以 .txt 归档（仓库 .gitignore 第 27 行忽略 *.log，故不改规则、不强制添加）
+f6447574c672243a7ca512717cdc933275d4864fdd15735cd2c2d2467ab6bc08 *frontend-inventory-run.txt
+a93c977163e20b94a41f322a5d36780d84457fea5cf9748bde320c83594228f3 *inventory-check.json
+905544fde0bfbb7e6c73fc1b411b6f895ba3912d51f8fcccf0870400db658eb6 *repro-null-status.cjs
+353b333e6e8d0446ed28715dc4973b84074c7dc9b3d66c750011155775bf06b9 *结论.md
