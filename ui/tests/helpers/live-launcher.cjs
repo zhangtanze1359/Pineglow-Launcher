@@ -66,7 +66,7 @@ function liveLauncher(options = {}) {
 		}
 		return { ok: true, status: 200, json: async () => data };
 	};
-	for (const file of ['i18n.js', 'api.js', 'launcher.js']) vm.runInContext(fs.readFileSync(path.join(sourceDir, file), 'utf8'), ctx);
+	for (const file of ['i18n.js', 'api.js', 'news.js', 'launcher.js']) vm.runInContext(fs.readFileSync(path.join(sourceDir, file), 'utf8'), ctx);
 	async function click(el) {
 		if (!el) throw new Error('Expected a real rendered control');
 		const event = { target: el, currentTarget: el, preventDefault() {}, stopPropagation() {} };

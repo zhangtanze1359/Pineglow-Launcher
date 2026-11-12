@@ -33,6 +33,7 @@ const vm = require('node:vm');
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const LAUNCHER_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'launcher.js'), 'utf8');
+const NEWS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'news.js'), 'utf8');
 const I18N_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'i18n.js'), 'utf8');
 
 /* ==================== 最小 DOM 桩 ====================
@@ -127,6 +128,8 @@ function loadLauncher(extra = {}) {
 	const ctx = makeContext(extra);
 	vm.runInContext(I18N_JS, ctx, { filename: 'i18n.js' });
 	try {
+		vm.runInContext(NEWS_JS, ctx, { filename: 'news.js' });
+
 		vm.runInContext(LAUNCHER_JS, ctx, { filename: 'launcher.js' });
 	} catch (err) {
 		// 初始化失败时给出明确上下文，而不是让人看到一句无头 TypeError

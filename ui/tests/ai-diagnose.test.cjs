@@ -21,6 +21,7 @@ const ROOT = path.resolve(__dirname, '..', '..');
 const API_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api.js'), 'utf8');
 const I18N_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'i18n.js'), 'utf8');
 const LAUNCHER_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'launcher.js'), 'utf8');
+const NEWS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'news.js'), 'utf8');
 
 /* ========== 极简 jsdom 替代：仅 api.js / i18n.js / launcher.js 所需 ========== */
 function makeStubBrowser() {
@@ -484,6 +485,8 @@ test('Gate V2 RED-G2: __aiDiagnostics is undefined in production runtime (withou
 	vm.createContext(sandbox);
 	vm.runInContext(I18N_JS, sandbox, { filename: 'i18n.js' });
 	vm.runInContext(API_JS, sandbox, { filename: 'api.js' });
+	vm.runInContext(NEWS_JS, sandbox, { filename: 'news.js', timeout: 8000 });
+
 	vm.runInContext(LAUNCHER_JS, sandbox, { filename: 'launcher.js', timeout: 8000 });
 	assert.equal(sandbox.window.__aiDiagnostics, undefined, 'production must NOT expose __aiDiagnostics');
 });
@@ -769,6 +772,8 @@ function loadRealLauncher(ctx) {
 	vm.createContext(sandbox);
 	vm.runInContext(I18N_JS, sandbox, { filename: 'i18n.js' });
 	vm.runInContext(API_JS, sandbox, { filename: 'api.js' });
+	vm.runInContext(NEWS_JS, sandbox, { filename: 'news.js', timeout: 8000 });
+
 	vm.runInContext(LAUNCHER_JS, sandbox, { filename: 'launcher.js', timeout: 8000 });
 	// launcher.js 内的 IIFE 把导出挂到 window.__aiDiagnostics
 	const diag = sandbox.window.__aiDiagnostics;

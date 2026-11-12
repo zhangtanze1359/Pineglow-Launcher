@@ -23,9 +23,10 @@
  *   5. `js/api.js`            —— 提供 SG.api；用到 SG.t（错误文案）
  *   6. `js/playtime.js`       —— 依赖 SG.api + SG.t
  *   7. `js/update-monitor.js` —— 依赖 SG.api
- *   8. `js/launcher.js`       —— 主壳，依赖以上全部
+ *   8. `js/news.js`           —— 依赖 SG.api + SG.t（运行时）；toast/modal/goTo
+ *                                由 launcher.js 启动时经 SG.news.__wire 注入
+ *   9. `js/launcher.js`       —— 主壳，依赖以上全部
  */
-
 const SCRIPT_ORDER = [
 	'vendor/three.min.js',
 	'js/skin3d-core.js',
@@ -34,6 +35,7 @@ const SCRIPT_ORDER = [
 	'js/api.js',
 	'js/playtime.js',
 	'js/update-monitor.js',
+	'js/news.js',
 	'js/launcher.js',
 ];
 

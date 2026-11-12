@@ -20,6 +20,7 @@ const vm = require('node:vm');
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const LAUNCHER_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'launcher.js'), 'utf8');
+const NEWS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'news.js'), 'utf8');
 const I18N_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'i18n.js'), 'utf8');
 
 /* ============== 复用 launcher-behavior.test.cjs 的 DOM 桩与加载器 ============== */
@@ -364,6 +365,8 @@ function loadLauncher(opts) {
 	vm.runInContext(I18N_JS, ctx);
 	// 注入 api 桩
 	ctx.SG.api = makeApiStub(opts);
+	vm.runInContext(NEWS_JS, ctx, { filename: 'news.js' });
+
 	vm.runInContext(LAUNCHER_JS, ctx);
 	if (!ctx.SG.__test__) throw new Error('SG.__test__ 未注入');
 	return { ctx, document, T: ctx.SG.__test__, api: ctx.SG.api, views };

@@ -24,6 +24,7 @@ const vm = require('node:vm');
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const LAUNCHER_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'launcher.js'), 'utf8');
+const NEWS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'news.js'), 'utf8');
 const I18N_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'i18n.js'), 'utf8');
 
 /* ============== 与 launcher-v3.test.cjs 同款的 DOM 桩（自包含） ============== */
@@ -288,7 +289,7 @@ function loadV4(opts) {
 	vm.createContext(ctx);
 	vm.runInContext(I18N_JS, ctx);
 	ctx.SG.api = makeApiStub(opts);
-	try { vm.runInContext(LAUNCHER_JS, ctx); }
+	try { vm.runInContext(NEWS_JS, ctx); vm.runInContext(LAUNCHER_JS, ctx); }
 	catch (e) { process.stderr.write('LOAD_V4_ERROR: ' + (e && e.stack ? e.stack : e) + '\n'); throw e; }
 	if (!ctx.SG.__test__) throw new Error('SG.__test__ 未注入');
 	return { ctx, document, T: ctx.SG.__test__, api: ctx.SG.api, views };

@@ -22,6 +22,7 @@ const vm = require('node:vm');
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const LAUNCHER_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'launcher.js'), 'utf8');
+const NEWS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'news.js'), 'utf8');
 const I18N_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'i18n.js'), 'utf8');
 const API_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api.js'), 'utf8');
 
@@ -453,6 +454,8 @@ function loadGoalLauncher(apiOverrides, options) {
 	ctx.SG.api = api;
 	vm.createContext(ctx);
 	vm.runInContext('SG.apiMode = "live"; SG.apiToken = "test-token";\n' + I18N_JS, ctx);
+	vm.runInContext(NEWS_JS, ctx, { filename: 'news.js' });
+
 	vm.runInContext(LAUNCHER_JS, ctx);
 	const T = ctx.SG.__test__;
 	if (!T) throw new Error('SG.__test__ 未注入；launcher.js 加载失败');

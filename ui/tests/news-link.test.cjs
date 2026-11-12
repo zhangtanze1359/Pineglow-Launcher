@@ -27,6 +27,7 @@ const vm = require('node:vm');
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const LAUNCHER_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'launcher.js'), 'utf8');
+const NEWS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'news.js'), 'utf8');
 const I18N_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'i18n.js'), 'utf8');
 const API_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api.js'), 'utf8');
 
@@ -317,6 +318,8 @@ function loadLauncher() {
 	vm.createContext(ctx);
 	vm.runInContext(I18N_JS, ctx);
 	vm.runInContext('SG.apiMode = "live"; SG.apiToken = "test-token"; SG.goTo = SG.goTo || function(v) {}; SG.toast = SG.toast || function(t) { SG.__toastCalls = SG.__toastCalls || []; SG.__toastCalls.push(t); };', ctx);
+	vm.runInContext(NEWS_JS, ctx, { filename: 'news.js' });
+
 	vm.runInContext(LAUNCHER_JS, ctx);
 	if (ctx.SG.__toastCalls) ctx.toastCalls = ctx.SG.__toastCalls;
 	const T = ctx.SG.__test__;
@@ -585,8 +588,9 @@ test('R2-03: success settle must re-enable trigger button; subsequent click prod
 
 /* ============== 4. Static scan (supplementary defense) ============== */
 
-test('R2-03 static scan: launcher.js news render/bind functions must not contain window.open', () => {
-	const lines = LAUNCHER_JS.split(/\r?\n/);
+test('R2-03 static scan: news.js + launcher.js news render/bind functions must not contain window.open', () => {
+	// M1-3：新闻子系统已拆至 news.js，扫描范围改为两个文件拼接，覆盖面不因拆分收窄。
+	const lines = (NEWS_JS + '\n' + LAUNCHER_JS).split(/\r?\n/);
 	const isNewsContext = (line) => {
 		const lower = line.toLowerCase();
 		return lower.includes('news') || lower.includes('linkok') || lower.includes('data-link')
@@ -611,8 +615,9 @@ test('R2-03 static scan: launcher.js news render/bind functions must not contain
 	);
 });
 
-test('R2-03 static scan: launcher.js news DOM templates must not contain target=_blank', () => {
-	const lines = LAUNCHER_JS.split(/\r?\n/);
+test('R2-03 static scan: news.js + launcher.js news DOM templates must not contain target=_blank', () => {
+	// M1-3：新闻子系统已拆至 news.js，扫描范围改为两个文件拼接，覆盖面不因拆分收窄。
+	const lines = (NEWS_JS + '\n' + LAUNCHER_JS).split(/\r?\n/);
 	const isNewsContext = (line) => {
 		const lower = line.toLowerCase();
 		return lower.includes('news') || lower.includes('linkok') || lower.includes('data-link')
