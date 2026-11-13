@@ -33,7 +33,10 @@
  *  11. `js/skins.js`          —— 皮肤视图。依赖 SG.api + SG.skinVisuals（故必须排在 10
  *                                之后）；toast/currentView/accounts/loadAccounts/
  *                                invalidate/goTo 由 launcher.js 经 SG.skins.__wire 注入
- *  12. `js/launcher.js`       —— 主壳，依赖以上全部
+ *  12. `js/content.js`        —— 资源库视图。★ 它的 pageGen / debounce 定时器**仍归
+ *                                launcher 所有**（goTo 是唯一写者），本模块经
+ *                                SG.content.__wire 拿到 pageGen() 读取器与 setDebounce()
+ *  13. `js/launcher.js`       —— 主壳，依赖以上全部
  */
 const SCRIPT_ORDER = [
 	'vendor/three.min.js',
@@ -47,6 +50,7 @@ const SCRIPT_ORDER = [
 	'js/downloads.js',
 	'js/skin-visuals.js',
 	'js/skins.js',
+	'js/content.js',
 	'js/launcher.js',
 ];
 

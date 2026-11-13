@@ -1,0 +1,4 @@
+  3536 ui/js/launcher.js
+   526 ui/js/content.js
+  4062 total
+c2f67ab refactor(ui): M1-3 第三步后段——skins 视图拆出为 js/skins.js + js/skin-visuals.js

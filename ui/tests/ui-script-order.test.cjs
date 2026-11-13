@@ -118,8 +118,8 @@ test('依赖关系满足：i18n 在 api 之前，api 在 playtime 之前，playt
 
 /* 文件名 → SG 命名空间。多数模块同名，但 skin-visuals.js 的命名空间是
  * SG.skinVisuals（连字符在 JS 标识符里非法），必须显式登记，不能靠文件名推导。 */
-const NS = { playtime: 'playtime', news: 'news', downloads: 'downloads', skins: 'skins', 'skin-visuals': 'skinVisuals' };
-const VIEW_MODULES = ['playtime', 'news', 'downloads', 'skins'];
+const NS = { playtime: 'playtime', news: 'news', downloads: 'downloads', skins: 'skins', content: 'content', 'skin-visuals': 'skinVisuals' };
+const VIEW_MODULES = ['playtime', 'news', 'downloads', 'skins', 'content'];
 /* 跨视图共享层的模块：没有独立的 render/bind 入口，但同样必须被生产加载。
  * 单独列出来是因为上面那组断言要求 render+bind 委托，对共享层不成立。 */
 const SHARED_MODULES = ['skin-visuals'];
@@ -170,6 +170,41 @@ test('拆出去的视图脚本各自导出 SG.<模块名>，且与 launcher.js �
 			|| new RegExp("function bind" + name.charAt(0).toUpperCase() + name.slice(1) + "\\(el\\)\\s*\\{\\s*return SG\\." + ns).test(launcherSrc);
 		assert.ok(delegatesRender, `launcher.js 的渲染入口没有委托到 SG.${ns}：视图会渲染成空白页`);
 		assert.ok(delegatesBind, `launcher.js 的事件绑定入口没有委托到 SG.${ns}：视图渲染出来也没有交互`);
+	}
+});
+
+test('每个拆出模块用到的注入项，launcher.js 的 __wire 里都必须真的提供', () => {
+	// 由来（M1-3 第三步 content）：content.js 通过 __wire 拿 pageGen()/setDebounce() 等访问器。
+	// 漏掉任何一个注入项，功能不会报错、而是**静默失效**：
+	//   - 漏 pageGen  → 代际校验恒为 0，离页后迟到请求会复活隐藏页面（实测能被行为测试抓到）
+	//   - 漏 setDebounce → 搜索框 debounce 变成空操作（实测**全量 485 全绿也没抓到**）
+	// 后者是真实存在的覆盖盲区（拆分前就没有 debounce 的行为测试），静态守不住就只能靠人记；
+	// 这条断言至少保证"模块声明需要的注入项"与"launcher 实际注入的"不会漂移。
+	const launcherSrc = fs.readFileSync(path.join(UI, 'js', 'launcher.js'), 'utf8');
+
+	for (const name of VIEW_MODULES) {
+		const ns = NS[name];
+		const src = fs.readFileSync(path.join(UI, 'js', name + '.js'), 'utf8');
+
+		// 模块自己在 __wire 里读取的键名（deps.xxx）
+		const usedInWire = [...src.matchAll(/deps\.([A-Za-z_$][\w$]*)/g)].map(m => m[1]);
+		if (!usedInWire.length) continue;
+
+		// launcher 里对该模块的 __wire 调用体
+		const callAt = launcherSrc.indexOf('SG.' + ns + '.__wire(');
+		assert.notEqual(callAt, -1, `launcher.js 没有调用 SG.${ns}.__wire(...)`);
+		let depth = 0, i = launcherSrc.indexOf('{', callAt), start = i;
+		for (; i < launcherSrc.length; i++) {
+			if (launcherSrc[i] === '{') depth++;
+			else if (launcherSrc[i] === '}') { depth--; if (depth === 0) break; }
+		}
+		const wireBody = launcherSrc.slice(start, i + 1);
+
+		for (const key of usedInWire) {
+			// 支持简写 {toast} 与显式 {toast: fn} 两种写法
+			const provided = new RegExp('(^|[{,\\s])' + key + '\\s*[:,}]').test(wireBody);
+			assert.ok(provided, `SG.${ns}.__wire 缺少注入项 "${key}"（${name}.js 读 deps.${key}）：该功能会静默失效`);
+		}
 	}
 });
 

@@ -21,7 +21,17 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const ROOT = path.resolve(__dirname, '..', '..');
-const LAUNCHER_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'launcher.js'), 'utf8');
+/* M1-3：content 视图已拆到 ui/js/content.js（SG.content），launcher.js 只留薄委托。
+   本文件是对"资源/搜索契约"的静态源码断言，被断言的实现现在分布在两处：
+     - searchContentOptions / contentCardHtml / bindContentInstalls /
+       renderContent / contentRerenderGrid 的实现 → content.js
+     - launcher.js 保留了同名委托
+   把两份源码拼起来扫描，断言本身一条不改：谁实现都行，但契约必须仍然成立。
+   ★ 顺序很关键：content.js 必须排在前面。extractFunctionBody 用 indexOf 取第一次出现，
+   若 launcher 的委托在前，取到的就是三行委托而不是真正的实现。 */
+const LAUNCHER_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'content.js'), 'utf8')
+	+ '\n/* ---- ui/js/launcher.js ---- */\n'
+	+ fs.readFileSync(path.join(ROOT, 'ui', 'js', 'launcher.js'), 'utf8');
 
 let passed = 0, failed = 0;
 const failures = [];
@@ -117,7 +127,10 @@ test('bindContentInstalls 从 button.dataset.category 读取 category', () => {
 
 test('installContent 实际调用透传 source 字段', () => {
 	const body = extractFunctionBody(LAUNCHER_JS, 'function bindContentInstalls(el)');
-	assert.match(body, /SG\.api\.installContent\(\s*\{\s*category,\s*projectId,\s*instanceId:\s*selectedInstanceId,\s*source\s*\}\s*\)/);
+	// M1-3：拆分后实例 id 经注入取值函数访问（selectedInstanceId → _selectedInstanceId()），
+	// 语义与拆分前的裸变量完全相同——两者都接受，但**必须仍然显式传** instanceId，
+	// 不允许退化成"不传/传全局猜测"。
+	assert.match(body, /SG\.api\.installContent\(\s*\{\s*category,\s*projectId,\s*instanceId:\s*(?:_)?selectedInstanceId(?:\(\))?,\s*source\s*\}\s*\)/);
 });
 
 /* ============== 4. 竞态 token 检查 ============== */

@@ -1641,469 +1641,34 @@ function renderConfirmPanel(providerName, modelName, allowed) {
 /* ================================================================
    Content 内容中心
    ================================================================ */
-const CONTENT_CATS = [
-	{ key: 'mod', labelKey: 'content.mods' },
-	{ key: 'modpack', labelKey: 'content.modpacks' },
-	{ key: 'shader', labelKey: 'content.shaders' },
-	{ key: 'resourcepack', labelKey: 'content.resourcepacks' },
-];
-let contentCat = 'mod';
-let contentQuery = '';
-let contentSource = 'modrinth'; // modrinth / curseforge
-let contentSearchToken = 0;
-let contentLoadError = null;
-// 关键：v4 引入 contentPageGen 区分"页面进入"与"页内请求"。
-// 每次 goTo 进入 content 分配一个新的 pageGen（=当时的 navSeq）。
-// goTo 切走 content 时设为 -1，让任何 pending 的 renderContent / retryLoadStateAndRefresh
-// 短路返回。navSeq 不能区分"页面已切走"与"页面内还在"。
+/* ================================================================
+   Content 资源库
+   ================================================================
+   M1-3 第三步收尾：本视图已整体拆至 js/content.js（SG.content）。
+   与前面几个视图的关键区别：contentPageGen / contentDebTimer 的**唯一写者**是
+   本文件的 goTo（导航核心：进入时分配 gen、切走时置 -1 并清定时器）。
+   因此这两个状态**留在本文件**，content.js 通过 SG.content.__wire 注入的
+   pageGen() 读取、setDebounce() 挂定时器；本文件不反向依赖视图模块的内部变量。
+   下列薄委托保留旧名字，供 VIEWS 路由表、goTo 回访路径与 SG.__test__ 继续使用。 */
+
+/* 关键：v4 引入 contentPageGen 区分"页面进入"与"页内请求"。
+   每次 goTo 进入 content 分配一个新的 pageGen（=当时的 navSeq）。
+   goTo 切走 content 时设为 -1，让任何 pending 的 renderContent / retryLoadStateAndRefresh
+   短路返回。navSeq 不能区分"页面已切走"与"页面内还在"。
+   M1-3：这个状态**仍然留在这里**，因为 goTo（导航核心）是它唯一的写者；
+   content.js 只经 __wire 的 pageGen() 读它。 */
 let contentPageGen = 0;
-// 关键：debounce 定时器提到模块级。goTo 切走 content 时清理，避免离页后
-// debounce 到期还触发 searchContent。
+/* 关键：debounce 定时器提到模块级。goTo 切走 content 时清理，避免离页后
+   debounce 到期还触发 searchContent。M1-3：同上，goTo 也要清它，所以句柄留在这里。 */
 let contentDebTimer = null;
-// 关键：state retry 防重。连续双击只让第一次进入 retryLoadStateAndRefresh。
-let contentStateRetryInFlight = false;
 
-function contentCardHtml(c) {
-	// Phase 2：图标必须只引用本地图标端点（c.iconUrl 在 api.js mapContent 中已被替换）。
-	// 任何包含 http(s):// 的 iconUrl 都是后端契约错误，绝不能写进 DOM。
-	const hasLocalIcon = !!(c.iconUrl && c.iconUrl.indexOf && c.iconUrl.indexOf('/api/content/icon') === 0);
-	const placeholder = esc(c.icon || '📦');
-	const iconInner = hasLocalIcon
-		? `<span class="mod-icon-placeholder" aria-hidden="true">${placeholder}</span>`
-		+ `<img class="content-icon-img" data-icon-state="loading" src="${esc(c.iconUrl)}" alt="" width="52" height="52" loading="lazy" decoding="async" style="opacity:0">`
-		: `<span class="mod-icon-placeholder" aria-hidden="true">${placeholder}</span>`;
-	const badges = [...new Set([...(c.versions || []).slice(0, 2),...(c.loaders&&c.loaders.length?c.loaders:c.loader?[c.loader]:[])])].map(v => `<span class="mod-badge">${esc(v)}</span>`).join('');
-	// 卡片必须携带自身的 source / category / projectId 身份信息，
-	// 安装时使用 data-* 读取，不再依赖可能已经变化的全局筛选状态。
-	const cardSource = (c.source && /^(modrinth|curseforge)$/i.test(c.source)) ? c.source.toLowerCase() : 'modrinth';
-	const cardCategory = (c.category && /^(mod|modpack|shader|resourcepack)$/i.test(c.category)) ? c.category.toLowerCase() : 'mod';
-	// websiteUrl 仅作 data-* 留档，不出现在可视文本中
-	return `
-	<div class="mod-card" data-source="${esc(cardSource)}" data-category="${esc(cardCategory)}" data-icon-state="${hasLocalIcon ? 'loading' : 'missing'}">
-		<div class="mod-icon">${iconInner}</div>
-		<div class="mod-body">
-			<div class="mod-top">
-				<div class="mod-title-group"><span class="mod-name">${esc(c.title)}</span><span class="mod-author">${esc(t('content.by', { author: c.author || t('common.unknown') }))}</span></div>
-				<button class="mod-install" data-install="${esc(c.id)}" data-source="${esc(cardSource)}" data-category="${esc(cardCategory)}">${uiIcon('download')}${esc(t('content.install'))}</button>
-			</div>
-			<span class="mod-desc">${esc(c.desc || '')}</span>
-			<div class="mod-meta">
-				<span class="mod-dl"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"/></svg>${esc(c.downloads || '0')}</span>
-				${badges}
-			</div>
-		</div>
-	</div>`;
-}
-
-/* CV-06（本次修复）：内容中心错误块 / 重试按钮。
- * 设计来源：docs/opendesign-ui-artifact-2026-10-13/pineglow-state-components.css 的
- *   `.content-error` / `.content-retry-btn` 状态组件 + `.tech-details`/`.tech-body` 技术详情
- *   （integration-notes.md §4 第 3 条：主说明通俗，原始主机与 /api 路径移入可展开技术详情）。
- * 关键不变量：
- *   1. 正文只放通俗文案（content.errorTitle / content.errorDesc），不把主机名、/api 路径、状态码摆在正文；
- *   2. 原始错误经 esc() 转义后放进原生 <details><pre>，默认**不展开**（不写 open 属性），长文本靠 CSS 换行；
- *   3. 保留 data-error="1" 与 [data-retry-btn]（既有 bindContent 委托监听依赖它们，失败后再次重试仍可用）；
- *   4. 动态文本全部 esc()；不新增原型里的模拟按钮（只有生产已有的"重试"）。
- * 失败后再次重试：每次重试都会用本函数重新生成错误块，新按钮落在同一委托监听范围内。 */
-function contentErrorBlockHtml(errText) {
-	const tech = String(errText == null ? '' : errText);
-	return `<div class="content-error" data-error="1" role="alert">
-		<div class="state-icon state-icon--danger" aria-hidden="true">!</div>
-		<div class="state-main">
-			<div class="state-title">${esc(t('content.errorTitle'))}</div>
-			<p class="state-desc">${esc(t('content.errorDesc'))}</p>
-			<div class="state-actions"><button class="content-retry-btn" type="button" data-retry-btn="1">${esc(t('content.retry'))}</button></div>
-			${tech ? `<details class="tech-details"><summary>${esc(t('content.techDetails'))}</summary><pre class="tech-body">${esc(tech)}</pre></details>` : ''}
-		</div>
-	</div>`;
-}
-
-async function renderContent() {
-	const token = ++contentSearchToken;
-	contentLoadError = null;
-	// 渲染前确保 STATE 已就绪；#content 直进时 init 阶段也未必加载过。
-	if (!STATE) {
-		try { await loadState(); } catch (e) { /* loadState throws on failure; STATE stays null so next call retries */ }
-		if (token !== contentSearchToken) return '';
-	}
-	// 关键：v4 pageGen 校验。content 已切走（goTo 切到别处）时不再继续。
-	if (contentPageGen === -1) return '';
-	const instance = ((STATE && STATE.instances) || []).find(i => i.id === selectedInstanceId);
-	const filterHint = instance
-		? `${esc(instance.name || '')} · ${esc(instance.version || '')}${instance.loader && instance.loader !== 'Vanilla' ? ' · ' + esc(instance.loader) : ''}`
-		: t('content.unfiltered');
-	const filterBadge = renderContentFilterBadge(instance, filterHint);
-	let results = [];
-	try {
-		results = await SG.api.searchContent(contentQuery, contentCat, searchContentOptions());
-	} catch (e) {
-		// 即使失败也要在 await 之后检查序号，避免旧请求的失败错误覆盖到新的请求上下文。
-		if (token !== contentSearchToken) return '';
-		// 关键：await 期间页面已切走，放弃。
-		if (contentPageGen === -1) return '';
-		contentLoadError = e && e.message ? e.message : String(e);
-	}
-	// 成功路径同样要检查序号：A 请求慢、B 请求快，最终必须显示 B。
-	if (token !== contentSearchToken) return '';
-	// 关键：await 期间页面已切走，放弃。
-	if (contentPageGen === -1) return '';
-	const tabs = CONTENT_CATS.map(c => `<button class="filter ${c.key === contentCat ? 'active' : ''}" data-cat="${c.key}" aria-pressed="${c.key===contentCat}">${esc(t(c.labelKey))}</button>`).join('');
-	// 关键：错误块必须放在 content-grid 内部。
-	// rerenderGrid 走 grid.innerHTML 重置时，会连同错误块与重试按钮一起被替换，
-	// 避免"列表已恢复但错误块与按钮仍残留"的双重状态。
-	const errorBlock = contentLoadError ? contentErrorBlockHtml(contentLoadError) : '';
-	const gridInner = results.length
-		? results.map(contentCardHtml).join('')
-		: (contentLoadError
-			? ''
-			: `<div class="empty-state"><div class="es-icon">\u{1F50D}</div>${esc(t('content.empty'))}</div>`);
-	const grid = errorBlock + gridInner;
-	return `
-	<div class="content-view">
-		<div class="page-head">
-			<div>
-				<h2 class="content-library-title">${esc(t('shell.contentLibrary'))}</h2><p class="ui-muted">${uiText('查找适合当前实例的内容','Find content for your current instance')}</p>
-			</div>
-            ${uiSearch('contentSearch',t('content.searchPlaceholder'),contentQuery)}
-        </div>
-        <div class="content-toolbar"><div class="content-tabs">${tabs}</div><div class="content-context">${filterBadge}<div class="content-source-switch" id="contentSourceSwitch" style="display:${contentCat === 'mod' ? '' : 'none'}"><button class="source-btn ${contentSource === 'modrinth' ? 'active' : ''}" data-source="modrinth">Modrinth</button><button class="source-btn ${contentSource === 'curseforge' ? 'active' : ''}" data-source="curseforge">CurseForge</button></div></div></div>
-		<div class="content-grid" id="contentGrid">${grid}</div>
-	</div>`;
-}
-
-/* 关键（v4）：把 filter badge 渲染抽出来，让 retryLoadStateAndRefresh
- * 可以单独更新它而不写整个 el.innerHTML。instance 与 filterHint 仍由
- * 调用方传入（与 renderContent 计算口径一致）。 */
-function renderContentFilterBadge(instance, filterHint) {
-	const stateFailedMsg = stateLoadFailedLast || (STATE && STATE.__loadError);
-	return stateFailedMsg
-		? `<span class="content-filter-warn" data-state="failed">${esc(t('content.stateLoadFailed'))}${stateFailedMsg ? '：' + esc(stateFailedMsg) : ''} <button class="content-state-retry-btn" data-state-retry-btn="1">${esc(t('content.retry'))}</button></span>`
-		: `<span class="content-filter-hint" data-state="${instance ? 'filtered' : 'unfiltered'}">${filterHint}</span>`;
-}
-
-/* 关键（v4）：把原 bindContent 内的 rerenderGrid 提升为模块级。
- * - source / 分类 / 搜索 debounce / 状态重试后都走它
- * - 仅替换 #contentGrid 的 innerHTML，不动父容器 el 上的 click 监听器
- * - token 校验保证 A 慢 B 快时只写最后一次完成的
- * - pageGen 校验保证离页后的迟到请求不会复活隐藏页面 */
-async function contentRerenderGrid(el) {
-	if (!el) return;
-	const token = ++contentSearchToken;
-	const grid = el.querySelector('#contentGrid');
-	const switchEl = el.querySelector('#contentSourceSwitch');
-	if (switchEl) switchEl.style.display = contentCat === 'mod' ? '' : 'none';
-	// 若 STATE 尚未就绪（例如 #content 直进），先拉取一次；
-	// 拉取后再次比对 token 与 pageGen，避免把过期实例状态写到当前页面。
-	if (!STATE) {
-		try { await loadState(); } catch (e) { /* loadState 内部已降级 */ }
-		if (token !== contentSearchToken) return;
-	}
-	// 关键：await loadState 期间页面可能已切走。
-	if (contentPageGen === -1) return;
-	// 始终先清空 grid（包括所有旧错误块、旧重试按钮、旧 loading 提示），
-	// 然后显示新的 loading。重试路径下也走这条统一逻辑，避免双重状态。
-	if (grid) grid.innerHTML = `<div class="loading-state">${esc(t('common.loading'))}</div>`;
-	// 清空 grid 外的旧错误块（兼容性兜底；如果未来有人重新把错误块放外面，
-	// 这里仍然能保证外层不留旧块）。
-	const oldError = el.querySelector('.content-error[data-error="1"]');
-	if (oldError) oldError.remove();
-	let results = [];
-	contentLoadError = null;
-	try {
-		results = await SG.api.searchContent(contentQuery, contentCat, searchContentOptions());
-	} catch (e) {
-		if (token !== contentSearchToken) return;
-		// 关键：失败时同样校验 pageGen，避免把过期错误写回已切走的页面。
-		if (contentPageGen === -1) return;
-		contentLoadError = e && e.message ? e.message : String(e);
-	}
-	if (token !== contentSearchToken) return;
-	// 关键：成功路径也要校验 pageGen。
-	if (contentPageGen === -1) return;
-	const errorBlock = contentLoadError ? contentErrorBlockHtml(contentLoadError) : '';
-	const gridInner = results.length
-		? results.map(contentCardHtml).join('')
-		: (contentLoadError ? '' : `<div class="empty-state"><div class="es-icon">🔍</div>${esc(t('content.emptyShort'))}</div>`);
-	if (grid) grid.innerHTML = errorBlock + gridInner;
-	bindContentInstalls(el);
-	// 关键：重渲染后旧 img 被回收，必须重新绑定图标四状态（否则永远停留在 loading）。
-	bindContentIcons(el);
-}
-
-function searchContentOptions() {
-	const instance = ((STATE && STATE.instances) || []).find(i => i.id === selectedInstanceId);
-	return {
-		// 显式传递当前来源与实例过滤条件，api.js 不再依赖任何私有状态。
-		source: contentSource,
-		gameVersion: instance ? instance.version : '',
-		loader: instance && instance.loader !== 'Vanilla' ? instance.loader : '',
-	};
-}
-
-function bindContent(el) {
-	// 关键（v4）：父容器 el 自身的 click 监听器只绑一次。
-	// 之前每次 bindContent 都给 el addEventListener('click', ...)，但 el.innerHTML 替换
-	// 只清子节点、不清 el 自身的监听器，导致多次 bindContent 后单击一次触发 N 次搜索。
-	// 用 el._contentClickBound 幂等标记：第一次绑定后不再添加捕获监听器。
-	if (!el._contentClickBound) {
-		el._contentClickBound = true;
-		el.addEventListener('click', (e) => {
-			const t = e.target;
-			if (t && t.matches && t.matches('[data-retry-btn]')) {
-				e.preventDefault();
-				contentRerenderGrid(el);
-			} else if (t && t.matches && t.matches('[data-state-retry-btn]')) {
-				e.preventDefault();
-				retryLoadStateAndRefresh(el);
-			}
-		}, true);
-	}
-	// 严格限定：来源按钮只在 #contentSourceSwitch 容器内的 .source-btn 绑定。
-	// 卡片和安装按钮也带 data-source，但绝不能继承"切换来源"事件。
-	// 关键（v4）：innerHTML 替换后子节点换新，这里每次都重新 querySelector 与绑定即可。
-	const sourceButtons = el.querySelectorAll('#contentSourceSwitch .source-btn[data-source]');
-	sourceButtons.forEach(b => b.addEventListener('click', () => {
-		sourceButtons.forEach(x => {x.classList.remove('active');x.setAttribute('aria-pressed','false');});
-		b.classList.add('active');b.setAttribute('aria-pressed','true');
-		const next = b.dataset.source;
-		if (!/^(modrinth|curseforge)$/i.test(next)) return;
-		contentSource = next.toLowerCase();
-		contentRerenderGrid(el);
-	}));
-	el.querySelectorAll('[data-cat]').forEach(b => b.addEventListener('click', () => {
-		el.querySelectorAll('[data-cat]').forEach(x => x.classList.remove('active'));
-		b.classList.add('active');b.setAttribute('aria-pressed','true');
-		contentCat = b.dataset.cat;
-		contentRerenderGrid(el);
-	}));
-	const search = el.querySelector('#contentSearch');
-	if (search) {
-		// 关键（v4）：debounce 定时器改用模块级 contentDebTimer。
-		// goTo 切走 content 时清空，避免离页后到期仍触发 searchContent。
-		// 重新进入 content 时由新的 bindContent 接管，不复用旧 timer。
-		search.addEventListener('input', () => {
-			contentQuery = search.value;
-			clearTimeout(contentDebTimer);
-			contentDebTimer = setTimeout(() => contentRerenderGrid(el), 350);
-		});
-	}
-	bindContentInstalls(el);
-	bindContentIcons(el);
-}
-
-/**
- * Phase 2：资源卡片图标的四状态事件绑定（loading/loaded/missing/failed）。
- * 关键不变量：
- *   1. 只能对当前 el 范围内的 img 绑定。grid 重渲染后旧 img 被回收，新 img 会重新绑定。
- *   2. error 监听器移除失败 img、保留占位层，禁止无限重试（不修改 src）。
- *   3. 加载成功时淡入；不影响 install 按钮的 source/category。
- *   4. 不修改 data-source / data-category，不触发额外搜索。
- *   5. error 不暴露上游 URL / token / 内部错误到 DOM。
- */
-function bindContentIcons(el) {
-	if (!el) return;
-	const grid = el.querySelector('#contentGrid');
-	if (!grid) return;
-	const imgs = grid.querySelectorAll('img.content-icon-img');
-	imgs.forEach((img) => {
-		// 每个 img 只绑定一次；如已绑定则跳过（grid 重渲染后旧 img 已消失，不会重复）
-		if (img.dataset.iconBound === '1') return;
-		img.dataset.iconBound = '1';
-
-		// 标记卡片初始为 loading 状态（contentCardHtml 已设）
-		const card = img.closest('.mod-card');
-		if (card && card.dataset.iconState === 'loading') {
-			// 默认显示占位；img 已 style="display:none" 等成功后再切到 loaded
-		}
-
-		// 关键：磁盘缓存命中时 img 在绑定前已 complete（load 事件已错过），
-		// 必须同步兜底判定，否则图标永远停留在 loading 占位。
-		if (img.complete && img.naturalWidth > 0) {
-			img.style.opacity = '1';
-			img.dataset.iconState = 'loaded';
-			const c0 = img.closest('.mod-card');
-			if (c0) {
-				c0.dataset.iconState = 'loaded';
-				const ph0 = c0.querySelector('.mod-icon-placeholder');
-				if (ph0) ph0.style.display = 'none';
-			}
-			return;
-		}
-		if (img.complete && img.naturalWidth === 0) {
-			// 绑定前已失败（如 404/415）→ 与 error 监听器同路径：failed + 移除 img
-			img.dataset.iconState = 'failed';
-			const c1 = img.closest('.mod-card');
-			if (c1) c1.dataset.iconState = 'failed';
-			try { img.remove(); } catch (e) { /* ignore */ }
-			return;
-		}
-
-		img.addEventListener('load', () => {
-			// 关键：grid 重渲染后旧 img 不会触发 load 事件（已被 GC），
-			// 因此这里的 load 必然来自当前 el 范围内的 img。
-			if (!img.isConnected) return;
-			// opacity:0 初始隐藏保留布局框（display:none + loading=lazy 在 Chromium 中
-			// 永不与视口相交 → 请求永不发出）；load 后置 1 淡入。
-			img.style.opacity = '1';
-			img.dataset.iconState = 'loaded';
-			const c = img.closest('.mod-card');
-			if (c) c.dataset.iconState = 'loaded';
-			// 隐藏占位层
-			const ph = c ? c.querySelector('.mod-icon-placeholder') : null;
-			if (ph) ph.style.display = 'none';
-		}, { once: true });
-
-		img.addEventListener('error', () => {
-			// 关键：error 后只切到 failed 状态、隐藏 img、保留占位。
-			// 严禁重新设置 src、严禁重试请求。
-			if (!img.isConnected) return;
-			img.dataset.iconState = 'failed';
-			const c = img.closest('.mod-card');
-			if (c) c.dataset.iconState = 'failed';
-			// 移除 img 而不是保留隐藏，避免 listener 反复触发
-			try { img.remove(); } catch (e) { /* ignore */ }
-			// 确保占位层可见
-			if (c) {
-				const ph = c.querySelector('.mod-icon-placeholder');
-				if (ph) ph.style.display = '';
-			}
-		}, { once: true });
-	});
-}
-
-/* 重试实例状态：重新调用 loadState，成功后只更新 filter badge 并触发一次
- * 与 source/cat 切换一致的 grid 重渲染（走 token 机制），**不**直接写
- * el.innerHTML 覆盖整个 el。
- *
- * v4 关键点：
- *   1. 用 contentPageGen 校验，不用 navSeq。navSeq 在"同页内交错"场景下不变，
- *      无法拦截 retry 内部 renderContent 与 source 切换的 token 竞争。
- *   2. inFlight 防重：连续双击只让第一次进入 await loadState。
- *   3. 不直接 el.innerHTML = html + bindContent(el)：
- *      - 之前会清空 source 按钮 / 搜索框，破坏用户已发起的 B 搜索。
- *      - 改为只更新 filter badge + 调 contentRerenderGrid(el)。
- *      - 这样 retry 触发的搜索和 source/cat 触发的搜索走同一 token 机制，
- *        后完成的胜出，且不会绕过 token 校验写 el。
- */
-async function retryLoadStateAndRefresh(el) {
-	const myGen = contentPageGen;
-	if (myGen === -1) return;  // content 已切走
-	if (contentStateRetryInFlight) return;  // 防重
-	contentStateRetryInFlight = true;
-	const stateBadge = el.querySelector('.content-filter-warn');
-	if (stateBadge) stateBadge.setAttribute('data-loading', '1');
-	try {
-		try { await loadState(true); } catch (e) { /* loadState 内部已更新 stateLoadFailedLast，throw 仅用于通知调用方 */ }
-		// 关键：await loadState 期间页面可能已切走或再次进入新生命周期。
-		if (myGen !== contentPageGen) return;
-		// 成功或失败路径都用同样的更新方式：替换 filter badge + 触发 grid 重渲染。
-		// filter badge 用 pageGen 校验的 renderContentFilterBadge 同步替换；
-		// 替换时若元素已不存在（被新内容替换）则跳过。
-		const instance = ((STATE && STATE.instances) || []).find(i => i.id === selectedInstanceId);
-		const filterHint = instance
-			? `${esc(instance.name || '')} · ${esc(instance.version || '')}${instance.loader && instance.loader !== 'Vanilla' ? ' · ' + esc(instance.loader) : ''}`
-			: t('content.unfiltered');
-		const newBadge = renderContentFilterBadge(instance, filterHint);
-		const oldBadge = el.querySelector('[data-state]');
-		if (oldBadge) {
-			// 关键（v5）：改用浏览器标准 DOM API，避免依赖 .parent（测试桩专有）
-			// 与 children.indexOf()（HTMLCollection 不提供）。先构造新节点，
-			// 再原子替换旧节点；任何一步失败至少保留旧提示，不让页面陷入"提示消失"。
-			const parent = oldBadge.parentNode;
-			if (parent) {
-				let newNode = null;
-				try {
-					// 关键：把 HTML 字符串先写到临时容器，再用 firstElementChild
-					// 提取第一个元素节点。newBadge 已经过 esc() 编码，不含未受信任脚本。
-					const tmp = document.createElement('div');
-					tmp.innerHTML = newBadge;
-					newNode = tmp.firstElementChild;
-				} catch (e) { newNode = null; }
-				if (newNode) {
-					// 关键：parentNode.replaceChild 是原子操作；旧节点先被替换、
-					// 不会留下"oldBadge 已 remove 但 newBadge 未插入"的真空。
-					try {
-						parent.replaceChild(newNode, oldBadge);
-					} catch (e) {
-						// 极端失败（如 parentNode 已被离页清理）：保留旧提示
-					}
-				}
-				// 若 newNode 构造失败：保留旧提示；不删除旧节点
-			}
-		}
-		if (myGen !== contentPageGen) return;
-		await contentRerenderGrid(el);
-	} finally {
-		contentStateRetryInFlight = false;
-	}
-}
-
-function bindContentInstalls(el) {
-	el.querySelectorAll('[data-install]').forEach(b => b.addEventListener('click', async (event) => {
-		// 防止事件冒泡导致多次触发（卡片 click + 按钮 click）。
-		if (event) { try { event.stopPropagation(); } catch (e) { /* ignore */ } }
-		// 防止 rerender 后旧按钮（已被 DOM 替换）仍能触发 install。
-		if (b.isConnected === false) return;
-		const projectId = b.dataset.install;
-		if (!projectId || b.dataset.busy) return;
-		const card = b.closest('.mod-card');
-		// 身份必须来自被点击的卡片 / 按钮自身；缺失或非法时直接拒绝并提示，
-		// 不允许悄悄回退到全局 contentSource / contentCat 猜测。
-		const rawSource = (b.dataset && b.dataset.source) || (card && card.dataset && card.dataset.source) || '';
-		const rawCategory = (b.dataset && b.dataset.category) || (card && card.dataset && card.dataset.category) || '';
-		if (!/^(modrinth|curseforge)$/i.test(rawSource)) {
-			toast(t('content.installMissingSource'));
-			return;
-		}
-		if (!/^(mod|modpack|shader|resourcepack)$/i.test(rawCategory)) {
-			toast(t('content.installMissingCategory'));
-			return;
-		}
-		const category = rawCategory.toLowerCase();
-		const source = rawSource.toLowerCase();
-		b.dataset.busy = '1';
-		b.disabled = true;
-		b.textContent = t('content.installing');
-		try {
-			const res = await SG.api.installContent({ category, projectId, instanceId: selectedInstanceId, source });
-			toast(t('content.queued', { id: res.id }));
-			// 轮询任务直至完成（live 模式下有真实进度；mock 立即 completed）
-			const poll = async () => {
-				let tasks = [];
-				try { tasks = await SG.api.getContentTasks(); } catch (e) { tasks = []; }
-				const task = tasks.find(x => x.id === res.id);
-				if (!task) {
-					b.textContent = t('content.installed');
-					b.classList.add('installed');
-					toast(t('content.installed'));
-					return;
-				}
-				if (task.status === 'completed' || task.status === 'failed') {
-					b.textContent = task.status === 'completed' ? t('content.installed') : t('content.installFailed');
-					b.classList.add(task.status === 'completed' ? 'installed' : 'failed');
-					if (task.status === 'completed') {
-						toast(t('content.installed'));
-						// modpack 创建了新实例，刷新实例列表
-						if (task.category === 'modpack') await loadState(true);
-					} else {
-						toast(t('content.installFailed') + ': ' + (task.message || t('common.unknownError')));
-					}
-					return;
-				}
-				if (card) card.setAttribute('data-progress', Math.round((task.progress || 0) * 100));
-				b.textContent = t('content.installing') + ' ' + Math.round((task.progress || 0) * 100) + '%';
-				setTimeout(poll, 1200);
-			};
-			poll();
-		} catch (err) {
-			b.textContent = t('content.install');
-			toast(t('content.installFailed') + ': ' + (err.message || t('common.unknownError')));
-		} finally {
-			delete b.dataset.busy;
-			b.disabled = false;
-		}
-	}));
-}
+async function renderContent() { return SG.content.render(); }
+function bindContent(el) { return SG.content.bind(el); }
+function contentRerenderGrid(el) { return SG.content.rerenderGrid(el); }
+function retryLoadStateAndRefresh(el) { return SG.content.retryLoadStateAndRefresh(el); }
+function bindContentInstalls(el) { return SG.content.bindContentInstalls(el); }
+function bindContentIcons(el) { return SG.content.bindContentIcons(el); }
+function searchContentOptions() { return SG.content.searchContentOptions(); }
 
 /* ================================================================
    Worlds 世界
@@ -3826,6 +3391,30 @@ SG.skins.__wire({
 	goTo,
 });
 
+/* M1-3 第三步收尾：资源库已拆至 js/content.js（SG.content）。
+ * ★ 本视图的注入面与其它视图不同：contentPageGen / contentDebTimer 的**所有权仍在
+ *   本文件**（goTo 是唯一写者），所以这里注入的是**访问器**而不是值：
+ *     pageGen:      () => contentPageGen      —— content.js 只读，用于代际校验
+ *     setDebounce:  (fn, ms) => {...}         —— 挂 debounce；先清旧再挂新，
+ *                                                句柄写入本文件的 contentDebTimer，
+ *                                                这样 goTo 切走时才能清掉它
+ *   STATE / stateLoadFailedLast / selectedInstanceId 同样传取值函数：它们都会被
+ *   本文件整体重新赋值，传快照会拿到过期值。 */
+SG.content.__wire({
+	toast,
+	getState: () => STATE,
+	loadState,
+	selectedInstanceId: () => selectedInstanceId,
+	stateLoadFailedLast: () => stateLoadFailedLast,
+	pageGen: () => contentPageGen,
+	setDebounce: (fn, ms) => {
+		if (contentDebTimer !== null) { clearTimeout(contentDebTimer); contentDebTimer = null; }
+		contentDebTimer = setTimeout(fn, ms);
+	},
+	uiIcon,
+	uiSearch,
+});
+
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
 else init();
 
@@ -3839,7 +3428,8 @@ SG.__test__ = {
 	renderContent,
 	bindContent,
 	bindContentInstalls,
-	contentCardHtml,
+	// M1-3：contentCardHtml 是纯函数，已随视图拆到 js/content.js 的 core 面上
+	contentCardHtml: SG.content.core.contentCardHtml,
 	searchContentOptions,
 	loadState,
 	// CV-04：下载中心（版本源 / 下载任务两套独立状态，行为测试需要生产入口）
@@ -3861,16 +3451,17 @@ SG.__test__ = {
 	resetState() { STATE = null; },
 	getSelectedInstanceId() { return selectedInstanceId; },
 	setSelectedInstanceId(id) { selectedInstanceId = id; },
-	getContentSource() { return contentSource; },
-	setContentSource(v) { if (/^(modrinth|curseforge)$/i.test(v)) contentSource = v.toLowerCase(); },
-	getContentCat() { return contentCat; },
-	setContentCat(v) { if (/^(mod|modpack|shader|resourcepack)$/i.test(v)) contentCat = v.toLowerCase(); },
-	getContentQuery() { return contentQuery; },
-	setContentQuery(v) { contentQuery = String(v == null ? '' : v); },
-	getContentLoadError() { return contentLoadError; },
-	setContentLoadError(v) { contentLoadError = v == null ? null : String(v); },
-	getContentSearchToken() { return contentSearchToken; },
-	resetContentSearchToken() { contentSearchToken = 0; },
+	// M1-3：content 视图状态已移到 js/content.js；这里全部委托过去。
+	getContentSource() { return SG.content.getState().source; },
+	setContentSource(v) { SG.content.setSource(v); },
+	getContentCat() { return SG.content.getState().cat; },
+	setContentCat(v) { SG.content.setCat(v); },
+	getContentQuery() { return SG.content.getState().query; },
+	setContentQuery(v) { SG.content.setQuery(v); },
+	getContentLoadError() { return SG.content.getState().loadError; },
+	setContentLoadError(v) { SG.content.setLoadError(v); },
+	getContentSearchToken() { return SG.content.getState().searchToken; },
+	resetContentSearchToken() { SG.content.resetSearchToken(); },
 	getContentPageGen() { return contentPageGen; },
 	// Phase 3A 新闻测试钩子（生产路径不引用；新闻子系统已拆至 js/news.js，这里做委托转发）
 	loadNews: (...a) => SG.news.loadNews(...a),

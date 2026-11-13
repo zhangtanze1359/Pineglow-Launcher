@@ -1,0 +1,12 @@
+✔ contentCardHtml（归一化后一致，1820 字符）
+✔ contentErrorBlockHtml（归一化后一致，673 字符）
+✔ renderContentFilterBadge（归一化后一致，521 字符）
+✔ searchContentOptions（归一化后一致，282 字符）
+✔ bindContent（归一化后一致，1409 字符）
+✔ bindContentIcons（归一化后一致，1537 字符）
+✔ bindContentInstalls（归一化后一致，2277 字符）
+✔ retryLoadStateAndRefresh（归一化后一致，1303 字符）
+✔ contentRerenderGrid（归一化后一致，1360 字符）
+✔ renderContent（归一化后一致，2396 字符）
+
+结论：10/10 归一化后全部一致

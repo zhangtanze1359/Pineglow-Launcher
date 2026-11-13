@@ -31,6 +31,7 @@ const NEWS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'news.js'), 'utf8');
 const DOWNLOADS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'downloads.js'), 'utf8');
 const SKINVIS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'skin-visuals.js'), 'utf8');
 const SKINS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'skins.js'), 'utf8');
+const CONTENT_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'content.js'), 'utf8');
 const I18N_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'i18n.js'), 'utf8');
 const API_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api.js'), 'utf8');
 
@@ -325,6 +326,7 @@ function loadLauncher() {
 	vm.runInContext(DOWNLOADS_JS, ctx, { filename: 'downloads.js' });
 	vm.runInContext(SKINVIS_JS, ctx, { filename: 'skin-visuals.js' });
 	vm.runInContext(SKINS_JS, ctx, { filename: 'skins.js' });
+	vm.runInContext(CONTENT_JS, ctx, { filename: 'content.js' });
 
 	vm.runInContext(LAUNCHER_JS, ctx);
 	if (ctx.SG.__toastCalls) ctx.toastCalls = ctx.SG.__toastCalls;

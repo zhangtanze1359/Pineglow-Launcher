@@ -25,7 +25,13 @@ const vm = require('node:vm');
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const API_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api.js'), 'utf8');
-const LAUNCHER_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'launcher.js'), 'utf8');
+/* M1-3：contentCardHtml / bindContentIcons 的实现已拆到 ui/js/content.js（SG.content），
+   launcher.js 只留三行薄委托。本文件是静态源码断言，改为扫描两份源码。
+   ★ content.js 必须排前面：extractFunctionBody 用 indexOf 取首次出现，
+   若委托在前，取到的就是委托而不是实现。断言本身一条没改。 */
+const LAUNCHER_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'content.js'), 'utf8')
+	+ '\n/* ---- ui/js/launcher.js ---- */\n'
+	+ fs.readFileSync(path.join(ROOT, 'ui', 'js', 'launcher.js'), 'utf8');
 
 function makeStubBrowser(extraSG) {
 	const elements = new Map();
