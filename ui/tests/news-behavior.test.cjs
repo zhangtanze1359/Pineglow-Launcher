@@ -25,6 +25,7 @@ const vm = require('node:vm');
 const ROOT = path.resolve(__dirname, '..', '..');
 const LAUNCHER_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'launcher.js'), 'utf8');
 const NEWS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'news.js'), 'utf8');
+const DOWNLOADS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'downloads.js'), 'utf8');
 const I18N_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'i18n.js'), 'utf8');
 
 /* ============== 受控 DOM 桩（与 launcher-behavior 同源，精简自用） ============== */
@@ -253,6 +254,7 @@ function loadLauncher(newsHandler) {
 	vm.runInContext(I18N_JS, ctx);   // 真实 i18n（SG.t / SG.setLocale）
 	vm.runInContext('SG.apiMode = "live"; SG.apiToken = "test-token";', ctx);
 	vm.runInContext(NEWS_JS, ctx, { filename: 'news.js' });
+	vm.runInContext(DOWNLOADS_JS, ctx, { filename: 'downloads.js' });
 
 	vm.runInContext(LAUNCHER_JS, ctx);
 	const T = ctx.SG.__test__;

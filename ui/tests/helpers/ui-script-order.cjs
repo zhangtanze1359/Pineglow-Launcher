@@ -25,7 +25,9 @@
  *   7. `js/update-monitor.js` —— 依赖 SG.api
  *   8. `js/news.js`           —— 依赖 SG.api + SG.t（运行时）；toast/modal/goTo
  *                                由 launcher.js 启动时经 SG.news.__wire 注入
- *   9. `js/launcher.js`       —— 主壳，依赖以上全部
+ *   9. `js/downloads.js`      —— 依赖 SG.api + SG.t（运行时）；toast/currentView/
+ *                                navigationCounts 由 launcher.js 经 SG.downloads.__wire 注入
+ *  10. `js/launcher.js`       —— 主壳，依赖以上全部
  */
 const SCRIPT_ORDER = [
 	'vendor/three.min.js',
@@ -36,6 +38,7 @@ const SCRIPT_ORDER = [
 	'js/playtime.js',
 	'js/update-monitor.js',
 	'js/news.js',
+	'js/downloads.js',
 	'js/launcher.js',
 ];
 

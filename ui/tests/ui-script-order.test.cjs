@@ -99,3 +99,66 @@ test('依赖关系满足：i18n 在 api 之前，api 在 playtime 之前，playt
 	assert.ok(SCRIPT_ORDER.indexOf('vendor/three.min.js') < idx('skin3d.js'), 'skin3d.js 使用全局 THREE，必须排在 vendor 之后');
 	assert.equal(idx('launcher.js'), SCRIPT_ORDER.length - 1, 'launcher.js 是主壳，必须最后加载');
 });
+
+/* ==================== ⑤ 拆出去的视图脚本必须真的被生产加载 ==================== */
+
+/*
+ * 由来（M1-3 第二步→第三步的真实事故）：
+ *   把视图拆到独立文件后，**只有清单和 index.html 同步改了，生产才会加载它**。
+ *   已经踩过两次：拆 news.js 时 ui/tests/helpers/live-launcher.cjs 的硬编码数组漏了一行，
+ *   拆 downloads.js 时同一个数组又漏了一行。两次的症状都不是报错，而是
+ *   `TypeError: Cannot read properties of undefined (reading '__wire')` —— 看起来像
+ *   "某个测试的环境问题"，实际是加载清单漂移，很容易被当成噪音忽略过去。
+ *
+ * 本组断言把这件事变成可机械检查的：拆出去的视图脚本
+ *   ① 在 SCRIPT_ORDER 里（且排在 launcher.js 之前）；
+ *   ② 在 index.html 里（且排在 launcher.js 之前的同一个位置）；
+ *   ③ 自身导出了对应的 `SG.<模块名>` 命名空间（否则 launcher.js 的 __wire 调用会炸）。
+ */
+
+const VIEW_MODULES = ['playtime', 'news', 'downloads'];
+
+test('拆出去的视图脚本都登记在清单里，且排在 launcher.js 之前', () => {
+	for (const name of VIEW_MODULES) {
+		const entry = 'js/' + name + '.js';
+		assert.ok(SCRIPT_ORDER.includes(entry), `${entry} 未登记进 SCRIPT_ORDER：生产环境不会加载它，拆出的视图将整页失效`);
+		assert.ok(SCRIPT_ORDER.indexOf(entry) < SCRIPT_ORDER.indexOf('js/launcher.js'),
+			`${entry} 必须排在 launcher.js 之前：launcher.js 启动时会向 SG.${name} 注入基础设施`);
+	}
+});
+
+test('拆出去的视图脚本在 index.html 里也真实加载，且位于 launcher.js 之前', () => {
+	const declared = parseIndexHtmlOrder(indexHtml());
+	const launcherAt = declared.indexOf('js/launcher.js');
+
+	assert.notEqual(launcherAt, -1, 'index.html 必须加载 launcher.js');
+	for (const name of VIEW_MODULES) {
+		const entry = 'js/' + name + '.js';
+		const at = declared.indexOf(entry);
+		assert.notEqual(at, -1, `index.html 未加载 ${entry}：测试全绿但生产点开该页会白屏`);
+		assert.ok(at < launcherAt, `${entry} 必须排在 launcher.js 之前（launcher 启动时向它注入依赖）`);
+	}
+});
+
+test('拆出去的视图脚本各自导出 SG.<模块名>，且与 launcher.js 的 __wire 调用同名', () => {
+	// 拆分协议：视图脚本挂在 SG.<name> 上，launcher.js 通过 SG.<name>.__wire 注入基础设施。
+	// 两边任一侧改名而另一侧没改，就得到一个运行期 TypeError（不是加载期报错）。
+	const launcherSrc = fs.readFileSync(path.join(UI, 'js', 'launcher.js'), 'utf8');
+
+	for (const name of VIEW_MODULES) {
+		const src = fs.readFileSync(path.join(UI, 'js', name + '.js'), 'utf8');
+		assert.ok(new RegExp("SG\\." + name + "\\s*=\\s*\\{").test(src),
+			`${name}.js 必须导出 SG.${name}（launcher.js 从这里取 render/bind）`);
+
+		// playtime 直接调用 SG.playtime.render，news/downloads 是薄委托；
+		// 三种接法都要认，但**必须是渲染/绑定入口真的走了过去**，不能只挂一个 __wire：
+		// 只留 __wire 正是 MUT-3 暴露的假接线——脚本加载了、也"引用了"，但点进那一页是空白。
+		const delegatesRender = new RegExp('[\\s{;]' + name + ":\\s*\\{[^}]*SG\\." + name).test(launcherSrc)
+			|| new RegExp("render:.*SG\\." + name + "\\.render").test(launcherSrc)
+			|| new RegExp("function render" + name.charAt(0).toUpperCase() + name.slice(1) + "\\(\\)\\s*\\{\\s*return SG\\." + name).test(launcherSrc);
+		const delegatesBind = new RegExp("SG\\." + name + "\\.bind").test(launcherSrc)
+			|| new RegExp("function bind" + name.charAt(0).toUpperCase() + name.slice(1) + "\\(el\\)\\s*\\{\\s*return SG\\." + name).test(launcherSrc);
+		assert.ok(delegatesRender, `launcher.js 的渲染入口没有委托到 SG.${name}：视图会渲染成空白页`);
+		assert.ok(delegatesBind, `launcher.js 的事件绑定入口没有委托到 SG.${name}：视图渲染出来也没有交互`);
+	}
+});

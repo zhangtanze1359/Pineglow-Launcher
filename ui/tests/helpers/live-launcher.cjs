@@ -3,7 +3,10 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const root = path.resolve(__dirname, '../../..');
+/* 拆文件回归用：PINEGLOW_UI_TEST_SOURCE_DIR 可指向旧 HEAD 的 ui/js 副本，
+   复验"旧代码跑不跑得过新断言"。清单本身仍取自当前仓库（路径口径相对 ui/）。 */
 const sourceDir = process.env.PINEGLOW_UI_TEST_SOURCE_DIR || path.join(root, 'ui/js');
+const { SCRIPT_ORDER } = require('./ui-script-order.cjs');
 const fixture = fs.readFileSync(path.join(root, 'ui/tests/current-version-errors.test.cjs'), 'utf8');
 const dom = fixture.slice(fixture.indexOf('function makeDomStub()'), fixture.indexOf('function loadLauncher(handlers)'));
 const flush = async () => { for (let i = 0; i < 25; i++) await Promise.resolve(); };
@@ -66,7 +69,13 @@ function liveLauncher(options = {}) {
 		}
 		return { ok: true, status: 200, json: async () => data };
 	};
-	for (const file of ['i18n.js', 'api.js', 'news.js', 'launcher.js']) vm.runInContext(fs.readFileSync(path.join(sourceDir, file), 'utf8'), ctx);
+	/* M1-3：加载清单从单一来源派生（原来的硬编码数组在拆 news.js 时已经漂移过一次，
+	 * 拆 downloads.js 时又漂一次——每次都表现为"生产能跑、测试报 __wire undefined"）。
+	 * vendor/three.min.js 跳过：本夹具不测 3D 预览，launcher.js 对 THREE 缺失有显式兜底。
+	 * 用 sourceDir 而不是 root/ui，保留 PINEGLOW_UI_TEST_SOURCE_DIR 的旧 HEAD 复验能力。 */
+	for (const entry of SCRIPT_ORDER.filter(e => !e.startsWith('vendor/'))) {
+		vm.runInContext(fs.readFileSync(path.join(sourceDir, path.basename(entry)), 'utf8'), ctx);
+	}
 	async function click(el) {
 		if (!el) throw new Error('Expected a real rendered control');
 		const event = { target: el, currentTarget: el, preventDefault() {}, stopPropagation() {} };

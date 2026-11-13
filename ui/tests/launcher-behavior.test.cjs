@@ -29,6 +29,7 @@ const vm = require('node:vm');
 const ROOT = path.resolve(__dirname, '..', '..');
 const LAUNCHER_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'launcher.js'), 'utf8');
 const NEWS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'news.js'), 'utf8');
+const DOWNLOADS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'downloads.js'), 'utf8');
 const I18N_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'i18n.js'), 'utf8');
 
 /* ============== 受控 DOM 桩：仅支持 launcher.js Phase 1 范围用到的能力 ============== */
@@ -341,6 +342,7 @@ function loadLauncher(fetchHandler, getStateHandler) {
 	vm.runInContext(BOOT_API + '\n' + I18N_JS, ctx);
 	// 现在跑 launcher.js；document.readyState='loading' 且 addEventListener 已过滤 DOMContentLoaded → init 不会跑
 	vm.runInContext(NEWS_JS, ctx, { filename: 'news.js' });
+	vm.runInContext(DOWNLOADS_JS, ctx, { filename: 'downloads.js' });
 
 	vm.runInContext(LAUNCHER_JS, ctx);
 	const T = ctx.SG.__test__;

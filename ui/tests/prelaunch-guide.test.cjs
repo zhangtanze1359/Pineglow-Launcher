@@ -28,6 +28,7 @@ const vm = require('node:vm');
 const ROOT = path.resolve(__dirname, '..', '..');
 const LAUNCHER_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'launcher.js'), 'utf8');
 const NEWS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'news.js'), 'utf8');
+const DOWNLOADS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'downloads.js'), 'utf8');
 const I18N_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'i18n.js'), 'utf8');
 
 /* ==================== 最小 DOM 桩 ==================== */
@@ -101,6 +102,7 @@ function makeContext(extra = {}) {
 	vm.createContext(sandbox);
 	vm.runInContext(I18N_JS, sandbox, { filename: 'i18n.js' });
 	vm.runInContext(NEWS_JS, sandbox, { filename: 'news.js' });
+	vm.runInContext(DOWNLOADS_JS, sandbox, { filename: 'downloads.js' });
 
 	vm.runInContext(LAUNCHER_JS, sandbox, { filename: 'launcher.js' });
 

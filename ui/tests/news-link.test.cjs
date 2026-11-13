@@ -28,6 +28,7 @@ const vm = require('node:vm');
 const ROOT = path.resolve(__dirname, '..', '..');
 const LAUNCHER_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'launcher.js'), 'utf8');
 const NEWS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'news.js'), 'utf8');
+const DOWNLOADS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'downloads.js'), 'utf8');
 const I18N_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'i18n.js'), 'utf8');
 const API_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api.js'), 'utf8');
 
@@ -319,6 +320,7 @@ function loadLauncher() {
 	vm.runInContext(I18N_JS, ctx);
 	vm.runInContext('SG.apiMode = "live"; SG.apiToken = "test-token"; SG.goTo = SG.goTo || function(v) {}; SG.toast = SG.toast || function(t) { SG.__toastCalls = SG.__toastCalls || []; SG.__toastCalls.push(t); };', ctx);
 	vm.runInContext(NEWS_JS, ctx, { filename: 'news.js' });
+	vm.runInContext(DOWNLOADS_JS, ctx, { filename: 'downloads.js' });
 
 	vm.runInContext(LAUNCHER_JS, ctx);
 	if (ctx.SG.__toastCalls) ctx.toastCalls = ctx.SG.__toastCalls;
