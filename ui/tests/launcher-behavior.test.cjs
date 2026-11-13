@@ -30,6 +30,8 @@ const ROOT = path.resolve(__dirname, '..', '..');
 const LAUNCHER_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'launcher.js'), 'utf8');
 const NEWS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'news.js'), 'utf8');
 const DOWNLOADS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'downloads.js'), 'utf8');
+const SKINVIS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'skin-visuals.js'), 'utf8');
+const SKINS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'skins.js'), 'utf8');
 const I18N_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'i18n.js'), 'utf8');
 
 /* ============== 受控 DOM 桩：仅支持 launcher.js Phase 1 范围用到的能力 ============== */
@@ -343,6 +345,8 @@ function loadLauncher(fetchHandler, getStateHandler) {
 	// 现在跑 launcher.js；document.readyState='loading' 且 addEventListener 已过滤 DOMContentLoaded → init 不会跑
 	vm.runInContext(NEWS_JS, ctx, { filename: 'news.js' });
 	vm.runInContext(DOWNLOADS_JS, ctx, { filename: 'downloads.js' });
+	vm.runInContext(SKINVIS_JS, ctx, { filename: 'skin-visuals.js' });
+	vm.runInContext(SKINS_JS, ctx, { filename: 'skins.js' });
 
 	vm.runInContext(LAUNCHER_JS, ctx);
 	const T = ctx.SG.__test__;

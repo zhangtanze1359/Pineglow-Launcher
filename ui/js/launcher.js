@@ -40,7 +40,6 @@ function firstLetter(s) { const t = (s || '').trim(); return t ? t[0].toUpperCas
    ================================================================ */
 let STATE = null;      // { config, instances, accounts, java }
 let ACCOUNTS = [];     // getAccounts 结果（含 skins/capes）
-let activeSkinViewer = null;
 let selectedInstanceId = null;
 let aiSettingsSaving = false;
 // 关键：stateLoadFailedLast 用于区分"未加载"与"上一次失败"。
@@ -90,58 +89,16 @@ async function loadAccounts(force) {
 	return ACCOUNTS;
 }
 
-/* 简易像素小人 SVG（皮肤无贴图时的占位） */
-function steveSvg(scale, palette) {
-	const p = palette || { head: '#b5835a', face: '#7d5a3c', body: '#3aa0a0', arm: '#b5835a', leg: '#3a4a80' };
-	return `<svg viewBox="0 0 80 120" width="${scale}" style="image-rendering:pixelated">
-		<rect x="26" y="6"  width="28" height="28" fill="${p.head}"/>
-		<rect x="32" y="16" width="6" height="6" fill="#fff"/><rect x="42" y="16" width="6" height="6" fill="#fff"/>
-		<rect x="33" y="17" width="4" height="4" fill="#3a5da0"/><rect x="43" y="17" width="4" height="4" fill="#3a5da0"/>
-		<rect x="30" y="26" width="20" height="4" fill="${p.face}"/>
-		<rect x="28" y="36" width="24" height="34" fill="${p.body}"/>
-		<rect x="16" y="36" width="10" height="30" fill="${p.arm}"/>
-		<rect x="54" y="36" width="10" height="30" fill="${p.arm}"/>
-		<rect x="28" y="72" width="10" height="34" fill="${p.leg}"/>
-		<rect x="42" y="72" width="10" height="34" fill="${p.leg}"/>
-	</svg>`;
-}
-/* 从 64×64（兼容 64×32）皮肤图集裁剪出正面 2D 小人；右侧肢体镜像出左侧，旧版皮肤也不缺块 */
-function skinAvatar(w, url, model) {
-	const U = w / 16;                 // 每个皮肤像素对应的屏幕像素（人物正面宽 16 皮肤像素）
-	const atlas = 64 * U;             // 整张图集缩放后的尺寸
-	const layer = (sx, sy, sw, sh, x, y, mirror) =>
-		`<div style="position:absolute;left:${x * U}px;top:${y * U}px;width:${sw * U}px;height:${sh * U}px;` +
-		`background:url('${esc(url)}') -${sx * U}px -${sy * U}px/${atlas}px ${atlas}px no-repeat;` +
-		`image-rendering:pixelated;${mirror ? 'transform:scaleX(-1);' : ''}"></div>`;
-	const slim = model === 'slim';
-	const parts = [
-		layer(8, 8, 8, 8, 4, 0, false),    // 头
-		layer(20, 20, 8, 12, 4, 8, false), // 身体
-		layer(44, 20, slim ? 3 : 4, 12, slim ? 0.5 : 0, 8, false), // 右臂
-		layer(slim ? 36 : 44, slim ? 52 : 20, slim ? 3 : 4, 12, slim ? 12.5 : 12, 8, false), // 左臂
-		layer(4, 20, 4, 12, 4, 20, false), // 右腿
-		layer(4, 20, 4, 12, 8, 20, true),  // 左腿（镜像）
-	].join('');
-	return `<div style="position:relative;width:${16 * U}px;height:${32 * U}px;image-rendering:pixelated">${parts}</div>`;
-}
-function skinThumb(scale, skin) {
-	if (skin && skin.url) return skinAvatar(scale, skin.url, skin.model);
-	return `<span class="ui-muted" role="status">${esc(t('skin.textureUnavailable'))}</span>`;
-}
-/* 仅头部大头照：裁剪图集头层(8,8)+帽层(40,8)填满 w×w 方块，用于账户身份头像 */
-function skinFace(w, url) {
-	const U = w / 8;               // 头部正面宽 8 皮肤像素
-	const atlas = 64 * U;
-	const layer = (sx, sy) =>
-		`<div style="position:absolute;inset:0;` +
-		`background:url('${esc(url)}') -${sx * U}px -${sy * U}px/${atlas}px ${atlas}px no-repeat;` +
-		`image-rendering:pixelated"></div>`;
-	return `<div style="position:relative;width:${w}px;height:${w}px;overflow:hidden;image-rendering:pixelated">${layer(8, 8)}${layer(40, 8)}</div>`;
-}
-function faceThumb(scale, skin) {
-	if (skin && skin.url) return skinFace(scale, skin.url);
-	return `<svg viewBox="0 0 24 24" width="${scale}" height="${scale}" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:1.5"><circle cx="12" cy="8" r="3.5"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/></svg>`;
-}
+/* 皮肤视觉辅助（steveSvg / skinAvatar / skinThumb / skinFace / faceThumb）
+   M1-3 第三步后段：已整体拆至 js/skin-visuals.js（SG.skinVisuals）。
+   单独拆一层而不是塞进 skins.js 的理由：faceThumb 同时被设置页（renderAccountCards）
+   与侧栏（refreshSidebarAccount）调用，属于跨视图共享的视觉层，不是 skins 私有。
+   下列五个薄委托保留旧名字，供本文件的调用点与 SG.__test__ 继续以原入口访问。 */
+function steveSvg(scale, palette) { return SG.skinVisuals.steveSvg(scale, palette); }
+function skinAvatar(w, url, model) { return SG.skinVisuals.skinAvatar(w, url, model); }
+function skinThumb(scale, skin) { return SG.skinVisuals.skinThumb(scale, skin); }
+function skinFace(w, url) { return SG.skinVisuals.skinFace(w, url); }
+function faceThumb(scale, skin) { return SG.skinVisuals.faceThumb(scale, skin); }
 
 /* 新闻子系统（Phase 3A 状态机、首页新闻区块、新闻页视图、外链二次校验）
    已拆至 js/news.js（SG.news）；launcher 经 SG.news 调用，
@@ -246,65 +203,7 @@ async function renderInstallations() {
 	</div>`;
 }
 
-async function renderSkins() {
-	const accounts = await loadAccounts();
-	const active = accounts.find(a => a.selected) || accounts[0];
-	const skins = (active && active.skins && active.skins.length) ? active.skins : [];
-	const activeSkin = skins[0] || null;
-	const activeName = active ? t('skin.ofUser', { name: active.userName }) : t('skin.default');
-
-	const cards = skins.length ? skins.map((s, idx) => `
-		<button class="skin-card ${idx === 0 ? 'selected' : ''}" data-skin="${esc(s.id)}">
-			<div class="skin-thumb">${skinThumb(44, s)}</div>
-			<span class="skin-card-name">${esc(s.name || t('skin.item'))}</span>
-		</button>`).join('')
-		: `<div style="padding:24px;color:var(--muted,#8b91a1);font-size:13px">${esc(t('skin.emptyList'))}</div>`;
-
-	return `
-	<div class="skins-view">
-		<div class="skin-preview-panel">
-			<div class="skin-preview-title"><div>${esc(t('skin.previewTitle'))}<p class="ui-muted">${esc(active?active.userName:uiText('未登录 · 可选择本地皮肤预览','Not signed in · preview a local skin'))}</p></div><span class="ui-chip" id="skinHeaderModel">${esc((activeSkin&&activeSkin.model)==='slim'?t('skin.slimModel'):t('skin.classicModel'))}</span></div>
-			<div class="preview-canvas" id="previewCanvas">
-				<div id="skin3dContainer" class="skin3d-container"></div>
-				<div id="skin2dFallback" class="skin2d-fallback" hidden role="status">
-					${active && activeSkin && activeSkin.url ? `<img src="/api/accounts/${encodeURIComponent(active.id)}/skin-image?token=${encodeURIComponent(SG.apiToken || '')}" alt="${esc(t('skin.fallbackAlt'))}">` : ''}
-					<span id="skinFallbackMessage">${esc(t('skin.webglFallback'))}</span>${!active?`<button class="ui-button primary skin-login" id="btnSkinLogin">${uiIcon('user')}${uiText('登录 Microsoft 账户','Sign in with Microsoft')}</button>`:''}
-				</div>
-			</div>
-			<div class='skin3d-hint'>
-				<span class='skin3d-hint-dot'></span>
-				<span>${esc(t('skin.dragHint'))}</span>
-			</div>
-			<div class="skin3d-controls" aria-label="${esc(t('skin.controls'))}">
-				<button class="skin-control" id="btnSkinReset" type="button">${esc(t('skin.resetView'))}</button>
-				<button class="skin-control" id="btnSkinRotate" type="button" aria-pressed="true">${esc(t('skin.pauseRotate'))}</button>
-			</div>
-			<div class="canvas-details">
-				<span class="canvas-name" id="activeSkinName">${esc(activeName)}</span>
-				<span class="canvas-model" id="activeSkinModel">${esc((activeSkin && activeSkin.model) === 'slim' ? t('skin.slimModel') : t('skin.classicModel'))}</span>
-			</div>
-		</div>
-		<div class="inventory-panel">
-			<div class="inventory-actions">
-				<div class="skin-model-field"><span>${esc(t('skin.model'))}</span><div class="skin-model-segment" role="group" aria-label="${esc(t('skin.model'))}"><button data-skin-model="classic" aria-pressed="true">${esc(t('skin.classicModel'))}</button><button data-skin-model="slim" aria-pressed="false">Slim / Alex</button></div><select id="skinModelSelect" hidden aria-label="${esc(t('skin.model'))}"><option value="classic">${esc(t('skin.classicModel'))}</option><option value="slim">${esc(t('skin.slimModel'))}</option></select></div>
-				<button class="skin-btn primary" id="btnUploadSkin">
-					<svg viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"/></svg>
-					<span>${esc(t('skin.chooseFile'))}</span>
-				</button>
-                <p class="ui-muted">${uiText('64×64 或 64×32 PNG，不超过 1 MiB。选择后先预览。','64×64 or 64×32 PNG, up to 1 MiB. Preview before applying.')}</p>
-			</div>
-			<div class="saved-skins">
-				<div class="saved-label">${esc(t('skin.saved', { n: skins.length }))}</div>
-				<div class="skins-grid" id="skinsGrid">${cards}</div>
-				<div class="skin-local-preview"><p>${esc(t('skin.previewFirst'))}</p><img id="localSkinTexture" alt="${esc(t('skin.fallbackAlt'))}" hidden><p id="localSkinFileName"></p><div class="skin-local-actions"><button class="ui-button primary" id="btnApplyLocalSkin" disabled>${esc(t('skin.applyAccount'))}</button></div><p>${esc(t('skin.microsoftOnly'))}</p></div>
-            </div>
-				<button class="skin-btn ghost" id="btnBrowseSkin">
-					<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
-					<span>${esc(t('skin.browse'))}</span>
-				</button>
-        </div>
-    </div>`;
-}
+async function renderSkins() { return SG.skins.render(); }
 
 function renderAccountCards(accounts) {
 	if (!accounts || !accounts.length) return '<div class="account-empty">' + esc(t('set.clickAddAccount')) + '</div>';
@@ -2592,7 +2491,7 @@ async function goTo(nav) {
 	if (nav === 'content' && currentView !== 'content') {
 		contentPageGen = myseq;
 	}
-	if (currentView === 'skins' && nav !== 'skins' && activeSkinViewer) { activeSkinViewer.dispose(); activeSkinViewer = null; }
+	if (currentView === 'skins' && nav !== 'skins') SG.skins.dispose();
 	if (currentView === 'playtime' && nav !== 'playtime' && SG.playtime) SG.playtime.dispose();
 	document.querySelectorAll('.view').forEach(v => { v.hidden = true; });
 	const el = document.getElementById('view-' + nav);
@@ -2645,7 +2544,7 @@ async function goTo(nav) {
 SG.goTo = goTo;
 
 function invalidate(nav) {
-	if (nav === 'skins' && activeSkinViewer) { activeSkinViewer.dispose(); activeSkinViewer = null; }
+	if (nav === 'skins') SG.skins.dispose();
 	const el = document.getElementById('view-' + nav);
 	if (el) delete el.dataset.rendered;
 }
@@ -3061,123 +2960,10 @@ function bindInstallations(el) {
 }
 
 /* ---------------- Skins 页 ---------------- */
-function bindSkins(el) {
-	if (activeSkinViewer) { activeSkinViewer.dispose(); activeSkinViewer = null; }
-	const active = ACCOUNTS.find(a => a.selected) || ACCOUNTS[0];
-	const skins = (active && active.skins) || [];
-	let viewer = null;
-	const container = el.querySelector('#skin3dContainer');
-	const fallback = el.querySelector('#skin2dFallback');
-	const fallbackMessage = el.querySelector('#skinFallbackMessage');
-	const showFallback = (message, url) => {
-		if (container) container.hidden = true;
-		if (fallback) {
-			fallback.hidden = false;
-			if (fallbackMessage) fallbackMessage.textContent = message || t('skin.webglFallback');
-			let image = fallback.querySelector('img');
-			if (!image && url) { image=document.createElement('img'); image.alt=t('skin.fallbackAlt'); fallback.prepend(image); }
-			if (image && url) image.src = url;
-		}
-	};
-	const showViewer = () => { if (container) container.hidden = false; if (fallback) fallback.hidden = true; };
-	if (container && typeof Skin3DViewer !== 'undefined' && typeof THREE !== 'undefined') {
-		try {
-			viewer = new Skin3DViewer(container, { ariaLabel: t('skin.canvasLabel'), onError: showFallback, onReady: showViewer });
-			activeSkinViewer = viewer;
-			if (skins[0] && skins[0].url) viewer.setSkin(skins[0], active ? active.id : null);
-			else showFallback(t('skin.textureUnavailable'));
-		} catch (e) {
-			viewer = null;
-			showFallback(t('skin.webglFallback'));
-		}
-	} else showFallback(t('skin.webglFallback'));
-	el.querySelector('#btnSkinReset')?.addEventListener('click', () => viewer && viewer.resetView());
-	el.querySelector('#btnSkinRotate')?.addEventListener('click', e => {
-		if (!viewer) return;
-		viewer.setAutoRotate(!viewer.autoRotate);
-		e.currentTarget.setAttribute('aria-pressed', String(viewer.autoRotate));
-		e.currentTarget.textContent = viewer.autoRotate ? t('skin.pauseRotate') : t('skin.resumeRotate');
-	});
-	el.querySelectorAll('.skin-card').forEach(c => {
-		c.addEventListener('click', () => {
-			el.querySelectorAll('.skin-card').forEach(x => x.classList.remove('selected'));
-			c.classList.add('selected');
-			const skin = skins.find(s => s.id === c.dataset.skin);
-			pendingSkin = null; if (apply) apply.disabled = true;
-			const texture = el.querySelector('#localSkinTexture'); if (texture) texture.hidden = true;
-			if (skin) {
-				if (viewer) viewer.setSkin(skin, active ? active.id : null);
-				const nameEl = el.querySelector('#activeSkinName');
-				if (nameEl) nameEl.textContent = skin.name || t('skin.item');
-				const modelEl = el.querySelector('#activeSkinModel');
-				if (modelEl) modelEl.textContent = skin.model === 'slim' ? t('skin.slimModel') : t('skin.classicModel');
-                syncModel(skin.model);
-				toast(t('skin.preview', { name: skin.name || '' }));
-			}
-		});
-	});
-
- let pendingSkin = null;
- const apply = el.querySelector('#btnApplyLocalSkin');
- const modelSelect = el.querySelector('#skinModelSelect');
- const syncModel=model=>{const value=model==='slim'?'slim':'classic';if(modelSelect)modelSelect.value=value;el.querySelectorAll('[data-skin-model]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.skinModel===value)));const label=el.querySelector('#skinHeaderModel');if(label)label.textContent=t(value==='slim'?'skin.slimModel':'skin.classicModel');};
- syncModel(skins[0]?.model);
- const previewLocal = () => {
-   if (!pendingSkin) {const selected=el.querySelector('.skin-card.selected');const skin=skins.find(x=>x.id===selected?.dataset.skin)||skins[0];if(skin&&viewer)viewer.setSkin({...skin,model:modelSelect.value},active?active.id:null);return;}
-   const slim = modelSelect && modelSelect.value === 'slim';
-   const local = { url: pendingSkin.dataUrl, model: slim ? 'slim' : 'classic' };
-   if (viewer) viewer.setSkin(local, null); else showFallback(t('skin.webglFallback'), pendingSkin.dataUrl);
-   const name = el.querySelector('#activeSkinName'), model = el.querySelector('#activeSkinModel');
-   if (name) name.textContent = pendingSkin.name;
-   if (model) model.textContent = t(slim ? 'skin.slimModel' : 'skin.classicModel');
-   const texture = el.querySelector('#localSkinTexture');
-   if (texture) { texture.src = pendingSkin.dataUrl; texture.hidden = false; }
-   const label = el.querySelector('#localSkinFileName');
-   if (label) label.textContent = pendingSkin.name;
-   if (apply) apply.disabled = !active || active.type !== 'microsoft';
- };
- modelSelect?.addEventListener('change', previewLocal);
- el.querySelectorAll('[data-skin-model]').forEach(b=>b.addEventListener('click',()=>{modelSelect.value=b.dataset.skinModel;el.querySelectorAll('[data-skin-model]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));const label=el.querySelector('#skinHeaderModel');if(label)label.textContent=b.textContent;previewLocal();}));
- el.querySelector('#btnSkinLogin')?.addEventListener('click',()=>goTo('settings'));
-
- el.querySelector('#btnUploadSkin')?.addEventListener('click', () => {
-   const input = document.createElement('input');
-   input.type = 'file'; input.accept = 'image/png';
-   input.onchange = () => {
-     const f = input.files && input.files[0];
-     if (!f) return;
-     if (!/\.png$/i.test(f.name) || (f.type && f.type !== 'image/png') || f.size > 1024 * 1024) { toast(t('skin.invalidFile')); return; }
-     const reader = new FileReader();
-     reader.onerror = () => toast(t('skin.invalidFile'));
-     reader.onload = () => {
-       if (!el.isConnected) return;
-       const dataUrl = String(reader.result || ''), image = new Image();
-       image.onerror = () => toast(t('skin.invalidFile'));
-       image.onload = () => {
-         if (!el.isConnected) return;
-         if (image.width !== 64 || (image.height !== 64 && image.height !== 32)) { toast(t('skin.invalidDimensions')); return; }
-         pendingSkin = { dataUrl, name: f.name }; previewLocal();
-         toast(t('skin.preview', { name: f.name }));
-       };
-       image.src = dataUrl;
-     };
-     reader.readAsDataURL(f);
-   };
-   input.click();
- });
- apply?.addEventListener('click', async () => {
-   if (!pendingSkin || apply.disabled) return;
-   if (!active || active.type !== 'microsoft') { toast(t('skin.needMicrosoft')); return; }
-   apply.disabled = true;
-   try {
-     await SG.api.uploadSkin(active.id, pendingSkin.dataUrl.replace(/^data:[^;]+;base64,/, ''), modelSelect?.value === 'slim');
-     toast(t('skin.uploaded')); await loadAccounts(true); invalidate('skins');
-     if (currentView === 'skins') await goTo('skins');
-   } catch (err) { toast(t('skin.uploadFailed') + (err.message || t('common.unknownError'))); }
-   finally { if (apply.isConnected) apply.disabled = false; }
- });
-	el.querySelector('#btnBrowseSkin')?.addEventListener('click', () => SG.goTo('content'));
-}
+/* M1-3 第三步后段：皮肤视图已整体拆至 js/skins.js（SG.skins）。
+   activeSkinViewer 的生命周期也归 skins.js 所有，本文件不再持有该变量；
+   需要销毁时调用 SG.skins.dispose()（goTo 切走、invalidate 两处）。 */
+function bindSkins(el) { return SG.skins.bind(el); }
 
 /* ---------------- Settings 页 ---------------- */
 // 外置登录皮肤站预设（LittleSkin 等，地址为 authlib-injector API 根）
@@ -4025,6 +3811,19 @@ SG.downloads.__wire({
 	toast,
 	currentView: () => currentView,
 	navigationCounts,
+});
+
+/* M1-3 第三步后段：皮肤视图已拆至 js/skins.js（SG.skins）。同样的单向注入。
+ * accounts 传的是**取值函数**而不是数组本身：launcher 的 loadAccounts 会整体替换
+ * ACCOUNTS 变量（不能传引用），取函数保证 skins 每次拿到的是最新一份。
+ * invalidate/goTo 用于"应用皮肤后刷新本页"，与拆分前是同一组调用。 */
+SG.skins.__wire({
+	toast,
+	currentView: () => currentView,
+	accounts: () => ACCOUNTS,
+	loadAccounts,
+	invalidate,
+	goTo,
 });
 
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

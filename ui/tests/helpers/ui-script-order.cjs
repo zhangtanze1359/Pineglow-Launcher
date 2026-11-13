@@ -27,7 +27,13 @@
  *                                由 launcher.js 启动时经 SG.news.__wire 注入
  *   9. `js/downloads.js`      —— 依赖 SG.api + SG.t（运行时）；toast/currentView/
  *                                navigationCounts 由 launcher.js 经 SG.downloads.__wire 注入
- *  10. `js/launcher.js`       —— 主壳，依赖以上全部
+ *  10. `js/skin-visuals.js`   —— 跨视图共享的皮肤视觉辅助（steveSvg/skinAvatar/
+ *                                skinThumb/skinFace/faceThumb）。设置页与侧栏也用
+ *                                faceThumb，所以它不属于 skins 私有。只用到 SG.t
+ *  11. `js/skins.js`          —— 皮肤视图。依赖 SG.api + SG.skinVisuals（故必须排在 10
+ *                                之后）；toast/currentView/accounts/loadAccounts/
+ *                                invalidate/goTo 由 launcher.js 经 SG.skins.__wire 注入
+ *  12. `js/launcher.js`       —— 主壳，依赖以上全部
  */
 const SCRIPT_ORDER = [
 	'vendor/three.min.js',
@@ -39,6 +45,8 @@ const SCRIPT_ORDER = [
 	'js/update-monitor.js',
 	'js/news.js',
 	'js/downloads.js',
+	'js/skin-visuals.js',
+	'js/skins.js',
 	'js/launcher.js',
 ];
 

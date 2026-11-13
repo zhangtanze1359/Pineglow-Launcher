@@ -1,0 +1,10 @@
+[closure] root=D:/Projects/_worktrees/pineglow-integration-20261107/ui
+[closure] 入口: index.html, preview-motion.html
+[closure] 扫描文件 17 个，本地引用 33 条
+[closure] 本地资源闭包完整：无缺失引用
+[closure]   css: index.html -> css/figma.css
+[closure]   css: index.html -> css/pineglow.css
+[closure]   css: index.html -> css/redesign.css
+[closure]   css: preview-motion.html -> css/figma.css
+[closure]   css: preview-motion.html -> css/pineglow.css
+[closure]   css: preview-motion.html -> css/redesign.css

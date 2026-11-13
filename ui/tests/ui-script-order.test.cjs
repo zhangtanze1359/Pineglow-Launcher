@@ -116,10 +116,19 @@ test('依赖关系满足：i18n 在 api 之前，api 在 playtime 之前，playt
  *   ③ 自身导出了对应的 `SG.<模块名>` 命名空间（否则 launcher.js 的 __wire 调用会炸）。
  */
 
-const VIEW_MODULES = ['playtime', 'news', 'downloads'];
+/* 文件名 → SG 命名空间。多数模块同名，但 skin-visuals.js 的命名空间是
+ * SG.skinVisuals（连字符在 JS 标识符里非法），必须显式登记，不能靠文件名推导。 */
+const NS = { playtime: 'playtime', news: 'news', downloads: 'downloads', skins: 'skins', 'skin-visuals': 'skinVisuals' };
+const VIEW_MODULES = ['playtime', 'news', 'downloads', 'skins'];
+/* 跨视图共享层的模块：没有独立的 render/bind 入口，但同样必须被生产加载。
+ * 单独列出来是因为上面那组断言要求 render+bind 委托，对共享层不成立。 */
+const SHARED_MODULES = ['skin-visuals'];
+/* 模块内部挂命名空间用的局部别名（news/downloads/skin-visuals 用 `const SG = root.SG`
+ * 后 `SG.x = {...}`；skins.js 用 `SG_NS` 以避免与同名局部变量冲突）。 */
+const NS_ASSIGN = name => new RegExp("(SG|SG_NS|root\\.SG)\\." + NS[name] + "\\s*=\\s*\\{");
 
 test('拆出去的视图脚本都登记在清单里，且排在 launcher.js 之前', () => {
-	for (const name of VIEW_MODULES) {
+	for (const name of [...VIEW_MODULES, ...SHARED_MODULES]) {
 		const entry = 'js/' + name + '.js';
 		assert.ok(SCRIPT_ORDER.includes(entry), `${entry} 未登记进 SCRIPT_ORDER：生产环境不会加载它，拆出的视图将整页失效`);
 		assert.ok(SCRIPT_ORDER.indexOf(entry) < SCRIPT_ORDER.indexOf('js/launcher.js'),
@@ -132,7 +141,7 @@ test('拆出去的视图脚本在 index.html 里也真实加载，且位于 laun
 	const launcherAt = declared.indexOf('js/launcher.js');
 
 	assert.notEqual(launcherAt, -1, 'index.html 必须加载 launcher.js');
-	for (const name of VIEW_MODULES) {
+	for (const name of [...VIEW_MODULES, ...SHARED_MODULES]) {
 		const entry = 'js/' + name + '.js';
 		const at = declared.indexOf(entry);
 		assert.notEqual(at, -1, `index.html 未加载 ${entry}：测试全绿但生产点开该页会白屏`);
@@ -146,19 +155,37 @@ test('拆出去的视图脚本各自导出 SG.<模块名>，且与 launcher.js �
 	const launcherSrc = fs.readFileSync(path.join(UI, 'js', 'launcher.js'), 'utf8');
 
 	for (const name of VIEW_MODULES) {
+		const ns = NS[name];
 		const src = fs.readFileSync(path.join(UI, 'js', name + '.js'), 'utf8');
-		assert.ok(new RegExp("SG\\." + name + "\\s*=\\s*\\{").test(src),
-			`${name}.js 必须导出 SG.${name}（launcher.js 从这里取 render/bind）`);
+		assert.ok(NS_ASSIGN(name).test(src),
+			`${name}.js 必须导出 SG.${ns}（launcher.js 从这里取 render/bind）`);
 
-		// playtime 直接调用 SG.playtime.render，news/downloads 是薄委托；
+		// playtime 直接调用 SG.playtime.render，news/downloads/skins 是薄委托；
 		// 三种接法都要认，但**必须是渲染/绑定入口真的走了过去**，不能只挂一个 __wire：
 		// 只留 __wire 正是 MUT-3 暴露的假接线——脚本加载了、也"引用了"，但点进那一页是空白。
-		const delegatesRender = new RegExp('[\\s{;]' + name + ":\\s*\\{[^}]*SG\\." + name).test(launcherSrc)
-			|| new RegExp("render:.*SG\\." + name + "\\.render").test(launcherSrc)
-			|| new RegExp("function render" + name.charAt(0).toUpperCase() + name.slice(1) + "\\(\\)\\s*\\{\\s*return SG\\." + name).test(launcherSrc);
-		const delegatesBind = new RegExp("SG\\." + name + "\\.bind").test(launcherSrc)
-			|| new RegExp("function bind" + name.charAt(0).toUpperCase() + name.slice(1) + "\\(el\\)\\s*\\{\\s*return SG\\." + name).test(launcherSrc);
-		assert.ok(delegatesRender, `launcher.js 的渲染入口没有委托到 SG.${name}：视图会渲染成空白页`);
-		assert.ok(delegatesBind, `launcher.js 的事件绑定入口没有委托到 SG.${name}：视图渲染出来也没有交互`);
+		const delegatesRender = new RegExp('[\\s{;]' + ns + ":\\s*\\{[^}]*SG\\." + ns).test(launcherSrc)
+			|| new RegExp("render:.*SG\\." + ns + "\\.render").test(launcherSrc)
+			|| new RegExp("function render" + name.charAt(0).toUpperCase() + name.slice(1) + "\\(\\)\\s*\\{\\s*return SG\\." + ns).test(launcherSrc);
+		const delegatesBind = new RegExp("SG\\." + ns + "\\.bind").test(launcherSrc)
+			|| new RegExp("function bind" + name.charAt(0).toUpperCase() + name.slice(1) + "\\(el\\)\\s*\\{\\s*return SG\\." + ns).test(launcherSrc);
+		assert.ok(delegatesRender, `launcher.js 的渲染入口没有委托到 SG.${ns}：视图会渲染成空白页`);
+		assert.ok(delegatesBind, `launcher.js 的事件绑定入口没有委托到 SG.${ns}：视图渲染出来也没有交互`);
+	}
+});
+
+test('跨视图共享层也导出了 SG.<模块名>，且被 launcher.js 或视图模块真实使用', () => {
+	// 共享层（skin-visuals）没有 render/bind 入口，所以上面那组"必须委托"的断言不适用。
+	// 但"加载了却没人用"的假接线同样要防——只是它的故障表现不同：
+	// 不是白屏，而是皮肤缩略图/头像渲染时 `SG.skinVisuals` 为 undefined 直接抛错。
+	const launcherSrc = fs.readFileSync(path.join(UI, 'js', 'launcher.js'), 'utf8');
+	const allSources = launcherSrc + VIEW_MODULES.concat(SHARED_MODULES)
+		.map(n => fs.readFileSync(path.join(UI, 'js', n + '.js'), 'utf8')).join('\n');
+
+	for (const name of SHARED_MODULES) {
+		const ns = NS[name];
+		const src = fs.readFileSync(path.join(UI, 'js', name + '.js'), 'utf8');
+		assert.ok(NS_ASSIGN(name).test(src), `${name}.js 必须导出 SG.${ns}`);
+		assert.ok(new RegExp("SG\\." + ns + "\\.[A-Za-z_$][A-Za-z0-9_$]*\\s*\\(").test(allSources),
+			`没有任何模块调用 SG.${ns}.<方法>()：脚本加载了却没人用它（假接线）`);
 	}
 });

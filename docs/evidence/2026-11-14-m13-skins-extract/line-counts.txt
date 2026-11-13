@@ -1,0 +1,6 @@
+  3945 ui/js/launcher.js
+   257 ui/js/skins.js
+    86 ui/js/skin-visuals.js
+  4288 total
+integration/v1.1.0-20261107
+ac035e6 fix(tests): 修正 LauncherLog 并发写测试的口径并补防回归（C# 1379 → 1380）
