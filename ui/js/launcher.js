@@ -41,7 +41,6 @@ function firstLetter(s) { const t = (s || '').trim(); return t ? t[0].toUpperCas
 let STATE = null;      // { config, instances, accounts, java }
 let ACCOUNTS = [];     // getAccounts 结果（含 skins/capes）
 let selectedInstanceId = null;
-let aiSettingsSaving = false;
 // 关键：stateLoadFailedLast 用于区分"未加载"与"上一次失败"。
 // loadState 失败时不把失败结果写进 STATE（避免永久缓存），但记录错误消息。
 // UI 据此显示"重试实例状态"入口。
@@ -205,167 +204,8 @@ async function renderInstallations() {
 
 async function renderSkins() { return SG.skins.render(); }
 
-function renderAccountCards(accounts) {
-	if (!accounts || !accounts.length) return '<div class="account-empty">' + esc(t('set.clickAddAccount')) + '</div>';
-	return accounts.map(a => {
-		const typeLabel = a.type === 'microsoft' ? t('acc.microsoft') : a.type === 'authlib' ? t('acc.authlib') : t('acc.offline');
-		const badge = a.selected ? '<span class="account-current">' + esc(t('set.currentAccount')) + '</span>' : '<span class="account-use">' + esc(t('set.useAccount')) + '</span>';
-		return '<div class="account-card' + (a.selected ? ' selected' : '') + '" data-account="' + esc(a.id) + '" role="button" tabindex="0">' +
-			'<span class="account-card-avatar">' + faceThumb(40, a.skins && a.skins[0]) + '</span>' +
-			'<span class="account-card-body">' +
-				'<span class="account-card-name">' + esc(a.userName || 'Player') + '</span>' +
-				'<span class="account-card-type">' + esc(typeLabel) + '</span>' +
-				'<span class="account-card-stats">' +
-					'<span class="account-stat">' + esc(t('set.skinCount', { n: a.skinCount || 0 })) + '</span>' +
-					'<span class="account-stat">' + esc(t('set.capeCount', { n: a.capeCount || 0 })) + '</span>' +
-				'</span>' +
-			'</span>' +
-			badge +
-			'<span class="account-card-del" data-del="' + esc(a.id) + '" role="button" tabindex="0">' + esc(t('set.deleteAccount')) + '</span>' +
-		'</div>';
-	}).join('');
-}
-async function renderSettings() {
-	await loadState();
-	const cfg = STATE.config || {};
-	const java = STATE.java || [];
-	const accounts = await loadAccounts();
-	const acc = accounts.find(a => a.selected) || accounts[0];
-
-	const MIN = 2, MAX = 16;
-	const gb = Math.max(MIN, Math.min(MAX, (cfg.maxMemoryMb || 4096) / 1024));
-	const pct = ((gb - MIN) / (MAX - MIN)) * 100;
-	const autoMem = !!cfg.useAutoMemory;
-	const useMirror = !!cfg.useMirror;
-	const dlSource = cfg.downloadSource || 'official';
-	// R2-02：新闻图片 fake-ip/TUN 兼容开关（默认 false，fail closed）
-	const newsFakeIp = !!cfg.newsFakeIpCompat;
-
-	const currentJava = java.find(j => j.path === cfg.javaPath);
-	const javaLabel = cfg.javaPath
-		? (currentJava ? `Java ${currentJava.versionMajor} · ${currentJava.path}` : cfg.javaPath)
-		: (java.length ? t('set.javaAuto', { n: java.length }) : t('set.javaBundled'));
 
 
-	return `
-	<div class="settings-view"><div class="settings-grid">
-		<div class="settings-section">
-			<div class="section-heading">${esc(t('set.javaSection'))}</div>
-			<div class="section-content">
-				<div class="setting-row">
-					<div class="setting-info">
-						<span class="setting-name">${esc(t('set.memName'))}</span>
-						<span class="setting-desc">${esc(t('set.memDesc'))}</span>
-					</div>
-					<div class="slider-wrap">
-						<input type="range" class="memory-range" id="memSlider" min="2048" max="16384" step="512" value="${Math.round(gb*1024)}" aria-label="${esc(t('set.memName'))}"${autoMem ? ' disabled' : ''}>
-						<span class="setting-value" id="memValue">${gb.toFixed(1)} GB</span>
-					</div>
-				</div>
-				<div class="setting-divider"></div>
-				<div class="setting-row">
-					<div class="setting-info">
-						<span class="setting-name">${esc(t('set.autoMemName'))}</span>
-						<span class="setting-desc">${esc(t('set.autoMemDesc'))}</span>
-					</div>
-					<button class="toggle ${autoMem ? 'on' : ''}" data-toggle="autoMem" aria-label="${esc(t('set.autoMemName'))}" role="switch" aria-checked="${autoMem}"></button>
-				</div>
-				<div class="setting-divider"></div>
-				<div class="setting-row">
-					<div class="setting-info">
-						<span class="setting-name">${esc(t('set.javaPathName'))}</span>
-						<span class="setting-desc">${esc(t('set.javaPathDesc'))}</span>
-					</div>
-					<button class="setting-btn" id="btnJrePath">${esc(javaLabel)}</button>
-				</div>
-			</div>
-		</div>
-
-		<div class="settings-section">
-			<div class="section-heading">${esc(t('set.behaviorSection'))}</div>
-			<div class="section-content">
-				<div class="setting-row">
-					<div class="setting-info">
-						<span class="setting-name">${esc(t('set.sourceName'))}</span>
-						<span class="setting-desc">${esc(t('set.sourceDesc'))}</span>
-					</div>
-					<div class="source-select" id="sourceSelect">
-						<button class="setting-btn" id="btnSourceChange">${esc(t('set.sourceCurrent', { name: sourceLabel(dlSource) }))}</button>
-					</div>
-				</div>
-				<div class="setting-divider"></div>
-				<div class="setting-row">
-					<div class="setting-info">
-						<span class="setting-name">${esc(t('set.fakeIpName'))}</span>
-						<span class="setting-desc">${esc(t('set.fakeIpDesc'))}</span>
-					</div>
-					<button class="toggle ${newsFakeIp ? 'on' : ''}" data-toggle="newsFakeIp" aria-label="${esc(t('set.fakeIpName'))}" role="switch" aria-checked="${newsFakeIp}"></button>
-				</div>
-				<div class="setting-divider"></div>
-				<div class="setting-row">
-					<div class="setting-info">
-						<span class="setting-name">${esc(t('set.proxyName'))}</span>
-						<span class="setting-desc">${esc(t('set.proxyDesc'))}</span>
-					</div>
-					<button class="setting-btn" id="btnProxy">${esc(t('set.proxyConfigure'))}</button>
-				</div>
-
-			</div>
-		</div>
-
-        <section class="settings-section settings-quick"><div class="section-heading">${esc(t('set.quickName'))}</div><div class="section-content"><p class="ui-muted">${esc(t('set.quickDesc'))}</p><button class="setting-btn" id="btnQuick">${esc(t('set.quickConfigure'))}</button></div></section>
-        <section class="settings-section settings-logs"><div class="section-heading">${esc(t('set.logsName'))}</div><div class="section-content"><p class="ui-muted">${esc(t('set.logsDesc'))}</p><button class="setting-btn" id="btnOpenLogs">${uiIcon('folder')}${esc(t('set.openLogs'))}</button></div></section>
-
-		<div class="settings-section">
-			<div class="section-heading">${esc(t('set.updateSection'))}</div>
-			<div class="section-content">
-				<div class="setting-row">
-					<div class="setting-info">
-						<span class="setting-name">${esc(t('set.updateVersion'))}</span>
-						<span class="setting-desc" id="updateCurVer">…</span>
-					</div>
-					<button class="setting-btn" id="btnCheckUpdate">${esc(t('set.checkUpdate'))}</button>
-				</div>
-				<div class="setting-divider"></div>
-				<div id="updateStatus" class="update-status"></div>
-				<div id="updateTrust" class="update-trust-host"></div>
-			</div>
-		</div>
-
-		<div class="settings-section">
-			<div class="section-heading">${esc(t('set.aiSection'))}</div>
-			<div class="section-content">
-				<div class="setting-row">
-					<div class="setting-info">
-						<span class="setting-name">${esc(t('set.aiEnableName'))}</span>
-						<span class="setting-desc">${esc(t('set.aiEnableDesc'))}</span>
-					</div>
-					<button class="toggle ${cfg.aiDiagnosisEnabled ? 'on' : ''}" data-toggle="aiDiag" aria-label="${esc(t('set.aiEnableName'))}" role="switch" aria-checked="${!!cfg.aiDiagnosisEnabled}"${aiSettingsSaving ? ' disabled' : ''}></button>
-				</div>
-				<div class="setting-divider"></div>
-				<div class="setting-row">
-				<div class="setting-info">
-					<span class="setting-name">${esc(t('set.aiSection'))}</span>
-					<span class="setting-desc">${esc(aiActiveName(cfg))}</span>
-				</div>
-				<button class="setting-btn" id="btnAiManage">${esc(t('set.aiManage'))}</button>
-			</div>
-			</div>
-		</div>
-        </div>
-		<div class="settings-section">
-			<div class="section-heading">${esc(t('set.accountSection'))}</div>
-			<div class="section-content">
-				<div class="account-login-actions">
-					<button class="setting-btn" id="btnMsLogin">${esc(t('set.microsoftLogin'))}</button>
-					<button class="setting-btn" id="btnAuthlibLogin">${esc(t('set.authlibLogin'))}</button>
-					<button class="setting-btn" id="btnAddAccount">${esc(t('set.addAccount'))}</button>
-				</div>
-				<div class="account-cards" id="accountCards">${renderAccountCards(accounts)}</div>
-			</div>
-		</div>
-	</div>`;
-}
 
 /* ================================================================
    通用弹窗 Modal
@@ -584,11 +424,7 @@ const AI_PRESETS = {
 };
 
 // 当前选中提供商显示名（设置区）
-function aiActiveName(cfg) {
-	const list = cfg.aiProviders || [];
-	const cur = list.find(p => p.id === cfg.selectedAiProviderId);
-	return cur ? cur.name : t('set.aiNotSet');
-}
+
 function aiActiveProvider(cfg) {
 	const list = cfg.aiProviders || [];
 	return list.find(p => p.id === cfg.selectedAiProviderId) || null;
@@ -2530,421 +2366,15 @@ function bindInstallations(el) {
    需要销毁时调用 SG.skins.dispose()（goTo 切走、invalidate 两处）。 */
 function bindSkins(el) { return SG.skins.bind(el); }
 
-/* ---------------- Settings 页 ---------------- */
-// 外置登录皮肤站预设（LittleSkin 等，地址为 authlib-injector API 根）
-const AUTH_PRESETS = [
-	{ name: 'LittleSkin', url: 'https://littleskin.cn/api/yggdrasil', desc: '国内最大皮肤站' },
-	{ name: 'Blessing Skin', url: 'https://skin.prinzeugen.net/api/yggdrasil', desc: 'Blessing Skin 演示站' },
-	{ name: '自定地址', url: '', desc: '填写任意 authlib-injector 兼容地址' },
-];
-function sourceLabel(key) {
-	const names = { official: t('set.sourceOfficial'), bmclapi: 'BMCLAPI', mcbbs: t('set.sourceMcbbs') };
-	return names[key] || key || t('set.sourceOfficial');
-}
-async function openSourcePicker() {
-	const host = openModal(`<div class="modal-title">${esc(t('set.sourceName'))}</div>
-		<div class="source-list"><div class="loading-state">${esc(t('common.loading'))}</div></div>
-		<div class="modal-actions"><button class="modal-btn" id="scClose">${esc(t('common.close'))}</button></div>`);
-	if (!host) return;
-	const generation = host.dataset.modalGeneration;
-	const isCurrent = () => !host.hidden && host.dataset.modalGeneration === generation;
-	document.getElementById('scClose').onclick = closeModal;
-	try {
-		const response = await SG.api.getSources();
-		if (!isCurrent()) return;
-		const sources = response.sources || [];
-		if (!sources.length) throw new Error(t('set.sourceLoadFailed'));
-		const selected = response.selected || (STATE && STATE.config.downloadSource) || 'official';
-		host.querySelector('.source-list').innerHTML = sources.map(s => {
-			const latency = s.available ? (s.latencyMs >= 0 ? Math.round(s.latencyMs) + ' ms' : '—') : t('set.sourceUnavailable');
-			return `<button class="source-option" data-source="${esc(s.key)}"><span class="source-name">${esc(sourceLabel(s.key))}</span>
-				<span class="source-lat">${esc(latency)}</span>${s.key === selected ? '<span class="source-check">✓</span>' : ''}</button>`;
-		}).join('');
-		let saving = false;
-		const sourceEls = host.querySelectorAll('.source-option');
-		sourceEls.forEach(opt => opt.addEventListener('click', async () => {
-			if (saving || !isCurrent()) return;
-			saving = true;
-			sourceEls.forEach(button => { button.disabled = true; });
-			try {
-				const result = await SG.api.selectSource(opt.dataset.source);
-				if (!result.ok) throw new Error(t('set.sourceSwitchFailed'));
-				STATE.config.downloadSource = result.selected;
-				STATE.config.useMirror = result.useMirror;
-				toast(t('set.sourceSwitched', { name: sourceLabel(result.selected) }));
-				if (isCurrent()) closeModal();
-				invalidate('settings');
-				const button = document.getElementById('btnSourceChange');
-				if (button) button.textContent = t('set.sourceCurrent', { name: sourceLabel(result.selected) });
-			} catch (error) { toast(t('set.sourceSwitchFailed') + (error.message || t('common.unknownError'))); }
-			finally { saving = false; sourceEls.forEach(button => { button.disabled = false; }); }
-		}));
-	} catch (error) {
-		if (!isCurrent()) return;
-		host.querySelector('.source-list').innerHTML = `<div role="alert"><p>${esc(t('set.sourceLoadFailed'))}</p>
-			<details class="tech-details"><summary>${esc(t('content.techDetails'))}</summary><pre class="tech-body">${esc(error.message || t('common.unknownError'))}</pre></details>
-			<button class="modal-btn primary" id="scRetry">${esc(t('dl.retry'))}</button></div>`;
-		document.getElementById('scRetry').onclick = openSourcePicker;
-	}
-}
-
-function bindSettings(el) {
-	// 内存滑块（2–16 GB）→ 真实写入 maxMemoryMb
- const slider=el.querySelector('#memSlider');
- if(slider){
-  slider.addEventListener('input',()=>{el.querySelector('#memValue').textContent=(Number(slider.value)/1024).toFixed(1)+' GB';});
-  slider.addEventListener('change',async()=>{const previous=STATE.config.maxMemoryMb;try{await SG.api.updateConfig({maxMemoryMb:Number(slider.value),useAutoMemory:false});STATE.config.maxMemoryMb=Number(slider.value);invalidate('home');}catch(err){slider.value=String(previous);el.querySelector('#memValue').textContent=(previous/1024).toFixed(1)+' GB';toast(err.message||t('common.unknownError'));}});
- }
-
-	// 开关 → 真实写入
-	// 保存期间去重；AI 分支同时保护语言重绘后的新控件，成功同步状态、失败回滚。
-	// 注意：参数名用 toggle 而非 t，避免遮蔽顶层 i18n 函数 t(key)
-	// 注意：必须用 contains + 显式设 on，避免依赖 DOM classList.toggle() 的返回值
-	// （测试桩的 classList.toggle 不返回 boolean，会让 on 变 undefined）
-	const submittingToggles = new Set();
-	el.querySelectorAll('.toggle').forEach(toggle => {
-		toggle.addEventListener('click', () => {
-			const key = toggle.dataset.toggle;
-			if (key === 'autoMem') {
-				if(submittingToggles.has(key))return;
-				submittingToggles.add(key);toggle.disabled=true;
-				const previous=toggle.classList.contains('on');
-				const on = !toggle.classList.contains('on');
-				toggle.classList.toggle('on', on);
-				toggle.setAttribute('aria-checked', on ? 'true' : 'false');
-				SG.api.updateConfig({ useAutoMemory: on }).then(()=>{STATE.config.useAutoMemory=on;}).catch(err=>{toggle.classList.toggle('on',previous);toggle.setAttribute('aria-checked',String(previous));if(s)s.disabled=previous;toast(err.message||t('common.unknownError'));}).finally(()=>{submittingToggles.delete(key);toggle.disabled=false;});
-				const s = el.querySelector('#memSlider');
-				if (s) s.disabled = on;
-				invalidate('home');
-			} else if (key === 'aiDiag') {
-				if (aiSettingsSaving) return;
-				aiSettingsSaving = true;
-				const previous = !!STATE.config.aiDiagnosisEnabled;
-				const desired = !previous;
-				const show = (value, busy) => document.querySelectorAll('[data-toggle="aiDiag"]').forEach(button => {
-					button.classList.toggle('on', value); button.setAttribute('aria-checked', String(value)); button.disabled = busy;
-				});
-				show(desired, true);
-				SG.api.updateConfig({ aiDiagnosisEnabled: desired }).then(result => {
-					const value = result && result.config && typeof result.config.aiDiagnosisEnabled === 'boolean' ? result.config.aiDiagnosisEnabled : desired;
-					STATE.config.aiDiagnosisEnabled = value; show(value, true);
-				}).catch(error => {
-					STATE.config.aiDiagnosisEnabled = previous; show(previous, true);
-					toast(t('set.aiToggleSaveFailed') + (error.message || t('common.unknownError')));
-				}).finally(() => { aiSettingsSaving = false; show(!!STATE.config.aiDiagnosisEnabled, false); });
-			} else if (key === 'newsFakeIp') {
-				// R2-02：连点去重（in-flight 时第二次点击直接拒绝）
-				if (submittingToggles.has(key)) return;
-				submittingToggles.add(key);
-				toggle.disabled = true;
-				const on = !toggle.classList.contains('on');
-				toggle.classList.toggle('on', on);
-				toggle.setAttribute('aria-checked', on ? 'true' : 'false');
-				const desired = on;
-				SG.api.updateConfig({ newsFakeIpCompat: desired })
-					.then((res) => {
-						if (res && res.config) Object.assign(STATE.config, res.config);
-						else STATE.config.newsFakeIpCompat = desired;
-						submittingToggles.delete(key);
-						toggle.disabled = false;
-						toast(t('set.fakeIpSaved'));
-					})
-					.catch((err) => {
-						// 失败回滚：class/ARIA/STATE 全部恢复为点击前的值
-						const cur = !!(STATE.config && STATE.config.newsFakeIpCompat);
-						toggle.classList.toggle('on', cur);
-						toggle.setAttribute('aria-checked', cur ? 'true' : 'false');
-						submittingToggles.delete(key);
-						toggle.disabled = false;
-						toast(t('set.fakeIpSaveFailed') + (err && err.message ? err.message : t('common.unknownError')));
-					});
-			}
-		});
-	});
-	// 下载源选择
-	el.querySelector('#btnSourceChange')?.addEventListener('click', openSourcePicker);
-	// 代理配置
-	el.querySelector('#btnProxy')?.addEventListener('click', () => {
-		const cfg = STATE.config || {};
-		const enabled = !!cfg.proxyEnabled;
-		openModal(`
-			<div class="modal-title">${esc(t('set.proxyName'))}</div>
-			<div class="page-sub">${esc(t('set.proxyDesc'))}</div>
-			<div class="modal-field" style="flex-direction:row;align-items:center;gap:10px">
-				<label style="font-size:13px;color:var(--text,#e8ecf4)">${esc(t('set.proxyEnable'))}</label>
-				<button class="toggle ${enabled ? 'on' : ''}" id="proxyToggle" role="switch" aria-checked="${enabled}"></button>
-			</div>
-			<div class="modal-field"><span class="modal-label">${esc(t('set.proxyHost'))}</span><input class="modal-input" id="pHost" value="${esc(cfg.proxyHost || '')}" placeholder="127.0.0.1"></div>
-			<div class="modal-field"><span class="modal-label">${esc(t('set.proxyPort'))}</span><input class="modal-input" id="pPort" value="${esc(cfg.proxyPort || '')}" placeholder="7890" type="number"></div>
-			<div class="modal-field"><span class="modal-label">${esc(t('set.proxyUser'))}</span><input class="modal-input" id="pUser" value="${esc(cfg.proxyUsername || '')}" placeholder="${esc(t('set.proxyUserOptional'))}"></div>
-			<div class="modal-field"><span class="modal-label">${esc(t('set.proxyPass'))}</span><input class="modal-input" id="pPass" value="${esc(cfg.proxyPassword || '')}" type="password" placeholder="${esc(t('set.proxyPassOptional'))}"></div>
-			<div class="modal-actions">
-				<button class="modal-btn ghost" id="pCancel">${esc(t('common.cancel'))}</button>
-				<button class="modal-btn primary" id="pOk">${esc(t('common.save'))}</button>
-			</div>`);
-		document.getElementById('pCancel').onclick = closeModal;
-		document.getElementById('proxyToggle').onclick = () => {
-			const t = document.getElementById('proxyToggle');
-			t.classList.toggle('on');
-			t.setAttribute('aria-checked', t.classList.contains('on') ? 'true' : 'false');
-		};
-		document.getElementById('pOk').onclick = async () => {
-			const payload = {
-				proxyEnabled: document.getElementById('proxyToggle').classList.contains('on'),
-				proxyHost: document.getElementById('pHost').value.trim(),
-				proxyPort: parseInt(document.getElementById('pPort').value, 10) || 0,
-				proxyUsername: document.getElementById('pUser').value.trim(),
-				proxyPassword: document.getElementById('pPass').value,
-			};
-			closeModal();
-			try {
-				await SG.api.updateConfig(payload);
-				Object.assign(STATE.config, payload);
-				toast(t('set.proxySaved'));
-			} catch (err) { toast(t('set.proxyFailed') + (err.message || t('common.unknownError'))); }
-		};
-	});
-	// AI 提供商管理
-	el.querySelector('#btnAiManage')?.addEventListener('click', () => openAiManage());
-	// 快捷操作
-	el.querySelector('#btnQuick')?.addEventListener('click', () => {
-		const cfg = STATE.config || {};
-		openModal(`
-			<div class="modal-title">${esc(t('set.quickName'))}</div>
-			<div class="page-sub">${esc(t('set.quickDesc'))}</div>
-			<div class="quick-opt">
-				<button class="toggle ${cfg.minimizeOnLaunch ? 'on' : ''}" id="qMin" role="switch" aria-checked="${!!cfg.minimizeOnLaunch}"></button>
-				<span class="quick-label">${esc(t('set.quickMinimize'))}</span>
-			</div>
-			<div class="quick-opt">
-				<button class="toggle ${cfg.autoCloseOnExit ? 'on' : ''}" id="qClose" role="switch" aria-checked="${!!cfg.autoCloseOnExit}"></button>
-				<span class="quick-label">${esc(t('set.quickClose'))}</span>
-			</div>
-			<div class="modal-actions">
-				<button class="modal-btn ghost" id="qCancel">${esc(t('common.cancel'))}</button>
-				<button class="modal-btn primary" id="qOk">${esc(t('common.save'))}</button>
-			</div>`);
-		document.getElementById('qCancel').onclick = closeModal;
-		const bindToggle = (id) => document.getElementById(id).onclick = () => {
-			const t = document.getElementById(id);
-			t.classList.toggle('on');
-			t.setAttribute('aria-checked', t.classList.contains('on') ? 'true' : 'false');
-		};
-		bindToggle('qMin'); bindToggle('qClose');
-		document.getElementById('qOk').onclick = async () => {
-			const payload = {
-				minimizeOnLaunch: document.getElementById('qMin').classList.contains('on'),
-				autoCloseOnExit: document.getElementById('qClose').classList.contains('on'),
-			};
-			closeModal();
-			try {
-				await SG.api.updateConfig(payload);
-				Object.assign(STATE.config, payload);
-				toast(t('set.quickSaved'));
-			} catch (err) { toast(t('set.quickFailed') + (err.message || t('common.unknownError'))); }
-		};
-	});
-	el.querySelector('#btnJrePath')?.addEventListener('click', () => {
-		const java = STATE.java || [];
-		if (!java.length) { toast(t('set.jreNotFound')); return; }
-		const cfg = STATE.config || {};
-		const idx = java.findIndex(j => j.path === cfg.javaPath);
-		const next = java[(idx + 1) % java.length]; // 循环切换到下一个 JDK
-		SG.api.updateConfig({ javaPath: next.path }).then(() => {
-			STATE.config.javaPath = next.path;
-			el.querySelector('#btnJrePath').textContent = `Java ${next.versionMajor} · ${next.path}`;
-			toast(t('set.javaSwitched', { ver: next.versionText }));
-		}).catch(err => toast(t('set.switchFailed') + (err.message || '')));
-	});
-	el.querySelector('#btnOpenLogs')?.addEventListener('click', () => {
-		SG.api.openLogDirectory().then(r => {
-			if (!r.ok) toast(t('set.logsFailed'));
-		}).catch(e => toast(t('set.logsFailed') + (e.message || '')));
-	});
-	el.querySelector('#btnMsLogin')?.addEventListener('click', async () => {
-		const btn = el.querySelector('#btnMsLogin');
-		if (!btn || btn.disabled) return;
-		btn.disabled = true;
-		btn.textContent = t('set.microsoftLoggingIn');
-		try {
-			const info = await SG.api.microsoftDeviceStart();
-			if (!info || !info.ok) throw new Error((info && info.message) || '无法创建微软登录码');
-			const userCode = info.userCode || '';
-			const verifyUrl = info.verificationUriComplete || info.verificationUri || 'https://microsoft.com/link';
-			const interval = Math.max(3, info.interval || 5);
-			openModal([
-				'<div class="modal-title">' + esc(t('set.microsoftDeviceTitle')) + '</div>',
-				'<div class="page-sub">' + esc(t('set.microsoftDeviceDesc')) + '</div>',
-				'<div style="text-align:center;margin:18px 0;padding:22px;background:var(--card);border:1px solid var(--border);border-radius:12px;">',
-				'  <div style="font-size:13px;color:var(--muted);margin-bottom:10px;">' + esc(t('set.microsoftDeviceStep1')) + '</div>',
-				'  <a href="' + esc(verifyUrl) + '" target="_blank" rel="noopener" style="color:var(--green);font-weight:600;word-break:break-all;">' + esc(verifyUrl) + '</a>',
-				'  <div style="font-size:13px;color:var(--muted);margin:14px 0 8px;">' + esc(t('set.microsoftDeviceStep2')) + '</div>',
-				'  <div style="font-family:var(--font-head);font-size:34px;font-weight:700;letter-spacing:8px;color:var(--text);">' + esc(userCode) + '</div>',
-				'  <div style="font-size:12px;color:var(--muted);margin-top:14px;" id="msDeviceStatus">' + esc(t('set.microsoftDeviceWaiting')) + '</div>',
-				'</div>',
-				'<div class="modal-actions">',
-				'  <button class="modal-btn" id="msDeviceCancel">' + esc(t('common.cancel')) + '</button>',
-				'</div>'
-			].join(''));
-			document.getElementById('msDeviceCancel')?.addEventListener('click', closeModal);
-			const deadline = Date.now() + (info.expiresIn || 900) * 1000;
-			let finished = false;
-			while (Date.now() < deadline) {
-				await new Promise(r => setTimeout(r, interval * 1000));
-				const statusEl = document.getElementById('msDeviceStatus');
-				if (!statusEl) break;
-				try {
-					const poll = await SG.api.microsoftDevicePoll();
-					if (poll && poll.ok && poll.status === 'completed') { finished = true; break; }
-					if (poll && poll.status === 'failed') { statusEl.textContent = t('set.microsoftDeviceFailed') + (poll.message || ''); break; }
-				} catch (pollErr) {
-					statusEl.textContent = t('set.microsoftDeviceFailed') + (pollErr.message || '');
-					break;
-				}
-			}
-			closeModal();
-			if (finished) {
-				await loadAccounts(true);
-				invalidate('skins');
-				const v = document.getElementById('view-settings');
-				v.innerHTML = await renderSettings(); bindSettings(v);
-				refreshSidebarAccount();
-				toast(t('set.microsoftSuccess'));
-			}
-		} catch (e) {
-			toast(t('set.microsoftFailed') + (e.message || t('common.unknownError')));
-		} finally {
-			const b = document.getElementById('view-settings')?.querySelector('#btnMsLogin');
-			if (b) { b.disabled = false; b.textContent = t('set.microsoftLogin'); }
-		}
-	});
-	// 外置登录（皮肤站预设）
-	el.querySelector('#btnAuthlibLogin')?.addEventListener('click', () => {
-		const presetOptions = AUTH_PRESETS.map((p, i) =>
-			`<button class="auth-preset ${i === 0 ? 'active' : ''}" data-url="${esc(p.url)}" data-desc="${esc(p.desc)}">${esc(p.name)}<span class="auth-preset-desc">${esc(p.desc)}</span></button>`).join('');
-		openModal(`
-			<div class="modal-title">${esc(t('set.authlibTitle'))}</div>
-			<div class="page-sub">${esc(t('set.authlibDesc'))}</div>
-			<div class="auth-presets" id="authPresets">${presetOptions}</div>
-			<div class="modal-field">
-				<span class="modal-label">${esc(t('set.authServerLabel'))}</span>
-				<input class="modal-input" id="mAuthUrl" value="https://littleskin.cn" placeholder="https://example.com">
-			</div>
-			<div class="modal-field">
-				<span class="modal-label">${esc(t('set.authUserLabel'))}</span>
-				<input class="modal-input" id="mAuthUser" placeholder="用户名 / 邮箱">
-			</div>
-			<div class="modal-field">
-				<span class="modal-label">${esc(t('set.authPassLabel'))}</span>
-				<input class="modal-input" id="mAuthPass" type="password" placeholder="••••••••">
-			</div>
-			<div class="modal-actions">
-				<button class="modal-btn ghost" id="mCancel">${esc(t('common.cancel'))}</button>
-				<button class="modal-btn primary" id="mOk">${esc(t('set.add'))}</button>
-			</div>`);
-		document.getElementById('mCancel').onclick = closeModal;
-		const presetWrap = document.getElementById('authPresets');
-		if (presetWrap) {
-			presetWrap.querySelectorAll('.auth-preset').forEach(p => p.addEventListener('click', () => {
-				presetWrap.querySelectorAll('.auth-preset').forEach(x => x.classList.remove('active'));
-				p.classList.add('active');
-				document.getElementById('mAuthUrl').value = p.dataset.url;
-			}));
-		}
-		document.getElementById('mOk').onclick = async () => {
-			const serverUrl = document.getElementById('mAuthUrl').value.trim();
-			const userName = document.getElementById('mAuthUser').value.trim();
-			const password = document.getElementById('mAuthPass').value;
-			if (!serverUrl || !userName || !password) { toast(t('set.authFieldsRequired')); return; }
-			closeModal();
-			try {
-				await SG.api.authlibLogin(serverUrl, userName, password);
-				await loadAccounts(true);
-				invalidate('skins');
-				const v = document.getElementById('view-settings');
-				v.innerHTML = await renderSettings(); bindSettings(v);
-				refreshSidebarAccount();
-				toast(t('set.authlibSuccess', { name: userName }));
-			} catch (e) { toast(t('set.authlibFailed') + (e.message || t('common.unknownError'))); }
-		};
-	});
-	el.querySelector('#btnSignOut')?.addEventListener('click', () => {
-		if (ACCOUNTS.length <= 1) { toast(t('set.onlyOneAccount')); return; }
-		const cur = ACCOUNTS.findIndex(a => a.selected);
-		const next = ACCOUNTS[(cur + 1) % ACCOUNTS.length];
-		SG.api.selectAccount(next.id).then(async () => {
-			await loadAccounts(true);
-			invalidate('skins');
-			const v = document.getElementById('view-settings');
-			v.innerHTML = await renderSettings(); bindSettings(v);
-			refreshSidebarAccount();
-			toast(t('set.switchedTo', { name: next.userName }));
-		}).catch(err => toast(t('set.switchFailed') + (err.message || '')));
-	});
-	el.querySelector('#btnAddAccount')?.addEventListener('click', () => {
-		openModal(`
-			<div class="modal-title">${esc(t('set.addOfflineTitle'))}</div>
-			<div class="page-sub">${esc(t('set.addOfflineDesc'))}</div>
-			<div class="modal-field"><span class="modal-label">${esc(t('set.playerNameLabel'))}</span><input class="modal-input" id="mAccName" placeholder="Player"></div>
-			<div class="modal-actions">
-				<button class="modal-btn ghost" id="mCancel">${esc(t('common.cancel'))}</button>
-				<button class="modal-btn primary" id="mOk">${esc(t('set.add'))}</button>
-			</div>`);
-		document.getElementById('mCancel').onclick = closeModal;
-		document.getElementById('mOk').onclick = async () => {
-			const name = document.getElementById('mAccName').value.trim();
-			if (!name) { toast(t('set.playerNameRequired')); return; }
-			closeModal();
-			try {
-				await SG.api.addOfflineAccount(name);
-				await loadAccounts(true);
-				invalidate('skins');
-				const v = document.getElementById('view-settings');
-				v.innerHTML = await renderSettings(); bindSettings(v);
-				refreshSidebarAccount();
-				toast(t('set.accountAdded', { name }));
-			} catch (e) { toast(t('set.addFailed') + (e.message || t('common.unknownError'))); }
-		};
-	});
-
-	// 账号卡片：点击切换账户	// 账号卡片：点击切换账户
-	el.querySelectorAll('.account-card').forEach(card => {
-		card.addEventListener('click', async e => {
-			if (e.target.closest('.account-card-del')) return;
-			const id = card.dataset.account;
-			const target = ACCOUNTS.find(a => a.id === id);
-			if (!target || target.selected) return;
-			try {
-				await SG.api.selectAccount(id);
-				await loadAccounts(true);
-				invalidate('skins');
-				const v = document.getElementById('view-settings');
-				v.innerHTML = await renderSettings(); bindSettings(v);
-				refreshSidebarAccount();
-				toast(t('set.switchedTo', { name: target.userName }));
-			} catch (err) { toast(t('set.switchFailed') + (err.message || '')); }
-		});
-	});
-	// 删除账户
-	el.querySelectorAll('.account-card-del').forEach(btn => {
-		btn.addEventListener('click', async e => {
-			e.stopPropagation();
-			const id = btn.dataset.del;
-			const target = ACCOUNTS.find(a => a.id === id);
-			if (!target) return;
-			if (!confirm(t('set.deleteConfirm', { name: target.userName }))) return;
-			try {
-				await SG.api.deleteAccount(id);
-				await loadAccounts(true);
-				invalidate('skins');
-				const v = document.getElementById('view-settings');
-				v.innerHTML = await renderSettings(); bindSettings(v);
-				refreshSidebarAccount();
-				toast(t('set.accountDeleted', { name: target.userName }));
-			} catch (err) { toast(t('set.deleteFailed') + (err.message || '')); }
-		});
-	});	addUpdateBindings(el);
-}
+/* ---------------- Settings 页 ----------------
+   M1-3 第三步收尾：本视图已整体拆至 js/settings.js（SG.settings）。
+   与 content 的差别：settings 没有导航级状态，它读写的是 STATE.config 的属性，
+   所以注入的是 getState() 取值函数（STATE 是对象引用，改属性作用于同一对象）。
+   设置页内部 6 处「改完整页刷新」抽成了模块内的 rerenderInPlace()。
+   下列薄委托保留旧名字，供 VIEWS 路由表、openAiManage 的回调与 SG.__test__ 使用。
+   ---- 未拆：Settings 更新区（updateMonitor 等）仍在本文件，其后紧接。 --- */
+async function renderSettings() { return SG.settings.render(); }
+function bindSettings(el) { return SG.settings.bind(el); }
 
 /* ---------------- Settings 更新区 ---------------- */
 let updateMonitor = null;
@@ -3413,6 +2843,26 @@ SG.content.__wire({
 	},
 	uiIcon,
 	uiSearch,
+});
+
+/* M1-3 第三步收尾：设置页已拆至 js/settings.js（SG.settings）。
+ * settings 没有导航级状态，全部读写都落在 STATE.config 的属性上，所以这里传
+ * getState() 取值函数——STATE 是对象引用，视图侧的 `_getState().config.x = v`
+ * 与本文件的 `STATE.config.x = v` 作用于同一个对象。
+ * addUpdateBindings / refreshSidebarAccount 仍在本文件（更新区未拆），传给它是
+ * 为了让设置页在账户操作后仍能刷新侧栏与更新区。 */
+SG.settings.__wire({
+	toast,
+	openModal,
+	closeModal,
+	invalidate,
+	refreshSidebarAccount,
+	openAiManage,
+	addUpdateBindings,
+	loadAccounts,
+	loadState,
+	getState: () => STATE,
+	uiIcon,
 });
 
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

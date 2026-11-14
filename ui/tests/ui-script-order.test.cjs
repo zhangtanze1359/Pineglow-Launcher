@@ -118,8 +118,8 @@ test('依赖关系满足：i18n 在 api 之前，api 在 playtime 之前，playt
 
 /* 文件名 → SG 命名空间。多数模块同名，但 skin-visuals.js 的命名空间是
  * SG.skinVisuals（连字符在 JS 标识符里非法），必须显式登记，不能靠文件名推导。 */
-const NS = { playtime: 'playtime', news: 'news', downloads: 'downloads', skins: 'skins', content: 'content', 'skin-visuals': 'skinVisuals' };
-const VIEW_MODULES = ['playtime', 'news', 'downloads', 'skins', 'content'];
+const NS = { playtime: 'playtime', news: 'news', downloads: 'downloads', skins: 'skins', content: 'content', settings: 'settings', 'skin-visuals': 'skinVisuals' };
+const VIEW_MODULES = ['playtime', 'news', 'downloads', 'skins', 'content', 'settings'];
 /* 跨视图共享层的模块：没有独立的 render/bind 入口，但同样必须被生产加载。
  * 单独列出来是因为上面那组断言要求 render+bind 委托，对共享层不成立。 */
 const SHARED_MODULES = ['skin-visuals'];

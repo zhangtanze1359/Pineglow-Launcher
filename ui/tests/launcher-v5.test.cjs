@@ -30,6 +30,7 @@ const DOWNLOADS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'downloads.js')
 const SKINVIS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'skin-visuals.js'), 'utf8');
 const SKINS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'skins.js'), 'utf8');
 const CONTENT_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'content.js'), 'utf8');
+const SETTINGS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'settings.js'), 'utf8');
 const I18N_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'i18n.js'), 'utf8');
 
 /* ============== 标准浏览器语义 DOM 桩（v5 升级） ==============
@@ -293,7 +294,7 @@ function loadV5(opts) {
 	vm.createContext(ctx);
 	vm.runInContext(I18N_JS, ctx);
 	ctx.SG.api = makeApiStub(opts);
-	try { vm.runInContext(NEWS_JS, ctx); vm.runInContext(DOWNLOADS_JS, ctx); vm.runInContext(SKINVIS_JS, ctx); vm.runInContext(SKINS_JS, ctx); vm.runInContext(CONTENT_JS, ctx); vm.runInContext(LAUNCHER_JS, ctx); }
+	try { vm.runInContext(NEWS_JS, ctx); vm.runInContext(DOWNLOADS_JS, ctx); vm.runInContext(SKINVIS_JS, ctx); vm.runInContext(SKINS_JS, ctx); vm.runInContext(CONTENT_JS, ctx); vm.runInContext(SETTINGS_JS, ctx); vm.runInContext(LAUNCHER_JS, ctx); }
 	catch (e) { process.stderr.write('LOAD_V5_ERROR: ' + (e && e.stack ? e.stack : e) + '\n'); throw e; }
 	if (!ctx.SG.__test__) throw new Error('SG.__test__ 未注入');
 	return { ctx, document, T: ctx.SG.__test__, api: ctx.SG.api, views };

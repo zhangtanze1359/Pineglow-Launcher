@@ -23,7 +23,14 @@ const vm = require('node:vm');
 const ROOT = path.resolve(__dirname, '..', '..');
 const I18N_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'i18n.js'), 'utf8');
 const API_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api.js'), 'utf8');
-const LAUNCHER_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'launcher.js'), 'utf8');
+/* M1-3：设置页已拆到 ui/js/settings.js（SG.settings）。
+   本文件的 MR20 静态扫描跨两处：updateTrust 容器在 settings.js 的 renderSettings 里，
+   renderUpdateTrust / initUpdateSection 仍在 launcher.js 的更新区。
+   拼起来扫描，断言本身一条不改。
+   ★ settings.js 放前面：有几处 indexOf 取首次出现。 */
+const LAUNCHER_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'settings.js'), 'utf8')
+	+ '\n/* ---- ui/js/launcher.js ---- */\n'
+	+ fs.readFileSync(path.join(ROOT, 'ui', 'js', 'launcher.js'), 'utf8');
 
 function makeStubBrowser(opts) {
 	opts = opts || {};

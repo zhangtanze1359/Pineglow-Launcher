@@ -36,7 +36,11 @@
  *  12. `js/content.js`        —— 资源库视图。★ 它的 pageGen / debounce 定时器**仍归
  *                                launcher 所有**（goTo 是唯一写者），本模块经
  *                                SG.content.__wire 拿到 pageGen() 读取器与 setDebounce()
- *  13. `js/launcher.js`       —— 主壳，依赖以上全部
+ *  13. `js/settings.js`       —— 设置页。读写 STATE.config（注入 getState()）；
+ *                                toast/openModal/closeModal/invalidate/
+ *                                refreshSidebarAccount/openAiManage/addUpdateBindings/
+ *                                loadAccounts/loadState/uiIcon 由 SG.settings.__wire 注入
+ *  14. `js/launcher.js`       —— 主壳，依赖以上全部
  */
 const SCRIPT_ORDER = [
 	'vendor/three.min.js',
@@ -51,6 +55,7 @@ const SCRIPT_ORDER = [
 	'js/skin-visuals.js',
 	'js/skins.js',
 	'js/content.js',
+	'js/settings.js',
 	'js/launcher.js',
 ];
 

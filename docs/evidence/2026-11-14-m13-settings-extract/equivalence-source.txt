@@ -1,0 +1,9 @@
+✔ AUTH_PRESETS（归一化后一致，277 字符）
+✔ sourceLabel（归一化后一致，184 字符）
+✔ openSourcePicker（归一化后一致，2656 字符）
+✔ renderSettings（归一化后一致，5882 字符）
+✔ bindSettings（归一化后一致，16153 字符）
+✔ aiActiveName（归一化后一致，172 字符）
+✔ renderAccountCards（归一化后一致，1302 字符）
+
+结论：7/7 归一化后全部一致

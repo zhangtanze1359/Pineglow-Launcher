@@ -27,6 +27,7 @@ const DOWNLOADS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'downloads.js')
 const SKINVIS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'skin-visuals.js'), 'utf8');
 const SKINS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'skins.js'), 'utf8');
 const CONTENT_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'content.js'), 'utf8');
+const SETTINGS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'settings.js'), 'utf8');
 const I18N_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'i18n.js'), 'utf8');
 const API_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api.js'), 'utf8');
 
@@ -463,6 +464,7 @@ function loadGoalLauncher(apiOverrides, options) {
 	vm.runInContext(SKINVIS_JS, ctx, { filename: 'skin-visuals.js' });
 	vm.runInContext(SKINS_JS, ctx, { filename: 'skins.js' });
 	vm.runInContext(CONTENT_JS, ctx, { filename: 'content.js' });
+	vm.runInContext(SETTINGS_JS, ctx, { filename: 'settings.js' });
 
 	vm.runInContext(LAUNCHER_JS, ctx);
 	const T = ctx.SG.__test__;
