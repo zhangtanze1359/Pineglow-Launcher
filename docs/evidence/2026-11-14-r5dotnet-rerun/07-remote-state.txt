@@ -1,0 +1,26 @@
+# R5-03 远端状态（只读查询）
+# 采集时间：2026-11-14T16:42:32+08:00
+
+## git ls-remote --heads origin
+6a64a0130ad3b82f0eee23e82d956d2096f35509	refs/heads/codex/release-diagnose-20261103
+30f7b56e97370246628c7a1df6276af8c02fdb86	refs/heads/codex/release-fix-20261103
+37c342106f0f5279b90b6df977a47e7768bc3b95	refs/heads/codex/release-linux-baseline-20261103
+efb3b410a6e2fe9e89c134f3f5cff0042591a483	refs/heads/docs/remediation-20261106
+5e8ae56bd1fec95c6d0dbe6cfac9b7b3c3a83932	refs/heads/integration/v1.1.0-20261107
+30f7b56e97370246628c7a1df6276af8c02fdb86	refs/heads/main
+27545a8498ff88569021bdb7ccef1a24bdd6c86f	refs/heads/remediation/v1.1.0
+exit=0
+
+## git ls-remote --tags origin
+f61f44f83ac7e9345f5f022c16724ad24cb72666	refs/tags/v1.0.0
+8845574f788327f4c5bdd0771e2c317e49fe9145	refs/tags/v1.0.1
+fbe38161cbbadd26e75b2a179b95c883a8634a4f	refs/tags/v1.0.2
+724fed50bbd04c8383381cd04d7feac81aa92f49	refs/tags/v1.0.2^{}
+019da388a3bba0bde8f2bec69ab4d6b44808845a	refs/tags/v1.0.3
+30f7b56e97370246628c7a1df6276af8c02fdb86	refs/tags/v1.0.3^{}
+exit=0
+
+## 本地 HEAD 与远端 integration 头对比
+local  = 4de65f029692db49b348f01f9d991866ed33026f
+remote = 5e8ae56bd1fec95c6d0dbe6cfac9b7b3c3a83932
+未推送提交数 = 10

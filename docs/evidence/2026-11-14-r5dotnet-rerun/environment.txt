@@ -1,0 +1,19 @@
+# R5-01 环境与版本记录
+# 采集时间：2026-11-14T16:36:40+08:00
+HEAD=4de65f029692db49b348f01f9d991866ed33026f
+BRANCH=integration/v1.1.0-20261107
+REMOTE_HEAD=5e8ae56bd1fec95c6d0dbe6cfac9b7b3c3a83932
+DOTNET_SDK=10.0.301
+NODE=v24.19.0
+OS=MINGW64_NT-10.0-26200 3.6.9-b4195d69.x86_64
+TEMP=C:\Users\Administrator\AppData\Local\Temp
+
+# 工作树状态（应为空）
+?? docs/evidence/2026-11-14-r5dotnet-rerun/environment.txt
+?? "docs/evidence/2026-11-14-\350\277\233\345\272\246\345\233\276.md"
+
+# 说明：上面两行未跟踪项是"正在写证据"这件事本身造成的
+#   - environment.txt 正在被写入
+#   - 进度图是用户要求留在工作区未提交的
+# 已跟踪文件此时无任何修改（git status 的 M 段为空）。
+# 这不是"工作树脏"的证据，原始输出保留不改。
