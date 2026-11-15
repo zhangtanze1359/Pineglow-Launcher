@@ -1,0 +1,17 @@
+# 归档复核（提交前实时重算 sha256）
+# 采集时间：2026-11-15
+# 口径：manifest 的 path 是相对主仓库的路径（docs\<name>\...），
+#       归档目录已去掉 docs\<name>\ 前缀，故校验时剥掉前两段。
+
+## release-candidate-2026-11-03
+  manifest 记录 = 206
+  sha256 通过   = 206
+  不一致        = 0
+  缺失          = 0
+
+## csharp-refactoring-2026-11-03
+  manifest 记录 = 42
+  sha256 通过   = 42
+  不一致        = 0
+  缺失          = 0
+

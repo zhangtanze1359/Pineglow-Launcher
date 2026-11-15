@@ -1,0 +1,36 @@
+# 主仓库工作区终态
+# 采集时间：2026-11-15
+
+## git status --porcelain -uall（全部输出）
+?? AGENTS.md
+?? docs/evidence/2026-11-07-c1/判定报告.md
+?? docs/evidence/2026-11-07-r5/验收报告-R5b.md
+?? docs/evidence/2026-11-07-r5/验收报告.md
+?? docs/evidence/2026-11-08-m22/清账表.md
+?? docs/handoff/HANDOFF-2026-11-07-claude-code.md
+?? docs/handoff/HANDOFF-2026-11-07-codex.md
+?? docs/handoff/HANDOFF-2026-11-07-dsh.md
+?? docs/handoff/HANDOFF-2026-11-07-workbuddy.md
+?? docs/handoff/round2-2026-11-08/00-索引与顺序.md
+?? docs/handoff/round2-2026-11-08/01-workbuddy-台账.md
+?? docs/handoff/round2-2026-11-08/02-codex-M2-2清账.md
+?? docs/handoff/round2-2026-11-08/03-dsh-执行.md
+?? docs/handoff/round2-2026-11-08/04-codex-验收.md
+?? docs/handoff/合流记录-2026-11-07.md
+?? docs/handoff/派工总表-2026-11-07.md
+?? docs/release-diagnosis-2026-11-03/发布阻断修复流程.md
+?? docs/release-diagnosis-2026-11-03/执行提示词.md
+?? docs/superpowers/plans/2026-11-03-launch-arguments-refactoring.md
+?? docs/superpowers/plans/2026-11-04-v1.1.0-main-update-plan.md
+?? docs/整改与发布详细计划-2026-11-05.html
+?? docs/现状基线-2026-11-07.md
+?? docs/项目深度解读-2026-11-05.html
+?? ui/preview-motion.html
+
+## 统计
+已修改          = 0
+未跟踪          = 24
+stash 条数      = 0
+
+## 清单双向断言
+[inventory] 清单校验通过：node 测试 28 个，C# 项目 1 个，磁盘发现一致 28 个

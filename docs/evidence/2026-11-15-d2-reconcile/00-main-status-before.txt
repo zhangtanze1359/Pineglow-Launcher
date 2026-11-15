@@ -1,0 +1,261 @@
+ M .gitignore
+ M dev/PineglowLauncher/Assets/AppIcon.ico
+ M dev/PineglowLauncher/Assets/AppIcon.png
+ M dev/PineglowLauncher/Pineglow.Launcher.Services/LauncherService.cs
+ M dev/PineglowLauncher/Pineglow.Launcher.Views/Shell/WebShellWindow.axaml
+ M dev/PineglowLauncher/app.ico
+ M scripts/test-inventory.txt
+ M ui/css/figma.css
+ M ui/css/pineglow.css
+ M ui/css/redesign.css
+ M ui/index.html
+ M ui/js/i18n.js
+ M ui/js/launcher.js
+?? AGENTS.md
+?? docs/csharp-refactoring-2026-11-03/.gitignore
+?? docs/csharp-refactoring-2026-11-03/LauncherService.cs.before
+?? docs/csharp-refactoring-2026-11-03/README.md
+?? docs/csharp-refactoring-2026-11-03/after-arguments.json
+?? docs/csharp-refactoring-2026-11-03/after-build.exitcode
+?? docs/csharp-refactoring-2026-11-03/after-build.log
+?? docs/csharp-refactoring-2026-11-03/after-probe.exitcode
+?? docs/csharp-refactoring-2026-11-03/after-probe.log
+?? docs/csharp-refactoring-2026-11-03/after-tests.exitcode
+?? docs/csharp-refactoring-2026-11-03/after-tests.log
+?? docs/csharp-refactoring-2026-11-03/after-tests/Administrator_PC-20260705RBJQ_2026-11-03_13_24_03_net10.0.trx
+?? docs/csharp-refactoring-2026-11-03/argument-comparison.json
+?? docs/csharp-refactoring-2026-11-03/argument-probe/ArgumentProbe.csproj
+?? docs/csharp-refactoring-2026-11-03/argument-probe/Program.cs
+?? docs/csharp-refactoring-2026-11-03/baseline-arguments.json
+?? docs/csharp-refactoring-2026-11-03/baseline-build.exitcode
+?? docs/csharp-refactoring-2026-11-03/baseline-build.log
+?? docs/csharp-refactoring-2026-11-03/baseline-isolated-tests.exitcode
+?? docs/csharp-refactoring-2026-11-03/baseline-isolated-tests.log
+?? docs/csharp-refactoring-2026-11-03/baseline-isolated-tests/Administrator_PC-20260705RBJQ_2026-11-03_13_23_31_net10.0.trx
+?? docs/csharp-refactoring-2026-11-03/baseline-probe.exitcode
+?? docs/csharp-refactoring-2026-11-03/baseline-probe.log
+?? docs/csharp-refactoring-2026-11-03/baseline-tests.exitcode
+?? docs/csharp-refactoring-2026-11-03/baseline-tests.log
+?? docs/csharp-refactoring-2026-11-03/baseline-tests/Administrator_PC-20260705RBJQ_2026-11-03_13_23_10_net10.0.trx
+?? docs/csharp-refactoring-2026-11-03/baseline.json
+?? docs/csharp-refactoring-2026-11-03/checks.json
+?? docs/csharp-refactoring-2026-11-03/diff-check.exitcode
+?? docs/csharp-refactoring-2026-11-03/diff-check.log
+?? docs/csharp-refactoring-2026-11-03/final-manifest.json
+?? docs/csharp-refactoring-2026-11-03/inheritance-tests.exitcode
+?? docs/csharp-refactoring-2026-11-03/inheritance-tests.log
+?? docs/csharp-refactoring-2026-11-03/inheritance-tests/Administrator_PC-20260705RBJQ_2026-11-03_13_24_31_net10.0.trx
+?? docs/csharp-refactoring-2026-11-03/self-evaluation.md
+?? docs/csharp-refactoring-2026-11-03/source.diff
+?? docs/csharp-refactoring-2026-11-03/verifyhost-build.exitcode
+?? docs/csharp-refactoring-2026-11-03/verifyhost-build.log
+?? docs/evidence/2026-11-07-c1/判定报告.md
+?? docs/evidence/2026-11-07-r5/验收报告-R5b.md
+?? docs/evidence/2026-11-07-r5/验收报告.md
+?? docs/evidence/2026-11-08-m22/清账表.md
+?? docs/handoff/HANDOFF-2026-11-07-claude-code.md
+?? docs/handoff/HANDOFF-2026-11-07-codex.md
+?? docs/handoff/HANDOFF-2026-11-07-dsh.md
+?? docs/handoff/HANDOFF-2026-11-07-workbuddy.md
+?? docs/handoff/round2-2026-11-08/00-索引与顺序.md
+?? docs/handoff/round2-2026-11-08/01-workbuddy-台账.md
+?? docs/handoff/round2-2026-11-08/02-codex-M2-2清账.md
+?? docs/handoff/round2-2026-11-08/03-dsh-执行.md
+?? docs/handoff/round2-2026-11-08/04-codex-验收.md
+?? docs/handoff/合流记录-2026-11-07.md
+?? docs/handoff/派工总表-2026-11-07.md
+?? docs/release-candidate-2026-11-03/cold-start-outside.exitcode
+?? docs/release-candidate-2026-11-03/cold-start-outside.json
+?? docs/release-candidate-2026-11-03/cold-start.exitcode
+?? docs/release-candidate-2026-11-03/cold-start.json
+?? docs/release-candidate-2026-11-03/dotnet-tests.exitcode
+?? docs/release-candidate-2026-11-03/node-tests.exitcode
+?? docs/release-candidate-2026-11-03/publish.exitcode
+?? docs/release-candidate-2026-11-03/publish/libHarfBuzzSharp.pdb
+?? docs/release-candidate-2026-11-03/publish/libSkiaSharp.pdb
+?? docs/release-candidate-2026-11-03/rid-packages.lock.json
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Crashpad/metadata"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Crashpad/settings.dat"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Crashpad/throttle_store.dat"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/AutofillAiModelCache/LOCK"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/AutofillAiModelCache/LOG"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/AutofillStrikeDatabase/LOCK"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/AutofillStrikeDatabase/LOG"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/BookmarkMergedSurfaceOrdering"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/BudgetDatabase/LOCK"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/BudgetDatabase/LOG"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Cache/Cache_Data/data_0"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Cache/Cache_Data/data_1"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Cache/Cache_Data/data_2"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Cache/Cache_Data/data_3"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Cache/Cache_Data/index"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Cache/No_Vary_Search/journal.baj"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Cache/No_Vary_Search/snapshot.baf"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/ClientCertificates/LOCK"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/ClientCertificates/LOG"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Code Cache/js/index"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Code Cache/js/index-dir/the-real-index"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Code Cache/wasm/index"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Code Cache/wasm/index-dir/the-real-index"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/DIPS"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/DIPS-wal"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/DawnGraphiteCache/data_0"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/DawnGraphiteCache/data_1"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/DawnGraphiteCache/data_2"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/DawnGraphiteCache/data_3"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/DawnGraphiteCache/index"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/DawnWebGPUCache/data_0"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/DawnWebGPUCache/data_1"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/DawnWebGPUCache/data_2"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/DawnWebGPUCache/data_3"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/DawnWebGPUCache/index"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/EdgeSessions/SessionRestoreLog"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Extension Rules/CURRENT"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Extension Rules/LOCK"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Extension Rules/LOG"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Extension Rules/MANIFEST-000001"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Extension Scripts/CURRENT"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Extension Scripts/LOCK"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Extension Scripts/LOG"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Extension Scripts/MANIFEST-000001"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Extension State/CURRENT"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Extension State/LOCK"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Extension State/LOG"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Extension State/MANIFEST-000001"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/ExtensionActivityEdge"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/ExtensionActivityEdge-journal"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Favicons"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Favicons-journal"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Feature Engagement Tracker/AvailabilityDB/LOCK"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Feature Engagement Tracker/AvailabilityDB/LOG"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Feature Engagement Tracker/EventDB/LOCK"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Feature Engagement Tracker/EventDB/LOG"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/GPUCache/data_0"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/GPUCache/data_1"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/GPUCache/data_2"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/GPUCache/data_3"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/GPUCache/index"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/History"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/History-journal"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/LOCK"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/LOG"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Local Storage/leveldb/CURRENT"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Local Storage/leveldb/LOCK"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Local Storage/leveldb/LOG"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Local Storage/leveldb/MANIFEST-000001"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Login Data"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Login Data For Account"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Login Data For Account-journal"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Login Data-journal"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Network Action Predictor"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Network Action Predictor-journal"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Network/Cookies"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Network/Cookies-journal"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Network/Device Bound Sessions"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Network/Device Bound Sessions-journal"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Network/Network Persistent State"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Network/NetworkDataMigrated"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Network/Reporting and NEL"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Network/Reporting and NEL-journal"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Network/SCT Auditing Pending Reports"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Network/Sdch Dictionaries"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Network/Trust Tokens"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Network/Trust Tokens-journal"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/PersistentOriginTrials/LOCK"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/PersistentOriginTrials/LOG"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Preferences"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/README"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Secure Preferences"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/ServerCertificate"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/ServerCertificate-journal"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Shared Dictionary/cache/index"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Shared Dictionary/cache/index-dir/the-real-index"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Shared Dictionary/db"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Shared Dictionary/db-journal"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Site Characteristics Database/CURRENT"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Site Characteristics Database/LOCK"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Site Characteristics Database/LOG"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Site Characteristics Database/MANIFEST-000001"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Sync Data/LevelDB/CURRENT"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Sync Data/LevelDB/LOCK"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Sync Data/LevelDB/LOG"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Sync Data/LevelDB/MANIFEST-000001"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Top Sites"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Top Sites-journal"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Vpn Tokens"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Vpn Tokens-journal"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Web Data"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/Web Data-journal"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/commerce_subscription_db/LOCK"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/commerce_subscription_db/LOG"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/declarative_performance_observer.db"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/declarative_performance_observer.db-journal"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/discount_infos_db/LOCK"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/discount_infos_db/LOG"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/discounts_db/LOCK"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/discounts_db/LOG"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/optimization_guide_hint_cache_store/LOCK"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/optimization_guide_hint_cache_store/LOG"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/parcel_tracking_db/LOCK"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/parcel_tracking_db/LOG"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/shared_proto_db/CURRENT"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/shared_proto_db/LOCK"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/shared_proto_db/LOG"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/shared_proto_db/MANIFEST-000001"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/shared_proto_db/metadata/CURRENT"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/shared_proto_db/metadata/LOCK"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/shared_proto_db/metadata/LOG"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Default/shared_proto_db/metadata/MANIFEST-000001"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/GPUPersistentCache/DawnGraphiteCache/VUIMOGEQSLQ64H7PBD4SBP3YY7MWDE7S/cache.db"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/GPUPersistentCache/DawnGraphiteCache/VUIMOGEQSLQ64H7PBD4SBP3YY7MWDE7S/cache.db-wal"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/GPUPersistentCache/DawnGraphiteCache/VUIMOGEQSLQ64H7PBD4SBP3YY7MWDE7S/cache.journal"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/GrShaderCache/data_0"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/GrShaderCache/data_1"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/GrShaderCache/data_2"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/GrShaderCache/data_3"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/GrShaderCache/f_000001"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/GrShaderCache/f_000002"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/GrShaderCache/f_000003"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/GrShaderCache/index"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Last Version"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Local State"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/ShaderCache/data_0"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/ShaderCache/data_1"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/ShaderCache/data_2"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/ShaderCache/data_3"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/ShaderCache/index"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/Variations"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/VariationsRuntimeSeedV2"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/VariationsSafeSeedV2"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/VariationsSeedV2"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/Pineglow.Launcher.exe.WebView2/EBWebView/component_crx_cache/metadata.json"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/bundle-extract/Pineglow.Launcher/nruurMq8q7Cv/av_libglesv2.dll"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/bundle-extract/Pineglow.Launcher/nruurMq8q7Cv/libHarfBuzzSharp.dll"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/bundle-extract/Pineglow.Launcher/nruurMq8q7Cv/libSkiaSharp.dll"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/data/UI/1.0.1-5e83ae616088/css/figma.css"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/data/UI/1.0.1-5e83ae616088/css/pineglow.css"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/data/UI/1.0.1-5e83ae616088/css/redesign.css"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/data/UI/1.0.1-5e83ae616088/index.html"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/data/UI/1.0.1-5e83ae616088/js/api.js"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/data/UI/1.0.1-5e83ae616088/js/i18n.js"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/data/UI/1.0.1-5e83ae616088/js/launcher.js"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/data/UI/1.0.1-5e83ae616088/js/playtime.js"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/data/UI/1.0.1-5e83ae616088/js/skin3d-core.js"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/data/UI/1.0.1-5e83ae616088/js/skin3d.js"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/data/UI/1.0.1-5e83ae616088/js/update-monitor.js"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/data/UI/1.0.1-5e83ae616088/vendor/README.md"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/data/UI/1.0.1-5e83ae616088/vendor/THREE-LICENSE.txt"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/data/UI/1.0.1-5e83ae616088/vendor/three.min.js"
+?? "docs/release-candidate-2026-11-03/中文 冷启动 5602102145d14701a0d1d4e57cdab5f2/portable.flag"
+?? docs/release-diagnosis-2026-11-03/发布阻断修复流程.md
+?? docs/release-diagnosis-2026-11-03/执行提示词.md
+?? docs/superpowers/plans/2026-11-03-launch-arguments-refactoring.md
+?? docs/superpowers/plans/2026-11-04-v1.1.0-main-update-plan.md
+?? docs/整改与发布详细计划-2026-11-05.html
+?? docs/现状基线-2026-11-07.md
+?? docs/项目深度解读-2026-11-05.html
+?? ui/assets/app-icon.png
+?? ui/assets/biome-campfire.svg
+?? ui/assets/biome-end.svg
+?? ui/preview-motion.html
+?? ui/tests/ui-theme-biome.test.cjs

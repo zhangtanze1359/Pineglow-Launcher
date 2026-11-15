@@ -1,0 +1,23 @@
+# 隔离分支 wip/biome-theme-20261115 复核
+# 采集时间：2026-11-15
+
+## git log
+f366329 wip(ui): 保全主仓库工作区中未提交的 biome 主题功能
+
+## 保全文案（7 个文件在同 tree 里）
+100644 blob 5868dd970cc1cb0ec0b349e64513b116e9240828	.gitignore
+100644 blob 508e3b0b647db1d145bf2795c44c407999fb46c5	ui/assets/biome-campfire.svg
+100644 blob 8225e59591274733f1b779ef4a25cda4d4d3d40b	ui/assets/biome-end.svg
+100644 blob 959e2a6c50a767466ba983175cdf1d0bfda2dbd0	ui/css/pineglow.css
+100644 blob 0a53a30fdfb3135febfa9eebd7dbe6bce1380929	ui/css/redesign.css
+100644 blob 04b50cb1f60751358022f0939b367f883e8a6ce7	ui/js/launcher.js
+100644 blob 2c664b3edde41665c0f1af1e772d10a02192a249	ui/tests/ui-theme-biome.test.cjs
+
+## 与主仓库 checkout 前的工作区内容比对（忽略行尾）
+  一致  .gitignore
+  一致  ui/css/pineglow.css
+  一致  ui/css/redesign.css
+  一致  ui/js/launcher.js
+  一致  ui/assets/biome-campfire.svg
+  一致  ui/assets/biome-end.svg
+  一致  ui/tests/ui-theme-biome.test.cjs
