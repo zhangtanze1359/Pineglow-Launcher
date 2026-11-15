@@ -1,0 +1,3 @@
+[inventory] 清单校验失败（node=34 项目=1 磁盘发现=35）
+  - 磁盘上有 1 个未登记的 *.test.cjs（新增测试必须登记，否则 CI 不会跑）: ui/tests/zzz-unregistered.test.cjs
+exit=1
