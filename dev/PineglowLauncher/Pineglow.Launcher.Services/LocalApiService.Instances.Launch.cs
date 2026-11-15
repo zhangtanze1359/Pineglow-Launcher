@@ -155,6 +155,12 @@ public static partial class LocalApiService
 						SaveConfig(latest);
 					}
 				}
+				// D3②「退出后自动备份」：实例级开关，判定在 AutoBackupPlanner（纯函数），
+				// 执行在 AutoBackupService（只读源存档、单条失败不中断）。
+				//
+				// 与"退出后自动关闭"的时序：**先备份，再关窗**，备份给 20 秒上限，超时放弃本次备份照常退出。
+				// 反过来（先关窗再备份）会被下面的 Environment.Exit(0) 直接截断，开关就等于形同虚设。
+				await TryRunAutoBackupOnExitAsync(instanceId);
 				if (autoCloseOnExit)
 				{
 					Avalonia.Threading.Dispatcher.UIThread.Post(() =>
@@ -179,6 +185,40 @@ public static partial class LocalApiService
 			}
 		});
 		await WriteJsonAsync(response, 200, new { ok = true, pid = process.Id, minimizeOnLaunch });
+	}
+
+	/// <summary>
+	/// D3②：游戏进程退出后跑一次自动备份。**永不抛异常**——它跑在退出监听里，
+	/// 一旦抛出去会让"记录游玩时长 / 清理运行态 / 自动关窗"全部跳过。
+	/// </summary>
+	private static async Task TryRunAutoBackupOnExitAsync(string instanceId)
+	{
+		try
+		{
+			AppConfig latest = LoadConfig();
+			GameInstance? instance = latest.Instances.FirstOrDefault(x => x.Id == instanceId);
+			if (instance == null || !instance.AutoBackupOnExit)
+			{
+				return;
+			}
+
+			string gameDirectory = ResolveGameDirectory(latest, instance);
+			Task<AutoBackupOutcome> run = Task.Run(() => AutoBackupService.TryBackupOnExit(
+				latest, instanceId, gameDirectory, DateTimeOffset.Now, message => Debug.WriteLine(message)));
+
+			Task completed = await Task.WhenAny(run, Task.Delay(TimeSpan.FromSeconds(20)));
+			if (completed != run)
+			{
+				Debug.WriteLine("[auto-backup] 超过 20 秒未完成，放弃本次备份（不阻塞退出）");
+				return;
+			}
+
+			await run;
+		}
+		catch (Exception ex)
+		{
+			Debug.WriteLine("[auto-backup] 未预期异常（已吞掉，不影响退出）：" + ex.Message);
+		}
 	}
 
 	private static string ResolveJavaPath(AppConfig config, GameInstance instance, string minecraftVersion)

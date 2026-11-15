@@ -432,6 +432,10 @@ function bindSettings(el) {
 	// 快捷操作
 	el.querySelector('#btnQuick')?.addEventListener('click', () => {
 		const cfg = _getState().config || {};
+		// D3②：自动备份是**实例级**开关，绑当前选中实例（没有实例时禁用该行）
+		const insts = _getState().instances || [];
+		const selInst = insts.find(i => i.selected) || insts[0] || null;
+		const instAutoBackup = !!(selInst && selInst.autoBackupOnExit);
 		_openModal(`
 			<div class="modal-title">${esc(t('set.quickName'))}</div>
 			<div class="page-sub">${esc(t('set.quickDesc'))}</div>
@@ -443,6 +447,10 @@ function bindSettings(el) {
 				<button class="toggle ${cfg.autoCloseOnExit ? 'on' : ''}" id="qClose" role="switch" aria-checked="${!!cfg.autoCloseOnExit}"></button>
 				<span class="quick-label">${esc(t('set.quickClose'))}</span>
 			</div>
+			<div class="quick-opt">
+				<button class="toggle ${instAutoBackup ? 'on' : ''}" id="qAutoBackup" role="switch" aria-checked="${!!instAutoBackup}" ${selInst ? '' : 'disabled'}></button>
+				<span class="quick-label">${esc(t('set.quickAutoBackup'))}</span>
+			</div>
 			<div class="modal-actions">
 				<button class="modal-btn ghost" id="qCancel">${esc(t('common.cancel'))}</button>
 				<button class="modal-btn primary" id="qOk">${esc(t('common.save'))}</button>
@@ -453,16 +461,23 @@ function bindSettings(el) {
 			t.classList.toggle('on');
 			t.setAttribute('aria-checked', t.classList.contains('on') ? 'true' : 'false');
 		};
-		bindToggle('qMin'); bindToggle('qClose');
+		bindToggle('qMin'); bindToggle('qClose'); bindToggle('qAutoBackup');
 		document.getElementById('qOk').onclick = async () => {
 			const payload = {
 				minimizeOnLaunch: document.getElementById('qMin').classList.contains('on'),
 				autoCloseOnExit: document.getElementById('qClose').classList.contains('on'),
 			};
+			const wantAutoBackup = document.getElementById('qAutoBackup').classList.contains('on');
+			const needsInstanceSave = !!(selInst && wantAutoBackup !== !!selInst.autoBackupOnExit);
 			_closeModal();
 			try {
 				await SG.api.updateConfig(payload);
 				Object.assign(_getState().config, payload);
+				// D3②：实例级开关单独走 /api/instances/{id}/settings，不塞进全局 config
+				if (needsInstanceSave) {
+					await SG.api.updateInstanceSettings(selInst.id, { autoBackupOnExit: wantAutoBackup });
+					selInst.autoBackupOnExit = wantAutoBackup;
+				}
 				_toast(t('set.quickSaved'));
 			} catch (err) { _toast(t('set.quickFailed') + (err.message || t('common.unknownError'))); }
 		};

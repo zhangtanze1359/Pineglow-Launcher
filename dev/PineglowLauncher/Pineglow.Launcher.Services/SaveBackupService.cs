@@ -26,8 +26,31 @@ public sealed class SaveBackupService
 		string text = Path.Combine(Path.GetDirectoryName(_saves.GetSavesDirectory(instance)), "backups", Sanitize(save.FolderName));
 		Directory.CreateDirectory(text);
 		string text2 = Path.Combine(text, $"{Sanitize(save.FolderName)}-{DateTime.Now:yyyyMMdd-HHmmss}.zip");
-		ZipFile.CreateFromDirectory(save.FullPath, text2, CompressionLevel.Fastest, includeBaseDirectory: true);
-		return text2;
+		// D3②（失败可回滚）：先写 `.partial` 再原子改名。
+		// 修复前 ZipFile.CreateFromDirectory 直写目标文件，压缩中途抛错会留下一个半成品 zip ——
+		// 它既不是有效备份，又会被用户当成备份列表里的"最新一份"。
+		// `.partial` 后缀不会被 GetBackups 的 *.zip 枚举命中，失败时直接删掉即可。
+		string partial = text2 + ".partial";
+		try
+		{
+			ZipFile.CreateFromDirectory(save.FullPath, partial, CompressionLevel.Fastest, includeBaseDirectory: true);
+			File.Move(partial, text2, overwrite: true);
+			return text2;
+		}
+		catch
+		{
+			try
+			{
+				if (File.Exists(partial))
+				{
+					File.Delete(partial);
+				}
+			}
+			catch
+			{
+			}
+			throw;
+		}
 	}
 
 	public string RestoreBackup(GameInstance instance, string backupPath)

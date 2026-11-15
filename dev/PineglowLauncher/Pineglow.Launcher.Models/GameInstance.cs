@@ -56,6 +56,12 @@ public sealed class GameInstance
 		TotalPlaySeconds += seconds;
 	}
 
+	/// <summary>
+	/// D3②「退出后自动备份」的**实例级开关**。
+	/// 默认 false —— 旧实例（config.json 里没有这个字段）反序列化后同样是 false，即"默认关闭"。
+	/// </summary>
+	public bool AutoBackupOnExit { get; set; }
+
 	public string Notes { get; set; } = string.Empty;
 
 	public string CustomJvmArgs { get; set; } = string.Empty;

@@ -64,6 +64,8 @@ public static partial class LocalApiService
 		r.Add(ApiRoute.Exact("POST", 3, "导入整合包", (ctx, _) => HandleImportInstanceAsync(ctx.Request, ctx.Response), (1, "instances"), (2, "import")));
 		r.Add(ApiRoute.Exact("POST", 4, "取消导入", (ctx, _) => HandleCancelImportAsync(ctx.Request, ctx.Response), (1, "instances"), (2, "import"), (3, "cancel")));
 		r.Add(ApiRoute.Exact("POST", 3, "重新挂回磁盘上的游戏目录", (ctx, _) => HandleRegisterInstanceAsync(ctx.Request, ctx.Response), (1, "instances"), (2, "register")));
+		// D3②：实例级设置（目前只有「退出后自动备份」一个字段）。
+		r.Add(ApiRoute.Exact("POST", 3, "更新实例设置", (ctx, s) => HandleUpdateInstanceSettingsAsync(ctx.Request, ctx.Response, s[2]), (1, "instances"), (2, "settings")));
 
 		// 诊断取消必须先于任何更宽松的 diagnose 匹配。
 		r.Add(ApiRoute.Exact("POST", 5, "取消 AI 诊断", (ctx, s) => HandleCancelDiagnoseAsync(ctx.Request, ctx.Response, s[2]), (1, "instances"), (3, "diagnose"), (4, "cancel")));

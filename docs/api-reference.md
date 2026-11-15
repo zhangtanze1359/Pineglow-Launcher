@@ -1,6 +1,6 @@
 # API 协议（LocalApiService）
 
-> **最后核对日：2026-11-06**（对照 `dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService*.cs`（18 个 partial）与 `Ui` 静态资源投放路径实测）。
+> **最后核对日：2026-11-15（D3② 新增实例设置端点）**（对照 `dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService*.cs`（18 个 partial）与 `Ui` 静态资源投放路径实测）。
 > 协议约定：错误响应体含 `error` 或 `message` 字段；业务错误返回 400，未捕获异常返回 500。
 
 ## 一、基础信息
@@ -32,8 +32,8 @@
 
 ## 二、完整端点表
 
-> 口径说明：下表按**端点路径**计数（同路径不同方法合并为一行，路径参数以 `{id}` 标注），共 59 条。
-> 源码口径是 **72 条路由项**（`LocalApiService.Routes.Count`，2026-11-06 实测；M1-1 起为可枚举表，
+> 口径说明：下表按**端点路径**计数（同路径不同方法合并为一行，路径参数以 `{id}` 标注）。2026-11-06 核对时为 59 条；2026-11-15 补入 `POST /api/instances/{id}/settings`（D3②），其余行未逐条重核——**这个数字不是重核结论**。
+> 源码口径：**2026-11-15 实测 76 条路由登记**（`grep -c 'r.Add(ApiRoute' LocalApiService.Routing.cs`）；2026-11-06 文档记的 72 条是当时的值，此后代码又增长（M2-1① 存档恢复等）。M1-1 起为可枚举表，
 > 与「可访问路径」不同层级：同路径不同方法在表里是两条）。两者不应互相校验，但比例失控即说明漏登记。
 > **旧口径作废**：此前写的「43 个 `seg[n].Equals(...)` 字面量分支」是手工 if 链时代的计数，M1-1 改造后该形态已不存在。
 
@@ -56,6 +56,7 @@
 | `/api/instances` | GET / POST | 实例列表 / 新建 |
 | `/api/instances/{id}` | GET | 实例详情 |
 | `/api/instances/import` | POST | 拖拽/选文件导入实例包 |
+| `/api/instances/{id}/settings` | POST | **D3②（2026-11-15）**：实例级设置写入，目前只承载 `autoBackupOnExit`（退出后自动备份开关）。按实例存，故不复用全局 `POST /api/config` |
 | `/api/instances/register` | POST | 把已存在的游戏目录挂回实例列表（MR03）。只新增配置记录，**不创建/移动/删除任何文件**；目录不存在或已在列表中返回 400 |
 | `/api/instances/{id}/delete` | POST | 从列表移除实例（MR03）。**只删配置记录，不删游戏目录、存档与 Mod**；返回 `keptFiles/gameDirectory/savesCount/sharedDirectory`，可用 `register` 挂回。正在进行 Mod 二分定位时返回 400 |
 | `/api/instances/{id}/launch` | POST | 启动游戏 |

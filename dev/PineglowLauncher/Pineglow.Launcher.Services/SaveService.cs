@@ -93,13 +93,15 @@ public sealed class SaveService
 	{
 		DirectoryInfo directoryInfo = new DirectoryInfo(folderPath);
 		FileInfo fileInfo = new FileInfo(Path.Combine(folderPath, "level.dat"));
+		long folderBytes = GetDirectorySize(folderPath);
 		SaveInfo saveInfo = new SaveInfo
 		{
 			FolderName = directoryInfo.Name,
 			FullPath = directoryInfo.FullName,
 			DisplayName = directoryInfo.Name,
 			LastPlayed = (fileInfo.Exists ? fileInfo.LastWriteTime : directoryInfo.LastWriteTime),
-			SizeText = FormatSize(GetDirectorySize(folderPath))
+			SizeText = FormatSize(folderBytes),
+			SizeBytes = folderBytes
 		};
 		string path = Path.Combine(folderPath, "icon.png");
 		if (File.Exists(path))

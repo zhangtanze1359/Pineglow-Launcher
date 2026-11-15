@@ -260,6 +260,8 @@ SG.api = (() => {
 		gameDir: i.gameDirectory || '',
 		totalPlaySeconds: i.totalPlaySeconds || 0,
 		playCount: i.playCount || 0,
+		// D3②：实例级「退出后自动备份」开关（旧配置没有该字段 → false）
+		autoBackupOnExit: !!i.autoBackupOnExit,
 		selected: i.id === selectedId,
 	});
 
@@ -427,6 +429,11 @@ SG.api = (() => {
 			await _post('/api/config', patch);
 			const s = await this.getState();
 			return { ok: true, config: s.config };
+		},
+		/** D3②：实例级设置（目前只有 autoBackupOnExit）。 */
+		async updateInstanceSettings(instanceId, patch) {
+			const res = await _post('/api/instances/' + encodeURIComponent(instanceId) + '/settings', patch || {});
+			return { ok: !!res.ok, instanceId: res.instanceId, autoBackupOnExit: !!res.autoBackupOnExit };
 		},
 		async scanJava() {
 			const data = await _req('/api/java');
@@ -961,6 +968,11 @@ SG.api = (() => {
 		async updateConfig(patch) {
 			Object.assign(SG.mock.settings, patch);
 			return this._mock({ ok: true, config: SG.mock.settings });
+		},
+		async updateInstanceSettings(instanceId, patch) {
+			const inst = (SG.mock.instances || []).find(i => i.id === instanceId);
+			if (inst && patch && Object.prototype.hasOwnProperty.call(patch, 'autoBackupOnExit')) inst.autoBackupOnExit = !!patch.autoBackupOnExit;
+			return this._mock({ ok: true, instanceId, autoBackupOnExit: !!(inst && inst.autoBackupOnExit) });
 		},
 		async scanJava() { return this._mock(SG.mock.java); },
 		async getInstances() { return this._mock(SG.mock.instances); },

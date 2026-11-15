@@ -217,6 +217,30 @@ public static partial class LocalApiService
 		await WriteJsonAsync(response, 200, new { ok = true });
 	}
 
+	/// <summary>
+	/// D3②：实例级设置写入。目前只承载 `autoBackupOnExit`；配置是**按实例**存的，
+	/// 不像 `autoCloseOnExit` 那样是全局开关，所以单开一个端点而不是塞进 `POST /api/config`。
+	/// </summary>
+	private static async Task HandleUpdateInstanceSettingsAsync(HttpListenerRequest request, HttpListenerResponse response, string instanceId)
+	{
+		using JsonDocument body = await ReadBodyAsync(request);
+		JsonElement root = body.RootElement;
+		bool value;
+		lock (ConfigGate)
+		{
+			AppConfig config = LoadConfig();
+			GameInstance instance = RequireInstance(config, instanceId);
+			if (root.TryGetProperty("autoBackupOnExit", out JsonElement flag)
+				&& (flag.ValueKind == JsonValueKind.True || flag.ValueKind == JsonValueKind.False))
+			{
+				instance.AutoBackupOnExit = flag.GetBoolean();
+			}
+			value = instance.AutoBackupOnExit;
+			SaveConfig(config);
+		}
+		await WriteJsonAsync(response, 200, new { ok = true, instanceId, autoBackupOnExit = value });
+	}
+
 	private static void PatchConfig(AppConfig config, JsonElement root)
 	{
 		string GameDirectory = JsonUtil.GetString(root, "gameDirectory");
