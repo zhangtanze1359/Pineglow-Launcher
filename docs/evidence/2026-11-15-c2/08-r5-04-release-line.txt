@@ -1,0 +1,14 @@
+=== R5-04 发布线遗漏范围核查（HEAD ec532c1，修正路径后）
+缺失  .github/workflows/java-discovery-check.yml
+存在  dev/PineglowLauncher/Pineglow.Launcher.Services/JavaLocator.cs
+存在  dev/PineglowLauncher.Tests/JavaDiscoveryTimingTests.cs
+存在  dev/PineglowLauncher.Tests/JavaLocatorProcessTests.cs
+存在  dev/PineglowLauncher.Tests/JavaProbe/Program.cs
+=== 历史 release notes ===
+release-notes/v1.0.1.md
+release-notes/v1.0.2.md
+release-notes/v1.0.3.md
+=== 版本号 ===
+12:    <Version>1.0.0</Version>
+=== build.yml 中是否有 java 专项门槛 ===
+0

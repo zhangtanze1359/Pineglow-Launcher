@@ -1,0 +1,38 @@
+ec532c15a7e2a987b03681ca86ddf89eaa5aef56
+?? .tree-head.txt
+?? docs/evidence/2026-11-15-c2/00-starting-point.txt
+integration/v1.1.0-20261107
+10.0.301
+v24.22.2
+18
+5e8ae56bd1fec95c6d0dbe6cfac9b7b3c3a83932
+--- diff b654cb5..HEAD 路径 ---
+docs/evidence/2026-11-15-cc1cc2/01-inventory.txt
+docs/evidence/2026-11-15-cc1cc2/02-css-tokens.txt
+docs/evidence/2026-11-15-cc1cc2/03-closure.txt
+docs/evidence/2026-11-15-cc1cc2/04-dotnet-test.txt
+docs/evidence/2026-11-15-cc1cc2/05-inventory-negative.txt
+docs/evidence/2026-11-15-cc1cc2/05a-inventory-negative-missing-file.txt
+docs/evidence/2026-11-15-cc1cc2/05b-inventory-negative-unregistered.txt
+docs/evidence/2026-11-15-d2-reconcile/00-main-status-before.txt
+docs/evidence/2026-11-15-d2-reconcile/00-stash-before.txt
+docs/evidence/2026-11-15-d2-reconcile/01-backup-manifest-verify.txt
+docs/evidence/2026-11-15-d2-reconcile/02-archive-verify.txt
+docs/evidence/2026-11-15-d2-reconcile/03-isolation-branch.txt
+docs/evidence/2026-11-15-d2-reconcile/04-main-final-state.txt
+docs/evidence/2026-11-15-d2-reconcile/SHA256SUMS.txt
+"docs/evidence/2026-11-15-d2-reconcile/\350\257\201\346\215\256.md"
+docs/evidence/2026-11-15-main-advance-decision.md
+docs/evidence/2026-11-15-main-advance-numbers.txt
+docs/evidence/2026-11-15-r5-independent/00-starting-point.txt
+docs/evidence/2026-11-15-r5-independent/01-dotnet-restore.txt
+docs/evidence/2026-11-15-r5-independent/02-dotnet-test.txt
+docs/evidence/2026-11-15-r5-independent/03-clean-rebuild.txt
+docs/evidence/2026-11-15-r5-independent/04-run-inventory-tests.txt
+docs/evidence/2026-11-15-r5-independent/05-check-css-tokens.txt
+docs/evidence/2026-11-15-r5-independent/06-check-ui-resource-closure.txt
+docs/evidence/2026-11-15-r5-independent/SHA256SUMS.txt
+docs/evidence/2026-11-15-r5-independent/environment.txt
+"docs/evidence/2026-11-15-r5-independent/\347\213\254\347\253\213\351\252\214\346\224\266\346\212\245\345\221\212.md"
+docs/m1-3-frontend-modularization-2026-11-07.md
+docs/m2-3-validator-accounting-2026-11-07.md

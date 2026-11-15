@@ -1,0 +1,60 @@
+=== R5-02 反证：临时注释掉 /mods/{file}/toggle 路由登记 ===
+$ git diff --stat
+ .../Pineglow.Launcher.Services/LocalApiService.Routing.cs               | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+$ dotnet test --filter FullyQualifiedName~RouteReachabilityTests
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+  JavaProbe -> D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\JavaProbe\bin\Release\net10.0\JavaProbe.dll
+  Pineglow.Launcher -> D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher\bin\Release\net10.0\Pineglow.Launcher.dll
+D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\AiCancelAndRedirectTests.cs(93,17): warning CS8618: 在退出构造函数时，不可为 null 的 属性 "Location" 必须包含非 null 值。请考虑添加 "required" 修饰符或将该 属性 声明为可为 null。 [D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\AiCancelAndRedirectTests.cs(94,17): warning CS8618: 在退出构造函数时，不可为 null 的 属性 "Body" 必须包含非 null 值。请考虑添加 "required" 修饰符或将该 属性 声明为可为 null。 [D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\WorkflowInvariantTests.cs(40,11): warning CS8600: 将 null 文本或可能的 null 值转换为不可为 null 类型。 [D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\DiagnosticCaseSetInvariantTests.cs(50,11): warning CS8600: 将 null 文本或可能的 null 值转换为不可为 null 类型。 [D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\LauncherStartupBoundaryTests.cs(186,11): warning CS8600: 将 null 文本或可能的 null 值转换为不可为 null 类型。 [D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\SecretPersistenceContractTests.cs(44,11): warning CS8600: 将 null 文本或可能的 null 值转换为不可为 null 类型。 [D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\OutboundEndpointPolicyTests.cs(43,11): warning CS8600: 将 null 文本或可能的 null 值转换为不可为 null 类型。 [D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\AiDispatchMetadataTests.cs(238,3): warning xUnit2013: Do not use Assert.Equal() to check for collection size. Use Assert.Single instead. (https://xunit.net/xunit.analyzers/rules/xUnit2013) [D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\InstanceLaunchGuardTests.cs(193,9): warning xUnit1031: Test methods should not use blocking task operations, as they can cause deadlocks. Use an async test method and await instead. (https://xunit.net/xunit.analyzers/rules/xUnit1031) [D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\InstanceLaunchGuardTests.cs(233,9): warning xUnit1031: Test methods should not use blocking task operations, as they can cause deadlocks. Use an async test method and await instead. (https://xunit.net/xunit.analyzers/rules/xUnit1031) [D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\ContentIconServiceTests.cs(1220,89): warning xUnit1031: Test methods should not use blocking task operations, as they can cause deadlocks. Use an async test method and await instead. (https://xunit.net/xunit.analyzers/rules/xUnit1031) [D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\ContentIconServiceTests.cs(1262,90): warning xUnit1031: Test methods should not use blocking task operations, as they can cause deadlocks. Use an async test method and await instead. (https://xunit.net/xunit.analyzers/rules/xUnit1031) [D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\ContentIconServiceTests.cs(1273,90): warning xUnit1031: Test methods should not use blocking task operations, as they can cause deadlocks. Use an async test method and await instead. (https://xunit.net/xunit.analyzers/rules/xUnit1031) [D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\ContentIconServiceTests.cs(1795,100): warning xUnit1031: Test methods should not use blocking task operations, as they can cause deadlocks. Use an async test method and await instead. (https://xunit.net/xunit.analyzers/rules/xUnit1031) [D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\ContentIconServiceTests.cs(1815,101): warning xUnit1031: Test methods should not use blocking task operations, as they can cause deadlocks. Use an async test method and await instead. (https://xunit.net/xunit.analyzers/rules/xUnit1031) [D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\LoaderAndContentServiceTests.cs(944,90): warning xUnit1031: Test methods should not use blocking task operations, as they can cause deadlocks. Use an async test method and await instead. (https://xunit.net/xunit.analyzers/rules/xUnit1031) [D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\ContentIconServiceTests.cs(2012,96): warning xUnit1031: Test methods should not use blocking task operations, as they can cause deadlocks. Use an async test method and await instead. (https://xunit.net/xunit.analyzers/rules/xUnit1031) [D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\MinecraftNewsServiceTests.cs(194,4): warning xUnit2013: Do not use Assert.Equal() to check for collection size. Use Assert.Single instead. (https://xunit.net/xunit.analyzers/rules/xUnit2013) [D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\MinecraftNewsServiceTests.cs(539,4): warning xUnit2013: Do not use Assert.Equal() to check for collection size. Use Assert.Single instead. (https://xunit.net/xunit.analyzers/rules/xUnit2013) [D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+  Pineglow.Launcher.Tests -> D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll
+D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll (.NETCoreApp,Version=v10.0)的测试运行
+总共 1 个测试文件与指定模式相匹配。
+[xUnit.net 00:00:00.46]     Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: "POST", suffix: "/mods/a.jar/toggle", isPost: True) [FAIL]
+  失败 Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: "POST", suffix: "/mods/a.jar/toggle", isPost: True) [6 ms]
+  错误消息:
+   路由不可达：POST /api/instances/inst-43f2d49c/mods/a.jar/toggle 命中了路由器兜底 404（status=404）。这说明该守卫仍被嵌套在互斥的 seg.Length 作用域内。body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-43f2d49c/mods/a.jar/toggle"}
+  堆栈跟踪:
+     at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost) in D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 148
+   at Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(String method, String suffix, Boolean isPost) in D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 154
+--- End of stack trace from previous location ---
+  标准输出消息:
+ [route] POST /api/instances/inst-43f2d49c/mods/a.jar/toggle -> 404 | error=未找到接口：POST /api/instances/inst-43f2d49c/mods/a.jar/toggle | body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-43f2d49c/mods/a.jar/toggle"}
+
+
+[xUnit.net 00:00:00.58]     Pineglow.Launcher.Tests.RouteReachabilityTests.Mods_ToggleAndDelete_ReachHandlerAndChangeDisk [FAIL]
+  失败 Pineglow.Launcher.Tests.RouteReachabilityTests.Mods_ToggleAndDelete_ReachHandlerAndChangeDisk [18 ms]
+  错误消息:
+   Assert.Equal() Failure: Values differ
+Expected: 200
+Actual:   404
+  堆栈跟踪:
+     at Pineglow.Launcher.Tests.RouteReachabilityTests.Mods_ToggleAndDelete_ReachHandlerAndChangeDisk() in D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 189
+   at Pineglow.Launcher.Tests.RouteReachabilityTests.Mods_ToggleAndDelete_ReachHandlerAndChangeDisk() in D:\Projects\_worktrees\pineglow-integration-20261107\dev\PineglowLauncher.Tests\RouteReachabilityTests.cs:line 198
+--- End of stack trace from previous location ---
+  标准输出消息:
+ [mods] toggle -> 404 body={"error":"\u672A\u627E\u5230\u63A5\u53E3\uFF1APOST /api/instances/inst-02c61cb2/mods/a.jar/toggle"}
+
+
+
+失败!  - 失败:     2，通过:    14，已跳过:     0，总计:    16，持续时间: 348 ms - Pineglow.Launcher.Tests.dll (net10.0)
+exit=1
