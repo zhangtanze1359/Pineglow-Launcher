@@ -1,0 +1,13 @@
+$ # D2 收尾（2026-11-15，基点提交 3d4681a）
+$ git status --porcelain -uall
+（上一行若为空：主工作区已修改归零、未跟踪归零；本文件自身在生成时尚未入库，故已过滤）
+
+$ git log -1 --format='%h %s'
+3d4681a docs(evidence): D2 收尾——主工作区已修改归零、未跟踪归零，main 与 integration 同点
+
+$ git rev-parse --short main
+3d4681a
+$ git rev-parse --short integration/v1.1.0-20261107
+3d4681a
+$ git rev-list --count origin/main..HEAD
+74
