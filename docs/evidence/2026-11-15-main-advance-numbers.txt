@@ -1,0 +1,44 @@
+# 决策材料引用数字的实测复核
+# 采集时间：2026-11-15
+# 说明：本文件是对 main-advance-decision.md 中每个数字的独立重算，
+#       文档中曾出现两处推算错误（origin/main 独有 13→7、快进后 57→69），已修正。
+
+main                          = 47e939c
+HEAD                          = d74a9a7
+origin/main (本地缓存)        = 30f7b56
+origin/integration (本地缓存) = 5e8ae56
+
+main..HEAD                    = 56
+HEAD..main                    = 0
+origin/integration..HEAD      = 16
+main..origin/main             = 7
+origin/main..main             = 13
+origin/main..HEAD             = 69
+
+merge-base(origin/main, main) = c8aa286f65ad13433129fe0a9e86e2d3b0e9020b
+
+--- 严格祖先判定 ---
+main 是 HEAD 的祖先: 是（可 fast-forward）
+
+--- origin/main 独有的提交主题（7 个）---
+30f7b56 fix: avoid Linux Java probe apphost directory collision
+724fed5 test: preserve Java fixture files when Windows delays cleanup
+2c87978 release: prepare v1.0.2 Java diagnosis repair
+e89023d fix: bound Java discovery and cancel version subprocesses
+98465ea test: measure Java discovery release bottleneck
+8845574 release: 准备松光启动器 v1.0.1 源码
+d700cc5 docs: 重写项目主页介绍
+
+--- 本地 main 独有的提交数（13 个）---
+13
+
+--- origin/main 的 Java 成果是否已在 integration ---
+  存在  dev/PineglowLauncher/Pineglow.Launcher.Services/JavaLocator.cs
+  存在  dev/PineglowLauncher.Tests/JavaDiscoveryTimingTests.cs
+  存在  dev/PineglowLauncher.Tests/JavaLocatorProcessTests.cs
+  存在  dev/PineglowLauncher.Tests/JavaProbe/Program.cs
+  缺失  .github/workflows/java-discovery-check.yml
+
+--- 网络状态 ---
+本文件生成时 git ls-remote 不可用（Connection was reset）；
+所有 origin/* 数字来自本地缓存引用，可能过期。推送前必须重新联网核实。
