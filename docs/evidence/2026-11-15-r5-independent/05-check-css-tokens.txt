@@ -1,0 +1,9 @@
+$ node scripts/check-css-tokens.cjs
+# pwd: /d/Projects/_worktrees/pineglow-integration-20261107
+# HEAD: b654cb530db0e586ce301580f158b70cb807f8c4
+# started: 2026-11-15T05:45:36Z
+==========================================================
+[token-audit] OK：49 个 token，三层 CSS 无字面色值，无未定义引用，无死回退
+==========================================================
+# finished: 2026-11-15T05:45:36Z
+exit code: 0

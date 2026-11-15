@@ -1,0 +1,48 @@
+$ git rev-parse HEAD
+b654cb530db0e586ce301580f158b70cb807f8c4
+exit=0
+
+$ git status --porcelain --untracked-files=all
+(no output — worktree clean at start of run)
+exit=0
+
+$ git rev-list --count origin/integration/v1.1.0-20261107..HEAD
+12
+exit=0
+
+$ git branch --show-current
+integration/v1.1.0-20261107
+exit=0
+
+$ dotnet --version
+10.0.301
+exit=0
+
+$ node --version
+v24.19.0
+exit=0
+
+=== %TEMP% writability probe (earliest action in session) ===
+TEMP=C:\Users\Administrator\AppData\Local\Temp
+mkdir  %TEMP%\pineglow-r5-probe              -> OK
+write  pineglow-r5-probe\writetest.txt        -> OK (content read back: 'hello-1794721262')
+remove pineglow-r5-probe                      -> OK
+Verdict: writable.
+
+=== lineage vs the two references ===
+origin/integration/v1.1.0-20261107 = 5e8ae56bd1fec95c6d0dbe6cfac9b7b3c3a83932
+unpushed commits (origin..HEAD) = 12
+commits above reference 4de65f0  = 2
+  37ff3c7 docs(evidence): R5-01 换环境重跑 .NET 门槛（环境阻断已排除，独立性未满足）
+  b654cb5 docs(evidence): 整理 M1-3/M2-3 与 R5 的计划任务进度图
+git -c core.quotepath=false diff --name-only 4de65f0..HEAD -> all 11 paths under docs/,
+zero paths under dev/, ui/ or scripts/. So product/test/script code is byte-identical
+to the commit the non-independent reference run measured.
+
+=== R5/R5b reference commits ===
+R5  (验收报告.md)   measured HEAD = 91d71ac5f8645d2e90881fea4f5f81ec442941ae
+R5b (验收报告-R5b.md) measured HEAD = 91d71ac5f8645d2e90881fea4f5f81ec442941ae
+Both reports live in the MAIN repo (D:/Projects/松光启动器/docs/evidence/2026-11-07-r5/),
+NOT in this worktree: git ls-tree -r HEAD -- docs/evidence has no 2026-11-07-r5 entry and
+git log --all -- docs/evidence/2026-11-07-r5 returns nothing. Noted as a discrepancy with
+the task prompt, which gave a worktree-relative path for them.

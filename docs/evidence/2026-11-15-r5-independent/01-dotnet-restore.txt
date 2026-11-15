@@ -1,0 +1,10 @@
+$ dotnet restore dev/PineglowLauncher.Tests
+# pwd: /d/Projects/_worktrees/pineglow-integration-20261107
+# HEAD: b654cb530db0e586ce301580f158b70cb807f8c4
+# started: 2026-11-15T05:43:08Z
+==========================================================
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+==========================================================
+# finished: 2026-11-15T05:43:09Z
+exit code: 0

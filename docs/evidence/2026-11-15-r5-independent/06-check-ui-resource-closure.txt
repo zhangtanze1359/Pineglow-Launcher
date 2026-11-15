@@ -1,0 +1,18 @@
+$ node scripts/check-ui-resource-closure.cjs
+# pwd: /d/Projects/_worktrees/pineglow-integration-20261107
+# HEAD: b654cb530db0e586ce301580f158b70cb807f8c4
+# started: 2026-11-15T05:45:41Z
+==========================================================
+[closure] root=D:/Projects/_worktrees/pineglow-integration-20261107/ui
+[closure] 入口: index.html, preview-motion.html
+[closure] 扫描文件 19 个，本地引用 35 条
+[closure] 本地资源闭包完整：无缺失引用
+[closure]   css: index.html -> css/figma.css
+[closure]   css: index.html -> css/pineglow.css
+[closure]   css: index.html -> css/redesign.css
+[closure]   css: preview-motion.html -> css/figma.css
+[closure]   css: preview-motion.html -> css/pineglow.css
+[closure]   css: preview-motion.html -> css/redesign.css
+==========================================================
+# finished: 2026-11-15T05:45:41Z
+exit code: 0
