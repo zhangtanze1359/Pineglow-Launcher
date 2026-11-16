@@ -95,6 +95,12 @@ public static partial class LocalApiService
 		r.Add(ApiRoute.Exact("POST", 6, "删除 Mod", (ctx, s) => HandleDeleteModAsync(ctx.Response, s[2], s[4]), (1, "instances"), (3, "mods"), (5, "delete")));
 		r.Add(ApiRoute.Exact("POST", 6, "事务化替换 Mod", (ctx, s) => HandleReplaceModAsync(ctx.Request, ctx.Response, s[2], s[4]), (1, "instances"), (3, "mods"), (5, "replace")));
 
+		// D3③ 批量更新：建任务 → 查状态 → 取消（停后续项）→ 撤销（逐项）。判定在 BatchUpdatePlanner（纯）。
+		r.Add(ApiRoute.Exact("POST", 5, "批量更新 Mod", (ctx, s) => HandleStartBatchUpdateAsync(ctx.Request, ctx.Response, s[2]), (1, "instances"), (3, "mods"), (4, "batch-update")));
+		r.Add(ApiRoute.Exact("GET", 6, "批量更新状态", (ctx, s) => HandleGetBatchUpdateAsync(ctx.Response, s[2], s[5]), (1, "instances"), (3, "mods"), (4, "batch-update")));
+		r.Add(ApiRoute.Exact("POST", 7, "取消批量更新", (ctx, s) => HandleCancelBatchUpdateAsync(ctx.Response, s[2], s[5]), (1, "instances"), (3, "mods"), (4, "batch-update"), (6, "cancel")));
+		r.Add(ApiRoute.Exact("POST", 7, "撤销批量更新", (ctx, s) => HandleUndoBatchUpdateAsync(ctx.Response, s[2], s[5]), (1, "instances"), (3, "mods"), (4, "batch-update"), (6, "undo")));
+
 		// 恢复区
 		r.Add(ApiRoute.Exact("POST", 6, "把隔离文件恢复到原位置", (ctx, s) => HandleRestoreRecoveryAsync(ctx.Request, ctx.Response, s[2], s[4]), (1, "instances"), (3, "recovery"), (5, "restore")));
 

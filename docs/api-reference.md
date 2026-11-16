@@ -1,6 +1,6 @@
 # API 协议（LocalApiService）
 
-> **最后核对日：2026-11-15（D3② 新增实例设置端点）**（对照 `dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService*.cs`（18 个 partial）与 `Ui` 静态资源投放路径实测）。
+> **最后核对日：2026-11-16（D3③ 新增批量更新端点）**（对照 `dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService*.cs`（19 个 partial）与 `Ui` 静态资源投放路径实测）。
 > 协议约定：错误响应体含 `error` 或 `message` 字段；业务错误返回 400，未捕获异常返回 500。
 
 ## 一、基础信息
@@ -33,7 +33,7 @@
 ## 二、完整端点表
 
 > 口径说明：下表按**端点路径**计数（同路径不同方法合并为一行，路径参数以 `{id}` 标注）。2026-11-06 核对时为 59 条；2026-11-15 补入 `POST /api/instances/{id}/settings`（D3②），其余行未逐条重核——**这个数字不是重核结论**。
-> 源码口径：**2026-11-15 实测 76 条路由登记**（`grep -c 'r.Add(ApiRoute' LocalApiService.Routing.cs`）；2026-11-06 文档记的 72 条是当时的值，此后代码又增长（M2-1① 存档恢复等）。M1-1 起为可枚举表，
+> 源码口径：**2026-11-16 实测 80 条路由登记**（`grep -c 'r.Add(ApiRoute' LocalApiService.Routing.cs`）；2026-11-06 文档记的 72 条是当时的值，此后代码又增长（M2-1① 存档恢复、D3② 实例设置、D3③ 批量更新 4 条）。M1-1 起为可枚举表，
 > 与「可访问路径」不同层级：同路径不同方法在表里是两条）。两者不应互相校验，但比例失控即说明漏登记。
 > **旧口径作废**：此前写的「43 个 `seg[n].Equals(...)` 字面量分支」是手工 if 链时代的计数，M1-1 改造后该形态已不存在。
 
@@ -67,6 +67,10 @@
 | `/api/instances/{id}/mods` | GET | Mod 列表 |
 | `/api/instances/{id}/mods/...` | POST | Mod 启停/删除/替换（写盘）。`.../delete` 自 MR04 起是**可恢复删除**：jar 与 `.mcmini.json` 侧车移入恢复区并返回 `operationId`，不再物理删除；隔离失败会返回 400 而不是假装成功 |
 | `/api/instances/{id}/mods/{file}/replace` | POST | **事务化替换/更新（MR05）**：body `{ newFileBase64, expectedSha256? }`。新包先落 staging 并核对 SHA256，通过后才隔离旧包 → 写新包 → 写元数据；任一步失败回滚到旧版本并返回 400（`hash_mismatch`/`commit_failed`/`metadata_failed`/`replace_in_progress` 等）。旧文件是禁用态时新版本保持禁用；成功返回 `operationId` 作为撤销句柄 |
+| `/api/instances/{id}/mods/batch-update` | POST | **D3③ 批量更新**：body `{ items: [{ fileName, newFileBase64, expectedSha256?, version? }] }`。建任务后立刻返回 **202 + jobId + items 状态**；执行是逐项调用上面的单条事务化替换。判定（失败即停/取消停后续）在 `BatchUpdatePlanner`（纯函数） |
+| `/api/instances/{id}/mods/batch-update/{jobId}` | GET | 批次状态快照：`state`（running/cancelling/ok/partial/cancelled/undone/empty）、每项状态、失败项与原因 |
+| `/api/instances/{id}/mods/batch-update/{jobId}/cancel` | POST | 取消：**当前项跑完即停**，其后 Pending 变 Skipped（不在项内部硬中断，避免半写文件） |
+| `/api/instances/{id}/mods/batch-update/{jobId}/undo` | POST | 逐项撤销：按恢复区 `operationId` 还原旧文件；**先校验目标仍是本批次写入的版本**，被外部改过则该项报 `target-modified` 并拒绝覆盖 |
 | `/api/instances/{id}/recovery` | GET | 恢复区列表（MR04）：逐条给出 `operationId/status/createdAt/expiresAt/totalBytes` 与每个文件的 `relativePath/state/sha256`；只读，不触碰游戏文件 |
 | `/api/instances/{id}/recovery/{operationId}/restore` | POST | 把一次隔离操作的文件恢复到原位置（MR04）。默认**不覆盖**同名现有文件（报 `conflict`）；重复恢复幂等（`already_restored`）。**MR05 撤销**：body 传 `{"overwrite":true}` 才会覆盖回旧版本（"撤销本次更新"） |
 | `/api/instances/{id}/bisect/start` | POST | 开始 Mod 二分定位：取启用 Mod 建会话，禁用半区写盘，返回 `step/candidates/disabledHalf/waitingForReport`。**MR06**：任一文件禁用失败时返回 **409**（不再报"本轮已就绪"），body 带 `needsRecovery/recoveryError/files[]`；此时不接受测试反馈 |

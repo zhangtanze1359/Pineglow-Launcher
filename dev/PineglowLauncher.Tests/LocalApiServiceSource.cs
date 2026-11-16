@@ -34,6 +34,8 @@ internal static class LocalApiServiceSource
 		"LocalApiService.Instances.Launch.cs",
 		"LocalApiService.Saves.cs",
 		"LocalApiService.Mods.cs",
+		// D3③（2026-11-16）：批量更新的 HTTP 层单独成域，与 Mods 的单条操作分开。
+		"LocalApiService.BatchUpdate.cs",
 		"LocalApiService.Bisect.cs",
 		"LocalApiService.Bisect.Persistence.cs",
 		"LocalApiService.Diagnostics.cs",

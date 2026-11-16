@@ -43,25 +43,26 @@
 ### 角色定位：双服务器一体
 
 同时做两件事：
-- **API 服务器**：监听 `127.0.0.1:48123`，路由表 **72 条路由项**（2026-11-06 实测，`LocalApiService.Routes.Count`）。
+- **API 服务器**：监听 `127.0.0.1:48123`，路由表 **80 条路由登记**（2026-11-16 实测 `grep -c 'r.Add(ApiRoute' LocalApiService.Routing.cs`；2026-11-06 时为 72，此后增长）。
 - **静态文件服务器**：托管 `ui/` 目录（HTML/CSS/JS）。
 
 前端通过 `fetch` HTTP 调用，而非 WebView 桥接 —— 这是"纯 Web UI 架构"的关键。
 
-### 文件布局：按域拆分的 18 个 partial（M1-2，2026-11-06）
+### 文件布局：按域拆分的 partial 文件（M1-2 起点 18 个，2026-11-16 为 19 个）
 
-拆分前单文件 5,487 行 / 200 个顶层成员。现按域拆为 18 个 partial 文件（合计约 5,950 行）：
+拆分前单文件 5,487 行 / 200 个顶层成员。现按域拆为 19 个 partial 文件（M1-2 时为 18；D3③ 新增 `LocalApiService.BatchUpdate.cs`）：
 
 | 文件 | 行数 | 职责 |
 |---|---|---|
 | `LocalApiService.cs` | 494 | **宿主层**：端口/令牌/Origin 校验、listener 启停、请求入口安全前置、共用 JSON 与路径工具；**所有静态字段与静态初始化都留在此处** |
-| `LocalApiService.Routing.cs` | 215 | 路由表（`Routes` / `BuildRoutes` / `ResolveRoute`）与 `HandleApiAsync` |
+| `LocalApiService.Routing.cs` | 228 | 路由表（`Routes` / `BuildRoutes` / `ResolveRoute`）与 `HandleApiAsync` |
 | `LocalApiService.Configuration.cs` | 416 | `LoadConfig` / `SaveConfig`、`PatchConfig` / `PatchAiProviders`、各测试注入缝 |
 | `LocalApiService.Instances.cs` | 322 | 实例读/建/删/重新挂载、实例摘要 |
 | `LocalApiService.Instances.Import.cs` | 266 | 整合包导入（含取消）、启动前自检 |
 | `LocalApiService.Instances.Launch.cs` | 230 | 启动链：Java 解析、参数拼装、进程拉起 |
 | `LocalApiService.Saves.cs` | 246 | 存档列举/备份/恢复/删除、皮肤上传 |
 | `LocalApiService.Mods.cs` | 480 | Mod 启停/删除/替换、恢复区、资源包与光影包 |
+| `LocalApiService.BatchUpdate.cs` | 173 | **D3③**：Mod 批量更新的 HTTP 层（建任务 / 查状态 / 取消 / 逐项撤销）；判定在 `BatchUpdatePlanner`，执行在 `BatchUpdateRunner` |
 | `LocalApiService.Bisect.cs` | 370 | 二分定位：会话操作与单步执行 |
 | `LocalApiService.Bisect.Persistence.cs` | 495 | 二分定位：落盘、跨重启恢复、依赖校验 |
 | `LocalApiService.Diagnostics.cs` | 554 | AI 诊断主流程与取消、诊断报告落盘/历史/导出 |
@@ -163,7 +164,7 @@ seg = path.Trim('/').Split('/')  →  ["api", "instances", "{id}", "launch", ...
 | 锁粒度 | ConfigGate / DownloadGate / ContentGate 分锁避免并发写冲突 |
 | 懒创建服务 | 每个 handler 内 new 服务，无 DI 容器 |
 | 任务即响应 | 重操作全部入队异步，HTTP 只"接受指令 + 轮询进度" |
-| 按域拆文件 | 18 个 partial，单文件 ≤ 600 行（M1-2 结构门槛） |
+| 按域拆文件 | 19 个 partial，单文件 ≤ 600 行（M1-2 结构门槛；新增必须登记 `LocalApiServiceSource.OrderedFiles`） |
 
 ### 潜在改进点（观察，未改）
 
