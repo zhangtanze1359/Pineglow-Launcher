@@ -7,3 +7,7 @@
 # 因此这里只精确约束这一条路径，刻意不引入 `* text=auto` 之类会改写其他文件字节的全局规则，
 # 也刻意不改冻结案例内容、不更新基准哈希。
 dev/PineglowLauncher.Tests/TestAssets/Diagnostics/diagnostic-cases.json text eol=lf
+
+# shell 脚本必须保持 LF，否则 hook 在 Windows 上会 "bad interpreter"
+.githooks/** text eol=lf
+scripts/*.sh text eol=lf
