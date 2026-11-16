@@ -1,0 +1,14 @@
+$ git tag --points-at 2>/dev/null; git rev-parse v1.0.3^{} main origin/main
+v1.0.3^{} = 30f7b56e97370246628c7a1df6276af8c02fdb86
+main      = 69c947ca94074e51fc84a24a27ed8d93d065cc23
+origin/main = 30f7b56e97370246628c7a1df6276af8c02fdb86
+
+$ git rev-list --count v1.0.3..main / main..v1.0.3
+v1.0.3..main = 81
+main..v1.0.3 = 7
+
+$ git merge-base --is-ancestor v1.0.3 main
+exit=1
+
+$ git merge-base --is-ancestor 982a86c main
+exit=0 (0=在 main 里)

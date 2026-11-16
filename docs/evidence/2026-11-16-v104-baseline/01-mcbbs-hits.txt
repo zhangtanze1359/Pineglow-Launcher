@@ -1,0 +1,29 @@
+$ grep -rni mcbbs dev ui --include=*.cs --include=*.js (排除 bin/obj)
+dev/PineglowLauncher/Pineglow.Launcher.Models/AppConfig.cs:83:	/// <summary>下载源：official / bmclapi / mcbbs</summary>
+dev/PineglowLauncher/Pineglow.Launcher.Services/MirrorHelper.cs:22:/// 下载源管理：官方 + 国内镜像（BMCLAPI / MCBBS）。
+dev/PineglowLauncher/Pineglow.Launcher.Services/MirrorHelper.cs:38:			"mcbbs" => "https://download.mcbbs.net",
+dev/PineglowLauncher/Pineglow.Launcher.Services/MirrorHelper.cs:49:			new DownloadSourceInfo { Key = "mcbbs", Name = "MCBBS 镜像", BaseUrl = "https://download.mcbbs.net" },
+dev/PineglowLauncher.Tests/MirrorLatencyProbeTests.cs:28:///   GET  https://download.mcbbs.net/...                                           → DNS 不存在
+dev/PineglowLauncher.Tests/UncoveredPureLogicTests.cs:473:		Assert.Equal(new[] { "official", "bmclapi", "mcbbs" }, sources.Select(s => s.Key));
+ui/js/api.js:1118:			const lat = { official: 35, bmclapi: 42, mcbbs: 51 };
+ui/js/api.js:1124:					{ key: 'mcbbs', name: 'MCBBS 镜像', baseUrl: 'https://download.mcbbs.net', latencyMs: lat.mcbbs, available: true },
+ui/js/i18n.js:263:		'set.sourceMcbbs': 'MCBBS 镜像',
+ui/js/i18n.js:881:		'set.sourceMcbbs': 'MCBBS Mirror',
+ui/js/settings.js:86:	const names = { official: t('set.sourceOfficial'), bmclapi: 'BMCLAPI', mcbbs: t('set.sourceMcbbs') };
+
+$ 命中文件数
+7
+
+$ git merge-base --is-ancestor 982a86c v1.0.3
+exit=1 (1=不在 v1.0.3 里)
+
+$ grep -n '<Version>' dev/PineglowLauncher/Pineglow.Launcher.csproj
+12:    <Version>1.0.0</Version>
+
+$ ls release-notes
+v1.0.1.md
+v1.0.2.md
+v1.0.3.md
+
+$ 登录文案
+dev/PineglowLauncher/Pineglow.Launcher.Services/MinecraftAppRegistrationRequiredException.cs:10:		: base("正版登录暂未向公众开放，请稍后重试。")
