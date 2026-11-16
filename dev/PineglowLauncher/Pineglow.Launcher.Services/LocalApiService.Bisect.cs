@@ -38,17 +38,6 @@ public static partial class LocalApiService
 
 	internal static void EndBisectOperationForTest(string instanceId) => EndBisectOperation(instanceId);
 
-	/// <summary>
-	/// MR06：二分定位进行中时禁止对该实例手动改 Mod —— 两套写操作同时改名会让候选集合与磁盘不一致。
-	/// </summary>
-	private static void RejectManualModEditDuringBisect(string instanceId)
-	{
-		ModBisectSession? session = ModBisectService.Get(instanceId);
-		if (session != null && !session.Finished)
-		{
-			throw new InvalidOperationException("该实例正在进行 Mod 二分定位，请先结束或放弃定位，再手动修改 Mod。");
-		}
-	}
 
 	private static async Task HandleBisectStartAsync(HttpListenerResponse response, string instanceId)
 	{
@@ -60,9 +49,10 @@ public static partial class LocalApiService
 
 		try
 		{
-			AppConfig config = LoadConfig();
-			GameInstance instance = RequireInstance(config, instanceId);
-			string gameDir = ResolveGameDirectory(config, instance);
+		RequestScope scope = BeginReadScope(instanceId);
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
+		string gameDir = scope.GameDirectory;
 			string modsDir = Path.Combine(gameDir, "mods");
 			ModService service = new ModService(gameDir);
 			List<ModFile> allMods = await service.GetModsAsync(instance);
@@ -151,9 +141,10 @@ public static partial class LocalApiService
 
 		try
 		{
-			AppConfig config = LoadConfig();
-			GameInstance instance = RequireInstance(config, instanceId);
-			string gameDir = ResolveGameDirectory(config, instance);
+		RequestScope scope = BeginReadScope(instanceId);
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
+		string gameDir = scope.GameDirectory;
 			ModService service = new ModService(gameDir);
 			string modsDir = Path.Combine(gameDir, "mods");
 			List<ModFile> allMods = await service.GetModsAsync(instance);
@@ -265,9 +256,10 @@ public static partial class LocalApiService
 
 		try
 		{
-			AppConfig config = LoadConfig();
-			GameInstance instance = RequireInstance(config, instanceId);
-			string gameDir = ResolveGameDirectory(config, instance);
+		RequestScope scope = BeginReadScope(instanceId);
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
+		string gameDir = scope.GameDirectory;
 			ModService service = new ModService(gameDir);
 			ModBisectSession session = ModBisectService.Get(instanceId)
 				?? throw new InvalidOperationException("当前没有进行中的二分定位会话，请先开始。");

@@ -162,8 +162,9 @@ public static partial class LocalApiService
 
 	private static async Task HandleInstanceDetailAsync(HttpListenerResponse response, string instanceId)
 	{
-		AppConfig config = LoadConfig();
-		GameInstance instance = RequireInstance(config, instanceId);
+		RequestScope scope = BeginReadScope(instanceId);
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
 		object summary = await BuildInstanceSummary(config, instance);
 		await WriteJsonAsync(response, 200, new { instance = summary, selectedInstanceId = config.SelectedInstanceId });
 	}
@@ -196,24 +197,14 @@ public static partial class LocalApiService
 	/// </summary>
 	private static async Task HandleDeleteInstanceAsync(HttpListenerResponse response, string instanceId)
 	{
-		AppConfig config = LoadConfig();
-		GameInstance instance = RequireInstance(config, instanceId);
-
-		ModBisectSession? activeBisect = ModBisectService.Get(instanceId);
-		if (activeBisect != null && !activeBisect.Finished)
+		RequestScope scope = BeginWriteScope(instanceId, requireNoBisect: true, wording: new ScopeWording
 		{
-			throw new InvalidOperationException("该实例正在进行 Mod 二分定位，请先「放弃」或结束定位，再把它从列表移除。");
-		}
-
-		// MR03 收尾：补上"实例正在运行不得移除"的守卫。
-		// 与上面的 Bisect 守卫同一错误通道（400），保持这个 handler 的行为一致。
-		if (RunningInstanceRegistry.IsRunning(instanceId, out int runningPid))
-		{
-			throw new InvalidOperationException(
-				$"该实例正在运行（进程 {runningPid}），请先退出游戏，再把它从列表移除。");
-		}
-
-		string gameDir = ResolveGameDirectory(config, instance);
+			Busy = pid => $"该实例正在运行（进程 {pid}），请先退出游戏，再把它从列表移除。",
+			Bisect = "该实例正在进行 Mod 二分定位，请先「放弃」或结束定位，再把它从列表移除。",
+		});
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
+		string gameDir = scope.GameDirectory;
 		int savesCount = 0;
 		try
 		{

@@ -25,20 +25,12 @@ public static partial class LocalApiService
 {
 	private static async Task HandleListSavesAsync(HttpListenerResponse response, string instanceId)
 	{
-		AppConfig config = LoadConfig();
-		GameInstance instance = RequireInstance(config, instanceId);
-
-		// MR03 收尾之二（缺口登记表 A7）：同一实例的**并发启动守卫**。
-		// 修复前这里从不检查运行态，`MarkRunning` 会"以最后一次为准"覆盖注册表 ——
-		// 于是同一实例能起两个游戏进程同时写同一份存档（真实的损坏风险），
-		// 而删除守卫此后只跟踪最新的那个 PID。
-		// 位置刻意放在最前：在任何网络调用/进程派发**之前**就拒绝。
-		if (RunningInstanceRegistry.IsRunning(instanceId, out int alreadyRunningPid))
-		{
-			throw new InvalidOperationException($"该实例已在运行（进程 {alreadyRunningPid}），请勿重复启动。");
-		}
-
-		string gameDir = ResolveGameDirectory(config, instance);
+		// 写请求要的三样东西（配置 / 实例 / 游戏目录）与两条写策略（并发启动守卫、二分定位禁区）
+		// 现在都由 RequestScope 构造（架构评审 ②，2026-11-17）。
+		RequestScope scope = BeginWriteScope(instanceId);
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
+		string gameDir = scope.GameDirectory;
 		List<SaveInfo> saves = new SaveService(gameDir).GetSaves(instance);
 		await WriteJsonAsync(response, 200, new
 		{
@@ -77,20 +69,12 @@ public static partial class LocalApiService
 
 	private static async Task HandleListSaveBackupsAsync(HttpListenerResponse response, string instanceId, string folderName)
 	{
-		AppConfig config = LoadConfig();
-		GameInstance instance = RequireInstance(config, instanceId);
-
-		// MR03 收尾之二（缺口登记表 A7）：同一实例的**并发启动守卫**。
-		// 修复前这里从不检查运行态，`MarkRunning` 会"以最后一次为准"覆盖注册表 ——
-		// 于是同一实例能起两个游戏进程同时写同一份存档（真实的损坏风险），
-		// 而删除守卫此后只跟踪最新的那个 PID。
-		// 位置刻意放在最前：在任何网络调用/进程派发**之前**就拒绝。
-		if (RunningInstanceRegistry.IsRunning(instanceId, out int alreadyRunningPid))
-		{
-			throw new InvalidOperationException($"该实例已在运行（进程 {alreadyRunningPid}），请勿重复启动。");
-		}
-
-		string gameDir = ResolveGameDirectory(config, instance);
+		// 写请求要的三样东西（配置 / 实例 / 游戏目录）与两条写策略（并发启动守卫、二分定位禁区）
+		// 现在都由 RequestScope 构造（架构评审 ②，2026-11-17）。
+		RequestScope scope = BeginWriteScope(instanceId);
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
+		string gameDir = scope.GameDirectory;
 		// Codex 独立探针发现的缺陷 1（第 63 轮修复）：列表**必须按请求的世界过滤**。
 		// 修复前这里返回该实例的**全部**备份 —— 请求 worldB 会拿到 worldA 的备份（探针实测）。
 		//
@@ -105,20 +89,12 @@ public static partial class LocalApiService
 
 	private static async Task HandleRestoreSaveBackupAsync(HttpListenerResponse response, string instanceId, string folderName, string backupName)
 	{
-		AppConfig config = LoadConfig();
-		GameInstance instance = RequireInstance(config, instanceId);
-
-		// MR03 收尾之二（缺口登记表 A7）：同一实例的**并发启动守卫**。
-		// 修复前这里从不检查运行态，`MarkRunning` 会"以最后一次为准"覆盖注册表 ——
-		// 于是同一实例能起两个游戏进程同时写同一份存档（真实的损坏风险），
-		// 而删除守卫此后只跟踪最新的那个 PID。
-		// 位置刻意放在最前：在任何网络调用/进程派发**之前**就拒绝。
-		if (RunningInstanceRegistry.IsRunning(instanceId, out int alreadyRunningPid))
-		{
-			throw new InvalidOperationException($"该实例已在运行（进程 {alreadyRunningPid}），请勿重复启动。");
-		}
-
-		string gameDir = ResolveGameDirectory(config, instance);
+		// 写请求要的三样东西（配置 / 实例 / 游戏目录）与两条写策略（并发启动守卫、二分定位禁区）
+		// 现在都由 RequestScope 构造（架构评审 ②，2026-11-17）。
+		RequestScope scope = BeginWriteScope(instanceId);
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
+		string gameDir = scope.GameDirectory;
 		SaveBackupService backupService = new SaveBackupService(gameDir);
 		BackupFileInfo backup = backupService.GetBackups(instance).FirstOrDefault(x => x.FileName == backupName)
 			?? throw new InvalidOperationException("备份不存在：" + backupName);
@@ -148,17 +124,15 @@ public static partial class LocalApiService
 	/// </summary>
 	private static async Task HandleDeleteSaveAsync(HttpListenerResponse response, string instanceId, string folderName)
 	{
-		AppConfig config = LoadConfig();
-		GameInstance instance = RequireInstance(config, instanceId);
-
-		// 与"打开目录"同一处并发守卫：游戏正在跑时删存档会同时被 Java 写入，属于必然冲突。
-		if (RunningInstanceRegistry.IsRunning(instanceId, out int runningPid))
+		RequestScope scope = BeginWriteScope(instanceId, new ScopeWording
 		{
-			throw new InvalidOperationException($"该实例正在运行（进程 {runningPid}），请先退出游戏再删除存档。");
-		}
+			Busy = pid => $"该实例正在运行（进程 {pid}），请先退出游戏再删除存档。",
+		});
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
 
 		RequireSave(config, instanceId, folderName);
-		string gameDir = ResolveGameDirectory(config, instance);
+		string gameDir = scope.GameDirectory;
 
 		SaveRecoveryRecord record = await CreateSaveRecoveryService()
 			.DeleteAsync(instanceId, gameDir, folderName)
@@ -210,9 +184,10 @@ public static partial class LocalApiService
 	/// <summary>M2-1①：把已删除的存档恢复回 saves 目录（同名冲突恢复为副本，不覆盖）。</summary>
 	private static async Task HandleRestoreSaveRecoveryAsync(HttpListenerResponse response, string instanceId, string operationId)
 	{
-		AppConfig config = LoadConfig();
-		GameInstance instance = RequireInstance(config, instanceId);
-		string gameDir = ResolveGameDirectory(config, instance);
+		RequestScope scope = BeginReadScope(instanceId);
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
+		string gameDir = scope.GameDirectory;
 
 		SaveRecoveryRecord record = await CreateSaveRecoveryService()
 			.RestoreAsync(instanceId, operationId, gameDir)
@@ -253,20 +228,12 @@ public static partial class LocalApiService
 
 	private static async Task HandleOpenSaveDirectoryAsync(HttpListenerResponse response, string instanceId, string folderName)
 	{
-		AppConfig config = LoadConfig();
-		GameInstance instance = RequireInstance(config, instanceId);
-
-		// MR03 收尾之二（缺口登记表 A7）：同一实例的**并发启动守卫**。
-		// 修复前这里从不检查运行态，`MarkRunning` 会"以最后一次为准"覆盖注册表 ——
-		// 于是同一实例能起两个游戏进程同时写同一份存档（真实的损坏风险），
-		// 而删除守卫此后只跟踪最新的那个 PID。
-		// 位置刻意放在最前：在任何网络调用/进程派发**之前**就拒绝。
-		if (RunningInstanceRegistry.IsRunning(instanceId, out int alreadyRunningPid))
-		{
-			throw new InvalidOperationException($"该实例已在运行（进程 {alreadyRunningPid}），请勿重复启动。");
-		}
-
-		string gameDir = ResolveGameDirectory(config, instance);
+		// 写请求要的三样东西（配置 / 实例 / 游戏目录）与两条写策略（并发启动守卫、二分定位禁区）
+		// 现在都由 RequestScope 构造（架构评审 ②，2026-11-17）。
+		RequestScope scope = BeginWriteScope(instanceId);
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
+		string gameDir = scope.GameDirectory;
 		SaveService service = new SaveService(gameDir);
 		SaveInfo save = RequireSave(config, instanceId, folderName);
 		service.OpenSavesDirectory(instance);

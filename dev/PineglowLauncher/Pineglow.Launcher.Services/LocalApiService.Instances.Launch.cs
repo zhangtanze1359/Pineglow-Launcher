@@ -52,9 +52,10 @@ public static partial class LocalApiService
 
 	private static async Task LaunchBodyAsync(HttpListenerResponse response, string instanceId)
 	{
-		AppConfig config = LoadConfig();
-		GameInstance instance = RequireInstance(config, instanceId);
-		string gameDir = ResolveGameDirectory(config, instance);
+		RequestScope scope = BeginReadScope(instanceId);
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
+		string gameDir = scope.GameDirectory;
 		if (string.IsNullOrWhiteSpace(instance.MinecraftVersion))
 		{
 			throw new InvalidOperationException("实例未关联游戏版本，请先在设置中安装版本");

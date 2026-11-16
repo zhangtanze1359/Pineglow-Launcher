@@ -190,8 +190,9 @@ public static partial class LocalApiService
 	/// </summary>
 	private static async Task HandlePrelaunchCheckAsync(HttpListenerResponse response, string instanceId)
 	{
-		AppConfig config = LoadConfig();
-		GameInstance instance = RequireInstance(config, instanceId);
+		RequestScope scope = BeginReadScope(instanceId);
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
 
 		// ---- 采集：Java ----
 		string javaPath = string.Empty;

@@ -26,8 +26,9 @@ public static partial class LocalApiService
 {
 	private static async Task HandleListModsAsync(HttpListenerResponse response, string instanceId)
 	{
-		AppConfig config = LoadConfig();
-		GameInstance instance = RequireInstance(config, instanceId);
+		RequestScope scope = BeginReadScope(instanceId);
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
 
 		// 验收阻断项 F-04（本轮 R3 修复）：这里原本也被"并发启动守卫"拦住 ——
 		// 但本路由是**只读列表**，不可能重复启动游戏。实测：把合成实例标记为运行中后，
@@ -68,21 +69,12 @@ public static partial class LocalApiService
 
 	private static async Task HandleToggleModAsync(HttpListenerResponse response, string instanceId, string fileName)
 	{
-		RejectManualModEditDuringBisect(instanceId);
-		AppConfig config = LoadConfig();
-		GameInstance instance = RequireInstance(config, instanceId);
-
-		// MR03 收尾之二（缺口登记表 A7）：同一实例的**并发启动守卫**。
-		// 修复前这里从不检查运行态，`MarkRunning` 会"以最后一次为准"覆盖注册表 ——
-		// 于是同一实例能起两个游戏进程同时写同一份存档（真实的损坏风险），
-		// 而删除守卫此后只跟踪最新的那个 PID。
-		// 位置刻意放在最前：在任何网络调用/进程派发**之前**就拒绝。
-		if (RunningInstanceRegistry.IsRunning(instanceId, out int alreadyRunningPid))
-		{
-			throw new InvalidOperationException($"该实例已在运行（进程 {alreadyRunningPid}），请勿重复启动。");
-		}
-
-		string gameDir = ResolveGameDirectory(config, instance);
+		// 写请求要的三样东西（配置 / 实例 / 游戏目录）与两条写策略（并发启动守卫、二分定位禁区）
+		// 现在都由 RequestScope 构造（架构评审 ②，2026-11-17）。
+		RequestScope scope = BeginWriteScope(instanceId, requireNoBisect: true);
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
+		string gameDir = scope.GameDirectory;
 		ModService service = new ModService(gameDir);
 		ModFile mod = (await service.GetModsAsync(instance)).FirstOrDefault(x => x.FileName == fileName)
 			?? throw new InvalidOperationException("Mod 不存在：" + fileName);
@@ -105,21 +97,12 @@ public static partial class LocalApiService
 	/// </summary>
 	private static async Task HandleDeleteModAsync(HttpListenerResponse response, string instanceId, string fileName)
 	{
-		RejectManualModEditDuringBisect(instanceId);
-		AppConfig config = LoadConfig();
-		GameInstance instance = RequireInstance(config, instanceId);
-
-		// MR03 收尾之二（缺口登记表 A7）：同一实例的**并发启动守卫**。
-		// 修复前这里从不检查运行态，`MarkRunning` 会"以最后一次为准"覆盖注册表 ——
-		// 于是同一实例能起两个游戏进程同时写同一份存档（真实的损坏风险），
-		// 而删除守卫此后只跟踪最新的那个 PID。
-		// 位置刻意放在最前：在任何网络调用/进程派发**之前**就拒绝。
-		if (RunningInstanceRegistry.IsRunning(instanceId, out int alreadyRunningPid))
-		{
-			throw new InvalidOperationException($"该实例已在运行（进程 {alreadyRunningPid}），请勿重复启动。");
-		}
-
-		string gameDir = ResolveGameDirectory(config, instance);
+		// 写请求要的三样东西（配置 / 实例 / 游戏目录）与两条写策略（并发启动守卫、二分定位禁区）
+		// 现在都由 RequestScope 构造（架构评审 ②，2026-11-17）。
+		RequestScope scope = BeginWriteScope(instanceId, requireNoBisect: true);
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
+		string gameDir = scope.GameDirectory;
 		ModService service = new ModService(gameDir);
 		ModFile mod = (await service.GetModsAsync(instance)).FirstOrDefault(x => x.FileName == fileName)
 			?? throw new InvalidOperationException("Mod 不存在：" + fileName);
@@ -156,8 +139,9 @@ public static partial class LocalApiService
 	/// <summary>MR04：列出该实例恢复区的记录（只读，不触碰游戏文件）。</summary>
 	private static async Task HandleListRecoveryAsync(HttpListenerResponse response, string instanceId)
 	{
-		AppConfig config = LoadConfig();
-		GameInstance instance = RequireInstance(config, instanceId);
+		RequestScope scope = BeginReadScope(instanceId);
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
 
 		FileRecoveryService recoveryService = CreateRecoveryService();
 		List<FileRecoveryRecord> records = await recoveryService.ListAsync(instanceId);
@@ -242,8 +226,9 @@ public static partial class LocalApiService
 	/// </summary>
 	private static async Task HandleRestoreRecoveryAsync(HttpListenerRequest request, HttpListenerResponse response, string instanceId, string operationId)
 	{
-		AppConfig config = LoadConfig();
-		GameInstance instance = RequireInstance(config, instanceId);
+		RequestScope scope = BeginReadScope(instanceId);
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
 
 		FileRecoveryService service = CreateRecoveryService();
 		FileRecoveryRecord? record = await service.LoadAsync(instanceId, operationId);
@@ -305,7 +290,6 @@ public static partial class LocalApiService
 	/// </summary>
 	private static async Task HandleReplaceModAsync(HttpListenerRequest request, HttpListenerResponse response, string instanceId, string fileName)
 	{
-		RejectManualModEditDuringBisect(instanceId);
 		JsonDocument body = await ReadBodyAsync(request);
 		string newFileBase64 = JsonUtil.GetString(body.RootElement, "newFileBase64")?.Trim() ?? string.Empty;
 		string expectedSha256 = JsonUtil.GetString(body.RootElement, "expectedSha256")?.Trim() ?? string.Empty;
@@ -340,20 +324,12 @@ public static partial class LocalApiService
 			throw new InvalidOperationException("newFileBase64 不能为空");
 		}
 
-		AppConfig config = LoadConfig();
-		GameInstance instance = RequireInstance(config, instanceId);
-
-		// MR03 收尾之二（缺口登记表 A7）：同一实例的**并发启动守卫**。
-		// 修复前这里从不检查运行态，`MarkRunning` 会"以最后一次为准"覆盖注册表 ——
-		// 于是同一实例能起两个游戏进程同时写同一份存档（真实的损坏风险），
-		// 而删除守卫此后只跟踪最新的那个 PID。
-		// 位置刻意放在最前：在任何网络调用/进程派发**之前**就拒绝。
-		if (RunningInstanceRegistry.IsRunning(instanceId, out int alreadyRunningPid))
-		{
-			throw new InvalidOperationException($"该实例已在运行（进程 {alreadyRunningPid}），请勿重复启动。");
-		}
-
-		string gameDir = ResolveGameDirectory(config, instance);
+		// 写请求要的三样东西（配置 / 实例 / 游戏目录）与两条写策略（并发启动守卫、二分定位禁区）
+		// 现在都由 RequestScope 构造（架构评审 ②，2026-11-17）。
+		RequestScope scope = BeginWriteScope(instanceId, requireNoBisect: true);
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
+		string gameDir = scope.GameDirectory;
 
 		byte[] bytes;
 		try
@@ -426,20 +402,12 @@ public static partial class LocalApiService
 
 	private static async Task HandleListResourcePacksAsync(HttpListenerResponse response, string instanceId)
 	{
-		AppConfig config = LoadConfig();
-		GameInstance instance = RequireInstance(config, instanceId);
-
-		// MR03 收尾之二（缺口登记表 A7）：同一实例的**并发启动守卫**。
-		// 修复前这里从不检查运行态，`MarkRunning` 会"以最后一次为准"覆盖注册表 ——
-		// 于是同一实例能起两个游戏进程同时写同一份存档（真实的损坏风险），
-		// 而删除守卫此后只跟踪最新的那个 PID。
-		// 位置刻意放在最前：在任何网络调用/进程派发**之前**就拒绝。
-		if (RunningInstanceRegistry.IsRunning(instanceId, out int alreadyRunningPid))
-		{
-			throw new InvalidOperationException($"该实例已在运行（进程 {alreadyRunningPid}），请勿重复启动。");
-		}
-
-		string gameDir = ResolveGameDirectory(config, instance);
+		// 写请求要的三样东西（配置 / 实例 / 游戏目录）与两条写策略（并发启动守卫、二分定位禁区）
+		// 现在都由 RequestScope 构造（架构评审 ②，2026-11-17）。
+		RequestScope scope = BeginWriteScope(instanceId, requireNoBisect: true);
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
+		string gameDir = scope.GameDirectory;
 		List<ResourcePackInfo> packs = new ResourcePackService(gameDir).GetResourcePacks(instance);
 		await WriteJsonAsync(response, 200, new
 		{
@@ -460,20 +428,12 @@ public static partial class LocalApiService
 
 	private static async Task HandleListShaderPacksAsync(HttpListenerResponse response, string instanceId)
 	{
-		AppConfig config = LoadConfig();
-		GameInstance instance = RequireInstance(config, instanceId);
-
-		// MR03 收尾之二（缺口登记表 A7）：同一实例的**并发启动守卫**。
-		// 修复前这里从不检查运行态，`MarkRunning` 会"以最后一次为准"覆盖注册表 ——
-		// 于是同一实例能起两个游戏进程同时写同一份存档（真实的损坏风险），
-		// 而删除守卫此后只跟踪最新的那个 PID。
-		// 位置刻意放在最前：在任何网络调用/进程派发**之前**就拒绝。
-		if (RunningInstanceRegistry.IsRunning(instanceId, out int alreadyRunningPid))
-		{
-			throw new InvalidOperationException($"该实例已在运行（进程 {alreadyRunningPid}），请勿重复启动。");
-		}
-
-		string gameDir = ResolveGameDirectory(config, instance);
+		// 写请求要的三样东西（配置 / 实例 / 游戏目录）与两条写策略（并发启动守卫、二分定位禁区）
+		// 现在都由 RequestScope 构造（架构评审 ②，2026-11-17）。
+		RequestScope scope = BeginWriteScope(instanceId, requireNoBisect: true);
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
+		string gameDir = scope.GameDirectory;
 		List<ShaderPackInfo> packs = new ShaderPackService(gameDir).GetPacks(instance);
 		await WriteJsonAsync(response, 200, new { instanceId, packs = packs.Select(p => new { p.FileName, p.FullPath, p.SizeText }) });
 	}

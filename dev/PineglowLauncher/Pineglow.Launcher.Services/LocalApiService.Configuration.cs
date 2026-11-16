@@ -190,6 +190,24 @@ public static partial class LocalApiService
 		}
 	}
 
+	/// <summary>只读请求的作用域：解析配置与（可选）实例，不执行任何写策略。</summary>
+	private static RequestScope BeginReadScope(string? instanceId = null)
+	{
+		AppConfig config = LoadConfig();
+		GameInstance? instance = instanceId == null ? null : RequireInstance(config, instanceId);
+		return RequestScope.Read(config, instance, instanceId ?? string.Empty, ResolveGameDirectory(config, instance));
+	}
+
+	/// <summary>写请求的作用域：构造即执行两条写策略（二分定位禁区 + 并发启动守卫）。</summary>
+	private static RequestScope BeginWriteScope(string instanceId, ScopeWording? wording = null, bool requireNoBisect = false)
+	{
+		RequestScope scope = BeginReadScope(instanceId);
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
+		string gameDir = scope.GameDirectory;
+		return RequestScope.Write(config, instance, gameDir, wording, requireNoBisect);
+	}
+
 	private static string ResolveGameDirectory(AppConfig config, GameInstance instance)
 	{
 		string dir = instance?.GameDirectory;
@@ -228,8 +246,9 @@ public static partial class LocalApiService
 		bool value;
 		lock (ConfigGate)
 		{
-			AppConfig config = LoadConfig();
-			GameInstance instance = RequireInstance(config, instanceId);
+		RequestScope scope = BeginReadScope(instanceId);
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
 			if (root.TryGetProperty("autoBackupOnExit", out JsonElement flag)
 				&& (flag.ValueKind == JsonValueKind.True || flag.ValueKind == JsonValueKind.False))
 			{

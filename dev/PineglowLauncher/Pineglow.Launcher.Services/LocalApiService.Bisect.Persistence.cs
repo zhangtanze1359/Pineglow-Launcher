@@ -266,20 +266,12 @@ public static partial class LocalApiService
 	/// <summary>MR07：查询该实例是否有未完成的二分定位会话（只读）。</summary>
 	private static async Task HandleBisectPendingAsync(HttpListenerResponse response, string instanceId)
 	{
-		AppConfig config = LoadConfig();
-		GameInstance instance = RequireInstance(config, instanceId);
-
-		// MR03 收尾之二（缺口登记表 A7）：同一实例的**并发启动守卫**。
-		// 修复前这里从不检查运行态，`MarkRunning` 会"以最后一次为准"覆盖注册表 ——
-		// 于是同一实例能起两个游戏进程同时写同一份存档（真实的损坏风险），
-		// 而删除守卫此后只跟踪最新的那个 PID。
-		// 位置刻意放在最前：在任何网络调用/进程派发**之前**就拒绝。
-		if (RunningInstanceRegistry.IsRunning(instanceId, out int alreadyRunningPid))
-		{
-			throw new InvalidOperationException($"该实例已在运行（进程 {alreadyRunningPid}），请勿重复启动。");
-		}
-
-		string gameDir = ResolveGameDirectory(config, instance);
+		// 写请求要的三样东西（配置 / 实例 / 游戏目录）与两条写策略（并发启动守卫、二分定位禁区）
+		// 现在都由 RequestScope 构造（架构评审 ②，2026-11-17）。
+		RequestScope scope = BeginWriteScope(instanceId);
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
+		string gameDir = scope.GameDirectory;
 
 		BisectRecoveryRecord? record = await CreateBisectStore().LoadAsync(instanceId);
 		if (record == null)
@@ -328,20 +320,12 @@ public static partial class LocalApiService
 		JsonDocument body = await ReadBodyAsync(request);
 		string action = (JsonUtil.GetString(body.RootElement, "action") ?? "restore").Trim().ToLowerInvariant();
 
-		AppConfig config = LoadConfig();
-		GameInstance instance = RequireInstance(config, instanceId);
-
-		// MR03 收尾之二（缺口登记表 A7）：同一实例的**并发启动守卫**。
-		// 修复前这里从不检查运行态，`MarkRunning` 会"以最后一次为准"覆盖注册表 ——
-		// 于是同一实例能起两个游戏进程同时写同一份存档（真实的损坏风险），
-		// 而删除守卫此后只跟踪最新的那个 PID。
-		// 位置刻意放在最前：在任何网络调用/进程派发**之前**就拒绝。
-		if (RunningInstanceRegistry.IsRunning(instanceId, out int alreadyRunningPid))
-		{
-			throw new InvalidOperationException($"该实例已在运行（进程 {alreadyRunningPid}），请勿重复启动。");
-		}
-
-		string gameDir = ResolveGameDirectory(config, instance);
+		// 写请求要的三样东西（配置 / 实例 / 游戏目录）与两条写策略（并发启动守卫、二分定位禁区）
+		// 现在都由 RequestScope 构造（架构评审 ②，2026-11-17）。
+		RequestScope scope = BeginWriteScope(instanceId);
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
+		string gameDir = scope.GameDirectory;
 		string modsDir = Path.Combine(gameDir, "mods");
 
 		BisectRecoveryStore store = CreateBisectStore();

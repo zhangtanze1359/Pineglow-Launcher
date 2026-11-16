@@ -28,9 +28,10 @@ public static partial class LocalApiService
 	/// </summary>
 	private static async Task HandleListModUpdatesAsync(HttpListenerResponse response, string instanceId)
 	{
-		AppConfig config = LoadConfig();
-		GameInstance instance = RequireInstance(config, instanceId);
-		string gameDir = ResolveGameDirectory(config, instance);
+		RequestScope scope = BeginWriteScope(instanceId, requireNoBisect: true);
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
+		string gameDir = scope.GameDirectory;
 		ModService modService = new ModService(gameDir);
 		List<ModFile> mods = await modService.GetModsAsync(instance);
 
@@ -83,7 +84,6 @@ public static partial class LocalApiService
 
 	private static async Task HandleStartBatchUpdateAsync(HttpListenerRequest request, HttpListenerResponse response, string instanceId)
 	{
-		RejectManualModEditDuringBisect(instanceId);
 		using JsonDocument body = await ReadBodyAsync(request);
 		JsonElement root = body.RootElement;
 
@@ -93,9 +93,10 @@ public static partial class LocalApiService
 			throw new InvalidOperationException("items 不能为空");
 		}
 
-		AppConfig config = LoadConfig();
-		GameInstance instance = RequireInstance(config, instanceId);
-		string gameDir = ResolveGameDirectory(config, instance);
+		RequestScope scope = BeginWriteScope(instanceId, requireNoBisect: true);
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
+		string gameDir = scope.GameDirectory;
 
 		// D3③：体积主要来自 jar 本身。前端可以二选一：
 		//   * newFileBase64 —— 调用方自己拿到字节；
@@ -184,9 +185,10 @@ public static partial class LocalApiService
 			throw new InvalidOperationException("批次尚未结束，不能撤销");
 		}
 
-		AppConfig config = LoadConfig();
-		GameInstance instance = RequireInstance(config, instanceId);
-		string gameDir = ResolveGameDirectory(config, instance);
+		RequestScope scope = BeginWriteScope(instanceId, requireNoBisect: true);
+		AppConfig config = scope.Config;
+		GameInstance instance = scope.Instance!;
+		string gameDir = scope.GameDirectory;
 		FileRecoveryService recovery = CreateRecoveryService();
 
 		IReadOnlyList<BatchUndoResult> results = await BatchUpdateRunner.UndoAsync(job, instance, new ModService(gameDir), recovery, gameDir);
