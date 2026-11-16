@@ -80,7 +80,7 @@ public sealed class AppConfig
 
 	public bool UseMirror { get; set; }
 
-	/// <summary>下载源：official / bmclapi / mcbbs</summary>
+	/// <summary>下载源：official / bmclapi（v1.0.4 起 mcbbs 已下线，旧值由 MirrorHelper.Normalize 迁移）</summary>
 	public string DownloadSource { get; set; } = "official";
 
 	/// <summary>自更新 manifest 地址；留空表示不检查更新。</summary>

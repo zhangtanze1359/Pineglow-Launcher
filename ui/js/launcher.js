@@ -3639,7 +3639,7 @@ const AUTH_PRESETS = [
 	{ name: '自定地址', url: '', desc: '填写任意 authlib-injector 兼容地址' },
 ];
 function sourceLabel(key) {
-	const names = { official: t('set.sourceOfficial'), bmclapi: 'BMCLAPI', mcbbs: t('set.sourceMcbbs') };
+	const names = { official: t('set.sourceOfficial'), bmclapi: 'BMCLAPI' };
 	return names[key] || key || t('set.sourceOfficial');
 }
 async function openSourcePicker() {

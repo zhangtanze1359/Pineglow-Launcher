@@ -1087,7 +1087,24 @@ public static class LocalApiService
 		{
 			IConfigStore store = _configStoreOverride ?? _defaultConfigStore;
 			AppConfig config = store.Load();
-			MirrorHelper.SelectedKey = string.IsNullOrWhiteSpace(config.DownloadSource) ? "official" : config.DownloadSource;
+			// v1.0.4：旧配置里的 mcbbs（镜像已下线）在**读入时**就迁到 bmclapi，并**立刻写回**一次。
+			// 只在这一刻值确实不同时才写：之后的读取值已经等于新值，不会再触发任何写盘。
+			// （真机验收发现：只改内存会出现"界面显示 BMCLAPI、config.json 里还写着 mcbbs"的分裂状态。）
+			string normalizedSource = MirrorHelper.Normalize(config.DownloadSource);
+			bool migrated = !string.Equals(config.DownloadSource, normalizedSource, StringComparison.OrdinalIgnoreCase);
+			if (migrated)
+			{
+				config.DownloadSource = normalizedSource;
+				try
+				{
+					store.Save(config);
+				}
+				catch
+				{
+					// 写回失败不影响本次使用：内存里已经是新值，下次保存还会再落一次。
+				}
+			}
+			MirrorHelper.SelectedKey = normalizedSource;
 			return config;
 		}
 	}
@@ -1096,7 +1113,7 @@ public static class LocalApiService
 	{
 		lock (ConfigGate)
 		{
-			MirrorHelper.SelectedKey = string.IsNullOrWhiteSpace(config.DownloadSource) ? "official" : config.DownloadSource;
+			MirrorHelper.SelectedKey = MirrorHelper.Normalize(config.DownloadSource);
 			RefreshApiHttpProxy(config);
 			IConfigStore store = _configStoreOverride ?? _defaultConfigStore;
 			store.Save(config);
@@ -1142,7 +1159,7 @@ public static class LocalApiService
 				config.ServerHost,
 				config.ServerPort,
 				config.UseMirror,
-				downloadSource = string.IsNullOrWhiteSpace(config.DownloadSource) ? "official" : config.DownloadSource,
+				downloadSource = MirrorHelper.Normalize(config.DownloadSource),
 				config.ProxyEnabled,
 				config.ProxyHost,
 				config.ProxyPort,

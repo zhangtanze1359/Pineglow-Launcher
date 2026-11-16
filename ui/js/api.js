@@ -1047,13 +1047,12 @@ SG.api = (() => {
 			return this._mock({ ok: true });
 		},
 		async getSources() {
-			const lat = { official: 35, bmclapi: 42, mcbbs: 51 };
+			const lat = { official: 35, bmclapi: 42 };
 			return this._mock({
 				selected: SG.mock.settings.downloadSource || 'official',
 				sources: [
 					{ key: 'official', name: '官方源', baseUrl: 'https://piston-meta.mojang.com', latencyMs: lat.official, available: true },
 					{ key: 'bmclapi', name: 'BMCLAPI', baseUrl: 'https://bmclapi2.bangbang93.com', latencyMs: lat.bmclapi, available: true },
-					{ key: 'mcbbs', name: 'MCBBS 镜像', baseUrl: 'https://download.mcbbs.net', latencyMs: lat.mcbbs, available: true },
 				],
 			});
 		},
