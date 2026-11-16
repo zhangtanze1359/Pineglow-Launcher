@@ -85,6 +85,13 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: node scripts/check-ui-resource-closure.cjs --root ui --json ui-resource-closure.json
 
+      # CSS token 门槛（2026-11-17 补接线）。
+      # 由来：本地每次都跑（scripts/gates.cjs 里也有），CI 从建库起**一次都没跑过** ——
+      # "有门槛、没接线"就是绿色里藏的一个洞：token 定义/引用/死回退坏了，CI 依然是绿的。
+      - name: Verify CSS tokens
+        if: matrix.os == 'ubuntu-latest'
+        run: node scripts/check-css-tokens.cjs
+
       # R04：正式测试清单的唯一权威来源是 scripts/test-inventory.txt。
       # 这里先做双向一致性校验：清单里写的必须存在；磁盘上存在的 *.test.cjs 必须都登记。
       # 少列（例如曾经的 11 vs 21）、多出、文件被删都会非零失败，不允许悄悄少跑测试。
