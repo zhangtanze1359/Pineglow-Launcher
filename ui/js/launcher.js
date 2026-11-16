@@ -395,17 +395,19 @@ function isFrontendEndpointAllowed(baseUrl) {
 function getActiveAiProviderInfo() {
 	try {
 		const cfg = (typeof STATE !== 'undefined' && STATE && STATE.config) ? STATE.config : (window.STATE && window.STATE.config) || null;
-		if (!cfg) return { name: '—', model: '—', allowed: false };
+		if (!cfg) return { name: '—', model: '—', allowed: false, configured: false };
 		const list = cfg.aiProviders || [];
 		const cur = list.find(p => p.id === cfg.selectedAiProviderId);
-		if (!cur) return { name: '—', model: '—', allowed: false };
+		// S8：把"根本没配 provider"与"配了但端点不在白名单"分开 —— 两者的引导话术完全不同
+		if (!cur) return { name: '—', model: '—', allowed: false, configured: false };
 		return {
 			name: cur.name || '—',
 			model: cur.model || '—',
 			allowed: isFrontendEndpointAllowed(cur.baseUrl),
+			configured: !!(cur.baseUrl && cur.baseUrl.trim()),
 		};
 	} catch (_) {
-		return { name: '—', model: '—', allowed: false };
+		return { name: '—', model: '—', allowed: false, configured: false };
 	}
 }
 SG.closeModal = closeModal;
@@ -1150,7 +1152,7 @@ async function openAiDiagnose(inst) {
 	openModal(`
 		<div class="modal-title">${esc(t('diag.title'))}</div>
 		<div class="page-sub">Minecraft ${esc(inst.version || '—')} · ${esc(inst.loader || 'Vanilla')}</div>
-		<div id="diagContent" style="margin-top:14px">${renderConfirmPanel(providerName, modelName, provider.allowed)}</div>
+		<div id="diagContent" style="margin-top:14px">${renderConfirmPanel(providerName, modelName, provider.allowed, provider.configured)}</div>
 		<div class="modal-actions">
 			<button class="modal-btn primary" id="dConfirmSend"${provider.allowed ? '' : ' disabled title="' + esc(t('diag.safetyModeBlocked')) + '"'}>${esc(t('diag.confirmSendAi'))}</button>
 			<button class="modal-btn ghost" id="dConfirmLocal">${esc(t('diag.confirmLocalOnly'))}</button>
@@ -1443,6 +1445,9 @@ async function openAiDiagnose(inst) {
 		if ((rule.suggestions || []).length) {
 			html += `<ul class="diag-list">${(rule.suggestions || []).map(s => `<li>${esc(s)}</li>`).join('')}</ul>`;
 		}
+		if (!aiConfigured) {
+			html += `<div class="diag-local-only-hint"><div class="diag-local-only-banner">${esc(t('diag.localOnlyUpsell'))}</div></div>`;
+		}
 		if (issues) html += `<div class="diag-mods-title">${esc(t('diag.modsTitle'))}</div><ul class="diag-list">${issues}</ul>`;
 		html += `</div>`;
 		// 仅本地分析：显式标注模式，避免用户把本地结果误认为 AI 结论
@@ -1552,10 +1557,13 @@ async function openAiDiagnose(inst) {
 	}
 }
 
-function renderConfirmPanel(providerName, modelName, allowed) {
+function renderConfirmPanel(providerName, modelName, allowed, configured) {
 	const safeProvider = esc(providerName || '—');
 	const safeModel = esc(modelName || '—');
-	const blockedNotice = allowed === false ? `<div class="diag-confirm-blocked">${esc(t('diag.safetyModeBlocked') || t('diag.safetyModeNotice'))}</div>` : '';
+	// S8 导览：没配 AI 时告诉用户"现在就能用本地分析"；配了但端点被拒才提安全模式
+	const blockedNotice = configured === false
+		? `<div class="diag-confirm-blocked">${esc(t('diag.aiNotConfigured'))}</div>`
+		: (allowed === false ? `<div class="diag-confirm-blocked">${esc(t('diag.safetyModeBlocked') || t('diag.safetyModeNotice'))}</div>` : '');
 	return `
 		<div class="diag-confirm-panel">
 			<div class="diag-confirm-title">${esc(t('diag.confirmPanelTitle'))}</div>
