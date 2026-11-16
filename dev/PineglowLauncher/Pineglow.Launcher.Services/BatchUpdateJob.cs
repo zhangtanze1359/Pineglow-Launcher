@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Threading;
 using System.Threading.Tasks;
 using Pineglow.Launcher.Models;
 
 namespace Pineglow.Launcher.Services;
 
 /// <summary>批量更新的一条输入：文件名 + 新字节 + 预期 SHA256 + 可选版本元数据（形状与单条 replace 一致）。</summary>
-public sealed record BatchUpdateInput(string FileName, byte[] Bytes, string? ExpectedSha256, ModVersion? Version);
+public sealed record BatchUpdateInput(string FileName, byte[]? Bytes, string? ExpectedSha256, ModVersion? Version, string? DownloadUrl = null, string? ExpectedSha1 = null);
 
 /// <summary>已成功应用的一条：文件名 + 恢复区操作号 + 写入后文件的 SHA256（撤销时用于校验"还是我写的那个版本"）。</summary>
 public sealed record BatchUpdateApplied(string FileName, string OperationId, string? NewSha256);
@@ -72,6 +73,7 @@ public static class BatchUpdateRunner
 		GameInstance instance,
 		ModService modService,
 		FileRecoveryService recovery,
+		Func<string, CancellationToken, Task<byte[]>>? downloadBytes = null,
 		Action<string>? log = null)
 	{
 		try
@@ -95,9 +97,15 @@ public static class BatchUpdateRunner
 				string? stagedPath = null;
 				try
 				{
-					stagedPath = StageFile(input);
+					// 下载放在**项与项之间**：这样"取消停止后续项"真的能省掉后面的下载
+					// （旧实现把全部下载塞在建任务之前，导致最慢的一段完全不可取消）。
+					byte[] bytes = await ResolveBytesAsync(input, downloadBytes);
+					string sha256 = string.IsNullOrWhiteSpace(input.ExpectedSha256)
+						? Convert.ToHexString(SHA256.HashData(bytes)).ToLowerInvariant()
+						: input.ExpectedSha256;
+					stagedPath = StageFile(input.FileName, bytes);
 					ModReplacementResult result = await replacer.ReplaceAsync(
-						instance, modService, input.FileName, stagedPath, input.ExpectedSha256, input.Version);
+						instance, modService, input.FileName, stagedPath, sha256, input.Version);
 
 					if (!result.Ok)
 					{
@@ -191,12 +199,42 @@ public static class BatchUpdateRunner
 		return results;
 	}
 
-	private static string StageFile(BatchUpdateInput input)
+	private static async Task<byte[]> ResolveBytesAsync(BatchUpdateInput input, Func<string, CancellationToken, Task<byte[]>>? downloadBytes)
+	{
+		if (input.Bytes != null && input.Bytes.Length > 0)
+		{
+			return input.Bytes;
+		}
+
+		if (string.IsNullOrWhiteSpace(input.DownloadUrl))
+		{
+			throw new InvalidOperationException("该项既没有字节也没有下载地址：" + input.FileName);
+		}
+
+		if (downloadBytes == null)
+		{
+			throw new InvalidOperationException("没有可用的下载器，无法取：" + input.FileName);
+		}
+
+		// 用 await 而不是 .GetAwaiter().GetResult()：真机实测后者在批次线程里有卡死风险
+		byte[] bytes = await downloadBytes(input.DownloadUrl, CancellationToken.None).ConfigureAwait(false);
+		if (!string.IsNullOrWhiteSpace(input.ExpectedSha1))
+		{
+			string actual = Convert.ToHexString(SHA1.HashData(bytes)).ToLowerInvariant();
+			if (!string.Equals(actual, input.ExpectedSha1, StringComparison.OrdinalIgnoreCase))
+			{
+				throw new InvalidOperationException($"下载内容 sha1 不匹配（{input.FileName}）：期望 {input.ExpectedSha1}，实际 {actual}");
+			}
+		}
+		return bytes;
+	}
+
+	private static string StageFile(string fileName, byte[] bytes)
 	{
 		string dir = Path.Combine(Path.GetTempPath(), "pineglow-mod-batch-" + Guid.NewGuid().ToString("N"));
 		Directory.CreateDirectory(dir);
-		string path = Path.Combine(dir, Path.GetFileName(input.FileName));
-		File.WriteAllBytes(path, input.Bytes);
+		string path = Path.Combine(dir, Path.GetFileName(fileName));
+		File.WriteAllBytes(path, bytes);
 		return path;
 	}
 

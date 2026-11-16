@@ -628,7 +628,7 @@ function openInstanceMenu(inst) {
 /* Mod 管理弹窗 */
 async function openModManager(inst) {
  const host = openModal(`<div class="drawer-head"><div><div class="modal-title">${esc(t('mod.manageTitle', { name: inst.name }))}</div><p>${esc(inst.version||'—')} · ${esc(inst.loader||'Vanilla')} · <span data-mod-count>—</span> Mod · ${uiText('恢复区','Recovery')} <span data-recovery-count>—</span></p></div><button class="ui-button drawer-close" id="mCancel" aria-label="${esc(t('common.close'))}">${uiIcon('close')}</button></div><div class="drawer-tabs" role="group" aria-label="${uiText('管理视图','Manage view')}"><button id="modsListTab" aria-pressed="true">${uiText('模组列表','Mod list')} (<span data-mod-count>—</span>)</button><button id="modsRecovery" aria-pressed="false">${esc(t('mod.recoveryOpen'))} (<span data-recovery-count>—</span>)</button></div><div id="modWorkspace" class="mod-workspace"><div class="drawer-tools"><input type="search" id="modSearch" placeholder="${esc(t('mod.search'))}" aria-label="${esc(t('mod.search'))}"><div class="mod-filters" role="group" aria-label="${esc(t('mod.filter.all'))}">${['all','enabled','disabled'].map(k=>`<button data-mod-filter="${k}" aria-pressed="${k==='all'}">${esc(t('mod.filter.'+k))} <span data-mod-filter-count="${k}">—</span></button>`).join('')}</div>
-<div class="mod-updates" role="group" aria-label="${esc(t('mod.checkUpdates'))}"><button class="ui-button" id="modCheckUpdates">${esc(t('mod.checkUpdates'))}</button><button class="ui-button primary" id="modUpdateAll" hidden></button><button class="ui-button" id="modUndoUpdates" hidden>${esc(t('mod.undoUpdates'))}</button><span class="mod-updates-status" data-updates-status></span></div></div><div class="drawer-body mod-manage-list" id="modList"><div class="loading-state">${esc(t('common.loading'))}</div></div></div><div class="drawer-body" id="modRecoveryBody" hidden></div>`);
+<div class="mod-updates" role="group" aria-label="${esc(t('mod.checkUpdates'))}"><button class="ui-button" id="modCheckUpdates">${esc(t('mod.checkUpdates'))}</button><button class="ui-button primary" id="modUpdateAll" hidden></button><button class="ui-button" id="modCancelUpdate" hidden>${esc(t('mod.cancelUpdate'))}</button><button class="ui-button" id="modUndoUpdates" hidden>${esc(t('mod.undoUpdates'))}</button><span class="mod-updates-status" data-updates-status></span></div></div><div class="drawer-body mod-manage-list" id="modList"><div class="loading-state">${esc(t('common.loading'))}</div></div></div><div class="drawer-body" id="modRecoveryBody" hidden></div>`);
  if (!host) return;
  host.dataset.drawer = 'true';
  const generation = host.dataset.modalGeneration;
@@ -692,7 +692,9 @@ async function openModManager(inst) {
  const upd = {
    check: document.getElementById('modCheckUpdates'),
    all: document.getElementById('modUpdateAll'),
+   cancel: document.getElementById('modCancelUpdate'),
    undo: document.getElementById('modUndoUpdates'),
+   pollFn: null,
    status: host.querySelector('[data-updates-status]'),
    jobId: null,
    candidates: [],
@@ -725,20 +727,44 @@ async function openModManager(inst) {
        try {
          const snap = await SG.api.getBatchUpdate(inst.id, upd.jobId);
          const done = (snap.items || []).filter(x => x.status !== 'pending').length;
-         if (snap.state === 'running' || snap.state === 'cancelling') {
+         // "已应用 N 个"只能数 applied：done 里还混着 skipped（被取消/被失败停掉的项）
+         const applied = (snap.items || []).filter(x => x.status === 'applied').length;
+         if (snap.state === 'running') {
+           upd.cancel.hidden = false;
            setStatus(t('mod.updateRunning', { done, total }));
            setTimeout(poll, 1200);
            return;
          }
-         if (snap.state === 'ok') setStatus(t('mod.updateDone', { n: done }));
-         else setStatus(t('mod.updatePartial', { file: snap.failedFile || '—' }));
+         if (snap.state === 'cancelling') {
+           // 取消是"当前项跑完就停"，所以这里继续轮询等它落到终态
+           setStatus(t('mod.updateCancelling', { done, total }));
+           setTimeout(poll, 1200);
+           return;
+         }
          upd.all.hidden = true;
-         if (done > 0) upd.undo.hidden = false;
+         upd.cancel.hidden = true;
+         if (snap.state === 'ok') setStatus(t('mod.updateDone', { n: applied }));
+         else if (snap.state === 'cancelled') setStatus(t('mod.updateCancelled', { n: applied }));
+         else setStatus(t('mod.updatePartial', { file: snap.failedFile || '—' }));
+         if (applied > 0) upd.undo.hidden = false;
          await load();
+         // 真机实测：终态那一刻列表偶尔还是旧快照（文件已落盘但渲染早了一拍），补一拍
+         setTimeout(() => { if (alive()) load(); }, 600);
        } catch (err) { setStatus(t('mod.updateCheckFailed') + (err.message || '')); }
      };
+     upd.pollFn = poll;
      await poll();
    } catch (err) { setStatus(t('mod.updateStartFailed') + (err.message || '')); upd.all.disabled = false; }
+ };
+ upd.cancel.onclick = async () => {
+   if (!upd.jobId) return;
+   upd.cancel.disabled = true;
+   try {
+     await SG.api.cancelBatchUpdate(inst.id, upd.jobId);
+     // 不自己写文案：交给轮询按服务端真实状态来落（否则批次刚好结束时会留下一条假的"正在取消"）
+     if (upd.pollFn) upd.pollFn();
+   } catch (err) { setStatus(t('mod.updateStartFailed') + (err.message || '')); }
+   finally { upd.cancel.disabled = false; }
  };
  upd.undo.onclick = async () => {
    if (!upd.jobId) return;

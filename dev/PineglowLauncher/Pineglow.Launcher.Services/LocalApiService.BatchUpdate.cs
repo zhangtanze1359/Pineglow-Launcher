@@ -117,7 +117,11 @@ public static partial class LocalApiService
 				throw new InvalidOperationException("items 里每一项都需要 fileName，以及 newFileBase64 或 downloadUrl 之一");
 			}
 
-			byte[] bytes;
+			// 有 base64 就现在解开；只有地址的话**不在这一步下载** ——
+			// 下载交给 BatchUpdateRunner，逐项进行，这样"取消停止后续项"才能真的省掉后面的下载。
+			// （旧实现把全部下载塞在建任务之前，结果最慢的一段不可取消。）
+			byte[]? bytes = null;
+			string? sha256 = null;
 			if (!string.IsNullOrWhiteSpace(base64))
 			{
 				try
@@ -128,23 +132,17 @@ public static partial class LocalApiService
 				{
 					throw new InvalidOperationException("newFileBase64 不是合法 base64：" + fileName);
 				}
-			}
-			else
-			{
-				bytes = await contentService.DownloadBytesAsync(downloadUrl);
-				if (!string.IsNullOrWhiteSpace(expectedSha1))
-				{
-					string actualSha1 = Convert.ToHexString(SHA1.HashData(bytes)).ToLowerInvariant();
-					if (!string.Equals(actualSha1, expectedSha1, StringComparison.OrdinalIgnoreCase))
-					{
-						throw new InvalidOperationException($"下载内容 sha1 不匹配（{fileName}）：期望 {expectedSha1}，实际 {actualSha1}");
-					}
-				}
+				// 服务端自己算 sha256：避免把"客户端声称的哈希"当成替换判据
+				sha256 = Convert.ToHexString(SHA256.HashData(bytes)).ToLowerInvariant();
 			}
 
-			// 服务端自己算 sha256：避免把"客户端声称的哈希"当成替换判据
-			string sha256 = Convert.ToHexString(SHA256.HashData(bytes)).ToLowerInvariant();
-			inputs.Add(new BatchUpdateInput(fileName, bytes, sha256, ParseVersion(item)));
+			inputs.Add(new BatchUpdateInput(
+				fileName,
+				bytes,
+				sha256,
+				ParseVersion(item),
+				string.IsNullOrWhiteSpace(downloadUrl) ? null : downloadUrl,
+				string.IsNullOrWhiteSpace(expectedSha1) ? null : expectedSha1));
 		}
 
 		ModService modService = new ModService(gameDir);
@@ -159,6 +157,7 @@ public static partial class LocalApiService
 		BatchUpdateRegistry.Add(job);
 
 		_ = Task.Run(() => BatchUpdateRunner.RunAsync(job, inputs, instance, modService, recovery,
+			(url, ct) => contentService.DownloadBytesAsync(url, ct),
 			message => Debug.WriteLine(message)));
 
 		await WriteJsonAsync(response, 202, Snapshot(job));

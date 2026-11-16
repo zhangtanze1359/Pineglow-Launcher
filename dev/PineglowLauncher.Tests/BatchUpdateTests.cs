@@ -67,6 +67,19 @@ public sealed class BatchUpdateTests : IDisposable
 
 	private void WriteMod(string fileName, string content) => File.WriteAllText(Path.Combine(_modsDir, fileName), content);
 
+	private static string Sha1Of(string text)
+	{
+		byte[] bytes = Encoding.UTF8.GetBytes(text);
+		return Convert.ToHexString(SHA1.HashData(bytes)).ToLowerInvariant();
+	}
+
+	/// <summary>只带下载地址的输入（字节由执行器逐项下载）。</summary>
+	private static BatchUpdateInput DownloadInput(string fileName, string newContent, bool correctSha1 = true)
+	{
+		string sha1 = correctSha1 ? Sha1Of(newContent) : Sha1Of(newContent + "-wrong");
+		return new BatchUpdateInput(fileName, null, null, null, "https://cdn.modrinth.com/" + fileName, sha1);
+	}
+
 	private static string Sha256Of(string text)
 	{
 		byte[] bytes = Encoding.UTF8.GetBytes(text);
@@ -198,6 +211,94 @@ public sealed class BatchUpdateTests : IDisposable
 		Assert.Equal(2, plan.Checked);
 	}
 
+	/* ===================== 取消与逐项下载 ===================== */
+
+	/// <summary>取消发生在开始前 → 一条都不下载、一条都不替换。</summary>
+	[Fact]
+	public async Task Runner_CancelBeforeStart_DownloadsNothing()
+	{
+		WriteMod("a.jar", "OLD-A");
+		WriteMod("b.jar", "OLD-B");
+
+		BatchUpdateJob job = NewJob("a.jar", "b.jar");
+		job.CancelRequested = true;
+		int downloads = 0;
+		List<BatchUpdateInput> inputs = new() { DownloadInput("a.jar", "NEW-A"), DownloadInput("b.jar", "NEW-B") };
+
+		await BatchUpdateRunner.RunAsync(job, inputs, _instance, _mods, _recovery, (url, ct) =>
+		{
+			downloads++;
+			return Task.FromResult(Encoding.UTF8.GetBytes("NEW-A"));
+		});
+
+		Assert.Equal(0, downloads);
+		Assert.All(job.Statuses, s => Assert.Equal(BatchItemStatus.Skipped, s));
+		Assert.Equal("cancelled", job.State);
+	}
+
+	/// <summary>
+	/// 取消发生在第一项提交时 → 第一项跑完（含它的下载），其后各项**连下载都不发生**。
+	/// 这正是把下载挪进执行器要解决的问题：旧实现把全部下载塞在建任务之前，最慢的一段不可取消。
+	/// </summary>
+	[Fact]
+	public async Task Runner_CancelDuringFirstItem_StopsLaterDownloads()
+	{
+		WriteMod("a.jar", "OLD-A");
+		WriteMod("b.jar", "OLD-B");
+		WriteMod("c.jar", "OLD-C");
+
+		BatchUpdateJob job = NewJob("a.jar", "b.jar", "c.jar");
+		int downloads = 0;
+		Dictionary<string, string> contents = new()
+		{
+			["https://cdn.modrinth.com/a.jar"] = "NEW-A",
+			["https://cdn.modrinth.com/b.jar"] = "NEW-B",
+			["https://cdn.modrinth.com/c.jar"] = "NEW-C"
+		};
+		List<BatchUpdateInput> inputs = new()
+		{
+			DownloadInput("a.jar", "NEW-A"), DownloadInput("b.jar", "NEW-B"), DownloadInput("c.jar", "NEW-C")
+		};
+
+		await BatchUpdateRunner.RunAsync(job, inputs, _instance, _mods, _recovery, (url, ct) =>
+		{
+			Interlocked.Increment(ref downloads);
+			// 第一项下载完成、替换之前就把取消旗标立起来 —— 确定、无竞态，
+			// 而且不碰 BeforeCommitForTest 那种全局钩子（那会和并行跑的其他用例互相干扰）。
+			if (url.EndsWith("a.jar", StringComparison.Ordinal))
+			{
+				job.CancelRequested = true;
+			}
+			return Task.FromResult(Encoding.UTF8.GetBytes(contents[url]));
+		});
+
+		Assert.Equal(1, downloads);
+		Assert.Equal(BatchItemStatus.Applied, job.Statuses[0]);
+		Assert.Equal(BatchItemStatus.Skipped, job.Statuses[1]);
+		Assert.Equal(BatchItemStatus.Skipped, job.Statuses[2]);
+		Assert.Equal("cancelled", job.State);
+		Assert.Equal("NEW-A", File.ReadAllText(Path.Combine(_modsDir, "a.jar")));
+		Assert.Equal("OLD-B", File.ReadAllText(Path.Combine(_modsDir, "b.jar")));
+	}
+
+	/// <summary>下载内容 sha1 与期望不符 → 该项失败，源文件一个字节不变。</summary>
+	[Fact]
+	public async Task Runner_DownloadSha1Mismatch_FailsWithoutTouchingSource()
+	{
+		WriteMod("a.jar", "OLD-A");
+		byte[] before = File.ReadAllBytes(Path.Combine(_modsDir, "a.jar"));
+
+		BatchUpdateJob job = NewJob("a.jar");
+		List<BatchUpdateInput> inputs = new() { DownloadInput("a.jar", "NEW-A", correctSha1: false) };
+
+		await BatchUpdateRunner.RunAsync(job, inputs, _instance, _mods, _recovery, (url, ct) =>
+			Task.FromResult(Encoding.UTF8.GetBytes("NEW-A")));
+
+		Assert.Equal(BatchItemStatus.Failed, job.Statuses[0]);
+		Assert.Equal("partial", job.State);
+		Assert.Equal(before, File.ReadAllBytes(Path.Combine(_modsDir, "a.jar")));
+	}
+
 	/* ===================== 执行 + 失败 + 撤销 ===================== */
 
 	[Fact]
@@ -235,6 +336,32 @@ public sealed class BatchUpdateTests : IDisposable
 		Assert.Equal(BatchItemStatus.Undone, job.Statuses[0]);
 		Assert.Equal("partial", job.State);
 		Assert.Empty(job.Applied);
+	}
+
+	/// <summary>
+	/// 取消（一）：批次还没开始就被取消 → 一条都不跑，全部 Skipped，状态 cancelled。
+	/// </summary>
+	[Fact]
+	public async Task Runner_CancelBeforeStart_SkipsEverything()
+	{
+		WriteMod("a.jar", "OLD-A");
+		WriteMod("b.jar", "OLD-B");
+
+		BatchUpdateJob job = NewJob("a.jar", "b.jar");
+		job.CancelRequested = true;
+		List<BatchUpdateInput> inputs = new()
+		{
+			Input("a.jar", "NEW-A"),
+			Input("b.jar", "NEW-B")
+		};
+
+		await BatchUpdateRunner.RunAsync(job, inputs, _instance, _mods, _recovery);
+
+		Assert.True(job.Finished);
+		Assert.All(job.Statuses, s => Assert.Equal(BatchItemStatus.Skipped, s));
+		Assert.Empty(job.Applied);
+		Assert.Equal("cancelled", job.State);
+		Assert.Equal("OLD-A", File.ReadAllText(Path.Combine(_modsDir, "a.jar")));
 	}
 
 	/// <summary>失败路径 A —— **源未损坏**：SHA 不匹配的那一项，原 jar 内容与 mtime 都不变。</summary>
