@@ -18,13 +18,6 @@ public sealed class ModContentService
 
 	private const string CurseForgeApi = "https://api.curseforge.com/v1";
 
-	/// <summary>
-	/// 内置默认 CurseForge API Key。
-	/// 由 CurseForge 官方正式签发给 Pineglow Launcher（2026-07-15 审批通过），
-	/// 用户未配置自己的 Key 时使用；可在设置页填写个人 Key 覆盖。
-	/// </summary>
-	private const string DefaultCurseForgeApiKey = "$2a$10$G3lIsqa0DNZIE2lKFnLy4O7EhQdaEnPynwI8rDWFI38zPNWWjOCrG";
-
 	private readonly HttpClient _http;
 
 	/// <summary>MR05：非空时，更新"已安装的同一个在线项目"会走事务化替换而不是并列导入。</summary>
@@ -505,11 +498,34 @@ public sealed class ModContentService
 		};
 	}
 
+	/// <summary>
+	/// v1.1.0 · S9：CurseForge 的 Key **不再内嵌在程序里**（第三方 Key 进分发程序是不可接受的）。
+	/// 来源优先级：调用方传入（设置页/配置） → 环境变量 <see cref="CurseForgeApiKeyEnvironmentVariable"/>。
+	/// 都没有时给出可执行的提示，而不是悄悄用一个"来源不明"的默认 Key。
+	/// </summary>
+	public const string CurseForgeApiKeyEnvironmentVariable = "PINEGLOW_CURSEFORGE_API_KEY";
+
+	/// <summary>缺 Key 时给用户的提示（测试断言这个字符串本身，而不是另写一份）。</summary>
+	public static string MissingKeyMessage =>
+		"CurseForge 需要 API Key：请在设置页填写，或设置环境变量 " + CurseForgeApiKeyEnvironmentVariable + "。";
+
+	/// <summary>纯解析：给测试用，不做任何 IO。空串表示没有可用 Key。</summary>
+	public static string ResolveCurseForgeApiKey(string? configured)
+	{
+		if (!string.IsNullOrWhiteSpace(configured))
+		{
+			return configured.Trim();
+		}
+		string env = Environment.GetEnvironmentVariable(CurseForgeApiKeyEnvironmentVariable) ?? string.Empty;
+		return env.Trim();
+	}
+
 	private static void RequireCurseForgeApiKey(ref string apiKey)
 	{
+		apiKey = ResolveCurseForgeApiKey(apiKey);
 		if (string.IsNullOrWhiteSpace(apiKey))
 		{
-			apiKey = DefaultCurseForgeApiKey;
+			throw new InvalidOperationException(MissingKeyMessage);
 		}
 	}
 
