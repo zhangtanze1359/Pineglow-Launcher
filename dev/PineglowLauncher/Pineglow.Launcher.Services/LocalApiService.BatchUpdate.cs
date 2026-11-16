@@ -39,19 +39,10 @@ public static partial class LocalApiService
 		string loader = instance.LoaderType ?? string.Empty;
 		string apiKey = string.IsNullOrWhiteSpace(config.CurseForgeApiKey) ? string.Empty : config.CurseForgeApiKey;
 
-		List<ModVersion?> latest = new List<ModVersion?>(mods.Count);
-		foreach (ModFile mod in mods)
-		{
-			try
-			{
-				latest.Add(await content.GetLatestCompatibleVersionAsync(mod, mcVersion, loader, apiKey));
-			}
-			catch (Exception ex)
-			{
-				Debug.WriteLine("[mod-updates] " + mod.FileName + " 查询失败：" + ex.Message);
-				latest.Add(null);
-			}
-		}
+		// 有界并发 + 5 分钟缓存（见 ModUpdateService）：200 Mod 的整合包不再一条条串行等
+		List<ModVersion?> latest = await new ModUpdateService().QueryLatestAsync(
+			mods, mcVersion, loader, apiKey, instanceId, content, DateTimeOffset.Now,
+			message => Debug.WriteLine(message));
 
 		ModUpdatePlan plan = ModUpdatePlanner.Plan(mods, latest);
 		await WriteJsonAsync(response, 200, new
