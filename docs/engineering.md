@@ -43,7 +43,7 @@
 ### 角色定位：双服务器一体
 
 同时做两件事：
-- **API 服务器**：监听 `127.0.0.1:48123`，路由表 **80 条路由登记**（2026-11-16 实测 `grep -c 'r.Add(ApiRoute' LocalApiService.Routing.cs`；2026-11-06 时为 72，此后增长）。
+- **API 服务器**：监听 `127.0.0.1:48123`，路由表 **81 条路由登记**（2026-11-16 实测 `grep -c 'r.Add(ApiRoute' LocalApiService.Routing.cs`；2026-11-06 时为 72，此后增长）。
 - **静态文件服务器**：托管 `ui/` 目录（HTML/CSS/JS）。
 
 前端通过 `fetch` HTTP 调用，而非 WebView 桥接 —— 这是"纯 Web UI 架构"的关键。

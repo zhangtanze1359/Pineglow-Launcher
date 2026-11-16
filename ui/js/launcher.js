@@ -627,7 +627,8 @@ function openInstanceMenu(inst) {
 
 /* Mod 管理弹窗 */
 async function openModManager(inst) {
- const host = openModal(`<div class="drawer-head"><div><div class="modal-title">${esc(t('mod.manageTitle', { name: inst.name }))}</div><p>${esc(inst.version||'—')} · ${esc(inst.loader||'Vanilla')} · <span data-mod-count>—</span> Mod · ${uiText('恢复区','Recovery')} <span data-recovery-count>—</span></p></div><button class="ui-button drawer-close" id="mCancel" aria-label="${esc(t('common.close'))}">${uiIcon('close')}</button></div><div class="drawer-tabs" role="group" aria-label="${uiText('管理视图','Manage view')}"><button id="modsListTab" aria-pressed="true">${uiText('模组列表','Mod list')} (<span data-mod-count>—</span>)</button><button id="modsRecovery" aria-pressed="false">${esc(t('mod.recoveryOpen'))} (<span data-recovery-count>—</span>)</button></div><div id="modWorkspace" class="mod-workspace"><div class="drawer-tools"><input type="search" id="modSearch" placeholder="${esc(t('mod.search'))}" aria-label="${esc(t('mod.search'))}"><div class="mod-filters" role="group" aria-label="${esc(t('mod.filter.all'))}">${['all','enabled','disabled'].map(k=>`<button data-mod-filter="${k}" aria-pressed="${k==='all'}">${esc(t('mod.filter.'+k))} <span data-mod-filter-count="${k}">—</span></button>`).join('')}</div></div><div class="drawer-body mod-manage-list" id="modList"><div class="loading-state">${esc(t('common.loading'))}</div></div></div><div class="drawer-body" id="modRecoveryBody" hidden></div>`);
+ const host = openModal(`<div class="drawer-head"><div><div class="modal-title">${esc(t('mod.manageTitle', { name: inst.name }))}</div><p>${esc(inst.version||'—')} · ${esc(inst.loader||'Vanilla')} · <span data-mod-count>—</span> Mod · ${uiText('恢复区','Recovery')} <span data-recovery-count>—</span></p></div><button class="ui-button drawer-close" id="mCancel" aria-label="${esc(t('common.close'))}">${uiIcon('close')}</button></div><div class="drawer-tabs" role="group" aria-label="${uiText('管理视图','Manage view')}"><button id="modsListTab" aria-pressed="true">${uiText('模组列表','Mod list')} (<span data-mod-count>—</span>)</button><button id="modsRecovery" aria-pressed="false">${esc(t('mod.recoveryOpen'))} (<span data-recovery-count>—</span>)</button></div><div id="modWorkspace" class="mod-workspace"><div class="drawer-tools"><input type="search" id="modSearch" placeholder="${esc(t('mod.search'))}" aria-label="${esc(t('mod.search'))}"><div class="mod-filters" role="group" aria-label="${esc(t('mod.filter.all'))}">${['all','enabled','disabled'].map(k=>`<button data-mod-filter="${k}" aria-pressed="${k==='all'}">${esc(t('mod.filter.'+k))} <span data-mod-filter-count="${k}">—</span></button>`).join('')}</div>
+<div class="mod-updates" role="group" aria-label="${esc(t('mod.checkUpdates'))}"><button class="ui-button" id="modCheckUpdates">${esc(t('mod.checkUpdates'))}</button><button class="ui-button primary" id="modUpdateAll" hidden></button><button class="ui-button" id="modUndoUpdates" hidden>${esc(t('mod.undoUpdates'))}</button><span class="mod-updates-status" data-updates-status></span></div></div><div class="drawer-body mod-manage-list" id="modList"><div class="loading-state">${esc(t('common.loading'))}</div></div></div><div class="drawer-body" id="modRecoveryBody" hidden></div>`);
  if (!host) return;
  host.dataset.drawer = 'true';
  const generation = host.dataset.modalGeneration;
@@ -687,6 +688,73 @@ async function openModManager(inst) {
      catch(err){toast(t('mod.deleteFailed')+(err.message||''));b.disabled=false;}
    }
  };
+ /* D3③：更新检查 + 批量更新（任务式：检查 → 建任务 → 轮询 → 撤销） */
+ const upd = {
+   check: document.getElementById('modCheckUpdates'),
+   all: document.getElementById('modUpdateAll'),
+   undo: document.getElementById('modUndoUpdates'),
+   status: host.querySelector('[data-updates-status]'),
+   jobId: null,
+   candidates: [],
+ };
+ const setStatus = (text) => { if (alive()) upd.status.textContent = text; };
+ upd.check.onclick = async () => {
+   upd.check.disabled = true; upd.all.hidden = true; upd.undo.hidden = true;
+   setStatus(t('mod.checking'));
+   try {
+     const data = await SG.api.getModUpdates(inst.id);
+     if (!alive()) return;
+     upd.candidates = data.candidates || [];
+     if (!upd.candidates.length) { setStatus(t('mod.upToDate')); return; }
+     setStatus(t('mod.updatesFound', { n: upd.candidates.length }));
+     upd.all.textContent = t('mod.updateAll', { n: upd.candidates.length });
+     upd.all.hidden = false;
+   } catch (err) { setStatus(t('mod.updateCheckFailed') + (err.message || '')); }
+   finally { upd.check.disabled = false; }
+ };
+ upd.all.onclick = async () => {
+   upd.all.disabled = true;
+   try {
+     const items = upd.candidates.map(c => ({ fileName: c.fileName, downloadUrl: c.downloadUrl, expectedSha1: c.sha1, version: c.version }));
+     const job = await SG.api.startBatchUpdate(inst.id, items);
+     if (!alive()) return;
+     upd.jobId = job.jobId;
+     const total = (job.items || []).length;
+     const poll = async () => {
+       if (!alive()) return;
+       try {
+         const snap = await SG.api.getBatchUpdate(inst.id, upd.jobId);
+         const done = (snap.items || []).filter(x => x.status !== 'pending').length;
+         if (snap.state === 'running' || snap.state === 'cancelling') {
+           setStatus(t('mod.updateRunning', { done, total }));
+           setTimeout(poll, 1200);
+           return;
+         }
+         if (snap.state === 'ok') setStatus(t('mod.updateDone', { n: done }));
+         else setStatus(t('mod.updatePartial', { file: snap.failedFile || '—' }));
+         upd.all.hidden = true;
+         if (done > 0) upd.undo.hidden = false;
+         await load();
+       } catch (err) { setStatus(t('mod.updateCheckFailed') + (err.message || '')); }
+     };
+     await poll();
+   } catch (err) { setStatus(t('mod.updateStartFailed') + (err.message || '')); upd.all.disabled = false; }
+ };
+ upd.undo.onclick = async () => {
+   if (!upd.jobId) return;
+   upd.undo.disabled = true;
+   try {
+     const res = await SG.api.undoBatchUpdate(inst.id, upd.jobId);
+     if (!alive()) return;
+     const n = (res.undoed || []).length;
+     const conflicts = (res.conflicts || []).length;
+     setStatus(t('mod.undoDone', { n }) + (conflicts ? ' · ' + t('mod.undoConflict', { n: conflicts }) : ''));
+     upd.undo.hidden = true;
+     await load();
+   } catch (err) { setStatus(t('mod.updateStartFailed') + (err.message || '')); }
+   finally { upd.undo.disabled = false; }
+ };
+
  await new Promise(resolve => requestAnimationFrame(resolve));
  await load();
  SG.api.listRecoveries(inst.id).then(data=>{if(alive())context.onCount((data.recoveries||[]).length);}).catch(()=>{});

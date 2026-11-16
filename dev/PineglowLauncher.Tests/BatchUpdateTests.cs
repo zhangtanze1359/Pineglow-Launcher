@@ -140,6 +140,64 @@ public sealed class BatchUpdateTests : IDisposable
 		Assert.Equal("complete", done.Reason);
 	}
 
+	/* ===================== 更新检查（纯函数） ===================== */
+
+	[Fact]
+	public void ModUpdates_NoOnlineMetadata_IsSkipped()
+	{
+		List<ModFile> mods = new()
+		{
+			new ModFile { FileName = "local-only.jar" },
+			new ModFile { FileName = "a.jar", OnlineSource = "modrinth", ProjectId = "p1", VersionId = "v1" }
+		};
+		List<ModVersion?> latest = new() { null, new ModVersion { VersionId = "v2", DownloadUrl = "https://cdn.modrinth.com/x.jar" } };
+
+		ModUpdatePlan plan = ModUpdatePlanner.Plan(mods, latest);
+
+		Assert.Single(plan.Candidates);
+		Assert.Equal("a.jar", plan.Candidates[0].FileName);
+		Assert.Equal(1, plan.SkippedNoMetadata);
+		Assert.Equal(0, plan.SkippedUpToDate);
+	}
+
+	[Fact]
+	public void ModUpdates_SameVersionId_IsUpToDate()
+	{
+		List<ModFile> mods = new()
+		{
+			new ModFile { FileName = "a.jar", OnlineSource = "modrinth", ProjectId = "p1", VersionId = "v2" }
+		};
+		List<ModVersion?> latest = new() { new ModVersion { VersionId = "v2", DownloadUrl = "https://cdn.modrinth.com/x.jar" } };
+
+		ModUpdatePlan plan = ModUpdatePlanner.Plan(mods, latest);
+
+		Assert.Empty(plan.Candidates);
+		Assert.Equal(1, plan.SkippedUpToDate);
+	}
+
+	[Fact]
+	public void ModUpdates_NewerVersionWithoutDownloadUrl_IsSkippedNotCrashed()
+	{
+		List<ModFile> mods = new()
+		{
+			new ModFile { FileName = "a.jar", OnlineSource = "modrinth", ProjectId = "p1", VersionId = "v1" },
+			new ModFile { FileName = "b.jar", OnlineSource = "curseforge", ProjectId = "p2", VersionId = "v1" }
+		};
+		List<ModVersion?> latest = new()
+		{
+			new ModVersion { VersionId = "v2", DownloadUrl = "" },
+			new ModVersion { VersionId = "v9", DownloadUrl = "https://mediafilez.forgecdn.net/y.jar", VersionNumber = "9.0" }
+		};
+
+		ModUpdatePlan plan = ModUpdatePlanner.Plan(mods, latest);
+
+		Assert.Single(plan.Candidates);
+		Assert.Equal("b.jar", plan.Candidates[0].FileName);
+		Assert.Equal("9.0", plan.Candidates[0].Latest.VersionNumber);
+		Assert.Equal(1, plan.SkippedNoDownload);
+		Assert.Equal(2, plan.Checked);
+	}
+
 	/* ===================== 执行 + 失败 + 撤销 ===================== */
 
 	[Fact]

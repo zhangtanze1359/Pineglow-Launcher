@@ -565,6 +565,28 @@ SG.api = (() => {
 			const res = await _post('/api/instances/' + encodeURIComponent(instanceId) + '/mods/' + encodeURIComponent(fileName) + '/delete', {});
 			return { ok: !!res.ok, operationId: res.operationId || '', recoverable: !!res.recoverable };
 		},
+		// D3③：更新检查 + 批量更新（任务式：建任务 → 轮询 → 撤销）
+		async getModUpdates(instanceId) {
+			const data = await _req('/api/instances/' + encodeURIComponent(instanceId) + '/mods/updates');
+			return {
+				checkedCount: data.checkedCount || 0,
+				skipped: data.skipped || {},
+				candidates: data.candidates || [],
+			};
+		},
+		async startBatchUpdate(instanceId, items) {
+			const data = await _post('/api/instances/' + encodeURIComponent(instanceId) + '/mods/batch-update', { items });
+			return data;
+		},
+		async getBatchUpdate(instanceId, jobId) {
+			return await _req('/api/instances/' + encodeURIComponent(instanceId) + '/mods/batch-update/' + encodeURIComponent(jobId));
+		},
+		async cancelBatchUpdate(instanceId, jobId) {
+			return await _post('/api/instances/' + encodeURIComponent(instanceId) + '/mods/batch-update/' + encodeURIComponent(jobId) + '/cancel', {});
+		},
+		async undoBatchUpdate(instanceId, jobId) {
+			return await _post('/api/instances/' + encodeURIComponent(instanceId) + '/mods/batch-update/' + encodeURIComponent(jobId) + '/undo', {});
+		},
 		// MR04：恢复区 —— 列出可还原的移除操作
 		async listRecoveries(instanceId) {
 			const data = await _req('/api/instances/' + encodeURIComponent(instanceId) + '/recovery');
@@ -1013,6 +1035,21 @@ SG.api = (() => {
 				files: [{ relativePath: 'mods/' + fileName, state: 'quarantined', sizeBytes: 0, error: '' }],
 			});
 			return this._mock({ ok: true, operationId, recoverable: true });
+		},
+		async getModUpdates(instanceId) {
+			return this._mock({ checkedCount: 0, skipped: { noMetadata: 0, upToDate: 0, noDownload: 0 }, candidates: [] });
+		},
+		async startBatchUpdate(instanceId, items) {
+			return this._mock({ ok: true, jobId: 'mock-job', state: 'running', items: (items || []).map(i => ({ fileName: i.fileName, status: 'pending' })) });
+		},
+		async getBatchUpdate(instanceId, jobId) {
+			return this._mock({ ok: true, jobId, state: 'ok', cancelRequested: false, failedFile: null, failedReason: null, items: [] });
+		},
+		async cancelBatchUpdate(instanceId, jobId) {
+			return this._mock({ ok: true, jobId, state: 'cancelled', items: [] });
+		},
+		async undoBatchUpdate(instanceId, jobId) {
+			return this._mock({ ok: true, jobId, undoed: [], conflicts: [], state: 'undone', items: [] });
 		},
 		async listRecoveries(instanceId) {
 			SG.mock.recoveries = SG.mock.recoveries || {};

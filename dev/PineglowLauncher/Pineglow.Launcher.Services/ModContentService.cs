@@ -30,6 +30,20 @@ public sealed class ModContentService
 	/// <summary>MR05：非空时，更新"已安装的同一个在线项目"会走事务化替换而不是并列导入。</summary>
 	private readonly FileRecoveryService? _recovery;
 
+	/// <summary>
+	/// D3③：批量更新时由**服务端**下载新包（避免浏览器侧 CORS 与跨域凭据问题）。
+	/// 因此这个入口必须是白名单：它接受的是请求体里的 URL，等于一个"让本机去取任意地址"的原语。
+	/// </summary>
+	private static readonly HashSet<string> AllowedDownloadHosts = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+	{
+		"cdn.modrinth.com",
+		"mediafilez.forgecdn.net",
+		"edge.forgecdn.net",
+		"github.com",
+		"objects.githubusercontent.com",
+		"raw.githubusercontent.com"
+	};
+
 	public ModContentService(HttpClient http, FileRecoveryService? recovery = null)
 	{
 		_http = http;
@@ -38,6 +52,53 @@ public sealed class ModContentService
 		{
 			_http.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("Pineglow-Launcher", "1.0"));
 		}
+	}
+
+	/// <summary>
+	/// D3③：把一个**白名单主机**上的 jar 取回内存（批量更新用）。
+	/// 校验：只允许 https、只允许 <see cref="AllowedDownloadHosts"/> 里的主机；
+	/// 失败信息里带主机名，便于用户判断"是不是更新源挂了"。
+	/// </summary>
+	public async Task<byte[]> DownloadBytesAsync(string url, CancellationToken ct = default(CancellationToken))
+	{
+		if (!TryValidateDownloadUrl(url, out Uri? uri, out string? error))
+		{
+			throw new InvalidOperationException(error);
+		}
+
+		using HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, uri);
+		using HttpResponseMessage response = await _http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, ct);
+		response.EnsureSuccessStatusCode();
+		byte[] bytes = await response.Content.ReadAsByteArrayAsync(ct);
+		if (bytes.Length == 0)
+		{
+			throw new InvalidOperationException("下载到 0 字节：" + uri!.Host);
+		}
+		return bytes;
+	}
+
+	/// <summary>下载地址白名单校验（理由见 <see cref="AllowedDownloadHosts"/>）。</summary>
+	public static bool TryValidateDownloadUrl(string? url, out Uri? uri, out string? error)
+	{
+		uri = null;
+		error = null;
+		if (string.IsNullOrWhiteSpace(url) || !Uri.TryCreate(url, UriKind.Absolute, out Uri? parsed))
+		{
+			error = "下载地址不合法：" + url;
+			return false;
+		}
+		if (parsed.Scheme != Uri.UriSchemeHttps)
+		{
+			error = "只允许 https 下载：" + parsed.Host;
+			return false;
+		}
+		if (!AllowedDownloadHosts.Contains(parsed.Host))
+		{
+			error = "下载主机不在白名单内：" + parsed.Host;
+			return false;
+		}
+		uri = parsed;
+		return true;
 	}
 
 	public Task<List<ModSearchResult>> SearchAsync(ModSearchRequest request, CancellationToken ct = default(CancellationToken))

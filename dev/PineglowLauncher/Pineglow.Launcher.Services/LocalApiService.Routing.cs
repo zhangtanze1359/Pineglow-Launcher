@@ -97,6 +97,7 @@ public static partial class LocalApiService
 
 		// D3③ 批量更新：建任务 → 查状态 → 取消（停后续项）→ 撤销（逐项）。判定在 BatchUpdatePlanner（纯）。
 		r.Add(ApiRoute.Exact("POST", 5, "批量更新 Mod", (ctx, s) => HandleStartBatchUpdateAsync(ctx.Request, ctx.Response, s[2]), (1, "instances"), (3, "mods"), (4, "batch-update")));
+		r.Add(ApiRoute.Exact("GET", 5, "检查 Mod 更新", (ctx, s) => HandleListModUpdatesAsync(ctx.Response, s[2]), (1, "instances"), (3, "mods"), (4, "updates")));
 		r.Add(ApiRoute.Exact("GET", 6, "批量更新状态", (ctx, s) => HandleGetBatchUpdateAsync(ctx.Response, s[2], s[5]), (1, "instances"), (3, "mods"), (4, "batch-update")));
 		r.Add(ApiRoute.Exact("POST", 7, "取消批量更新", (ctx, s) => HandleCancelBatchUpdateAsync(ctx.Response, s[2], s[5]), (1, "instances"), (3, "mods"), (4, "batch-update"), (6, "cancel")));
 		r.Add(ApiRoute.Exact("POST", 7, "撤销批量更新", (ctx, s) => HandleUndoBatchUpdateAsync(ctx.Response, s[2], s[5]), (1, "instances"), (3, "mods"), (4, "batch-update"), (6, "undo")));

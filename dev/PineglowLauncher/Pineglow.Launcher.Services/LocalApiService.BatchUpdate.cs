@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Pineglow.Launcher.Models;
@@ -21,6 +22,74 @@ namespace Pineglow.Launcher.Services;
 /// </summary>
 public static partial class LocalApiService
 {
+	/// <summary>
+	/// D3③ 的"哪几个能更新"：逐项查最新兼容版本，再用纯函数 <see cref="ModUpdatePlanner"/> 判定。
+	/// 网络失败 **不整体报 500**——某个项目查不到就按"无元数据/查不到"跳过，让其余项目照常给出结果。
+	/// </summary>
+	private static async Task HandleListModUpdatesAsync(HttpListenerResponse response, string instanceId)
+	{
+		AppConfig config = LoadConfig();
+		GameInstance instance = RequireInstance(config, instanceId);
+		string gameDir = ResolveGameDirectory(config, instance);
+		ModService modService = new ModService(gameDir);
+		List<ModFile> mods = await modService.GetModsAsync(instance);
+
+		ModContentService content = new ModContentService(ApiHttp, CreateRecoveryService());
+		string mcVersion = instance.MinecraftVersion ?? string.Empty;
+		string loader = instance.LoaderType ?? string.Empty;
+		string apiKey = string.IsNullOrWhiteSpace(config.CurseForgeApiKey) ? string.Empty : config.CurseForgeApiKey;
+
+		List<ModVersion?> latest = new List<ModVersion?>(mods.Count);
+		foreach (ModFile mod in mods)
+		{
+			try
+			{
+				latest.Add(await content.GetLatestCompatibleVersionAsync(mod, mcVersion, loader, apiKey));
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine("[mod-updates] " + mod.FileName + " 查询失败：" + ex.Message);
+				latest.Add(null);
+			}
+		}
+
+		ModUpdatePlan plan = ModUpdatePlanner.Plan(mods, latest);
+		await WriteJsonAsync(response, 200, new
+		{
+			ok = true,
+			instanceId,
+			minecraftVersion = mcVersion,
+			loader,
+			checkedCount = plan.Checked,
+			skipped = new
+			{
+				noMetadata = plan.SkippedNoMetadata,
+				upToDate = plan.SkippedUpToDate,
+				noDownload = plan.SkippedNoDownload
+			},
+			candidates = plan.Candidates.Select(c => new
+			{
+				fileName = c.FileName,
+				projectId = c.ProjectId,
+				installedVersionId = c.InstalledVersionId,
+				installedVersionNumber = c.InstalledVersionNumber,
+				latestVersionId = c.Latest.VersionId,
+				latestVersionNumber = c.Latest.VersionNumber,
+				downloadUrl = c.Latest.DownloadUrl,
+				sha1 = c.Latest.Sha1,
+				version = new
+				{
+					source = c.Latest.Source == ModSource.CurseForge ? "curseforge" : "modrinth",
+					projectId = c.Latest.ProjectId,
+					versionId = c.Latest.VersionId,
+					versionNumber = c.Latest.VersionNumber,
+					fileName = c.Latest.FileName,
+					displayName = c.Latest.DisplayName
+				}
+			}).ToArray()
+		});
+	}
+
 	private static async Task HandleStartBatchUpdateAsync(HttpListenerRequest request, HttpListenerResponse response, string instanceId)
 	{
 		RejectManualModEditDuringBisect(instanceId);
@@ -33,36 +102,60 @@ public static partial class LocalApiService
 			throw new InvalidOperationException("items 不能为空");
 		}
 
+		AppConfig config = LoadConfig();
+		GameInstance instance = RequireInstance(config, instanceId);
+		string gameDir = ResolveGameDirectory(config, instance);
+
+		// D3③：体积主要来自 jar 本身。前端可以二选一：
+		//   * newFileBase64 —— 调用方自己拿到字节；
+		//   * downloadUrl   —— 由服务端下载（白名单主机，见 ModContentService.AllowedDownloadHosts），
+		//     避免浏览器侧 CORS 与"把整包塞进本地 API 请求体"的双重代价。
+		// 无论哪种，写入时的 expectedSha256 都用**服务端算出来的值**；调用方给的是 sha1，
+		// 只用于"确认拿到的确实是那个版本"，不参与替换判定。
+		ModContentService contentService = new ModContentService(ApiHttp, CreateRecoveryService());
 		List<BatchUpdateInput> inputs = new List<BatchUpdateInput>();
 		foreach (JsonElement item in itemsEl.EnumerateArray())
 		{
 			string fileName = JsonUtil.GetString(item, "fileName")?.Trim() ?? string.Empty;
 			string base64 = JsonUtil.GetString(item, "newFileBase64")?.Trim() ?? string.Empty;
-			if (string.IsNullOrWhiteSpace(fileName) || string.IsNullOrWhiteSpace(base64))
+			string downloadUrl = JsonUtil.GetString(item, "downloadUrl")?.Trim() ?? string.Empty;
+			string expectedSha1 = JsonUtil.GetString(item, "expectedSha1")?.Trim() ?? string.Empty;
+
+			if (string.IsNullOrWhiteSpace(fileName) || (string.IsNullOrWhiteSpace(base64) && string.IsNullOrWhiteSpace(downloadUrl)))
 			{
-				throw new InvalidOperationException("items 里每一项都需要 fileName 与 newFileBase64");
+				throw new InvalidOperationException("items 里每一项都需要 fileName，以及 newFileBase64 或 downloadUrl 之一");
 			}
 
 			byte[] bytes;
-			try
+			if (!string.IsNullOrWhiteSpace(base64))
 			{
-				bytes = Convert.FromBase64String(base64);
+				try
+				{
+					bytes = Convert.FromBase64String(base64);
+				}
+				catch (FormatException)
+				{
+					throw new InvalidOperationException("newFileBase64 不是合法 base64：" + fileName);
+				}
 			}
-			catch (FormatException)
+			else
 			{
-				throw new InvalidOperationException("newFileBase64 不是合法 base64：" + fileName);
+				bytes = await contentService.DownloadBytesAsync(downloadUrl);
+				if (!string.IsNullOrWhiteSpace(expectedSha1))
+				{
+					string actualSha1 = Convert.ToHexString(SHA1.HashData(bytes)).ToLowerInvariant();
+					if (!string.Equals(actualSha1, expectedSha1, StringComparison.OrdinalIgnoreCase))
+					{
+						throw new InvalidOperationException($"下载内容 sha1 不匹配（{fileName}）：期望 {expectedSha1}，实际 {actualSha1}");
+					}
+				}
 			}
 
-			inputs.Add(new BatchUpdateInput(
-				fileName,
-				bytes,
-				JsonUtil.GetString(item, "expectedSha256")?.Trim(),
-				ParseVersion(item)));
+			// 服务端自己算 sha256：避免把"客户端声称的哈希"当成替换判据
+			string sha256 = Convert.ToHexString(SHA256.HashData(bytes)).ToLowerInvariant();
+			inputs.Add(new BatchUpdateInput(fileName, bytes, sha256, ParseVersion(item)));
 		}
 
-		AppConfig config = LoadConfig();
-		GameInstance instance = RequireInstance(config, instanceId);
-		string gameDir = ResolveGameDirectory(config, instance);
 		ModService modService = new ModService(gameDir);
 		FileRecoveryService recovery = CreateRecoveryService();
 
