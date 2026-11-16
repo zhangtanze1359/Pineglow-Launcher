@@ -167,14 +167,19 @@ function main() {
   process.exit(0);
 }
 
-function currentBranch() {
-  const r = spawnSync('git', ['rev-parse', '--abbrev-ref', 'HEAD'], { cwd: ROOT, encoding: 'utf8', windowsHide: true });
+/** git 不在 PATH 时（如从别的进程里调用 node）不要假装知道分支，老实报出来。 */
+function gitOutput(args) {
+  const r = spawnSync('git', args, { cwd: ROOT, encoding: 'utf8', windowsHide: true });
+  if (r.error || r.status !== 0) return '(git 不可用：' + (r.error ? r.error.code : 'exit ' + r.status) + ')';
   return (r.stdout || '').trim() || '(unknown)';
 }
 
+function currentBranch() {
+  return gitOutput(['rev-parse', '--abbrev-ref', 'HEAD']);
+}
+
 function currentHead() {
-  const r = spawnSync('git', ['rev-parse', '--short', 'HEAD'], { cwd: ROOT, encoding: 'utf8', windowsHide: true });
-  return (r.stdout || '').trim() || '(unknown)';
+  return gitOutput(['rev-parse', '--short', 'HEAD']);
 }
 
 main();
