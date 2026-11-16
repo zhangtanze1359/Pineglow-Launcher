@@ -15,6 +15,7 @@ namespace Pineglow.Launcher.Tests;
 ///   * 「仅本地分析」必须能出结论（规则 + Mod 健康），且**不发外网**；
 ///   * 即使客户端误点「深度分析」，也必须返回 200 + `configured=false` 的可解释结果，**不能 500**。
 /// </summary>
+[Collection("LocalApiService")]
 public sealed class DiagnoseWithoutAiTests : IAsyncLifetime
 {
 	private string _root = string.Empty;

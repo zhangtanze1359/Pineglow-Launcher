@@ -15,6 +15,7 @@ namespace Pineglow.Launcher.Tests;
 ///   1. 源码树里**不得**再出现 CurseForge Key 的字面量（用 `$2a$10$` 前缀识别）；
 ///   2. 运行期 Key 只来自「调用方传入 → 环境变量」，两者都没有时必须抛**可执行**的提示。
 /// </summary>
+[Collection("LocalApiService")]
 public sealed class SecretHygieneTests
 {
 	private const string SourceRoot = "dev/PineglowLauncher";

@@ -178,6 +178,18 @@ public static partial class LocalApiService
 				}
 			}
 		}
+		catch (CurseForgeKeyRequiredException ex)
+		{
+			// S9：缺 Key 是可预期的配置缺失，不能混进"上游故障 502"。
+			// 400 + 稳定 code，前端据此引导"去设置填 Key / 切回 Modrinth"。
+			await WriteJsonAsync(response, 400, new
+			{
+				ok = false,
+				code = CurseForgeKeyRequiredException.ErrorCode,
+				results = new object[0],
+				error = ex.Message
+			});
+		}
 		catch (Exception ex)
 		{
 			Debug.WriteLine($"[LocalApi] content search error: {ex.Message}");

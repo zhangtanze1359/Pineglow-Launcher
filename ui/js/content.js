@@ -222,7 +222,11 @@ async function contentRerenderGrid(el) {
 		if (token !== contentSearchToken) return;
 		// 关键：失败时同样校验 pageGen，避免把过期错误写回已切走的页面。
 		if (_pageGen() === -1) return;
-		contentLoadError = e && e.message ? e.message : String(e);
+		// S9：CurseForge 需要用户自己的 Key（程序不再内置）。这不是"功能坏了"，要给可执行的引导。
+		const code = e && e.payload && e.payload.code;
+		contentLoadError = (code === 'curseforge_key_required')
+			? t('content.cfKeyRequired')
+			: (e && e.message ? e.message : String(e));
 	}
 	if (token !== contentSearchToken) return;
 	// 关键：成功路径也要校验 pageGen。

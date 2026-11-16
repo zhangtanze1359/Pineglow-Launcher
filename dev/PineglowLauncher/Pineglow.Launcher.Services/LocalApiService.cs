@@ -377,6 +377,17 @@ public static partial class LocalApiService
 
 			await ServeStaticAsync(context, path);
 		}
+		catch (CurseForgeKeyRequiredException ex)
+		{
+			// 可预期的"用户没配 Key"，不是服务端故障：400 + 稳定 code，让界面能引导。
+			LauncherLog.Info("[LocalApi] 需要 CurseForge Key: " + request.RawUrl);
+			await WriteJsonAsync(response, 400, new
+			{
+				ok = false,
+				code = CurseForgeKeyRequiredException.ErrorCode,
+				error = ex.Message
+			});
+		}
 		catch (Exception ex)
 		{
 			LauncherLog.Error("[LocalApi] handler error: " + request.RawUrl + " | " + ex.Message, ex);

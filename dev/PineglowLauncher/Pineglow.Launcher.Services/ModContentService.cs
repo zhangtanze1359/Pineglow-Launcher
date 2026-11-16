@@ -525,7 +525,7 @@ public sealed class ModContentService
 		apiKey = ResolveCurseForgeApiKey(apiKey);
 		if (string.IsNullOrWhiteSpace(apiKey))
 		{
-			throw new InvalidOperationException(MissingKeyMessage);
+			throw new CurseForgeKeyRequiredException(MissingKeyMessage);
 		}
 	}
 
