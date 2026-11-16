@@ -21,16 +21,21 @@ Avalonia 12 只做 WebView2 宿主；界面是 `ui/` 下的纯 Web 前端，通�
 ## 命令（照抄，别自创）
 
 ```bash
-export PATH="/c/Windows/System32:/c/Windows:$PATH"   # 否则 GNU find 抢占 find.exe，更新脚本测试假失败
-cd "D:/Projects/松光启动器"
-dotnet restore dev/PineglowLauncher.Tests        # 仓库没有 .sln，裸 restore 必 MSB1003
-dotnet test  dev/PineglowLauncher.Tests -c Release
-node scripts/run-inventory-tests.cjs              # 前端全量 + 清单双向断言
-node scripts/check-css-tokens.cjs
-node scripts/check-ui-resource-closure.cjs
+node scripts/gates.cjs            # 四道门一次跑完：C# 全量 / 前端全量+清单 / CSS token / 资源闭包
+node scripts/gates.cjs --only inventory,closure   # 只跑其中几条
+node scripts/gates.cjs --baseline                 # 跑完顺手刷新 docs/baseline.md
+node scripts/check-release-consistency.cjs        # 版本号 ↔ release-notes ↔ tag
 ```
 
-基线（2026-11-15，分支 `integration/v1.1.0-20261107`）：**C# 1380 / 前端 486，均 0 跳过**。数字对不上先怀疑自己跑错目录或少了环境变量。
+`gates.cjs` 里已经固化了两个手工时代的坑，别在自己的命令里重犯：
+dotnet 门槛需要把 `C:\Windows\System32;C:\Windows` 前置于 PATH（否则 GNU `find.exe` 抢占，更新脚本测试假失败）；
+传 MSBuild 属性只用 `-p:`，**不用 `/p:`**（Git Bash/MSYS 会把 `/p:` 改写成路径）。
+
+**基线数字只认 `docs/baseline.md`**（由 `gates.cjs --baseline` 生成，别手改）。数字对不上先怀疑自己跑错目录或少了环境变量。
+
+### 新增 `LocalApiService*.cs` 必须登记 `LocalApiServiceSource.OrderedFiles`
+
+拆分守卫 `LocalApiServiceSplitTests` 会直接判红。登记方式与文件布局见 `docs/engineering.md` §二「LocalApiService 实现逻辑深析」。
 
 ### ⚠️ 主工作区里 `dotnet test` 会假失败（2026-11-15 实测，不是代码问题）
 

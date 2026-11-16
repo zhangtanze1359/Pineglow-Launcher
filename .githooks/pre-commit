@@ -1,0 +1,59 @@
+#!/bin/sh
+# 提交期密钥扫描（2026-11-17 retro 第 7 条）
+#
+# 由来：一个 60 字符的 CurseForge Key 在源码里躺了几个月，
+# 而 S9 的验收文档明明写着「第三方 Key 不进分发程序」—— 有规则、没检查，规则就等于没有。
+# SecretHygieneTests 只在跑测试时咬人；这一道把拦截提前到提交时。
+#
+# 装法（本仓库一次）：git config core.hooksPath .githooks
+# 绕过（确实要加豁免文件时）：git commit --no-verify
+
+set -u
+
+# 只扫新增/修改的暂存内容，扫不到的东西不假装扫过了
+files=$(git diff --cached --name-only --diff-filter=ACM)
+[ -z "$files" ] && exit 0
+
+# 豁免名单：密钥卫生守卫自己的测试 + 有截止日期的豁免文件（v1.0.5 删）
+allowed="dev/PineglowLauncher.Tests/SecretHygieneTests.cs
+dev/PineglowLauncher/Pineglow.Launcher/Services/CurseForgeKeyDefaults.cs"
+
+violations=0
+for f in $files; do
+  case "$f" in
+    *.png|*.jpg|*.jpeg|*.gif|*.webp|*.zip|*.jar|*.exe|*.dll|*.ico|*.pdf|*.woff|*.woff2|*.ttf) continue ;;
+  esac
+
+  is_allowed=0
+  for a in $allowed; do
+    [ "$f" = "$a" ] && is_allowed=1
+  done
+  [ "$is_allowed" = "1" ] && continue
+
+  # 逐行看新增内容（-U0 只给 +/- 行，足够定位）
+  hits=$(git diff --cached -U0 -- "$f" \
+    | grep -E '^\+' \
+    | grep -nE '\$2a\$10\$|sk-[A-Za-z0-9_-]{16,}|gh[pousr]_[A-Za-z0-9]{16,}|github_pat_[A-Za-z0-9_]{20,}|AKIA[0-9A-Z]{16}' \
+    | head -3)
+
+  if [ -n "$hits" ]; then
+    echo "✘ $f 里疑似有密钥/凭据（提交已拒绝）：" >&2
+    echo "$hits" | sed 's/^/    /' >&2
+    violations=$((violations + 1))
+  fi
+done
+
+if [ "$violations" -gt 0 ]; then
+  cat >&2 <<'MSG'
+
+拦截原因：源码里的第三方 Key / API 凭据会随分发程序与 git 历史一起流出去。
+处置方式（按实际情况选一个）：
+  1. 改从环境变量或配置读取，源码里不留字面量；
+  2. 确实需要临时豁免的，放进被 SecretHygieneTests 认的豁免文件（带 RemovalDeadline），
+     并把文件名加进本脚本的 allowed 名单；
+  3. 误报（例如测试夹具里的假串）→ 提交时加 --no-verify，并在提交信息里说明为什么是假的。
+MSG
+  exit 1
+fi
+
+exit 0
