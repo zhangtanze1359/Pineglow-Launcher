@@ -509,7 +509,10 @@ public sealed class ModContentService
 	public static string MissingKeyMessage =>
 		"CurseForge 需要 API Key：请在设置页填写，或设置环境变量 " + CurseForgeApiKeyEnvironmentVariable + "。";
 
-	/// <summary>纯解析：给测试用，不做任何 IO。空串表示没有可用 Key。</summary>
+	/// <summary>
+	/// 纯解析：调用方传入 → 环境变量 → **本版本临时内置的 Key**（见 <see cref="CurseForgeKeyDefaults"/>）。
+	/// 返回空串表示确实没有可用 Key（只有测试把回退关掉时才会出现）。
+	/// </summary>
 	public static string ResolveCurseForgeApiKey(string? configured)
 	{
 		if (!string.IsNullOrWhiteSpace(configured))
@@ -517,8 +520,17 @@ public sealed class ModContentService
 			return configured.Trim();
 		}
 		string env = Environment.GetEnvironmentVariable(CurseForgeApiKeyEnvironmentVariable) ?? string.Empty;
-		return env.Trim();
+		if (!string.IsNullOrWhiteSpace(env))
+		{
+			return env.Trim();
+		}
+		// 仅测试用：置空可模拟"这台机器完全没有 Key"的情形，用来验证缺 Key 的引导链路。
+		string? fallback = EmbeddedKeyFallbackForTest ?? CurseForgeKeyDefaults.Embedded;
+		return fallback;
 	}
+
+	/// <summary>仅测试用：覆盖内置回退（null = 用产品默认）。</summary>
+	internal static string? EmbeddedKeyFallbackForTest { get; set; }
 
 	private static void RequireCurseForgeApiKey(ref string apiKey)
 	{

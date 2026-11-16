@@ -60,6 +60,9 @@ public sealed class CurseForgeKeyRequiredTests : IAsyncLifetime
 		try
 		{
 			Environment.SetEnvironmentVariable(ModContentService.CurseForgeApiKeyEnvironmentVariable, null);
+			// 本版本有内置回退（有截止日期的临时豁免）：把它关掉才能模拟"完全没有 Key"。
+			// 下个版本删掉豁免文件后，这一行可以去掉。
+			ModContentService.EmbeddedKeyFallbackForTest = string.Empty;
 
 			(int status, string body) = await _harness.SendAsync(HttpMethod.Get,
 				"/api/content/search?q=sodium&category=mod&source=curseforge", null);
@@ -72,6 +75,7 @@ public sealed class CurseForgeKeyRequiredTests : IAsyncLifetime
 		}
 		finally
 		{
+			ModContentService.EmbeddedKeyFallbackForTest = null;
 			Environment.SetEnvironmentVariable(ModContentService.CurseForgeApiKeyEnvironmentVariable, before);
 		}
 	}
