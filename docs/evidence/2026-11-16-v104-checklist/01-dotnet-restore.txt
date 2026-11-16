@@ -1,0 +1,6 @@
+$ dotnet restore dev/PineglowLauncher.Tests
+  正在确定要还原的项目…
+  已还原 D:\Projects\_worktrees\pineglow-release-v104\dev\PineglowLauncher.Tests\JavaProbe\JavaProbe.csproj (用时 78 毫秒)。
+  已还原 D:\Projects\_worktrees\pineglow-release-v104\dev\PineglowLauncher\Pineglow.Launcher.csproj (用时 3.08 秒)。
+  已还原 D:\Projects\_worktrees\pineglow-release-v104\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj (用时 3.08 秒)。
+exit=0

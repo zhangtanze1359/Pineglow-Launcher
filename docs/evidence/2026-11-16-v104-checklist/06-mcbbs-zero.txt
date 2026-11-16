@@ -1,0 +1,6 @@
+$ # 口径：产品代码（dev/PineglowLauncher + ui，排除 Tests）里，除了迁移映射那一行，不得再有 mcbbs
+$ grep -rni mcbbs dev/PineglowLauncher ui --include=*.cs --include=*.js | grep -vE ':[0-9]+:\s*///' | grep -vE ':[0-9]+:\s*//'
+dev/PineglowLauncher/Pineglow.Launcher.Services/MirrorHelper.cs:46:		return trimmed.Equals("mcbbs", StringComparison.OrdinalIgnoreCase) ? "bmclapi" : trimmed.ToLowerInvariant();
+---- 以上应只剩 Normalize 里的迁移映射一行 ----
+
+$ dotnet build dev/PineglowLauncher -c Release

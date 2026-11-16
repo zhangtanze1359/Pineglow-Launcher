@@ -1,0 +1,9 @@
+$ node scripts/check-ui-resource-closure.cjs
+[closure] root=D:/Projects/_worktrees/pineglow-release-v104/ui
+[closure] 入口: index.html
+[closure] 扫描文件 12 个，本地引用 16 条
+[closure] 本地资源闭包完整：无缺失引用
+[closure]   css: index.html -> css/figma.css
+[closure]   css: index.html -> css/pineglow.css
+[closure]   css: index.html -> css/redesign.css
+exit=0
