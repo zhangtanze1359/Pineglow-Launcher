@@ -2,8 +2,8 @@
 
 <!-- 由 node scripts/gates.cjs --baseline 生成；手改会在下次生成时被覆盖。 -->
 
-- 分支：`feat/host-deps` @ `0e2e8f8`
-- 生成时间：2026-11-17T15:04:56.223Z
+- 分支：`HEAD` @ `5ae76d4`
+- 生成时间：2026-11-17T15:16:29.976Z
 - 命令：`node scripts/gates.cjs --baseline`
 
 | 门槛 | 结果 |
