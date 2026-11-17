@@ -45,13 +45,14 @@ public static partial class LocalApiService
 		WriteIndented = false
 	};
 
-	// 宿主状态（listener / 端口 / UI 根 / 运行标志）已搬进 LocalApiHost（候选 ③ 第 1 步）。
-	// 现在只有一个实例；第 2 步会把 config store / HttpClient / 根目录变成它的构造参数。
-	private static readonly LocalApiHost _host = new LocalApiHost();
+	// 宿主（候选 ③）：listener / 端口 / UI 根 / 运行标志 + 全部外部依赖
+	// （config store / 三个存储根 / 出站客户端）都在这里。
+	// 本类不再有任何可被"半改"的静态依赖字段：默认值只有 HostDependencies.Production() 一份，
+	// 替换只有 OverrideHostDependenciesForTest 一个入口。
+	private static readonly LocalApiHost _host = new LocalApiHost(HostDependencies.Production());
 
-	// 出站客户端的**所有者**（候选 ⑤）。本类不再持有任何 HttpClient 成员：
-	// 代理、超时、是否跟随重定向全部在 OutboundHttp 里决定，调用点只读它的具名客户端。
-	private static readonly OutboundHttp Outbound = new OutboundHttp();
+	/// <summary>出站客户端（供调用点读具名客户端的便捷入口，真身归 `<see cref="LocalApiHost"/>.Dependencies.Http`）。</summary>
+	private static OutboundHttp Outbound => _host.Dependencies.Http;
 
 	/// <summary>
 	/// 测试缝（R03）：替换更新清单的地址链。生产路径恒为 null。

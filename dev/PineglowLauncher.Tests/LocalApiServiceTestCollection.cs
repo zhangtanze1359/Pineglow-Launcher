@@ -12,7 +12,7 @@ namespace Pineglow.Launcher.Tests;
 /// （HttpRequestException / SocketException），导致 AllTests 出现稳定失败。
 ///
 /// 授权范围（review-fix-1 隔离返工）：
-///   - <see cref="NewsFakeIpConfigTests"/>：通过 <c>OverrideConfigStoreForTest</c> 注入内存 store
+///   - <see cref="NewsFakeIpConfigTests"/>：通过 <c>OverrideHostDependenciesForTest</c> 注入内存 store
 ///     并启动 LocalApiService 做真实 HTTP 调用 + token 校验
 ///   - <see cref="ContentIconServiceTests"/>：基线停止 + 真实启动 + 真实 HttpClient 调用
 ///     /api/content/icon（必须依赖真实 listener）

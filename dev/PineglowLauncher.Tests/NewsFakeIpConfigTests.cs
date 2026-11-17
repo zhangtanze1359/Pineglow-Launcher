@@ -21,7 +21,7 @@ namespace Pineglow.Launcher.Tests;
 /// 隔离要求（review-fix-1 返工）：
 ///   - 不读取、不写入、不删除用户真实 config.json/.bak/.prev
 ///   - 不触碰 SecretStore
-///   - 通过 LocalApiService.IConfigStore 注入内存 store；每个测试实例独立
+///   - 通过 IConfigStore 注入内存 store；每个测试实例独立
 ///   - 测试启动/停止失败必须让测试失败（不吞异常）
 ///   - 测试结束校验真实 config 三文件 SHA-256/存在状态前后一致
 /// </summary>
@@ -352,7 +352,7 @@ public class NewsFakeIpConfigTests
 	 *
 	 * review-fix-1 关键设计：
 	 *   - 完全不写入/读取/删除 %APPDATA%\MCMiniLauncher\config.{json,bak,prev}
-	 *   - 通过 IConfigStore.OverrideConfigStoreForTest 注入 MemoryConfigStore
+	 *   - 通过 OverrideHostDependenciesForTest 注入 MemoryConfigStore
 	 *   - 每个测试独立 store（不是 shared static）
 	 *   - 测试结束后校验真实 config 三文件状态/哈希与测试前一致
 	 *   - 启动/停止失败、override 失败都让测试失败（不吞异常）
@@ -394,15 +394,16 @@ public class NewsFakeIpConfigTests
 			// 3) 准备内存 store
 			var store = new MemoryConfigStore();
 
-			// 4) 注入 override；失败必须让测试失败
+			// 4) 注入依赖（store + 三个存储根，一次替换）；失败必须让测试失败
 			IDisposable scope;
 			try
 			{
-				scope = LocalApiService.OverrideConfigStoreForTest(store);
+				// A21（第 49 轮）：本夹具原先只重定向了配置存储，恢复区/二分落盘/诊断报告会落到真实 %APPDATA%。
+				scope = TestIsolationRoots.InstallCurrent(store);
 			}
 			catch (Exception ex)
 			{
-				throw new InvalidOperationException("OverrideConfigStoreForTest 失败：" + ex.Message, ex);
+				throw new InvalidOperationException("安装测试依赖失败：" + ex.Message, ex);
 			}
 			Assert.NotNull(scope);
 
@@ -414,8 +415,6 @@ public class NewsFakeIpConfigTests
 				throw new InvalidOperationException("LocalApiService 已在运行；测试不能启动新端口。");
 			}
 
-			// A21（第 49 轮）：本夹具原先只重定向了配置存储，恢复区/二分落盘/诊断报告会落到真实 %APPDATA%。
-			TestIsolationRoots.InstallCurrent();
 			int port = await AcquirePortAsync();
 			LocalApiService.Start(port);
 			if (!LocalApiService.IsRunning)
@@ -538,7 +537,7 @@ public class NewsFakeIpConfigTests
 	}
 
 	/// <summary>纯内存 store；不接触磁盘、SecretStore、.bak/.prev。</summary>
-	private sealed class MemoryConfigStore : LocalApiService.IConfigStore
+	private sealed class MemoryConfigStore : IConfigStore
 	{
 		private AppConfig _current = new AppConfig();
 		public AppConfig Load() => _current;

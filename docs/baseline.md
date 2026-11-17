@@ -2,13 +2,13 @@
 
 <!-- 由 node scripts/gates.cjs --baseline 生成；手改会在下次生成时被覆盖。 -->
 
-- 分支：`fix/icon-inflight-race` @ `e3aac4b`
-- 生成时间：2026-11-17T13:34:32.707Z
+- 分支：`feat/host-deps` @ `0e2e8f8`
+- 生成时间：2026-11-17T15:04:56.223Z
 - 命令：`node scripts/gates.cjs --baseline`
 
 | 门槛 | 结果 |
 | --- | --- |
-| C# 全量测试 | 1444 条通过 / 跳过 0 条 |
+| C# 全量测试 | 1452 条通过 / 跳过 0 条 |
 | 前端全量 + 清单 | 508 条通过 |
 | CSS token | 49 个 token |
 | UI 资源闭包 | 通过 |

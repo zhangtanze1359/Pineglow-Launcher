@@ -38,10 +38,20 @@
 
 ### 第 2 步：依赖从构造参数进（B 类搬家）
 
-- `LocalApiHost` 构造参数：`IConfigStore`、`IRoots`（recovery/bisect/diagnostic 三个根）、`OutboundHttp`（api/ai/news 三个具名客户端）。
-- harness 不再用静态 override，而是 `new LocalApiHost(store, roots, http, port)`。
-- 验收：删掉 `OverrideConfigStoreForTest` 等 4 个静态作用域中的**至少两个**，全部测试仍绿；
+- `LocalApiHost` 构造参数：`HostDependencies` = `IConfigStore` + `StorageRoots`（recovery/bisect/diagnostic）
+  + `OutboundHttp`（api/ai/news/download 四个具名客户端）。
+- harness 不再用四个静态 override，而是一次 `OverrideHostDependenciesForTest(d => d.WithStore(...).WithRoots(...))`。
+- 验收：4 个静态 override **全部**退役（不是"至少两个"），全部测试仍绿；
   `RealConfigGuard`（防写 `%APPDATA%`）保留 —— 它是安全网，不是 seam。
+
+**实际落点与原计划的差别（刻意）**：
+
+原计划写的是三个独立构造参数。落地时合成一个 `HostDependencies` 值，理由是
+"三个参数可以只传一个"与"四个静态 override 可以只换一个"是同一个漏洞：漏掉的那个会写真实 `%APPDATA%`
+（第 47 轮实测：诊断报告一直在写）。合成一个值之后没有"只隔离了三个"的中间状态。
+
+仍然只有一个 host 能运行（`LocalApiService` 的静态成员被全库调用），
+所以这一步还没有带来"多实例"。多实例属于第 3 步的范围。
 
 ### 第 3 步：退役源码断言与反射（C 类收尾）
 
@@ -78,5 +88,24 @@
   **假代理真收到请求**（绝对 URI）、关代理时不走代理、AI 覆盖只影响 AI、自建 `new HttpClient` 白名单。
   反向验证：把启动路径改回 `new HttpClient()` 时 2 条判红。
   门槛：C# 1432 → 1443 / 0 跳过、前端 489、css-tokens 49、闭包通过。
-- 下一步（第 2 步）：`LocalApiHost` 收 `IConfigStore` / `IRoots` / `OutboundHttp`，harness 不再用静态 override。
-  验收：删掉 4 个静态 override 里的至少两个，全部测试仍绿。
+- 2026-11-17 晚：**第 2 步完成**。依赖作为构造参数进宿主：
+  - 新增 `Services/IConfigStore.cs`（接口 + `ProductionConfigStore`）、`Services/StorageRoots.cs`
+    （三个根一个不可分割值）、`Services/HostDependencies.cs`（store + roots + http）。
+  - `LocalApiHost` 构造参数改为 `HostDependencies`，并新增
+    `ReplaceDependencies`（**运行中拒绝**：运行中换依赖会让在途请求拿到一半旧一半新）。
+  - `LocalApiService` 的 4 个静态 override（config store / recovery / bisect / diagnostic）
+    **全部退役**，只留 `OverrideHostDependenciesForTest(Func<HostDependencies,HostDependencies>)`
+    一个入口；`Outbound` 也从静态字段改为读 `_host.Dependencies.Http`。
+  - 夹具同步：`LocalApiTestHarness`、`TestIsolationRoots`、`LauncherStartupBoundaryTests`、
+    `AiCancelAndRedirectTests`、`NewsFakeIpConfigTests`、`NewsLinkHandlerTests` 全部改为一次替换。
+  - `HostDependenciesTests` 8 条：4 个旧 override 不得复活（反射）、依赖不可变、
+    三个根必须落在配置目录下、替换可回滚到**替换前那一份**（不是回到默认）、
+    运行中拒绝替换、以及一条**真 HTTP 接线证据**
+    （`GET /api/state` 读到注入 store 的内容，`POST /api/config` 写进注入 store）。
+  - `LocalApiHostTests` 与 `TestHostDependencies` 跟进构造参数。
+  - 变异验证（3 次，均已还原）：把 `OverrideRecoveryRootForTest` 加回来 → 结构守卫红；
+    去掉运行中拒绝 → 对应用例红；让 harness 只换 store 不换 roots → 接线证据红
+    （`Expected: .../Temp/pineglow-recovery-test-...` / `Actual: .../AppData/Roaming/MCMiniLauncher/recovery`）。
+  - 门槛：C# 1444 → 1452 / 0 跳过、前端 508、css-tokens 49、闭包通过。
+- 下一步（第 3 步）：退役源码断言（`LocalApiServiceSource` 拼接 + `LocalApiServiceSplitTests` 的字符串 grep）
+  与 `AiCancelAndRedirectTests` 里对 `AiOps` 的反射，然后才谈多实例。

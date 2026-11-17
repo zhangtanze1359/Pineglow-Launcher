@@ -164,6 +164,7 @@ seg = path.Trim('/').Split('/')  →  ["api", "instances", "{id}", "launch", ...
 | 锁粒度 | ConfigGate / DownloadGate / ContentGate 分锁避免并发写冲突 |
 | 懒创建服务 | 每个 handler 内 new 服务，无 DI 容器 |
 | 出站客户端单一所有者 | `OutboundHttp` 产出具名客户端（api / ai / news / download），代理、超时、重定向策略只在那里决定；`LocalApiService` 不再持有 HttpClient 字段 |
+| 依赖作为一个值 | `HostDependencies` = config store + `StorageRoots`（三个根）+ `OutboundHttp`，作为 `LocalApiHost` 的构造参数；没有"只换其中一个"的中间状态 |
 | 任务即响应 | 重操作全部入队异步，HTTP 只"接受指令 + 轮询进度" |
 | 按域拆文件 | 19 个 partial，单文件 ≤ 600 行（M1-2 结构门槛；新增必须登记 `LocalApiServiceSource.OrderedFiles`） |
 
@@ -176,5 +177,6 @@ seg = path.Trim('/').Split('/')  →  ["api", "instances", "{id}", "launch", ...
    这是静态类的固有耦合；真要解耦需要引入接口与容器，属独立工作量，不在 v1.1.0 范围。
 4. 旧客户端不 Dispose（候选 ⑤ 的选择）：换代理后旧的一组交给 GC，换取"换配置不打断在途请求"。
    代价是代理频繁切换时会有一小批未回收的连接池。要精确到"引用归零才销毁"需要借用语义，属单独一步。
-5. `OutboundHttp` 还是静态的（`LocalApiService` 持有唯一一份）。要让它变成 `LocalApiHost` 的构造参数，
-   是候选 ③ 第 2 步，与 config store / 三个根目录一起搬。
+5. ~~`OutboundHttp` 还是静态的~~ —— **已由候选 ③ 第 2 步解决**：它与 config store、三个存储根一起
+   作为 `HostDependencies` 进 `LocalApiHost` 的构造参数，替换入口只剩 `OverrideHostDependenciesForTest`。
+   仍未解决的是**多实例**：`LocalApiService` 的静态成员被全库调用，同一进程只能有一个 host 在跑。

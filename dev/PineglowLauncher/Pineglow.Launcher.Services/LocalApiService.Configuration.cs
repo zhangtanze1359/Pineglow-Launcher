@@ -26,154 +26,68 @@ public static partial class LocalApiService
 {
 	/* ================= 配置读写（全量落盘，与桌面端共用 config.json） ================= */
 
-	// MR04：恢复区根目录。生产默认在配置目录下的 recovery/（位于游戏目录之外，
-	// 游戏目录被删也不会丢隔离副本）；测试用 OverrideRecoveryRootForTest 注入临时目录，
-	// 绝不触碰真实 %APPDATA%。scope 释放时自动还原。
-	private static string? _recoveryRootOverride;
-
-	private static string ResolveRecoveryRoot() =>
-		_recoveryRootOverride ?? Path.Combine(PlatformPaths.GetConfigDirectory(), "recovery");
-
-	private static FileRecoveryService CreateRecoveryService() => new FileRecoveryService(ResolveRecoveryRoot());
+	// 存储根：恢复区 / 二分落盘 / 诊断报告。三者不再是三个独立可换的静态字段，
+	// 而是宿主依赖里的一个不可分割值（StorageRoots）——
+	// 旧写法允许"只换一个"，代价是漏换的那个往真实 %APPDATA% 里写（第 47 轮实测）。
+	private static FileRecoveryService CreateRecoveryService() => new FileRecoveryService(_host.Dependencies.Roots.Recovery);
 
 	// M2-1①：存档级可恢复删除。与文件恢复共用同一个根，但记录与数据放在 saves/ 子目录下，
 	// 两套 ListAsync 天然互不可见（否则 Mod 恢复界面会看到它无法恢复的存档条目）。
-	private static SaveRecoveryService CreateSaveRecoveryService() => new SaveRecoveryService(ResolveRecoveryRoot());
+	private static SaveRecoveryService CreateSaveRecoveryService() => new SaveRecoveryService(_host.Dependencies.Roots.Recovery);
 
-	internal static IDisposable OverrideRecoveryRootForTest(string root)
+	private static DiagnosticReportService CreateDiagnosticStore() => new DiagnosticReportService(_host.Dependencies.Roots.Diagnostics);
+
+	private static BisectRecoveryStore CreateBisectStore() => new BisectRecoveryStore(_host.Dependencies.Roots.Bisect);
+
+	/// <summary>
+	/// 替换宿主依赖（**仅测试**，且宿主必须未运行）。返回的 scope 释放时恢复前一份。
+	///
+	/// <para>
+	/// 参数是"变形函数"而不是一个现成的 <see cref="HostDependencies"/>，因为夹具经常只需要改一块：
+	/// <c>OverrideHostDependenciesForTest(d => d.WithRoots(roots))</c> 读作"只换存储根"，
+	/// 而写 <c>Production().WithRoots(...)</c> 会连配置存储也一起还原成生产 —— 那是夹具最容易犯的错。
+	/// </para>
+	/// <para>
+	/// 这取代了原来四个独立 override （config store / recovery / bisect / diagnostic）。
+	/// 只留一个入口的好处是：不存在"改了三个、忘了第四个"的中间状态。
+	/// </para>
+	/// </summary>
+	internal static IDisposable OverrideHostDependenciesForTest(Func<HostDependencies, HostDependencies> mutate)
 	{
-		if (string.IsNullOrWhiteSpace(root)) throw new ArgumentNullException(nameof(root));
-		string previous = _recoveryRootOverride;
-		_recoveryRootOverride = root;
-		return new RecoveryRootOverrideScope(previous);
-	}
-
-	private sealed class RecoveryRootOverrideScope : IDisposable
-	{
-		private readonly string? _previous;
-		private bool _disposed;
-
-		public RecoveryRootOverrideScope(string? previous) => _previous = previous;
-
-		public void Dispose()
-		{
-			if (_disposed) return;
-			_disposed = true;
-			_recoveryRootOverride = _previous;
-		}
-	}
-
-	// MR08：诊断报告历史的根目录（本地，游戏目录之外）。测试可重定向。
-	private static string? _diagnosticStoreRootOverride;
-
-	private static string ResolveDiagnosticStoreRoot() =>
-		_diagnosticStoreRootOverride ?? Path.Combine(PlatformPaths.GetConfigDirectory(), "diagnostics");
-
-	private static DiagnosticReportService CreateDiagnosticStore() => new DiagnosticReportService(ResolveDiagnosticStoreRoot());
-
-	internal static IDisposable OverrideDiagnosticStoreRootForTest(string root)
-	{
-		if (string.IsNullOrWhiteSpace(root)) throw new ArgumentNullException(nameof(root));
-		string previous = _diagnosticStoreRootOverride;
-		_diagnosticStoreRootOverride = root;
-		return new DiagnosticStoreOverrideScope(previous);
-	}
-
-	private sealed class DiagnosticStoreOverrideScope : IDisposable
-	{
-		private readonly string? _previous;
-		private bool _disposed;
-
-		public DiagnosticStoreOverrideScope(string? previous) => _previous = previous;
-
-		public void Dispose()
-		{
-			if (_disposed) return;
-			_disposed = true;
-			_diagnosticStoreRootOverride = _previous;
-		}
-	}
-
-	// MR07：二分定位会话的落盘根（游戏目录之外）。测试同样可重定向。
-	private static string? _bisectStoreRootOverride;
-
-	private static string ResolveBisectStoreRoot() =>
-		_bisectStoreRootOverride ?? Path.Combine(PlatformPaths.GetConfigDirectory(), "bisect");
-
-	private static BisectRecoveryStore CreateBisectStore() => new BisectRecoveryStore(ResolveBisectStoreRoot());
-
-	internal static IDisposable OverrideBisectStoreRootForTest(string root)
-	{
-		if (string.IsNullOrWhiteSpace(root)) throw new ArgumentNullException(nameof(root));
-		string previous = _bisectStoreRootOverride;
-		_bisectStoreRootOverride = root;
-		return new BisectStoreOverrideScope(previous);
-	}
-
-	private sealed class BisectStoreOverrideScope : IDisposable
-	{
-		private readonly string? _previous;
-		private bool _disposed;
-
-		public BisectStoreOverrideScope(string? previous) => _previous = previous;
-
-		public void Dispose()
-		{
-			if (_disposed) return;
-			_disposed = true;
-			_bisectStoreRootOverride = _previous;
-		}
-	}
-
-	// R2-02 返工（review-fix-1）：最小 internal IConfigStore 测试注入缝。
-	// 生产默认仍走 ConfigStore（不改变生产配置路径、不触发 SecretStore/.bak/.prev）。
-	// 仅测试可调用 OverrideConfigStoreForTest；scope 释放时自动还原。
-	internal interface IConfigStore
-	{
-		AppConfig Load();
-		void Save(AppConfig config);
-	}
-
-	private sealed class ProductionConfigStore : IConfigStore
-	{
-		public AppConfig Load() => ConfigStore.LoadAsync().GetAwaiter().GetResult();
-		public void Save(AppConfig config) => ConfigStore.SaveAsync(config).GetAwaiter().GetResult();
-	}
-
-	private static IConfigStore _configStoreOverride;
-
-	private static readonly IConfigStore _defaultConfigStore = new ProductionConfigStore();
-
-	internal static IDisposable OverrideConfigStoreForTest(IConfigStore store)
-	{
-		if (store == null) throw new ArgumentNullException(nameof(store));
+		if (mutate == null) throw new ArgumentNullException(nameof(mutate));
 		lock (ConfigGate)
 		{
-			_configStoreOverride = store;
+			HostDependencies previous = _host.Dependencies;
+			HostDependencies next = mutate(previous)
+				?? throw new InvalidOperationException("OverrideHostDependenciesForTest 的变形函数返回了 null");
+			_host.ReplaceDependencies(next);
+			return new HostDependenciesScope(previous);
 		}
-		return new ConfigStoreOverrideScope();
 	}
 
-	private sealed class ConfigStoreOverrideScope : IDisposable
+	private sealed class HostDependenciesScope(HostDependencies previous) : IDisposable
 	{
 		private bool _disposed;
+
 		public void Dispose()
 		{
 			if (_disposed) return;
 			_disposed = true;
 			lock (ConfigGate)
 			{
-				_configStoreOverride = null;
+				_host.ReplaceDependencies(previous);
 			}
 		}
 	}
+
+	/// <summary>当前宿主依赖（测试用来在既有基础上做变形）。</summary>
+	internal static HostDependencies CurrentHostDependenciesForTest => _host.Dependencies;
 
 	private static AppConfig LoadConfig()
 	{
 		lock (ConfigGate)
 		{
-			IConfigStore store = _configStoreOverride ?? _defaultConfigStore;
-			AppConfig config = store.Load();
+			AppConfig config = _host.Dependencies.Store.Load();
 			MirrorHelper.SelectedKey = string.IsNullOrWhiteSpace(config.DownloadSource) ? "official" : config.DownloadSource;
 			return config;
 		}
@@ -185,9 +99,8 @@ public static partial class LocalApiService
 		{
 			MirrorHelper.SelectedKey = string.IsNullOrWhiteSpace(config.DownloadSource) ? "official" : config.DownloadSource;
 			// 代理变化在此生效（候选 ⑤）：一次整组替换，不再有"换字段 + 延迟销毁"的窗口。
-			Outbound.ApplyProxy(OutboundHttp.ProxySettings.From(config));
-			IConfigStore store = _configStoreOverride ?? _defaultConfigStore;
-			store.Save(config);
+			_host.Dependencies.Http.ApplyProxy(OutboundHttp.ProxySettings.From(config));
+			_host.Dependencies.Store.Save(config);
 		}
 	}
 

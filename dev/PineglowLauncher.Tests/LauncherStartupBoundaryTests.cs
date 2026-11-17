@@ -37,12 +37,11 @@ public class LauncherStartupBoundaryTests : IDisposable
 
 		// A21（第 48 轮清点发现）：本类**直接** Start 服务，而修复前**一个根都没隔离** ——
 		// 配置读取会落到真实 %APPDATA%\MCMiniLauncher\config.json。
-		// xUnit 每个用例都会新建一次实例，所以在构造函数里装、在 Dispose 里卸，覆盖本类全部用例。
-		_isolation.Add(LocalApiService.OverrideConfigStoreForTest(
-			new RouteTestMemoryConfigStore(new Pineglow.Launcher.Models.AppConfig())));
-		_isolation.Add(LocalApiService.OverrideRecoveryRootForTest(NewTempRoot("rec")));
-		_isolation.Add(LocalApiService.OverrideBisectStoreRootForTest(NewTempRoot("bis")));
-		_isolation.Add(LocalApiService.OverrideDiagnosticStoreRootForTest(NewTempRoot("dia")));
+		// 候选 ③ 第 2 步之后，config store 与三个根是**一个**依赖值：一次替换，不可能漏掉其中一个。
+		_isolation.Add(LocalApiService.OverrideHostDependenciesForTest(dependencies =>
+			dependencies
+				.WithStore(new RouteTestMemoryConfigStore(new Pineglow.Launcher.Models.AppConfig()))
+				.WithRoots(new StorageRoots(NewTempRoot("rec"), NewTempRoot("bis"), NewTempRoot("dia")))));
 	}
 
 	private static string NewTempRoot(string tag)
