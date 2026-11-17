@@ -602,9 +602,67 @@ public sealed class ContentIconServiceTests : IDisposable
 		svc.RegisterTrustedUrl("modrinth", "mod", "RETRY", "https://cdn.modrinth.com/data/RETRY/icon.png");
 		IconResult r1 = await svc.GetAsync("modrinth", "mod", "RETRY", CancellationToken.None);
 		Assert.Equal(IconStatus.UpstreamError, r1.Status);
+
+		// 关键不变量（2026-11-17 偶发修复）：第一次失败后，同键**不得**留下已完成的 in-flight 条目。
+		// 修复前清理靠 ContinueWith 排到线程池，而上面的 fetcher 返回 Task.FromResult、
+		// 整个下载链同步跑完——于是这次断言会在 ~40% 的运行里看到 1，第二次 GetAsync
+		// 拿到那个已失败的旧任务，直接返回 UpstreamError 而不是重试。
+		Assert.Equal(0, svc.InFlightCountForTest);
+
 		IconResult r2 = await svc.GetAsync("modrinth", "mod", "RETRY", CancellationToken.None);
 		Assert.Equal(IconStatus.Ok, r2.Status);
 		Assert.Equal(2, fetchCount);
+	}
+
+	/// <summary>
+	/// 反向不变量：**真正在途**的下载不会被误注销。
+	///
+	/// 为了保护重试而把"已完成就移除"写成"每次都移除"（或把 RemoveIfSame 的引用判断去掉），
+	/// 同键去重就会失效——同一个图标被并发下载多次。这条用例把它钉住：
+	/// 悬挂期内第二个调用必须复用同一个任务（fetcher 只被调用 1 次）。
+	/// </summary>
+	[Fact]
+	public async Task GetAsync_InFlightEntrySurvives_UntilTheDownloadActuallyCompletes()
+	{
+		byte[] png = LoadTestPng64();
+		TaskCompletionSource entered = new(TaskCreationOptions.RunContinuationsAsynchronously);
+		TaskCompletionSource release = new(TaskCreationOptions.RunContinuationsAsynchronously);
+		int fetchCount = 0;
+		ContentIconService svc = NewService(async (_, ct) =>
+		{
+			Interlocked.Increment(ref fetchCount);
+			entered.TrySetResult();
+			await release.Task.WaitAsync(TimeSpan.FromSeconds(15), ct);
+			return MakeOk(png);
+		});
+		svc.RegisterTrustedUrl("modrinth", "mod", "HOLD", "https://cdn.modrinth.com/data/HOLD/icon.png");
+
+		Task<IconResult> first = svc.GetAsync("modrinth", "mod", "HOLD", CancellationToken.None);
+		await entered.Task.WaitAsync(TimeSpan.FromSeconds(10));
+		Assert.Equal(1, svc.InFlightCountForTest);
+
+		// 悬挂期的第二个调用必须复用同一个任务，而不是再发一次请求。
+		Task<IconResult> second = svc.GetAsync("modrinth", "mod", "HOLD", CancellationToken.None);
+		Assert.Equal(1, svc.InFlightCountForTest);
+
+		release.TrySetResult();
+		IconResult[] both = await Task.WhenAll(first, second).WaitAsync(TimeSpan.FromSeconds(15));
+		Assert.All(both, r => Assert.Equal(IconStatus.Ok, r.Status));
+		Assert.Equal(1, fetchCount);
+
+		// 完成后（这里 await 已落地，但注销是异步的）——允许短暂窗口，用轮询给一个上限。
+		await WaitForConditionAsync(() => svc.InFlightCountForTest == 0, TimeSpan.FromSeconds(5));
+		Assert.Equal(0, svc.InFlightCountForTest);
+	}
+
+	private static async Task WaitForConditionAsync(Func<bool> condition, TimeSpan timeout)
+	{
+		DateTime deadline = DateTime.UtcNow + timeout;
+		while (DateTime.UtcNow < deadline)
+		{
+			if (condition()) return;
+			await Task.Delay(10);
+		}
 	}
 
 	[Fact]

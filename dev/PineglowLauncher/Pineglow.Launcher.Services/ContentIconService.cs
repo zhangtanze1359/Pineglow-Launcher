@@ -468,13 +468,24 @@ public sealed class ContentIconService : IDisposable, IAsyncDisposable
 		return await DedupedFetchAsync(source, category, projectId, firstUri, trustedUrl, cached, ct).ConfigureAwait(false);
 	}
 
+	/// <summary>
+	/// 同键共享下载任务表。**关键不变量：表里不得留下已完成的条目**。
+	///
+	/// 为什么把这条写进注释：清理不能只靠 <c>ContinueWith</c> 安排到线程池——
+	/// 与注入的 fetcher（返回 <c>Task.FromResult</c>，整个下载链同步跑完）一起用时，
+	/// 任务在<b>赋值那一刻就已经完成</b>，而删除要等到线程池才有机会跑。
+	/// 这段窗口里下一个请求会拿到这个"已经失败的旧任务"并直接返回 UpstreamError，
+	/// 而不是像设计那样重试——<c>GetAsync_FailedFetchAllowsRetry</c> 因此约 40% 概率变红。
+	/// 所以：建任务后同步检查一次 <c>IsCompleted</c>，已完成就当场注销，不进表。
+	/// </summary>
 	private async Task<IconResult> DedupedFetchAsync(string source, string category, string projectId, Uri firstUri, string trustedUrl, IconResult? staleCache, CancellationToken ct)
 	{
 		string cacheKey = ComputeCacheKey(source, category, projectId, trustedUrl);
 		Task<IconResult> task;
 		lock (_inFlightGate)
 		{
-			if (_inFlight.TryGetValue(cacheKey, out Task<IconResult>? existing))
+			// IsCompleted 必须判：早些时候的任务可能已完成但注销还排在队列里。
+			if (_inFlight.TryGetValue(cacheKey, out Task<IconResult>? existing) && !existing.IsCompleted)
 			{
 				task = existing;
 			}
@@ -484,11 +495,48 @@ public sealed class ContentIconService : IDisposable, IAsyncDisposable
 				// 由 transport 的 ConnectTimeout / HttpClient.Timeout 做服务级超时兜底）。
 				// 这样第一个等待者取消不会连带取消其他等待者。
 				task = FetchAndCacheAsync(source, category, projectId, firstUri, trustedUrl, staleCache, CancellationToken.None);
-				_inFlight[cacheKey] = task;
-				_ = task.ContinueWith(_ => { lock (_inFlightGate) { _inFlight.Remove(cacheKey); } }, TaskScheduler.Default);
+
+				if (task.IsCompleted)
+				{
+					// 同步跑完（测试注入 fetcher / 缓存立即命中）→ 不进表，也不排注销。
+					_inFlight.Remove(cacheKey);
+				}
+				else
+				{
+					_inFlight[cacheKey] = task;
+					_ = task.ContinueWith(
+						completed => RemoveIfSame(cacheKey, completed),
+						CancellationToken.None,
+						TaskContinuationOptions.ExecuteSynchronously,
+						TaskScheduler.Default);
+				}
 			}
 		}
+
 		return await AwaitWithCancellationAsync(task, ct).ConfigureAwait(false);
+	}
+
+	/// <summary>
+	/// 只注销"仍然是自己"的那个条目。
+	///
+	/// 不这么判就会有另一种丢失：新建的任务覆盖同名条目后，旧任务的注销回调
+	/// 把<b>新</b>条目删掉，于是同键去重失效（同一图标被并发下载两次）。
+	/// </summary>
+	private void RemoveIfSame(string cacheKey, Task<IconResult> completed)
+	{
+		lock (_inFlightGate)
+		{
+			if (_inFlight.TryGetValue(cacheKey, out Task<IconResult>? current) && ReferenceEquals(current, completed))
+			{
+				_inFlight.Remove(cacheKey);
+			}
+		}
+	}
+
+	/// <summary>当前在途下载数（测试观测用）。用于断言"已完成的条目不会留在表里"。</summary>
+	internal int InFlightCountForTest
+	{
+		get { lock (_inFlightGate) { return _inFlight.Count; } }
 	}
 
 	private static async Task<IconResult> AwaitWithCancellationAsync(Task<IconResult> task, CancellationToken ct)
