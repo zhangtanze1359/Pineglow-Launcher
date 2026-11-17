@@ -2,8 +2,8 @@
 
 <!-- 由 node scripts/gates.cjs --baseline 生成；手改会在下次生成时被覆盖。 -->
 
-- 分支：`fix/icon-async-completion-20261117` @ `b71f6bd`
-- 生成时间：2026-11-17T15:25:24.836Z
+- 分支：`main` @ `dcdf056`
+- 生成时间：2026-11-17T15:35:42.483Z
 - 命令：`node scripts/gates.cjs --baseline`
 
 | 门槛 | 结果 |

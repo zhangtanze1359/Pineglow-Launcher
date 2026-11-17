@@ -23,15 +23,32 @@
 | ID | 项 | 判定 | 证据 / 复现 | 影响 |
 |---|---|---|---|---|
 | **OPEN-02** | `LoadConfig` 真的调用 `MirrorHelper.Normalize` 没有断言守住 | 未处置 | `docs/evidence/2026-11-17-backport-r1/05-mutation.txt` 变异 C：把迁移整段删掉后 `DownloadSourceMigrationTests` 仍 10/10 绿 | 迁移逻辑被静默删除时不会红。现有测试只测纯函数与 `ConfigStore.LoadAsync` 的原始读入 |
-| **OPEN-06** | 图标下载的**异步完成**路径没有测试 | 未验证 | `docs/evidence/2026-11-17-icon-verify-r1/验收报告.md` 第四节 | 测试里的 fetcher 返回 `Task.FromResult`，走的是 `if (task.IsCompleted)` 那一支；真实网络下载走的 `ContinueWith` → `RemoveIfSame` 那条没有用例盖 |
 
 补齐路径（明确，未做）：走 `LocalApiTestHarness` → `GET /api/state` → 断言 `config.downloadSource`。
 路由在 `LocalApiService.Instances.cs:48`；harness 在 `dev/PineglowLauncher.Tests/LocalApiTestHarness.cs`，
 启动时必须属于 `[Collection("LocalApiService")]`。
 
-OPEN-06 的补法：用两个 `TaskCompletionSource` 卡住一个真实异步的 fetcher（现有的
-`GetAsync_InFlightEntrySurvives_UntilTheDownloadActuallyCompletes` 已经用了这个手法），
-释放后再发一次请求，断言拿到的**是新任务**（fetchCount 从 1 变成 2）。
+### 已关闭的 OPEN-06，以及两次判断都修正过的地方
+
+原判断（我写的）：「真实网络下载走的 `ContinueWith → RemoveIfSame` 没有用例覆盖」。
+**那个判断是错的**：`GetAsync_InFlightEntrySurvives_UntilTheDownloadActuallyCompletes`
+的 fetcher 是 async 且 `await` 一个 TCS，建任务时 `IsCompleted == false`，走的正是进表那条路；
+把 `RemoveIfSame` 改成空方法它会立刻红。
+
+但确实有空洞，只是位置不同：
+
+- `FailedFetchAllowsRetry` 走同步分支（`Task.FromResult`，根本不进表）；
+- `InFlightEntrySurvives` 进了表，但验完用 `WaitForConditionAsync` **轮询**等注销——
+  轮询会把「注销迟了」洗白。
+
+已补 `GetAsync_AsyncFailureLeavesNoEntryBehind_AndRetryFetchesAgain`：
+真异步 fetcher、真失败、**await 返回后立刻查表不轮询**，再重试断言 `fetchCount` 1 → 2。
+两条独立的验证记录：`docs/evidence/2026-11-17-icon-async-r1/`（执行者）与
+`docs/evidence/2026-11-17-icon-async-verify/`（独立复跑，含两边的变异实验）。
+
+**限制**：这条用例咬得住「注销逻辑失效」（`RemoveIfSame` 空操作 → 确定性变红），
+但**证明不了**「修复前会红」——完整退回修复前后，单进程 20 次 0 红，
+8 并发 96 次只 2 红。这条竞态的真实频率太依赖负载，不要拿它当稳定性证据。
 
 ## 三、发布线遗留（来自 R5 轮次，仍未处置）
 
