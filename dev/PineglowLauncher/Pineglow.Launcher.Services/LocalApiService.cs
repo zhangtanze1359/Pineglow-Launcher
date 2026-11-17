@@ -45,11 +45,9 @@ public static partial class LocalApiService
 		WriteIndented = false
 	};
 
-	private static HttpListener _listener;
-
-	private static string _uiRoot;
-
-	private static bool _running;
+	// 宿主状态（listener / 端口 / UI 根 / 运行标志）已搬进 LocalApiHost（候选 ③ 第 1 步）。
+	// 现在只有一个实例；第 2 步会把 config store / HttpClient / 根目录变成它的构造参数。
+	private static readonly LocalApiHost _host = new LocalApiHost();
 
 	// 非 readonly：代理配置变化时可替换底层 handler
 	private static HttpClient ApiHttp = CreateApiHttp(proxyEnabled: false, proxyHost: string.Empty, proxyPort: 0, proxyUser: string.Empty, proxyPass: string.Empty);
@@ -192,15 +190,15 @@ public static partial class LocalApiService
 
 	private static bool UpdateMandatory;
 
-	public static int Port { get; private set; } = DefaultPort;
+	public static int Port => _host.Port;
 
-	public static bool IsRunning => _running;
+	public static bool IsRunning => _host.IsRunning;
 
 	internal static string SessionTokenForTests => SessionToken;
 
 	public static void Start(int? portOverride = null)
 	{
-		if (_running)
+		if (_host.IsRunning)
 		{
 			return;
 		}
@@ -212,15 +210,11 @@ public static partial class LocalApiService
 			port = envParsed;
 		}
 
-		_uiRoot = ResolveUiRoot();
-		_listener = new HttpListener();
-		_listener.Prefixes.Add($"http://127.0.0.1:{port}/");
-		_listener.Start();
-		Port = port;
-		_running = true;
-		_ = Task.Run(LoopAsync);
-		LauncherLog.Info($"[LocalApi] 监听 127.0.0.1:{port}, ui={_uiRoot}");
-		Debug.WriteLine($"[LocalApi] listening on 127.0.0.1:{port}, ui={_uiRoot}");
+		string uiRoot = ResolveUiRoot();
+		_host.Start(port, uiRoot);
+		_ = Task.Run(() => LoopAsync(_host));
+		LauncherLog.Info($"[LocalApi] 监听 127.0.0.1:{port}, ui={uiRoot}");
+		Debug.WriteLine($"[LocalApi] listening on 127.0.0.1:{port}, ui={uiRoot}");
 	}
 
 	public static void Stop()
@@ -229,19 +223,7 @@ public static partial class LocalApiService
 		// listener 停止/关闭抛异常时，通过 finally 保证图标服务释放；可重复调用。
 		try
 		{
-			if (_running)
-			{
-				_running = false;
-				try
-				{
-					_listener?.Stop();
-					_listener?.Close();
-				}
-				catch
-				{
-				}
-				_listener = null;
-			}
+			_host.Stop();
 		}
 		finally
 		{
@@ -321,22 +303,22 @@ public static partial class LocalApiService
 	/// WebShell 的静态回退路径也用它，避免「API 没起来时去看 EXE 旁的 UI/」这种
 	/// 在单文件发行下必然落空的判断。
 	/// </summary>
-	public static string? UiRoot => _uiRoot;
+	public static string? UiRoot => _host.UiRoot;
 
-	private static async Task LoopAsync()
+	private static async Task LoopAsync(LocalApiHost host)
 	{
-		while (_running)
+		while (host.IsRunning && host.Listener != null)
 		{
 			try
 			{
-				HttpListenerContext context = await _listener.GetContextAsync().ConfigureAwait(false);
+				HttpListenerContext context = await host.Listener.GetContextAsync().ConfigureAwait(false);
 				_ = Task.Run(() => HandleAsync(context));
 			}
 			catch (Exception ex)
 			{
 				LauncherLog.Error("[LocalApi] loop error: " + ex.Message, ex);
 				Debug.WriteLine($"[LocalApi] loop error: {ex.Message}");
-				if (_running)
+				if (host.IsRunning)
 				{
 					await Task.Delay(200).ConfigureAwait(false);
 				}

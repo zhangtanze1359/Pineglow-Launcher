@@ -34,8 +34,9 @@ public static partial class LocalApiService
 			relative = "index.html";
 		}
 
-		string full = Path.GetFullPath(Path.Combine(_uiRoot, relative.Replace('/', Path.DirectorySeparatorChar)));
-		if (!IsPathWithinRoot(_uiRoot, full) || !File.Exists(full))
+		string uiRoot = _host.UiRoot;
+		string full = Path.GetFullPath(Path.Combine(uiRoot, relative.Replace('/', Path.DirectorySeparatorChar)));
+		if (!IsPathWithinRoot(uiRoot, full) || !File.Exists(full))
 		{
 			await WriteJsonAsync(response, 404, new { error = "Not Found: " + path });
 			return;

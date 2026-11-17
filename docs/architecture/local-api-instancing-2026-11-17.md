@@ -59,6 +59,13 @@
 
 ## 进度
 
-- 2026-11-17：盘点与切法成文（本文件）。第 1 步未开工。
+- 2026-11-17 早期：盘点与切法成文（本文件）。
+- 2026-11-17 上午：**第 1 步完成**。新增 `Services/LocalApiHost.cs`（listener / 端口 / UI 根 / 运行标志），
+  `LocalApiService` 只持有一个 `_host`，`Port` / `IsRunning` / `UiRoot` / `Start` / `Stop` / `LoopAsync` 全部改为委托。
+  静态字段 `_listener` / `_uiRoot` / `_running` 已从库里消失（`grep` 为 0）。
+  `LocalApiHostTests` 3 条（绑定、重复停止幂等、端口被占抛 `HttpListenerException`——正是 harness 换端口重试的前提）。
+  门槛：C# 1424 → 1427 / 0 跳过、前端 489、css-tokens 49、闭包通过。
 - 前置已完成：候选 ② `RequestScope`（提交 `89e0b97`）—— 它先把"一次请求需要什么"钉成了类型，
   第 2 步的构造参数可以直接复用它。
+- 下一步（第 2 步）：`LocalApiHost` 收 `IConfigStore` / `IRoots` / `OutboundHttp`，harness 不再用静态 override。
+  验收：删掉 4 个静态 override 里的至少两个，全部测试仍绿。
