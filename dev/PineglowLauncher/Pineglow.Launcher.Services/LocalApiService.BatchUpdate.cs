@@ -35,7 +35,7 @@ public static partial class LocalApiService
 		ModService modService = new ModService(gameDir);
 		List<ModFile> mods = await modService.GetModsAsync(instance);
 
-		ModContentService content = new ModContentService(ApiHttp, CreateRecoveryService());
+		ModContentService content = new ModContentService(Outbound.Api, CreateRecoveryService());
 		string mcVersion = instance.MinecraftVersion ?? string.Empty;
 		string loader = instance.LoaderType ?? string.Empty;
 		string apiKey = string.IsNullOrWhiteSpace(config.CurseForgeApiKey) ? string.Empty : config.CurseForgeApiKey;
@@ -120,7 +120,7 @@ public static partial class LocalApiService
 		//     避免浏览器侧 CORS 与"把整包塞进本地 API 请求体"的双重代价。
 		// 无论哪种，写入时的 expectedSha256 都用**服务端算出来的值**；调用方给的是 sha1，
 		// 只用于"确认拿到的确实是那个版本"，不参与替换判定。
-		ModContentService contentService = new ModContentService(ApiHttp, CreateRecoveryService());
+		ModContentService contentService = new ModContentService(Outbound.Api, CreateRecoveryService());
 		List<BatchUpdateInput> inputs = new List<BatchUpdateInput>();
 		foreach (JsonElement item in itemsEl.EnumerateArray())
 		{

@@ -22,7 +22,7 @@
 | Origin 白名单 | `IsAllowedOrigin` | 仅接受 `http` + 回环地址（`IPAddress.IsLoopback`）+ 端口等于本进程端口；无 Origin 头（同源导航、非浏览器客户端）放行 |
 | CORS 回显 | `SetCors` | `Access-Control-Allow-Origin` 只回显**校验通过**的 Origin，不写 `*`；允许头固定为 `Content-Type, X-Pineglow-Token` |
 | AI 出站域名 | `AiEndpointPolicy` 的代码内固定 HTTPS allowlist | 自定义端点不在 allowlist 内一律拒绝（`endpoint_not_allowed`） |
-| AI 禁跟随重定向 | `AiHttpClientFactory` 的 `AllowAutoRedirect = false` | 防止首跳白名单被 302/307/308 绕过 |
+| AI 禁跟随重定向 | `OutboundHttp` 的 AI 具名客户端（`AllowAutoRedirect = false`） | 防止首跳白名单被 302/307/308 绕过 |
 | 图片出站域名 | `ContentIconService.AllowedHosts` + `IsAllowedUri`/`IsAllowedHost` | 内容图标与皮肤图只允许白名单主机与 http/https |
 | 路径越界 | `PathSafetyGuard` | 所有由请求参数拼接的文件路径统一做越界校验 |
 

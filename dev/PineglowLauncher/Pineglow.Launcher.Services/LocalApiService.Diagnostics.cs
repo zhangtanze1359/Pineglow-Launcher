@@ -191,7 +191,7 @@ public static partial class LocalApiService
 					dispatchSentAtUtc = attempt.SentAtUtc;
 				};
 				aiResult = await AiDiagnoseService.DiagnoseStructuredAsync(
-					AiHttp, baseUrl, apiKey, resolvedModel,
+					Outbound.Ai, baseUrl, apiKey, resolvedModel,
 					snapshot, rule, mods, linkedToken,
 					confirmAiSend: confirmAiSend, localOnly: localOnly,
 					locale: locale,

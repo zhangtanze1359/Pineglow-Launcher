@@ -49,8 +49,9 @@ public static partial class LocalApiService
 	// 现在只有一个实例；第 2 步会把 config store / HttpClient / 根目录变成它的构造参数。
 	private static readonly LocalApiHost _host = new LocalApiHost();
 
-	// 非 readonly：代理配置变化时可替换底层 handler
-	private static HttpClient ApiHttp = CreateApiHttp(proxyEnabled: false, proxyHost: string.Empty, proxyPort: 0, proxyUser: string.Empty, proxyPass: string.Empty);
+	// 出站客户端的**所有者**（候选 ⑤）。本类不再持有任何 HttpClient 成员：
+	// 代理、超时、是否跟随重定向全部在 OutboundHttp 里决定，调用点只读它的具名客户端。
+	private static readonly OutboundHttp Outbound = new OutboundHttp();
 
 	/// <summary>
 	/// 测试缝（R03）：替换更新清单的地址链。生产路径恒为 null。
@@ -67,16 +68,9 @@ public static partial class LocalApiService
 		return over != null ? over(configuredUrl) : UpdateService.BuildManifestUrlChain(configuredUrl);
 	}
 
-	private static HttpClient AiHttp = AiHttpClientFactory.CreateAiHttp(proxyEnabled: false, proxyHost: string.Empty, proxyPort: 0, proxyUser: string.Empty, proxyPass: string.Empty, timeoutSeconds: 60);
-
-	// Phase 3B v2 修复批次：News 专用 HttpClient，AllowAutoRedirect 默认开启，与 AI 客户端严格隔离。
-	// AI 的 AllowAutoRedirect=false 不能扩散到新闻/Content/Update/Download；这里保留 v1 修复前的默认重定向行为。
-	private static HttpClient NewsHttp = CreateApiHttp(proxyEnabled: false, proxyHost: string.Empty, proxyPort: 0, proxyUser: string.Empty, proxyPass: string.Empty);
-
-	private static string ActiveProxySignature = string.Empty;
-
-	// 新闻运行时（Phase 3A）：跨请求共享内存缓存与图片 ID 映射；http 提供器按调用取当前 NewsHttp（代理切换自动生效）
-	private static readonly MinecraftNewsService NewsService = new MinecraftNewsService(new LauncherContentNewsProvider(() => NewsHttp));
+	// AI 专用客户端：每小时重新读 OutboundHttp —— AllowAutoRedirect=false（防固定首跳 allowlist 被 302/307/308 绕过）。
+	// 新闻运行时（Phase 3A）：跨请求共享内存缓存与图片 ID 映射；http 提供器按调用读当前客户端（代理切换自动生效）。
+	private static readonly MinecraftNewsService NewsService = new MinecraftNewsService(new LauncherContentNewsProvider(() => Outbound.News));
 
 	// R2-03：新闻外链 linkId 注册表（服务端持有 URL，客户端永不提交 URL）
 	private static readonly NewsLinkService NewsLinks = new NewsLinkService();
@@ -92,56 +86,11 @@ public static partial class LocalApiService
 			catch { return false; }
 		});
 
-	private static HttpClient CreateApiHttp(bool proxyEnabled, string proxyHost, int proxyPort, string proxyUser, string proxyPass, int timeoutSeconds = 45)
-	{
-		var handler = new HttpClientHandler();
-		if (proxyEnabled && !string.IsNullOrWhiteSpace(proxyHost) && proxyPort > 0)
-		{
-			try
-			{
-				var proxy = new System.Net.WebProxy($"{proxyHost}:{proxyPort}");
-				if (!string.IsNullOrWhiteSpace(proxyUser))
-				{
-					proxy.Credentials = new System.Net.NetworkCredential(proxyUser, proxyPass);
-				}
-				handler.Proxy = proxy;
-				handler.UseProxy = true;
-			}
-			catch
-			{
-				// 代理地址非法时忽略，保持直连
-			}
-		}
-		else
-		{
-			handler.UseProxy = false;
-		}
-		return new HttpClient(handler) { Timeout = TimeSpan.FromSeconds(timeoutSeconds) };
-	}
-
-	/// <summary>按 config 刷新 ApiHttp 代理配置（在 SaveConfig 后调用）。</summary>
-	private static void RefreshApiHttpProxy(AppConfig config)
-	{
-		try
-		{
-			string signature = $"{config.ProxyEnabled}|{config.ProxyHost}|{config.ProxyPort}|{config.ProxyUsername}|{config.ProxyPassword}";
-			if (CryptographicOperations.FixedTimeEquals(SHA256.HashData(Encoding.UTF8.GetBytes(signature)), SHA256.HashData(Encoding.UTF8.GetBytes(ActiveProxySignature)))) return;
-			var next = CreateApiHttp(config.ProxyEnabled, config.ProxyHost, config.ProxyPort, config.ProxyUsername, config.ProxyPassword);
-			var aiNext = AiHttpClientFactory.CreateAiHttp(config.ProxyEnabled, config.ProxyHost, config.ProxyPort, config.ProxyUsername, config.ProxyPassword, 60);
-			var newsNext = CreateApiHttp(config.ProxyEnabled, config.ProxyHost, config.ProxyPort, config.ProxyUsername, config.ProxyPassword);
-			HttpClient old = ApiHttp;
-			HttpClient oldAi = AiHttp;
-			HttpClient oldNews = NewsHttp;
-			ApiHttp = next;
-			AiHttp = aiNext;
-			NewsHttp = newsNext;
-			ActiveProxySignature = signature;
-			_ = Task.Run(async () => { await Task.Delay(TimeSpan.FromMinutes(2)); old?.Dispose(); oldAi?.Dispose(); oldNews?.Dispose(); });
-		}
-		catch
-		{
-		}
-	}
+	/// <summary>
+	/// 测试缝：把 AI 客户端换成假的，让诊断请求真实走 <c>SendAsync</c> 却不触碰外网。
+	/// 生产路径不调用；Dispose 即恢复。
+	/// </summary>
+	internal static IDisposable OverrideAiClientForTest(HttpClient client) => Outbound.OverrideAiClient(client);
 
 	private sealed class DownloadTaskEntry
 	{

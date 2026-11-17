@@ -22,7 +22,7 @@
 | 类 | 成员 | 说明 |
 | --- | --- | --- |
 | **A. 宿主状态**（最该搬、最好搬） | `_listener`、`_uiRoot`、`_running`、`Port`、`SessionToken`、`JsonOpts` | 只被 start/stop/请求入口用；与业务域无耦合 |
-| **B. 依赖**（搬走后 handler 需要拿得到） | `_defaultConfigStore`（`ProductionConfigStore`）、`ConfigGate`、`ApiHttp` / `AiHttp` / `NewsHttp`（含代理热替换）、`CreateRecoveryService` 的三个根 | 现在靠静态 override 注入；实例化后改成构造参数 |
+| **B. 依赖**（搬走后 handler 需要拿得到） | `_defaultConfigStore`（`ProductionConfigStore`）、`ConfigGate`、`OutboundHttp`（候选 ⑤ 已完成：宿主拥有 api/ai/news/download 四个具名客户端，包含代理热替换）、`CreateRecoveryService` 的三个根 | 现在靠静态 override 注入；实例化后改成构造参数 |
 | **C. 域注册表**（已按 id 键控，天然可多实例） | `DownloadTasks`/`DownloadGate`、`ContentTasks`/`ContentGate`、`UpdateState`/`UpdateGate`、`MicrosoftDeviceSessions`/`MicrosoftDeviceGate`、`AiOps`、`PackOps`、`BisectInFlight`、`Routes`、`NewsService`/`NewsLinks`/`NewsImages` | 键是 instanceId / operationId，两个 host 之间不会互相踩；但**同一 id 两个 host 会踩**，测试需按实例号隔离 |
 
 `SecretStore` 的 override、`ContentIconService.Default` 等进程级单例属于 B/C 之外的第 4 类，单独列在遗留清单。
@@ -67,5 +67,16 @@
   门槛：C# 1424 → 1427 / 0 跳过、前端 489、css-tokens 49、闭包通过。
 - 前置已完成：候选 ② `RequestScope`（提交 `89e0b97`）—— 它先把"一次请求需要什么"钉成了类型，
   第 2 步的构造参数可以直接复用它。
+- 2026-11-17 下午：**候选 ⑤ 落地**（与第 2 步同方向、但不依赖它）。新增 `Services/OutboundHttp.cs`：
+  api / ai / news / download 四个具名客户端，代理签名 + 整组原子替换 + 「旧组交给 GC」的销毁口径；
+  `AiHttpClientFactory` 删除（它的全部内容就是一个 `new`，留着等于第二份 AI 策略）。
+  `LocalApiService` 的 `ApiHttp` / `AiHttp` / `NewsHttp` **三个静态字段连同属性名一起消失**，
+  27 处调用点直接读 `Outbound.Api/Ai/News/Download`。
+  顺带修掉评审点名的真缺陷：`Instances.Launch.cs` 的 `new HttpClient()`（忽略用户代理、不释放）
+  改为 `Outbound.Download`（跟随代理、600s 下载超时）。
+  `OutboundHttpTests` 11 条：字段/属性归零、四条客户端的超时与重定向契约、代理只在签名变化时重建、
+  **假代理真收到请求**（绝对 URI）、关代理时不走代理、AI 覆盖只影响 AI、自建 `new HttpClient` 白名单。
+  反向验证：把启动路径改回 `new HttpClient()` 时 2 条判红。
+  门槛：C# 1432 → 1443 / 0 跳过、前端 489、css-tokens 49、闭包通过。
 - 下一步（第 2 步）：`LocalApiHost` 收 `IConfigStore` / `IRoots` / `OutboundHttp`，harness 不再用静态 override。
   验收：删掉 4 个静态 override 里的至少两个，全部测试仍绿。

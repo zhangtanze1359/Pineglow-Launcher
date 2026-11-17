@@ -163,6 +163,7 @@ seg = path.Trim('/').Split('/')  →  ["api", "instances", "{id}", "launch", ...
 | 全异步并发 | GetContextAsync + Task.Run 每请求独立任务 |
 | 锁粒度 | ConfigGate / DownloadGate / ContentGate 分锁避免并发写冲突 |
 | 懒创建服务 | 每个 handler 内 new 服务，无 DI 容器 |
+| 出站客户端单一所有者 | `OutboundHttp` 产出具名客户端（api / ai / news / download），代理、超时、重定向策略只在那里决定；`LocalApiService` 不再持有 HttpClient 字段 |
 | 任务即响应 | 重操作全部入队异步，HTTP 只"接受指令 + 轮询进度" |
 | 按域拆文件 | 19 个 partial，单文件 ≤ 600 行（M1-2 结构门槛；新增必须登记 `LocalApiServiceSource.OrderedFiles`） |
 
@@ -173,3 +174,7 @@ seg = path.Trim('/').Split('/')  →  ["api", "instances", "{id}", "launch", ...
 2. `LoadConfig` 中 `GetAwaiter().GetResult()` 同步阻塞异步调用，并发下可能锁竞争 + 线程池压力。
 3. 域文件之间仍有跨域直接调用（例如二分区调用 `ModService`、诊断区调用 `CrashAnalyzerService`），
    这是静态类的固有耦合；真要解耦需要引入接口与容器，属独立工作量，不在 v1.1.0 范围。
+4. 旧客户端不 Dispose（候选 ⑤ 的选择）：换代理后旧的一组交给 GC，换取"换配置不打断在途请求"。
+   代价是代理频繁切换时会有一小批未回收的连接池。要精确到"引用归零才销毁"需要借用语义，属单独一步。
+5. `OutboundHttp` 还是静态的（`LocalApiService` 持有唯一一份）。要让它变成 `LocalApiHost` 的构造参数，
+   是候选 ③ 第 2 步，与 config store / 三个根目录一起搬。

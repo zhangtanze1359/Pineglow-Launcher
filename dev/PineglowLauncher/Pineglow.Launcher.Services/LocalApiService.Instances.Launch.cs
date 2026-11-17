@@ -80,7 +80,7 @@ public static partial class LocalApiService
 				throw new InvalidOperationException("正版账号刷新凭据不完整，请重新登录");
 			}
 			using CancellationTokenSource refreshCts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
-			MinecraftAccount refreshed = await new MicrosoftAuthService(ApiHttp).LoginWithRefreshTokenAsync(config.MicrosoftClientId, refreshToken, refreshCts.Token);
+			MinecraftAccount refreshed = await new MicrosoftAuthService(Outbound.Api).LoginWithRefreshTokenAsync(config.MicrosoftClientId, refreshToken, refreshCts.Token);
 			playerName = refreshed.UserName;
 			playerUuid = refreshed.Uuid;
 			accessToken = refreshed.AccessToken;
@@ -94,7 +94,10 @@ public static partial class LocalApiService
 				throw new InvalidOperationException("第三方账号登录信息不完整，请重新添加该账号");
 			}
 
-			string agentPath = await new AuthlibInjectorService(new HttpClient()).EnsureAgentAsync(CancellationToken.None);
+			// 修复（候选 ⑤ 顺带）：这里原本 「自建裸客户端」——既不跟随用户代理设置，也不释放。
+			// 同一个 handler 明明把代理写进了游戏 JVM 参数，交付物组件下载却裸连；
+			// 现在走宿主拥有的 download 具名客户端（跟随代理、长超时、不自建）。
+			string agentPath = await new AuthlibInjectorService(Outbound.Download).EnsureAgentAsync(CancellationToken.None);
 			playerName = account.UserName;
 			playerUuid = account.Uuid;
 			accessToken = account.AccessToken;

@@ -99,7 +99,7 @@ public static partial class LocalApiService
 		// 并行测速（官方源也测，便于对比）
 		foreach (DownloadSourceInfo s in sources)
 		{
-			s.LatencyMs = await MirrorHelper.MeasureLatencyAsync(ApiHttp, s.BaseUrl, cts.Token);
+			s.LatencyMs = await MirrorHelper.MeasureLatencyAsync(Outbound.Api, s.BaseUrl, cts.Token);
 		}
 
 		await WriteJsonAsync(response, 200, new

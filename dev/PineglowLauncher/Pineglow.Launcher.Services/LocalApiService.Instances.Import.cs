@@ -60,7 +60,7 @@ public static partial class LocalApiService
 			await File.WriteAllBytesAsync(zipPath, bytes);
 			AppConfig config = LoadConfig();
 			string defaultGameDir = string.IsNullOrWhiteSpace(config.GameDirectory) ? PlatformPaths.GetDefaultMinecraftDirectory() : config.GameDirectory;
-			InstancePackService packService = new InstancePackService(ApiHttp, defaultGameDir, _ => { });
+			InstancePackService packService = new InstancePackService(Outbound.Api, defaultGameDir, _ => { });
 
 			CancellationToken ct = CancellationToken.None;
 			if (operationId.Length > 0)

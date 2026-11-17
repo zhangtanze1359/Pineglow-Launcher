@@ -36,7 +36,7 @@ public static partial class LocalApiService
 		AppConfig config = LoadConfig();
 		string gameDir = ResolveGameDirectory(config, null);
 		using CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-		List<VersionEntry> online = await new MinecraftDownloader(ApiHttp, _ => { }).FetchOnlineVersionsAsync(cts.Token);
+		List<VersionEntry> online = await new MinecraftDownloader(Outbound.Api, _ => { }).FetchOnlineVersionsAsync(cts.Token);
 		List<string> local = VersionResolver.ListLocalVersions(gameDir);
 		await WriteJsonAsync(response, 200, new
 		{
@@ -85,7 +85,7 @@ public static partial class LocalApiService
 				entry.Message = "正在获取版本元数据";
 			}
 
-			var downloader = new MinecraftDownloader(ApiHttp, msg =>
+			var downloader = new MinecraftDownloader(Outbound.Api, msg =>
 			{
 				lock (DownloadGate)
 				{

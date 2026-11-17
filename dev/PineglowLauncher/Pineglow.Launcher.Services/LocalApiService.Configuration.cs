@@ -184,7 +184,8 @@ public static partial class LocalApiService
 		lock (ConfigGate)
 		{
 			MirrorHelper.SelectedKey = string.IsNullOrWhiteSpace(config.DownloadSource) ? "official" : config.DownloadSource;
-			RefreshApiHttpProxy(config);
+			// 代理变化在此生效（候选 ⑤）：一次整组替换，不再有"换字段 + 延迟销毁"的窗口。
+			Outbound.ApplyProxy(OutboundHttp.ProxySettings.From(config));
 			IConfigStore store = _configStoreOverride ?? _defaultConfigStore;
 			store.Save(config);
 		}

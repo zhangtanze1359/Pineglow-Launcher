@@ -240,7 +240,7 @@ public class AiCancelAndRedirectTests
 		};
 		second.Handler = (req, ct) => new LoopbackResponse { StatusCode = HttpStatusCode.OK, Body = Encoding.UTF8.GetBytes("{\"ok\":true}") };
 
-		using HttpClient greenClient = AiHttpClientFactory.CreateAiHttp(false, string.Empty, 0, string.Empty, string.Empty);
+		using HttpClient greenClient = OutboundHttp.CreateAi(OutboundHttp.ProxySettings.None);
 		greenClient.BaseAddress = new Uri($"http://127.0.0.1:{first.Port}/");
 		using HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, "chat/completions") { Content = new StringContent("{}", Encoding.UTF8, "application/json") };
 		using HttpResponseMessage resp = await greenClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead);
@@ -261,15 +261,21 @@ public class AiCancelAndRedirectTests
 	}
 
 	[Fact]
-	public void RED4b_NewsHttp_MustExist_AndDifferFromAiHttp()
+	public void RED4b_NewsClient_IsDistinctFromAiClient_AndOnlyAiDisablesRedirect()
 	{
-		var t = typeof(Pineglow.Launcher.Services.LocalApiService);
-		var aiHttpField = t.GetField("AiHttp", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)
-			?? t.GetField("_aiHttp", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
-		var newsHttpField = t.GetField("NewsHttp", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)
-			?? t.GetField("_newsHttp", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
-		Assert.NotNull(aiHttpField);
-		Assert.NotNull(newsHttpField);
+		// 候选 ⑤：两者不再是被替换的静态字段，而是 OutboundHttp 发出的具名客户端。
+		// 隔离要求在迁移后依然可验证：不是同一个实例，且只有 AI 禁自动重定向。
+		var outbound = new OutboundHttp(OutboundHttp.ProxySettings.None);
+
+		Assert.NotSame(outbound.Ai, outbound.News);
+		Assert.NotSame(outbound.Ai, outbound.Api);
+
+		using HttpMessageHandler aiHandler = OutboundHttp.CreateAiHandler(OutboundHttp.ProxySettings.None);
+		Assert.False(((HttpClientHandler)aiHandler).AllowAutoRedirect, "AI 客户端必须禁自动重定向");
+
+		// 接线：新闻必须拿 News 具名客户端，绝不能是 AI 那条（历史缺陷：News 曾走 AiHttp）。
+		string src = LocalApiServiceSource.All();
+		Assert.Contains("LauncherContentNewsProvider(() => Outbound.News)", src, StringComparison.Ordinal);
 	}
 }
 
@@ -1065,26 +1071,21 @@ public class AiCancelAndRedirectStep3Tests
 	 *   它们不构成 LocalApi 把服务端配置的 providerName/model/sentAtUtc
 	 *   写进 HTTP 200 响应的正向证据。
 	 *
-	 *   本测试做正向闭环：替换 LocalApiService.AiHttp 为一个 fake HttpMessageHandler，
+	 *   本测试做正向闭环：把宿主 AI 客户端换成 fake HttpMessageHandler，
 	 *   让诊断请求真实进入 HttpClient.SendAsync 但不触碰任何外部域名；
 	 *   fake 返回本地确定性 structured JSON；
 	 *   断言 HTTP 200 响应的 aiDispatch 是 object，
 	 *   providerName=DeepSeek、model=deepseek-chat、sentAtUtc 是合法 UTC；
 	 *   客户端 body 伪造的 providerName/model 无法改变它。
 	 *
-	 *   finally 严格恢复原 AiHttp + 清理 fake handler，
+	 *   候选 ⑤ 起不再反射私有静态字段：AiHttp 已改为读 OutboundHttp，
+	 *   替换走 internal 的 OverrideAiClientForTest（作用域化，Dispose 即恢复），
 	 *   保护 [Collection("LocalApiService")] 内的其他测试与用户配置。
 	 * ============================================================ */
 
 	[Fact]
 	public async Task Phase3C2_06_PositiveHttpIntegration_RealSendAsyncWritesDispatchMetadata()
 	{
-		// 通过限定范围反射替换 LocalApiService 私有静态 AiHttp
-		FieldInfo? aiHttpField = typeof(LocalApiService).GetField(
-			"AiHttp", BindingFlags.NonPublic | BindingFlags.Static);
-		Assert.NotNull(aiHttpField);
-		HttpClient? originalAiHttp = (HttpClient?)aiHttpField!.GetValue(null);
-
 		// fake HttpMessageHandler：记录 SendAsync 调用次数、最后一次请求的 URI/Headers，
 		// 返回本地确定性 structured JSON（让 ParseStructuredResult 成功）。
 		var captured = new List<(string url, string method, string? auth)>();
@@ -1092,9 +1093,8 @@ public class AiCancelAndRedirectStep3Tests
 			body: "{\"schemaVersion\":1,\"status\":\"resolved\",\"confidence\":0.8,\"summary\":\"positive-http\",\"causes\":[],\"modIssues\":[],\"actions\":[],\"warnings\":[],\"missingInformation\":[]}");
 		using HttpClient replacementHttp = new HttpClient(fake);
 
-		// 关键：替换前必须确保原 AiHttp 已被引用进来（构造一次 Publish+Subscribe 不能丢），
-		// 替换后所有 AI 诊断请求走 fake，绝不访问互联网。
-		aiHttpField.SetValue(null, replacementHttp);
+		// 关键：替换后所有 AI 诊断请求走 fake，绝不访问互联网。
+		using IDisposable aiScope = LocalApiService.OverrideAiClientForTest(replacementHttp);
 
 		await using TestHarness h = await TestHarness.StartAsync(BuildConfigWithTwoInstances());
 		try
@@ -1153,10 +1153,8 @@ public class AiCancelAndRedirectStep3Tests
 		}
 		finally
 		{
-			// 严格恢复：原 AiHttp 还原 + fake handler 释放 + seam 清零
-			aiHttpField.SetValue(null, originalAiHttp);
+			// 作用域 Dispose 已在 using 中恢复；这里只清理服务级 seam 与 fake handler。
 			AiDiagnoseService.SendWithRetryOverrideForTest = null;
-			replacementHttp.Dispose();
 		}
 	}
 

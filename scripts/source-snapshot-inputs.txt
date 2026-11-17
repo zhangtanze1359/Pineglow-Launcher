@@ -13,7 +13,7 @@
 
 # ---- 类别 A：生产源码 / UI / vendor（23）----
 dev/PineglowLauncher/Pineglow.Launcher.Services/AiEndpointPolicy.cs
-dev/PineglowLauncher/Pineglow.Launcher.Services/AiHttpClientFactory.cs
+dev/PineglowLauncher/Pineglow.Launcher.Services/OutboundHttp.cs
 dev/PineglowLauncher/Pineglow.Launcher.Services/AiOperationRegistry.cs
 dev/PineglowLauncher/Pineglow.Launcher.Services/BisectRecoveryStore.cs
 dev/PineglowLauncher/Pineglow.Launcher.Services/ContentIconResult.cs

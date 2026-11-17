@@ -19,7 +19,7 @@ namespace Pineglow.Launcher.Services;
 /// 新闻与图片代理。
 /// <para>
 /// 新闻列表、外链跳转与图片代理。外链由服务端持有 linkId（客户端永不提交 URL），
-/// 图片走独立的 <c>NewsHttp</c> 客户端，fake-ip 兼容默认 fail closed。
+/// 图片走独立的 <c>Outbound.News</c> 客户端，fake-ip 兼容默认 fail closed。
 /// </para>
 /// </summary>
 public static partial class LocalApiService
