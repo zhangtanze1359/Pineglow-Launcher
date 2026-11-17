@@ -1,0 +1,51 @@
+# 变异实验：修复里的三条守卫，哪一条单独拿掉会红？
+#
+# 每次都：改源码 → dotnet build → 跑用例 → git checkout -- 还原
+# 检查点：D:/Projects/_worktrees/pineglow-load-20261117（HEAD = main@0e2e8f8）
+# 测试文件**不改**（新加的 InFlightCountForTest 断言始终在场）
+
+## M1：去掉「复用前判 !existing.IsCompleted」
+
+```csharp
+- if (_inFlight.TryGetValue(cacheKey, out Task<IconResult>? existing) && !existing.IsCompleted)
++ if (_inFlight.TryGetValue(cacheKey, out Task<IconResult>? existing))
+```
+
+空载 1 次：已通过 1/1
+加压 8 并发 × 10 次：P1..P8 全部 0/10 RED
+
+**为什么没红**：另一条守卫（`if (task.IsCompleted) → 不进表`）单独就够用了。
+同步跑完的任务根本不进表，所以「表里有已完成条目」这个前提不成立，M1 也就无处触发。
+
+## M2：去掉「已完成就不进表」这一支（保留 !existing.IsCompleted）
+
+加压前空载 3 次：全部通过。
+
+**为什么没红**：另一半防护也管用。任务进表后 `ContinueWith(..., ExecuteSynchronously)`
+在调用线程上inline 执行——因为任务**已经完成**，所以回调立即跑、条目立即被摘掉，
+`GetAsync` 返回时表里已经是空的。
+
+## 完整回退（两条守卫都撤 + 注销退回默认调度器）
+
+```
+P1: 1/15  P2: 0/15  P3: 0/15  P4: 0/15
+P5: 1/15  P6: 0/15  P7: 3/15  P8: 2/15
+合计 7/120 红（5.8%），失败信息：
+  Expected: 0
+  Actual:   1        ← InFlightCountForTest
+```
+
+**这条才会红。** 见 01-load-comparison.txt。
+
+## 结论（与执行者提交信息不一致的地方）
+
+提交信息写的是「变异 A：把生产逻辑退回修复前 → 5/40 红」，
+以及「变异 B：过度修复 → 并发去重用例与新增守卫同时红」。
+
+- 「退回修复前会红」这一条**我复现了**，但需要加压：空载 40 次、60 次、6 次全量全部是 0 红，
+  只有 8 进程并发才出 5.8%。
+- 「过度修复会红」这一条**我独立复现了**：把「已完成不进表」改成「写完立刻无条件注销」，
+  `GetAsync_InFlightEntrySurvives_UntilTheDownloadActuallyCompletes` 立刻红
+  （Expected: 1 / Actual: 0），证明反向守卫真的有效。
+- 但 M1 / M2 单独拿掉任一条都不会红，说明这版修复是**双保险**，
+  不是「两条守卫缺一不可」。提交信息里没写这一点，容易被后来者误读成两个都必需。

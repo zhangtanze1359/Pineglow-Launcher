@@ -1,0 +1,28 @@
+$ node scripts/gates.cjs
+
+▶ C# 全量测试 (csharp)
+  已通过! - 失败:     0，通过:  1444，已跳过:     0，总计:  1444，持续时间: 1 m 2 s - Pineglow.Launcher.Tests.dll (net10.0)
+
+▶ 前端全量 + 清单双向断言 (inventory)
+  ℹ pass 508
+  ℹ fail 0
+  ℹ skipped 0
+
+▶ CSS token 审计 (css-tokens)
+  [token-audit] OK：49 个 token，三层 CSS 无字面色值，无未定义引用，无死回退
+
+▶ UI 资源闭包 (closure)
+  [closure]   css: preview-motion.html -> css/figma.css
+  [closure]   css: preview-motion.html -> css/pineglow.css
+  [closure]   css: preview-motion.html -> css/redesign.css
+
+────────────────────────────────────────────────────────────
+分支 HEAD @ 0e2e8f8
+✔ csharp      PASS     (66.1s)
+✔ inventory   PASS     (26.6s)
+✔ css-tokens  PASS     (0.0s)
+✔ closure     PASS     (0.1s)
+
+ℹ 基线来自 e3aac4b，此后只改过文档，数字仍然成立。
+
+exit code: 0

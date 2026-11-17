@@ -1,0 +1,56 @@
+# 修复前 / 修复后 在「线程池压力」下的对照
+#
+# 为什么一开始复现不出来：空载机器上，修复前版本连续 30~60 次单跑与 6 次全量也是 0 红。
+# 这条竞态的窗口长度取决于线程池多久排到 ContinueWith 的回调；
+# 机器闲着时回调几乎立刻执行，窗口小到撞不上。
+# 直到 8 个 testhost 并发互抢线程池，修复前版本才开始红。
+#
+# 机器：16 核。两个版本同一台机器、同一 filter、同一并发度、同一编译配置。
+# 检查点：D:/Projects/_worktrees/pineglow-load-20261117（HEAD = main@0e2e8f8）
+# 变异方式：把 DedupedFetchAsync 换回修复前写法（只改 ContentIconService.cs，测试文件不动）
+
+$ dotnet test dev/PineglowLauncher.Tests -c Release --no-build \
+    --filter "FullyQualifiedName~GetAsync_FailedFetchAllowsRetry"
+# 8 个进程并发，每个进程 15 次
+
+## 修复前（变异版）
+
+P1: 1/15 RED
+P2: 0/15 RED
+P3: 0/15 RED
+P4: 0/15 RED
+P5: 1/15 RED
+P6: 0/15 RED
+P7: 3/15 RED
+P8: 2/15 RED
+——
+合计：7/120 红（5.8%）
+
+## 修复后（git checkout -- 还原，同一 worktree 重新编译）
+
+P1: 0/15 RED
+P2: 0/15 RED
+P3: 0/15 RED
+P4: 0/15 RED
+P5: 0/15 RED
+P6: 0/15 RED
+P7: 0/15 RED
+P8: 0/15 RED
+——
+合计：0/120 红
+
+## 空载对照（复现不出来，如实记录）
+
+修复前版本，单进程、机器空闲：
+  单跑该用例      40 次 → 0 红
+  宽 filter       40 次 → 0 红
+  全量             6 次 → 0 红
+
+修复后版本，同条件：
+  单跑该用例      40 次 → 0 红
+  宽 filter       40 次 → 0 红
+
+结论：这条竞态**不是空载可复现的**，必须加压才观察得到。
+所以「修复前 30 次红 13」这个数字在本机空载条件下复现不出来——
+要么当时机器有其它负载，要么那个数字的统计口径与本次不同。
+本文件记的是本次可复现的对照。
