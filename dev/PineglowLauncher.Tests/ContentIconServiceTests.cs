@@ -655,6 +655,60 @@ public sealed class ContentIconServiceTests : IDisposable
 		Assert.Equal(0, svc.InFlightCountForTest);
 	}
 
+	/// <summary>
+	/// 异步失败 + 重试：走的是 <c>ContinueWith → RemoveIfSame</c> 那一支，而不是同步分支。
+	///
+	/// 为什么单独立一条（2026-11-17 独立验收发现的缺口）：
+	/// <c>GetAsync_FailedFetchAllowsRetry</c> 的 fetcher 返回 <c>Task.FromResult</c>，
+	/// 任务建出来就已结束 → 走的是 <c>if (task.IsCompleted)</c> 那一支（根本不进表）。
+	/// 而 <c>GetAsync_InFlightEntrySurvives...</c> 虽然会进表，但它验的是「悬挂期不被误摘」，
+	/// 验完还用了轮询等注销——轮询会把「注销迟了」这件事洗白。
+	/// 于是真实网络下载走的那条路（任务真异步、真失败、注销靠 ContinueWith）没有任何一条
+	/// 断言卡住「await 返回时表里必须已经没有它」。这条补上。
+	///
+	/// 关键断言是 <b>await 之后立刻</b>查表，不轮询：
+	/// 修复前注销排在线程池队列里，await 返回时条目很可能还在表里；
+	/// 轮询会等到它自己消失，反而把回归盖住。
+	/// </summary>
+	[Fact]
+	public async Task GetAsync_AsyncFailureLeavesNoEntryBehind_AndRetryFetchesAgain()
+	{
+		byte[] png = LoadTestPng64();
+		TaskCompletionSource entered = new(TaskCreationOptions.RunContinuationsAsynchronously);
+		TaskCompletionSource releaseFirst = new(TaskCreationOptions.RunContinuationsAsynchronously);
+		int fetchCount = 0;
+		ContentIconService svc = NewService(async (_, ct) =>
+		{
+			int n = Interlocked.Increment(ref fetchCount);
+			if (n == 1)
+			{
+				entered.TrySetResult();
+				// 真异步：建任务这一刻它还没结束，所以必然进表、走 ContinueWith 那条路。
+				await releaseFirst.Task.WaitAsync(TimeSpan.FromSeconds(15), ct);
+				return new HttpResponseMessage(HttpStatusCode.BadGateway);
+			}
+			return MakeOk(png);
+		});
+		svc.RegisterTrustedUrl("modrinth", "mod", "ASYNC-RETRY", "https://cdn.modrinth.com/data/ASYNC-RETRY/icon.png");
+
+		Task<IconResult> first = svc.GetAsync("modrinth", "mod", "ASYNC-RETRY", CancellationToken.None);
+		await entered.Task.WaitAsync(TimeSpan.FromSeconds(10));
+		Assert.Equal(1, svc.InFlightCountForTest); // 在途期间必须在表里（否则去重失效）
+
+		releaseFirst.TrySetResult();
+		IconResult r1 = await first.WaitAsync(TimeSpan.FromSeconds(15));
+		Assert.Equal(IconStatus.UpstreamError, r1.Status);
+
+		// 不轮询。await 返回之后，表里必须已经没有这条了。
+		// 修复前注销交给 TaskScheduler.Default，这段窗口就是从这行抓到的。
+		Assert.Equal(0, svc.InFlightCountForTest);
+
+		// 而且重试必须真的再发一次请求，不是拿到那个已失败的旧任务。
+		IconResult r2 = await svc.GetAsync("modrinth", "mod", "ASYNC-RETRY", CancellationToken.None);
+		Assert.Equal(IconStatus.Ok, r2.Status);
+		Assert.Equal(2, fetchCount);
+	}
+
 	private static async Task WaitForConditionAsync(Func<bool> condition, TimeSpan timeout)
 	{
 		DateTime deadline = DateTime.UtcNow + timeout;
