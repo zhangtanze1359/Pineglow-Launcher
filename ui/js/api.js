@@ -419,7 +419,6 @@ SG.api = (() => {
 						id: p.id, name: p.name, baseUrl: p.baseUrl, model: p.model, keyConfigured: !!p.keyConfigured,
 					})),
 				},
-				memory: SG.mock.memoryRecommendation,
 				instances: (data.instances || []).map(i => mapInstance(i, data.config.selectedInstanceId)),
 				accounts: (data.accounts || []).map(a => mapAccount(a, data.config.selectedAccountId)),
 				java: (data.java || []).map(j => ({ path: j.javaPath, versionMajor: j.versionMajor, versionText: j.versionText, vendor: j.vendor, valid: !!j.isValid })),
@@ -1433,19 +1432,11 @@ SG.api = (() => {
 	wrapped._mock = mock._mock.bind(mock);
 	wrapped._implMode = isLive ? 'live' : 'mock';
 	wrapped._allowMockFallback = allowMockFallback;
+	// token 拼进 URL 的规则只在这里实现一次（安全相关：复制第二份就等于给了第二条入口）
+	wrapped.buildContentIconUrl = buildContentIconUrl;
 	return wrapped;
 })();
 
-// Phase 2：暴露本地图标 URL 构造器，供 launcher.js 和测试复用
-SG.buildContentIconUrl = (source, category, projectId) => {
-	const src = (source && /^(modrinth|curseforge)$/i.test(source)) ? source.toLowerCase() : 'modrinth';
-	const cat = (category && /^(mod|modpack|shader|resourcepack)$/i.test(category)) ? category.toLowerCase() : 'mod';
-	const pid = (projectId == null) ? '' : String(projectId);
-	if (!/^[a-zA-Z0-9_-]{1,80}$/.test(pid)) return '';
-	const token = (window.SG && window.SG.apiToken) ? String(window.SG.apiToken) : '';
-	if (!token) return '';
-	return '/api/content/icon?source=' + encodeURIComponent(src)
-		+ '&category=' + encodeURIComponent(cat)
-		+ '&projectId=' + encodeURIComponent(pid)
-		+ '&token=' + encodeURIComponent(token);
-};
+// Phase 2：对外只暴露 **同一个** 构造器实例（原来是两份一字不差的实现）。
+// content-icon.test.cjs 断言两者是同一个函数：复制第二份会立刻变红。
+SG.buildContentIconUrl = SG.api.buildContentIconUrl;

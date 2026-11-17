@@ -132,6 +132,30 @@ function extractFunctionBody(source, signature) {
 
 /* ============== 1. buildContentIconUrl 构造契约 ============== */
 
+test('buildContentIconUrl 只有一份实现：SG.buildContentIconUrl 与 SG.api.buildContentIconUrl 是同一个函数', () => {
+	const ctx = makeStubBrowser();
+	loadApi(ctx);
+	assert.equal(typeof ctx.SG.api.buildContentIconUrl, 'function');
+	assert.equal(ctx.SG.buildContentIconUrl, ctx.SG.api.buildContentIconUrl,
+		'两者必须是同一个函数引用：复制第二份实现等于给 token 拼 URL 开了第二条入口');
+});
+
+test('api.js 源码里 token 拼进 URL 的语句只有一处（源码级守卫）', () => {
+	const occurrences = (API_JS.match(/encodeURIComponent\(token\)/g) || []).length;
+	assert.equal(occurrences, 1, `api.js 里应只有一处 encodeURIComponent(token)，实际 ${occurrences} 处`);
+});
+
+test('live 的 getState 不再引用 mock 数据（源码级回归守卫）', () => {
+	// 修复前：live.getState() 返回 memory: SG.mock.memoryRecommendation —— 发布包里
+	// 每个 live 用户都会拿到一条来自夹具的假数据，且没有任何消费方读它。
+	// 这里断言源码里不再存在这种"live 分支引用 mock 数据"的写法。
+	// 允许的两处：mock 夹具定义、mock 实现；live 分支再引用一次就会变成 3 处。
+	const occurrences = (API_JS.match(/memoryRecommendation/g) || []).length;
+	assert.ok(occurrences <= 2, `memoryRecommendation 应只出现在 mock 夹具与 mock 实现里，实际 ${occurrences} 处`);
+	// mock 实现自己也返回这条数据（合法）；live 分支如果再引用一次，计数会变成 3。
+
+});
+
 test('buildContentIconUrl 输出以 /api/content/icon 开头并含 source / category / projectId / token', () => {
 	const ctx = makeStubBrowser();
 	loadApi(ctx);
