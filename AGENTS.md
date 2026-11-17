@@ -88,6 +88,17 @@ dotnet 门槛需要把 `C:\Windows\System32;C:\Windows` 前置于 PATH（否则 
 - 测试数必须与 `scripts/test-inventory.txt` 双向断言一致；「大致一致」= FAIL。
 - 首次编译慢是 11-07 清过 `bin/obj` 的后果，不许写进性能结论。
 
+## 多 agent 协作
+
+用 **`orchestrate`** 技能，不靠静态角色卡。按工作形状选策略：调研取证用 research swarm，独立模块并行用 epic parallel build，改共享文件或前后依赖用 sequential pipeline，同一种改法扫多模块用 parallel sweep，同一份代码多角度审用 multi-dimensional audit。
+
+不变量（与策略无关，每轮都适用）：
+
+- **每个 agent 只能写自己的工作树**，不共享工作目录；并行只在 `D:/Projects/_worktrees/`。
+- **不自动合并子 agent 的输出**。子 agent 交 commit / patch，由编排方看后再决定。
+- **brief 里写清路径边界与完成条件**；「尽量改好」这种 brief 产出不可审。
+- **执行者不给自己签字**：验收在**另一个**工作树重跑，数字不引用执行者的日志。
+
 ## 环境陷阱（真实发生过）
 
 - `git-bash` 的 PATH 把 `/usr/bin` 放前面时，`.bat` 脚本里的 `find` 会解析到 GNU find，导致更新脚本测试假失败 → 测试给子进程设置干净 PATH。
