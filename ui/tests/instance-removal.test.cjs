@@ -27,7 +27,9 @@ const vm = require('node:vm');
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const I18N_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'i18n.js'), 'utf8');
-const API_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api.js'), 'utf8');
+const API_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api-mock.js'), 'utf8') +
+	fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api.js'), 'utf8');
+/* ⑦：mock 数据/实现在 api-mock.js 里，必须先于 api.js 求值；该文件以换行结尾，直接拼接即安全。 */
 const LAUNCHER_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'launcher.js'), 'utf8');
 
 /* ============== 最小浏览器桩 ============== */
@@ -192,11 +194,14 @@ test('MR03 static scan: launcher.js 提供"从已有目录添加"入口并调用
 });
 
 test('MR03 static scan: api.js mock 侧同样提供 registerInstance（只新增记录）', () => {
-	const idx = API_JS.lastIndexOf('async registerInstance(');
-	assert.ok(idx > 0, 'api.js 必须存在 registerInstance');
-	const liveIdx = API_JS.indexOf('async registerInstance(');
-	assert.notEqual(liveIdx, idx, 'live 与 mock 两侧都必须有 registerInstance');
-	const mockBlock = API_JS.slice(idx, idx + 600);
+	// ⑦ 之后 mock 实现在 api-mock.js：两个文件分开扫，"两侧都存在"才好断言。
+	const API_MOCK_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api-mock.js'), 'utf8');
+	const API_LIVE_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api.js'), 'utf8');
+
+	assert.ok(API_LIVE_JS.includes('async registerInstance('), 'live 侧必须存在 registerInstance');
+	const idx = API_MOCK_JS.indexOf('async registerInstance(');
+	assert.ok(idx > 0, 'mock 侧必须存在 registerInstance');
+	const mockBlock = API_MOCK_JS.slice(idx, idx + 600);
 	assert.ok(mockBlock.includes('SG.mock.instances.push'), 'mock 侧只应新增列表记录');
 	assert.ok(!/unlink|rmdir|deleteFile/i.test(mockBlock), 'mock 侧不得引入文件删除语义');
 });

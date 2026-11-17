@@ -336,7 +336,9 @@ function loadLauncher(fetchHandler, getStateHandler) {
 		return originalFetch(url, init);
 	};
 	// 装入 i18n.js + api.js（api.js 必须先于 launcher.js，否则 SG.api 未定义）
-	const API_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api.js'), 'utf8');
+	const API_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api-mock.js'), 'utf8') +
+	fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api.js'), 'utf8');
+/* ⑦：mock 数据/实现在 api-mock.js 里，必须先于 api.js 求值；该文件以换行结尾，直接拼接即安全。 */
 	const BOOT_API = 'SG.apiMode = "live"; SG.apiToken = "test-token";';
 	// 准备一个可控的 SG.api
 	const apiStub = makeApiStub(fetchHandler, getStateHandler);

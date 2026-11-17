@@ -24,7 +24,11 @@ const path = require('node:path');
 const vm = require('node:vm');
 
 const ROOT = path.resolve(__dirname, '..', '..');
-const API_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api.js'), 'utf8');
+const API_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api-mock.js'), 'utf8') +
+	fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api.js'), 'utf8');
+/* ⑦：mock 世界搬到 api-mock.js 之后，"live 文件里不该出现夹具概念"这条可以断言得更硬。 */
+const API_LIVE_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api.js'), 'utf8');
+/* ⑦：mock 数据/实现在 api-mock.js 里，必须先于 api.js 求值；该文件以换行结尾，直接拼接即安全。 */
 /* M1-3：contentCardHtml / bindContentIcons 的实现已拆到 ui/js/content.js（SG.content），
    launcher.js 只留三行薄委托。本文件是静态源码断言，改为扫描两份源码。
    ★ content.js 必须排前面：extractFunctionBody 用 indexOf 取首次出现，
@@ -149,10 +153,9 @@ test('live 的 getState 不再引用 mock 数据（源码级回归守卫）', ()
 	// 修复前：live.getState() 返回 memory: SG.mock.memoryRecommendation —— 发布包里
 	// 每个 live 用户都会拿到一条来自夹具的假数据，且没有任何消费方读它。
 	// 这里断言源码里不再存在这种"live 分支引用 mock 数据"的写法。
-	// 允许的两处：mock 夹具定义、mock 实现；live 分支再引用一次就会变成 3 处。
-	const occurrences = (API_JS.match(/memoryRecommendation/g) || []).length;
-	assert.ok(occurrences <= 2, `memoryRecommendation 应只出现在 mock 夹具与 mock 实现里，实际 ${occurrences} 处`);
-	// mock 实现自己也返回这条数据（合法）；live 分支如果再引用一次，计数会变成 3。
+	// 更强的一条：live 文件（api.js）里根本不该出现夹具概念——它现在只在 api-mock.js 里。
+	const occurrences = (API_LIVE_JS.match(/memoryRecommendation/g) || []).length;
+	assert.equal(occurrences, 0, `api.js（live）不得引用 mock 夹具数据，实际 ${occurrences} 处`);
 
 });
 

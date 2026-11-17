@@ -47,6 +47,7 @@ const SCRIPT_ORDER = [
 	'js/skin3d-core.js',
 	'js/skin3d.js',
 	'js/i18n.js',
+	'js/api-mock.js',   // ⑦：mock 数据+实现（必须先于 api.js）
 	'js/api.js',
 	'js/playtime.js',
 	'js/update-monitor.js',

@@ -22,7 +22,9 @@ const vm = require('node:vm');
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const I18N_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'i18n.js'), 'utf8');
-const API_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api.js'), 'utf8');
+const API_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api-mock.js'), 'utf8') +
+	fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api.js'), 'utf8');
+/* ⑦：mock 数据/实现在 api-mock.js 里，必须先于 api.js 求值；该文件以换行结尾，直接拼接即安全。 */
 /* M1-3：设置页已拆到 ui/js/settings.js（SG.settings）。
    本文件的 MR20 静态扫描跨两处：updateTrust 容器在 settings.js 的 renderSettings 里，
    renderUpdateTrust / initUpdateSection 仍在 launcher.js 的更新区。

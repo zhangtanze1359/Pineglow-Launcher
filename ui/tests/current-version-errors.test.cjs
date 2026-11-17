@@ -53,7 +53,9 @@ const CONTENT_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'content.js'), 'u
 const SETTINGS_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'settings.js'), 'utf8');
 const I18N_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'i18n.js'), 'utf8');
 const PINEGLOW_CSS = fs.readFileSync(path.join(ROOT, 'ui', 'css', 'pineglow.css'), 'utf8');
-const API_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api.js'), 'utf8');
+const API_JS = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api-mock.js'), 'utf8') +
+	fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api.js'), 'utf8');
+/* ⑦：mock 数据/实现在 api-mock.js 里，必须先于 api.js 求值；该文件以换行结尾，直接拼接即安全。 */
 
 function realApi(local, remoteFailure, localFailure) {
 	const ctx = { SG: {}, location: { protocol: 'http:' }, document: { querySelector() { return null; } }, setTimeout, URL, URLSearchParams,

@@ -24,7 +24,9 @@ const path = require('node:path');
 const vm = require('node:vm');
 
 const ROOT = path.resolve(__dirname, '..', '..');
-const API_SRC = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api.js'), 'utf8');
+const API_SRC = fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api-mock.js'), 'utf8') +
+	fs.readFileSync(path.join(ROOT, 'ui', 'js', 'api.js'), 'utf8');
+/* ⑦：mock 数据/实现在 api-mock.js 里，必须先于 api.js 求值；该文件以换行结尾，直接拼接即安全。 */
 
 /**
  * 在沙箱里加载 api.js 并返回 { api, calls }。
