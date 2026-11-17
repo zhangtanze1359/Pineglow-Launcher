@@ -13,6 +13,16 @@
  *   node scripts/gates.cjs                 # 跑全部
  *   node scripts/gates.cjs --only inventory,closure
  *   node scripts/gates.cjs --json          # 机器可读结果（便于贴进证据包）
+ *   node scripts/gates.cjs --baseline      # 跑完写 docs/baseline.md
+ *   node scripts/gates.cjs --require-fresh-baseline   # 基线过期直接失败（CI 可用）
+ *
+ * 2026-11-17 两项补强（都是这一轮真实踩到的）：
+ *   A. 失败测试名。原来 summary 只抽 `失败!` 汇总行，输了测试名那一行被 tail -3 挤掉，
+ *      拿到的是「失败 1 条」但不知道是哪条 —— 验收人要自己造 trx 文件才能知道。
+ *      现在每条失败用例单独抽出来打在你的终端上。
+ *   B. 基线过期检测。docs/baseline.md 记的 commit 与实际 HEAD 不一致时，它会**主动喊出来**。
+ *      原来全仓库没有任何东西读它：AGENTS.md 说「数字对不上先怀疑自己跑错目录」，
+ *      而基线自己已经过期了两轮（0a37256 → acc9498），这条规则反而把人引向错误结论。
  *
  * 环境约定（两个真踩过的坑，固化在这里，不靠人记文档）：
  *   1. dotnet 门槛必须把这个进程的 PATH 前置成 Windows 目录
@@ -42,6 +52,12 @@ const GATES = [
     required: true,
     // 只抽末行汇总，避免把 1 分钟的输出全塞进终端
     summary: /已通过!|失败!|Passed!|Failed!/,
+    // 失败用例名（xUnit 两种格式都出现，见下行注释）
+    failures: [
+      /^\s*失败\s+\S+/,        //  失败 Pineglow.Launcher.Tests.XxxTests.Case [12 ms]
+      /\[FAIL\]\s*$/,          //  [xUnit.net 00:00:00.51]  Pineglow...Case [FAIL]
+      /^\s*Failed\s+\S+/,      // 英文 locale
+    ],
     // --baseline：用来写 docs/baseline.md 的数字
     count: /通过:\s*(\d+)，已跳过:\s*(\d+)/,
   },
@@ -76,11 +92,12 @@ const GATES = [
 ];
 
 function parseArgs(argv) {
-  const opts = { only: null, json: false, baseline: false };
+  const opts = { only: null, json: false, baseline: false, requireFreshBaseline: false };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--json') opts.json = true;
     else if (a === '--baseline') opts.baseline = true;
+    else if (a === '--require-fresh-baseline') opts.requireFreshBaseline = true;
     else if (a === '--only') opts.only = (argv[++i] || '').split(',').filter(Boolean);
   }
   return opts;
@@ -120,6 +137,7 @@ function runGate(gate) {
   });
   const out = (res.stdout || '') + (res.stderr || '');
   const lines = tailLines(out, gate.summary, 3);
+  const failures = collectFailures(out, gate.failures);
   const countMatch = gate.count ? out.match(gate.count) : null;
   return {
     id: gate.id,
@@ -129,8 +147,40 @@ function runGate(gate) {
     ms: Date.now() - started,
     count: countMatch ? Number(countMatch[1]) : null,
     skipped: countMatch && countMatch[2] !== undefined ? Number(countMatch[2]) : null,
+    failures,
     lines: lines.length ? lines : tailLines(out, null, 3),
   };
+}
+
+/**
+ * 抽出失败的用例名。失败时你要的是「哪条」，不是「几条」。
+ * 同一用例可能在 xUnit 输出里出现两次（明细行 + [FAIL] 汇总行），这里按名字去重。
+ */
+function collectFailures(text, patterns) {
+  if (!patterns || !patterns.length) return [];
+  const seen = new Set();
+  const out = [];
+  for (const raw of String(text || '').split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line) continue;
+    if (!patterns.some((p) => p.test(line))) continue;
+    const name = normalizeFailureName(line);
+    if (!name || seen.has(name)) continue;
+    seen.add(name);
+    out.push(name);
+  }
+  return out;
+}
+
+/** 把两种格式剥成同一个名字，并去掉 xUnit 前缀与耗时尾巴。 */
+function normalizeFailureName(line) {
+  let s = line
+    .replace(/^\[xUnit\.net[^\]]*\]\s*/, '')
+    .replace(/^失败\s+/, '')
+    .replace(/^Failed\s+/, '')
+    .replace(/\s*\[(FAIL|\d+\s*ms)\]\s*$/g, '')
+    .trim();
+  return s;
 }
 
 function main() {
@@ -155,18 +205,42 @@ function main() {
   const missingRequired = results.filter((r) => r.status === 'MISSING' && GATES.find((g) => g.id === r.id).required);
   const missingOptional = results.filter((r) => r.status === 'MISSING' && !GATES.find((g) => g.id === r.id).required);
 
+  const head = currentHead();
+  const baseline = inspectBaseline(head);
+
   if (opts.json) {
-    console.log(JSON.stringify({ branch: currentBranch(), head: currentHead(), results, failed: failed.map((r) => r.id), missingRequired: missingRequired.map((r) => r.id), missingOptional: missingOptional.map((r) => r.id) }, null, 2));
+    console.log(JSON.stringify({ branch: currentBranch(), head, baseline, results, failed: failed.map((r) => r.id), missingRequired: missingRequired.map((r) => r.id), missingOptional: missingOptional.map((r) => r.id) }, null, 2));
   } else {
     console.log('\n' + '─'.repeat(60));
-    console.log('分支 ' + currentBranch() + ' @ ' + currentHead());
+    console.log('分支 ' + currentBranch() + ' @ ' + head);
     for (const r of results) {
       const mark = r.status === 'PASS' ? '✔' : r.status === 'MISSING' ? '…' : '✘';
       const timing = r.ms ? ` (${(r.ms / 1000).toFixed(1)}s)` : '';
       console.log(`${mark} ${r.id.padEnd(11)} ${r.status.padEnd(8)}${timing}`);
     }
+
+    const failedWithNames = results.filter((r) => r.status === 'FAIL' && r.failures.length);
+    if (failedWithNames.length) {
+      console.log('\n✘ 失败的用例（不用再去翻 trx）：');
+      for (const r of failedWithNames) {
+        for (const name of r.failures) console.log(`  [${r.id}] ${name}`);
+      }
+    }
+
     if (missingOptional.length) {
       console.log('\n⚠ 本分支缺少可选门槛：' + missingOptional.map((r) => r.id).join('、') + '（这不是绿，是"没跑"）');
+    }
+
+    if (baseline.status === 'stale') {
+      console.log(
+        '\n⚠ docs/baseline.md 已过期：它记的是 ' + baseline.commit + '，当前 HEAD 是 ' + head + '。\n' +
+        '  里面的 ' + (baseline.summary || '数字') + ' 不是本分支的数字，不要拿它当判据。\n' +
+        '  要刷新：node scripts/gates.cjs --baseline（必须四道门全绿时才刷）'
+      );
+    } else if (baseline.status === 'missing') {
+      console.log('\n⚠ 找不到 docs/baseline.md：没有任何基线数字可用。');
+    } else if (baseline.status === 'not-a-baseline') {
+      console.log('\n⚠ docs/baseline.md 里没读到 commit（文件可能被手改过）：' + baseline.detail);
     }
   }
 
@@ -176,6 +250,10 @@ function main() {
   }
 
   if (failed.length || missingRequired.length) process.exit(1);
+  if (opts.requireFreshBaseline && baseline.status !== 'fresh') {
+    console.error('\n✘ --require-fresh-baseline：基线状态 ' + baseline.status + '（需要 fresh）。');
+    process.exit(3);
+  }
   if (missingOptional.length) process.exit(4);
   process.exit(0);
 }
@@ -221,6 +299,36 @@ function writeBaseline(results, failed, missingRequired) {
   return file;
 }
 
+/**
+ * 读 docs/baseline.md，判断它是否还是当前 HEAD 的数字。
+ *
+ * 为什么要有这个：基线是「门槛数字的唯一真值」，但它由 --baseline 手写、没有任何东西读。
+ * 实测（2026-11-17）：文件里记着 0a37256 的 1432 条，而 main 已经跑到 acc9498 的 1445 条。
+ * AGENTS.md 又要求「数字对不上先怀疑自己跑错目录」——基线与事实分叉时，这条规则会把
+ * 人引向「环境有问题」的错误结论，而真因是基线本身过期了。
+ */
+function inspectBaseline(head) {
+  const file = path.join(ROOT, 'docs', 'baseline.md');
+  if (!fs.existsSync(file)) return { status: 'missing', file };
+  let text;
+  try {
+    text = fs.readFileSync(file, 'utf8');
+  } catch (e) {
+    return { status: 'not-a-baseline', file, detail: String(e.message || e) };
+  }
+  const commit = parseBaselineHead(text);
+  if (!commit) return { status: 'not-a-baseline', file, detail: '没有匹配到 "- 分支：`...` @ `<sha>`" 这一行' };
+  const csharp = /\|\s*C# 全量测试\s*\|\s*([^|]+)\|/.exec(text);
+  const summary = csharp ? csharp[1].trim() : '';
+  return { status: commit === head ? 'fresh' : 'stale', file, commit, summary, head };
+}
+
+/** 从 baseline.md 正文抽出记录的 commit（短哈希）；抽不到返回 null。 */
+function parseBaselineHead(text) {
+  const m = /^- 分支：`[^`]*` @ `([^`]+)`/m.exec(String(text || ''));
+  return m ? m[1].trim() : null;
+}
+
 function describe(result, unit) {
   if (!result) return '未跑';
   if (result.status === 'MISSING') return '本分支没有这条门槛（未跑）';
@@ -243,4 +351,14 @@ function currentHead() {
   return gitOutput(['rev-parse', '--short', 'HEAD']);
 }
 
-main();
+module.exports = {
+  parseArgs,
+  tailLines,
+  collectFailures,
+  normalizeFailureName,
+  parseBaselineHead,
+  inspectBaseline,
+  GATES,
+};
+
+if (require.main === module) main();
