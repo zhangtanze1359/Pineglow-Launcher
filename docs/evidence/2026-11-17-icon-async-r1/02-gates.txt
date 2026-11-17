@@ -1,0 +1,30 @@
+$ node scripts/gates.cjs
+
+▶ C# 全量测试 (csharp)
+  已通过! - 失败:     0，通过:  1453，已跳过:     0，总计:  1453，持续时间: 1 m 7 s - Pineglow.Launcher.Tests.dll (net10.0)
+
+▶ 前端全量 + 清单双向断言 (inventory)
+  ℹ pass 508
+  ℹ fail 0
+  ℹ skipped 0
+
+▶ CSS token 审计 (css-tokens)
+  [token-audit] OK：49 个 token，三层 CSS 无字面色值，无未定义引用，无死回退
+
+▶ UI 资源闭包 (closure)
+  [closure]   css: preview-motion.html -> css/figma.css
+  [closure]   css: preview-motion.html -> css/pineglow.css
+  [closure]   css: preview-motion.html -> css/redesign.css
+
+────────────────────────────────────────────────────────────
+分支 fix/icon-async-completion-20261117 @ 5ae76d4
+✔ csharp      PASS     (70.8s)
+✔ inventory   PASS     (29.7s)
+✔ css-tokens  PASS     (0.1s)
+✔ closure     PASS     (0.1s)
+
+⚠ docs/baseline.md 已过期：它记的是 0e2e8f8，当前 HEAD 是 5ae76d4。（基线之后动过硬门槛的路径：dev/PineglowLauncher.Tests/AiCancelAndRedirectTests.cs、dev/PineglowLauncher.Tests/HostDependenciesTests.cs、dev/PineglowLauncher.Tests/InstanceDefaultInstanceBoundaryTests.cs、dev/PineglowLauncher.Tests/LauncherStartupBoundaryTests.cs、dev/PineglowLauncher.Tests/LocalApiHostTests.cs 等 18 个）
+  里面的 1452 条通过 / 跳过 0 条 不是本分支的数字，不要拿它当判据。
+  要刷新：node scripts/gates.cjs --baseline（必须四道门全绿时才刷）
+
+exit code: 0

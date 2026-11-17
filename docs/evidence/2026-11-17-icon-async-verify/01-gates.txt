@@ -1,0 +1,50 @@
+# REV 独立复跑（干净检出，无执行者的 bin/obj）
+# HEAD: 024a4ca2401299f385ec04f9e9d8d0e001c5a70b
+# 时间: 2026-11-17T23:26:09+08:00
+
+$ node scripts/gates.cjs
+
+▶ C# 全量测试 (csharp)
+  已通过! - 失败:     0，通过:  1453，已跳过:     0，总计:  1453，持续时间: 1 m 2 s - Pineglow.Launcher.Tests.dll (net10.0)
+
+▶ 前端全量 + 清单双向断言 (inventory)
+  ℹ pass 508
+  ℹ fail 0
+  ℹ skipped 0
+
+▶ CSS token 审计 (css-tokens)
+  [token-audit] OK：49 个 token，三层 CSS 无字面色值，无未定义引用，无死回退
+
+▶ UI 资源闭包 (closure)
+  [closure]   css: preview-motion.html -> css/figma.css
+  [closure]   css: preview-motion.html -> css/pineglow.css
+  [closure]   css: preview-motion.html -> css/redesign.css
+
+────────────────────────────────────────────────────────────
+分支 HEAD @ 024a4ca
+✔ csharp      PASS     (73.4s)
+✔ inventory   PASS     (28.1s)
+✔ css-tokens  PASS     (0.1s)
+✔ closure     PASS     (0.1s)
+
+ℹ 基线来自 b71f6bd，此后只改过文档，数字仍然成立。
+exit code: 0
+30 次：红 0
+
+## REV 的变异 1：RemoveIfSame -> 空方法
+$ dotnet test ... --filter GetAsync_AsyncFailureLeavesNoEntryBehind
+  Expected: 0
+  Actual:   1
+  失败! - 失败: 1  ← 确定性咬住
+
+## REV 的变异 2：完整退回修复前生产代码（新用例保留）
+  单进程 20 次：红 0
+  # 8 进程并发 × 12 次（加压）
+  P1: 0/12 RED
+  P2: 1/12 RED
+  P3: 0/12 RED
+  P4: 0/12 RED
+  P5: 0/12 RED
+  P6: 1/12 RED
+  P7: 0/12 RED
+  P8: 0/12 RED

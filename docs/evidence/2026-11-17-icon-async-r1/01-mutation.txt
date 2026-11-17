@@ -1,0 +1,28 @@
+# 新用例 GetAsync_AsyncFailureLeavesNoEntryBehind_AndRetryFetchesAgain 的变异验证
+# worktree: D:/Projects/_worktrees/pineglow-icon-async  @ 5ae76d4
+# 基线 main@5ae76d4；只改了 ContentIconServiceTests.cs
+
+## 1) 修复版 + 新用例：连跑 40 次
+  结果：40/40 绿
+
+## 2) 变异：RemoveIfSame 改成空方法（模拟注销根本没生效）
+  dotnet test --filter FullyQualifiedName~GetAsync_AsyncFailureLeavesNoEntryBehind
+  ---
+  Expected: 0
+  Actual:   1
+  失败! - 失败: 1，通过: 0，总计: 1
+
+  => 新用例立刻咬住（不轮询，await 返回后直接查表）
+
+## 3) 变异：完整退回修复前生产代码（双守卫都撤 + 注销退回默认调度器）
+  单进程连跑 10 次：0 红  ← 空载下张力不够，复现不出来
+  8 进程并发 × 10 次：1/80 红
+  8 进程并发 × 15 次：0/120 红
+  => 这条竞态在空载下几乎不可复现，加压也只是偶发。
+     所以「新用例能咬住修复前」这一点，本机只能靠偶发命中，不能作为稳定证据。
+     能稳定咬住的是 RemoveIfSame 失效（第 2 条）。
+
+## 结论
+  新用例的价值不是「证明修复前会红」，而是：
+  a) 首次让「异步失败 + 重试」这条真实路径有断言（原先 FailedFetchAllowsRetry 走同步分支）；
+  b) 用 RemoveIfSame 空操作这种确定性变异，稳定证明它咬得住。
