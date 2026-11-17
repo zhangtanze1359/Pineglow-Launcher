@@ -24,6 +24,14 @@
  *      原来全仓库没有任何东西读它：AGENTS.md 说「数字对不上先怀疑自己跑错目录」，
  *      而基线自己已经过期了两轮（0a37256 → acc9498），这条规则反而把人引向错误结论。
  *
+ *      这里必须区分两种情况，否则会造一个新坑：
+ *        - 基线提交之后**代码/门槛没动**（只改了 docs）→ 数字仍然有效，判 fresh-doc-only，不报警。
+ *          典型的例子就是「刚用 --baseline 生成、然后把它提交」：提交后 HEAD 前进了
+ *          一个只改 docs 的提交，数字完全没变，这时候喊过期是噪声。
+ *        - 基线提交之后**改过会影响门槛的文件** → 数字失效，判 stale，大声报。
+ *      「影响门槛的文件」= dev/ · ui/ · scripts/ · release-notes/ · 根 csproj/global.json。
+ *      只编译注释、只改 docs 不改代码，不该触发报警。
+ *
  * 环境约定（两个真踩过的坑，固化在这里，不靠人记文档）：
  *   1. dotnet 门槛必须把这个进程的 PATH 前置成 Windows 目录
  *      （否则 GNU find.exe 抢占，更新脚本测试假失败 —— AGENTS.md 里那条注释的来历）。
@@ -232,11 +240,17 @@ function main() {
     }
 
     if (baseline.status === 'stale') {
+      const moved = baseline.touched && baseline.touched.length
+        ? `（基线之后动过硬门槛的路径：${baseline.touched.slice(0, 5).join('、')}${baseline.touched.length > 5 ? ' 等 ' + baseline.touched.length + ' 个' : ''}）`
+        : '（无法比对增量，按保守处理）';
       console.log(
-        '\n⚠ docs/baseline.md 已过期：它记的是 ' + baseline.commit + '，当前 HEAD 是 ' + head + '。\n' +
+        '\n⚠ docs/baseline.md 已过期：它记的是 ' + baseline.commit + '，当前 HEAD 是 ' + head + '。' + moved + '\n' +
         '  里面的 ' + (baseline.summary || '数字') + ' 不是本分支的数字，不要拿它当判据。\n' +
         '  要刷新：node scripts/gates.cjs --baseline（必须四道门全绿时才刷）'
       );
+    } else if (baseline.status === 'fresh-doc-only') {
+      // 故意不报警：只在 json 里留痕。基线之后只动了 docs，数字没变。
+      console.log('\nℹ 基线来自 ' + baseline.commit + '，此后只改过文档，数字仍然成立。');
     } else if (baseline.status === 'missing') {
       console.log('\n⚠ 找不到 docs/baseline.md：没有任何基线数字可用。');
     } else if (baseline.status === 'not-a-baseline') {
@@ -250,7 +264,7 @@ function main() {
   }
 
   if (failed.length || missingRequired.length) process.exit(1);
-  if (opts.requireFreshBaseline && baseline.status !== 'fresh') {
+  if (opts.requireFreshBaseline && baseline.status !== 'fresh' && baseline.status !== 'fresh-doc-only') {
     console.error('\n✘ --require-fresh-baseline：基线状态 ' + baseline.status + '（需要 fresh）。');
     process.exit(3);
   }
@@ -306,6 +320,12 @@ function writeBaseline(results, failed, missingRequired) {
  * 实测（2026-11-17）：文件里记着 0a37256 的 1432 条，而 main 已经跑到 acc9498 的 1445 条。
  * AGENTS.md 又要求「数字对不上先怀疑自己跑错目录」——基线与事实分叉时，这条规则会把
  * 人引向「环境有问题」的错误结论，而真因是基线本身过期了。
+ *
+ * 四种结果：
+ *   fresh           —— HEAD 就是基线记的那个提交
+ *   fresh-doc-only  —— HEAD 前进了，但增量只碰 docs/：数字仍然成立，不报警
+ *   stale           —— 增量碰到了会影响门槛的路径：数字失效，必须重跑
+ *   missing / not-a-baseline —— 文件不在或读不懂
  */
 function inspectBaseline(head) {
   const file = path.join(ROOT, 'docs', 'baseline.md');
@@ -320,7 +340,46 @@ function inspectBaseline(head) {
   if (!commit) return { status: 'not-a-baseline', file, detail: '没有匹配到 "- 分支：`...` @ `<sha>`" 这一行' };
   const csharp = /\|\s*C# 全量测试\s*\|\s*([^|]+)\|/.exec(text);
   const summary = csharp ? csharp[1].trim() : '';
-  return { status: commit === head ? 'fresh' : 'stale', file, commit, summary, head };
+  if (commit === head) return { status: 'fresh', file, commit, summary, head };
+
+  const touched = baselineSensitiveDiff(commit, head);
+  if (touched && touched.length === 0) {
+    return { status: 'fresh-doc-only', file, commit, summary, head };
+  }
+  return { status: 'stale', file, commit, summary, head, touched: touched || null };
+}
+
+/**
+ * 基线提交 → HEAD 之间，动了哪些**会影响门槛数字**的路径。
+ * 返回空数组 = 只改了 docs 之类的东西，数字仍然成立。
+ * 返回 null = 没法判断（git 不可用 / 基线提交不在历史里），按保守当 stale 处理。
+ */
+function baselineSensitiveDiff(baseCommit, head) {
+  const r = spawnSync('git', ['diff', '--name-only', `${baseCommit}..${head}`], {
+    cwd: ROOT,
+    encoding: 'utf8',
+    windowsHide: true,
+  });
+  if (r.error || r.status !== 0) return null;
+  const files = String(r.stdout || '').split(/\r?\n/).map((s) => s.trim()).filter(Boolean);
+  return files.filter(isGateSensitive);
+}
+
+/** 改到这些路径会改变门槛数字；只改 docs/ 不会。 */
+function isGateSensitive(relPath) {
+  const p = String(relPath).replace(/\\/g, '/');
+  if (p.startsWith('docs/')) return false;
+  if (p === 'README.md' || p === 'LICENSE' || p === 'AGENTS.md') return false;
+  if (p.startsWith('.github/')) return false; // CI 配置不影响本地门槛数字
+  return (
+    p.startsWith('dev/') ||
+    p.startsWith('ui/') ||
+    p.startsWith('scripts/') ||
+    p.startsWith('release-notes/') ||
+    p === 'global.json' ||
+    p === 'Directory.Build.props' ||
+    p === 'build.cmd'
+  );
 }
 
 /** 从 baseline.md 正文抽出记录的 commit（短哈希）；抽不到返回 null。 */
@@ -358,6 +417,7 @@ module.exports = {
   normalizeFailureName,
   parseBaselineHead,
   inspectBaseline,
+  isGateSensitive,
   GATES,
 };
 

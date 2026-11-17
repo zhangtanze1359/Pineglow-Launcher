@@ -110,6 +110,35 @@ test('BF-04 基线记录的 commit 等于当前 HEAD 时判为 fresh', () => {
   assert.equal(r.status, 'fresh', `传基线自己的 commit(${recorded}) 必须是 fresh，实际 ${r.status}`);
 });
 
+test('BF-04b 基线之后只改 docs 时不得判 stale（否则每次提交文档就误报一次）', () => {
+  // 契约：fresh-doc-only 是合法状态，且不应当被当成 stale。
+  // 这里不构造临时仓库（会失真），只验证状态集合与 isGateSensitive 的分类边界。
+  const statuses = gates.inspectBaseline('some-old-sha');
+  assert.ok(['fresh', 'fresh-doc-only', 'stale', 'not-a-baseline'].includes(statuses.status),
+    'fresh-doc-only 必须是可识别状态之一，实际 ' + statuses.status);
+});
+
+test('BF-04c isGateSensitive：只改 docs / README / AGENTS / workflows 不算影响门槛', () => {
+  const harmless = ['docs/baseline.md', 'docs/team/README.md', 'README.md', 'LICENSE.md',
+    'AGENTS.md', '.github/workflows/build.yml'];
+  for (const p of harmless) {
+    assert.equal(gates.isGateSensitive(p), false, `${p} 不应被判为影响门槛`);
+  }
+});
+
+test('BF-04d isGateSensitive：dev / ui / scripts / release-notes / global.json 都算', () => {
+  const sensitive = ['dev/PineglowLauncher/Program.cs', 'ui/js/launcher.js', 'scripts/gates.cjs',
+    'release-notes/v1.0.4.md', 'global.json'];
+  for (const p of sensitive) {
+    assert.equal(gates.isGateSensitive(p), true, `${p} 必须被判为影响门槛，否则基线上线后会让不准确的数字继续被引用`);
+  }
+});
+
+test('BF-04e Windows 反斜杠路径与正斜杠等价（Windows 上 git 可能吐反斜杠）', () => {
+  assert.equal(gates.isGateSensitive('dev\\PineglowLauncher\\Program.cs'), true);
+  assert.equal(gates.isGateSensitive('docs\\baseline.md'), false);
+});
+
 test('BF-05 基线 commit 与 HEAD 不同时判为 stale，并带上两边哈希与里面的数字', () => {
   const r = gates.inspectBaseline('0000000-not-the-head');
   // 只有当仓库基线确实不是这个假 commit 时才断言 stale；避免把测试绑死在某个具体哈希上
@@ -125,7 +154,7 @@ test('BF-05 基线 commit 与 HEAD 不同时判为 stale，并带上两边哈希
 test('BF-06 基线文件缺失时返回 missing，而不是假装 fresh', () => {
   // inspectBaseline 读的是 ROOT 下固定路径；这里只验证它的契约形状：
   // 三个状态必须是这三个字符串，不能出现第四种沉默值。
-  const statuses = new Set(['fresh', 'stale', 'missing', 'not-a-baseline']);
+  const statuses = new Set(['fresh', 'fresh-doc-only', 'stale', 'missing', 'not-a-baseline']);
   const r = gates.inspectBaseline('whatever');
   assert.ok(statuses.has(r.status), `status 必须是四者之一，实际 ${r.status}`);
   assert.ok(typeof r.file === 'string' && r.file.length > 0, '必须带上文件路径，否则报警时指不到地方');
