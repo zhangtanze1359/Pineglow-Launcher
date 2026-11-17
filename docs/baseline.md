@@ -2,8 +2,8 @@
 
 <!-- 由 node scripts/gates.cjs --baseline 生成；手改会在下次生成时被覆盖。 -->
 
-- 分支：`chore/gates-and-open-items-20261117` @ `7f98a77`
-- 生成时间：2026-11-17T13:15:19.529Z
+- 分支：`main` @ `e6bcb69`
+- 生成时间：2026-11-17T13:30:33.366Z
 - 命令：`node scripts/gates.cjs --baseline`
 
 | 门槛 | 结果 |
