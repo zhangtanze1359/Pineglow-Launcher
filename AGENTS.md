@@ -16,7 +16,7 @@ Avalonia 12 只做 WebView2 宿主；界面是 `ui/` 下的纯 Web 前端，通�
 | `ui/` | 前端（`js/launcher.js` 单文件、三套 CSS 叠加） |
 | `scripts/` | 门槛脚本与数据血缘脚本（**`_gen.cjs`/`_migrate.py`/`_batch_resources.cjs` 禁止删除**） |
 | `.github/workflows/build.yml` | 唯一构建门槛（三平台矩阵） |
-| `docs/` | 知识库；`docs/handoff/` 放交接与合流记录、`docs/evidence/` 放验收证据 |
+| `docs/` | 知识库；`docs/handoff/` 放交接与合流记录、`docs/evidence/` 放验收证据、`docs/open-items.md` 是**唯一**的遗留事项清单 |
 
 ## 命令（照抄，别自创）
 
@@ -32,6 +32,14 @@ dotnet 门槛需要把 `C:\Windows\System32;C:\Windows` 前置于 PATH（否则 
 传 MSBuild 属性只用 `-p:`，**不用 `/p:`**（Git Bash/MSYS 会把 `/p:` 改写成路径）。
 
 **基线数字只认 `docs/baseline.md`**（由 `gates.cjs --baseline` 生成，别手改）。数字对不上先怀疑自己跑错目录或少了环境变量。
+
+但基线自己也会过期——所以 `gates.cjs` 每次跑完都会比对基线记的 commit 与当前 HEAD，不一致就喊出来。看到下面这段就是基线旧了，不是环境坏了：
+
+```
+⚠ docs/baseline.md 已过期：它记的是 <旧 sha>，当前 HEAD 是 <新 sha>。
+```
+
+当前开着的缺口统一登记在 **`docs/open-items.md`**；开工前先读它，避免重复发现同一个问题。
 
 ### 新增 `LocalApiService*.cs` 必须登记 `LocalApiServiceSource.OrderedFiles`
 
