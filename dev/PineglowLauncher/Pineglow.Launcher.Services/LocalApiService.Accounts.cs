@@ -162,7 +162,7 @@ public static partial class LocalApiService
 		using (HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, profileUrl))
 		{
 			req.Headers.TryAddWithoutValidation("Authorization", "Bearer " + accessToken);
-			using (HttpResponseMessage resp = await ApiHttp.SendAsync(req, cts.Token))
+			using (HttpResponseMessage resp = await Outbound.Api.SendAsync(req, cts.Token))
 			{
 				string text = await resp.Content.ReadAsStringAsync(cts.Token);
 				if (!resp.IsSuccessStatusCode)
@@ -263,7 +263,7 @@ public static partial class LocalApiService
 			return;
 		}
 
-		MicrosoftAuthService authService = new MicrosoftAuthService(ApiHttp);
+		MicrosoftAuthService authService = new MicrosoftAuthService(Outbound.Api);
 		try
 		{
 			// 兼容旧调用：直接创建设备码会话，返回用户代码
@@ -314,7 +314,7 @@ public static partial class LocalApiService
 
 		try
 		{
-			MicrosoftAuthService authService = new MicrosoftAuthService(ApiHttp);
+			MicrosoftAuthService authService = new MicrosoftAuthService(Outbound.Api);
 			DeviceCodeInfo deviceCode = await authService.CreateDeviceCodeAsync(clientId, CancellationToken.None);
 			MicrosoftDeviceSession session = new MicrosoftDeviceSession
 			{
@@ -370,7 +370,7 @@ public static partial class LocalApiService
 
 		try
 		{
-			MicrosoftAuthService authService = new MicrosoftAuthService(ApiHttp);
+			MicrosoftAuthService authService = new MicrosoftAuthService(Outbound.Api);
 			MicrosoftOAuthToken oauth = await authService.PollDeviceCodeOnceAsync(clientId, session.DeviceCode, CancellationToken.None);
 			session.Completed = true;
 			MinecraftAccount account = await authService.LoginMinecraftAsync(oauth, CancellationToken.None);
@@ -403,7 +403,7 @@ public static partial class LocalApiService
 		}
 
 		using CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-		AuthlibInjectorService authService = new AuthlibInjectorService(ApiHttp);
+		AuthlibInjectorService authService = new AuthlibInjectorService(Outbound.Api);
 		AuthlibAccount authAccount = await authService.LoginAsync(serverUrl, userName, password, cts.Token);
 
 		AppConfig config = LoadConfig();

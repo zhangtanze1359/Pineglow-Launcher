@@ -40,7 +40,7 @@ public static partial class LocalApiService
 		{
 			// R03：主源失败（404 / 超时 / 坏 JSON / 字段非法）时按链降级到备用源，
 			// 并把每个源的真实结果回给界面，避免只给一句"检查失败"。
-			UpdateService.ManifestFetchResult fetch = await UpdateService.FetchManifestChainAsync(ApiHttp, chain, CancellationToken.None);
+			UpdateService.ManifestFetchResult fetch = await UpdateService.FetchManifestChainAsync(Outbound.Api, chain, CancellationToken.None);
 			if (!fetch.Ok || fetch.Manifest == null || string.IsNullOrWhiteSpace(fetch.Manifest.Version))
 			{
 				LauncherLog.Error("[update] 检查更新失败: " + fetch.FailureSummary);
@@ -101,7 +101,7 @@ public static partial class LocalApiService
 		try
 		{
 			// R03：与检查更新走同一条降级链，避免"检查能看到新版本、下载却取不到清单"。
-			UpdateService.ManifestFetchResult fetch = await UpdateService.FetchManifestChainAsync(ApiHttp, chain, CancellationToken.None);
+			UpdateService.ManifestFetchResult fetch = await UpdateService.FetchManifestChainAsync(Outbound.Api, chain, CancellationToken.None);
 			UpdateManifest? manifest = fetch.Manifest;
 			if (!fetch.Ok || manifest == null || string.IsNullOrWhiteSpace(manifest.Url))
 			{
@@ -145,7 +145,7 @@ public static partial class LocalApiService
 					UpdateProgress = value;
 				}
 			});
-			string path = await UpdateService.DownloadUpdateAsync(ApiHttp, manifest, progress, CancellationToken.None);
+			string path = await UpdateService.DownloadUpdateAsync(Outbound.Api, manifest, progress, CancellationToken.None);
 			lock (UpdateGate)
 			{
 				UpdateState = "completed";

@@ -277,7 +277,7 @@ public static partial class LocalApiService
 			throw new InvalidOperationException("账号刷新凭据缺失，请重新登录 Microsoft 账号");
 		}
 
-		MicrosoftAuthService authService = new MicrosoftAuthService(ApiHttp);
+		MicrosoftAuthService authService = new MicrosoftAuthService(Outbound.Api);
 		using CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
 		MinecraftAccount mc = await authService.LoginWithRefreshTokenAsync(clientId, refreshToken, cts.Token);
 

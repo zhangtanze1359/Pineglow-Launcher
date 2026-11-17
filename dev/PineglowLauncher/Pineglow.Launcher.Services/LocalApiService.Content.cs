@@ -76,7 +76,7 @@ public static partial class LocalApiService
 			{
 				case "modpack":
 				{
-					List<ModpackProject> packs = await new ModrinthModpackService(ApiHttp).SearchAsync(query, cts.Token);
+					List<ModpackProject> packs = await new ModrinthModpackService(Outbound.Api).SearchAsync(query, cts.Token);
 					// modpack 当前只走 Modrinth；保留 source 字段以便前端统一处理
 					string packSource = "modrinth";
 					foreach (ModpackProject p in packs)
@@ -112,7 +112,7 @@ public static partial class LocalApiService
 					ResourceContentKind kind = category.Equals("shader", StringComparison.OrdinalIgnoreCase)
 						? ResourceContentKind.Shader
 						: ResourceContentKind.ResourcePack;
-					List<ResourceContentProject> projects = await new ResourceContentService(ApiHttp).SearchAsync(query, gameVersion, kind, cts.Token);
+					List<ResourceContentProject> projects = await new ResourceContentService(Outbound.Api).SearchAsync(query, gameVersion, kind, cts.Token);
 					// 光影/资源包目前由 Modrinth 提供；保留 source 字段以便前端统一处理
 					string resSource = "modrinth";
 					foreach (ResourceContentProject p in projects)
@@ -150,7 +150,7 @@ public static partial class LocalApiService
 						Limit = 24,
 						CurseForgeApiKey = config?.CurseForgeApiKey ?? string.Empty
 					};
-					List<ModSearchResult> results = await new ModContentService(ApiHttp).SearchAsync(req, cts.Token);
+					List<ModSearchResult> results = await new ModContentService(Outbound.Api).SearchAsync(req, cts.Token);
 					foreach (ModSearchResult m in results)
 					{
 						// Phase 2：注册上游 iconUrl 到可信映射（仅 modrinth 当前可达，
@@ -431,7 +431,7 @@ public static partial class LocalApiService
 		GameInstance instance = RequireInstance(config, entry.InstanceId);
 		string gameDir = ResolveGameDirectory(config, instance);
 		// MR05：带上恢复服务，已安装同一在线项目时走事务化替换而不是并列导入。
-		ModContentService content = new ModContentService(ApiHttp, CreateRecoveryService());
+		ModContentService content = new ModContentService(Outbound.Api, CreateRecoveryService());
 		ModSource sourceKind = entry.Source.Equals("curseforge", StringComparison.OrdinalIgnoreCase) ? ModSource.CurseForge : ModSource.Modrinth;
 		ModSearchResult project = new ModSearchResult
 		{
@@ -463,7 +463,7 @@ public static partial class LocalApiService
 		ResourceContentKind kind = entry.Category.Equals("shader", StringComparison.OrdinalIgnoreCase)
 			? ResourceContentKind.Shader
 			: ResourceContentKind.ResourcePack;
-		ResourceContentService content = new ResourceContentService(ApiHttp);
+		ResourceContentService content = new ResourceContentService(Outbound.Api);
 		ResourceContentProject project = new ResourceContentProject
 		{
 			ProjectId = entry.ProjectId,
@@ -486,7 +486,7 @@ public static partial class LocalApiService
 
 	private static async Task InstallModpackContentAsync(ContentTaskEntry entry, AppConfig config)
 	{
-		ModrinthModpackService modrinth = new ModrinthModpackService(ApiHttp);
+		ModrinthModpackService modrinth = new ModrinthModpackService(Outbound.Api);
 		ModpackProject project = new ModpackProject
 		{
 			ProjectId = entry.ProjectId
@@ -504,7 +504,7 @@ public static partial class LocalApiService
 		try
 		{
 			string defaultGameDir = string.IsNullOrWhiteSpace(config.GameDirectory) ? PlatformPaths.GetDefaultMinecraftDirectory() : config.GameDirectory;
-			InstancePackService packService = new InstancePackService(ApiHttp, defaultGameDir, msg => UpdateContentTask(entry, msg));
+			InstancePackService packService = new InstancePackService(Outbound.Api, defaultGameDir, msg => UpdateContentTask(entry, msg));
 			UpdateContentTask(entry, "正在创建实例并安装整合包", 0.15);
 			GameInstance newInstance = await packService.ImportModrinthPackAsync(zipPath,
 				msg => UpdateContentTask(entry, msg),

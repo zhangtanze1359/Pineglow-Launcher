@@ -242,8 +242,8 @@ public class DiagnoseProgressGateTests
 	public void AiWaitBound_IsSixtySeconds_AndUiShowsHonestWaitWithCancel()
 	{
 		// 等待上界：来自 HttpClient 超时配置（不是前端计时器推断）
-		Assert.Equal(60, AiHttpClientFactory.DefaultTimeoutSeconds);
-		_out.WriteLine($"[gate] AI 等待上界 = {AiHttpClientFactory.DefaultTimeoutSeconds} s（客户端超时）");
+		Assert.Equal(60, OutboundHttp.AiTimeoutSeconds);
+		_out.WriteLine($"[gate] AI 等待上界 = {OutboundHttp.AiTimeoutSeconds} s（客户端超时）");
 
 		// 界面在等待时的状态：必须只有"等待中"文案 + 取消按钮，**不得**有虚假百分比。
 		string launcher = File.ReadAllText(FindUiFile("launcher.js"));

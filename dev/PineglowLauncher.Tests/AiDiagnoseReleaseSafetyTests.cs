@@ -422,14 +422,14 @@ public sealed class AiDiagnoseReleaseSafetyTests
 	// ============ Gate R1 RED：AI 专用 client 必须禁自动重定向 ============
 
 	[Fact]
-	public void A01_Green_AiHttpClientFactory_DisablesAutoRedirect()
+	public void A01_Green_OutboundAiClient_DisablesAutoRedirect()
 	{
-		// 命中生产 AI client 创建路径（AiHttpClientFactory.CreateAiHandler）。
+		// 命中生产 AI client 创建路径（OutboundHttp.CreateAiHandler）。
 		// 验证返回的 HttpMessageHandler 是 HttpClientHandler 且 AllowAutoRedirect=false。
-		using HttpMessageHandler handler = AiHttpClientFactory.CreateAiHandler(false, string.Empty, 0, string.Empty, string.Empty);
+		using HttpMessageHandler handler = OutboundHttp.CreateAiHandler(OutboundHttp.ProxySettings.None);
 		HttpClientHandler? hch = handler as HttpClientHandler;
 		Assert.NotNull(hch);
-		Assert.False(hch!.AllowAutoRedirect, "AiHttpClientFactory must set AllowAutoRedirect=false on inner HttpClientHandler");
+		Assert.False(hch!.AllowAutoRedirect, "OutboundHttp 必须给 AI 客户端设 AllowAutoRedirect=false");
 	}
 
 	// ============ MiniMax China region (2026-09-24)：精确放行 + 跳过 response_format + thinking.type=disabled ============
