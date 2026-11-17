@@ -119,8 +119,8 @@ test('BF-04b 基线之后只改 docs 时不得判 stale（否则每次提交文�
 });
 
 test('BF-04c isGateSensitive：只改 docs / README / AGENTS / workflows 不算影响门槛', () => {
-  const harmless = ['docs/baseline.md', 'docs/team/README.md', 'README.md', 'LICENSE.md',
-    'AGENTS.md', '.github/workflows/build.yml'];
+  const harmless = ['docs/baseline.md', 'docs/open-items.md', 'README.md', 'LICENSE.md',
+    'AGENTS.md', '.github/workflows/build.yml', 'docs/evidence/2026-11-17-backport/实现.md'];
   for (const p of harmless) {
     assert.equal(gates.isGateSensitive(p), false, `${p} 不应被判为影响门槛`);
   }
