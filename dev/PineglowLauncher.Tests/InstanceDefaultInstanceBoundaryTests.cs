@@ -120,7 +120,7 @@ public class InstanceDefaultInstanceBoundaryTests
 	/// 并且真的落盘到**临时目录**（不碰真实 %APPDATA%）。
 	/// 它复刻的是"加载路径会补建默认实例"这一条语义，而不是复制整个 ConfigStore。
 	/// </summary>
-	private sealed class ProductionLikeFileConfigStore : LocalApiService.IConfigStore
+	private sealed class ProductionLikeFileConfigStore : IConfigStore
 	{
 		private readonly string _path;
 		public AppConfig Current { get; private set; }

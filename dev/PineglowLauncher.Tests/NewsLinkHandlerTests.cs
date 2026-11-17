@@ -737,11 +737,12 @@ public class NewsLinkHandlerTests
 			IDisposable scope;
 			try
 			{
-				scope = LocalApiService.OverrideConfigStoreForTest(store);
+				// A21（第 49 轮）：本夹具原先只重定向了配置存储，恢复区/二分落盘/诊断报告会落到真实 %APPDATA%。
+				scope = TestIsolationRoots.InstallCurrent(store);
 			}
 			catch (Exception ex)
 			{
-				throw new InvalidOperationException("OverrideConfigStoreForTest 失败：" + ex.Message, ex);
+				throw new InvalidOperationException("安装测试依赖失败：" + ex.Message, ex);
 			}
 			Assert.NotNull(scope);
 
@@ -760,8 +761,6 @@ public class NewsLinkHandlerTests
 				originalOpener = InjectControlledOpener(opener);
 			}
 
-			// A21（第 49 轮）：本夹具原先只重定向了配置存储，恢复区/二分落盘/诊断报告会落到真实 %APPDATA%。
-			TestIsolationRoots.InstallCurrent();
 			int port = await AcquirePortAsync();
 			LocalApiService.Start(port);
 			if (!LocalApiService.IsRunning)
@@ -953,7 +952,7 @@ public class NewsLinkHandlerTests
 		private static int _nextPortSeed = 0;
 	}
 
-	private sealed class MemoryConfigStore : LocalApiService.IConfigStore
+	private sealed class MemoryConfigStore : IConfigStore
 	{
 		private AppConfig _current = new AppConfig();
 		public AppConfig Load() => _current;

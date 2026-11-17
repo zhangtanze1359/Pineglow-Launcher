@@ -17,7 +17,7 @@ namespace Pineglow.Launcher.Tests;
 /// 2026-10-03 P0 收口（W2）：HTTP 层路由契约测试的共享夹具。
 ///
 /// 注入方式与 <c>AiCancelAndRedirectTests</c> 内的私有 TestHarness 一致
-/// （MemoryConfigStore + OverrideConfigStoreForTest + 真实 listener + 真实 HttpClient），
+/// （MemoryConfigStore + OverrideHostDependenciesForTest + 真实 listener + 真实 HttpClient），
 /// 但独立成文件，不修改既有测试——避免扰动 612 个已通过的用例。
 ///
 /// 安全边界：
@@ -26,7 +26,7 @@ namespace Pineglow.Launcher.Tests;
 ///   - 调用方必须把 AppConfig.GameDirectory 与 GameInstance.GameDirectory 都指向合成临时目录；
 ///     否则 ResolveGameDirectory 会回退到真实 .minecraft 目录。
 /// </summary>
-internal sealed class RouteTestMemoryConfigStore : LocalApiService.IConfigStore
+internal sealed class RouteTestMemoryConfigStore : IConfigStore
 {
 	public AppConfig Current { get; }
 
@@ -122,27 +122,24 @@ internal sealed class LocalApiTestHarness : IAsyncDisposable
 	/// <summary>MR08：本次测试专用的诊断报告根目录（临时目录，用后删除）。</summary>
 	public string DiagnosticStoreRoot { get; }
 
-	private readonly IDisposable _configScope;
-	private readonly IDisposable _recoveryScope;
-	private readonly IDisposable _bisectScope;
-	private readonly IDisposable _diagnosticScope;
+	/// <summary>本次测试专用的依赖作用域（config store + 三个存储根，一次替换）。</summary>
+	private readonly IDisposable _hostScope;
+
+	/// <summary>本次测试专用的存储根（临时目录，用后删除）。</summary>
+	private readonly StorageRoots _roots;
+
 	private readonly RealConfigGuard _pre;
 	private bool _disposed;
 	private static int _nextPortSeed = 700;
 
-	private LocalApiTestHarness(
-		int port, IDisposable scope, IDisposable recoveryScope, string recoveryRoot,
-		IDisposable bisectScope, string bisectStoreRoot,
-		IDisposable diagnosticScope, string diagnosticStoreRoot, RealConfigGuard pre)
+	private LocalApiTestHarness(int port, IDisposable hostScope, StorageRoots roots, RealConfigGuard pre)
 	{
 		Port = port;
-		_configScope = scope;
-		_recoveryScope = recoveryScope;
-		RecoveryRoot = recoveryRoot;
-		_bisectScope = bisectScope;
-		BisectStoreRoot = bisectStoreRoot;
-		_diagnosticScope = diagnosticScope;
-		DiagnosticStoreRoot = diagnosticStoreRoot;
+		_hostScope = hostScope;
+		_roots = roots;
+		RecoveryRoot = roots.Recovery;
+		BisectStoreRoot = roots.Bisect;
+		DiagnosticStoreRoot = roots.Diagnostics;
 		_pre = pre;
 		Client = new HttpClient
 		{
@@ -161,32 +158,27 @@ internal sealed class LocalApiTestHarness : IAsyncDisposable
 	/// MR03 补测新增重载：允许调用方传入自己的 IConfigStore，
 	/// 用于对照「夹具存储 vs 生产语义存储」的差异。既有调用方一律走上面的重载，行为不变。
 	/// </summary>
-	public static async Task<LocalApiTestHarness> StartAsync(LocalApiService.IConfigStore store, AppConfig initial)
+	public static async Task<LocalApiTestHarness> StartAsync(IConfigStore store, AppConfig initial)
 	{
 		RealConfigGuard pre = RealConfigGuard.Capture();
-		IDisposable scope = LocalApiService.OverrideConfigStoreForTest(store);
-		Assert.NotNull(scope);
 
-		// MR04：恢复区必须重定向到临时目录，否则隔离/恢复会写进真实 %APPDATA% 的 recovery/。
+		// 候选 ③ 第 2 步：四个重定向现在是一次替换。
+		// 拆成四个独立 override 的旧写法允许"只换了一个或两个"，漏掉的根会写真实 %APPDATA%
+		// （第 47 轮实测：诊断报告一直在写）。
 		string recoveryRoot = Path.Combine(Path.GetTempPath(), "pineglow-recovery-test-" + Guid.NewGuid().ToString("N"));
 		Directory.CreateDirectory(recoveryRoot);
-		IDisposable recoveryScope = LocalApiService.OverrideRecoveryRootForTest(recoveryRoot);
-
-		// MR07：二分定位的落盘记录同理，必须重定向到临时目录。
 		string bisectRoot = Path.Combine(Path.GetTempPath(), "pineglow-bisect-test-" + Guid.NewGuid().ToString("N"));
 		Directory.CreateDirectory(bisectRoot);
-		IDisposable bisectScope = LocalApiService.OverrideBisectStoreRootForTest(bisectRoot);
-
-		// MR08：诊断报告历史同理。
 		string diagnosticRoot = Path.Combine(Path.GetTempPath(), "pineglow-diag-test-" + Guid.NewGuid().ToString("N"));
 		Directory.CreateDirectory(diagnosticRoot);
-		IDisposable diagnosticScope = LocalApiService.OverrideDiagnosticStoreRootForTest(diagnosticRoot);
+
+		StorageRoots roots = new StorageRoots(recoveryRoot, bisectRoot, diagnosticRoot);
+		IDisposable scope = LocalApiService.OverrideHostDependenciesForTest(dependencies =>
+			dependencies.WithStore(store).WithRoots(roots));
+		Assert.NotNull(scope);
 
 		if (LocalApiService.IsRunning)
 		{
-			diagnosticScope.Dispose();
-			bisectScope.Dispose();
-			recoveryScope.Dispose();
 			scope.Dispose();
 			throw new InvalidOperationException("LocalApiService 已在运行；测试不能启动新端口。");
 		}
@@ -222,15 +214,12 @@ internal sealed class LocalApiTestHarness : IAsyncDisposable
 		if (!started)
 		{
 			if (LocalApiService.IsRunning) LocalApiService.Stop();
-			diagnosticScope.Dispose();
-			bisectScope.Dispose();
-			recoveryScope.Dispose();
 			scope.Dispose();
 			throw new InvalidOperationException(
 				$"LocalApiService 启动失败（已重试 6 次换端口）；期望 {port}，实际 {(LocalApiService.IsRunning ? LocalApiService.Port : -1)}");
 		}
 
-		return new LocalApiTestHarness(port, scope, recoveryScope, recoveryRoot, bisectScope, bisectRoot, diagnosticScope, diagnosticRoot, pre);
+		return new LocalApiTestHarness(port, scope, roots, pre);
 	}
 
 	/// <summary>发一次真实 HTTP 请求，返回 (状态码, 响应体)。</summary>
@@ -257,13 +246,10 @@ internal sealed class LocalApiTestHarness : IAsyncDisposable
 		try { if (LocalApiService.IsRunning) LocalApiService.Stop(); }
 		catch (Exception ex) { firstError ??= new InvalidOperationException("LocalApiService.Stop 失败：" + ex.Message, ex); }
 		try { Client.Dispose(); } catch (Exception ex) { firstError ??= ex; }
-		try { _configScope.Dispose(); } catch (Exception ex) { firstError ??= ex; }
-		try { _recoveryScope.Dispose(); } catch (Exception ex) { firstError ??= ex; }
-		try { _bisectScope.Dispose(); } catch (Exception ex) { firstError ??= ex; }
-		try { _diagnosticScope.Dispose(); } catch (Exception ex) { firstError ??= ex; }
-		try { if (Directory.Exists(RecoveryRoot)) Directory.Delete(RecoveryRoot, true); } catch { }
-		try { if (Directory.Exists(BisectStoreRoot)) Directory.Delete(BisectStoreRoot, true); } catch { }
-		try { if (Directory.Exists(DiagnosticStoreRoot)) Directory.Delete(DiagnosticStoreRoot, true); } catch { }
+		try { _hostScope.Dispose(); } catch (Exception ex) { firstError ??= ex; }
+		try { if (Directory.Exists(_roots.Recovery)) Directory.Delete(_roots.Recovery, true); } catch { }
+		try { if (Directory.Exists(_roots.Bisect)) Directory.Delete(_roots.Bisect, true); } catch { }
+		try { if (Directory.Exists(_roots.Diagnostics)) Directory.Delete(_roots.Diagnostics, true); } catch { }
 
 		RealConfigGuard post = RealConfigGuard.Capture();
 		if (!_pre.Equals(post))

@@ -295,7 +295,7 @@ public class AiCancelAndRedirectTests
 //   - 不访问真实第三方 AI；通过 AiDiagnoseService.SendWithRetryOverrideForTest
 //     注入本地 delayed fake handler（v4 prompt 步骤 3 段允许的最窄 internal/test-only seam）
 //   - AiOperationRegistry.cs 只读；不修改
-//   - 所有测试启动真实 LocalApiService（通过 OverrideConfigStoreForTest 注入内存 store），
+//   - 所有测试启动真实 LocalApiService（通过 OverrideHostDependenciesForTest 注入内存 store），
 //     因此加入 LocalApiService collection 串行执行，避免与 NewsLinkHandlerTests 等冲突
 // =====================================================================
 [Collection("LocalApiService")]
@@ -338,7 +338,7 @@ public class AiCancelAndRedirectStep3Tests
 
 	/* ===================== Memory config store + TestHarness ===================== */
 
-	private sealed class MemoryConfigStore : LocalApiService.IConfigStore
+	private sealed class MemoryConfigStore : IConfigStore
 	{
 		public AppConfig Current { get; }
 		public MemoryConfigStore(AppConfig initial) { Current = initial; }
@@ -356,21 +356,21 @@ public class AiCancelAndRedirectStep3Tests
 		/// <summary>A15/A20 修复：诊断报告的存储根也必须重定向（原先没重定向 → 写进真实 %APPDATA%）。</summary>
 		public string DiagnosticStoreRoot { get; }
 
-		private readonly IDisposable _diagnosticScope;
+		private readonly StorageRoots _roots;
 		private readonly int _realDiagnosticsBefore;
 		private readonly bool _startedHere;
 		private readonly RealConfigSnapshot _pre;
 		private bool _disposed;
 
 		public TestHarness(AppConfig initial, int port, IDisposable scope, bool startedHere, RealConfigSnapshot pre,
-			IDisposable diagnosticScope, string diagnosticStoreRoot, int realDiagnosticsBefore)
+			StorageRoots roots, int realDiagnosticsBefore)
 		{
 			Port = port;
 			ConfigScope = scope;
 			_startedHere = startedHere;
 			_pre = pre;
-			_diagnosticScope = diagnosticScope;
-			DiagnosticStoreRoot = diagnosticStoreRoot;
+			_roots = roots;
+			DiagnosticStoreRoot = roots.Diagnostics;
 			_realDiagnosticsBefore = realDiagnosticsBefore;
 			Client = new HttpClient { BaseAddress = new Uri($"http://127.0.0.1:{port}/"), Timeout = TimeSpan.FromSeconds(15) };
 		}
@@ -379,22 +379,25 @@ public class AiCancelAndRedirectStep3Tests
 		{
 			RealConfigSnapshot pre = RealConfigSnapshot.Capture();
 			var store = new MemoryConfigStore(initial);
-			IDisposable scope = LocalApiService.OverrideConfigStoreForTest(store);
-			Assert.NotNull(scope);
 
-			// A15/A20 修复：诊断报告的存储根必须重定向到临时目录。
-			// 修复前本夹具只重定向了配置存储，诊断报告因此写进**真实** %APPDATA%\MCMiniLauncher\diagnostics
-			// （实测留下数百个 locale-test-*.json 与 step3-op-*.json）。这与 LocalApiTestHarness 的做法一致。
-			// A21 收尾（第 50 轮）：本夹具已自有诊断根重定向，这里只补**恢复区 + 二分落盘**两个根。
-			TestIsolationRoots.InstallRecoveryAndBisectCurrent();
+			// A15/A20 修复：诊断根必须重定向，否则写进真实 %APPDATA%\MCMiniLauncher\diagnostics。
+			// 候选 ③ 第 2 步之后：四个重定向合为一次依赖替换，本夹具保留自己的诊断根（它要数真实目录做守卫），
+			// 其余两个根用临时目录。
 			int realDiagnosticsBefore = CountRealDiagnosticFiles();
 			string diagnosticRoot = Path.Combine(Path.GetTempPath(), "pineglow-ai-diag-" + Guid.NewGuid().ToString("N"));
 			Directory.CreateDirectory(diagnosticRoot);
-			IDisposable diagnosticScope = LocalApiService.OverrideDiagnosticStoreRootForTest(diagnosticRoot);
+			string recoveryRoot = Path.Combine(Path.GetTempPath(), "pineglow-ai-rec-" + Guid.NewGuid().ToString("N"));
+			Directory.CreateDirectory(recoveryRoot);
+			string bisectRoot = Path.Combine(Path.GetTempPath(), "pineglow-ai-bis-" + Guid.NewGuid().ToString("N"));
+			Directory.CreateDirectory(bisectRoot);
+
+			StorageRoots roots = new StorageRoots(recoveryRoot, bisectRoot, diagnosticRoot);
+			IDisposable scope = LocalApiService.OverrideHostDependenciesForTest(dependencies =>
+				dependencies.WithStore(store).WithRoots(roots));
+			Assert.NotNull(scope);
 
 			if (LocalApiService.IsRunning)
 			{
-				diagnosticScope.Dispose();
 				scope.Dispose();
 				throw new InvalidOperationException("LocalApiService 已在运行；测试不能启动新端口。");
 			}
@@ -403,11 +406,10 @@ public class AiCancelAndRedirectStep3Tests
 			if (!LocalApiService.IsRunning || LocalApiService.Port != port)
 			{
 				if (LocalApiService.IsRunning) LocalApiService.Stop();
-				diagnosticScope.Dispose();
 				scope.Dispose();
 				throw new InvalidOperationException($"LocalApiService 启动失败；期望 {port}, 实际 {(LocalApiService.IsRunning ? LocalApiService.Port : -1)}");
 			}
-			return new TestHarness(initial, port, scope, startedHere: true, pre, diagnosticScope, diagnosticRoot, realDiagnosticsBefore);
+			return new TestHarness(initial, port, scope, startedHere: true, pre, roots, realDiagnosticsBefore);
 		}
 
 		/// <summary>真实 %APPDATA% 下诊断目录里的文件数（用于守卫：测试不得往里写）。</summary>
@@ -453,10 +455,10 @@ public class AiCancelAndRedirectStep3Tests
 			catch (Exception ex) { firstError ??= new InvalidOperationException("LocalApiService.Stop 失败：" + ex.Message, ex); }
 			try { Client.Dispose(); } catch (Exception ex) { firstError ??= ex; }
 			try { ConfigScope.Dispose(); } catch (Exception ex) { firstError ??= ex; }
-			// A15/A20 修复：释放诊断根重定向并清掉临时目录
-			try { _diagnosticScope.Dispose(); } catch (Exception ex) { firstError ??= ex; }
-			try { TestIsolationRoots.ReleaseCurrent(); } catch { } // A21：释放恢复区/二分落盘重定向
-			try { if (Directory.Exists(DiagnosticStoreRoot)) Directory.Delete(DiagnosticStoreRoot, true); } catch { }
+			// 一次替换，一次释放（候选 ③ 第 2 步）；临时目录随存储根一起清理。
+			try { if (Directory.Exists(_roots.Diagnostics)) Directory.Delete(_roots.Diagnostics, true); } catch { }
+			try { if (Directory.Exists(_roots.Recovery)) Directory.Delete(_roots.Recovery, true); } catch { }
+			try { if (Directory.Exists(_roots.Bisect)) Directory.Delete(_roots.Bisect, true); } catch { }
 			// reset fake override（防止后续测试受影响）
 			try { AiDiagnoseService.SendWithRetryOverrideForTest = null; } catch { }
 			RealConfigSnapshot post = RealConfigSnapshot.Capture();
@@ -469,7 +471,7 @@ public class AiCancelAndRedirectStep3Tests
 			{
 				firstError ??= new InvalidOperationException(
 					$"真实 %APPDATA% 诊断目录被改动：{_realDiagnosticsBefore} → {realDiagnosticsAfter} 个文件。" +
-					"测试必须把诊断根重定向到临时目录（见 LocalApiService.OverrideDiagnosticStoreRootForTest）。");
+					"测试必须把诊断根重定向到临时目录（走 LocalApiService.OverrideHostDependenciesForTest）。");
 			}
 
 			if (firstError != null) throw firstError;

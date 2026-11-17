@@ -11,9 +11,12 @@
 #
 # 行首 # 为注释，空行忽略；其余每行必须是仓库相对路径。
 
-# ---- 类别 A：生产源码 / UI / vendor（23）----
+# ---- 类别 A：生产源码 / UI / vendor（26）----
 dev/PineglowLauncher/Pineglow.Launcher.Services/AiEndpointPolicy.cs
 dev/PineglowLauncher/Pineglow.Launcher.Services/OutboundHttp.cs
+dev/PineglowLauncher/Pineglow.Launcher.Services/HostDependencies.cs
+dev/PineglowLauncher/Pineglow.Launcher.Services/IConfigStore.cs
+dev/PineglowLauncher/Pineglow.Launcher.Services/StorageRoots.cs
 dev/PineglowLauncher/Pineglow.Launcher.Services/AiOperationRegistry.cs
 dev/PineglowLauncher/Pineglow.Launcher.Services/BisectRecoveryStore.cs
 dev/PineglowLauncher/Pineglow.Launcher.Services/ContentIconResult.cs

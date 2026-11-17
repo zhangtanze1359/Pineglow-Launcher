@@ -28,7 +28,7 @@ public sealed class LocalApiHostTests
 	[Fact]
 	public void Start_BindsThePortAndReportsTheUiRoot()
 	{
-		LocalApiHost host = new LocalApiHost();
+		LocalApiHost host = new LocalApiHost(TestHostDependencies.TempRoots());
 		int port = FreePort();
 
 		host.Start(port, @"C:\ui-root");
@@ -53,7 +53,7 @@ public sealed class LocalApiHostTests
 	[Fact]
 	public void Stop_IsIdempotent()
 	{
-		LocalApiHost host = new LocalApiHost();
+		LocalApiHost host = new LocalApiHost(TestHostDependencies.TempRoots());
 		host.Stop();          // 从未启动
 		host.Start(FreePort(), "ui");
 		host.Stop();
@@ -69,7 +69,7 @@ public sealed class LocalApiHostTests
 		occupant.Start();
 		int port = ((IPEndPoint)occupant.LocalEndpoint).Port;
 
-		LocalApiHost host = new LocalApiHost();
+		LocalApiHost host = new LocalApiHost(TestHostDependencies.TempRoots());
 		try
 		{
 			Assert.Throws<HttpListenerException>(() => host.Start(port, "ui"));
