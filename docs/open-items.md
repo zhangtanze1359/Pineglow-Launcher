@@ -13,15 +13,25 @@
 依据 `docs/evidence/2026-11-17-icon-inflight-race/证据.md`，修复前 30 次红 13、修复后 40 次红 0；
 把生产逻辑退回修复前会让守卫变红（5/40），所以这条不是"看起来好了"。
 
+> **2026-11-17 独立复跑后的修正**（`docs/evidence/2026-11-17-icon-verify-r1/`）：
+> 上面那两个频率在上面的空载条件下**复现不出来**（40/60 次单跑、6 次全量全绿）。
+> 修复确实有效，但要加压才看得到：8 个 testhost 并发时修复前 7/120 红、修复后 0/120。
+> 所以修复结论保留，**频率数字不要当基线转发**。
+
 ## 二、测试覆盖的真实缺口
 
 | ID | 项 | 判定 | 证据 / 复现 | 影响 |
 |---|---|---|---|---|
 | **OPEN-02** | `LoadConfig` 真的调用 `MirrorHelper.Normalize` 没有断言守住 | 未处置 | `docs/evidence/2026-11-17-backport-r1/05-mutation.txt` 变异 C：把迁移整段删掉后 `DownloadSourceMigrationTests` 仍 10/10 绿 | 迁移逻辑被静默删除时不会红。现有测试只测纯函数与 `ConfigStore.LoadAsync` 的原始读入 |
+| **OPEN-06** | 图标下载的**异步完成**路径没有测试 | 未验证 | `docs/evidence/2026-11-17-icon-verify-r1/验收报告.md` 第四节 | 测试里的 fetcher 返回 `Task.FromResult`，走的是 `if (task.IsCompleted)` 那一支；真实网络下载走的 `ContinueWith` → `RemoveIfSame` 那条没有用例盖 |
 
 补齐路径（明确，未做）：走 `LocalApiTestHarness` → `GET /api/state` → 断言 `config.downloadSource`。
 路由在 `LocalApiService.Instances.cs:48`；harness 在 `dev/PineglowLauncher.Tests/LocalApiTestHarness.cs`，
 启动时必须属于 `[Collection("LocalApiService")]`。
+
+OPEN-06 的补法：用两个 `TaskCompletionSource` 卡住一个真实异步的 fetcher（现有的
+`GetAsync_InFlightEntrySurvives_UntilTheDownloadActuallyCompletes` 已经用了这个手法），
+释放后再发一次请求，断言拿到的**是新任务**（fetchCount 从 1 变成 2）。
 
 ## 三、发布线遗留（来自 R5 轮次，仍未处置）
 
