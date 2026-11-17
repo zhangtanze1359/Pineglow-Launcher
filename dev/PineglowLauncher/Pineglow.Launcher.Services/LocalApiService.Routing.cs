@@ -78,10 +78,12 @@ public static partial class LocalApiService
 		r.Add(ApiRoute.Exact("POST", 6, "打开存档目录", (ctx, s) => HandleOpenSaveDirectoryAsync(ctx.Response, s[2], s[4]), (1, "instances"), (3, "saves"), (5, "open")));
 		r.Add(ApiRoute.Exact("GET", 6, "存档备份列表", (ctx, s) => HandleListSaveBackupsAsync(ctx.Response, s[2], s[4]), (1, "instances"), (3, "saves"), (5, "backups")));
 		// M2-1① 存档可恢复删除：已删除（可恢复）列表 / 恢复 / 永久清理。
-		// 段数刻意与 "backups" 区分开：recoveries(6) / recoveries/{op}/restore(8) / recoveries/{op}/purge(8)。
-		r.Add(ApiRoute.Exact("GET", 6, "已删除存档（可恢复）列表", (ctx, s) => HandleListSaveRecoveriesAsync(ctx.Response, s[2]), (1, "instances"), (3, "saves"), (5, "recoveries")));
-		r.Add(ApiRoute.Exact("POST", 8, "恢复已删除的存档", (ctx, s) => HandleRestoreSaveRecoveryAsync(ctx.Response, s[2], s[6]), (1, "instances"), (3, "saves"), (5, "recoveries"), (7, "restore")));
-		r.Add(ApiRoute.Exact("POST", 8, "永久清理存档恢复副本", (ctx, s) => HandlePurgeSaveRecoveryAsync(ctx.Response, s[2], s[6]), (1, "instances"), (3, "saves"), (5, "recoveries"), (7, "purge")));
+		// 段数刻意与 "backups" 区分开：备份是"按存档目录"的（saves/{folder}/backups，6/8 段），
+		// 恢复区是"实例级"的（saves/recoveries，5/7 段）——这里曾经照抄了备份的段数，
+		// 于是前端请求 /saves/recoveries 一直 404（真机九页验收的 worlds 页错误态就是它）。
+		r.Add(ApiRoute.Exact("GET", 5, "已删除存档（可恢复）列表", (ctx, s) => HandleListSaveRecoveriesAsync(ctx.Response, s[2]), (1, "instances"), (3, "saves"), (4, "recoveries")));
+		r.Add(ApiRoute.Exact("POST", 7, "恢复已删除的存档", (ctx, s) => HandleRestoreSaveRecoveryAsync(ctx.Response, s[2], s[5]), (1, "instances"), (3, "saves"), (4, "recoveries"), (6, "restore")));
+		r.Add(ApiRoute.Exact("POST", 7, "永久清理存档恢复副本", (ctx, s) => HandlePurgeSaveRecoveryAsync(ctx.Response, s[2], s[5]), (1, "instances"), (3, "saves"), (4, "recoveries"), (6, "purge")));
 		r.Add(ApiRoute.Exact("POST", 8, "从备份恢复存档", (ctx, s) => HandleRestoreSaveBackupAsync(ctx.Response, s[2], s[4], s[6]), (1, "instances"), (3, "saves"), (5, "backups"), (7, "restore")));
 
 		// 二分定位
