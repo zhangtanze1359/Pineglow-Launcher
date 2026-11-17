@@ -9,33 +9,30 @@
 
 | ID | 项 | 判定 | 证据 / 复现 | 影响 |
 |---|---|---|---|---|
-| **OPEN-01** | `ContentIconServiceTests.GetAsync_FailedFetchAllowsRetry` 随机失败 | 未处置 | `docs/evidence/2026-11-17-backport-r1/02-csharp-stability.txt`：同一 HEAD 连跑 4 次，2 次红；基线 `acc9498` 同样 4 次 2 红 | C# 门槛不能声称"稳定全绿"；每次验收都要连跑两次才敢下结论 |
+| **OPEN-01** | `ContentIconServiceTests.GetAsync_FailedFetchAllowsRetry` 随机失败 | **进行中（另有未提交修复）** | 证据见下；**修复代码在 `D:/Projects/_worktrees/pineglow-icon-race`（分支 `fix/icon-inflight-race`）的工作区里，未提交** | C# 门槛不能声称"稳定全绿"；每次验收都要连跑两次才敢下结论 |
 
-这条的失败信息是固定的：
+还没合入、**别重复做**：`D:/Projects/_worktrees/pineglow-icon-race` 的工作区里已经有一版修复（未提交）：
 
-```
-ContentIconServiceTests.GetAsync_FailedFetchAllowsRetry
-  Assert.Equal() Failure: Values differ
-  Expected: Ok
-  Actual:   UpstreamError
-  at ContentIconServiceTests.cs:line 606
-```
+- 取表时跳过已完成任务：`if (_inFlight.TryGetValue(cacheKey, out existing) && !existing.IsCompleted)`
+- 建任务后同步判 `task.IsCompleted`，已完成的当场不进表
+- 注销改成 `RemoveIfSame` + `ExecuteSynchronously`，防旧任务删掉新条目
+- 新增 `InFlightCountForTest` 与两个不变量用例（正向：失败后必须能重试；反向：在途不得被误注销）
 
-**不是测试写错，是并发时序没被约束**：该用例第一次请求返回 502（记 `UpstreamError`），
-第二次应返回 OK。问题在去重表的移除时机：
+那份工作区的证据目录 `docs/evidence/2026-11-17-icon-inflight-race/` 里记的频率对比是：修复前 30 次 13 红，修复后 40 次 0 红。
+**但那些数字在被提交与独立复跑之前只是一份自评**——按 `AGENTS.md` 的验证规矩，下一个接手的人需要：
 
-```csharp
-// ContentIconService.cs:486
-_inFlight[cacheKey] = task;
-_ = task.ContinueWith(_ => { lock (_inFlightGate) { _inFlight.Remove(cacheKey); } }, TaskScheduler.Default);
-```
+1. 在同一份代码上自己连跑 40 次 `--filter FullyQualifiedName~ContentIconServiceTests.GetAsync_`
+2. 确认 `GetAsync_InFlightEntrySurvives_UntilTheDownloadActuallyCompletes` 能咬住（把 `!existing.IsCompleted` 去掉应当变红）
 
-`ContinueWith` 是**排队执行**的：任务完成后还要等线程池调度才真正从表里删。
-这段窗口里第二次 `GetAsync` 会在 `_inFlight.TryGetValue` 拿到那个**已经失败、已经结束**的旧任务，
-直接返回 `UpstreamError`，根本不会再发一次请求。
+原定位（作为背景保留）：
 
-修的方向（未做）：移除动作放到 `finally` 里同步完成，或者取表时跳过已结束的任务
-（`if (existing.IsCompleted) → 当作不存在`）。**不要**加 `Thread.Sleep` 掩盖。
+> 该用例第一次请求返回 502（记 `UpstreamError`），第二次应返回 OK。
+> 问题在去重表的移除时机：`_inFlight[cacheKey] = task;` 之后用
+> `ContinueWith(... _inFlight.Remove(cacheKey))` 注销。`ContinueWith` 是**排队执行**的，
+> 任务完成后还要等线程池调度才真正从表里删。这段窗口里第二次 `GetAsync` 会拿到那个
+> **已经失败、已经结束**的旧任务，直接返回 `UpstreamError`，根本不会再发一次请求。
+>
+> 修的方向：取表时跳过已结束的任务；**不要**加 `Thread.Sleep` 掩盖。
 
 ## 二、测试覆盖的真实缺口
 
