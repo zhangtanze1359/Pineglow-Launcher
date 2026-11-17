@@ -709,8 +709,21 @@ async function openModManager(inst) {
      const data = await SG.api.getModUpdates(inst.id);
      if (!alive()) return;
      upd.candidates = data.candidates || [];
-     if (!upd.candidates.length) { setStatus(t('mod.upToDate')); return; }
-     setStatus(t('mod.updatesFound', { n: upd.candidates.length }));
+     // 架构评审 ⑥：查询失败与"无元数据/无兼容版本"必须分开说。
+     // 修复前一律显示"全部已是最新"——40 个 Mod 里 12 个其实查失败也照样这么说。
+     const skipped = data.skipped || {};
+     const failed = Number(skipped.queryFailed || 0);
+     const noCompatible = Number(skipped.noCompatibleVersion || 0);
+     if (!upd.candidates.length) {
+       if (failed > 0) { setStatus(t('mod.upToDateWithFailures', { n: failed })); return; }
+       if (noCompatible > 0) { setStatus(t('mod.upToDateNoCompatible', { n: noCompatible })); return; }
+       setStatus(t('mod.upToDate')); return;
+     }
+     if (failed > 0 || noCompatible > 0) {
+       setStatus(t('mod.updatesFoundWithSkips', { n: upd.candidates.length, failed, noCompatible }));
+     } else {
+       setStatus(t('mod.updatesFound', { n: upd.candidates.length }));
+     }
      upd.all.textContent = t('mod.updateAll', { n: upd.candidates.length });
      upd.all.hidden = false;
    } catch (err) { setStatus(t('mod.updateCheckFailed') + (err.message || '')); }

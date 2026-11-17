@@ -1036,7 +1036,7 @@ SG.api = (() => {
 			return this._mock({ ok: true, operationId, recoverable: true });
 		},
 		async getModUpdates(instanceId) {
-			return this._mock({ checkedCount: 0, skipped: { noMetadata: 0, upToDate: 0, noDownload: 0 }, candidates: [] });
+			return this._mock({ checkedCount: 0, skipped: { noMetadata: 0, upToDate: 0, noDownload: 0, queryFailed: 0, noCompatibleVersion: 0, items: [] }, candidates: [] });
 		},
 		async startBatchUpdate(instanceId, items) {
 			return this._mock({ ok: true, jobId: 'mock-job', state: 'running', items: (items || []).map(i => ({ fileName: i.fileName, status: 'pending' })) });

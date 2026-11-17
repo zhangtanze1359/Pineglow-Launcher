@@ -40,12 +40,14 @@ public static partial class LocalApiService
 		string loader = instance.LoaderType ?? string.Empty;
 		string apiKey = string.IsNullOrWhiteSpace(config.CurseForgeApiKey) ? string.Empty : config.CurseForgeApiKey;
 
-		// 有界并发 + 5 分钟缓存（见 ModUpdateService）：200 Mod 的整合包不再一条条串行等
-		List<ModVersion?> latest = await new ModUpdateService().QueryLatestAsync(
+		// 有界并发 + 5 分钟缓存（见 ModUpdateService）：200 Mod 的整合包不再一条条串行等。
+		// 用 QueryOutcomesAsync 而不是 QueryLatestAsync：**"查失败"与"没元数据"必须分开报**
+		// （前者重试可能好，后者重试也不会变），否则用户看到的是半个真相。
+		List<ModQueryOutcome> outcomes = await new ModUpdateService().QueryOutcomesAsync(
 			mods, mcVersion, loader, apiKey, instanceId, content, DateTimeOffset.Now,
 			message => Debug.WriteLine(message));
 
-		ModUpdatePlan plan = ModUpdatePlanner.Plan(mods, latest);
+		ModUpdatePlan plan = ModUpdatePlanner.Plan(mods, outcomes);
 		await WriteJsonAsync(response, 200, new
 		{
 			ok = true,
@@ -57,7 +59,21 @@ public static partial class LocalApiService
 			{
 				noMetadata = plan.SkippedNoMetadata,
 				upToDate = plan.SkippedUpToDate,
-				noDownload = plan.SkippedNoDownload
+				noDownload = plan.SkippedNoDownload,
+				// 新增：与上面三种本质不同——查询失败**重试可能变**，无兼容版本换 MC/加载器才可能变
+				queryFailed = plan.SkippedQueryFailed,
+				noCompatibleVersion = plan.SkippedNoCompatible,
+				// 逐项明细：前端不用再从计数反推"为什么只有 N 个可更新"
+				items = plan.SkipList.Select(x => new
+				{
+					fileName = x.FileName,
+					status = x.Status == ModQueryStatus.QueryFailed ? "queryFailed"
+						: x.Status == ModQueryStatus.NoCompatibleVersion ? "noCompatibleVersion"
+						: x.Status == ModQueryStatus.NoMetadata ? "noMetadata"
+						: "upToDateOrNoDownload",
+					detail = x.Detail ?? string.Empty,
+					retryable = x.Retryable
+				}).ToArray()
 			},
 			candidates = plan.Candidates.Select(c => new
 			{

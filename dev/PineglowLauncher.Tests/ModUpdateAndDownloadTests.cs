@@ -65,10 +65,11 @@ public sealed class ModUpdateAndDownloadTests
 		ModVersion latest = new ModVersion { VersionId = "v2" };
 		DateTimeOffset t0 = new DateTimeOffset(2026, 11, 16, 6, 0, 0, TimeSpan.Zero);
 
-		ModUpdateService.Put(key, latest, t0);
+		ModUpdateService.Put(key, ModQueryOutcome.Found(latest), t0);
 
-		Assert.True(ModUpdateService.TryGetFresh(key, t0.AddMinutes(1), out ModVersion? hit));
-		Assert.Equal("v2", hit!.VersionId);
+		Assert.True(ModUpdateService.TryGetFresh(key, t0.AddMinutes(1), out ModQueryOutcome? hit));
+		Assert.Equal(ModQueryStatus.Found, hit!.Status);
+		Assert.Equal("v2", hit.Version!.VersionId);
 
 		// 超过 TTL（5 分钟）就不再算新鲜
 		Assert.False(ModUpdateService.TryGetFresh(key, t0.AddMinutes(6), out _));
@@ -82,9 +83,10 @@ public sealed class ModUpdateAndDownloadTests
 		DateTimeOffset t0 = new DateTimeOffset(2026, 11, 16, 6, 0, 0, TimeSpan.Zero);
 
 		string keyV1 = ModUpdateService.CacheKey("inst", mod);
-		ModUpdateService.Put(keyV1, null, t0);
-		Assert.True(ModUpdateService.TryGetFresh(keyV1, t0.AddMinutes(1), out ModVersion? cached));
-		Assert.Null(cached);
+		ModUpdateService.Put(keyV1, ModQueryOutcome.NoCompatible(), t0);
+		Assert.True(ModUpdateService.TryGetFresh(keyV1, t0.AddMinutes(1), out ModQueryOutcome? cached));
+		// 缓存记住的是**状态**，不是坍塌后的 null：连点两次第二次仍能看到"无兼容版本"
+		Assert.Equal(ModQueryStatus.NoCompatibleVersion, cached!.Status);
 
 		// 装上升级后 VersionId 变了 → 键变化 → 自动失效（不需要额外的失效逻辑）
 		ModFile upgraded = OnlineMod("a.jar", "v2");
@@ -212,5 +214,73 @@ public sealed class ModUpdateAndDownloadTests
 		ModContentService service = new ModContentService(new HttpClient(handler));
 
 		await Assert.ThrowsAsync<HttpRequestException>(() => service.DownloadBytesAsync("https://cdn.modrinth.com/x.jar"));
+	}
+
+	/* ===================== 架构评审 ⑥：四种状态必须分开 ===================== */
+
+	[Fact]
+	public async Task QueryOutcomes_SeparatesNoMetadata_NoCompatible_QueryFailed()
+	{
+		ModUpdateService.ClearCache();
+		ModFile noMeta = new ModFile { FileName = "plain.jar", IsEnabled = true };                       // 没有在线元数据
+		ModFile noCompatible = OnlineMod("noc.jar", "v1");
+		ModFile failing = OnlineMod("bad.jar", "v1");
+		ModFile ok = OnlineMod("good.jar", "v1");
+		List<ModFile> mods = new List<ModFile> { noMeta, noCompatible, failing, ok };
+		ModVersion latest = new ModVersion { VersionId = "v2", DownloadUrl = "https://cdn.modrinth.com/x.jar" };
+
+		ModUpdateService service = new ModUpdateService();
+		List<ModQueryOutcome> outcomes = await service.QueryOutcomesAsync(
+			mods, "inst", DateTimeOffset.Now, (m, ct) =>
+			{
+				if (m.FileName == "bad.jar") throw new InvalidOperationException("上游 503");
+				if (m.FileName == "noc.jar") return Task.FromResult<ModVersion?>(null);
+				return Task.FromResult<ModVersion?>(latest);
+			});
+
+		Assert.Equal(ModQueryStatus.NoMetadata, outcomes[0].Status);
+		Assert.Equal(ModQueryStatus.NoCompatibleVersion, outcomes[1].Status);
+		Assert.Equal(ModQueryStatus.QueryFailed, outcomes[2].Status);
+		Assert.Contains("503", outcomes[2].Detail);
+		Assert.Equal(ModQueryStatus.Found, outcomes[3].Status);
+		Assert.Equal("v2", outcomes[3].Version!.VersionId);
+	}
+
+	[Fact]
+	public void Planner_CountsQueryFailuresSeparatelyFromMissingMetadata()
+	{
+		ModFile noMeta = new ModFile { FileName = "plain.jar", IsEnabled = true };
+		ModFile failed = OnlineMod("bad.jar", "v1");
+		ModFile upgradable = OnlineMod("good.jar", "v1");
+		List<ModFile> mods = new List<ModFile> { noMeta, failed, upgradable };
+		List<ModQueryOutcome> outcomes = new List<ModQueryOutcome>
+		{
+			ModQueryOutcome.NoMetadata(),
+			ModQueryOutcome.Failed("上游 503"),
+			ModQueryOutcome.Found(new ModVersion { VersionId = "v2", DownloadUrl = "https://cdn.modrinth.com/x.jar" }),
+		};
+
+		ModUpdatePlan plan = ModUpdatePlanner.Plan(mods, outcomes);
+
+		Assert.Single(plan.Candidates);
+		Assert.Equal(1, plan.SkippedNoMetadata);
+		Assert.Equal(1, plan.SkippedQueryFailed);
+		Assert.Equal(0, plan.SkippedNoCompatible);
+		Assert.Equal(2, plan.SkipList.Count);
+		Assert.Contains(plan.SkipList, s => s.FileName == "bad.jar" && s.Retryable);
+		Assert.Contains(plan.SkipList, s => s.FileName == "plain.jar" && !s.Retryable);
+	}
+
+	[Fact]
+	public void Planner_NoCompatibleVersionIsNotReportedAsMissingMetadata()
+	{
+		ModFile mod = OnlineMod("a.jar", "v1");
+		ModUpdatePlan plan = ModUpdatePlanner.Plan(
+			new List<ModFile> { mod },
+			new List<ModQueryOutcome> { ModQueryOutcome.NoCompatible("没有 1.21.4 的构建") });
+
+		Assert.Equal(0, plan.SkippedNoMetadata);
+		Assert.Equal(1, plan.SkippedNoCompatible);
+		Assert.Equal(1, plan.SkippedTotal);
 	}
 }
