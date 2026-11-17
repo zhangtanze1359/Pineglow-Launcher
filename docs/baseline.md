@@ -2,8 +2,8 @@
 
 <!-- 由 node scripts/gates.cjs --baseline 生成；手改会在下次生成时被覆盖。 -->
 
-- 分支：`fix/icon-inflight-race` @ `53d1c73`
-- 生成时间：2026-11-17T13:25:15.316Z
+- 分支：`fix/icon-inflight-race` @ `e1d43c5`
+- 生成时间：2026-11-17T13:32:23.920Z
 - 命令：`node scripts/gates.cjs --baseline`
 
 | 门槛 | 结果 |
