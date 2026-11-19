@@ -161,3 +161,79 @@ test('MR20 static scan: 界面展示上次替换结果与信任链声明，且�
 	// 容器必须存在
 	assert.ok(LAUNCHER_JS.includes('id="updateTrust"'), '设置页必须有 updateTrust 容器');
 });
+
+/* ============== C. v1.0.5 补齐的三个用户可见状态 ============== */
+
+const V105_KEYS = [
+	'set.applyingUpdate', 'set.updateRetry', 'set.lastApplySucceeded', 'set.lastApplySucceededHint',
+];
+
+test('v1.0.5: i18n 在 zh 与 en 两侧都提供「正在替换 / 重试 / 已成功」三个状态的文案', () => {
+	const sg = loadI18n();
+	for (const loc of ['zh', 'en']) {
+		sg.setLocale(loc);
+		for (const key of V105_KEYS) {
+			const value = sg.t(key);
+			assert.equal(typeof value, 'string', `${loc} 的 ${key} 应当是字符串`);
+			assert.ok(value.length > 0 && value !== key, `${loc} 缺少键 ${key}`);
+		}
+	}
+});
+
+test('v1.0.5: 「上次已成功」的文案必须带上目标版本号，且不能与失败文案共用一套话术', () => {
+	const sg = loadI18n();
+	for (const loc of ['zh', 'en']) {
+		sg.setLocale(loc);
+		const ok = sg.t('set.lastApplySucceeded', { version: '1.0.5' });
+		const failed = sg.t('set.lastApplyFailed', { result: 'verify_failed' });
+		assert.ok(ok.includes('1.0.5'), `${loc} 的成功提示必须带出版本号：${ok}`);
+		assert.notEqual(ok, failed, `${loc} 的成功与失败文案不能相同`);
+	}
+});
+
+test('v1.0.5: 界面必须有 applying 分支、失败重试入口与成功回显（静态扫描）', () => {
+	// 这三条是 v1.0.5 的 RED 3：原来
+	//   - 没有 state === 'applying' 分支 → 点完"立即重启更新"后界面停在"已下载"，
+	//     用户不知道它是否已经开始替换；
+	//   - failed 只有一行红字，没有任何重试入口；
+	//   - lastApplyResult.applied === true 时完全静默，用户无法确认"上次真的换成新版了"。
+	assert.ok(/state === 'applying'/.test(LAUNCHER_JS), "initUpdateSection 必须有 applying 分支");
+	assert.ok(/last\.applied === true/.test(LAUNCHER_JS), "renderUpdateTrust 必须有成功分支");
+	assert.ok(/id="btnRetryUpdate"/.test(LAUNCHER_JS), "失败状态必须给重试按钮");
+	assert.ok(/btnApplyUpdate'\)\?\.addEventListener[\s\S]{0,400}btn\.disabled = true/.test(LAUNCHER_JS),
+		"点『立即重启更新』后必须禁用按钮，避免连点触发两次 apply（服务端已有守卫，前端并行防护）");
+});
+
+test('v1.0.5: 失败重试走的是同一条下载入口，不另造路径', () => {
+	// 重试必须复用 SG.api.startUpdateDownload（与首次下载同一 API），
+	// 防止出现"第二次下载走另一套校验"的分叉。
+	const retryBlock = LAUNCHER_JS.split('function renderUpdateFailed')[1] || '';
+	assert.ok(retryBlock.includes('startUpdateDownload'), '重试必须调用 startUpdateDownload');
+	assert.ok(!/fetch\(/.test(retryBlock), '重试不得绕过 api.js 直接 fetch');
+});
+
+/* ============== D. v1.0.5 r3：下载中途失败必须当场给重试入口 ============== */
+
+test('v1.0.5-r3: pollUpdateProgress 的失败分支必须走 renderUpdateFailed（不能只写一行红字）', () => {
+	// RED 6（r3 真机点出来）：下载失败当下只写 `❌ <error>`，界面上没有重试按钮。
+	// r1 已经把 renderUpdateFailed 接到 initUpdateSection（页面刷新时），
+	// 但实时轮询那条路径漏了，所以「下载失败」与「重进设置页」看到的东西不一致。
+	const start = LAUNCHER_JS.indexOf('function pollUpdateProgress');
+	assert.ok(start > 0, '找不到 pollUpdateProgress');
+	const end = LAUNCHER_JS.indexOf('function ', start + 10);
+	const body = LAUNCHER_JS.slice(start, end > 0 ? end : undefined);
+	assert.ok(/renderUpdateFailed\(el,/.test(body),
+		'pollUpdateProgress 的失败分支必须调用 renderUpdateFailed（否则用户看不到重试按钮）');
+	assert.ok(!/se\.textContent = '❌ '/.test(body),
+		'不得再退回「只写一行红字」的旧写法');
+});
+
+test('v1.0.5-r3: 重试按钮复用同一条下载入口，且失败后可再次点击', () => {
+	const start = LAUNCHER_JS.indexOf('function renderUpdateFailed');
+	assert.ok(start > 0, '找不到 renderUpdateFailed');
+	const end = LAUNCHER_JS.indexOf('function ', start + 10);
+	const body = LAUNCHER_JS.slice(start, end > 0 ? end : undefined);
+	assert.ok(body.includes('btnRetryUpdate'), '必须有重试按钮 id');
+	assert.ok(body.includes('startUpdateDownload'), '重试必须复用 startUpdateDownload');
+	assert.ok(/btn\.disabled = false/.test(body), '重试失败后必须把按钮恢复可点，否则重试成了一次性');
+});

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using Pineglow.Launcher.Services;
@@ -177,7 +177,11 @@ public class UpdateApplyScriptPathTests
 			".bat", @"C:\安装 目录\launcher.exe", @"C:\安装 目录\new.exe", @"C:\安装 目录\launcher.exe.bak",
 			@"C:\安装 目录\apply-state.json", "1.0.1", "start \"\" \"%TARGET%\"");
 		Assert.DoesNotContain("timeout /t", script);
-		Assert.Contains("ping -n 2 127.0.0.1 >nul", script);
+		// 2026-11-19（v1.0.5）：本行原本断言裸写的 `ping -n 2 127.0.0.1 >nul`。
+		// 现在 ping 必须写成绝对路径（否则 PATH 里的同名程序会抢解析），
+		// 所以断言相应改成“带了盘符无关的绝对路径前缀”。等待语义本身（ping 回环、不依赖控制台）不变。
+		Assert.Contains("\\ping.exe\" -n 2 127.0.0.1 >nul", script);
+		Assert.DoesNotContain("\r\nping -n 2 127.0.0.1 >nul", script);
 		// 等待必须有上界，否则异常占用会永久卡住更新
 		Assert.Contains("GTR " + UpdateService.MaxRunningProcessWaitIterations, script);
 
@@ -339,6 +343,62 @@ public class UpdateApplyScriptPathTests
 				RunIcacls($"/remove:d \"{Environment.UserName}\"", target);
 			}
 			try { Directory.Delete(dir, true); } catch { }
+		}
+	}
+
+	[Fact]
+	public void ApplyScript_DoesNotTruncateLongImageNames()
+	{
+		// 2026-11-19（v1.0.5 r2，RED 5 回归位）：`tasklist` 的**默认表格格式把镜像名截断到 25 字符**，
+		// 而官方发行文件名是 `Pineglow-Launcher-win-x64-single-file.exe`（31 字符）。
+		// 实测（官方 v1.0.4 二进制 + 它自己的在线升级链）：等待循环看不见正在运行的自己 →
+		// 跳过等待 → copy 覆盖被占用文件 → replace_failed。
+		// 锁死：必须用 `/FO CSV /NH`（不截断、无表头），不得退回默认表格格式。
+		string script = UpdateService.BuildApplyScript(
+			".bat", @"C:\安装 目录\Pineglow-Launcher-win-x64-single-file.exe", @"C:\安装 目录\new.exe",
+			@"C:\安装 目录\launcher.exe.bak", @"C:\安装 目录\apply-state.json", "1.0.5", "start \"\" \"%TARGET%\"");
+		Assert.Contains("/FO CSV /NH", script);
+		// 反向：凡是出现 tasklist 的那一行，都必须带 /FO CSV（否则会走默认表格、截断长名）
+		foreach (string line in script.Split(new[] { "\r\n" }, StringSplitOptions.None))
+		{
+			if (!line.Contains("tasklist.exe")) continue;
+			Assert.Contains("/FO CSV", line);
+		}
+	}
+
+	[Fact]
+	public void ApplyScript_DoesNotDependOnPathResolution()	{
+		// 2026-11-19（v1.0.5）回归位：替换脚本不得裸写系统命令。
+		//
+		// 原始 RED（本机可重复）：PATH 里 Git 的 `usr\bin` 排在 `System32` 之前时，
+		// 裸 `find` 会命中 GNU find（不认识 `/I`）→ 立即非 0 退出 →
+		// `if not %errorlevel%==0 goto ready` 把“目标还在运行”误判为“已退出”，
+		// 等待循环被跳过；启动器仍在运行时去 copy 覆盖 → 文件占用 → replace_failed。
+		// 已实测：修前该用例在会话 PATH 下 state=replace_failed waited=0.3s，修后 state=applied waited=5.1s。
+		//
+		// 这不是“测试环境特有的假失败”：产品把系统命令的解析权交给了调用方 PATH，
+		// 而装了 Git 的开发者机器（包括本仓库的工作机）就是这种 PATH。
+		string script = UpdateService.BuildApplyScript(
+			".bat", @"C:\安装 目录\launcher.exe", @"C:\安装 目录\new.exe", @"C:\安装 目录\launcher.exe.bak",
+			@"C:\安装 目录\apply-state.json", "1.0.5", "start \"\" \"%TARGET%\"");
+
+		// 四个系统命令必须是绝对路径（用 %SystemRoot% 而不是硬编码盘符）
+		Assert.Contains("\"%SystemRoot%\\System32\\tasklist.exe\"", script);
+		Assert.Contains("\"%SystemRoot%\\System32\\find.exe\"", script);
+		Assert.Contains("\"%SystemRoot%\\System32\\ping.exe\"", script);
+		Assert.Contains("\"%SystemRoot%\\System32\\fc.exe\"", script);
+
+		// 反向断言：不得再出现裸写的四个命令（按行首/管道/空白边界匹配，避免误伤变量名）
+		string[] lines = script.Split(new[] { "\r\n" }, StringSplitOptions.None);
+		foreach (string line in lines)
+		{
+			string trimmed = line.TrimStart();
+			if (trimmed.StartsWith("rem ", StringComparison.OrdinalIgnoreCase)) continue;
+			Assert.DoesNotContain("| find ", line, StringComparison.OrdinalIgnoreCase);
+			Assert.False(trimmed.StartsWith("find ", StringComparison.OrdinalIgnoreCase), "不得裸写 find：" + line);
+			Assert.False(trimmed.StartsWith("tasklist ", StringComparison.OrdinalIgnoreCase), "不得裸写 tasklist：" + line);
+			Assert.False(trimmed.StartsWith("ping ", StringComparison.OrdinalIgnoreCase), "不得裸写 ping：" + line);
+			Assert.False(trimmed.StartsWith("fc ", StringComparison.OrdinalIgnoreCase), "不得裸写 fc：" + line);
 		}
 	}
 

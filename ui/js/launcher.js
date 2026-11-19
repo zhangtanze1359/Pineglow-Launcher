@@ -4156,7 +4156,11 @@ function initUpdateSection(el) {
 		renderUpdateTrust(el, s);
 		if (s.state === 'downloading') pollUpdateProgress(el, s);
 		else if (s.state === 'completed') renderUpdateReady(el, s);
-		else if (s.state === 'failed') statusEl.textContent = '❌ ' + (s.error || t('set.updateCheckFailed'));
+		// 2026-11-19（v1.0.5）：补齐三个缺失状态。
+		// 原来没有 applying 分支：点完"立即重启更新"后，界面停在"更新包已下载"而不知道正在替换。
+		// 原来 failed 只是一行文本：用户没有"重试"入口，只能自己重新进设置页再点检查。
+		else if (s.state === 'applying') statusEl.textContent = t('set.applyingUpdate');
+		else if (s.state === 'failed') renderUpdateFailed(el, s);
 	}).catch(() => {});
 }
 
@@ -4175,6 +4179,12 @@ function renderUpdateTrust(el, s) {
 			`<div class="update-warn">⚠️ ${esc(t('set.lastApplyFailed', { result: last.result || 'unknown' }))}` +
 			`${last.version ? ' · ' + esc(t('set.lastApplyVersion', { version: last.version })) : ''}` +
 			`<div class="update-warn-hint">${esc(t('set.lastApplyFailedHint'))}</div></div>`);
+	} else if (last && last.applied === true) {
+		// 2026-11-19（v1.0.5）：原来只在**失败**时提示。成功时完全静默，
+		// 用户无法区分"本来就更新了"与"更新成功但我不知道"。
+		parts.push(
+			`<div class="update-ok">✅ ${esc(t('set.lastApplySucceeded', { version: last.version || s.currentVersion || '' }))}` +
+			`<div class="update-warn-hint">${esc(t('set.lastApplySucceededHint'))}</div></div>`);
 	}
 	if (s.trustNote) {
 		parts.push(`<div class="update-trust">${esc(t('set.updateTrustNote', { note: s.trustNote }))}</div>`);
@@ -4191,9 +4201,40 @@ function renderUpdateReady(el, s) {
 			<button class="setting-btn" id="btnApplyUpdate">${esc(t('set.restartToApply'))}</button>
 		</div>`;
 	el.querySelector('#btnApplyUpdate')?.addEventListener('click', () => {
+		const btn = el.querySelector('#btnApplyUpdate');
+		// 2026-11-19（v1.0.5）：按钮一次性禁用，避免连点产生两个 apply 请求。
+		// 服务端已有 applying 守卫，这里是不让用户白等的前端并行防护。
+		if (btn) { btn.disabled = true; btn.textContent = t('set.applyingUpdate'); }
 		SG.api.applyUpdate().then(r => {
 			toast((r && r.message) || t('set.updateReady'));
-		}).catch(e => toast(t('set.updateCheckFailed') + (e.message || '')));
+		}).catch(e => {
+			if (btn) { btn.disabled = false; btn.textContent = t('set.restartToApply'); }
+			toast(t('set.updateCheckFailed') + (e.message || ''));
+		});
+	});
+}
+
+/* 2026-11-19（v1.0.5）：下载/替换失败后的可操作结果。
+   原来失败只有一行红字，用户没有任何出路 —— 必须"自己去设置页重新点检查更新"。
+   现在直接给一个重试入口，重试走的是同一个 startUpdateDownload，不另开路径。 */
+function renderUpdateFailed(el, s) {
+	const statusEl = el.querySelector('#updateStatus');
+	if (!statusEl) return;
+	statusEl.innerHTML = `
+		<div class="update-error">
+			<span class="update-title">❌ ${esc(s.error || t('set.updateCheckFailed'))}</span>
+			<button class="setting-btn" id="btnRetryUpdate">${esc(t('set.updateRetry'))}</button>
+		</div>`;
+	el.querySelector('#btnRetryUpdate')?.addEventListener('click', async () => {
+		const btn = el.querySelector('#btnRetryUpdate');
+		if (btn) { btn.disabled = true; btn.textContent = '…'; }
+		try {
+			await SG.api.startUpdateDownload();
+			pollUpdateProgress(el, { progress: 0 });
+		} catch (e) {
+			if (btn) { btn.disabled = false; btn.textContent = t('set.updateRetry'); }
+			renderUpdateFailed(el, { error: (e && e.message) || '' });
+		}
 	});
 }
 
@@ -4212,7 +4253,11 @@ function pollUpdateProgress(el, s) {
 			} else {
 				clearInterval(timer);
 				if (st.state === 'completed') renderUpdateReady(el, st);
-				else se.textContent = '❌ ' + (st.error || t('set.updateCheckFailed'));
+				// 2026-11-19（v1.0.5 r3，RED 6）：下载失败时**当场**要给出可操作入口。
+				// 原来这里只写一行红字，用户没有任何出路，只能自己想起来重进设置页。
+				// 现在复用 initUpdateSection 那条路径的同一个渲染器（renderUpdateFailed），
+				// 保证「首屏失败」与「下载中途失败」看到的东西一致。
+				else renderUpdateFailed(el, { error: (st && st.error) || '' });
 			}
 		} catch (e) { clearInterval(timer); }
 	}, 1000);

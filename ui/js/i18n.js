@@ -295,6 +295,12 @@ const DICT = {
 		'set.lastApplyFailed': '上次替换未成功（{result}）',
 		'set.lastApplyFailedHint': '当前仍是旧版本；旧版本已备份，可手动回退。',
 		'set.lastApplyVersion': '目标版本 {version}',
+		// 2026-11-19（v1.0.5）：补齐三个用户可见状态。原来只展示失败，
+		// 用户看不到“正在替换”、“下载失败后重试”与“上次确实换成新版了”。
+		'set.applyingUpdate': '正在替换为新版本，启动器即将重启…',
+		'set.updateRetry': '重试下载',
+		'set.lastApplySucceeded': '上次已成功更新到 v{version}',
+		'set.lastApplySucceededHint': '当前版本即是新版本；若想确认，可在设置→更新里重新检查。',
 		'set.aiSection': 'AI 诊断',
 		'set.aiEnableName': '启用 AI 崩溃诊断',
 		'set.aiEnableDesc': '崩溃后用大模型解释原因并给出修复步骤（需配置 API Key）。',
@@ -883,6 +889,13 @@ const DICT = {
 		'set.lastApplyFailed': 'The last replacement did NOT succeed ({result})',
 		'set.lastApplyFailedHint': 'You are still on the old version; the previous build is backed up and can be restored manually.',
 		'set.lastApplyVersion': 'Target version {version}',
+		// 2026-11-19 (v1.0.5): three user-visible states that were missing.
+		// Previously only failures were surfaced: no "applying", no retry-after-failure,
+		// and no confirmation that the last replacement actually succeeded.
+		'set.applyingUpdate': 'Replacing with the new version, the launcher will restart shortly…',
+		'set.updateRetry': 'Retry download',
+		'set.lastApplySucceeded': 'Last update to v{version} succeeded',
+		'set.lastApplySucceededHint': 'You are already on the new version; re-check under Settings → Updates if you want to confirm.',
 		'set.aiSection': 'AI Diagnosis',
 		'set.aiEnableName': 'Enable AI crash diagnosis',
 		'set.aiEnableDesc': 'Use an LLM to explain crashes and provide fix steps (requires API key).',
