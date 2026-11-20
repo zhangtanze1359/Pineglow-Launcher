@@ -83,7 +83,9 @@ const AUTH_PRESETS = [
 	{ name: '自定地址', url: '', desc: '填写任意 authlib-injector 兼容地址' },
 ];
 function sourceLabel(key) {
-	const names = { official: t('set.sourceOfficial'), bmclapi: 'BMCLAPI', mcbbs: t('set.sourceMcbbs') };
+	// v1.0.4：MCBBS 镜像已下线（download.mcbbs.net 已不可用），设置页不再提供该选项。
+	// 旧配置里的 downloadSource="mcbbs" 由服务端 MirrorHelper.Normalize 迁移为 bmclapi。
+	const names = { official: t('set.sourceOfficial'), bmclapi: 'BMCLAPI' };
 	return names[key] || key || t('set.sourceOfficial');
 }
 async function openSourcePicker() {

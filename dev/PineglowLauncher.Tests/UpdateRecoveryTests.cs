@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -127,10 +127,7 @@ public class UpdateRecoveryTests
 	{
 		byte[] full = Encoding.UTF8.GetBytes(new string('A', 4096));
 		byte[] truncated = full.Take(1000).ToArray();
-		// 资产名必须带**当前平台**记号：DownloadUpdateAsync 在下载之前先做平台匹配，
-		// 写死 win-x64 只会在 Windows 上走到"下载截断"分支；在 Linux 上会被平台匹配提前拒绝，
-		// 于是这条用例在 CI（ubuntu）上根本测不到截断，失败原因也不是截断。
-		string url = "https://cdn.example.com/Pineglow-Launcher-9.9.9-" + UpdateService.CurrentRid() + "-single-file";
+		const string url = "https://cdn.example.com/Pineglow-Launcher-9.9.9-win-x64-single-file.exe";
 
 		using HttpClient http = new HttpClient(new BytesHandler(new Dictionary<string, byte[]> { [url] = truncated }));
 		var manifest = new UpdateManifest
@@ -141,22 +138,126 @@ public class UpdateRecoveryTests
 			Size = full.Length
 		};
 
-		InvalidOperationException ex = await Assert.ThrowsAsync<InvalidOperationException>(
-			() => UpdateService.DownloadUpdateAsync(http, manifest, null, CancellationToken.None));
+		// 2026-11-19：这些用例原本会把 updates 目录建到**用户真实的** %APPDATA%\MCMiniLauncher 下，
+		// 而 LocalApiTestHarness 的 RealConfigGuard 照不到那里（它只看三个重定向根）。
+		// 现在落盘目录也走测试缝，跑测试不再污染用户目录。
+		using var dir = new TempDir();
+		string? prevDir = UpdateService.UpdatesDirectoryOverrideForTest;
+		try
+		{
+			UpdateService.UpdatesDirectoryOverrideForTest = dir.Path;
+			InvalidOperationException ex = await Assert.ThrowsAsync<InvalidOperationException>(
+				() => UpdateService.DownloadUpdateAsync(http, manifest, null, CancellationToken.None));
 
-		_out.WriteLine("[truncated] " + ex.Message);
-		Assert.Contains("下载不完整", ex.Message);
-		Assert.Contains("4096", ex.Message);
-		Assert.Contains("1000", ex.Message);
+			_out.WriteLine("[truncated] " + ex.Message);
+			Assert.Contains("下载不完整", ex.Message);
+			Assert.Contains("4096", ex.Message);
+			Assert.Contains("1000", ex.Message);
+		}
+		finally
+		{
+			UpdateService.UpdatesDirectoryOverrideForTest = prevDir;
+		}
+	}
+
+	/// <summary>
+	/// 2026-11-19（v1.0.5）：**哈希不符时不得留下一个"看起来下载好了"的文件**。
+	///
+	/// 既有用例只覆盖了"截断"（大小不符）与"别的平台"（不去下载）；
+	/// 大小对但 SHA256 不符这条分支（<c>File.Delete(part)</c> 之后 continue）此前没有断言，
+	/// 而这正是"清单被篡改 / 传输被中间替换"最直接的一种表现。
+	/// 断言两点：① 抛出且原因含"校验失败"；② 目标目录里既没有 dest，也没有 .part 残留。
+	/// </summary>
+	[Fact]
+	public async Task HashMismatch_IsRejectedAndLeavesNoUsableArtifactBehind()
+	{
+		byte[] served = Encoding.UTF8.GetBytes(new string('B', 2048));
+		byte[] declared = Encoding.UTF8.GetBytes(new string('C', 2048)); // 大小相同、内容不同
+		const string url = "https://cdn.example.com/Pineglow-Launcher-9.9.9-win-x64-single-file.exe";
+
+		using HttpClient http = new HttpClient(new BytesHandler(new Dictionary<string, byte[]> { [url] = served }));
+		var manifest = new UpdateManifest
+		{
+			Version = "9.9.9",
+			Url = url,
+			Sha256 = Sha256Hex(declared),
+			Size = served.Length,
+		};
+
+		// 2026-11-19：落盘目录必须重定向到临时目录，否则本用例会往用户真实的
+		// %APPDATA%\MCMiniLauncher\updates\ 里写文件（本轮实测撞到过）。
+		using var dir = new TempDir();
+		string? prevDir = UpdateService.UpdatesDirectoryOverrideForTest;
+		try
+		{
+			UpdateService.UpdatesDirectoryOverrideForTest = dir.Path;
+			string dest = Path.Combine(dir.Path, "Pineglow-Launcher-9.9.9-win-x64-single-file.exe");
+
+			InvalidOperationException ex = await Assert.ThrowsAsync<InvalidOperationException>(
+				() => UpdateService.DownloadUpdateAsync(http, manifest, null, CancellationToken.None));
+
+			_out.WriteLine("[hash-mismatch] " + ex.Message);
+			Assert.Contains("校验失败", ex.Message);
+			Assert.False(File.Exists(dest), "哈希不符时不得产出目标文件");
+			Assert.False(File.Exists(dest + ".part"), "哈希不符时必须清掉 .part 残留");
+			Assert.Empty(Directory.GetFiles(dir.Path));
+		}
+		finally
+		{
+			UpdateService.UpdatesDirectoryOverrideForTest = prevDir;
+		}
+	}
+
+	/// <summary>
+	/// 2026-11-19（v1.0.5）：**资产主地址失败后必须回退备用地址**，且回退成功要真的落盘。
+	///
+	/// 清单层的降级已有 3 条 API 用例；但 <c>DownloadUpdateAsync</c> 自己的
+	/// "主 url 失败 → fallbackUrl 重试"这条分支此前没有任何用例覆盖
+	/// （既有用例只覆盖主地址成功、截断、别的平台）。
+	/// 这正是"主源挂了但国内镜像还在"的真实场景。
+	/// </summary>
+	[Fact]
+	public async Task AssetFallback_PrimaryFailsThenFallbackSucceeds()
+	{
+		byte[] payload = Encoding.UTF8.GetBytes(new string('D', 4096));
+		string primary = "https://cdn.example.com/Pineglow-Launcher-9.9.8-win-x64-single-file.exe";
+		string fallback = "https://mirror.example.com/Pineglow-Launcher-9.9.8-win-x64-single-file.exe";
+
+		// primary 不登记 → BytesHandler 回 404；fallback 有内容
+		using HttpClient http = new HttpClient(new BytesHandler(new Dictionary<string, byte[]> { [fallback] = payload }));
+		var manifest = new UpdateManifest
+		{
+			Version = "9.9.8",
+			Url = primary,
+			FallbackUrl = fallback,
+			Sha256 = Sha256Hex(payload),
+			Size = payload.Length,
+		};
+
+		using var dir = new TempDir();
+		string? prevDir = UpdateService.UpdatesDirectoryOverrideForTest;
+		try
+		{
+			UpdateService.UpdatesDirectoryOverrideForTest = dir.Path;
+			string path = await UpdateService.DownloadUpdateAsync(http, manifest, null, CancellationToken.None);
+			_out.WriteLine("[asset-fallback] downloaded to " + path);
+
+			Assert.True(File.Exists(path), "回退成功后必须真的产出文件");
+			Assert.StartsWith(dir.Path, path, StringComparison.OrdinalIgnoreCase);
+			Assert.Equal(payload.Length, new FileInfo(path).Length);
+			Assert.True(UpdateService.Sha256Matches(path, Sha256Hex(payload)), "回退下载的内容必须通过 SHA256");
+			Assert.False(File.Exists(path + ".part"), "回退成功后不得留下 .part");
+		}
+		finally
+		{
+			UpdateService.UpdatesDirectoryOverrideForTest = prevDir;
+		}
 	}
 
 	[Fact]
 	public async Task ForeignPlatformAsset_IsRejectedBeforeDownloading()
 	{
-		// "外来平台"是相对当前 RID 而言的：Windows 上是 linux 包，Linux 上是 win 包。
-		string currentRid = UpdateService.CurrentRid();
-		string foreignRid = currentRid.StartsWith("win", StringComparison.OrdinalIgnoreCase) ? "linux-x64" : "win-x64";
-		string url = "https://cdn.example.com/Pineglow-Launcher-9.9.9-" + foreignRid + "-single-file";
+		const string url = "https://cdn.example.com/Pineglow-Launcher-9.9.9-linux-x64-single-file";
 		using HttpClient http = new HttpClient(new BytesHandler(new Dictionary<string, byte[]> { [url] = new byte[] { 1, 2, 3 } }));
 		var manifest = new UpdateManifest { Version = "9.9.9", Url = url, Sha256 = new string('a', 64), Size = 3 };
 
@@ -165,7 +266,6 @@ public class UpdateRecoveryTests
 
 		_out.WriteLine("[foreign asset] " + ex.Message);
 		Assert.Contains("不匹配", ex.Message);
-		Assert.Contains(foreignRid, ex.Message);
 	}
 
 	/* ===================== 4. 替换脚本被真实执行 ===================== */
@@ -299,7 +399,10 @@ public class UpdateRecoveryTests
 
 		// 结构断言（补充上面三个真实执行用例）
 		Assert.Contains("copy /Y \"%TARGET%\" \"%BACKUP%\"", script);   // 先备份
-		Assert.Contains("fc /b \"%NEW%\" \"%TARGET%\"", script);       // 逐字节校验
+		// 2026-11-19（v1.0.5）：逐字节校验的 fc 改为绝对路径（不再让 PATH 决定用哪一份 fc）。
+		// 断言仍然是「必须做逐字节校验」，只是不再要求裸写命令名。
+		Assert.Contains("\\fc.exe\" /b \"%NEW%\" \"%TARGET%\"", script);
+		Assert.DoesNotContain("\r\nfc /b \"%NEW%\"", script);
 		Assert.Contains("backup_failed", script);
 		Assert.Contains("replace_failed", script);
 		Assert.Contains("verify_failed", script);

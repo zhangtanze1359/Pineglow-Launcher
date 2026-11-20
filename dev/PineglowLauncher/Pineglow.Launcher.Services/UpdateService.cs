@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -357,6 +357,23 @@ public static class UpdateService
 		PropertyNameCaseInsensitive = true
 	};
 
+	/// <summary>
+	/// 测试缝（v1.0.5）：更新包的落盘目录。生产路径恒为 null → 用 <see cref="PlatformPaths.GetConfigDirectory"/>。
+	///
+	/// 存在的理由：下载/校验用例需要在**隔离目录**里断言“没有落下半个包”，
+	/// 否则测试会往用户真实的 `%APPDATA%\MCMiniLauncher\updates\` 里写文件（本轮实测撞到过）。
+	/// 本缝只改目录，不改任何校验逻辑。
+	/// </summary>
+	internal static string? UpdatesDirectoryOverrideForTest { get; set; }
+
+	private static string ResolveUpdatesDirectory()
+	{
+		string? over = UpdatesDirectoryOverrideForTest;
+		return string.IsNullOrWhiteSpace(over)
+			? Path.Combine(PlatformPaths.GetConfigDirectory(), "updates")
+			: over!;
+	}
+
 	public static async Task<string> DownloadUpdateAsync(HttpClient http, UpdateManifest manifest, IProgress<double>? progress, CancellationToken ct)
 	{
 		if (!IsValidSha256(manifest.Sha256))
@@ -379,7 +396,7 @@ public static class UpdateService
 		{
 			LauncherLog.Info("[update] 平台匹配提示：" + assetReason);
 		}
-		string updatesDir = Path.Combine(PlatformPaths.GetConfigDirectory(), "updates");
+		string updatesDir = ResolveUpdatesDirectory();
 		Directory.CreateDirectory(updatesDir);
 		string dest = Path.Combine(updatesDir, "Pineglow-Launcher-" + manifest.Version + "-win-x64-single-file.exe");
 		if (File.Exists(dest) && Sha256Matches(dest, manifest.Sha256))
@@ -601,12 +618,29 @@ public static class UpdateService
 				// 备份→替换→校验流程；替换失败会走回滚并记录 replace_failed，
 				// 从而保证"异常时仍有可运行旧版本"，而不是无限等待。
 				+ "set /a WAITS=0\r\n"
+				// 2026-11-19（v1.0.5）：这里原本裸写 `find`，解析顺序完全取决于调用方 PATH。
+				// 实测：PATH 里 Git 的 `usr\bin` 排在 `System32` 之前时（开发者机器极常见），
+				// 裸 `find` 命中 GNU find（不认识 `/I`）→ 立刻非 0 退出 →
+				// 下面的 `if not %errorlevel%==0 goto ready` 把「目标还在跑」误判成「已经退出了」→
+				// 等待循环被整个跳过 → 启动器仍在运行时就去 copy 覆盖 → 文件被占用 → replace_failed。
+				// 因此三个系统命令一律写成绝对路径，不再把解析权交给外部 PATH。
+				// 断言见 UpdateApplyScriptPathTests.ApplyScript_WaitsForRunningTargetThenReplaces
+				// 与 ApplyScript_DoesNotDependOnPathResolution。
 				+ ":wait\r\n"
-				+ "tasklist /FI \"IMAGENAME eq " + exeName + "\" 2>nul | find /I \"" + exeName + "\" >nul\r\n"
+				// 2026-11-19（v1.0.5 r2，RED 5）：`tasklist` 的**默认表格格式会把镜像名截断到 25 字符**，
+				// 而官方发行文件名是 `Pineglow-Launcher-win-x64-single-file.exe`（31 字符）。
+				// 实测（官方 v1.0.4 二进制 + 它自己的在线升级链）：
+				//   tasklist 默认输出 → "Pineglow-Launcher-win-x64"（截断）→ find 找不到 → errorlevel=1
+				//   → 脚本判定“目标没在运行” → 跳过等待 → copy 覆盖被占用文件 → replace_failed → 回滚。
+				// 也就是说：**用官方发行文件名跑，替换必然失败**（这也是 v1.0.4 从未验过替换重启的根因）。
+				// 修法：`/FO CSV /NH`（CSV 不截断、无表头），比的是完整镜像名。
+				// 断言见 UpdateApplyScriptPathTests.ApplyScript_WaitsForRunningTargetThenReplaces
+				// 与 ApplyScript_DoesNotTruncateLongImageNames。
+				+ "\"%SystemRoot%\\System32\\tasklist.exe\" /FO CSV /NH /FI \"IMAGENAME eq " + exeName + "\" 2>nul | \"%SystemRoot%\\System32\\find.exe\" /I \"" + exeName + "\" >nul\r\n"
 				+ "if not %errorlevel%==0 goto ready\r\n"
 				+ "set /a WAITS+=1\r\n"
 				+ "if %WAITS% GTR " + MaxRunningProcessWaitIterations + " goto ready\r\n"
-				+ "ping -n 2 127.0.0.1 >nul\r\n"
+				+ "\"%SystemRoot%\\System32\\ping.exe\" -n 2 127.0.0.1 >nul\r\n"
 				+ "goto wait\r\n"
 				+ ":ready\r\n"
 				+ "copy /Y \"%TARGET%\" \"%BACKUP%\" >nul\r\n"
@@ -615,7 +649,7 @@ public static class UpdateService
 				+ "copy /Y \"%NEW%\" \"%TARGET%\" >nul\r\n"
 				+ "set \"RC=%errorlevel%\"\r\n"
 				+ "if not \"%RC%\"==\"0\" ( copy /Y \"%BACKUP%\" \"%TARGET%\" >nul & echo {\"result\":\"replace_failed\",\"version\":\"" + version + "\"} > \"%STATE%\" & goto abort )\r\n"
-				+ "fc /b \"%NEW%\" \"%TARGET%\" >nul\r\n"
+				+ "\"%SystemRoot%\\System32\\fc.exe\" /b \"%NEW%\" \"%TARGET%\" >nul\r\n"
 				+ "set \"RC=%errorlevel%\"\r\n"
 				+ "if not \"%RC%\"==\"0\" ( copy /Y \"%BACKUP%\" \"%TARGET%\" >nul & echo {\"result\":\"verify_failed\",\"version\":\"" + version + "\"} > \"%STATE%\" & goto abort )\r\n"
 				+ "echo {\"result\":\"applied\",\"version\":\"" + version + "\"} > \"%STATE%\"\r\n"
@@ -690,11 +724,31 @@ public static class UpdateService
 	{
 		return expected is not null && expected.Length == 64 && expected.All(Uri.IsHexDigit);
 	}
-
 	internal static bool Sha256Matches(string file, string expected)
 	{
 		if (!IsValidSha256(expected)) return false;
 		string actual = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(file))).ToLowerInvariant();
 		return string.Equals(actual, expected.Trim(), StringComparison.OrdinalIgnoreCase);
+	}
+
+	/// <summary>
+	/// 2026-11-19（v1.0.5，RED 4）：apply 前的「磁盘包是否仍匹配清单声明」判定。
+	///
+	/// 为什么单独抽成函数：这个判定要在 <c>/api/update/apply</c> 入口用，
+	/// 而**不能**放进替换脚本 —— 脚本只做 <c>fc /b</c>（拷贝完整性），拿不到清单的 SHA256。
+	/// 抽出来以后两个方向都能被单测直接钉住，不必在 testhost 里真跑一次 apply
+	/// （apply 会在 1.2s 后 <c>Environment.Exit</c>，那会把测试宿主杀掉）。
+	///
+	/// 语义：没有期望值（旧状态/未下载）→ 放行，由调用方已有的“包未就绪”分支处理；
+	/// 有期望值 → 必须逐字节匹配。
+	/// </summary>
+	internal static bool DownloadedPackageMatchesExpectedHash(string file, string expectedSha256)
+	{
+		if (string.IsNullOrWhiteSpace(expectedSha256))
+		{
+			return true;
+		}
+
+		return Sha256Matches(file, expectedSha256);
 	}
 }

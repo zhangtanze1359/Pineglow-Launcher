@@ -466,11 +466,14 @@ public class UncoveredPureLogicTests
 	}
 
 	[Fact]
-	public void Mirror_ListSources_ContainsTheThreeDocumentedKeys()
+	public void Mirror_ListSources_ContainsTheDocumentedKeys()
 	{
+		// v1.0.4（S2）：MCBBS 镜像已下线（download.mcbbs.net DNS 不存在），
+		// 源列表从 3 个变为 2 个。旧配置的 "mcbbs" 由 MirrorHelper.Normalize 迁移为 bmclapi，
+		// 迁移行为本身由 DownloadSourceMigrationTests 覆盖。
 		var sources = MirrorHelper.ListSources();
-		Assert.Equal(3, sources.Count);
-		Assert.Equal(new[] { "official", "bmclapi", "mcbbs" }, sources.Select(s => s.Key));
+		Assert.Equal(2, sources.Count);
+		Assert.Equal(new[] { "official", "bmclapi" }, sources.Select(s => s.Key));
 		Assert.All(sources, s => Assert.False(string.IsNullOrWhiteSpace(s.BaseUrl)));
 	}
 

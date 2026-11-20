@@ -19,7 +19,8 @@ public sealed class DownloadSourceInfo
 }
 
 /// <summary>
-/// 下载源管理：官方 + 国内镜像（BMCLAPI / MCBBS）。
+/// 下载源管理：官方 + 国内镜像（BMCLAPI）。
+/// 2026-11-16（v1.0.4）：MCBBS 镜像已下线（download.mcbbs.net 已不可用），旧配置的 `mcbbs` 由 Normalize 迁移到 `bmclapi`。
 /// 选定镜像后，将 mojang/forge/fabric 等 URL 重写为镜像地址。
 /// </summary>
 public static class MirrorHelper
@@ -30,12 +31,26 @@ public static class MirrorHelper
 
 	public static bool Enabled => !SelectedKey.Equals(Official, StringComparison.OrdinalIgnoreCase);
 
+	/// <summary>
+	/// 下载源键的**规范化 + 旧值迁移**。
+	/// 空值 → official；`mcbbs`（大小写不敏感）→ `bmclapi`（该镜像已于 2026-11 下线）；
+	/// 其余原样小写返回。配置读入/写出都走这里，保证旧 config.json 不会带着一个死镜像继续"生效"。
+	/// </summary>
+	public static string Normalize(string? key)
+	{
+		if (string.IsNullOrWhiteSpace(key))
+		{
+			return Official;
+		}
+		string trimmed = key.Trim();
+		return trimmed.Equals("mcbbs", StringComparison.OrdinalIgnoreCase) ? "bmclapi" : trimmed.ToLowerInvariant();
+	}
+
 	public static string GetBaseUrl(string key)
 	{
 		return key.ToLowerInvariant() switch
 		{
 			"bmclapi" => "https://bmclapi2.bangbang93.com",
-			"mcbbs" => "https://download.mcbbs.net",
 			_ => string.Empty,
 		};
 	}
@@ -46,7 +61,6 @@ public static class MirrorHelper
 		{
 			new DownloadSourceInfo { Key = Official, Name = "官方源", BaseUrl = "https://piston-meta.mojang.com" },
 			new DownloadSourceInfo { Key = "bmclapi", Name = "BMCLAPI", BaseUrl = "https://bmclapi2.bangbang93.com" },
-			new DownloadSourceInfo { Key = "mcbbs", Name = "MCBBS 镜像", BaseUrl = "https://download.mcbbs.net" },
 		};
 	}
 
