@@ -127,7 +127,9 @@ public class UpdateRecoveryTests
 	{
 		byte[] full = Encoding.UTF8.GetBytes(new string('A', 4096));
 		byte[] truncated = full.Take(1000).ToArray();
-		const string url = "https://cdn.example.com/Pineglow-Launcher-9.9.9-win-x64-single-file.exe";
+		// 2026-11-20：URL 必须用**当前平台**的 RID，否则在 Linux CI 上
+		// 产品会先判定"资产与当前平台不匹配"而提前拒绝，截断分支根本走不到。
+		string url = "https://cdn.example.com/Pineglow-Launcher-9.9.9-" + UpdateService.CurrentRid() + "-single-file.exe";
 
 		using HttpClient http = new HttpClient(new BytesHandler(new Dictionary<string, byte[]> { [url] = truncated }));
 		var manifest = new UpdateManifest
@@ -173,7 +175,10 @@ public class UpdateRecoveryTests
 	{
 		byte[] served = Encoding.UTF8.GetBytes(new string('B', 2048));
 		byte[] declared = Encoding.UTF8.GetBytes(new string('C', 2048)); // 大小相同、内容不同
-		const string url = "https://cdn.example.com/Pineglow-Launcher-9.9.9-win-x64-single-file.exe";
+		// 2026-11-20：同上 —— 用当前平台 RID，否则 Linux 上会被平台匹配拦住，
+		 // 测的就不是"哈希不符"这条分支了。
+		string rid = UpdateService.CurrentRid();
+		string url = "https://cdn.example.com/Pineglow-Launcher-9.9.9-" + rid + "-single-file.exe";
 
 		using HttpClient http = new HttpClient(new BytesHandler(new Dictionary<string, byte[]> { [url] = served }));
 		var manifest = new UpdateManifest
@@ -191,7 +196,7 @@ public class UpdateRecoveryTests
 		try
 		{
 			UpdateService.UpdatesDirectoryOverrideForTest = dir.Path;
-			string dest = Path.Combine(dir.Path, "Pineglow-Launcher-9.9.9-win-x64-single-file.exe");
+			string dest = Path.Combine(dir.Path, "Pineglow-Launcher-9.9.9-" + rid + "-single-file.exe");
 
 			InvalidOperationException ex = await Assert.ThrowsAsync<InvalidOperationException>(
 				() => UpdateService.DownloadUpdateAsync(http, manifest, null, CancellationToken.None));
@@ -220,8 +225,10 @@ public class UpdateRecoveryTests
 	public async Task AssetFallback_PrimaryFailsThenFallbackSucceeds()
 	{
 		byte[] payload = Encoding.UTF8.GetBytes(new string('D', 4096));
-		string primary = "https://cdn.example.com/Pineglow-Launcher-9.9.8-win-x64-single-file.exe";
-		string fallback = "https://mirror.example.com/Pineglow-Launcher-9.9.8-win-x64-single-file.exe";
+		// 2026-11-20：用当前平台 RID，保证 Linux CI 上也能走到"主地址失败→回退"这条分支。
+		string rid = UpdateService.CurrentRid();
+		string primary = "https://cdn.example.com/Pineglow-Launcher-9.9.8-" + rid + "-single-file.exe";
+		string fallback = "https://mirror.example.com/Pineglow-Launcher-9.9.8-" + rid + "-single-file.exe";
 
 		// primary 不登记 → BytesHandler 回 404；fallback 有内容
 		using HttpClient http = new HttpClient(new BytesHandler(new Dictionary<string, byte[]> { [fallback] = payload }));
@@ -257,7 +264,10 @@ public class UpdateRecoveryTests
 	[Fact]
 	public async Task ForeignPlatformAsset_IsRejectedBeforeDownloading()
 	{
-		const string url = "https://cdn.example.com/Pineglow-Launcher-9.9.9-linux-x64-single-file";
+		// 2026-11-20：这里必须用**与当前平台不同**的 RID。原来硬编码 linux-x64，
+		// 在 Linux CI 上那就变成了"本平台资产"，用例会真的去下载，测不到"提前拒绝"。
+		string foreignRid = OperatingSystem.IsWindows() ? "linux-x64" : "win-x64";
+		string url = "https://cdn.example.com/Pineglow-Launcher-9.9.9-" + foreignRid + "-single-file";
 		using HttpClient http = new HttpClient(new BytesHandler(new Dictionary<string, byte[]> { [url] = new byte[] { 1, 2, 3 } }));
 		var manifest = new UpdateManifest { Version = "9.9.9", Url = url, Sha256 = new string('a', 64), Size = 3 };
 
