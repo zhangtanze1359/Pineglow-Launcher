@@ -95,53 +95,51 @@ public class AiCancelAndRedirectTests
 	}
 
 	// ====== RED-1：路由不可达（v3：cancel 路由被通用 diagnose 截获）======
-	// v3 实现后 GREEN：精确 seg.Length==5 cancel 路由先于 seg.Length==4 diagnose 路由。
+	// v3 实现后 GREEN：精确 5 段 cancel 路由先于 4 段通用 diagnose 路由。
 	//
-	// M1-2（2026-11-06）：路由表已从 LocalApiService.cs 迁到 LocalApiService.Routing.cs，
-	// 因此"谁在前"必须在该文件的 BuildRoutes 内比较，而不是在原来那个单文件里比方法定义位置——
-	// 方法体早就分散到 LocalApiService.Diagnostics.cs 了，跨文件比位置没有意义。
+	// 第 3 步（2026-11-21）**换掉了断言方式**：原来在 LocalApiService.Routing.cs 的**源码文本**里
+	// 比较两个 handler 名字的 IndexOf 先后。那段文本断言有两个问题：改注释/调格式会误红；
+	// 而真正要守的东西——"请求 /api/instances/{id}/diagnose/cancel 命中的是取消 handler，
+	// 而不是通用 diagnose handler"——它其实一个字都没测（命中与否取决于路由表数据，不取决于两个
+	// 名字在文件里的先后）。现在直接把**路由表**当数据来问：用真实业务路径跑 ResolveRoute，
+	// 断言命中的路由段数正确、签名互不相同、且两条路径没有接到同一个处理器上
+	// （比 delegate 的方法身份，不比文本先后；lambda 的名字是编译器生成的，不可读）。
 	[Fact]
 	public void RED1_CancelRoutePath_MustComeBeforeDiagnoseRoute()
 	{
-		string src = LocalApiServiceSource.Single("LocalApiService.Routing.cs");
-		const string cancelMarker = "HandleCancelDiagnoseAsync";
-		const string diagnoseMarker = "HandleDiagnoseInstanceAsync";
-		int cancelIdx = src.IndexOf(cancelMarker, StringComparison.Ordinal);
-		int diagnoseIdx = src.IndexOf(diagnoseMarker, StringComparison.Ordinal);
-		Assert.True(cancelIdx > 0, "cancel route must be registered in LocalApiService.Routing.cs");
-		Assert.True(diagnoseIdx > 0, "diagnose route must be registered in LocalApiService.Routing.cs");
-		Assert.True(cancelIdx < diagnoseIdx, "cancel route must come BEFORE diagnose route");
+		string[] cancelPath = { "api", "instances", "inst-red1", "diagnose", "cancel" };
+		string[] diagnosePath = { "api", "instances", "inst-red1", "diagnose" };
+
+		ApiRoute? cancel = LocalApiService.ResolveRoute("POST", cancelPath);
+		ApiRoute? diagnose = LocalApiService.ResolveRoute("POST", diagnosePath);
+
+		Assert.NotNull(cancel);
+		Assert.NotNull(diagnose);
+
+		// 取消路由必须是 5 段精确路由；若被通用 diagnose（4 段，或改成 Range 上不封顶）吞掉，
+		// 下面两条会立刻红——那正是 v3 里"取消功能整条失效"的形态。
+		Assert.Equal(5, cancel!.MaxSegments);
+		Assert.Equal(4, diagnose!.MaxSegments);
+		Assert.NotEqual(cancel.Signature, diagnose.Signature);
+
+		// 真正的问题：这两条路径不能接到**同一个处理器**上（否则 /diagnose/cancel 只是又跑一遍诊断）。
+		// 路由表里的处理器是 lambda，名字是编译器生成的（<BuildRoutes>b__NN_M），所以这里比的是
+		// delegate 的方法身份，不是我们给方法起的名字。取消语义本身由 RED3 / Step3_03 发真实请求断言。
+		Assert.NotEqual(cancel.Handler.Method, diagnose.Handler.Method);
+
+		// 反向保护：取消是 POST 语义，GET 同路径不得落到取消那条路由上。
+		Assert.NotEqual(cancel.Handler.Method, LocalApiService.ResolveRoute("GET", cancelPath)?.Handler.Method);
 	}
 
-	// ====== RED-2：服务端不再生成 operationId；缺失/非法返回 400 ======
-	[Fact]
-	public void RED2_ServerDoesNotGenerateOperationId_MissingReturns400()
-	{
-		string src = LocalApiServiceSource.All();
-		Assert.False(
-			src.Contains("operationId = Guid.NewGuid().ToString(\"N\")"),
-			"RED 当前：服务端不再生成 operationId；必须由客户端预生成"
-		);
-		Assert.True(
-			src.Contains("operationId 缺失或非法"),
-			"RED 当前：缺失 operationId 时必须返回 400 fail closed"
-		);
-	}
-
-	// ====== RED-3：cancel endpoint 返回 cancel contract（不含 rule/mods/snapshot）======
-	[Fact]
-	public void RED3_CancelEndpoint_ReturnsCancelContract_NotDiagnoseObject()
-	{
-		string src = LocalApiServiceSource.Single("LocalApiService.Diagnostics.cs");
-		// 找方法定义：形如 "private static async Task HandleCancelDiagnoseAsync("
-		string body = LocalApiServiceSource.MethodBody(
-			src, "private static async Task HandleCancelDiagnoseAsync(");
-		Assert.Contains("cancelled", body);
-		Assert.Contains("message", body);
-		Assert.Contains("operationId", body);
-		Assert.DoesNotContain("aiResult", body);
-		Assert.DoesNotContain("snapshot", body);
-	}
+	// ====== RED-2 / RED-3：见本文件末尾 AiCancelAndRedirectStep3Tests ======
+	// 第 3 步（2026-11-21）把这两条从"读源码文本"换成"发真实请求断言响应形状"：
+	//   * RED2 原本断言源码里不存在 `operationId = Guid.NewGuid().ToString("N")` 且存在一句错误文案；
+	//     真正的不变量是"缺 id 的请求必须被 400 拒绝、服务端绝不替客户端生成 id"，
+	//     这只能在真实请求上判（源码里那句文案在别处被复制一份也能过旧断言）。
+	//   * RED3 原本截出 HandleCancelDiagnoseAsync 的方法体找 `cancelled`/`message` 子串；
+	//     真正的不变量是"取消响应是对外契约（ok/operationId/cancelled/message），
+	//     且不带诊断对象（rule/mods/snapshot/aiResult）"，同一台服务上对比两个端点的键集才测得出来。
+	// 两条都放进 AiCancelAndRedirectStep3Tests，因为它已有真实服务端夹具（StartAsync + 端口选择）。
 
 
 // ====== RED-4：registry cancel-before-register tombstone ======
@@ -250,14 +248,78 @@ public class AiCancelAndRedirectTests
 	}
 
 	// ====== v2 GREEN4/4b（保留）：AI/News 客户端隔离 ======
+	/// <summary>
+	/// 新闻绝不能走 AI 那条客户端（历史缺陷：<c>NewsService</c> 曾通过 <c>() =&gt; AiHttp</c> 取客户端，
+	/// 于是新闻请求继承了 AI 的策略：禁自动重定向、60s 超时，还会被 AI 的测试覆盖缝劫持）。
+	///
+	/// 第 3 步（2026-11-21）**换掉了断言方式**：原来是 <c>Contains("LauncherContentNewsProvider(() =&gt; AiHttp)")</c>
+	/// 取反 —— 那条断言只能发现"退回旧写法"，任何别的错接法（`() =&gt; new HttpClient()`、
+	/// `() =&gt; Outbound.Api`、把 provider 包一层）都照样通过。
+	/// 现在从**对象图**上取证：顺着 <c>LocalApiService.NewsService</c> → provider → 客户端工厂
+	/// 取出那个真实的 <c>Func&lt;HttpClient&gt;</c> 并调用它，直接检查**它交付的客户端**的策略
+	/// ——新闻策略（跟随重定向 + 45s）对 AI 策略（禁重定向 + 60s）是互斥的，接错必然红。
+	///
+	/// 为什么这一段必须读私有字段（`NewsService` / `_provider` / `_httpProvider`）：
+	/// 接线写在 <c>LocalApiService</c> 的静态字段初始化里，而它是 `static partial class`——
+	/// 编译产物里没有"某行代码属于哪个文件"的信息，反射只能看到整个类型；而这段接线的
+	/// 唯一可观察形式就是那个字段里装着的对象图。这是"读文本"与"读对象图"之间更接近真相的一侧。
+	/// </summary>
 	[Fact]
 	public void RED4_NewsService_MustNotBeWiredToAiHttp()
 	{
-		string src = LocalApiServiceSource.All();
-		Assert.False(
-			src.Contains("LauncherContentNewsProvider(() => AiHttp)"),
-			"RED 当前：NewsService 仍通过 () => AiHttp 获取客户端"
-		);
+		HttpClient wired = NewsProviderClientFactory()();
+		HttpClientHandler handler = ClientHandlerOf(wired);
+
+		Assert.True(handler.AllowAutoRedirect,
+			"新闻客户端必须跟随重定向（AI 客户端禁重定向）；为 false 说明新闻接线到 AI 那条了");
+		Assert.Equal(TimeSpan.FromSeconds(OutboundHttp.NewsTimeoutSeconds), wired.Timeout);
+
+		// 反向保护：确认上面两条对 AI 客户端是**假**的，否则这两条断言等于什么都没说。
+		using HttpMessageHandler aiHandler = OutboundHttp.CreateAiHandler(OutboundHttp.ProxySettings.None);
+		Assert.False(((HttpClientHandler)aiHandler).AllowAutoRedirect, "AI 客户端必须禁自动重定向");
+	}
+
+	/// <summary>
+	/// 取"新闻服务真正会拿去发请求的那条客户端工厂"：
+	/// <c>LocalApiService.NewsService</c> → <c>MinecraftNewsService._provider</c> → <c>LauncherContentNewsProvider._httpProvider</c>。
+	/// 工厂本身每次调用都重新读当前宿主的具名客户端（代理切换自动生效），所以这里只取工厂、不缓存结果。
+	/// </summary>
+	private static Func<HttpClient> NewsProviderClientFactory()
+	{
+		const BindingFlags Priv = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
+
+		FieldInfo newsServiceField = typeof(LocalApiService).GetField("NewsService", Priv)
+			?? throw new InvalidOperationException("LocalApiService.NewsService 字段不在了：本守卫的取证入口失效");
+		object newsService = newsServiceField.GetValue(null)
+			?? throw new InvalidOperationException("LocalApiService.NewsService 为 null");
+
+		FieldInfo providerField = newsService.GetType().GetField("_provider", Priv | BindingFlags.DeclaredOnly)
+			?? throw new InvalidOperationException($"MinecraftNewsService._provider 字段不在了（{newsService.GetType().Name}）");
+		object provider = providerField.GetValue(newsService)
+			?? throw new InvalidOperationException("MinecraftNewsService._provider 为 null");
+
+		FieldInfo httpProviderField = provider.GetType().GetField("_httpProvider", Priv | BindingFlags.DeclaredOnly)
+			?? throw new InvalidOperationException($"新闻提供器 {provider.GetType().Name} 上没有 _httpProvider 字段");
+		object? factory = httpProviderField.GetValue(provider);
+
+		return factory as Func<HttpClient>
+			?? throw new InvalidOperationException(
+				$"新闻提供器的客户端提供者不是 Func<HttpClient>（实际 {factory?.GetType().Name ?? "null"}）：守卫需要跟着改");
+	}
+
+	/// <summary>沿 <see cref="HttpClient"/> 的基类链找到 <c>_handler</c> 字段（net10 里它在 <c>HttpMessageInvoker</c> 上）。</summary>
+	private static HttpClientHandler ClientHandlerOf(HttpClient client)
+	{
+		for (Type? t = typeof(HttpClient); t != null; t = t.BaseType)
+		{
+			FieldInfo? field = t.GetField("_handler", BindingFlags.NonPublic | BindingFlags.Instance);
+			if (field != null)
+			{
+				return Assert.IsType<HttpClientHandler>(field.GetValue(client));
+			}
+		}
+
+		throw new InvalidOperationException("HttpClient._handler 字段不存在：框架版本变了，请更新这条断言的定位方式");
 	}
 
 	[Fact]
@@ -273,9 +335,9 @@ public class AiCancelAndRedirectTests
 		using HttpMessageHandler aiHandler = OutboundHttp.CreateAiHandler(OutboundHttp.ProxySettings.None);
 		Assert.False(((HttpClientHandler)aiHandler).AllowAutoRedirect, "AI 客户端必须禁自动重定向");
 
-		// 接线：新闻必须拿 News 具名客户端，绝不能是 AI 那条（历史缺陷：News 曾走 AiHttp）。
-		string src = LocalApiServiceSource.All();
-		Assert.Contains("LauncherContentNewsProvider(() => Outbound.News)", src, StringComparison.Ordinal);
+		// 接线证据（第 3 步把原来的 `Contains("LauncherContentNewsProvider(() => Outbound.News)")`
+		// 源码文本断言换成了对象图取证）由 RED4 负责：它顺着 NewsService 取出客户端工厂，
+		// 并断言交付的客户端符合新闻策略。这里不再重复，也不再读源码。
 	}
 }
 
@@ -646,6 +708,118 @@ public class AiCancelAndRedirectStep3Tests
 		}
 		finally
 		{
+		}
+	}
+
+	/* ===================== RED-2（原文本断言 → 真实请求）：服务端绝不替客户端生成 operationId ===================== */
+
+	/// <summary>
+	/// 原 <c>RED2_ServerDoesNotGenerateOperationId_MissingReturns400</c> 是**源码文本**断言：
+	/// 在 19 个 partial 拼出来的文本里断言不存在 <c>operationId = Guid.NewGuid().ToString("N")</c>，
+	/// 且存在一句错误文案。改注释能误红，真正的回归（服务端又开始"顺手给一个 id"）反而可能通过
+	/// —— 因为只要那句文案还在别处出现，断言就绿。
+	///
+	/// 现在的不变量直接说在请求上：**缺 id / 非法 id 必须 400 拒绝，且响应里不出现任何 operationId**
+	/// （服务端没有生成、也没有回填一个 id）。同一个断言把"服务端不再生成"和"fail closed"合成一件事：
+	/// 只要它又开始生成，第一条就会从 400 变成 200。
+	/// </summary>
+	[Fact]
+	public async Task RED2_ServerDoesNotGenerateOperationId_MissingReturns400()
+	{
+		await using TestHarness h = await TestHarness.StartAsync(BuildConfigWithTwoInstances());
+
+		using (HttpResponseMessage missing = await h.PostDiagnoseAsync("inst-A", new
+		{
+			confirmAiSend = false,
+			localOnly = true
+		}))
+		{
+			string body = await missing.Content.ReadAsStringAsync();
+			Console.WriteLine($"[red2] missing-id status={(int)missing.StatusCode} body={body}");
+			Assert.Equal(HttpStatusCode.BadRequest, missing.StatusCode);
+			using JsonDocument doc = JsonDocument.Parse(body);
+			Assert.False(doc.RootElement.GetProperty("ok").GetBoolean());
+			Assert.Contains("operationId", doc.RootElement.GetProperty("error").GetString() ?? string.Empty);
+
+			// 服务端不得回填：响应里既没有 operationId，也没有任何"服务端替你挑好的"标识。
+			Assert.False(doc.RootElement.TryGetProperty("operationId", out _),
+				"缺 operationId 的请求必须整体拒绝；服务端不得生成并回填一个 id");
+		}
+
+		// 非法 id（长度不足 8）：同样 400，而不是被服务端补齐/截断后继续跑。
+		using (HttpResponseMessage malformed = await h.PostDiagnoseAsync("inst-A", new
+		{
+			confirmAiSend = false,
+			localOnly = true,
+			operationId = "   "
+		}))
+		{
+			string body = await malformed.Content.ReadAsStringAsync();
+			Console.WriteLine($"[red2] malformed-id status={(int)malformed.StatusCode} body={body}");
+			Assert.Equal(HttpStatusCode.BadRequest, malformed.StatusCode);
+			using JsonDocument doc = JsonDocument.Parse(body);
+			Assert.Contains("operationId", doc.RootElement.GetProperty("error").GetString() ?? string.Empty);
+		}
+	}
+
+	/* ===================== RED-3（原方法体截取 → 真实请求）：取消响应是对外契约，不是诊断对象 ===================== */
+
+	/// <summary>
+	/// 原 <c>RED3_CancelEndpoint_ReturnsCancelContract_NotDiagnoseObject</c> 从
+	/// <c>LocalApiService.Diagnostics.cs</c> 里按花括号截出 <c>HandleCancelDiagnoseAsync</c> 的方法体，
+	/// 再在里面找 <c>cancelled</c>/<c>message</c> 子串、断言没有 <c>aiResult</c>/<c>snapshot</c>。
+	/// 它测的是"方法体里出现过这些字"，不是"客户端收到什么"：把响应字段改名成
+	/// <c>cancelled_</c>、或把字段塞进嵌套对象，旧断言照样绿。
+	///
+	/// 现在在**同一台真实服务**上对比两个端点的响应键集：
+	/// 取消 → ok/operationId/cancelled/message，且不含诊断对象的任何字段；
+	/// 诊断（localOnly）→ 必须**确实**带 rule/mods/snapshot，否则上面那半条"不含"就是恒真。
+	/// </summary>
+	[Fact]
+	public async Task RED3_CancelEndpoint_ReturnsCancelContract_NotDiagnoseObject()
+	{
+		await using TestHarness h = await TestHarness.StartAsync(BuildConfigWithTwoInstances());
+
+		using (HttpResponseMessage cancelResp = await h.PostCancelAsync("inst-A", new
+		{
+			operationId = "red3-op-cancel-contract-123456"
+		}))
+		{
+			string body = await cancelResp.Content.ReadAsStringAsync();
+			Console.WriteLine($"[red3] cancel status={(int)cancelResp.StatusCode} body={body}");
+			Assert.Equal(HttpStatusCode.OK, cancelResp.StatusCode);
+			using JsonDocument doc = JsonDocument.Parse(body);
+			JsonElement root = doc.RootElement;
+
+			// 取消契约：四个字段齐全，且 cancelled 为 true（cancel-before-register 也会留下 tombstone）。
+			Assert.True(root.TryGetProperty("ok", out _), "取消响应必须带 ok");
+			Assert.True(root.TryGetProperty("operationId", out _), "取消响应必须回显 operationId");
+			Assert.True(root.TryGetProperty("cancelled", out _), "取消响应必须带 cancelled");
+			Assert.True(root.TryGetProperty("message", out _), "取消响应必须带 message");
+			Assert.True(root.GetProperty("cancelled").GetBoolean());
+
+			// 诊断对象一律不得出现在取消响应里。
+			Assert.False(root.TryGetProperty("rule", out _), "cancel 响应不得包含 rule 字段");
+			Assert.False(root.TryGetProperty("mods", out _), "cancel 响应不得包含 mods 字段");
+			Assert.False(root.TryGetProperty("snapshot", out _), "cancel 响应不得包含 snapshot 字段");
+			Assert.False(root.TryGetProperty("aiResult", out _), "cancel 响应不得包含 aiResult 字段");
+		}
+
+		// 反向保护：同一条服务上的诊断响应确实带那些字段（证明上面"不含"不是恒真）。
+		using (HttpResponseMessage diagResp = await h.PostDiagnoseAsync("inst-A", new
+		{
+			confirmAiSend = false,
+			localOnly = true,
+			operationId = "red3-op-diagnose-shape-123456"
+		}))
+		{
+			Assert.Equal(HttpStatusCode.OK, diagResp.StatusCode);
+			using JsonDocument doc = JsonDocument.Parse(await diagResp.Content.ReadAsStringAsync());
+			JsonElement root = doc.RootElement;
+			Assert.True(root.TryGetProperty("rule", out _), "诊断响应必须带 rule（否则取消侧的『不含』没有对照）");
+			Assert.True(root.TryGetProperty("mods", out _), "诊断响应必须带 mods");
+			Assert.True(root.TryGetProperty("snapshot", out _), "诊断响应必须带 snapshot");
+			Assert.False(root.TryGetProperty("cancelled", out _), "诊断响应不得带取消契约字段");
 		}
 	}
 

@@ -287,18 +287,25 @@ public class RouteReachabilityTests
 	/// 恒真、无意义的断言（首次运行报的是「只识别到 0 个守卫，解析可能已失效」，
 	/// 正是本测试自己设计的"宁可吵闹地失败"保护，说明它诚实报了"我已经没东西可查"）。
 	///
-	/// **本测试没有删，而是换成同强度、甚至更强的断言**：
-	///   1. 旧形态必须彻底消失（方法体内不得再出现 <c>seg.Length</c> 约束分支）；
-	///   2. 路由表必须真实存在且非空；
-	///   3. 兜底 404 仍在（干的活没丢）。
-	/// 路由集合本身的正确性由 <c>ApiRouteInventoryTests</c> 逐条断言（11 个用例覆盖
-	/// 可达性、遮蔽、顺序契约、未登记路径、实例子路由不嵌套等）。两个测试合起来
-	/// 比原来那条静态扫描更强：原来只能发现"嵌套"，现在连"漏登记"都能发现。
+	/// **第 3 步之后（2026-11-21）这条守卫缩到只剩一句形态检查**：方法体内不得再出现
+	/// <c>if (seg.Length</c> 这类"用手写长度分支分发"的写法。原来同一条用例里另外三条
+	/// （兜底 404 仍在、必须调用 ResolveRoute、路由表 ≥50 条）**全部搬到了各自更该负责的地方**：
+	///   * 兜底 404 由本类的 <c>RouterFallbackMarker_HasTeeth_UnknownPathReturnsFallback404</c>
+	///     用真实请求断言（比"源码里有这个字符串"强）；
+	///   * "路由表可枚举且逐条可达/不互相遮蔽/顺序契约"由 <c>ApiRouteInventoryTests</c> 用
+	///     <see cref="LocalApiService.ResolveRoute"/> 逐条断言；
+	///   * "必须通过 ResolveRoute 分发"由上面两条共同覆盖——表里每条都能按自己的路径命中、
+	///     表外路径一律落到兜底 404，这只有在真的查表分发时才成立。
+	///
+	/// **为什么这最后一句仍然读源码文本**：<c>LocalApiService</c> 是 <c>static partial class</c>，
+	/// 编译产物里没有"方法体里有哪些语句"的反射视图，也没有哪种行为断言能表达"**不要写这种形态**"
+	/// ——一条长成手写 if 链的分发器可以把所有路由都答对，行为测试全绿，但 2026-10-03 的
+	/// 事故形态又回来了。所以这条留成单文件文本守卫，并且**只保留这一句**。
 	/// </summary>
 	[Fact]
 	public void HandleApiAsync_NoLongerContainsSegLengthBranches()
 	{
-		string src = File.ReadAllText(SourceFilePath());
+		string src = ProductionServicesSource.Read("LocalApiService.Routing.cs");
 
 		const string signature = "private static async Task HandleApiAsync(";
 		int sig = src.IndexOf(signature, StringComparison.Ordinal);
@@ -323,11 +330,8 @@ public class RouteReachabilityTests
 
 		string body = src.Substring(open, end - open + 1);
 
-		// 1) 兜底 404 必须还在（改造不得顺手把兜底删掉，否则未命中请求会返回空 200）。
-		Assert.Contains(FallbackMarker, body);
-
-		// 2) 旧形态彻底消失：不得再有任何"用 seg.Length 做条件分支"的写法。
-		//    注意 token 带 "if ("：注释里出现的同名文本不算。
+		// 旧形态彻底消失：不得再有任何"用 seg.Length 做条件分支"的写法。
+		// 注意 token 带 "if ("：注释里出现的同名文本不算。
 		int legacyBranches = 0;
 		int scan = 0;
 		const string lengthToken = "if (seg.Length";
@@ -341,34 +345,5 @@ public class RouteReachabilityTests
 			$"HandleApiAsync 内仍有 {legacyBranches} 处 seg.Length 分支。"
 			+ "路由必须全部登记到 ApiRoute 表（LocalApiService.Routes），否则无法被清单测试校验——"
 			+ "2026-10-03 的 10 条恒 404 路由正是因为路由集合只存在于执行路径里。");
-
-		// 3) 必须真的通过路由表分发，而不是另起一套隐式逻辑。
-		Assert.Contains("ResolveRoute", body);
-
-		// 4) 路由表必须可枚举且非空（这是清单测试的前提）。
-		Assert.NotNull(LocalApiService.Routes);
-		Assert.True(LocalApiService.Routes.Count >= 50,
-			$"路由表仅 {LocalApiService.Routes.Count} 条，疑似未正确初始化");
 	}
-
-	private static int LineNumberOf(string text, int index)
-	{
-		int line = 1;
-		for (int k = 0; k < index && k < text.Length; k++)
-		{
-			if (text[k] == '\n') line++;
-		}
-		return line;
-	}
-
-	private static string SnippetAt(string text, int index)
-	{
-		int start = index;
-		while (start > 0 && text[start - 1] != '\n') start--;
-		int end = index;
-		while (end < text.Length && text[end] != '\n') end++;
-		return text.Substring(start, end - start).Trim();
-	}
-
-	private static string SourceFilePath() => LocalApiServiceSource.PathOf("LocalApiService.Routing.cs");
 }

@@ -41,9 +41,16 @@ dotnet 门槛需要把 `C:\Windows\System32;C:\Windows` 前置于 PATH（否则 
 
 当前开着的缺口统一登记在 **`docs/open-items.md`**；开工前先读它，避免重复发现同一个问题。
 
-### 新增 `LocalApiService*.cs` 必须登记 `LocalApiServiceSource.OrderedFiles`
+### 新增 `LocalApiService*.cs` 不用登记任何清单（2026-11-21 起）
 
-拆分守卫 `LocalApiServiceSplitTests` 会直接判红。登记方式与文件布局见 `docs/engineering.md` §二「LocalApiService 实现逻辑深析」。
+拆分守卫 `LocalApiServiceSplitTests` **以磁盘为准**枚举 `LocalApiService*.cs`：新文件放进
+`dev/PineglowLauncher/Pineglow.Launcher.Services/` 就自动进入守卫，没有第二处要改。
+（原先那份 `LocalApiServiceSource.OrderedFiles` 硬编码顺序表已随"读源码字符串断言"一起退役，
+见 `docs/architecture/local-api-instancing-2026-11-17.md` 第 3 步。）
+
+仍然成立的两条：单文件 ≤ 600 行；文件里声明的必须是 `partial class LocalApiService` 本身
+——另起一个 `LocalApiService...` 家族的类型会被守卫判红（程序集里只允许一个该家族类型）。
+文件布局与按域职责见 `docs/engineering.md` §二「LocalApiService 实现逻辑深析」。
 
 ### ⚠️ 主工作区里 `dotnet test` 会假失败（2026-11-15 实测，不是代码问题）
 

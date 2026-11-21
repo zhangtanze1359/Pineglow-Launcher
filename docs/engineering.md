@@ -76,7 +76,11 @@
 
 **为什么静态字段不跟着域走**：C# 静态字段的初始化顺序按声明文本顺序决定，散到多个文件后"谁先初始化"会变成依赖文件名排序的隐式契约。因此字段全部挤在宿主文件，域文件只放方法。
 
-**结构门槛**（`dev/PineglowLauncher.Tests/LocalApiServiceSplitTests.cs`）：单文件 ≤ 600 行；源码目录内不得有未登记的 `LocalApiService*.cs`；令牌/Origin 逻辑不得复制到域文件。三条门槛都带反向保护，防止被悄悄放宽成恒真。
+**结构门槛**（`dev/PineglowLauncher.Tests/LocalApiServiceSplitTests.cs`）：单文件 ≤ 600 行；域文件清单**以磁盘枚举为准**（新文件放进源码目录即自动进入门槛，不再有登记表），且整个程序集里只允许一个以 `LocalApiService` 命名的类型；令牌/Origin 逻辑只允许由宿主持有（反射枚举程序集全部类型的声明成员并计数，外加两个真实调用确认行为）。每条门槛都带反向保护，防止被悄悄放宽成恒真。
+
+> 2026-11-21（架构第 3 步）：这三条原本有两条是"把 19 个 partial 拼成一段文本再 grep"（`LocalApiServiceSource`），
+> 已换成"可枚举 + 计数 + 真实请求"。为什么换、换成了什么、哪些保留，见
+> `docs/architecture/local-api-instancing-2026-11-17.md` 的进度段。
 
 ### 生命周期（Start / Stop / Loop）
 
@@ -166,7 +170,7 @@ seg = path.Trim('/').Split('/')  →  ["api", "instances", "{id}", "launch", ...
 | 出站客户端单一所有者 | `OutboundHttp` 产出具名客户端（api / ai / news / download），代理、超时、重定向策略只在那里决定；`LocalApiService` 不再持有 HttpClient 字段 |
 | 依赖作为一个值 | `HostDependencies` = config store + `StorageRoots`（三个根）+ `OutboundHttp`，作为 `LocalApiHost` 的构造参数；没有"只换其中一个"的中间状态 |
 | 任务即响应 | 重操作全部入队异步，HTTP 只"接受指令 + 轮询进度" |
-| 按域拆文件 | 19 个 partial，单文件 ≤ 600 行（M1-2 结构门槛；新增必须登记 `LocalApiServiceSource.OrderedFiles`） |
+| 按域拆文件 | 19 个 partial，单文件 ≤ 600 行（M1-2 结构门槛；清单按磁盘枚举，无需登记） |
 
 ### 潜在改进点（观察，未改）
 

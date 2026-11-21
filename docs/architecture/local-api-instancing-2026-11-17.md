@@ -107,5 +107,18 @@
     去掉运行中拒绝 → 对应用例红；让 harness 只换 store 不换 roots → 接线证据红
     （`Expected: .../Temp/pineglow-recovery-test-...` / `Actual: .../AppData/Roaming/MCMiniLauncher/recovery`）。
   - 门槛：C# 1444 → 1452 / 0 跳过、前端 508、css-tokens 49、闭包通过。
-- 下一步（第 3 步）：退役源码断言（`LocalApiServiceSource` 拼接 + `LocalApiServiceSplitTests` 的字符串 grep）
-  与 `AiCancelAndRedirectTests` 里对 `AiOps` 的反射，然后才谈多实例。
+- 2026-11-21：**第 3 步（切法 A：退役源码字符串断言）完成**（分支 `arch/step3a`）。
+  - `dev/PineglowLauncher.Tests/LocalApiServiceSource.cs`（19 partial 拼接 + 硬编码顺序表 + `MethodBody` 截取）
+    **删除**；替代物是 `ProductionServicesSource.cs`（只有"源码目录 / 单文件路径 / 单文件文本 / 磁盘枚举域文件"，
+    没有 `All()`、没有域清单）。
+  - 9 条源码文本断言逐条换法（清单与探针结果见提交信息）：可枚举数据（`ApiRoute` 表、反射枚举
+    程序集类型与成员、磁盘枚举 partial 文件）、真实 HTTP 响应形状、对象图接线（新闻提供器的客户端工厂）。
+  - **保留 2 条**读单文件文本的形态守卫（`LaunchDomain_DelegatesToHostedDownloadClient`、
+    `HandleApiAsync_NoLongerContainsSegLengthBranches`），理由写在各自方法上：`LocalApiService` 是
+    `static partial class`，反射没有"哪个成员/语句属于哪个文件"的视图，而这两条守的正是"某文件里有没有这种形态"。
+  - 未做的部分（仍未开）：`AiCancelAndRedirectTests` 里 `AiOps.Count` 的反射仍在（`AiOperationRegistry`
+    是私有静态字段，改成公开会扩大 API 面，属另一步）；测试集合仍是一个串行集合，按域并行的拆法没动。
+  - 门槛（`node scripts/gates.cjs`，exit 0）：C# **1485 → 1485**（换法不改条数，0 跳过）、前端 508、
+    css-tokens 49、闭包通过。改前数字是在同一棵树上 `git stash` 后复跑 `--only csharp` 取的。
+    注：`docs/baseline.md` 记的 1453 属于更早的 `main@dcdf056`，与本分支无关（`gates.cjs` 已报基线过期）。
+  - 下一步（第 4 步候选，未开始）：多实例（域注册表按 host 实例隔离）与测试集合按域并行。

@@ -256,10 +256,24 @@ public class OutboundHttpTests
 			"。发用户可见的出站请求请用 OutboundHttp；只有安全上必须无视用户代理（SSRF 钉 IP）才允许自建，并写明理由。");
 	}
 
+	/// <summary>
+	/// 启动链必须用宿主的 <c>Download</c> 具名客户端（候选 ⑤ 修掉的真缺陷：
+	/// <c>Instances.Launch.cs</c> 里曾有一个 <c>new HttpClient()</c>——忽略用户代理、不释放、600s 下载超时也没生效）。
+	///
+	/// **为什么这条仍读源码文本（第 3 步唯一保留下来的两条之一）**：
+	/// 它守的是"**某个文件里有没有这句接线**"。<c>LocalApiService</c> 是 <c>static partial class</c>，
+	/// 编译产物里没有"成员/语句属于哪个文件"的信息，反射只能看到整个类型 —— 所以"接线在这个文件里"
+	/// 这件事除了读文件没有第二种判法。换成行为测试也不划算：跑通 authlib 启动链要真 Java + 真实例目录。
+	///
+	/// 已经有的等效/更强证据：<see cref="SelfBuiltHttpClient_SitesAreExactlyTheDocumentedAllowList"/>
+	/// 扫描**全部**生产文件，谁自建 <c>HttpClient</c> 又不登记就判红（Launch.cs 不在白名单里）；
+	/// <see cref="DownloadClient_SendsThroughConfiguredProxy"/> 证明 Download 客户端确实跟随代理。
+	/// 这条文本断言只剩下"启动链有没有把它用上"这一句接线事实。
+	/// </summary>
 	[Fact]
 	public void LaunchDomain_DelegatesToHostedDownloadClient()
 	{
-		string launch = LocalApiServiceSource.Single("LocalApiService.Instances.Launch.cs");
+		string launch = ProductionServicesSource.Read("LocalApiService.Instances.Launch.cs");
 		Assert.DoesNotContain("new HttpClient", launch, StringComparison.Ordinal);
 		Assert.Contains("Outbound.Download", launch, StringComparison.Ordinal);
 	}
@@ -269,7 +283,7 @@ public class OutboundHttpTests
 	{
 		// 它曾经只是一个 new：策略本身（禁重定向 + 代理 + 超时）现在由 OutboundHttp 一处决定。
 		// 留两份实现等于又回到"没人能回答我们的出站策略是什么"。
-		string path = Path.Combine(LocalApiServiceSource.Directory, "AiHttpClientFactory.cs");
+		string path = Path.Combine(ProductionServicesSource.Root, "AiHttpClientFactory.cs");
 		Assert.False(File.Exists(path), "AiHttpClientFactory 已被 OutboundHttp 取代；不要留下第二份 AI 客户端策略。");
 	}
 
