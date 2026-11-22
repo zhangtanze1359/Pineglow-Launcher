@@ -1,0 +1,45 @@
+  盘符夹具：Z:\ -> D:\Projects\_worktrees\pg-open05-review3\_fixture-open05\tree 中文 空格
+tree-default                   exit=1   PASS
+tree-override-same             exit=1   PASS
+tree-blank                     exit=1   PASS
+tree-empty                     exit=1   PASS
+tree-splat-empty               exit=1   PASS
+tree-missing                   exit=1   PASS
+tree-file                      exit=1   PASS
+tree-missing-default           exit=1   PASS
+tree-reporoot-empty            exit=1   PASS
+tree-cjk-default               exit=0   PASS
+tree-spaced-cjk                exit=0   PASS
+tree-empty-tree                exit=0   PASS
+tree-form-self-abs             exit=0   PASS
+tree-form-self-trail           exit=0   PASS
+tree-form-self-rel             exit=0   PASS
+tree-form-self-rel-dot         exit=0   PASS
+tree-form-self-dotdot          exit=0   PASS
+tree-form-legacy-abs           exit=0   PASS
+tree-form-legacy-trail         exit=0   PASS
+tree-form-legacy-rel           exit=0   PASS
+tree-form-legacy-rel-dot       exit=0   PASS
+tree-form-legacy-dotdot        exit=0   PASS
+tree-form-dirty-abs            exit=1   PASS
+tree-form-dirty-trail          exit=1   PASS
+tree-form-dirty-rel            exit=1   PASS
+tree-form-dirty-rel-dot        exit=1   PASS
+tree-form-dirty-dotdot         exit=1   PASS
+tree-drive-root                exit=0   PASS
+tree-drive-trail               exit=0   PASS
+ledger-default                 exit=1   PASS
+ledger-override-same           exit=1   PASS
+ledger-blank                   exit=1   PASS
+ledger-empty                   exit=1   PASS
+ledger-missing                 exit=1   PASS
+ledger-file                    exit=1   PASS
+ledger-missing-default         exit=1   PASS
+ledger-cjk-default             exit=1   PASS
+ledger-spaced-cjk              exit=1   PASS
+ledger-empty-tree              exit=1   PASS
+ledger-pathform-trailing       exit=1   PASS
+ledger-pathform-rel            exit=1   PASS
+
+cases=41 PASS=41 FAIL=0
+  已解除盘符映射：Z:\

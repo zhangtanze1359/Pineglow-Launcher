@@ -1,0 +1,1 @@
+[EVIDENCE_ROOT_MISSING] 显式指定的证据树不存在：D:\Projects\_worktrees\pg-open05-review3\_independent-review-acelivgd\uncreated（显式路径不回退到默认根 D:\Projects\_worktrees\pg-open05-review3\docs\market-execution；要用默认值请省略 -EvidenceRoot）

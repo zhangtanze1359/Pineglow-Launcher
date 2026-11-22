@@ -1,0 +1,144 @@
+[
+  {
+    "time": "2026-11-22T23:11:25.863580+08:00",
+    "command": [
+      "subst.exe"
+    ],
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-22T23:11:28.962662+08:00",
+    "command": [
+      "subst.exe",
+      "T:",
+      "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-hfrvhgye\\complete"
+    ],
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-22T23:11:28.968011+08:00",
+    "command": [
+      "subst.exe"
+    ],
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "exit": 0,
+    "stdout": "T:\\: => D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-hfrvhgye\\complete\r\n",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-22T23:11:29.601265+08:00",
+    "command": [
+      "subst.exe",
+      "T:",
+      "/d"
+    ],
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-22T23:11:29.607223+08:00",
+    "command": [
+      "subst.exe"
+    ],
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-22T23:11:32.831099+08:00",
+    "command": [
+      "subst.exe",
+      "T:",
+      "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-hfrvhgye\\白名单 夹具"
+    ],
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-22T23:11:32.837196+08:00",
+    "command": [
+      "subst.exe"
+    ],
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "exit": 0,
+    "stdout": "T:\\: => D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-hfrvhgye\\白名单 夹具\r\n",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-22T23:11:33.792883+08:00",
+    "command": [
+      "subst.exe",
+      "T:",
+      "/d"
+    ],
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-22T23:11:33.799306+08:00",
+    "command": [
+      "subst.exe"
+    ],
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-22T23:11:36.989840+08:00",
+    "command": [
+      "subst.exe",
+      "T:",
+      "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-hfrvhgye\\with-finding"
+    ],
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-22T23:11:36.995841+08:00",
+    "command": [
+      "subst.exe"
+    ],
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "exit": 0,
+    "stdout": "T:\\: => D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-hfrvhgye\\with-finding\r\n",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-22T23:11:37.677877+08:00",
+    "command": [
+      "subst.exe",
+      "T:",
+      "/d"
+    ],
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-22T23:11:37.682817+08:00",
+    "command": [
+      "subst.exe"
+    ],
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+]

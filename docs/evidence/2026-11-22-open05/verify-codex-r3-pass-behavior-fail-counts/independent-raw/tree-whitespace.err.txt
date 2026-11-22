@@ -1,0 +1,1 @@
+[EVIDENCE_ROOT_BLANK] 参数错误：-EvidenceRoot 被显式指定，但值是空字符串或全空白（[ 	 ]）。省略该参数才会用默认根 D:\Projects\_worktrees\pg-open05-review3\docs\market-execution；要指定证据树请给出真实目录。

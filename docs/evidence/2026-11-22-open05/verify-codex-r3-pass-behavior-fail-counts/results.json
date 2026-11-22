@@ -1,0 +1,2570 @@
+{
+  "tree-default": {
+    "time": "2026-11-22T23:09:38.756509+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3'",
+    "expected": [
+      61,
+      609,
+      1,
+      "默认（-RepoRoot"
+    ],
+    "actual": [
+      61,
+      609,
+      1
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": true
+  },
+  "tree-override": {
+    "time": "2026-11-22T23:09:39.960408+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\docs\\market-execution'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\docs\\market-execution'",
+    "expected": [
+      61,
+      609,
+      1,
+      "显式 -EvidenceRoot"
+    ],
+    "actual": [
+      61,
+      609,
+      1
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": true
+  },
+  "tree-empty": {
+    "time": "2026-11-22T23:09:41.074825+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot ''; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot ''",
+    "expected": [
+      null,
+      null,
+      1,
+      "[EVIDENCE_ROOT_BLANK]"
+    ],
+    "actual": [
+      null,
+      null,
+      1
+    ],
+    "codes": [
+      "EVIDENCE_ROOT_BLANK"
+    ],
+    "passed": true
+  },
+  "tree-whitespace": {
+    "time": "2026-11-22T23:09:41.263492+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot ' \t '; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot ' \t '",
+    "expected": [
+      null,
+      null,
+      1,
+      "[EVIDENCE_ROOT_BLANK]"
+    ],
+    "actual": [
+      null,
+      null,
+      1
+    ],
+    "codes": [
+      "EVIDENCE_ROOT_BLANK"
+    ],
+    "passed": true
+  },
+  "tree-nonexistent": {
+    "time": "2026-11-22T23:09:41.460044+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\uncreated'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\uncreated'",
+    "expected": [
+      null,
+      null,
+      1,
+      "[EVIDENCE_ROOT_MISSING]"
+    ],
+    "actual": [
+      null,
+      null,
+      1
+    ],
+    "codes": [
+      "EVIDENCE_ROOT_MISSING"
+    ],
+    "passed": true
+  },
+  "tree-file": {
+    "time": "2026-11-22T23:09:41.649792+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ordinary.txt'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ordinary.txt'",
+    "expected": [
+      null,
+      null,
+      1,
+      "[EVIDENCE_ROOT_NOT_DIRECTORY]"
+    ],
+    "actual": [
+      null,
+      null,
+      1
+    ],
+    "codes": [
+      "EVIDENCE_ROOT_NOT_DIRECTORY"
+    ],
+    "passed": true
+  },
+  "tree-missing-default": {
+    "time": "2026-11-22T23:09:41.848402+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\missing-default'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\missing-default'",
+    "expected": [
+      null,
+      null,
+      1,
+      "[DEFAULT_ROOT_MISSING]"
+    ],
+    "actual": [
+      null,
+      null,
+      1
+    ],
+    "codes": [
+      "DEFAULT_ROOT_MISSING"
+    ],
+    "passed": true
+  },
+  "tree-cjk-default": {
+    "time": "2026-11-22T23:09:42.044757+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\测试 中文 repo'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\测试 中文 repo'",
+    "expected": [
+      1,
+      0,
+      0,
+      "默认（-RepoRoot"
+    ],
+    "actual": [
+      1,
+      0,
+      0
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": true
+  },
+  "tree-cjk-explicit": {
+    "time": "2026-11-22T23:09:42.354663+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\测试 中文 repo' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\测试 中文 repo\\docs\\market-execution'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\测试 中文 repo' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\测试 中文 repo\\docs\\market-execution'",
+    "expected": [
+      1,
+      0,
+      0,
+      "显式 -EvidenceRoot"
+    ],
+    "actual": [
+      1,
+      0,
+      0
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": true
+  },
+  "tree-empty-tree": {
+    "time": "2026-11-22T23:09:42.660619+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\empty'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\empty'",
+    "expected": [
+      0,
+      0,
+      0
+    ],
+    "actual": [
+      0,
+      0,
+      0
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": false
+  },
+  "ledger-default": {
+    "time": "2026-11-22T23:09:42.889518+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3'",
+    "expected": [
+      31,
+      4,
+      1,
+      "默认（-RepoRoot"
+    ],
+    "actual": [
+      31,
+      4,
+      1
+    ],
+    "codes": [],
+    "passed": true
+  },
+  "ledger-override": {
+    "time": "2026-11-22T23:09:43.204475+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\docs\\market-execution'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\docs\\market-execution'",
+    "expected": [
+      31,
+      4,
+      1,
+      "显式 -EvidenceRoot"
+    ],
+    "actual": [
+      31,
+      4,
+      1
+    ],
+    "codes": [],
+    "passed": true
+  },
+  "ledger-empty": {
+    "time": "2026-11-22T23:09:43.518014+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot ''; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot ''",
+    "expected": [
+      null,
+      null,
+      1,
+      "[EVIDENCE_ROOT_BLANK]"
+    ],
+    "actual": [
+      null,
+      null,
+      1
+    ],
+    "codes": [
+      "EVIDENCE_ROOT_BLANK"
+    ],
+    "passed": true
+  },
+  "ledger-whitespace": {
+    "time": "2026-11-22T23:09:43.705425+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot ' \t '; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot ' \t '",
+    "expected": [
+      null,
+      null,
+      1,
+      "[EVIDENCE_ROOT_BLANK]"
+    ],
+    "actual": [
+      null,
+      null,
+      1
+    ],
+    "codes": [
+      "EVIDENCE_ROOT_BLANK"
+    ],
+    "passed": true
+  },
+  "ledger-nonexistent": {
+    "time": "2026-11-22T23:09:43.894313+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\uncreated'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\uncreated'",
+    "expected": [
+      null,
+      null,
+      1,
+      "[EVIDENCE_ROOT_MISSING]"
+    ],
+    "actual": [
+      null,
+      null,
+      1
+    ],
+    "codes": [
+      "EVIDENCE_ROOT_MISSING"
+    ],
+    "passed": true
+  },
+  "ledger-file": {
+    "time": "2026-11-22T23:09:44.083142+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ordinary.txt'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ordinary.txt'",
+    "expected": [
+      null,
+      null,
+      1,
+      "[EVIDENCE_ROOT_NOT_DIRECTORY]"
+    ],
+    "actual": [
+      null,
+      null,
+      1
+    ],
+    "codes": [
+      "EVIDENCE_ROOT_NOT_DIRECTORY"
+    ],
+    "passed": true
+  },
+  "ledger-missing-default": {
+    "time": "2026-11-22T23:09:44.272858+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\missing-default'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\missing-default'",
+    "expected": [
+      null,
+      null,
+      1,
+      "[DEFAULT_ROOT_MISSING]"
+    ],
+    "actual": [
+      null,
+      null,
+      1
+    ],
+    "codes": [
+      "DEFAULT_ROOT_MISSING"
+    ],
+    "passed": true
+  },
+  "ledger-cjk-default": {
+    "time": "2026-11-22T23:09:44.465956+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\测试 中文 repo' -PlanPath 'D:\\Projects\\_worktrees\\pg-open05-review3\\docs\\market-task-plan-2026-10-03.md'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\测试 中文 repo' -PlanPath 'D:\\Projects\\_worktrees\\pg-open05-review3\\docs\\market-task-plan-2026-10-03.md'",
+    "expected": [
+      31,
+      19,
+      1,
+      "默认（-RepoRoot"
+    ],
+    "actual": [
+      31,
+      19,
+      1
+    ],
+    "codes": [],
+    "passed": true
+  },
+  "ledger-cjk-explicit": {
+    "time": "2026-11-22T23:09:44.734980+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\测试 中文 repo' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\测试 中文 repo\\docs\\market-execution' -PlanPath 'D:\\Projects\\_worktrees\\pg-open05-review3\\docs\\market-task-plan-2026-10-03.md'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\测试 中文 repo' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\测试 中文 repo\\docs\\market-execution' -PlanPath 'D:\\Projects\\_worktrees\\pg-open05-review3\\docs\\market-task-plan-2026-10-03.md'",
+    "expected": [
+      31,
+      19,
+      1,
+      "显式 -EvidenceRoot"
+    ],
+    "actual": [
+      31,
+      19,
+      1
+    ],
+    "codes": [],
+    "passed": true
+  },
+  "ledger-empty-tree": {
+    "time": "2026-11-22T23:09:45.005669+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\empty'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\empty'",
+    "expected": [
+      31,
+      20,
+      1,
+      "[缺证据目录]"
+    ],
+    "actual": [
+      31,
+      20,
+      1
+    ],
+    "codes": [],
+    "passed": true
+  },
+  "tree-splat-empty": {
+    "time": "2026-11-22T23:09:45.270861+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { $reviewArgs = @{ RepoRoot = 'D:\\Projects\\_worktrees\\pg-open05-review3'; EvidenceRoot = '' }; & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' @reviewArgs; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "$reviewArgs = @{ RepoRoot = 'D:\\Projects\\_worktrees\\pg-open05-review3'; EvidenceRoot = '' }; & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' @reviewArgs",
+    "expected": [
+      null,
+      null,
+      1,
+      "[EVIDENCE_ROOT_BLANK]"
+    ],
+    "actual": [
+      null,
+      null,
+      1
+    ],
+    "codes": [
+      "EVIDENCE_ROOT_BLANK"
+    ],
+    "passed": true
+  },
+  "tree-reporoot-empty": {
+    "time": "2026-11-22T23:09:45.464073+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot ''; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot ''",
+    "expected": [
+      null,
+      null,
+      1,
+      "为空字符串"
+    ],
+    "actual": [
+      null,
+      null,
+      1
+    ],
+    "codes": [],
+    "passed": false
+  },
+  "ledger-trailing": {
+    "time": "2026-11-22T23:09:45.644347+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\docs\\market-execution\\'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\docs\\market-execution\\'",
+    "expected": [
+      31,
+      4,
+      1
+    ],
+    "actual": [
+      31,
+      4,
+      1
+    ],
+    "codes": [],
+    "passed": false
+  },
+  "ledger-relative": {
+    "time": "2026-11-22T23:09:45.973078+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'docs\\market-execution'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'docs\\market-execution'",
+    "expected": [
+      31,
+      4,
+      1
+    ],
+    "actual": [
+      31,
+      4,
+      1
+    ],
+    "codes": [],
+    "passed": false
+  },
+  "parent-real-absolute": {
+    "time": "2026-11-22T23:09:46.308166+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\docs\\market-execution'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\docs\\market-execution'",
+    "expected": [
+      61,
+      609,
+      1
+    ],
+    "actual": [
+      61,
+      609,
+      1
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": false
+  },
+  "self-abs": {
+    "time": "2026-11-22T23:09:47.405343+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\complete'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\complete'",
+    "expected": [
+      1,
+      0,
+      0
+    ],
+    "actual": [
+      1,
+      0,
+      0
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": false
+  },
+  "parent-self-abs": {
+    "time": "2026-11-22T23:09:47.723280+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\complete'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\complete'",
+    "expected": [
+      1,
+      0,
+      0
+    ],
+    "actual": [
+      1,
+      0,
+      0
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": false
+  },
+  "self-trailing": {
+    "time": "2026-11-22T23:09:48.022899+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\complete\\'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\complete\\'",
+    "expected": [
+      1,
+      0,
+      0
+    ],
+    "actual": [
+      1,
+      0,
+      0
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": false
+  },
+  "parent-self-trailing": {
+    "time": "2026-11-22T23:09:48.326668+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\complete\\'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\complete\\'",
+    "expected": [
+      1,
+      0,
+      0
+    ],
+    "actual": [
+      1,
+      0,
+      0
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": false
+  },
+  "self-relative": {
+    "time": "2026-11-22T23:09:48.631517+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'complete'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'complete'",
+    "expected": [
+      1,
+      0,
+      0
+    ],
+    "actual": [
+      1,
+      0,
+      0
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": false
+  },
+  "parent-self-relative": {
+    "time": "2026-11-22T23:09:48.935258+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'complete'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'complete'",
+    "expected": [
+      1,
+      0,
+      0
+    ],
+    "actual": [
+      1,
+      0,
+      0
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": false
+  },
+  "self-dot": {
+    "time": "2026-11-22T23:09:49.247162+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '.\\complete'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '.\\complete'",
+    "expected": [
+      1,
+      0,
+      0
+    ],
+    "actual": [
+      1,
+      0,
+      0
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": false
+  },
+  "parent-self-dot": {
+    "time": "2026-11-22T23:09:49.570990+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '.\\complete'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '.\\complete'",
+    "expected": [
+      1,
+      0,
+      0
+    ],
+    "actual": [
+      1,
+      0,
+      0
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": false
+  },
+  "self-dotdot": {
+    "time": "2026-11-22T23:09:49.870107+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\elsewhere",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '..\\complete'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '..\\complete'",
+    "expected": [
+      1,
+      0,
+      0
+    ],
+    "actual": [
+      1,
+      0,
+      0
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": false
+  },
+  "parent-self-dotdot": {
+    "time": "2026-11-22T23:09:50.177283+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\elsewhere",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '..\\complete'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '..\\complete'",
+    "expected": [
+      1,
+      0,
+      0
+    ],
+    "actual": [
+      1,
+      0,
+      0
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": false
+  },
+  "self-drive": {
+    "time": "2026-11-22T23:09:50.492526+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'T:\\'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'T:\\'",
+    "expected": [
+      1,
+      0,
+      0
+    ],
+    "actual": [
+      1,
+      0,
+      0
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": false
+  },
+  "parent-self-drive": {
+    "time": "2026-11-22T23:09:50.832334+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'T:\\'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'T:\\'",
+    "expected": [
+      1,
+      0,
+      0
+    ],
+    "actual": [
+      1,
+      0,
+      0
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": false
+  },
+  "legacy-abs": {
+    "time": "2026-11-22T23:09:51.152894+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\白名单 夹具'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\白名单 夹具'",
+    "expected": [
+      2,
+      0,
+      0
+    ],
+    "actual": [
+      2,
+      0,
+      0
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": false
+  },
+  "parent-legacy-abs": {
+    "time": "2026-11-22T23:09:51.475359+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\白名单 夹具'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\白名单 夹具'",
+    "expected": [
+      2,
+      0,
+      0
+    ],
+    "actual": [
+      2,
+      0,
+      0
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": false
+  },
+  "legacy-trailing": {
+    "time": "2026-11-22T23:09:51.799517+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\白名单 夹具\\'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\白名单 夹具\\'",
+    "expected": [
+      2,
+      0,
+      0
+    ],
+    "actual": [
+      2,
+      0,
+      0
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": false
+  },
+  "parent-legacy-trailing": {
+    "time": "2026-11-22T23:09:52.129107+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\白名单 夹具\\'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\白名单 夹具\\'",
+    "expected": [
+      2,
+      2,
+      1
+    ],
+    "actual": [
+      2,
+      2,
+      1
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": false
+  },
+  "legacy-relative": {
+    "time": "2026-11-22T23:09:52.445283+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '白名单 夹具'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '白名单 夹具'",
+    "expected": [
+      2,
+      0,
+      0
+    ],
+    "actual": [
+      2,
+      0,
+      0
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": false
+  },
+  "parent-legacy-relative": {
+    "time": "2026-11-22T23:09:52.755366+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '白名单 夹具'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '白名单 夹具'",
+    "expected": [
+      2,
+      2,
+      1
+    ],
+    "actual": [
+      2,
+      2,
+      1
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": false
+  },
+  "legacy-dot": {
+    "time": "2026-11-22T23:09:53.065465+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '.\\白名单 夹具'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '.\\白名单 夹具'",
+    "expected": [
+      2,
+      0,
+      0
+    ],
+    "actual": [
+      2,
+      0,
+      0
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": false
+  },
+  "parent-legacy-dot": {
+    "time": "2026-11-22T23:09:53.380867+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '.\\白名单 夹具'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '.\\白名单 夹具'",
+    "expected": [
+      2,
+      2,
+      1
+    ],
+    "actual": [
+      2,
+      2,
+      1
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": false
+  },
+  "legacy-dotdot": {
+    "time": "2026-11-22T23:09:53.705927+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\elsewhere",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '..\\白名单 夹具'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '..\\白名单 夹具'",
+    "expected": [
+      2,
+      0,
+      0
+    ],
+    "actual": [
+      2,
+      0,
+      0
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": false
+  },
+  "parent-legacy-dotdot": {
+    "time": "2026-11-22T23:09:54.014690+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\elsewhere",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '..\\白名单 夹具'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '..\\白名单 夹具'",
+    "expected": [
+      2,
+      2,
+      1
+    ],
+    "actual": [
+      2,
+      2,
+      1
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": false
+  },
+  "legacy-drive": {
+    "time": "2026-11-22T23:09:54.337795+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'T:\\'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'T:\\'",
+    "expected": [
+      2,
+      0,
+      0
+    ],
+    "actual": [
+      2,
+      0,
+      0
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": false
+  },
+  "parent-legacy-drive": {
+    "time": "2026-11-22T23:09:54.675588+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'T:\\'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'T:\\'",
+    "expected": [
+      2,
+      2,
+      1
+    ],
+    "actual": [
+      2,
+      2,
+      1
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": false
+  },
+  "r3-legacy-drive": {
+    "time": "2026-11-22T23:09:54.992024+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\932115c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'T:\\'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\932115c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'T:\\'",
+    "expected": [
+      2,
+      2,
+      1,
+      "R00\\20261002-072004Z"
+    ],
+    "actual": [
+      2,
+      2,
+      1
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": true
+  },
+  "dirty-abs": {
+    "time": "2026-11-22T23:09:55.333287+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\with-finding'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\with-finding'",
+    "expected": [
+      2,
+      1,
+      1,
+      "20261122-000001Z :: unlisted.txt"
+    ],
+    "actual": [
+      2,
+      1,
+      1
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": true
+  },
+  "parent-dirty-abs": {
+    "time": "2026-11-22T23:09:55.666521+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\with-finding'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\with-finding'",
+    "expected": [
+      2,
+      1,
+      1,
+      "20261122-000001Z :: unlisted.txt"
+    ],
+    "actual": [
+      2,
+      1,
+      1
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": true
+  },
+  "dirty-trailing": {
+    "time": "2026-11-22T23:09:55.989467+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\with-finding\\'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\with-finding\\'",
+    "expected": [
+      2,
+      1,
+      1,
+      "20261122-000001Z :: unlisted.txt"
+    ],
+    "actual": [
+      2,
+      1,
+      1
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": true
+  },
+  "parent-dirty-trailing": {
+    "time": "2026-11-22T23:09:56.318376+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\with-finding\\'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\with-finding\\'",
+    "expected": [
+      2,
+      1,
+      1,
+      "20261122-000001Z :: unlisted.txt"
+    ],
+    "actual": [
+      2,
+      1,
+      1
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": true
+  },
+  "dirty-relative": {
+    "time": "2026-11-22T23:09:56.636556+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'with-finding'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'with-finding'",
+    "expected": [
+      2,
+      1,
+      1,
+      "20261122-000001Z :: unlisted.txt"
+    ],
+    "actual": [
+      2,
+      1,
+      1
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": true
+  },
+  "parent-dirty-relative": {
+    "time": "2026-11-22T23:09:56.974180+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'with-finding'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'with-finding'",
+    "expected": [
+      2,
+      1,
+      1,
+      "20261122-000001Z :: unlisted.txt"
+    ],
+    "actual": [
+      2,
+      1,
+      1
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": true
+  },
+  "dirty-dot": {
+    "time": "2026-11-22T23:09:57.299284+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '.\\with-finding'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '.\\with-finding'",
+    "expected": [
+      2,
+      1,
+      1,
+      "20261122-000001Z :: unlisted.txt"
+    ],
+    "actual": [
+      2,
+      1,
+      1
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": true
+  },
+  "parent-dirty-dot": {
+    "time": "2026-11-22T23:09:57.612166+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '.\\with-finding'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '.\\with-finding'",
+    "expected": [
+      2,
+      1,
+      1,
+      "20261122-000001Z :: unlisted.txt"
+    ],
+    "actual": [
+      2,
+      1,
+      1
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": true
+  },
+  "dirty-dotdot": {
+    "time": "2026-11-22T23:09:57.936507+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\elsewhere",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '..\\with-finding'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '..\\with-finding'",
+    "expected": [
+      2,
+      1,
+      1,
+      "20261122-000001Z :: unlisted.txt"
+    ],
+    "actual": [
+      2,
+      1,
+      1
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": true
+  },
+  "parent-dirty-dotdot": {
+    "time": "2026-11-22T23:09:58.272970+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\elsewhere",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '..\\with-finding'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot '..\\with-finding'",
+    "expected": [
+      2,
+      1,
+      1,
+      "20261122-000001Z :: unlisted.txt"
+    ],
+    "actual": [
+      2,
+      1,
+      1
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": true
+  },
+  "dirty-drive": {
+    "time": "2026-11-22T23:09:58.614859+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'T:\\'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'T:\\'",
+    "expected": [
+      2,
+      1,
+      1,
+      "20261122-000001Z :: unlisted.txt"
+    ],
+    "actual": [
+      2,
+      1,
+      1
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": true
+  },
+  "parent-dirty-drive": {
+    "time": "2026-11-22T23:09:58.964637+08:00",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-OutputFormat",
+      "Text",
+      "-EncodedCommand",
+      "<UTF-16LE Base64 of decoded>"
+    ],
+    "decoded": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'T:\\'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+    "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-review3\\_independent-review-acelivgd\\ed2e92c-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review3' -EvidenceRoot 'T:\\'",
+    "expected": [
+      2,
+      1,
+      1,
+      "20261122-000001Z :: unlisted.txt"
+    ],
+    "actual": [
+      2,
+      1,
+      1
+    ],
+    "codes": [
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK",
+      "OK"
+    ],
+    "passed": true
+  }
+}

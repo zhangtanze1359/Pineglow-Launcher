@@ -167,6 +167,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File D:/Projects/_worktrees/p
 **r3 遗留文件**（`tree-pathform-abs/trailing/rel/rel-dot/dotdot` 及相关）：来自 r3 夹具，r4 改为「三棵树 × 五种写法」的 `tree-form-{self,legacy,dirty}-*` 命名。按要求保留原文件，但**不作 r4 通过凭据**：r4 结论只看 `tree-form-*` 与 `tree-drive-*` 的元数据。
 | `verify-codex-r1-fail/` | 第 1 轮 FAIL 材料原样归档 | 234 个文件 |
 | `verify-codex-r2-fail/` | 第 2 轮 FAIL 材料原样归档（含卷根阻断原始输出与整改提示词） | 93 个文件 |
+| `verify-codex-r3-pass-behavior-fail-counts/` | 第 3 轮材料：**技术行为全部通过**（62/62、41/41），整轮 FAIL 仅因本 README 三处计数错误 | 391 个文件 |
 
 **历史探针文件**（`raw/probe-root-empty.*`、`raw/probe-splat-empty.*`，共 4 个）：来自 r2 阶段的一次性边界探针，结论已并入常驻用例（`tree-reporoot-empty`、`tree-splat-empty`）。按要求保留原文件，不作 r4 通过凭据。
 

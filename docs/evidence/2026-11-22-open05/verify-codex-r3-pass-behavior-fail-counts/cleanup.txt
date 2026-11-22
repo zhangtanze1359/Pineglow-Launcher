@@ -1,0 +1,9 @@
+﻿time=2026-11-22T23:12:01.8392031+08:00
+worktree=D:\Projects\_worktrees\pg-open05-review3
+status_before_fixture_removal=?? _fixture-open05/
+status_before_worktree_removal=<empty>
+fixture_removed=True
+worktree_removed=True
+subst_before_cleanup=
+subst_after_cleanup=
+exit=0

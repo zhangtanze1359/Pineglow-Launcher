@@ -1,0 +1,231 @@
+commit fe49b34f15c3ca39207fc64bcde34aec73ead74e
+Author: 松光启动器 <launcher@pineglow.local>
+Date:   Sun Nov 22 23:05:20 2026 +0800
+
+    fix(audit): 卷根路径的 run 相对路径只跳一次分隔符（OPEN-05 r4）
+    
+    第 2 轮独立复验（Codex gpt-6.2-sol high）FAIL，两处阻断：
+    
+    1. 卷根仍误报：`Substring($EvidenceRoot.Length + 1)` 对已带分隔符的 `Z:\`
+       多跳一个字符，`MR00\...` 被截成 `R00\...`，$preConvention 白名单失效，
+       同一自洽夹具在卷根写法下报 2 处、exit 1，而普通绝对路径为 0 处、exit 0。
+       修复：截取下标集中计算一次 —— 根以分隔符结尾时用它本身长度，否则 +1；
+       四处 run 相对路径报告点统一改用 $runRelative。
+    
+    2. 执行证据把直接传参记成了 splat：tree-splat-empty 实为 `-EvidenceRoot ''`，
+       与 tree-empty 重复。修复：改为真实哈希表 splat（`@splatArgs`），
+       元数据新增 call_body 记录实际调用语句原文。
+    
+    矩阵扩到 41 例：路径写法改为「三棵树（自洽 / 含历史白名单 run / 含真实发现）
+    × 五种写法（绝对 / 末尾 \ / 相对 / .\ / ..\）」，新增卷根回归（subst 映射，
+    夹具自建自解除）。全部 PASS。
+    
+    反证（父版本 ed2e92c）：末尾反斜杠、相对、.\、..\、卷根五类写法各报 2 处、
+    exit 1；修复后全部归零。真实树上父版本与修复版本逐字一致（diff=0）。
+    
+    证据完整性：r3 的 tree-pathform-* 与 counterproof 历史输出全部保留
+    （不销毁证据链），raw/ 共 166 个文件，明细见 README。
+    
+    待第 3 轮独立复验，FormalPhaseApproval=NOT_GRANTED，未推送、未打 tag。
+
+ docs/evidence/2026-11-22-open05/README.md          | 159 ++--
+ docs/evidence/2026-11-22-open05/matrix-fixture.ps1 | 299 +++++---
+ .../patched/audit-evidence-tree.ps1                |  20 +-
+ .../raw/counterproof-F-drive-abs.err.txt           |   0
+ .../raw/counterproof-F-drive-abs.out.txt           |  14 +
+ .../raw/counterproof-F-drive-root.err.txt          |   0
+ .../raw/counterproof-F-drive-root.out.txt          |  14 +
+ .../raw/counterproof-P-drive-abs.err.txt           |   0
+ .../raw/counterproof-P-drive-abs.out.txt           |  14 +
+ .../raw/counterproof-P-drive-root.err.txt          |   0
+ .../raw/counterproof-P-drive-root.out.txt          |  16 +
+ .../raw/counterproof-P-legacy-abs.err.txt          |   0
+ .../raw/counterproof-P-legacy-abs.out.txt          |  14 +
+ .../raw/counterproof-P-legacy-rel.err.txt          |   0
+ .../raw/counterproof-P-legacy-rel.out.txt          |  16 +
+ .../raw/counterproof-P-legacy-trail.err.txt        |   0
+ .../raw/counterproof-P-legacy-trail.out.txt        |  16 +
+ .../2026-11-22-open05/raw/ledger-blank.txt         |   4 +-
+ .../raw/ledger-cjk-default.err.txt                 |   2 +-
+ .../2026-11-22-open05/raw/ledger-cjk-default.txt   |   4 +-
+ .../2026-11-22-open05/raw/ledger-default.err.txt   |   2 +-
+ .../2026-11-22-open05/raw/ledger-default.txt       |   4 +-
+ .../raw/ledger-empty-tree.err.txt                  |   2 +-
+ .../2026-11-22-open05/raw/ledger-empty-tree.txt    |   4 +-
+ .../2026-11-22-open05/raw/ledger-empty.txt         |   4 +-
+ .../evidence/2026-11-22-open05/raw/ledger-file.txt |   4 +-
+ .../raw/ledger-missing-default.txt                 |   4 +-
+ .../2026-11-22-open05/raw/ledger-missing.txt       |   4 +-
+ .../raw/ledger-override-same.err.txt               |   2 +-
+ .../2026-11-22-open05/raw/ledger-override-same.txt |   4 +-
+ .../raw/ledger-pathform-rel.err.txt                |   2 +-
+ .../2026-11-22-open05/raw/ledger-pathform-rel.txt  |   4 +-
+ .../raw/ledger-pathform-trailing.err.txt           |   2 +-
+ .../raw/ledger-pathform-trailing.txt               |   4 +-
+ .../raw/ledger-spaced-cjk.err.txt                  |   2 +-
+ .../2026-11-22-open05/raw/ledger-spaced-cjk.txt    |   4 +-
+ docs/evidence/2026-11-22-open05/raw/tree-blank.txt |   4 +-
+ .../2026-11-22-open05/raw/tree-cjk-default.err.txt |   2 +-
+ .../2026-11-22-open05/raw/tree-cjk-default.txt     |   4 +-
+ .../2026-11-22-open05/raw/tree-default.err.txt     |   2 +-
+ .../2026-11-22-open05/raw/tree-default.txt         |   4 +-
+ .../2026-11-22-open05/raw/tree-drive-root.err.txt  |   2 +
+ .../2026-11-22-open05/raw/tree-drive-root.out.txt  |  14 +
+ .../2026-11-22-open05/raw/tree-drive-root.txt      |  17 +
+ .../2026-11-22-open05/raw/tree-drive-trail.err.txt |   2 +
+ .../2026-11-22-open05/raw/tree-drive-trail.out.txt |  14 +
+ .../2026-11-22-open05/raw/tree-drive-trail.txt     |  17 +
+ .../2026-11-22-open05/raw/tree-empty-tree.err.txt  |   2 +-
+ .../2026-11-22-open05/raw/tree-empty-tree.txt      |   4 +-
+ docs/evidence/2026-11-22-open05/raw/tree-empty.txt |   4 +-
+ docs/evidence/2026-11-22-open05/raw/tree-file.txt  |   4 +-
+ .../raw/tree-form-dirty-abs.err.txt                |   2 +
+ .../raw/tree-form-dirty-abs.out.txt                |  15 +
+ .../2026-11-22-open05/raw/tree-form-dirty-abs.txt  |  17 +
+ .../raw/tree-form-dirty-dotdot.err.txt             |   2 +
+ .../raw/tree-form-dirty-dotdot.out.txt             |  15 +
+ .../raw/tree-form-dirty-dotdot.txt                 |  17 +
+ .../raw/tree-form-dirty-rel-dot.err.txt            |   2 +
+ .../raw/tree-form-dirty-rel-dot.out.txt            |  15 +
+ .../raw/tree-form-dirty-rel-dot.txt                |  17 +
+ .../raw/tree-form-dirty-rel.err.txt                |   2 +
+ .../raw/tree-form-dirty-rel.out.txt                |  15 +
+ .../2026-11-22-open05/raw/tree-form-dirty-rel.txt  |  17 +
+ .../raw/tree-form-dirty-trail.err.txt              |   2 +
+ .../raw/tree-form-dirty-trail.out.txt              |  15 +
+ .../raw/tree-form-dirty-trail.txt                  |  17 +
+ .../raw/tree-form-legacy-abs.err.txt               |   2 +
+ .../raw/tree-form-legacy-abs.out.txt               |  14 +
+ .../2026-11-22-open05/raw/tree-form-legacy-abs.txt |  17 +
+ .../raw/tree-form-legacy-dotdot.err.txt            |   2 +
+ .../raw/tree-form-legacy-dotdot.out.txt            |  14 +
+ .../raw/tree-form-legacy-dotdot.txt                |  17 +
+ .../raw/tree-form-legacy-rel-dot.err.txt           |   2 +
+ .../raw/tree-form-legacy-rel-dot.out.txt           |  14 +
+ .../raw/tree-form-legacy-rel-dot.txt               |  17 +
+ .../raw/tree-form-legacy-rel.err.txt               |   2 +
+ .../raw/tree-form-legacy-rel.out.txt               |  14 +
+ .../2026-11-22-open05/raw/tree-form-legacy-rel.txt |  17 +
+ .../raw/tree-form-legacy-trail.err.txt             |   2 +
+ .../raw/tree-form-legacy-trail.out.txt             |  14 +
+ .../raw/tree-form-legacy-trail.txt                 |  17 +
+ .../raw/tree-form-self-abs.err.txt                 |   2 +
+ .../raw/tree-form-self-abs.out.txt                 |  14 +
+ .../2026-11-22-open05/raw/tree-form-self-abs.txt   |  17 +
+ .../raw/tree-form-self-dotdot.err.txt              |   2 +
+ .../raw/tree-form-self-dotdot.out.txt              |  14 +
+ .../raw/tree-form-self-dotdot.txt                  |  17 +
+ .../raw/tree-form-self-rel-dot.err.txt             |   2 +
+ .../raw/tree-form-self-rel-dot.out.txt             |  14 +
+ .../raw/tree-form-self-rel-dot.txt                 |  17 +
+ .../raw/tree-form-self-rel.err.txt                 |   2 +
+ .../raw/tree-form-self-rel.out.txt                 |  14 +
+ .../2026-11-22-open05/raw/tree-form-self-rel.txt   |  17 +
+ .../raw/tree-form-self-trail.err.txt               |   2 +
+ .../raw/tree-form-self-trail.out.txt               |  14 +
+ .../2026-11-22-open05/raw/tree-form-self-trail.txt |  17 +
+ .../2026-11-22-open05/raw/tree-missing-default.txt |   4 +-
+ .../2026-11-22-open05/raw/tree-missing.txt         |   4 +-
+ .../raw/tree-override-same.err.txt                 |   2 +-
+ .../2026-11-22-open05/raw/tree-override-same.txt   |   4 +-
+ .../2026-11-22-open05/raw/tree-reporoot-empty.txt  |   4 +-
+ .../2026-11-22-open05/raw/tree-spaced-cjk.err.txt  |   2 +-
+ .../2026-11-22-open05/raw/tree-spaced-cjk.txt      |   4 +-
+ .../2026-11-22-open05/raw/tree-splat-empty.txt     |   8 +-
+ .../verify-codex-r2-fail/HANDOFF-review-r2.md      |  90 +++
+ .../verify-codex-r2-fail/README.md                 |  27 +
+ .../verify-codex-r2-fail/REMEDIATION-PROMPT-r2.md  |  16 +
+ .../verify-codex-r2-fail/cleanup.txt               |   7 +
+ .../raw/drive-candidate.err.txt                    |   2 +
+ .../raw/drive-candidate.out.txt                    |  16 +
+ .../raw/drive-folder-control.err.txt               |   2 +
+ .../raw/drive-folder-control.out.txt               |  14 +
+ .../verify-codex-r2-fail/raw/drive-mapping.txt     |   1 +
+ .../verify-codex-r2-fail/raw/drive-parent.err.txt  |   2 +
+ .../verify-codex-r2-fail/raw/drive-parent.out.txt  |  16 +
+ .../verify-codex-r2-fail/raw/findings-abs.err.txt  |   2 +
+ .../verify-codex-r2-fail/raw/findings-abs.out.txt  |  15 +
+ .../verify-codex-r2-fail/raw/findings-dot.err.txt  |   2 +
+ .../verify-codex-r2-fail/raw/findings-dot.out.txt  |  15 +
+ .../raw/findings-dotdot.err.txt                    |   2 +
+ .../raw/findings-dotdot.out.txt                    |  15 +
+ .../verify-codex-r2-fail/raw/findings-rel.err.txt  |   2 +
+ .../verify-codex-r2-fail/raw/findings-rel.out.txt  |  15 +
+ .../raw/findings-trailing.err.txt                  |   2 +
+ .../raw/findings-trailing.out.txt                  |  15 +
+ .../verify-codex-r2-fail/raw/fixture-abs.err.txt   |   2 +
+ .../verify-codex-r2-fail/raw/fixture-abs.out.txt   |  14 +
+ .../verify-codex-r2-fail/raw/fixture-dot.err.txt   |   2 +
+ .../verify-codex-r2-fail/raw/fixture-dot.out.txt   |  14 +
+ .../raw/fixture-dotdot.err.txt                     |   2 +
+ .../raw/fixture-dotdot.out.txt                     |  14 +
+ .../verify-codex-r2-fail/raw/fixture-rel.err.txt   |   2 +
+ .../verify-codex-r2-fail/raw/fixture-rel.out.txt   |  14 +
+ .../raw/fixture-trailing.err.txt                   |   2 +
+ .../raw/fixture-trailing.out.txt                   |  14 +
+ .../raw/ledger-absolute.err.txt                    |   2 +
+ .../raw/ledger-absolute.out.txt                    |  27 +
+ .../verify-codex-r2-fail/raw/ledger-blank.err.txt  |   3 +
+ .../verify-codex-r2-fail/raw/ledger-blank.out.txt  |   0
+ .../raw/ledger-default-cjk.err.txt                 |   2 +
+ .../raw/ledger-default-cjk.out.txt                 |  20 +
+ .../raw/ledger-default.err.txt                     |   2 +
+ .../raw/ledger-default.out.txt                     |  27 +
+ .../verify-codex-r2-fail/raw/ledger-empty.err.txt  |   3 +
+ .../verify-codex-r2-fail/raw/ledger-empty.out.txt  |   0
+ .../raw/ledger-explicit-cjk.err.txt                |   2 +
+ .../raw/ledger-explicit-cjk.out.txt                |  20 +
+ .../verify-codex-r2-fail/raw/ledger-file.err.txt   |   3 +
+ .../verify-codex-r2-fail/raw/ledger-file.out.txt   |   0
+ .../raw/ledger-missing-default.err.txt             |   3 +
+ .../raw/ledger-missing-default.out.txt             |   0
+ .../raw/ledger-missing.err.txt                     |   3 +
+ .../raw/ledger-missing.out.txt                     |   0
+ .../verify-codex-r2-fail/raw/parent-abs.err.txt    |   2 +
+ .../verify-codex-r2-fail/raw/parent-abs.out.txt    |  14 +
+ .../verify-codex-r2-fail/raw/parent-dot.err.txt    |   2 +
+ .../verify-codex-r2-fail/raw/parent-dot.out.txt    |  16 +
+ .../verify-codex-r2-fail/raw/parent-dotdot.err.txt |   2 +
+ .../verify-codex-r2-fail/raw/parent-dotdot.out.txt |  16 +
+ .../verify-codex-r2-fail/raw/parent-rel.err.txt    |   2 +
+ .../verify-codex-r2-fail/raw/parent-rel.out.txt    |  16 +
+ .../raw/parent-trailing.err.txt                    |   2 +
+ .../raw/parent-trailing.out.txt                    |  16 +
+ .../verify-codex-r2-fail/raw/real-abs.err.txt      |   2 +
+ .../verify-codex-r2-fail/raw/real-abs.out.txt      |  41 ++
+ .../verify-codex-r2-fail/raw/real-dot.err.txt      |   2 +
+ .../verify-codex-r2-fail/raw/real-dot.out.txt      |  41 ++
+ .../verify-codex-r2-fail/raw/real-dotdot.err.txt   |   2 +
+ .../verify-codex-r2-fail/raw/real-dotdot.out.txt   |  41 ++
+ .../verify-codex-r2-fail/raw/real-rel.err.txt      |   2 +
+ .../verify-codex-r2-fail/raw/real-rel.out.txt      |  41 ++
+ .../verify-codex-r2-fail/raw/real-trailing.err.txt |   2 +
+ .../verify-codex-r2-fail/raw/real-trailing.out.txt |  41 ++
+ .../verify-codex-r2-fail/raw/tree-blank.err.txt    |   3 +
+ .../verify-codex-r2-fail/raw/tree-blank.out.txt    |   0
+ .../raw/tree-default-cjk.err.txt                   |   2 +
+ .../raw/tree-default-cjk.out.txt                   |  14 +
+ .../verify-codex-r2-fail/raw/tree-default.err.txt  |   2 +
+ .../verify-codex-r2-fail/raw/tree-default.out.txt  |  41 ++
+ .../verify-codex-r2-fail/raw/tree-empty.err.txt    |   3 +
+ .../verify-codex-r2-fail/raw/tree-empty.out.txt    |   0
+ .../raw/tree-explicit-cjk.err.txt                  |   2 +
+ .../raw/tree-explicit-cjk.out.txt                  |  15 +
+ .../verify-codex-r2-fail/raw/tree-file.err.txt     |   3 +
+ .../verify-codex-r2-fail/raw/tree-file.out.txt     |   0
+ .../raw/tree-missing-default.err.txt               |   3 +
+ .../raw/tree-missing-default.out.txt               |   0
+ .../verify-codex-r2-fail/raw/tree-missing.err.txt  |   3 +
+ .../verify-codex-r2-fail/raw/tree-missing.out.txt  |   0
+ .../raw/tree-splat-empty.err.txt                   |   3 +
+ .../raw/tree-splat-empty.out.txt                   |   0
+ .../verify-codex-r2-fail/results.csv               |  42 ++
+ .../verify-codex-r2-fail/results.json              | 807 +++++++++++++++++++++
+ .../verify-codex-r2-fail/review-open05.py          | 221 ++++++
+ .../verify-codex-r2-fail/run-summary.txt           | Bin 0 -> 3432 bytes
+ .../verify-codex-r2-fail/scope-and-environment.txt | 186 +++++
+ .../verify-codex-r2-fail/worker-evidence-check.txt |  66 ++
+ .../handoff/HANDOFF-2026-11-22-open05-execution.md |  52 +-
+ docs/open-items.md                                 |   6 +-
+ scripts/audit-evidence-tree.ps1                    |  20 +-
+ 200 files changed, 3290 insertions(+), 254 deletions(-)

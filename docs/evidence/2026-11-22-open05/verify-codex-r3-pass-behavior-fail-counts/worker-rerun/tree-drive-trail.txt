@@ -1,0 +1,17 @@
+case=tree-drive-trail
+worktree=D:\Projects\_worktrees\pg-open05-review3
+cwd=D:\Projects\_worktrees\pg-open05-review3\_fixture-open05
+time=2026-11-22T23:07:44.8743573+08:00
+command=powershell.exe -NoProfile -OutputFormat Text -EncodedCommand <base64>  (child env: PSExecutionPolicyPreference cleared)
+call_body=& 'D:\Projects\_worktrees\pg-open05-review3\scripts\audit-evidence-tree.ps1' -RepoRoot 'D:\Projects\_worktrees\pg-open05-review3\_fixture-open05' -EvidenceRoot 'D:\Projects\_worktrees\pg-open05-review3\_fixture-open05\tree 中文 空格\'
+decoded=[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$ErrorActionPreference = 'Stop'
+try { & 'D:\Projects\_worktrees\pg-open05-review3\scripts\audit-evidence-tree.ps1' -RepoRoot 'D:\Projects\_worktrees\pg-open05-review3\_fixture-open05' -EvidenceRoot 'D:\Projects\_worktrees\pg-open05-review3\_fixture-open05\tree 中文 空格\'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }
+expect_exit=0
+expect_pattern=扫描到 2 个 run 目录.*证据树内部自洽（7 项检查全部通过）
+expect_source=同一树普通绝对路径（卷根对照）
+actual_exit=0
+stdout_shows_scan=True
+stdout_file=C:\Users\Administrator\.t3\worktrees\松光启动器\t3-1fe68549-c9d64f5f6ec791ce\docs\evidence\2026-11-22-open05-review3\worker-rerun\tree-drive-trail.out.txt
+stderr_file=C:\Users\Administrator\.t3\worktrees\松光启动器\t3-1fe68549-c9d64f5f6ec791ce\docs\evidence\2026-11-22-open05-review3\worker-rerun\tree-drive-trail.err.txt
+verdict=PASS

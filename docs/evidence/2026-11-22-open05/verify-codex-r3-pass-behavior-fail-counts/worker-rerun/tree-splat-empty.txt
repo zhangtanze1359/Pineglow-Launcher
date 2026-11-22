@@ -1,0 +1,17 @@
+case=tree-splat-empty
+worktree=D:\Projects\_worktrees\pg-open05-review3
+cwd=D:\Projects\_worktrees\pg-open05-review3
+time=2026-11-22T23:07:37.3060210+08:00
+command=powershell.exe -NoProfile -OutputFormat Text -EncodedCommand <base64>  (child env: PSExecutionPolicyPreference cleared)
+call_body=$splatArgs = @{ RepoRoot = 'D:\Projects\_worktrees\pg-open05-review3'; EvidenceRoot = '' }; & 'D:\Projects\_worktrees\pg-open05-review3\scripts\audit-evidence-tree.ps1' @splatArgs
+decoded=[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$ErrorActionPreference = 'Stop'
+try { $splatArgs = @{ RepoRoot = 'D:\Projects\_worktrees\pg-open05-review3'; EvidenceRoot = '' }; & 'D:\Projects\_worktrees\pg-open05-review3\scripts\audit-evidence-tree.ps1' @splatArgs; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }
+expect_exit=1
+expect_pattern=\[EVIDENCE_ROOT_BLANK\]
+expect_source=哈希表 splat 显式空值（非直接传参）
+actual_exit=1
+stdout_shows_scan=False
+stdout_file=C:\Users\Administrator\.t3\worktrees\松光启动器\t3-1fe68549-c9d64f5f6ec791ce\docs\evidence\2026-11-22-open05-review3\worker-rerun\tree-splat-empty.out.txt
+stderr_file=C:\Users\Administrator\.t3\worktrees\松光启动器\t3-1fe68549-c9d64f5f6ec791ce\docs\evidence\2026-11-22-open05-review3\worker-rerun\tree-splat-empty.err.txt
+verdict=PASS

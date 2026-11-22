@@ -1,0 +1,515 @@
+{
+  "start": "2026-11-22T23:09:37.392473+08:00",
+  "cwd": "D:\\Projects\\_worktrees\\pg-open05-review3",
+  "worktree": "D:\\Projects\\_worktrees\\pg-open05-review3",
+  "head": "fe49b34f15c3ca39207fc64bcde34aec73ead74e",
+  "main": "fe49b34f15c3ca39207fc64bcde34aec73ead74e",
+  "before_status": "?? _fixture-open05/plain-file.txt\n?? \"_fixture-open05/repo \\344\\270\\255\\346\\226\\207 \\347\\251\\272\\346\\240\\274/docs/market-execution/MR01/20261002-072004Z/only.txt\"\n?? \"_fixture-open05/repo \\344\\270\\255\\346\\226\\207 \\347\\251\\272\\346\\240\\274/docs/market-execution/PKG-A/20260102-000000Z/deliverable.md\"\n?? \"_fixture-open05/repo \\344\\270\\255\\346\\226\\207 \\347\\251\\272\\346\\240\\274/docs/market-execution/PKG-A/20260102-000000Z/manifest.json\"\n?? \"_fixture-open05/repo \\344\\270\\255\\346\\226\\207 \\347\\251\\272\\346\\240\\274/docs/market-execution/PKG-A/20260102-000000Z/note.txt\"\n?? \"_fixture-open05/tree \\344\\270\\255\\346\\226\\207 \\347\\251\\272\\346\\240\\274/MR00/20261002-072004Z/only.txt\"\n?? \"_fixture-open05/tree \\344\\270\\255\\346\\226\\207 \\347\\251\\272\\346\\240\\274/PKG-A/20260101-000000Z/deliverable.md\"\n?? \"_fixture-open05/tree \\344\\270\\255\\346\\226\\207 \\347\\251\\272\\346\\240\\274/PKG-A/20260101-000000Z/manifest.json\"\n?? \"_fixture-open05/tree \\344\\270\\255\\346\\226\\207 \\347\\251\\272\\346\\240\\274/PKG-A/20260101-000000Z/note.txt\"\n?? _fixture-open05/tree-self/PKG-A/20260101-000000Z/deliverable.md\n?? _fixture-open05/tree-self/PKG-A/20260101-000000Z/manifest.json\n?? _fixture-open05/tree-self/PKG-A/20260101-000000Z/note.txt\n?? _fixture-open05/tree-with-finding/PKG-A/20260101-000000Z/deliverable.md\n?? _fixture-open05/tree-with-finding/PKG-A/20260101-000000Z/manifest.json\n?? _fixture-open05/tree-with-finding/PKG-A/20260101-000000Z/note.txt\n?? _fixture-open05/tree-with-finding/PKG-A/20260102-000000Z/deliverable.md\n?? _fixture-open05/tree-with-finding/PKG-A/20260102-000000Z/manifest.json\n?? _fixture-open05/tree-with-finding/PKG-A/20260102-000000Z/notelisted.txt\n",
+  "range_scripts": "M\tscripts/audit-evidence-tree.ps1\n",
+  "review_driver_sha256": "77A01B8EF7F31D6431239C0E07C38912815D607C7A8A9D26E885713968A8580C",
+  "hashes": {
+    "scripts/audit-evidence-tree.ps1": {
+      "checkout": "E40D4B2F6B4A7B090AC986E36CC4B24BD68230F3A9B25864DCA22360911E99D9",
+      "git_blob": "34B75D02CD91E6C6E9D97F8BBFEBC34EBD18BE9F12AFBAD04DDC263FDDAC343D"
+    },
+    "scripts/audit-plan-ledger.ps1": {
+      "checkout": "5E900796CEE2C4E196CF99D3F55CF377F1444A5AC207EB630C5E1B71BF6B65A5",
+      "git_blob": "54797FF7FC9C8D830F7B04F951B6D49EC6AA28FE5FF6A96DBB9093355DF22BB6"
+    },
+    "docs/evidence/2026-11-22-open05/matrix-fixture.ps1": {
+      "checkout": "DF30F7319B1210824516755A5F0F97DA8CF78E6109E753E5C0EF589A0BDD5B3E",
+      "git_blob": "7D354D07BA25B76B92E77030959AA7BEA79546C735D4C269F4DD276449049214"
+    },
+    "docs/evidence/2026-11-22-open05/open05-fix-r2.patch": {
+      "checkout": "543FFC3454C6B57972C33D1E2718B407D93FD398ED2DF173F1A3A5265716410C",
+      "git_blob": "295CB84E581741AD23BA062226FE19CFF50C2771B176B906F29CF499CF6F53CE"
+    },
+    "docs/evidence/2026-11-22-open05/patched/audit-evidence-tree.ps1": {
+      "checkout": "E40D4B2F6B4A7B090AC986E36CC4B24BD68230F3A9B25864DCA22360911E99D9",
+      "git_blob": "34B75D02CD91E6C6E9D97F8BBFEBC34EBD18BE9F12AFBAD04DDC263FDDAC343D"
+    },
+    "docs/evidence/2026-11-22-open05/patched/audit-plan-ledger.ps1": {
+      "checkout": "5E900796CEE2C4E196CF99D3F55CF377F1444A5AC207EB630C5E1B71BF6B65A5",
+      "git_blob": "54797FF7FC9C8D830F7B04F951B6D49EC6AA28FE5FF6A96DBB9093355DF22BB6"
+    }
+  },
+  "patched_files_match_scripts": [
+    true,
+    true
+  ],
+  "metadata_comparison": {
+    "ledger-blank": {
+      "verdict": "PASS",
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "regex": "\\[EVIDENCE_ROOT_BLANK\\]",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:/Projects/_worktrees/pg-open05-20261122' -EvidenceRoot ' '",
+      "scan_flag_matches": true
+    },
+    "ledger-cjk-default": {
+      "verdict": "PASS",
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "regex": "解析到 31 个包行",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05\\repo 中文 空格' -PlanPath 'D:\\Projects\\_worktrees\\pg-open05-20261122\\docs\\market-task-plan-2026-10-03.md'",
+      "scan_flag_matches": true
+    },
+    "ledger-default": {
+      "verdict": "PASS",
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "regex": "解析到 31 个包行",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:/Projects/_worktrees/pg-open05-20261122'",
+      "scan_flag_matches": true
+    },
+    "ledger-empty-tree": {
+      "verdict": "PASS",
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "regex": "解析到 31 个包行",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:/Projects/_worktrees/pg-open05-20261122' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05\\empty-root'",
+      "scan_flag_matches": true
+    },
+    "ledger-empty": {
+      "verdict": "PASS",
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "regex": "\\[EVIDENCE_ROOT_BLANK\\]",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:/Projects/_worktrees/pg-open05-20261122' -EvidenceRoot ''",
+      "scan_flag_matches": true
+    },
+    "ledger-file": {
+      "verdict": "PASS",
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "regex": "\\[EVIDENCE_ROOT_NOT_DIRECTORY\\]",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:/Projects/_worktrees/pg-open05-20261122' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05\\plain-file.txt'",
+      "scan_flag_matches": true
+    },
+    "ledger-missing-default": {
+      "verdict": "PASS",
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "regex": "\\[DEFAULT_ROOT_MISSING\\]",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05\\no-default'",
+      "scan_flag_matches": true
+    },
+    "ledger-missing": {
+      "verdict": "PASS",
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "regex": "\\[EVIDENCE_ROOT_MISSING\\]",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:/Projects/_worktrees/pg-open05-20261122' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05\\does-not-exist'",
+      "scan_flag_matches": true
+    },
+    "ledger-override-same": {
+      "verdict": "PASS",
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "regex": "解析到 31 个包行",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:/Projects/_worktrees/pg-open05-20261122' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\docs\\market-execution'",
+      "scan_flag_matches": true
+    },
+    "ledger-pathform-rel": {
+      "verdict": "PASS",
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "regex": "解析到 31 个包行",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:/Projects/_worktrees/pg-open05-20261122' -EvidenceRoot 'docs\\market-execution'",
+      "scan_flag_matches": true
+    },
+    "ledger-pathform-trailing": {
+      "verdict": "PASS",
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "regex": "解析到 31 个包行",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:/Projects/_worktrees/pg-open05-20261122' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\docs\\market-execution\\'",
+      "scan_flag_matches": true
+    },
+    "ledger-spaced-cjk": {
+      "verdict": "PASS",
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "regex": "解析到 31 个包行",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05\\tree 中文 空格' -PlanPath 'D:\\Projects\\_worktrees\\pg-open05-20261122\\docs\\market-task-plan-2026-10-03.md'",
+      "scan_flag_matches": true
+    },
+    "tree-blank": {
+      "verdict": "PASS",
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "regex": "\\[EVIDENCE_ROOT_BLANK\\]",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:/Projects/_worktrees/pg-open05-20261122' -EvidenceRoot ' '",
+      "scan_flag_matches": true
+    },
+    "tree-cjk-default": {
+      "verdict": "PASS",
+      "actual_exit": 0,
+      "expected_exit": 0,
+      "regex": "扫描到 2 个 run 目录.*证据树内部自洽",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05\\repo 中文 空格'",
+      "scan_flag_matches": true
+    },
+    "tree-default": {
+      "verdict": "PASS",
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "regex": "扫描到 61 个 run 目录",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:/Projects/_worktrees/pg-open05-20261122'",
+      "scan_flag_matches": true
+    },
+    "tree-drive-root": {
+      "verdict": "PASS",
+      "actual_exit": 0,
+      "expected_exit": 0,
+      "regex": "扫描到 2 个 run 目录.*证据树内部自洽（7 项检查全部通过）",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05' -EvidenceRoot 'X:\\'",
+      "scan_flag_matches": true
+    },
+    "tree-drive-trail": {
+      "verdict": "PASS",
+      "actual_exit": 0,
+      "expected_exit": 0,
+      "regex": "扫描到 2 个 run 目录.*证据树内部自洽（7 项检查全部通过）",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05\\tree 中文 空格\\'",
+      "scan_flag_matches": true
+    },
+    "tree-empty-tree": {
+      "verdict": "PASS",
+      "actual_exit": 0,
+      "expected_exit": 0,
+      "regex": "扫描到 0 个 run 目录.*证据树内部自洽",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05\\empty-root'",
+      "scan_flag_matches": true
+    },
+    "tree-empty": {
+      "verdict": "PASS",
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "regex": "\\[EVIDENCE_ROOT_BLANK\\]",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:/Projects/_worktrees/pg-open05-20261122' -EvidenceRoot ''",
+      "scan_flag_matches": true
+    },
+    "tree-file": {
+      "verdict": "PASS",
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "regex": "\\[EVIDENCE_ROOT_NOT_DIRECTORY\\]",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:/Projects/_worktrees/pg-open05-20261122' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05\\plain-file.txt'",
+      "scan_flag_matches": true
+    },
+    "tree-form-dirty-abs": {
+      "verdict": "PASS",
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "regex": "扫描到 2 个 run 目录.*发现 1 处不一致",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05\\tree-with-finding'",
+      "scan_flag_matches": true
+    },
+    "tree-form-dirty-dotdot": {
+      "verdict": "PASS",
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "regex": "扫描到 2 个 run 目录.*发现 1 处不一致",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05' -EvidenceRoot '..\\tree-with-finding'",
+      "scan_flag_matches": true
+    },
+    "tree-form-dirty-rel-dot": {
+      "verdict": "PASS",
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "regex": "扫描到 2 个 run 目录.*发现 1 处不一致",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05' -EvidenceRoot '.\\tree-with-finding'",
+      "scan_flag_matches": true
+    },
+    "tree-form-dirty-rel": {
+      "verdict": "PASS",
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "regex": "扫描到 2 个 run 目录.*发现 1 处不一致",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05' -EvidenceRoot 'tree-with-finding'",
+      "scan_flag_matches": true
+    },
+    "tree-form-dirty-trail": {
+      "verdict": "PASS",
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "regex": "扫描到 2 个 run 目录.*发现 1 处不一致",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05\\tree-with-finding\\'",
+      "scan_flag_matches": true
+    },
+    "tree-form-legacy-abs": {
+      "verdict": "PASS",
+      "actual_exit": 0,
+      "expected_exit": 0,
+      "regex": "扫描到 2 个 run 目录.*证据树内部自洽（7 项检查全部通过）",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05\\tree 中文 空格'",
+      "scan_flag_matches": true
+    },
+    "tree-form-legacy-dotdot": {
+      "verdict": "PASS",
+      "actual_exit": 0,
+      "expected_exit": 0,
+      "regex": "扫描到 2 个 run 目录.*证据树内部自洽（7 项检查全部通过）",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05' -EvidenceRoot '..\\tree 中文 空格'",
+      "scan_flag_matches": true
+    },
+    "tree-form-legacy-rel-dot": {
+      "verdict": "PASS",
+      "actual_exit": 0,
+      "expected_exit": 0,
+      "regex": "扫描到 2 个 run 目录.*证据树内部自洽（7 项检查全部通过）",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05' -EvidenceRoot '.\\tree 中文 空格'",
+      "scan_flag_matches": true
+    },
+    "tree-form-legacy-rel": {
+      "verdict": "PASS",
+      "actual_exit": 0,
+      "expected_exit": 0,
+      "regex": "扫描到 2 个 run 目录.*证据树内部自洽（7 项检查全部通过）",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05' -EvidenceRoot 'tree 中文 空格'",
+      "scan_flag_matches": true
+    },
+    "tree-form-legacy-trail": {
+      "verdict": "PASS",
+      "actual_exit": 0,
+      "expected_exit": 0,
+      "regex": "扫描到 2 个 run 目录.*证据树内部自洽（7 项检查全部通过）",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05\\tree 中文 空格\\'",
+      "scan_flag_matches": true
+    },
+    "tree-form-self-abs": {
+      "verdict": "PASS",
+      "actual_exit": 0,
+      "expected_exit": 0,
+      "regex": "扫描到 1 个 run 目录.*证据树内部自洽（7 项检查全部通过）",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05\\tree-self'",
+      "scan_flag_matches": true
+    },
+    "tree-form-self-dotdot": {
+      "verdict": "PASS",
+      "actual_exit": 0,
+      "expected_exit": 0,
+      "regex": "扫描到 1 个 run 目录.*证据树内部自洽（7 项检查全部通过）",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05' -EvidenceRoot '..\\tree-self'",
+      "scan_flag_matches": true
+    },
+    "tree-form-self-rel-dot": {
+      "verdict": "PASS",
+      "actual_exit": 0,
+      "expected_exit": 0,
+      "regex": "扫描到 1 个 run 目录.*证据树内部自洽（7 项检查全部通过）",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05' -EvidenceRoot '.\\tree-self'",
+      "scan_flag_matches": true
+    },
+    "tree-form-self-rel": {
+      "verdict": "PASS",
+      "actual_exit": 0,
+      "expected_exit": 0,
+      "regex": "扫描到 1 个 run 目录.*证据树内部自洽（7 项检查全部通过）",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05' -EvidenceRoot 'tree-self'",
+      "scan_flag_matches": true
+    },
+    "tree-form-self-trail": {
+      "verdict": "PASS",
+      "actual_exit": 0,
+      "expected_exit": 0,
+      "regex": "扫描到 1 个 run 目录.*证据树内部自洽（7 项检查全部通过）",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05\\tree-self\\'",
+      "scan_flag_matches": true
+    },
+    "tree-missing-default": {
+      "verdict": "PASS",
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "regex": "\\[DEFAULT_ROOT_MISSING\\]",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05\\no-default'",
+      "scan_flag_matches": true
+    },
+    "tree-missing": {
+      "verdict": "PASS",
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "regex": "\\[EVIDENCE_ROOT_MISSING\\]",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:/Projects/_worktrees/pg-open05-20261122' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05\\does-not-exist'",
+      "scan_flag_matches": true
+    },
+    "tree-override-same": {
+      "verdict": "PASS",
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "regex": "扫描到 61 个 run 目录",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:/Projects/_worktrees/pg-open05-20261122' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\docs\\market-execution'",
+      "scan_flag_matches": true
+    },
+    "tree-reporoot-empty": {
+      "verdict": "PASS",
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "regex": "为空字符串",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot ''",
+      "scan_flag_matches": true
+    },
+    "tree-spaced-cjk": {
+      "verdict": "PASS",
+      "actual_exit": 0,
+      "expected_exit": 0,
+      "regex": "扫描到 2 个 run 目录.*证据树内部自洽",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "& 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-20261122\\_fixture-open05\\tree 中文 空格'",
+      "scan_flag_matches": true
+    },
+    "tree-splat-empty": {
+      "verdict": "PASS",
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "regex": "\\[EVIDENCE_ROOT_BLANK\\]",
+      "exact_regex_match": true,
+      "dotall_regex_match": true,
+      "call_body": "$splatArgs = @{ RepoRoot = 'D:/Projects/_worktrees/pg-open05-20261122'; EvidenceRoot = '' }; & 'D:\\Projects\\_worktrees\\pg-open05-20261122\\scripts\\audit-evidence-tree.ps1' @splatArgs",
+      "scan_flag_matches": true
+    }
+  },
+  "raw_counts": {
+    "metadata": 41,
+    "streams": 82,
+    "counterproof": 24,
+    "probes": 4,
+    "r3": 15,
+    "total": 166
+  },
+  "r3_historical_blobs": {
+    "docs/evidence/2026-11-22-open05/raw/counterproof-P-abs.err.txt": true,
+    "docs/evidence/2026-11-22-open05/raw/counterproof-P-abs.out.txt": true,
+    "docs/evidence/2026-11-22-open05/raw/counterproof-P-dotdot.err.txt": true,
+    "docs/evidence/2026-11-22-open05/raw/counterproof-P-dotdot.out.txt": true,
+    "docs/evidence/2026-11-22-open05/raw/counterproof-P-rel-dot.err.txt": true,
+    "docs/evidence/2026-11-22-open05/raw/counterproof-P-rel-dot.out.txt": true,
+    "docs/evidence/2026-11-22-open05/raw/counterproof-P-rel.err.txt": true,
+    "docs/evidence/2026-11-22-open05/raw/counterproof-P-rel.out.txt": true,
+    "docs/evidence/2026-11-22-open05/raw/counterproof-P-trailing.err.txt": true,
+    "docs/evidence/2026-11-22-open05/raw/counterproof-P-trailing.out.txt": true,
+    "docs/evidence/2026-11-22-open05/raw/tree-pathform-abs.err.txt": true,
+    "docs/evidence/2026-11-22-open05/raw/tree-pathform-abs.out.txt": true,
+    "docs/evidence/2026-11-22-open05/raw/tree-pathform-abs.txt": true,
+    "docs/evidence/2026-11-22-open05/raw/tree-pathform-dotdot.err.txt": true,
+    "docs/evidence/2026-11-22-open05/raw/tree-pathform-dotdot.out.txt": true,
+    "docs/evidence/2026-11-22-open05/raw/tree-pathform-dotdot.txt": true,
+    "docs/evidence/2026-11-22-open05/raw/tree-pathform-rel-dot.err.txt": true,
+    "docs/evidence/2026-11-22-open05/raw/tree-pathform-rel-dot.out.txt": true,
+    "docs/evidence/2026-11-22-open05/raw/tree-pathform-rel-dot.txt": true,
+    "docs/evidence/2026-11-22-open05/raw/tree-pathform-rel.err.txt": true,
+    "docs/evidence/2026-11-22-open05/raw/tree-pathform-rel.out.txt": true,
+    "docs/evidence/2026-11-22-open05/raw/tree-pathform-rel.txt": true,
+    "docs/evidence/2026-11-22-open05/raw/tree-pathform-trailing.err.txt": true,
+    "docs/evidence/2026-11-22-open05/raw/tree-pathform-trailing.out.txt": true,
+    "docs/evidence/2026-11-22-open05/raw/tree-pathform-trailing.txt": true
+  },
+  "archived_review_file_counts": {
+    "verify-codex-r1-fail": 234,
+    "verify-codex-r2-fail": 93
+  },
+  "splat_decoded_matches_body": true,
+  "ed2e92c_tree_sha256": "649B9B1A22E398CE07B8A93440A3D1D4DA833945BF9205E2D6DC31BC4609202A",
+  "932115c_tree_sha256": "6121749A708D1B4946D7EA84E957A4687ACCED0EED03DD18BF26B8C245299F1F",
+  "tree_default_explicit_body_equal": true,
+  "tree_cjk_default_explicit_body_equal": true,
+  "ledger_default_explicit_body_equal": true,
+  "ledger_cjk_default_explicit_body_equal": true,
+  "ledger_trailing_body_equal": true,
+  "ledger_relative_body_equal": true,
+  "real_parent_candidate_body_equal": true,
+  "self_five_bodies_equal": true,
+  "self_drive_reported": true,
+  "self_drive_body_equal": true,
+  "self_subst_restored": true,
+  "legacy_five_bodies_equal": true,
+  "legacy_drive_reported": true,
+  "legacy_drive_body_equal": true,
+  "legacy_subst_restored": true,
+  "dirty_five_bodies_equal": true,
+  "dirty_drive_reported": true,
+  "dirty_drive_body_equal": true,
+  "dirty_subst_restored": true,
+  "drive": "T:",
+  "end": "2026-11-22T23:09:59.300265+08:00"
+}

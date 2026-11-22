@@ -1,0 +1,6 @@
+fe49b34f15c3ca39207fc64bcde34aec73ead74e 0fd28dfa55981b05e030ed6d2d798127c55bfba0 fix(audit): 卷根路径的 run 相对路径只跳一次分隔符（OPEN-05 r4）
+0fd28dfa55981b05e030ed6d2d798127c55bfba0 2cbc03f035b98219deb77673b0a6e14cc2f926c6 docs(open05): 修正归档目录嵌套（raw/raw → raw/）
+2cbc03f035b98219deb77673b0a6e14cc2f926c6 932115c6651d86081491f8fa401d8534dbbd9485 docs(open05): 原样归档第 1 轮独立复验（Codex）FAIL 材料
+932115c6651d86081491f8fa401d8534dbbd9485 ed2e92cbc9ced6ef9cb16d93d9b1474dceb62556 fix(audit): 证据根规范为绝对前缀，路径写法不再改变审计结论（OPEN-05 r3）
+ed2e92cbc9ced6ef9cb16d93d9b1474dceb62556 17318e664d7070cb10a93bb06f96efbb97d72607 fix(audit): 接通审计脚本默认证据目录并区分显式空值（OPEN-05）
+17318e664d7070cb10a93bb06f96efbb97d72607 8827b71a20115d414983f39695ea095cdc79abcd docs(open-items): OPEN-02 复验通过并合入，移出遗留清单

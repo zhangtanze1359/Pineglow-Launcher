@@ -1,0 +1,5 @@
+command=['powershell.exe', '-NoProfile', '-NonInteractive', '-File', 'D:\\Projects\\_worktrees\\pg-open05-review3\\docs\\evidence\\2026-11-22-open05\\matrix-fixture.ps1', '-Worktree', 'D:\\Projects\\_worktrees\\pg-open05-review3', '-OutDir', 'C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-1fe68549-c9d64f5f6ec791ce\\docs\\evidence\\2026-11-22-open05-review3\\worker-rerun']
+cwd=D:\Projects\_worktrees\pg-open05-review3
+exit=0
+subst_before=b''
+subst_after=b''
