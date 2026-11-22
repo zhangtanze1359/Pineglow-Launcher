@@ -1,0 +1,5 @@
+File D:\Projects\松光启动器\scripts\audit-plan-ledger.ps1 cannot be loaded. The file D:\Projects\松光启动器\scripts\audit-plan-le
+dger.ps1 is not digitally signed. You cannot run this script on the current system. For more information about running 
+scripts and setting execution policy, see about_Execution_Policies at https:/go.microsoft.com/fwlink/?LinkID=135170.
+    + CategoryInfo          : SecurityError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : UnauthorizedAccess

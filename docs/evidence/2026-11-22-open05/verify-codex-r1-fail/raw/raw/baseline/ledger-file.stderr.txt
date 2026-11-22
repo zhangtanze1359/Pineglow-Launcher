@@ -1,0 +1,1 @@
+[EVIDENCE_ROOT_NOT_DIRECTORY] 显式指定的证据树不是目录：D:\Projects\_worktrees\pg-open05-review-20261122\open05-review-1vdv0y4f\ordinary.txt（该路径存在，但是普通文件或其他非容器对象；-EvidenceRoot 必须是目录）

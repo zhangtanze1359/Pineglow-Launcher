@@ -1,0 +1,7 @@
+{
+  "cwd": "D:\\Projects\\_worktrees\\pg-open05-review-20261122",
+  "started": "2026-11-22T22:27:45.500658+08:00",
+  "command": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoProfile -NonInteractive -File D:\\Projects\\_worktrees\\pg-open05-review-20261122\\scripts\\audit-evidence-tree.ps1 -RepoRoot D:\\Projects\\_worktrees\\pg-open05-review-20261122",
+  "decoded": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoProfile -NonInteractive -File D:\\Projects\\_worktrees\\pg-open05-review-20261122\\scripts\\audit-evidence-tree.ps1 -RepoRoot D:\\Projects\\_worktrees\\pg-open05-review-20261122",
+  "exit": 1
+}

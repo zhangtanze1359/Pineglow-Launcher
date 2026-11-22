@@ -1,0 +1,22 @@
+--- a/scripts/audit-evidence-tree.ps1
++++ b/scripts/audit-evidence-tree.ps1
+@@ -41,7 +41,7 @@
+ 
+ $ErrorActionPreference = 'Stop'
+ 
+-$defaultEvidenceRoot = Join-Path $RepoRoot 'docs\market-execution'
++$defaultEvidenceRoot = 'C:\Users\Administrator\.codex\worktrees\ed41\松光启动器\docs\market-execution'
+ $evidenceRootExplicitlyBound = $PSBoundParameters.ContainsKey('EvidenceRoot')
+ 
+ if (-not $evidenceRootExplicitlyBound) {
+--- a/scripts/audit-plan-ledger.ps1
++++ b/scripts/audit-plan-ledger.ps1
+@@ -33,7 +33,7 @@
+ $ErrorActionPreference = 'Stop'
+ if ([string]::IsNullOrWhiteSpace($PlanPath)) { $PlanPath = Join-Path $RepoRoot 'docs\market-task-plan-2026-10-03.md' }
+ 
+-$defaultEvidenceRoot = Join-Path $RepoRoot 'docs\market-execution'
++$defaultEvidenceRoot = 'C:\Users\Administrator\.codex\worktrees\ed41\松光启动器\docs\market-execution'
+ $evidenceRootExplicitlyBound = $PSBoundParameters.ContainsKey('EvidenceRoot')
+ 
+ if (-not $evidenceRootExplicitlyBound) {

@@ -130,6 +130,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File D:/Projects/_worktrees/p
 | `patched/audit-plan-ledger.ps1` | 应用后脚本 | `5E900796…65A5` |
 | `matrix-fixture.ps1` | 29 例矩阵夹具 | `B1ACD7E2…95B7` |
 | `raw/` | 29 例 × (out/err/meta) + 5 组反证输出 | 101 个文件 |
+| `verify-codex-r1-fail/` | **第 1 轮独立复验（Codex）FAIL 材料原样归档**：交接、两套反证变体补丁、225 个原始输出 | FAIL（见其 `README.md`） |
 
 ## 未覆盖 / 边界
 

@@ -1,0 +1,7 @@
+{
+  "cwd": "D:\\Projects\\松光启动器",
+  "started": "2026-11-22T22:27:45.310495+08:00",
+  "command": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoProfile -NonInteractive -File D:\\Projects\\松光启动器\\scripts\\audit-plan-ledger.ps1 -RepoRoot D:\\Projects\\松光启动器",
+  "decoded": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoProfile -NonInteractive -File D:\\Projects\\松光启动器\\scripts\\audit-plan-ledger.ps1 -RepoRoot D:\\Projects\\松光启动器",
+  "exit": 1
+}

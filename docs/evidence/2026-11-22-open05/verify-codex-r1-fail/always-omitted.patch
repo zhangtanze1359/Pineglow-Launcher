@@ -1,0 +1,22 @@
+--- a/scripts/audit-evidence-tree.ps1
++++ b/scripts/audit-evidence-tree.ps1
+@@ -42,7 +42,7 @@
+ $ErrorActionPreference = 'Stop'
+ 
+ $defaultEvidenceRoot = Join-Path $RepoRoot 'docs\market-execution'
+-$evidenceRootExplicitlyBound = $PSBoundParameters.ContainsKey('EvidenceRoot')
++$evidenceRootExplicitlyBound = $false
+ 
+ if (-not $evidenceRootExplicitlyBound) {
+     # ① 省略参数：这是唯一允许落到默认根的情形。
+--- a/scripts/audit-plan-ledger.ps1
++++ b/scripts/audit-plan-ledger.ps1
+@@ -34,7 +34,7 @@
+ if ([string]::IsNullOrWhiteSpace($PlanPath)) { $PlanPath = Join-Path $RepoRoot 'docs\market-task-plan-2026-10-03.md' }
+ 
+ $defaultEvidenceRoot = Join-Path $RepoRoot 'docs\market-execution'
+-$evidenceRootExplicitlyBound = $PSBoundParameters.ContainsKey('EvidenceRoot')
++$evidenceRootExplicitlyBound = $false
+ 
+ if (-not $evidenceRootExplicitlyBound) {
+     # ① 省略参数：这是唯一允许落到默认根的情形。

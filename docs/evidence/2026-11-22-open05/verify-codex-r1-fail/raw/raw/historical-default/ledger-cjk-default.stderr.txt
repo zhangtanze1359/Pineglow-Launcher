@@ -1,0 +1,1 @@
+[DEFAULT_ROOT_MISSING] 找不到证据树：默认根目录不存在 C:\Users\Administrator\.codex\worktrees\ed41\松光启动器\docs\market-execution（默认根取自 -RepoRoot = D:\Projects\_worktrees\pg-open05-review-20261122\open05-review-1vdv0y4f\repo 中文 空格；请用 -EvidenceRoot 指定实际证据树）

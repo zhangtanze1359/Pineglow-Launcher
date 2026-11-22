@@ -1,0 +1,7 @@
+﻿2026-11-22T22:29:22.1971895+08:00
+cwd=
+C:\Users\Administrator\.t3\worktrees\松光启动器\t3-01bed7a7-3338033de2098165
+worktree=
+D:\Projects\_worktrees\pg-open05-review-20261122
+git status --short --untracked-files=all exit=0 git status output: 
+git -C <SourceRoot> -c core.longpaths=true worktree remove <ExecutionRoot> exit=0 Path still exists: False
