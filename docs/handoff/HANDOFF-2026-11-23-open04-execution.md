@@ -33,9 +33,9 @@
 
 ## 发现的结构性风险（未修，供独立复核判断）
 
-`WaitForExit(30000)` 超时后**不抛异常、不改退出码**，代码直接继续读 `apply-state.json`。这出现在两处，且第一处被 **9 个用例共享**：
+`WaitForExit(30000)` 超时后**不抛异常、不改退出码**，代码直接继续读 `apply-state.json`。这出现在两处，且第一处被 **6 个执行脚本的用例**共享（本类共 9 个 `[Fact]`，另 3 个只断言脚本文本）：
 
-- `UpdateApplyScriptPathTests.cs:73`（`RunApplyScript`）
+- `UpdateApplyScriptPathTests.cs:73`（`RunApplyScript`，实测 6 个调用点）
 - `UpdateRecoveryTests.cs:318`
 
 且 `UpdateApplyScriptPathTests` **未加入** `DisableParallelization` 集合，全量运行时与其他类并行。历史只盯住 1 条用例，但该模式是共通的。

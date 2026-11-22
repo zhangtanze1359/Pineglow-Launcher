@@ -155,7 +155,7 @@ dotnet test ... --filter "FullyQualifiedName~ApplyScript_WaitsForRunningTargetTh
 
 ## 结构性风险（未修，供独立复核判断）
 
-`UpdateApplyScriptPathTests` 未加入 `DisableParallelization` 集合（与 `UpdateConcurrencyTests` 不同）。该用例仍有 `WaitForExit(30000)` 超时后静默继续的路径。**本轮未修改任何产品代码或测试代码**——是否加超时余量或把该用例纳入串行集合，由独立复核与编排方决定。
+`UpdateApplyScriptPathTests` 未加入 `DisableParallelization` 集合（与 `UpdateConcurrencyTests` 不同，后者标注了 `[Collection("LocalApiService")]`）。该用例仍有 `WaitForExit(30000)` 超时后静默继续的路径；该路径被本类 **6 个执行脚本的用例**共享（`RunApplyScript(` 实测 6 个调用点；另 3 个 `[Fact]` 只断言脚本文本，不受影响）。**本轮未修改任何产品代码或测试代码**——是否加超时余量或把该用例纳入串行集合，由独立复核与编排方决定。
 
 ## 复跑命令
 

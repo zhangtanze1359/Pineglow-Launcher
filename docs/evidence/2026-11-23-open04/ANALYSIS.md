@@ -26,14 +26,16 @@
 
 `UpdateApplyScriptPathTests` **未加入任何 `DisableParallelization` 集合**（对比：`UpdateConcurrencyTests` 属 `[Collection("LocalApiService")]`，已禁用并行）。因此本类用例在全量运行时**与其他测试类并行**。
 
-**影响面比历史记录更大**：`WaitForExit(30000)` 出现在两处，且第一处由 9 个用例共享：
+**影响面比历史记录更大**：`WaitForExit(30000)` 出现在两处，且第一处由 **6 个用例**共享（该类共 9 个 `[Fact]`，其中 3 个只断言脚本文本、不执行脚本）：
 
 | 位置 | 影响 |
 | --- | --- |
-| `UpdateApplyScriptPathTests.cs:73`（`RunApplyScript` 共享路径） | 本类 **9 个用例**全部走这条超时路径 |
+| `UpdateApplyScriptPathTests.cs:73`（`RunApplyScript` 共享路径） | 本类 **6 个**执行脚本的用例全部走这条超时路径（`RunApplyScript(` 调用点实测 6 处） |
 | `UpdateRecoveryTests.cs:318` | 恢复类用例同样 |
 
 历史记录只盯住了其中 1 条（`ApplyScript_WaitsForRunningTargetThenReplaces`），但超时后静默继续的模式是**共通**的。
+
+> 更正记录（2026-11-23）：本文件早前版本写「9 个用例共享」，系把 `[Fact]` 总数（9）误当调用点数。实测 `RunApplyScript(` 调用点为 **6**，另 3 个 `[Fact]` 为纯脚本文本断言（`DoesNotDependOnConsoleOnlyCommands`、`DoesNotTruncateLongImageNames`、`DoesNotDependOnPathResolution`），不执行脚本，不受该超时路径影响。
 
 本用例的时序链：
 
