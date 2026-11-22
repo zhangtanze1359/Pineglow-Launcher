@@ -12,15 +12,52 @@
 #
 # 用法（本机只有 Windows PowerShell 5.1，没有 pwsh）：
 #   powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\audit-plan-ledger.ps1
+#
+# 证据树默认取 `-RepoRoot` 下的 `docs/market-execution`（OPEN-05：旧默认指向已不存在的历史交付根
+# `C:\Users\Administrator\.codex\worktrees\ed41\...`）。显式 `-EvidenceRoot` 优先，
+# 且**必须存在**：显式给错就当场失败，不静默回退（否则「审计了另一棵树」会被误读成「审计了给定的树」）。
+#
+# 三档入口判定（r2 补强：用参数绑定状态区分「省略」与「显式给了空值」）：
+#   1. 省略 `-EvidenceRoot` → 用 `-RepoRoot` 下的 `docs/market-execution`；必须存在，否则 `[DEFAULT_ROOT_MISSING]`。
+#   2. 显式空字符串/全空白 → **参数错误** `[EVIDENCE_ROOT_BLANK]`（不是"用默认"）。
+#   3. 显式非空值 → 必须是已存在目录；不存在 `[EVIDENCE_ROOT_MISSING]`，
+#      存在但是普通文件 `[EVIDENCE_ROOT_NOT_DIRECTORY]`，都在审计之前拒绝、都不回退。
 
 param(
     [string]$RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path,
-    [string]$EvidenceRoot = 'C:\Users\Administrator\.codex\worktrees\ed41\松光启动器\docs\market-execution',
+    # OPEN-05：默认值只用于类型稳定；「是否显式指定」一律看 $PSBoundParameters。
+    [string]$EvidenceRoot = '',
     [string]$PlanPath = ''
 )
 
 $ErrorActionPreference = 'Stop'
 if ([string]::IsNullOrWhiteSpace($PlanPath)) { $PlanPath = Join-Path $RepoRoot 'docs\market-task-plan-2026-10-03.md' }
+
+$defaultEvidenceRoot = Join-Path $RepoRoot 'docs\market-execution'
+$evidenceRootExplicitlyBound = $PSBoundParameters.ContainsKey('EvidenceRoot')
+
+if (-not $evidenceRootExplicitlyBound) {
+    # ① 省略参数：这是唯一允许落到默认根的情形。
+    $evidenceRootSource = '默认（-RepoRoot\docs\market-execution）'
+    $EvidenceRoot = $defaultEvidenceRoot
+    if (-not (Test-Path -LiteralPath $EvidenceRoot -PathType Container)) {
+        throw ("[DEFAULT_ROOT_MISSING] 找不到证据树：默认根目录不存在 {0}（默认根取自 -RepoRoot = {1}；请用 -EvidenceRoot 指定实际证据树）" -f $EvidenceRoot, $RepoRoot)
+    }
+}
+elseif ([string]::IsNullOrWhiteSpace($EvidenceRoot)) {
+    # ② 显式给了空/空白：参数错误。把它当"省略"会让空白值静默变成另一棵树。
+    throw ("[EVIDENCE_ROOT_BLANK] 参数错误：-EvidenceRoot 被显式指定，但值是空字符串或全空白（[{0}]）。省略该参数才会用默认根 {1}；要指定证据树请给出真实目录。" -f $EvidenceRoot, $defaultEvidenceRoot)
+}
+else {
+    # ③ 显式给了非空值：必须是已存在的目录，审计之前就拒绝。
+    $evidenceRootSource = '显式 -EvidenceRoot'
+    if (-not (Test-Path -LiteralPath $EvidenceRoot -PathType Container)) {
+        if (Test-Path -LiteralPath $EvidenceRoot) {
+            throw ("[EVIDENCE_ROOT_NOT_DIRECTORY] 显式指定的证据树不是目录：{0}（该路径存在，但是普通文件或其他非容器对象；-EvidenceRoot 必须是目录）" -f $EvidenceRoot)
+        }
+        throw ("[EVIDENCE_ROOT_MISSING] 显式指定的证据树不存在：{0}（显式路径不回退到默认根 {1}；要用默认值请省略 -EvidenceRoot）" -f $EvidenceRoot, $defaultEvidenceRoot)
+    }
+}
 
 function Write-Head([string]$text) {
     Write-Host ''
@@ -30,6 +67,8 @@ function Write-Head([string]$text) {
 $plan = Get-Content -LiteralPath $PlanPath -Encoding UTF8
 $dirs = Get-ChildItem -LiteralPath $EvidenceRoot -Directory
 $failures = 0
+Write-Host ("  证据树 = {0}" -f $EvidenceRoot)
+Write-Host ("  来源   = {0}" -f $evidenceRootSource)
 
 # §8 状态表区间：从表头"| ID | 任务 | 优先级 |"开始，到出现空行或下一个二级标题为止
 $start = -1

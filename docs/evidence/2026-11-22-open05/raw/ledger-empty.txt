@@ -1,0 +1,14 @@
+case=ledger-empty
+worktree=D:/Projects/_worktrees/pg-open05-20261122
+time=2026-11-22T22:15:03.4931872+08:00
+command=powershell.exe -NoProfile -OutputFormat Text -EncodedCommand <base64>  (child env: PSExecutionPolicyPreference cleared)
+decoded=[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$ErrorActionPreference = 'Stop'
+try { & 'D:\Projects\_worktrees\pg-open05-20261122\scripts\audit-plan-ledger.ps1' -RepoRoot 'D:/Projects/_worktrees/pg-open05-20261122' -EvidenceRoot ''; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }
+expect_exit=1
+expect_pattern=\[EVIDENCE_ROOT_BLANK\]
+expect_source=显式空串
+actual_exit=1
+stdout_file=D:\Projects\松光启动器\docs\evidence\2026-11-22-open05\raw\ledger-empty.out.txt
+stderr_file=D:\Projects\松光启动器\docs\evidence\2026-11-22-open05\raw\ledger-empty.err.txt
+verdict=PASS

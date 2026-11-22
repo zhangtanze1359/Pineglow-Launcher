@@ -1,0 +1,14 @@
+case=tree-default
+worktree=D:/Projects/_worktrees/pg-open05-20261122
+time=2026-11-22T22:14:59.2165813+08:00
+command=powershell.exe -NoProfile -OutputFormat Text -EncodedCommand <base64>  (child env: PSExecutionPolicyPreference cleared)
+decoded=[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$ErrorActionPreference = 'Stop'
+try { & 'D:\Projects\_worktrees\pg-open05-20261122\scripts\audit-evidence-tree.ps1' -RepoRoot 'D:/Projects/_worktrees/pg-open05-20261122'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }
+expect_exit=1
+expect_pattern=扫描到 61 个 run 目录.*发现 609 处不一致
+expect_source=默认根
+actual_exit=1
+stdout_file=D:\Projects\松光启动器\docs\evidence\2026-11-22-open05\raw\tree-default.out.txt
+stderr_file=D:\Projects\松光启动器\docs\evidence\2026-11-22-open05\raw\tree-default.err.txt
+verdict=PASS
