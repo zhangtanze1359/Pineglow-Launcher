@@ -30,28 +30,34 @@
 
 | 位置 | 影响 |
 | --- | --- |
-| `UpdateApplyScriptPathTests.cs:73`（`RunApplyScript` 共享路径） | 本类 **6 个**执行脚本的用例全部走这条超时路径（`RunApplyScript(` 调用点实测 6 处） |
-| `UpdateRecoveryTests.cs:318` | 恢复类用例同样 |
+| `UpdateApplyScriptPathTests.cs:73`（`RunApplyScript` 共享路径） | 本类 **6 个**执行脚本的用例走这条路径（调用点第 103、140、173、247、289、344 行） |
+| `UpdateRecoveryTests.cs:318`（`RunApplyScriptCore`） | 恢复类 **3 个**调用点（第 343、369、394 行） |
 
 历史记录只盯住了其中 1 条（`ApplyScript_WaitsForRunningTargetThenReplaces`），但超时后静默继续的模式是**共通**的。
 
-> 更正记录（2026-11-23）：本文件早前版本写「9 个用例共享」，系把 `[Fact]` 总数（9）误当调用点数。实测 `RunApplyScript(` 调用点为 **6**，另 3 个 `[Fact]` 为纯脚本文本断言（`DoesNotDependOnConsoleOnlyCommands`、`DoesNotTruncateLongImageNames`、`DoesNotDependOnPathResolution`），不执行脚本，不受该超时路径影响。
+> 更正记录（2026-11-23）：本文件早前版本先写「9 个用例共享」（把 `[Fact]` 总数误当调用点数），后写「恢复类另有 5 个用例」，均不准确。实测 `RunApplyScript(` 调用点为 **6**（另 3 个 `[Fact]` 为纯脚本文本断言），`UpdateRecoveryTests` 的调用点为 **3**。同日第 2 次独立复核独立复算得到相同结果。
 
-本用例的时序链：
+本用例的时序链（**已按第 2 次独立复核更正**）：
 
 ```text
 Process.Start(sleeper: ping -n 6 ≈ 5s)      // 占用目标文件名
 Thread.Sleep(500)                            // 等它"确实在运行"
 RunApplyScript:
-    psi...RedirectStandardOutput = true
-    proc.StandardOutput.ReadToEnd()          // 同步读，阻塞直到脚本输出结束
-    proc.WaitForExit(30000)                  // ← 超时【不抛异常、不改退出码】，直接返回
-UpdateService.ReadApplyResult(state)         // 若脚本尚未写完 apply-state.json，读到的是中间态
+    psi...RedirectStandardOutput/Error = true
+    proc.StandardOutput.ReadToEnd() + proc.StandardError.ReadToEnd()   // ← 先【同步】读完两路流
+    proc.WaitForExit(30000)                  // ← 超时返回 false，返回值被忽略
+    return new Outcome(output, target, backup, UpdateService.ReadApplyResult(state))
 ```
 
-**风险点**：`WaitForExit(30000)` 超时后代码继续执行。若在高负载下 `cmd.exe` 启动慢或 ping 回环变慢，30 秒可能不够，此时 `apply-state.json` 可能仍是 `applying`（而非 `applied`），触发 `Assert.Equal("applied", ...)` 失败。
+**风险点的准确表述**（原分析有两处偏差，此处更正）：
 
-**这解释了历史表现**：隔离运行时 5 秒必过；全量并行时偶发失败，且无稳定复现条件。
+1. **30 秒计时只覆盖「读流之后」的等待**，**不覆盖读流本身**。`ReadToEnd()` 是同步阻塞，它先于 `WaitForExit` 完成；若子进程迟迟不关闭输出流，阻塞点在 `ReadToEnd()`，而 `WaitForExit(30000)` 根本还没开始计时。
+2. **`WaitForExit(30000)` 的返回值被忽略**（`false` 表示超时），夹具也**未读取子进程退出码**，随后直接读文件与状态。
+3. 因此**「提前读到 `applying` 中间态」这一推演不成立**：该夹具**没有预写 `applying`**；若脚本未写完，`ReadApplyResult` 得到的是**缺失或不可解析**的状态，而不是 `applying`。
+
+**结论**：超时静默继续这一结构缺陷**确实存在**（忽略返回值、不校验退出码），但**历史失败是否由这条路径引发仍属假说**，本轮未观测到该分支。残余风险应表述为：同步管道阻塞、等待返回值被忽略、调度竞争——而非「必然读到 applying」。
+
+`UpdateRecoveryTests` 的 `RunApplyScriptCore` 是同样的形态（先 `ReadToEnd` 再 `WaitForExit(30000)`，第 316–318 行）。
 
 ## 复跑设计（分层，对应 open-items 执行步骤 2）
 

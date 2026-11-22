@@ -16,11 +16,13 @@
 | 1 | 单跑 `ApplyScript_WaitsForRunningTargetThenReplaces` × 10 | **10/10 通过**，0 跳过，每轮 5 s |
 | 2 | `UpdateApplyScriptPathTests` × 5 / `UpdateConcurrencyTests` × 5（串行） | **9/9、8/8 每轮全过** |
 | 3 | 全量 1502 条 × 3（默认并行） | **1502/1502 全过**，各约 72 s |
-| 4 | 全量 + 合成 CPU/IO 压力 × 3 | **1502/1502 全过**，各约 84 s（+17%，压力生效但仍 0 失败） |
+| 4 | 全量 + 合成 CPU/IO 压力 × 3 | **1502/1502 全过**，各约 84 s（+16.03%，压力生效但仍 0 失败） |
 
-**合计 9 次全量套件运行，全部 1502/1502，0 失败 0 跳过。**
+**合计 6 轮全量（1502 × 6 = 9012 次）+ 第 1、2 层 95 次 = 9107 次通过，0 失败 0 跳过。**
 
-时序证据：目标用例独立采集 8 次，`state=applied`，`waited` 4.7–4.9 s（均值 4.74），**全部 ≥ 2 s**，与 sleeper 生命周期（`ping -n 6` ≈ 5 s）吻合 —— 证明替换发生在目标进程退出之后。
+> 更正（2026-11-23，第 2 次独立复核后）：早前写「9 次全量」「4517 次用例」，均无法由日志复算——实际日志只有 6 轮全量。另有 8 次时序采集运行的日志缺 xUnit 计数字段，不并入上表。
+
+时序证据：目标用例独立采集 8 次，`state=applied`，`waited` 4.7–4.9 s（均值 4.74），**全部 ≥ 2 s**，与 sleeper 生命周期（`ping -n 6` ≈ 5 s）吻合。该日志未记录 passed/failed/skipped/total，故只作时序证据、不计入 xUnit 计数。
 
 ## 与历史相比已消除的成因
 
@@ -33,12 +35,14 @@
 
 ## 发现的结构性风险（未修，供独立复核判断）
 
-`WaitForExit(30000)` 超时后**不抛异常、不改退出码**，代码直接继续读 `apply-state.json`。这出现在两处，且第一处被 **6 个执行脚本的用例**共享（本类共 9 个 `[Fact]`，另 3 个只断言脚本文本）：
+两处夹具在 `WaitForExit(30000)` 超时后**忽略返回值、也不校验子进程退出码**，直接读文件与状态：
 
-- `UpdateApplyScriptPathTests.cs:73`（`RunApplyScript`，实测 6 个调用点）
-- `UpdateRecoveryTests.cs:318`
+- `UpdateApplyScriptPathTests.cs:73`（`RunApplyScript`）—— **6 个**执行脚本的用例共享（调用点 103、140、173、247、289、344 行）
+- `UpdateRecoveryTests.cs:318`（`RunApplyScriptCore`）—— **3 个**调用点（343、369、394 行）
 
 且 `UpdateApplyScriptPathTests` **未加入** `DisableParallelization` 集合，全量运行时与其他类并行。历史只盯住 1 条用例，但该模式是共通的。
+
+**推演更正**：两处都是**先同步读完 stdout/stderr，再 `WaitForExit(30000)`**，故 30 秒计时**不覆盖读流本身**；且夹具**未预写 `applying`**，若脚本未写完读到的是「缺失或不可解析」，**不是** `applying`。因此「提前读到中间态」不成立，历史失败成因仍属假说。残余风险为：同步管道阻塞、等待返回值被忽略、调度竞争。
 
 **本轮未修改**：是否加超时余量、或把该用例纳入串行集合，需独立复核与编排方决定。
 
@@ -50,7 +54,7 @@ open-items 原文：「复现并修复后经独立复验确认，或**未复现�
 
 ## 未覆盖 / 局限
 
-1. **CI 平台**：`.github/workflows/build.yml` 在 Windows 与 Ubuntu 跑全量；Ubuntu 上本类用例因 `OperatingSystem.IsWindows()` 为 false 而 `return` 静默跳过（AGENTS.md 规则 3 禁止的做法，属既有代码），故 Ubuntu 的「全过」不包含本用例真实执行。
+1. **CI 平台**：`.github/workflows/build.yml:121` 在 Windows 与 Ubuntu 跑全量。Ubuntu 上本类 **6 条真实 `.bat` 用例**（含历史目标用例）提前 `return`，xUnit 视其为通过；其余 **3 条文本断言**照常执行。**Ubuntu 的绿色结果不能为本轮 Windows 偶发问题增加样本。**
 2. **未在 4 核 / 共享 CI runner 形态下压力复跑**（本轮最高约 8 核忙循环）。
 3. **未做实包自更新链路**：本轮是测试夹具直接执行生成的 `.bat`。
 4. 未复现不等于不存在：仅说明当前机器与负载下不可复现。
