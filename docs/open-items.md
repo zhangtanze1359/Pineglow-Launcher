@@ -12,7 +12,7 @@
 
 | ID | 类型 / 建议顺序 | 状态 | 当前阶段 | 下一步与启动条件 |
 | --- | --- | --- | --- | --- |
-| [OPEN-04](#open-04--复跑更新替换脚本的历史偶发失败) | 稳定性复核 / 1 | 未处置 | 历史偶发失败，当前可重复性和成因未确认 | 在隔离 Windows 工作树按规范 PATH 分层复跑 |
+| [OPEN-04](#open-04--复跑更新替换脚本的历史偶发失败) | 稳定性复核 / 1 | 进行中 | 目标基线分层复跑**未复现**（9 次全量全过），已交付覆盖与风险说明，待独立复核接受 | 独立复核接受「未复现 + 风险说明」后销项 |
 | [OPEN-03](#open-03--准备-v110-候选的发布说明) | 候选发布准备 / 2 | 未处置 | 等待候选范围，不是立即可完成的文案任务 | 明确 v1.1.0 候选提交、版本及交付范围后启动 |
 
 ## 二、逐项执行与验收
@@ -24,6 +24,8 @@
 该项关系到运行中程序的等待、替换及失败恢复，需要确认旧偶发失败是否仍存在，而不是预先认定当前产品有缺陷。
 
 11 月 7 日合流记录定位到 `UpdateApplyScriptPathTests.ApplyScript_WaitsForRunningTargetThenReplaces`：当时首次全量 956/957，隔离组 7/7，之后五次全量通过。另一轮同名用例失败曾定位到 PATH 顺序。主线后来回灌了绝对系统工具路径、进程名处理、更新互斥相关修复，并增加并发请求守卫。这些均是历史记录，不代替目标基线复跑。
+
+**2026-11-23 复跑进展**：在 `367ab91` 隔离工作树分层复跑，**未复现**。① 单跑目标用例 10 次全过（每次约 5 s）；整类 `UpdateApplyScriptPathTests` 9/9 × 5 轮、`UpdateConcurrencyTests` 8/8 × 5 轮全过；全量 1502 条 × 3 轮全过（各约 72 s）；全量 + 合成 CPU/IO 压力 × 3 轮全过（各约 84 s，慢 17% 说明压力生效）。**合计 9 次全量、0 失败 0 跳过。** ② 时序证据：目标用例 8 次均 `state=applied`、`waited` 4.7–4.9 s（均值 4.74，全部 ≥ 2 s），与占位进程生命周期（`ping -n 6` ≈ 5 s）吻合，证明替换发生在进程退出之后。③ 两个已知成因已在代码层消除：系统命令全部 `%SystemRoot%\System32\` 绝对化、`tasklist` 用 `/FO CSV /NH` 避免名截断、等待有上界 300 次、夹具显式固定 PATH。④ **发现结构风险（未修）**：`WaitForExit(30000)` 超时后不抛异常也不改退出码，代码继续读 `apply-state.json`；该模式出现在 `UpdateApplyScriptPathTests.cs:73`（被 **9 个用例共享**）与 `UpdateRecoveryTests.cs:318`，且本类未加入 `DisableParallelization` 集合。历史只盯住 1 条用例，实际影响面更大。证据见 [OPEN-04 复跑证据](evidence/2026-11-23-open04/README.md)。**未修改任何产品代码或测试代码。**
 
 ### 执行步骤
 
@@ -42,7 +44,7 @@
 
 **销项条件**：复现并修复后经独立复验确认，或未复现但由独立复核明确接受已有覆盖与风险说明。不得以历史五次通过或本轮少量通过自动销项。
 
-**证据入口**：[合流记录 R-1](handoff/合流记录-2026-11-07.md)、[历史 PATH 诊断](m0-3-release-blocker-closure-2026-11-06.md)、[脚本路径用例](../dev/PineglowLauncher.Tests/UpdateApplyScriptPathTests.cs)、[请求并发用例](../dev/PineglowLauncher.Tests/UpdateConcurrencyTests.cs)。
+**证据入口**：[合流记录 R-1](handoff/合流记录-2026-11-07.md)、[历史 PATH 诊断](m0-3-release-blocker-closure-2026-11-06.md)、[脚本路径用例](../dev/PineglowLauncher.Tests/UpdateApplyScriptPathTests.cs)、[请求并发用例](../dev/PineglowLauncher.Tests/UpdateConcurrencyTests.cs)、[2026-11-23 复跑证据](evidence/2026-11-23-open04/README.md)、[执行交接](handoff/HANDOFF-2026-11-23-open04-execution.md)。
 
 ## OPEN-03 · 准备 v1.1.0 候选的发布说明
 

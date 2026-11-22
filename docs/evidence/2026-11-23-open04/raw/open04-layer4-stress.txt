@@ -1,0 +1,14 @@
+# OPEN-04 layer 4: FULL suite + synthetic CPU/IO stress, 3 rounds
+# cwd=D:/Projects/_worktrees/pg-open04-20261123
+# time=2026-11-23T00:38:12.5106816+08:00
+# cpuWorkers=8 (synthetic busy loops in background jobs)
+# IO stress: repeated write+read of 8MB temp file in .cache/stress
+# purpose: amplify the WaitForExit(30000) timing risk documented in ANALYSIS.md
+
+stress jobs started: cpu=8 io=1
+stress run 1: exit=0 passed=1502 failed=0 skipped=0 total=1502 elapsed=83.9s
+stress run 2: exit=0 passed=1502 failed=0 skipped=0 total=1502 elapsed=84.7s
+stress run 3: exit=0 passed=1502 failed=0 skipped=0 total=1502 elapsed=84.8s
+
+summary: stress passes=3 fails=0
+stress jobs stopped and temp files removed

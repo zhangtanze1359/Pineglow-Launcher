@@ -1,0 +1,20 @@
+# OPEN-04 timing evidence: 'waited' distribution from the target case (execution step 3)
+# Each run executes the REAL product script via UpdateService.BuildApplyScript (test fixture), against a
+#   real long-running process occupying the target filename (ping.exe copy, ping -n 6 ~ 5s).
+# cwd=D:\Projects\_worktrees\pg-open04-20261123
+# time=2026-11-23T00:43:36.7106165+08:00
+# command: dotnet test ... --filter 'FullyQualifiedName~ApplyScript_WaitsForRunningTargetThenReplaces' --logger 'console;verbosity=detailed'
+# expectation: waited >= 2s proves replacement happened AFTER process exit
+
+run 1: exit=0 passed= failed= state=applied waited=4.7s
+run 2: exit=0 passed= failed= state=applied waited=4.7s
+run 3: exit=0 passed= failed= state=applied waited=4.7s
+run 4: exit=0 passed= failed= state=applied waited=4.7s
+run 5: exit=0 passed= failed= state=applied waited=4.7s
+run 6: exit=0 passed= failed= state=applied waited=4.7s
+run 7: exit=0 passed= failed= state=applied waited=4.9s
+run 8: exit=0 passed= failed= state=applied waited=4.8s
+
+waited samples (s): 4.7, 4.7, 4.7, 4.7, 4.7, 4.7, 4.8, 4.9
+min=4.7 max=4.9 mean=4.74 count=8
+all >= 2s : True

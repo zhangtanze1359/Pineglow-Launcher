@@ -1,0 +1,22 @@
+# OPEN-04 layer 2: UpdateApplyScriptPathTests + UpdateConcurrencyTests, 5 rounds each
+# cwd=D:\Projects\_worktrees\pg-open04-20261123
+# time=2026-11-23T00:31:57.9400302+08:00
+# PATH prefix=C:\Windows\System32;C:\Windows  TEMP=D:\Projects\_worktrees\pg-open04-20261123\.cache\tmp
+# serial execution (no parallelization)
+
+
+=== filter: FullyQualifiedName~UpdateApplyScriptPathTests (5 rounds) ===
+  round 1: exit=0 passed=9 failed=0 skipped=0 total=9 duration=6
+  round 2: exit=0 passed=9 failed=0 skipped=0 total=9 duration=6
+  round 3: exit=0 passed=9 failed=0 skipped=0 total=9 duration=6
+  round 4: exit=0 passed=9 failed=0 skipped=0 total=9 duration=6
+  round 5: exit=0 passed=9 failed=0 skipped=0 total=9 duration=6
+  subtotal: pass=5 fail=0
+
+=== filter: FullyQualifiedName~UpdateConcurrencyTests (5 rounds) ===
+  round 1: exit=0 passed=8 failed=0 skipped=0 total=8 duration=3
+  round 2: exit=0 passed=8 failed=0 skipped=0 total=8 duration=3
+  round 3: exit=0 passed=8 failed=0 skipped=0 total=8 duration=3
+  round 4: exit=0 passed=8 failed=0 skipped=0 total=8 duration=3
+  round 5: exit=0 passed=8 failed=0 skipped=0 total=8 duration=3
+  subtotal: pass=5 fail=0

@@ -1,0 +1,11 @@
+# OPEN-04 layer 3: FULL test run (1502 tests), 3 rounds
+# cwd=D:\Projects\_worktrees\pg-open04-20261123
+# time=2026-11-23T00:33:59.9975940+08:00
+# PATH prefix=C:\Windows\System32;C:\Windows  TEMP=D:\Projects\_worktrees\pg-open04-20261123\.cache\tmp
+# default xunit parallelization (UpdateApplyScriptPathTests is NOT in a DisableParallelization collection)
+
+full run 1: exit=0 passed=1502 failed=0 skipped=0 total=1502 elapsed=72.3s
+full run 2: exit=0 passed=1502 failed=0 skipped=0 total=1502 elapsed=73.9s
+full run 3: exit=0 passed=1502 failed=0 skipped=0 total=1502 elapsed=72.2s
+
+summary: full-run passes=3 fails=0

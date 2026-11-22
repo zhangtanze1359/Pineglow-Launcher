@@ -1,0 +1,18 @@
+# OPEN-04 layer 1: single case ApplyScript_WaitsForRunningTargetThenReplaces, 10 repeats
+# cwd=D:\Projects\_worktrees\pg-open04-20261123
+# time=2026-11-23T00:30:34.6875559+08:00
+# PATH prefix=C:\Windows\System32;C:\Windows  TEMP=D:\Projects\_worktrees\pg-open04-20261123\.cache\tmp
+# command: dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --no-build --filter 'FullyQualifiedName~ApplyScript_WaitsForRunningTargetThenReplaces'
+
+run  1: exit=0 passed=1 failed=0 skipped=0 total=1 duration=5 s
+run  2: exit=0 passed=1 failed=0 skipped=0 total=1 duration=5 s
+run  3: exit=0 passed=1 failed=0 skipped=0 total=1 duration=5 s
+run  4: exit=0 passed=1 failed=0 skipped=0 total=1 duration=5 s
+run  5: exit=0 passed=1 failed=0 skipped=0 total=1 duration=5 s
+run  6: exit=0 passed=1 failed=0 skipped=0 total=1 duration=5 s
+run  7: exit=0 passed=1 failed=0 skipped=0 total=1 duration=5 s
+run  8: exit=0 passed=1 failed=0 skipped=0 total=1 duration=5 s
+run  9: exit=0 passed=1 failed=0 skipped=0 total=1 duration=5 s
+run 10: exit=0 passed=1 failed=0 skipped=0 total=1 duration=5 s
+
+summary: passes=10 fails=0
