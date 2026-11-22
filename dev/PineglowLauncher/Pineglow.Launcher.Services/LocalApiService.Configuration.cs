@@ -88,7 +88,28 @@ public static partial class LocalApiService
 		lock (ConfigGate)
 		{
 			AppConfig config = _host.Dependencies.Store.Load();
-			MirrorHelper.SelectedKey = string.IsNullOrWhiteSpace(config.DownloadSource) ? "official" : config.DownloadSource;
+			// v1.0.4 的 MCBBS 下线迁移：主线此前只回灌了 Normalize 与源列表，漏了加载链路的接线。
+			// 旧配置里的 mcbbs（镜像已下线）在**读入时**迁到 bmclapi，并在同一把 ConfigGate 锁内写回一次；
+			// 之后读到的值已等于新值，不会再触发任何写盘。比较用 Ordinal 而非 OrdinalIgnoreCase：
+			// Normalize 的契约是"其余原样小写返回"，大小写不同同样属于需要落盘规范化的分裂状态。
+			// 写回只走 SaveConfigOnly（只写 config.json，不碰凭据存储）：ConfigStore.LoadAsync 在任一
+			// 凭据读取失败时会清空内存密钥，全量 Save 会把空值写回 SecretStore（空值 = 删除），
+			// 误删与下载源迁移无关的凭据（2026-11-22 独立复验阻断项）。
+			string normalizedSource = MirrorHelper.Normalize(config.DownloadSource);
+			if (!string.Equals(config.DownloadSource, normalizedSource, StringComparison.Ordinal))
+			{
+				config.DownloadSource = normalizedSource;
+				try
+				{
+					_host.Dependencies.Store.SaveConfigOnly(config);
+				}
+				catch (Exception ex)
+				{
+					// 写回失败不影响本次读取：内存里已是新值，后续任何配置保存都会再落一次。
+					LauncherLog.Warn("下载源迁移写回失败（本次读取仍按 " + normalizedSource + " 生效）：" + ex.Message);
+				}
+			}
+			MirrorHelper.SelectedKey = normalizedSource;
 			return config;
 		}
 	}
@@ -97,7 +118,7 @@ public static partial class LocalApiService
 	{
 		lock (ConfigGate)
 		{
-			MirrorHelper.SelectedKey = string.IsNullOrWhiteSpace(config.DownloadSource) ? "official" : config.DownloadSource;
+			MirrorHelper.SelectedKey = MirrorHelper.Normalize(config.DownloadSource);
 			// 代理变化在此生效（候选 ⑤）：一次整组替换，不再有"换字段 + 延迟销毁"的窗口。
 			_host.Dependencies.Http.ApplyProxy(OutboundHttp.ProxySettings.From(config));
 			_host.Dependencies.Store.Save(config);

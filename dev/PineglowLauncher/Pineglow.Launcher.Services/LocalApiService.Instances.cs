@@ -45,7 +45,7 @@ public static partial class LocalApiService
 				config.ServerHost,
 				config.ServerPort,
 				config.UseMirror,
-				downloadSource = string.IsNullOrWhiteSpace(config.DownloadSource) ? "official" : config.DownloadSource,
+				downloadSource = MirrorHelper.Normalize(config.DownloadSource),
 				config.ProxyEnabled,
 				config.ProxyHost,
 				config.ProxyPort,

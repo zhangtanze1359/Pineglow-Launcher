@@ -13,9 +13,9 @@ namespace Pineglow.Launcher.Services;
 /// </para>
 /// <para>
 /// 实现只有两个：生产用 <see cref="ProductionConfigStore"/>；测试用自己的内存 store。
-/// 这个接口刻意只有 <see cref="Load"/> / <see cref="Save"/> 两个同步方法：
-/// 任何更多的方法都会让"测试实现要复刻多少生产语义"变成一个说不清的问题
-/// （参见 <c>InstanceDefaultInstanceBoundaryTests</c> 里那条"夹具存储 vs 生产语义存储"的对照）。
+/// <see cref="Load"/> / <see cref="Save"/> 之外只保留 <see cref="SaveConfigOnly"/>：
+/// 它是"只写 config.json、不碰凭据存储"的窄通道，默认回退到 <see cref="Save"/>，
+/// 因此测试实现仍不需要复刻生产凭据语义；生产实现覆盖它，供旧配置迁移这类读路径写回使用。
 /// </para>
 /// </summary>
 internal interface IConfigStore
@@ -23,6 +23,13 @@ internal interface IConfigStore
 	AppConfig Load();
 
 	void Save(AppConfig config);
+
+	/// <summary>
+	/// 只写 config.json，**不触碰凭据存储**。旧配置迁移等"读路径顺带写回"必须走这里：
+	/// 凭据读取失败时内存中的密钥可能为空，全量 <see cref="Save"/> 会把空值写回 SecretStore
+	/// （空值 = 删除），误删与本次迁移无关的凭据。默认回退到 <see cref="Save"/>，测试的内存 store 无需改动。
+	/// </summary>
+	void SaveConfigOnly(AppConfig config) => Save(config);
 }
 
 /// <summary>
@@ -38,4 +45,6 @@ internal sealed class ProductionConfigStore : IConfigStore
 	public AppConfig Load() => ConfigStore.LoadAsync().GetAwaiter().GetResult();
 
 	public void Save(AppConfig config) => ConfigStore.SaveAsync(config).GetAwaiter().GetResult();
+
+	public void SaveConfigOnly(AppConfig config) => ConfigStore.SaveConfigOnlyAsync(config).GetAwaiter().GetResult();
 }

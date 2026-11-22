@@ -1,0 +1,7 @@
+﻿assembly=D:\Projects\_worktrees\pineglow-open02-verify4-20261122\.cache\open02-config-probe\bin\Release\net10.0\Pineglow.Launcher.dll
+sourceVersion=1.0.5; config=D:\Projects\_worktrees\pineglow-open02-verify4-20261122\.cache\tmp\pg-open02-probe-11209e3edec1443e915dd2254706baca\config.json
+case=account-only-save-fault-direct; precondition=True; initialAccounts=0; generatedAccounts=1; legacyCredentials=False; secretMigrationPending=False; rejectedDeletes=1
+case=account-only-save-fault-state; request=first; HTTP=200; responseSource=bmclapi; effectiveSource=bmclapi; diskSource=bmclapi; unchangedBytes=False; unchangedFromPrevious=False; writes=0; deletes=4; rejectedDeletes=1; nativeCredentialCalls=0
+case=account-only-save-fault-state; request=second; HTTP=200; responseSource=bmclapi; effectiveSource=bmclapi; diskSource=bmclapi; unchangedBytes=False; unchangedFromPrevious=True; writes=0; deletes=0; rejectedDeletes=0; nativeCredentialCalls=0
+case=account-only-save-fault-state; request=after-fault-disabled; HTTP=200; responseSource=bmclapi; effectiveSource=bmclapi; diskSource=bmclapi; unchangedBytes=False; unchangedFromPrevious=True; writes=0; deletes=0; rejectedDeletes=0; nativeCredentialCalls=0
+accountOnlyProbe=PASS

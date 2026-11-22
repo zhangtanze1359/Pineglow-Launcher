@@ -63,6 +63,14 @@ public sealed class AppConfig
 	[JsonIgnore]
 	public string CurseForgeApiKey { get; set; } = string.Empty;
 
+	/// <summary>
+	/// 仅运行期标志：<c>ConfigStore.LoadAsync</c> 尝试把旧 JSON 里的明文凭据转存到 SecretStore
+	/// 但失败时置位。此时主配置里仍保留着旧字段；任何“整包重写 config.json”的迁移都必须跳过，
+	/// 否则会把尚未转存的凭据从主配置抹掉（只剩 .bak，且后端恢复后无法自动重试）。
+	/// </summary>
+	[JsonIgnore]
+	internal bool SecretMigrationPending { get; set; }
+
 	/// <summary>AI 诊断提供商列表（多提供商预设，Key 经 SecretStore 持久化）。</summary>
 	public List<AiProviderProfile> AiProviders { get; set; } = new List<AiProviderProfile>();
 

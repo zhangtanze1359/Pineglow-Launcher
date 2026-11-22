@@ -1,0 +1,154 @@
+diff --git a/dev/PineglowLauncher/Pineglow.Launcher.Models/AppConfig.cs b/dev/PineglowLauncher/Pineglow.Launcher.Models/AppConfig.cs
+index a9c94ee..4e8243f 100644
+--- a/dev/PineglowLauncher/Pineglow.Launcher.Models/AppConfig.cs
++++ b/dev/PineglowLauncher/Pineglow.Launcher.Models/AppConfig.cs
+@@ -63,6 +63,14 @@ public sealed class AppConfig
+ 	[JsonIgnore]
+ 	public string CurseForgeApiKey { get; set; } = string.Empty;
+ 
++	/// <summary>
++	/// 仅运行期标志：<c>ConfigStore.LoadAsync</c> 尝试把旧 JSON 里的明文凭据转存到 SecretStore
++	/// 但失败时置位。此时主配置里仍保留着旧字段；任何“整包重写 config.json”的迁移都必须跳过，
++	/// 否则会把尚未转存的凭据从主配置抹掉（只剩 .bak，且后端恢复后无法自动重试）。
++	/// </summary>
++	[JsonIgnore]
++	internal bool SecretMigrationPending { get; set; }
++
+ 	/// <summary>AI 诊断提供商列表（多提供商预设，Key 经 SecretStore 持久化）。</summary>
+ 	public List<AiProviderProfile> AiProviders { get; set; } = new List<AiProviderProfile>();
+ 
+diff --git a/dev/PineglowLauncher/Pineglow.Launcher.Services/ConfigStore.cs b/dev/PineglowLauncher/Pineglow.Launcher.Services/ConfigStore.cs
+index ff1dbc6..7aded18 100644
+--- a/dev/PineglowLauncher/Pineglow.Launcher.Services/ConfigStore.cs
++++ b/dev/PineglowLauncher/Pineglow.Launcher.Services/ConfigStore.cs
+@@ -200,6 +200,8 @@ public static class ConfigStore
+ 				}
+ 				catch
+ 				{
++					// 旧 JSON 里的明文凭据尚未转存成功：主配置必须保持原样，给后续请求重试的机会。
++					config.SecretMigrationPending = true;
+ 				}
+ 			}
+ 			else if (needsDefaultInstance)
+@@ -234,6 +236,27 @@ public static class ConfigStore
+ 		await Task.CompletedTask;
+ 	}
+ 
++	/// <summary>
++	/// 只写 config.json，**不调用 SecretStore**。旧配置迁移这类"读路径顺带写回"必须走这里：
++	/// <see cref="LoadAsync"/> 在任一凭据读取失败时会清空内存中的凭据；若随后走
++	/// <see cref="SaveAsync"/>，<see cref="SaveCore"/> 会把空值写回 SecretStore（空值即删除），
++	/// 误删与本次迁移无关的凭据。
++	/// </summary>
++	internal static Task SaveConfigOnlyAsync(AppConfig config)
++	{
++		lock (ConfigGate)
++		{
++			// 旧凭据尚未转存成功时，整包重写会把 [JsonIgnore] 的旧字段丢掉；
++			// 跳过本次写回，等凭据后端恢复后由下一次 LoadAsync 完成转存，再持久化下载源。
++			if (!config.SecretMigrationPending)
++			{
++				AccountService.ApplySelectedToLegacy(config);
++				WriteConfigFile(ResolveConfigPath(), config);
++			}
++		}
++		return Task.CompletedTask;
++	}
++
+ 	private static void SaveCore(AppConfig config)
+ 	{
+ 		AccountService.ApplySelectedToLegacy(config);
+diff --git a/dev/PineglowLauncher/Pineglow.Launcher.Services/IConfigStore.cs b/dev/PineglowLauncher/Pineglow.Launcher.Services/IConfigStore.cs
+index b141d1b..773a690 100644
+--- a/dev/PineglowLauncher/Pineglow.Launcher.Services/IConfigStore.cs
++++ b/dev/PineglowLauncher/Pineglow.Launcher.Services/IConfigStore.cs
+@@ -13,9 +13,9 @@ namespace Pineglow.Launcher.Services;
+ /// </para>
+ /// <para>
+ /// 实现只有两个：生产用 <see cref="ProductionConfigStore"/>；测试用自己的内存 store。
+-/// 这个接口刻意只有 <see cref="Load"/> / <see cref="Save"/> 两个同步方法：
+-/// 任何更多的方法都会让"测试实现要复刻多少生产语义"变成一个说不清的问题
+-/// （参见 <c>InstanceDefaultInstanceBoundaryTests</c> 里那条"夹具存储 vs 生产语义存储"的对照）。
++/// <see cref="Load"/> / <see cref="Save"/> 之外只保留 <see cref="SaveConfigOnly"/>：
++/// 它是"只写 config.json、不碰凭据存储"的窄通道，默认回退到 <see cref="Save"/>，
++/// 因此测试实现仍不需要复刻生产凭据语义；生产实现覆盖它，供旧配置迁移这类读路径写回使用。
+ /// </para>
+ /// </summary>
+ internal interface IConfigStore
+@@ -23,6 +23,13 @@ internal interface IConfigStore
+ 	AppConfig Load();
+ 
+ 	void Save(AppConfig config);
++
++	/// <summary>
++	/// 只写 config.json，**不触碰凭据存储**。旧配置迁移等"读路径顺带写回"必须走这里：
++	/// 凭据读取失败时内存中的密钥可能为空，全量 <see cref="Save"/> 会把空值写回 SecretStore
++	/// （空值 = 删除），误删与本次迁移无关的凭据。默认回退到 <see cref="Save"/>，测试的内存 store 无需改动。
++	/// </summary>
++	void SaveConfigOnly(AppConfig config) => Save(config);
+ }
+ 
+ /// <summary>
+@@ -38,4 +45,6 @@ internal sealed class ProductionConfigStore : IConfigStore
+ 	public AppConfig Load() => ConfigStore.LoadAsync().GetAwaiter().GetResult();
+ 
+ 	public void Save(AppConfig config) => ConfigStore.SaveAsync(config).GetAwaiter().GetResult();
++
++	public void SaveConfigOnly(AppConfig config) => ConfigStore.SaveConfigOnlyAsync(config).GetAwaiter().GetResult();
+ }
+diff --git a/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Configuration.cs b/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Configuration.cs
+index 079664c..6201fb5 100644
+--- a/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Configuration.cs
++++ b/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Configuration.cs
+@@ -88,7 +88,28 @@ public static partial class LocalApiService
+ 		lock (ConfigGate)
+ 		{
+ 			AppConfig config = _host.Dependencies.Store.Load();
+-			MirrorHelper.SelectedKey = string.IsNullOrWhiteSpace(config.DownloadSource) ? "official" : config.DownloadSource;
++			// v1.0.4 的 MCBBS 下线迁移：主线此前只回灌了 Normalize 与源列表，漏了加载链路的接线。
++			// 旧配置里的 mcbbs（镜像已下线）在**读入时**迁到 bmclapi，并在同一把 ConfigGate 锁内写回一次；
++			// 之后读到的值已等于新值，不会再触发任何写盘。比较用 Ordinal 而非 OrdinalIgnoreCase：
++			// Normalize 的契约是"其余原样小写返回"，大小写不同同样属于需要落盘规范化的分裂状态。
++			// 写回只走 SaveConfigOnly（只写 config.json，不碰凭据存储）：ConfigStore.LoadAsync 在任一
++			// 凭据读取失败时会清空内存密钥，全量 Save 会把空值写回 SecretStore（空值 = 删除），
++			// 误删与下载源迁移无关的凭据（2026-11-22 独立复验阻断项）。
++			string normalizedSource = MirrorHelper.Normalize(config.DownloadSource);
++			if (!string.Equals(config.DownloadSource, normalizedSource, StringComparison.Ordinal))
++			{
++				config.DownloadSource = normalizedSource;
++				try
++				{
++					_host.Dependencies.Store.SaveConfigOnly(config);
++				}
++				catch (Exception ex)
++				{
++					// 写回失败不影响本次读取：内存里已是新值，后续任何配置保存都会再落一次。
++					LauncherLog.Warn("下载源迁移写回失败（本次读取仍按 " + normalizedSource + " 生效）：" + ex.Message);
++				}
++			}
++			MirrorHelper.SelectedKey = normalizedSource;
+ 			return config;
+ 		}
+ 	}
+@@ -97,7 +118,7 @@ public static partial class LocalApiService
+ 	{
+ 		lock (ConfigGate)
+ 		{
+-			MirrorHelper.SelectedKey = string.IsNullOrWhiteSpace(config.DownloadSource) ? "official" : config.DownloadSource;
++			MirrorHelper.SelectedKey = MirrorHelper.Normalize(config.DownloadSource);
+ 			// 代理变化在此生效（候选 ⑤）：一次整组替换，不再有"换字段 + 延迟销毁"的窗口。
+ 			_host.Dependencies.Http.ApplyProxy(OutboundHttp.ProxySettings.From(config));
+ 			_host.Dependencies.Store.Save(config);
+diff --git a/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Instances.cs b/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Instances.cs
+index 7fa4abc..a545145 100644
+--- a/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Instances.cs
++++ b/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Instances.cs
+@@ -45,7 +45,7 @@ public static partial class LocalApiService
+ 				config.ServerHost,
+ 				config.ServerPort,
+ 				config.UseMirror,
+-				downloadSource = string.IsNullOrWhiteSpace(config.DownloadSource) ? "official" : config.DownloadSource,
++				downloadSource = MirrorHelper.Normalize(config.DownloadSource),
+ 				config.ProxyEnabled,
+ 				config.ProxyHost,
+ 				config.ProxyPort,

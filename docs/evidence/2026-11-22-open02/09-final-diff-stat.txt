@@ -1,0 +1,22 @@
+OPEN-02 最终候选统计
+时间: 2026-11-22 19:15:36 +0800
+
+HEAD: 274675f0aaf686833239811adc39684d5b02743c
+
+[git diff --stat]
+ .../LocalApiService.Configuration.cs                 | 20 +++++++++++++++++++-
+ .../LocalApiService.Instances.cs                     |  2 +-
+ 2 files changed, 20 insertions(+), 2 deletions(-)
+
+[行数]
+  395 dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Configuration.cs
+  313 dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Instances.cs
+  176 dev/PineglowLauncher.Tests/DownloadSourceHttpMigrationTests.cs
+  884 total
+
+[SHA-256]
+29ee486bb683b7e3f38470e67595e15821e70ffd5c60ea0f6b9d38a246ba383b *dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Configuration.cs
+c78892dde83fa38be993b10c89968a3a971ac3ab76681b97a5074848d1253916 *dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Instances.cs
+a01d4131357cdaf23e6608a163fc8b65e37c4bee6bef132a120783d7cc700d34 *dev/PineglowLauncher.Tests/DownloadSourceHttpMigrationTests.cs
+422c562580f0bc858f7e5f399ba879266eab696e5c278a92cc1806e8eb1f0545 *D:/Projects/松光启动器/docs/evidence/2026-11-22-open02/03-candidate-final.patch
+a01d4131357cdaf23e6608a163fc8b65e37c4bee6bef132a120783d7cc700d34 *D:/Projects/松光启动器/docs/evidence/2026-11-22-open02/03-test-final.cs

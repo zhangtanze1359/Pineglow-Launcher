@@ -1,0 +1,44 @@
+diff --git a/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Configuration.cs b/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Configuration.cs
+index 079664c..9643ac6 100644
+--- a/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Configuration.cs
++++ b/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Configuration.cs
+@@ -88,7 +88,25 @@ public static partial class LocalApiService
+ 		lock (ConfigGate)
+ 		{
+ 			AppConfig config = _host.Dependencies.Store.Load();
+-			MirrorHelper.SelectedKey = string.IsNullOrWhiteSpace(config.DownloadSource) ? "official" : config.DownloadSource;
++			// v1.0.4 的 MCBBS 下线迁移：主线此前只回灌了 Normalize 与源列表，漏了加载链路的接线。
++			// 旧配置里的 mcbbs（镜像已下线）在**读入时**迁到 bmclapi，并在同一把 ConfigGate 锁内写回一次；
++			// 之后读到的值已等于新值，不会再触发任何写盘。比较用 Ordinal 而非 OrdinalIgnoreCase：
++			// Normalize 的契约是"其余原样小写返回"，大小写不同同样属于需要落盘规范化的分裂状态。
++			string normalizedSource = MirrorHelper.Normalize(config.DownloadSource);
++			if (!string.Equals(config.DownloadSource, normalizedSource, StringComparison.Ordinal))
++			{
++				config.DownloadSource = normalizedSource;
++				try
++				{
++					_host.Dependencies.Store.Save(config);
++				}
++				catch (Exception ex)
++				{
++					// 写回失败不影响本次读取：内存里已是新值，后续任何配置保存都会再落一次。
++					LauncherLog.Warn("下载源迁移写回失败（本次读取仍按 " + normalizedSource + " 生效）：" + ex.Message);
++				}
++			}
++			MirrorHelper.SelectedKey = normalizedSource;
+ 			return config;
+ 		}
+ 	}
+diff --git a/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Instances.cs b/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Instances.cs
+index 7fa4abc..a545145 100644
+--- a/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Instances.cs
++++ b/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Instances.cs
+@@ -45,7 +45,7 @@ public static partial class LocalApiService
+ 				config.ServerHost,
+ 				config.ServerPort,
+ 				config.UseMirror,
+-				downloadSource = string.IsNullOrWhiteSpace(config.DownloadSource) ? "official" : config.DownloadSource,
++				downloadSource = MirrorHelper.Normalize(config.DownloadSource),
+ 				config.ProxyEnabled,
+ 				config.ProxyHost,
+ 				config.ProxyPort,

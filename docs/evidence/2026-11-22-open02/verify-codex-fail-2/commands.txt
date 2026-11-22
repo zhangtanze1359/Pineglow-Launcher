@@ -1,0 +1,42 @@
+﻿start=2026-11-22T19:39:41.0959801+08:00
+finish=2026-11-22T19:39:54.5515213+08:00
+cwd=D:\Projects\_worktrees\pineglow-open02-verify2-20261122
+command=dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --filter "FullyQualifiedName~DownloadSourceHttpMigrationTests"
+exit=1
+log=D:\Projects\_worktrees\pineglow-open02-verify2-20261122\verify-logs/01-red.txt
+
+start=2026-11-22T19:40:20.8491465+08:00
+finish=2026-11-22T19:40:20.9368268+08:00
+cwd=D:\Projects\_worktrees\pineglow-open02-verify2-20261122
+command=git apply --check followed by git apply "D:/Projects/松光启动器/docs/evidence/2026-11-22-open02/14-candidate-final-v2.patch"
+exit=0
+log=D:\Projects\_worktrees\pineglow-open02-verify2-20261122/verify-logs/02-apply.txt
+
+start=2026-11-22T19:40:31.8426330+08:00
+finish=2026-11-22T19:40:44.3992126+08:00
+cwd=D:\Projects\_worktrees\pineglow-open02-verify2-20261122
+command=dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --filter "FullyQualifiedName~DownloadSourceHttpMigrationTests"
+exit=0
+log=D:\Projects\_worktrees\pineglow-open02-verify2-20261122/verify-logs/03-green.txt
+
+start=2026-11-22T19:40:44.4136698+08:00
+finish=2026-11-22T19:40:48.3906458+08:00
+cwd=D:\Projects\_worktrees\pineglow-open02-verify2-20261122
+command=dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --filter "FullyQualifiedName~DownloadSourceMigrationTests|FullyQualifiedName~ConfigBackupRotationTests|FullyQualifiedName~ConfigPreservationTests|FullyQualifiedName~ConfigDefaultIdentityTests|FullyQualifiedName~NewsFakeIpConfigTests|FullyQualifiedName~HostDependenciesTests|FullyQualifiedName~LocalApiServiceSplitTests|FullyQualifiedName~RouteReachabilityTests|FullyQualifiedName~ApiRouteInventoryTests"
+exit=0
+log=D:\Projects\_worktrees\pineglow-open02-verify2-20261122/verify-logs/04-regression.txt
+
+start=2026-11-22T19:40:48.3926558+08:00
+finish=2026-11-22T19:40:48.4469759+08:00
+cwd=D:\Projects\_worktrees\pineglow-open02-verify2-20261122
+command=node scripts/run-inventory-tests.cjs --check
+exit=0
+log=D:\Projects\_worktrees\pineglow-open02-verify2-20261122/verify-logs/05-inventory.txt
+
+start=2026-11-22T19:40:48.4489781+08:00
+finish=2026-11-22T19:42:24.7639147+08:00
+cwd=D:\Projects\_worktrees\pineglow-open02-verify2-20261122
+command=node scripts/gates.cjs
+exit=0
+log=D:\Projects\_worktrees\pineglow-open02-verify2-20261122/verify-logs/06-gates.txt
+

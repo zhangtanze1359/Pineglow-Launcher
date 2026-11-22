@@ -1,0 +1,97 @@
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+  JavaProbe -> D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\JavaProbe\bin\Release\net10.0\JavaProbe.dll
+  Pineglow.Launcher -> D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher\bin\Release\net10.0\Pineglow.Launcher.dll
+  Pineglow.Launcher.Tests -> D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll
+D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll (.NETCoreApp,Version=v10.0)的测试运行
+总共 1 个测试文件与指定模式相匹配。
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.9)
+[xUnit.net 00:00:00.09]   Discovering: Pineglow.Launcher.Tests
+[xUnit.net 00:00:00.20]   Discovered:  Pineglow.Launcher.Tests
+[xUnit.net 00:00:00.23]   Starting:    Pineglow.Launcher.Tests
+  已通过 Pineglow.Launcher.Tests.ConfigBackupRotationTests.SecondRotation_KeepsBothGenerations [14 ms]
+  已通过 Pineglow.Launcher.Tests.DownloadSourceMigrationTests.ListSources_NoLongerOffersMcbbs [17 ms]
+  已通过 Pineglow.Launcher.Tests.DownloadSourceMigrationTests.GetBaseUrl_NoLongerResolvesMcbbs [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.DownloadSourceMigrationTests.Normalize_MigratesLegacyMcbbsToBmclapi(legacy: " mcbbs ") [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.DownloadSourceMigrationTests.Normalize_MigratesLegacyMcbbsToBmclapi(legacy: "mcbbs") [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.ConfigBackupRotationTests.Rotation_WhenBackupTargetIsUnusable_DoesNotThrow [2 ms]
+  已通过 Pineglow.Launcher.Tests.DownloadSourceMigrationTests.Normalize_MigratesLegacyMcbbsToBmclapi(legacy: "MCBBS") [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.ConfigBackupRotationTests.FirstRotation_CreatesBakOnly_WithTheCurrentContent [1 ms]
+  已通过 Pineglow.Launcher.Tests.LocalApiServiceSplitTests.PartialFileInventory_IsStillSplit_AndTheFamilyHasExactlyOneType [21 ms]
+  已通过 Pineglow.Launcher.Tests.ConfigBackupRotationTests.Rotation_WithoutConfigFile_CreatesNothing [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.ApiRouteInventoryTests.Inventory_InstanceSubRoutesAreNotNestedUnderWrongLengthGuard [22 ms]
+  已通过 Pineglow.Launcher.Tests.ApiRouteInventoryTests.Inventory_UnknownPathsResolveToNull [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.ApiRouteInventoryTests.Inventory_DiagnoseCancelPrecedesGenericDiagnose [1 ms]
+  已通过 Pineglow.Launcher.Tests.ConfigBackupRotationTests.ThirdRotation_KeepsOnlyTheTwoMostRecentGenerations [3 ms]
+  已通过 Pineglow.Launcher.Tests.ApiRouteInventoryTests.Inventory_AccountMicrosoftRoutesPreferSpecificOverGeneric [4 ms]
+  已通过 Pineglow.Launcher.Tests.ApiRouteInventoryTests.Inventory_HealthRouteIsTheOnlyOneWithoutToken [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.ApiRouteInventoryTests.Inventory_HasNoDuplicateSignature [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.ApiRouteInventoryTests.Inventory_EveryRouteHasDescriptionAndHandler [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.ApiRouteInventoryTests.Inventory_NoRouteIsShadowedByAnEarlierBroaderRoute [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.ApiRouteInventoryTests.Inventory_EveryRouteIsReachable_ByItsOwnConcretePath [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.ApiRouteInventoryTests.Inventory_LiteralIndexNeverExceedsMaxSegments [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.ApiRouteInventoryTests.Inventory_MatchesDocumentedEndpointCount [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.LocalApiServiceSplitTests.SessionTokenAndOriginPolicy_AreDeclaredByExactlyOneType [20 ms]
+  已通过 Pineglow.Launcher.Tests.LocalApiServiceSplitTests.EveryDomainFile_StaysUnderTheLineCap [6 ms]
+  已通过 Pineglow.Launcher.Tests.LocalApiServiceSplitTests.TheGuardsThemselves_AreNotHollow [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.DownloadSourceMigrationTests.LegacyConfigFile_MigratesOnRead [64 ms]
+  已通过 Pineglow.Launcher.Tests.ConfigPreservationTests.LoadAsync_FillsUpdateUrl_OnlyWhenItIsBlank [82 ms]
+  已通过 Pineglow.Launcher.Tests.DownloadSourceMigrationTests.Normalize_EmptyFallsBackToOfficial(empty: "   ") [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.DownloadSourceMigrationTests.Normalize_EmptyFallsBackToOfficial(empty: null) [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.DownloadSourceMigrationTests.Normalize_EmptyFallsBackToOfficial(empty: "") [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.DownloadSourceMigrationTests.Normalize_KeepsKnownKeysAndLowercases [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.ConfigPreservationTests.LoadAsync_MustNotCreateOrModifyTheRealCredentialStore [6 ms]
+  已通过 Pineglow.Launcher.Tests.ConfigPreservationTests.LoadAsync_PreservesEveryNonSecretField_FromAnExistingConfig [5 ms]
+  已通过 Pineglow.Launcher.Tests.ConfigPreservationTests.LoadAsync_IfItWritesBack_StillPreservesExistingFields [4 ms]
+  已通过 Pineglow.Launcher.Tests.ConfigPreservationTests.LoadAsync_DoesNotInjectADefaultInstance_WhenInstancesExist [4 ms]
+  已通过 Pineglow.Launcher.Tests.RouteReachabilityTests.Bisect_StartThenGiveUp_ReachesHandlerAndRestoresMods [97 ms]
+  已通过 Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: "POST", suffix: "/saves/world1/backups/nosuch-backup.zip/restore", isPost: True) [14 ms]
+  已通过 Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: "POST", suffix: "/saves/nosuch/open", isPost: True) [11 ms]
+  已通过 Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: "POST", suffix: "/bisect/test", isPost: True) [9 ms]
+  已通过 Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: "GET", suffix: "/saves/world1/backups", isPost: False) [10 ms]
+  已通过 Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: "POST", suffix: "/mods/a.jar/toggle", isPost: True) [10 ms]
+  已通过 Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: "POST", suffix: "/bisect/start", isPost: True) [17 ms]
+  已通过 Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: "POST", suffix: "/saves/world1/backup", isPost: True) [19 ms]
+  已通过 Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: "POST", suffix: "/bisect/giveup", isPost: True) [8 ms]
+  已通过 Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: "POST", suffix: "/mods/a.jar/delete", isPost: True) [20 ms]
+  已通过 Pineglow.Launcher.Tests.RouteReachabilityTests.Route_IsReachable_NotRouterFallback(method: "POST", suffix: "/saves/world1/delete", isPost: True) [22 ms]
+  已通过 Pineglow.Launcher.Tests.RouteReachabilityTests.HandleApiAsync_NoLongerContainsSegLengthBranches [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.RouteReachabilityTests.Bisect_StartThenTest_LocksCulpritAndRestoresMods [15 ms]
+  已通过 Pineglow.Launcher.Tests.RouteReachabilityTests.Mods_ToggleAndDelete_ReachHandlerAndChangeDisk [12 ms]
+  已通过 Pineglow.Launcher.Tests.RouteReachabilityTests.Saves_BackupListRestoreDelete_ReachHandler [23 ms]
+  已通过 Pineglow.Launcher.Tests.RouteReachabilityTests.RouterFallbackMarker_HasTeeth_UnknownPathReturnsFallback404 [8 ms]
+  已通过 Pineglow.Launcher.Tests.NewsFakeIpConfigTests.Roundtrip_False_PreservesThroughJson [4 ms]
+  已通过 Pineglow.Launcher.Tests.NewsFakeIpConfigTests.Deserialize_MissingField_DefaultsToFalse [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.NewsFakeIpConfigTests.PatchConfig_OnlyOtherFields_DoesNotReset [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.NewsFakeIpConfigTests.PatchConfig_AppliesOrPreserves(patchJson: "{\"newsFakeIpCompat\":true}", expected: True) [1 ms]
+  已通过 Pineglow.Launcher.Tests.NewsFakeIpConfigTests.PatchConfig_AppliesOrPreserves(patchJson: "{\"newsFakeIpCompat\":false}", expected: False) [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.NewsFakeIpConfigTests.PatchConfig_AppliesOrPreserves(patchJson: "{}", expected: null) [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.NewsFakeIpConfigTests.State_Runtime_ReflectsUpdatedConfig_WithoutRestart [343 ms]
+  已通过 Pineglow.Launcher.Tests.NewsFakeIpConfigTests.Roundtrip_True_PreservesThroughJson [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.NewsFakeIpConfigTests.UpdateConfig_MissingToken_Returns401 [5 ms]
+  已通过 Pineglow.Launcher.Tests.NewsFakeIpConfigTests.State_ReturnsNewsFakeIpCompat_BooleanField [158 ms]
+  已通过 Pineglow.Launcher.Tests.NewsFakeIpConfigTests.PatchConfig_NumberValue_DoesNotChangeExisting [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.NewsFakeIpConfigTests.PatchConfig_NonBooleanValue_DoesNotChangeExisting [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.NewsFakeIpConfigTests.NewInstance_DefaultsToFalse [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.NewsFakeIpConfigTests.UpdateConfig_OmittedField_PreservesExistingValue [166 ms]
+  已通过 Pineglow.Launcher.Tests.NewsFakeIpConfigTests.UpdateConfig_WithToken_PersistsTrue [161 ms]
+  已通过 Pineglow.Launcher.Tests.HostDependenciesTests.HostDependencies_IsAtomic_EachHalfSurvivesTheOther [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.HostDependenciesTests.HostDependencies_ProductionWiresRealStoreAndOutboundHttp [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.HostDependenciesTests.LocalApiHost_RefusesToSwapDependenciesWhileRunning [3 ms]
+  已通过 Pineglow.Launcher.Tests.HostDependenciesTests.OverrideHostDependencies_RestoresThePreviousValueOnDispose [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.HostDependenciesTests.OverrideHostDependencies_RejectsNullMutationResult [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.HostDependenciesTests.StorageRoots_RejectsEmptyAndProducesThreeDistinctDirectories [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.HostDependenciesTests.OneOverride_WiresStoreAndAllThreeRoots_ThroughRealHttp [176 ms]
+[xUnit.net 00:00:01.73]   Finished:    Pineglow.Launcher.Tests
+  已通过 Pineglow.Launcher.Tests.HostDependenciesTests.LocalApiService_HasNoPerDependencyOverrideMethods [< 1 ms]
+  已通过 Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_FirstRun_DoesNotWriteOrDeleteExistingCredentials [3 ms]
+  已通过 Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_ExistingConfigWithoutInstance_PersistsGeneratedId [19 ms]
+  已通过 Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_FirstRun_PersistsStableInstanceAndAccountIds [3 ms]
+  已通过 Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_UnwritableInitialPath_ReportsFailureInsteadOfTransientIdentity [2 ms]
+  已通过 Pineglow.Launcher.Tests.ConfigDefaultIdentityTests.LoadAsync_ConcurrentFirstRun_ReturnsOneIdentity [5 ms]
+
+测试运行成功。
+测试总数: 79
+     通过数: 79
+总时间: 2.0812 秒
+EXIT:0

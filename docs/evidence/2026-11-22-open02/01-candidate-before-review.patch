@@ -1,0 +1,66 @@
+diff --git a/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Configuration.cs b/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Configuration.cs
+index 079664c..26f8572 100644
+--- a/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Configuration.cs
++++ b/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Configuration.cs
+@@ -88,7 +88,8 @@ public static partial class LocalApiService
+ 		lock (ConfigGate)
+ 		{
+ 			AppConfig config = _host.Dependencies.Store.Load();
+-			MirrorHelper.SelectedKey = string.IsNullOrWhiteSpace(config.DownloadSource) ? "official" : config.DownloadSource;
++			// 读配置统一走 Normalize：旧值 `mcbbs` 在这里就变成 `bmclapi`，镜像重写不会拿到一个死键。
++			MirrorHelper.SelectedKey = MirrorHelper.Normalize(config.DownloadSource);
+ 			return config;
+ 		}
+ 	}
+@@ -97,7 +98,7 @@ public static partial class LocalApiService
+ 	{
+ 		lock (ConfigGate)
+ 		{
+-			MirrorHelper.SelectedKey = string.IsNullOrWhiteSpace(config.DownloadSource) ? "official" : config.DownloadSource;
++			MirrorHelper.SelectedKey = MirrorHelper.Normalize(config.DownloadSource);
+ 			// 代理变化在此生效（候选 ⑤）：一次整组替换，不再有"换字段 + 延迟销毁"的窗口。
+ 			_host.Dependencies.Http.ApplyProxy(OutboundHttp.ProxySettings.From(config));
+ 			_host.Dependencies.Store.Save(config);
+diff --git a/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Instances.cs b/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Instances.cs
+index 7fa4abc..c9c1ade 100644
+--- a/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Instances.cs
++++ b/dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Instances.cs
+@@ -28,6 +28,7 @@ public static partial class LocalApiService
+ 	private static async Task HandleGetStateAsync(HttpListenerResponse response)
+ 	{
+ 		AppConfig config = LoadConfig();
++		MigrateDownloadSourceOnce(config);
+ 		List<object> instances = config.Instances.Select(x => BuildInstanceSummary(config, x).GetAwaiter().GetResult()).ToList();
+ 		await WriteJsonAsync(response, 200, new
+ 		{
+@@ -45,7 +46,7 @@ public static partial class LocalApiService
+ 				config.ServerHost,
+ 				config.ServerPort,
+ 				config.UseMirror,
+-				downloadSource = string.IsNullOrWhiteSpace(config.DownloadSource) ? "official" : config.DownloadSource,
++				downloadSource = MirrorHelper.Normalize(config.DownloadSource),
+ 				config.ProxyEnabled,
+ 				config.ProxyHost,
+ 				config.ProxyPort,
+@@ -77,6 +78,21 @@ public static partial class LocalApiService
+ 		});
+ 	}
+ 
++	/// <summary>
++	/// 旧配置迁移：`/api/state` 是前端启动后读配置的第一个入口，旧值（`mcbbs`、大小写/空白不规范的键、空值）
++	/// 在这里规范化一次并写回，之后每次请求读到的都已是规范值，不会重复写盘。
++	/// </summary>
++	private static void MigrateDownloadSourceOnce(AppConfig config)
++	{
++		string normalized = MirrorHelper.Normalize(config.DownloadSource);
++		if (string.Equals(config.DownloadSource, normalized, StringComparison.Ordinal))
++		{
++			return;
++		}
++		config.DownloadSource = normalized;
++		SaveConfig(config);
++	}
++
+ 	private static async Task HandleListInstancesAsync(HttpListenerResponse response)
+ 	{
+ 		AppConfig config = LoadConfig();

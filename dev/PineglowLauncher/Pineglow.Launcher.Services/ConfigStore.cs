@@ -112,6 +112,8 @@ public static class ConfigStore
 			}
 			// 一次性迁移：旧单套 AI 配置（AiProviderUrl/AiModel + SecretStore "AiApiKey"）→ 默认 profile
 			bool flag = false;
+			// 只有“旧 JSON 明文凭据尚未转存”才需要保护主配置；账户补全等无关迁移不应阻止下载源落盘。
+			bool legacySecretMigration = false;
 			if (config.AiProviders.Count == 0)
 			{
 				string legacyAiUrl = ReadLegacySecret(legacyDocument.RootElement, "AiProviderUrl");
@@ -129,17 +131,20 @@ public static class ConfigStore
 					config.AiProviders.Add(migrated);
 					config.SelectedAiProviderId = migrated.Id;
 					flag = true;
+					legacySecretMigration = true;
 				}
 			}
 			if (string.IsNullOrWhiteSpace(config.MicrosoftRefreshToken) && !string.IsNullOrWhiteSpace(text))
 			{
 				config.MicrosoftRefreshToken = text;
 				flag = true;
+				legacySecretMigration = true;
 			}
 			if (string.IsNullOrWhiteSpace(config.CurseForgeApiKey) && !string.IsNullOrWhiteSpace(text2))
 			{
 				config.CurseForgeApiKey = text2;
 				flag = true;
+				legacySecretMigration = true;
 			}
 			config.MicrosoftAccessToken = string.Empty;
 			config.MicrosoftAccessTokenExpiresAt = DateTimeOffset.MinValue;
@@ -200,6 +205,12 @@ public static class ConfigStore
 				}
 				catch
 				{
+					// 只有确有旧 JSON 明文凭据待转存时才保护主配置；
+					// 账户补全等无关保存失败不应阻止下载源迁移落盘。
+					if (legacySecretMigration)
+					{
+						config.SecretMigrationPending = true;
+					}
 				}
 			}
 			else if (needsDefaultInstance)
@@ -232,6 +243,27 @@ public static class ConfigStore
 			SaveCore(config);
 		}
 		await Task.CompletedTask;
+	}
+
+	/// <summary>
+	/// 只写 config.json，**不调用 SecretStore**。旧配置迁移这类"读路径顺带写回"必须走这里：
+	/// <see cref="LoadAsync"/> 在任一凭据读取失败时会清空内存中的凭据；若随后走
+	/// <see cref="SaveAsync"/>，<see cref="SaveCore"/> 会把空值写回 SecretStore（空值即删除），
+	/// 误删与本次迁移无关的凭据。
+	/// </summary>
+	internal static Task SaveConfigOnlyAsync(AppConfig config)
+	{
+		lock (ConfigGate)
+		{
+			// 旧凭据尚未转存成功时，整包重写会把 [JsonIgnore] 的旧字段丢掉；
+			// 跳过本次写回，等凭据后端恢复后由下一次 LoadAsync 完成转存，再持久化下载源。
+			if (!config.SecretMigrationPending)
+			{
+				AccountService.ApplySelectedToLegacy(config);
+				WriteConfigFile(ResolveConfigPath(), config);
+			}
+		}
+		return Task.CompletedTask;
 	}
 
 	private static void SaveCore(AppConfig config)

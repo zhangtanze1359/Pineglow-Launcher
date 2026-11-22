@@ -1,0 +1,28 @@
+OPEN-02 执行现场记录
+生成时间: 2026-11-22 19:10:37 +0800
+
+[1] 执行目录与 Git 状态
+pwd: /d/Projects/_worktrees/pineglow-open02-20261122
+toplevel: D:/Projects/_worktrees/pineglow-open02-20261122
+HEAD: 274675f0aaf686833239811adc39684d5b02743c
+branch: HEAD
+status:
+ M dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Configuration.cs
+ M dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Instances.cs
+?? .cache/nuget.config
+?? NuGet/Migrations/1
+?? dev/PineglowLauncher.Tests/DownloadSourceHttpMigrationTests.cs
+
+[2] 输入文件 SHA-256（隔离工作树）
+037CD2063DC915C708AB1BD0BFD85E5964EDE1E33EE32299C3E93715A7BBDD6F  dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Configuration.cs
+06761C52B18371AEE902CD21525B5D5CFFDEDD2467B5EBEC1AEA6DB91DBE1EBF  dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Instances.cs
+54CCD6162A37D5A24E17C4D68B0EC448811FFD30162D3F057F5886AF288B445C  dev/PineglowLauncher.Tests/DownloadSourceHttpMigrationTests.cs
+
+[3] 主工作区同一输入 SHA-256
+037CD2063DC915C708AB1BD0BFD85E5964EDE1E33EE32299C3E93715A7BBDD6F  dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Configuration.cs
+5D4D917BA3D6DF4FFBCD396AB0FD3851C0C6338B99C5E30820350E5CCF27E7AE  dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Instances.cs
+54CCD6162A37D5A24E17C4D68B0EC448811FFD30162D3F057F5886AF288B445C  dev/PineglowLauncher.Tests/DownloadSourceHttpMigrationTests.cs
+
+[4] 工具版本
+10.0.301
+node: v24.19.0

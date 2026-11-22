@@ -1,0 +1,14 @@
+﻿assembly=D:\Projects\_worktrees\pineglow-open02-verify4-20261122\.cache\open02-config-probe\bin\Release\net10.0\Pineglow.Launcher.dll
+sourceVersion=1.0.5; config=D:\Projects\_worktrees\pineglow-open02-verify4-20261122\.cache\tmp\pg-open02-probe-5f9539ea2621425fb4e88fa554b9c0df\config.json
+case=official-control; source=official; readFaults=1; deleteFaultArmed=True; diskLock=False; HTTP=200; responseSource=official; effectiveSource=official; diskSource=official; unchangedBytes=True; unrelatedKeyPresent=True; unrelatedKeyDeletes=0; writes=0; deletes=0; nativeCredentialCalls=0; pass=True
+requestOperations=read:MicrosoftRefreshToken,read:CurseForgeApiKey,read:ProxyPassword,read:AiKey_probe
+case=healthy-migration; source=mcbbs; readFaults=0; deleteFaultArmed=False; diskLock=False; HTTP=200; responseSource=bmclapi; effectiveSource=bmclapi; diskSource=bmclapi; unchangedBytes=False; unrelatedKeyPresent=True; unrelatedKeyDeletes=0; writes=0; deletes=0; nativeCredentialCalls=0; pass=True
+requestOperations=read:MicrosoftRefreshToken,read:CurseForgeApiKey,read:ProxyPassword,read:AiKey_probe
+case=AI-read-fault; source=mcbbs; readFaults=1; deleteFaultArmed=False; diskLock=False; HTTP=200; responseSource=bmclapi; effectiveSource=bmclapi; diskSource=bmclapi; unchangedBytes=False; unrelatedKeyPresent=True; unrelatedKeyDeletes=0; writes=0; deletes=0; nativeCredentialCalls=0; pass=True
+requestOperations=read:MicrosoftRefreshToken,read:CurseForgeApiKey,read:ProxyPassword,read:AiKey_probe
+case=AI-read-fault-and-armed-delete-fault; source=mcbbs; readFaults=1; deleteFaultArmed=True; diskLock=False; HTTP=200; responseSource=bmclapi; effectiveSource=bmclapi; diskSource=bmclapi; unchangedBytes=False; unrelatedKeyPresent=True; unrelatedKeyDeletes=0; writes=0; deletes=0; nativeCredentialCalls=0; pass=True
+requestOperations=read:MicrosoftRefreshToken,read:CurseForgeApiKey,read:ProxyPassword,read:AiKey_probe
+case=locked-config-temp-file; source=mcbbs; readFaults=1; deleteFaultArmed=False; diskLock=True; HTTP=200; responseSource=bmclapi; effectiveSource=bmclapi; diskSource=mcbbs; unchangedBytes=True; unrelatedKeyPresent=True; unrelatedKeyDeletes=0; writes=0; deletes=0; nativeCredentialCalls=0; pass=True
+requestOperations=read:MicrosoftRefreshToken,read:CurseForgeApiKey,read:ProxyPassword,read:AiKey_probe
+case=explicit-full-save; precondition=True; keyPresent=False; curseForgeDeletes=1; operations=delete:MicrosoftRefreshToken,delete:CurseForgeApiKey,delete:ProxyPassword,delete:AiApiKey,delete:AiKey_probe; nativeCredentialCalls=0; pass=True
+probe=PASS

@@ -1,0 +1,105 @@
+﻿start=2026-11-22T19:55:27.7756256+08:00
+finish=2026-11-22T19:55:41.2514165+08:00
+cwd=D:\Projects\_worktrees\pineglow-open02-verify3-20261122
+command=dotnet "test" "dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj" "-c" "Release" "--filter" "FullyQualifiedName~DownloadSourceHttpMigrationTests"
+exit=1
+log=D:\Projects\_worktrees\pineglow-open02-verify3-20261122\verify-logs\01-red.txt
+
+start=2026-11-22T19:56:47.0691022+08:00
+finish=2026-11-22T19:56:50.1814150+08:00
+cwd=D:\Projects\_worktrees\pineglow-open02-verify3-20261122
+command=dotnet "run" "--project" ".cache/open02-config-probe/Probe.csproj" "-c" "Release" "-p:BuildProjectReferences=false" "--" "--legacy-credential" "--baseline"
+exit=0
+log=D:\Projects\_worktrees\pineglow-open02-verify3-20261122\verify-logs\01b-legacy-baseline.txt
+
+start=2026-11-22T19:57:17.1359821+08:00
+finish=2026-11-22T19:57:17.1636943+08:00
+cwd=D:\Projects\_worktrees\pineglow-open02-verify3-20261122
+command=git "apply" "--check" "D:/Projects/松光启动器/docs/evidence/2026-11-22-open02/18-candidate-final-v3.patch"
+exit=0
+log=D:\Projects\_worktrees\pineglow-open02-verify3-20261122\verify-logs\02a-apply-check.txt
+
+start=2026-11-22T19:57:17.1737001+08:00
+finish=2026-11-22T19:57:17.1958490+08:00
+cwd=D:\Projects\_worktrees\pineglow-open02-verify3-20261122
+command=git "apply" "D:/Projects/松光启动器/docs/evidence/2026-11-22-open02/18-candidate-final-v3.patch"
+exit=0
+log=D:\Projects\_worktrees\pineglow-open02-verify3-20261122\verify-logs\02b-apply.txt
+
+start=2026-11-22T19:57:17.1978493+08:00
+finish=2026-11-22T19:57:17.2328515+08:00
+cwd=D:\Projects\_worktrees\pineglow-open02-verify3-20261122
+command=git "diff" "--check"
+exit=0
+log=D:\Projects\_worktrees\pineglow-open02-verify3-20261122\verify-logs\02c-diff-check.txt
+
+start=2026-11-22T19:57:17.2348514+08:00
+finish=2026-11-22T19:57:17.2699001+08:00
+cwd=D:\Projects\_worktrees\pineglow-open02-verify3-20261122
+command=git "diff" "--stat"
+exit=0
+log=D:\Projects\_worktrees\pineglow-open02-verify3-20261122\verify-logs\02d-diff-stat.txt
+
+start=2026-11-22T19:57:17.3219960+08:00
+finish=2026-11-22T19:57:28.3788716+08:00
+cwd=D:\Projects\_worktrees\pineglow-open02-verify3-20261122
+command=dotnet "test" "dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj" "-c" "Release" "--filter" "FullyQualifiedName~DownloadSourceHttpMigrationTests"
+exit=0
+log=D:\Projects\_worktrees\pineglow-open02-verify3-20261122\verify-logs\03-green.txt
+
+start=2026-11-22T19:57:28.3803765+08:00
+finish=2026-11-22T19:57:32.2753484+08:00
+cwd=D:\Projects\_worktrees\pineglow-open02-verify3-20261122
+command=dotnet "test" "dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj" "-c" "Release" "--filter" "FullyQualifiedName~DownloadSourceMigrationTests|FullyQualifiedName~ConfigBackupRotationTests|FullyQualifiedName~ConfigPreservationTests|FullyQualifiedName~ConfigDefaultIdentityTests|FullyQualifiedName~NewsFakeIpConfigTests|FullyQualifiedName~HostDependenciesTests|FullyQualifiedName~LocalApiServiceSplitTests|FullyQualifiedName~RouteReachabilityTests|FullyQualifiedName~ApiRouteInventoryTests"
+exit=0
+log=D:\Projects\_worktrees\pineglow-open02-verify3-20261122\verify-logs\04-regression.txt
+
+start=2026-11-22T19:57:32.2768553+08:00
+finish=2026-11-22T19:57:32.3222904+08:00
+cwd=D:\Projects\_worktrees\pineglow-open02-verify3-20261122
+command=node "scripts/run-inventory-tests.cjs" "--check"
+exit=0
+log=D:\Projects\_worktrees\pineglow-open02-verify3-20261122\verify-logs\05-inventory.txt
+
+start=2026-11-22T19:57:32.3232907+08:00
+finish=2026-11-22T19:59:09.5170640+08:00
+cwd=D:\Projects\_worktrees\pineglow-open02-verify3-20261122
+command=node "scripts/gates.cjs"
+exit=0
+log=D:\Projects\_worktrees\pineglow-open02-verify3-20261122\verify-logs\06-gates.txt
+
+start=2026-11-22T19:59:09.5180641+08:00
+finish=2026-11-22T19:59:09.5705719+08:00
+cwd=D:\Projects\_worktrees\pineglow-open02-verify3-20261122
+command=node "scripts/check-ui-resource-closure.cjs"
+exit=0
+log=D:\Projects\_worktrees\pineglow-open02-verify3-20261122\verify-logs\06b-closure.txt
+
+start=2026-11-22T19:59:31.0192640+08:00
+finish=2026-11-22T19:59:33.9213925+08:00
+cwd=D:\Projects\_worktrees\pineglow-open02-verify3-20261122
+command=dotnet "run" "--project" ".cache/open02-config-probe/Probe.csproj" "-c" "Release" "-p:BuildProjectReferences=false"
+exit=0
+log=D:\Projects\_worktrees\pineglow-open02-verify3-20261122\verify-logs\07b-production-store-probe.txt
+
+start=2026-11-22T19:59:33.9441949+08:00
+finish=2026-11-22T19:59:35.3093969+08:00
+cwd=D:\Projects\_worktrees\pineglow-open02-verify3-20261122
+command=dotnet "run" "--project" ".cache/open02-config-probe/Probe.csproj" "-c" "Release" "--no-build" "--" "--legacy-credential"
+exit=0
+log=D:\Projects\_worktrees\pineglow-open02-verify3-20261122\verify-logs\08-legacy-credential-v3.txt
+
+start=2026-11-22T19:59:35.3113954+08:00
+finish=2026-11-22T19:59:36.5658534+08:00
+cwd=D:\Projects\_worktrees\pineglow-open02-verify3-20261122
+command=dotnet "run" "--project" ".cache/open02-config-probe/Probe.csproj" "-c" "Release" "--no-build" "--" "--account-only-save-fault"
+exit=1
+log=D:\Projects\_worktrees\pineglow-open02-verify3-20261122\verify-logs\09-account-only-save-fault.txt
+
+start=2026-11-22T20:00:50.9530051+08:00
+finish=2026-11-22T20:00:51.0576768+08:00
+cwd=D:\Projects\_worktrees\pineglow-open02-verify3-20261122
+command=git "-c" "core.longpaths=true" "status" "--short" "--untracked-files=all"
+exit=0
+log=D:\Projects\_worktrees\pineglow-open02-verify3-20261122\verify-logs\10b-final-status.txt
+

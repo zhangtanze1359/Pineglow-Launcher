@@ -1,0 +1,254 @@
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+  JavaProbe -> D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\JavaProbe\bin\Release\net10.0\JavaProbe.dll
+  Pineglow.Launcher -> D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher\bin\Release\net10.0\Pineglow.Launcher.dll
+D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\AiCancelAndRedirectTests.cs(93,17): warning CS8618: 在退出构造函数时，不可为 null 的 属性 "Location" 必须包含非 null 值。请考虑添加 "required" 修饰符或将该 属性 声明为可为 null。 [D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\AiCancelAndRedirectTests.cs(94,17): warning CS8618: 在退出构造函数时，不可为 null 的 属性 "Body" 必须包含非 null 值。请考虑添加 "required" 修饰符或将该 属性 声明为可为 null。 [D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\WorkflowInvariantTests.cs(40,11): warning CS8600: 将 null 文本或可能的 null 值转换为不可为 null 类型。 [D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DiagnosticCaseSetInvariantTests.cs(50,11): warning CS8600: 将 null 文本或可能的 null 值转换为不可为 null 类型。 [D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\LauncherStartupBoundaryTests.cs(185,11): warning CS8600: 将 null 文本或可能的 null 值转换为不可为 null 类型。 [D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\OutboundEndpointPolicyTests.cs(43,11): warning CS8600: 将 null 文本或可能的 null 值转换为不可为 null 类型。 [D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\SecretPersistenceContractTests.cs(44,11): warning CS8600: 将 null 文本或可能的 null 值转换为不可为 null 类型。 [D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\SecretHygieneTests.cs(39,28): warning CS8619: 类型“List<string?>”的值中引用类型的为 Null 性与目标类型“List<string>”不匹配。 [D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\AiDispatchMetadataTests.cs(238,3): warning xUnit2013: Do not use Assert.Equal() to check for collection size. Use Assert.Single instead. (https://xunit.net/xunit.analyzers/rules/xUnit2013) [D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\InstanceLaunchGuardTests.cs(193,9): warning xUnit1031: Test methods should not use blocking task operations, as they can cause deadlocks. Use an async test method and await instead. (https://xunit.net/xunit.analyzers/rules/xUnit1031) [D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\MinecraftNewsServiceTests.cs(194,4): warning xUnit2013: Do not use Assert.Equal() to check for collection size. Use Assert.Single instead. (https://xunit.net/xunit.analyzers/rules/xUnit2013) [D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\InstanceLaunchGuardTests.cs(233,9): warning xUnit1031: Test methods should not use blocking task operations, as they can cause deadlocks. Use an async test method and await instead. (https://xunit.net/xunit.analyzers/rules/xUnit1031) [D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\ContentIconServiceTests.cs(1332,89): warning xUnit1031: Test methods should not use blocking task operations, as they can cause deadlocks. Use an async test method and await instead. (https://xunit.net/xunit.analyzers/rules/xUnit1031) [D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\ContentIconServiceTests.cs(1374,90): warning xUnit1031: Test methods should not use blocking task operations, as they can cause deadlocks. Use an async test method and await instead. (https://xunit.net/xunit.analyzers/rules/xUnit1031) [D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\ContentIconServiceTests.cs(1385,90): warning xUnit1031: Test methods should not use blocking task operations, as they can cause deadlocks. Use an async test method and await instead. (https://xunit.net/xunit.analyzers/rules/xUnit1031) [D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\MinecraftNewsServiceTests.cs(539,4): warning xUnit2013: Do not use Assert.Equal() to check for collection size. Use Assert.Single instead. (https://xunit.net/xunit.analyzers/rules/xUnit2013) [D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\UpdateApplyGuardTests.cs(134,4): warning xUnit2002: Do not use Assert.NotNull() on value type 'int'. Remove this assert. (https://xunit.net/xunit.analyzers/rules/xUnit2002) [D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\LoaderAndContentServiceTests.cs(944,90): warning xUnit1031: Test methods should not use blocking task operations, as they can cause deadlocks. Use an async test method and await instead. (https://xunit.net/xunit.analyzers/rules/xUnit1031) [D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\ContentIconServiceTests.cs(1907,100): warning xUnit1031: Test methods should not use blocking task operations, as they can cause deadlocks. Use an async test method and await instead. (https://xunit.net/xunit.analyzers/rules/xUnit1031) [D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\ContentIconServiceTests.cs(1927,101): warning xUnit1031: Test methods should not use blocking task operations, as they can cause deadlocks. Use an async test method and await instead. (https://xunit.net/xunit.analyzers/rules/xUnit1031) [D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\ContentIconServiceTests.cs(2124,96): warning xUnit1031: Test methods should not use blocking task operations, as they can cause deadlocks. Use an async test method and await instead. (https://xunit.net/xunit.analyzers/rules/xUnit1031) [D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\Pineglow.Launcher.Tests.csproj]
+  Pineglow.Launcher.Tests -> D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll
+D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll (.NETCoreApp,Version=v10.0)的测试运行
+总共 1 个测试文件与指定模式相匹配。
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.9)
+[xUnit.net 00:00:00.10]   Discovering: Pineglow.Launcher.Tests
+[xUnit.net 00:00:00.22]   Discovered:  Pineglow.Launcher.Tests
+[xUnit.net 00:00:00.24]   Starting:    Pineglow.Launcher.Tests
+[xUnit.net 00:00:00.59]     Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(original: "   ", expected: "official", expectedWrites: 1) [FAIL]
+[xUnit.net 00:00:00.60]       Assert.Equal() Failure: Values differ
+[xUnit.net 00:00:00.60]       Expected: 1
+[xUnit.net 00:00:00.60]       Actual:   0
+[xUnit.net 00:00:00.60]       Stack Trace:
+[xUnit.net 00:00:00.60]         D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs(40,0): at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites)
+[xUnit.net 00:00:00.60]         D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs(43,0): at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites)
+[xUnit.net 00:00:00.60]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:00.75]     Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(original: "mcbbs", expected: "bmclapi", expectedWrites: 1) [FAIL]
+[xUnit.net 00:00:00.76]       Assert.Equal() Failure: Strings differ
+[xUnit.net 00:00:00.76]                  ↓ (pos 0)
+[xUnit.net 00:00:00.76]       Expected: "bmclapi"
+[xUnit.net 00:00:00.76]       Actual:   "mcbbs"
+[xUnit.net 00:00:00.76]                  ↑ (pos 0)
+[xUnit.net 00:00:00.76]       Stack Trace:
+[xUnit.net 00:00:00.76]         D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs(127,0): at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.AssertStateAsync(LocalApiTestHarness harness, String expected)
+[xUnit.net 00:00:00.76]         D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs(39,0): at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites)
+[xUnit.net 00:00:00.76]         D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs(43,0): at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites)
+[xUnit.net 00:00:00.76]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:00.91]     Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(original: "MCBBS", expected: "bmclapi", expectedWrites: 1) [FAIL]
+[xUnit.net 00:00:00.91]       Assert.Equal() Failure: Strings differ
+[xUnit.net 00:00:00.91]                  ↓ (pos 0)
+[xUnit.net 00:00:00.91]       Expected: "bmclapi"
+[xUnit.net 00:00:00.91]       Actual:   "MCBBS"
+[xUnit.net 00:00:00.91]                  ↑ (pos 0)
+[xUnit.net 00:00:00.91]       Stack Trace:
+[xUnit.net 00:00:00.91]         D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs(127,0): at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.AssertStateAsync(LocalApiTestHarness harness, String expected)
+[xUnit.net 00:00:00.91]         D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs(39,0): at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites)
+[xUnit.net 00:00:00.91]         D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs(43,0): at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites)
+[xUnit.net 00:00:00.91]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:01.07]     Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(original: "BMCLAPI", expected: "bmclapi", expectedWrites: 1) [FAIL]
+[xUnit.net 00:00:01.07]       Assert.Equal() Failure: Strings differ
+[xUnit.net 00:00:01.07]                  ↓ (pos 0)
+[xUnit.net 00:00:01.07]       Expected: "bmclapi"
+[xUnit.net 00:00:01.07]       Actual:   "BMCLAPI"
+[xUnit.net 00:00:01.07]                  ↑ (pos 0)
+[xUnit.net 00:00:01.07]       Stack Trace:
+[xUnit.net 00:00:01.07]         D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs(127,0): at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.AssertStateAsync(LocalApiTestHarness harness, String expected)
+[xUnit.net 00:00:01.07]         D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs(39,0): at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites)
+[xUnit.net 00:00:01.07]         D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs(43,0): at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites)
+[xUnit.net 00:00:01.07]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:01.23]     Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(original: null, expected: "official", expectedWrites: 1) [FAIL]
+[xUnit.net 00:00:01.23]       Assert.Equal() Failure: Values differ
+[xUnit.net 00:00:01.23]       Expected: 1
+[xUnit.net 00:00:01.23]       Actual:   0
+[xUnit.net 00:00:01.23]       Stack Trace:
+[xUnit.net 00:00:01.23]         D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs(40,0): at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites)
+[xUnit.net 00:00:01.23]         D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs(43,0): at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites)
+[xUnit.net 00:00:01.23]         --- End of stack trace from previous location ---
+  失败 Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(original: "   ", expected: "official", expectedWrites: 1) [322 ms]
+  错误消息:
+   Assert.Equal() Failure: Values differ
+Expected: 1
+Actual:   0
+  堆栈跟踪:
+     at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites) in D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs:line 40
+   at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites) in D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs:line 43
+--- End of stack trace from previous location ---
+  失败 Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(original: "mcbbs", expected: "bmclapi", expectedWrites: 1) [160 ms]
+  错误消息:
+   Assert.Equal() Failure: Strings differ
+           ↓ (pos 0)
+Expected: "bmclapi"
+Actual:   "mcbbs"
+           ↑ (pos 0)
+  堆栈跟踪:
+     at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.AssertStateAsync(LocalApiTestHarness harness, String expected) in D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs:line 127
+   at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites) in D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs:line 39
+   at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites) in D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs:line 43
+--- End of stack trace from previous location ---
+  失败 Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(original: "MCBBS", expected: "bmclapi", expectedWrites: 1) [156 ms]
+  错误消息:
+   Assert.Equal() Failure: Strings differ
+           ↓ (pos 0)
+Expected: "bmclapi"
+Actual:   "MCBBS"
+           ↑ (pos 0)
+  堆栈跟踪:
+     at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.AssertStateAsync(LocalApiTestHarness harness, String expected) in D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs:line 127
+   at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites) in D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs:line 39
+   at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites) in D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs:line 43
+--- End of stack trace from previous location ---
+  失败 Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(original: "BMCLAPI", expected: "bmclapi", expectedWrites: 1) [160 ms]
+  错误消息:
+   Assert.Equal() Failure: Strings differ
+           ↓ (pos 0)
+Expected: "bmclapi"
+Actual:   "BMCLAPI"
+           ↑ (pos 0)
+  堆栈跟踪:
+     at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.AssertStateAsync(LocalApiTestHarness harness, String expected) in D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs:line 127
+   at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites) in D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs:line 39
+   at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites) in D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs:line 43
+--- End of stack trace from previous location ---
+  失败 Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(original: null, expected: "official", expectedWrites: 1) [152 ms]
+  错误消息:
+   Assert.Equal() Failure: Values differ
+Expected: 1
+Actual:   0
+  堆栈跟踪:
+     at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites) in D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs:line 40
+   at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites) in D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs:line 43
+--- End of stack trace from previous location ---
+[xUnit.net 00:00:02.33]     Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(original: " mcbbs ", expected: "bmclapi", expectedWrites: 1) [FAIL]
+[xUnit.net 00:00:02.33]       Assert.Equal() Failure: Strings differ
+[xUnit.net 00:00:02.33]                  ↓ (pos 0)
+[xUnit.net 00:00:02.33]       Expected: "bmclapi"
+[xUnit.net 00:00:02.33]       Actual:   " mcbbs "
+[xUnit.net 00:00:02.33]                  ↑ (pos 0)
+[xUnit.net 00:00:02.33]       Stack Trace:
+[xUnit.net 00:00:02.33]         D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs(127,0): at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.AssertStateAsync(LocalApiTestHarness harness, String expected)
+[xUnit.net 00:00:02.33]         D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs(39,0): at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites)
+[xUnit.net 00:00:02.33]         D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs(43,0): at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites)
+[xUnit.net 00:00:02.33]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:02.48]     Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(original: "Official", expected: "official", expectedWrites: 1) [FAIL]
+[xUnit.net 00:00:02.48]       Assert.Equal() Failure: Strings differ
+[xUnit.net 00:00:02.48]                  ↓ (pos 0)
+[xUnit.net 00:00:02.48]       Expected: "official"
+[xUnit.net 00:00:02.48]       Actual:   "Official"
+[xUnit.net 00:00:02.48]                  ↑ (pos 0)
+[xUnit.net 00:00:02.48]       Stack Trace:
+[xUnit.net 00:00:02.48]         D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs(127,0): at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.AssertStateAsync(LocalApiTestHarness harness, String expected)
+[xUnit.net 00:00:02.48]         D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs(39,0): at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites)
+[xUnit.net 00:00:02.48]         D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs(43,0): at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites)
+[xUnit.net 00:00:02.48]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:02.63]     Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(original: "", expected: "official", expectedWrites: 1) [FAIL]
+[xUnit.net 00:00:02.63]       Assert.Equal() Failure: Values differ
+[xUnit.net 00:00:02.63]       Expected: 1
+[xUnit.net 00:00:02.63]       Actual:   0
+[xUnit.net 00:00:02.63]       Stack Trace:
+[xUnit.net 00:00:02.63]         D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs(40,0): at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites)
+[xUnit.net 00:00:02.63]         D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs(43,0): at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites)
+[xUnit.net 00:00:02.63]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:02.78]     Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_WriteBackFailure_KeepsReadPathWorking [FAIL]
+[xUnit.net 00:00:02.78]       Assert.Equal() Failure: Strings differ
+[xUnit.net 00:00:02.78]                  ↓ (pos 0)
+[xUnit.net 00:00:02.78]       Expected: "bmclapi"
+[xUnit.net 00:00:02.78]       Actual:   "mcbbs"
+[xUnit.net 00:00:02.78]                  ↑ (pos 0)
+[xUnit.net 00:00:02.78]       Stack Trace:
+[xUnit.net 00:00:02.78]         D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs(127,0): at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.AssertStateAsync(LocalApiTestHarness harness, String expected)
+[xUnit.net 00:00:02.78]         D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs(108,0): at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_WriteBackFailure_KeepsReadPathWorking()
+[xUnit.net 00:00:02.78]         D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs(109,0): at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_WriteBackFailure_KeepsReadPathWorking()
+[xUnit.net 00:00:02.78]         --- End of stack trace from previous location ---
+  已通过 Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(original: "official", expected: "official", expectedWrites: 0) [461 ms]
+  已通过 Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(original: "bmclapi", expected: "bmclapi", expectedWrites: 0) [489 ms]
+  失败 Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(original: " mcbbs ", expected: "bmclapi", expectedWrites: 1) [152 ms]
+  错误消息:
+   Assert.Equal() Failure: Strings differ
+           ↓ (pos 0)
+Expected: "bmclapi"
+Actual:   " mcbbs "
+           ↑ (pos 0)
+  堆栈跟踪:
+     at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.AssertStateAsync(LocalApiTestHarness harness, String expected) in D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs:line 127
+   at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites) in D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs:line 39
+   at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites) in D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs:line 43
+--- End of stack trace from previous location ---
+  失败 Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(original: "Official", expected: "official", expectedWrites: 1) [148 ms]
+  错误消息:
+   Assert.Equal() Failure: Strings differ
+           ↓ (pos 0)
+Expected: "official"
+Actual:   "Official"
+           ↑ (pos 0)
+  堆栈跟踪:
+     at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.AssertStateAsync(LocalApiTestHarness harness, String expected) in D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs:line 127
+   at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites) in D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs:line 39
+   at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites) in D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs:line 43
+--- End of stack trace from previous location ---
+  失败 Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(original: "", expected: "official", expectedWrites: 1) [149 ms]
+  错误消息:
+   Assert.Equal() Failure: Values differ
+Expected: 1
+Actual:   0
+  堆栈跟踪:
+     at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites) in D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs:line 40
+   at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_MigratesSourceOnce_AndSurvivesReload(String original, String expected, Int32 expectedWrites) in D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs:line 43
+--- End of stack trace from previous location ---
+  失败 Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_WriteBackFailure_KeepsReadPathWorking [147 ms]
+  错误消息:
+   Assert.Equal() Failure: Strings differ
+           ↓ (pos 0)
+Expected: "bmclapi"
+Actual:   "mcbbs"
+           ↑ (pos 0)
+  堆栈跟踪:
+     at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.AssertStateAsync(LocalApiTestHarness harness, String expected) in D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs:line 127
+   at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_WriteBackFailure_KeepsReadPathWorking() in D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs:line 108
+   at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_WriteBackFailure_KeepsReadPathWorking() in D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs:line 109
+--- End of stack trace from previous location ---
+[xUnit.net 00:00:03.51]     Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_ConcurrentReads_WriteBackOnlyOnce [FAIL]
+[xUnit.net 00:00:03.51]       Assert.Equal() Failure: Strings differ
+[xUnit.net 00:00:03.51]                  ↓ (pos 0)
+[xUnit.net 00:00:03.51]       Expected: "bmclapi"
+[xUnit.net 00:00:03.51]       Actual:   "mcbbs"
+[xUnit.net 00:00:03.51]                  ↑ (pos 0)
+[xUnit.net 00:00:03.51]       Stack Trace:
+[xUnit.net 00:00:03.51]         D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs(127,0): at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.AssertStateAsync(LocalApiTestHarness harness, String expected)
+[xUnit.net 00:00:03.51]         D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs(80,0): at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_ConcurrentReads_WriteBackOnlyOnce()
+[xUnit.net 00:00:03.51]         D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs(82,0): at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_ConcurrentReads_WriteBackOnlyOnce()
+[xUnit.net 00:00:03.51]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:03.51]   Finished:    Pineglow.Launcher.Tests
+  失败 Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_ConcurrentReads_WriteBackOnlyOnce [725 ms]
+  错误消息:
+   Assert.Equal() Failure: Strings differ
+           ↓ (pos 0)
+Expected: "bmclapi"
+Actual:   "mcbbs"
+           ↑ (pos 0)
+  堆栈跟踪:
+     at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.AssertStateAsync(LocalApiTestHarness harness, String expected) in D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs:line 127
+   at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_ConcurrentReads_WriteBackOnlyOnce() in D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs:line 80
+   at Pineglow.Launcher.Tests.DownloadSourceHttpMigrationTests.State_ConcurrentReads_WriteBackOnlyOnce() in D:\Projects\_worktrees\pineglow-open02-20261122\dev\PineglowLauncher.Tests\DownloadSourceHttpMigrationTests.cs:line 82
+--- End of stack trace from previous location ---
+
+测试运行失败。
+测试总数: 12
+     通过数: 2
+     失败数: 10
+总时间: 3.9086 秒
+EXIT:1

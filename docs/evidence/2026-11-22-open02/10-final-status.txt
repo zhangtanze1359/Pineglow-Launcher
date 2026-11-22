@@ -1,0 +1,28 @@
+OPEN-02 收尾状态
+时间: 2026-11-22 19:17:00 +0800
+
+[主工作区]
+HEAD: 274675f0aaf686833239811adc39684d5b02743c
+ M dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Configuration.cs
+ M dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Instances.cs
+?? dev/PineglowLauncher.Tests/DownloadSourceHttpMigrationTests.cs
+?? docs/evidence/2026-11-22-open02/00-preflight.txt
+?? docs/evidence/2026-11-22-open02/01-candidate-before-review.patch
+?? docs/evidence/2026-11-22-open02/01-test-before-review.cs
+?? docs/evidence/2026-11-22-open02/03-candidate-final.patch
+?? docs/evidence/2026-11-22-open02/03-test-final.cs
+?? docs/evidence/2026-11-22-open02/09-final-diff-stat.txt
+?? docs/evidence/2026-11-22-open02/10-final-status.txt
+?? docs/evidence/2026-11-22-open02/README.md
+?? docs/handoff/HANDOFF-2026-11-22-open02-execution.md
+
+[执行工作树]
+HEAD: 274675f0aaf686833239811adc39684d5b02743c
+ M dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Configuration.cs
+ M dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Instances.cs
+?? dev/PineglowLauncher.Tests/DownloadSourceHttpMigrationTests.cs
+
+[未提交变更哈希]
+29ee486bb683b7e3f38470e67595e15821e70ffd5c60ea0f6b9d38a246ba383b *dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Configuration.cs
+c78892dde83fa38be993b10c89968a3a971ac3ab76681b97a5074848d1253916 *dev/PineglowLauncher/Pineglow.Launcher.Services/LocalApiService.Instances.cs
+a01d4131357cdaf23e6608a163fc8b65e37c4bee6bef132a120783d7cc700d34 *dev/PineglowLauncher.Tests/DownloadSourceHttpMigrationTests.cs
