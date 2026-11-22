@@ -1,0 +1,16 @@
+
+== 证据树交叉一致性审计 ==
+  证据树 = market-execution
+  来源   = 显式 -EvidenceRoot
+  扫描到 2 个 run 目录
+  [缺少 deliverable.md] 缺少 deliverable.md（1 项）
+      trees\pg-open05-review2-20261122\_review-open05-87msfcnv\复验 样本\docs\market-execution\MR00\20261002-072004Z
+  [缺少 manifest.json] 缺少 manifest.json（1 项）
+      trees\pg-open05-review2-20261122\_review-open05-87msfcnv\复验 样本\docs\market-execution\MR00\20261002-072004Z
+  [OK] manifest.json 无法解析
+  [OK] runId 与目录名不符
+  [OK] manifest 文件哈希不符/文件缺失
+  [OK] 目录里有文件未登记进 manifest
+  [OK] changed-files 记录的路径不存在
+
+== 结论：发现 2 处不一致，需要逐项处理

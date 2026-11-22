@@ -1,15 +1,17 @@
 case=tree-splat-empty
 worktree=D:/Projects/_worktrees/pg-open05-20261122
 cwd=D:/Projects/_worktrees/pg-open05-20261122
-time=2026-11-22T22:44:55.4264250+08:00
+time=2026-11-22T23:00:18.3221042+08:00
 command=powershell.exe -NoProfile -OutputFormat Text -EncodedCommand <base64>  (child env: PSExecutionPolicyPreference cleared)
+call_body=$splatArgs = @{ RepoRoot = 'D:/Projects/_worktrees/pg-open05-20261122'; EvidenceRoot = '' }; & 'D:\Projects\_worktrees\pg-open05-20261122\scripts\audit-evidence-tree.ps1' @splatArgs
 decoded=[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $ErrorActionPreference = 'Stop'
-try { & 'D:\Projects\_worktrees\pg-open05-20261122\scripts\audit-evidence-tree.ps1' -RepoRoot 'D:/Projects/_worktrees/pg-open05-20261122' -EvidenceRoot ''; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }
+try { $splatArgs = @{ RepoRoot = 'D:/Projects/_worktrees/pg-open05-20261122'; EvidenceRoot = '' }; & 'D:\Projects\_worktrees\pg-open05-20261122\scripts\audit-evidence-tree.ps1' @splatArgs; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }
 expect_exit=1
 expect_pattern=\[EVIDENCE_ROOT_BLANK\]
-expect_source=splat 形式显式空值
+expect_source=哈希表 splat 显式空值（非直接传参）
 actual_exit=1
+stdout_shows_scan=False
 stdout_file=D:\Projects\松光启动器\docs\evidence\2026-11-22-open05\raw\tree-splat-empty.out.txt
 stderr_file=D:\Projects\松光启动器\docs\evidence\2026-11-22-open05\raw\tree-splat-empty.err.txt
 verdict=PASS

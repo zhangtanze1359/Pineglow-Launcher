@@ -105,23 +105,35 @@ $hashMismatch = @()
 $notListed = @()
 $missingPath = @()
 
+# run 相对路径的报告前缀长度：**只在这里计算一次**。
+# 不能到处写 $EvidenceRoot.Length + 1：卷根（'Z:\'）末尾已经带分隔符，
+# 再 +1 会把 'MR00\...' 截成 'R00\...'，历史白名单 $preConvention 就再也命中不了，
+# 同一棵自洽的树在卷根写法下凭空多报「缺 deliverable / manifest」。
+# 规则：根目录以分隔符结尾时直接用它的长度；否则多跳一个分隔符。
+$relativePathStart = if ($EvidenceRoot.EndsWith('\') -or $EvidenceRoot.EndsWith('/')) {
+	$EvidenceRoot.Length
+} else {
+	$EvidenceRoot.Length + 1
+}
+
 foreach ($run in $runs) {
     $deliverable = Join-Path $run.FullName 'deliverable.md'
     $manifestPath = Join-Path $run.FullName 'manifest.json'
+    $runRelative = $run.FullName.Substring($relativePathStart)
 
-    if (-not (Test-Path -LiteralPath $deliverable)) { $noDeliverable += $run.FullName.Substring($EvidenceRoot.Length + 1) }
-    if (-not (Test-Path -LiteralPath $manifestPath)) { $noManifest += $run.FullName.Substring($EvidenceRoot.Length + 1); continue }
+    if (-not (Test-Path -LiteralPath $deliverable)) { $noDeliverable += $runRelative }
+    if (-not (Test-Path -LiteralPath $manifestPath)) { $noManifest += $runRelative; continue }
 
     $manifest = $null
     try {
         $manifest = Get-Content -LiteralPath $manifestPath -Raw -Encoding UTF8 | ConvertFrom-Json
     } catch {
-        $badJson += $run.FullName.Substring($EvidenceRoot.Length + 1)
+        $badJson += $runRelative
         continue
     }
 
     if ($manifest.runId -and $manifest.runId -ne $run.Name) {
-        $badRunId += ("{0}（manifest.runId={1}）" -f $run.FullName.Substring($EvidenceRoot.Length + 1), $manifest.runId)
+        $badRunId += ("{0}（manifest.runId={1}）" -f $runRelative, $manifest.runId)
     }
 
     # 3 + 4：manifest.files[] 与实际文件

@@ -1,0 +1,66 @@
+﻿time=2026-11-22T22:52:53.7006487+08:00
+snapshot=932115c6651d86081491f8fa401d8534dbbd9485
+raw_dir=D:\Projects\_worktrees\pg-open05-review2-20261122\docs\evidence\2026-11-22-open05\raw
+raw_files=101
+matrix_metadata=29
+ledger-blank expect_exit=1 actual_exit=1 verdict=PASS stdout_regex=False stderr_regex=True 
+ledger-cjk-default expect_exit=1 actual_exit=1 verdict=PASS stdout_regex=True stderr_regex=True   解析到 31 个包行 / 发现 20 处不一致；台账是复验的索引，必须先修台账再谈复验。
+ledger-default expect_exit=1 actual_exit=1 verdict=PASS stdout_regex=True stderr_regex=True   解析到 31 个包行 / 发现 4 处不一致；台账是复验的索引，必须先修台账再谈复验。
+ledger-empty-tree expect_exit=1 actual_exit=1 verdict=PASS stdout_regex=True stderr_regex=True   解析到 31 个包行 / 发现 20 处不一致；台账是复验的索引，必须先修台账再谈复验。
+ledger-empty expect_exit=1 actual_exit=1 verdict=PASS stdout_regex=False stderr_regex=True 
+ledger-file expect_exit=1 actual_exit=1 verdict=PASS stdout_regex=False stderr_regex=True 
+ledger-missing-default expect_exit=1 actual_exit=1 verdict=PASS stdout_regex=False stderr_regex=True 
+ledger-missing expect_exit=1 actual_exit=1 verdict=PASS stdout_regex=False stderr_regex=True 
+ledger-override-same expect_exit=1 actual_exit=1 verdict=PASS stdout_regex=True stderr_regex=True   解析到 31 个包行 / 发现 4 处不一致；台账是复验的索引，必须先修台账再谈复验。
+ledger-pathform-rel expect_exit=1 actual_exit=1 verdict=PASS stdout_regex=True stderr_regex=True   解析到 31 个包行 / 发现 4 处不一致；台账是复验的索引，必须先修台账再谈复验。
+ledger-pathform-trailing expect_exit=1 actual_exit=1 verdict=PASS stdout_regex=True stderr_regex=True   解析到 31 个包行 / 发现 4 处不一致；台账是复验的索引，必须先修台账再谈复验。
+ledger-spaced-cjk expect_exit=1 actual_exit=1 verdict=PASS stdout_regex=True stderr_regex=True   解析到 31 个包行 / 发现 20 处不一致；台账是复验的索引，必须先修台账再谈复验。
+tree-blank expect_exit=1 actual_exit=1 verdict=PASS stdout_regex=False stderr_regex=True 
+tree-cjk-default expect_exit=0 actual_exit=0 verdict=PASS stdout_regex=False stderr_regex=True   扫描到 2 个 run 目录 / == 结论：证据树内部自洽（7 项检查全部通过）
+tree-default expect_exit=1 actual_exit=1 verdict=PASS stdout_regex=True stderr_regex=True   扫描到 61 个 run 目录 / == 结论：发现 609 处不一致，需要逐项处理
+tree-empty-tree expect_exit=0 actual_exit=0 verdict=PASS stdout_regex=False stderr_regex=True   扫描到 0 个 run 目录 / == 结论：证据树内部自洽（7 项检查全部通过）
+tree-empty expect_exit=1 actual_exit=1 verdict=PASS stdout_regex=False stderr_regex=True 
+tree-file expect_exit=1 actual_exit=1 verdict=PASS stdout_regex=False stderr_regex=True 
+tree-missing-default expect_exit=1 actual_exit=1 verdict=PASS stdout_regex=False stderr_regex=True 
+tree-missing expect_exit=1 actual_exit=1 verdict=PASS stdout_regex=False stderr_regex=True 
+tree-override-same expect_exit=1 actual_exit=1 verdict=PASS stdout_regex=True stderr_regex=True   扫描到 61 个 run 目录 / == 结论：发现 609 处不一致，需要逐项处理
+tree-pathform-abs expect_exit=0 actual_exit=0 verdict=PASS stdout_regex=False stderr_regex=True   扫描到 2 个 run 目录 / == 结论：证据树内部自洽（7 项检查全部通过）
+tree-pathform-dotdot expect_exit=0 actual_exit=0 verdict=PASS stdout_regex=False stderr_regex=True   扫描到 2 个 run 目录 / == 结论：证据树内部自洽（7 项检查全部通过）
+tree-pathform-rel-dot expect_exit=0 actual_exit=0 verdict=PASS stdout_regex=False stderr_regex=True   扫描到 2 个 run 目录 / == 结论：证据树内部自洽（7 项检查全部通过）
+tree-pathform-rel expect_exit=0 actual_exit=0 verdict=PASS stdout_regex=False stderr_regex=True   扫描到 2 个 run 目录 / == 结论：证据树内部自洽（7 项检查全部通过）
+tree-pathform-trailing expect_exit=0 actual_exit=0 verdict=PASS stdout_regex=False stderr_regex=True   扫描到 2 个 run 目录 / == 结论：证据树内部自洽（7 项检查全部通过）
+tree-reporoot-empty expect_exit=1 actual_exit=1 verdict=PASS stdout_regex=False stderr_regex=True 
+tree-spaced-cjk expect_exit=0 actual_exit=0 verdict=PASS stdout_regex=False stderr_regex=True   扫描到 2 个 run 目录 / == 结论：证据树内部自洽（7 项检查全部通过）
+tree-splat-empty expect_exit=1 actual_exit=1 verdict=PASS stdout_regex=False stderr_regex=True 
+recorded_pass_reproduced_from_metadata_and_streams=29
+Counterproof stdout conclusions and stderr size (no counterproof exit metadata stored)
+counterproof-P-abs.out.txt err_bytes=0 == 结论：证据树内部自洽（7 项检查全部通过）
+counterproof-P-dotdot.out.txt err_bytes=0 == 结论：发现 2 处不一致，需要逐项处理
+counterproof-P-rel-dot.out.txt err_bytes=0 == 结论：发现 2 处不一致，需要逐项处理
+counterproof-P-rel.out.txt err_bytes=0 == 结论：发现 2 处不一致，需要逐项处理
+counterproof-P-trailing.out.txt err_bytes=0 == 结论：发现 2 处不一致，需要逐项处理
+Additional historical probe filenames
+probe-root-empty.err.txt
+probe-root-empty.out.txt
+probe-splat-empty.err.txt
+probe-splat-empty.out.txt
+tree-splat-empty invocation metadata
+case=tree-splat-empty
+worktree=D:/Projects/_worktrees/pg-open05-20261122
+cwd=D:/Projects/_worktrees/pg-open05-20261122
+time=2026-11-22T22:44:55.4264250+08:00
+command=powershell.exe -NoProfile -OutputFormat Text -EncodedCommand <base64>  (child env: PSExecutionPolicyPreference cleared)
+decoded=[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$ErrorActionPreference = 'Stop'
+try { & 'D:\Projects\_worktrees\pg-open05-20261122\scripts\audit-evidence-tree.ps1' -RepoRoot 'D:/Projects/_worktrees/pg-open05-20261122' -EvidenceRoot ''; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }
+expect_exit=1
+expect_pattern=\[EVIDENCE_ROOT_BLANK\]
+expect_source=splat 形式显式空值
+actual_exit=1
+stdout_file=D:\Projects\松光启动器\docs\evidence\2026-11-22-open05\raw\tree-splat-empty.out.txt
+stderr_file=D:\Projects\松光启动器\docs\evidence\2026-11-22-open05\raw\tree-splat-empty.err.txt
+verdict=PASS
+Worker source invocation for tree-splat-empty
+D:\Projects\_worktrees\pg-open05-review2-20261122\docs\evidence\2026-11-22-open05\matrix-fixture.ps1:159:Invoke-Case 'tree-splat-empty'      $et ("-RepoRoot " + (Q $Worktree) + " -EvidenceRoot ''") '\[EVIDENCE_ROOT_BLANK\]' 1 'splat 形式显式空值'
+Worker checkout fixture hash
+E04B531BF92E4E2FBEFC7CB290A8351EFA60E0A3696054FDE2E80EA682D56EA9

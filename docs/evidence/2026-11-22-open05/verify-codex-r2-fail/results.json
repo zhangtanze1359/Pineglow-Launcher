@@ -1,0 +1,807 @@
+{
+  "source": {
+    "head": "932115c6651d86081491f8fa401d8534dbbd9485",
+    "parent_source": "git show ed2e92c:scripts/audit-evidence-tree.ps1",
+    "parent_sha256": "649B9B1A22E398CE07B8A93440A3D1D4DA833945BF9205E2D6DC31BC4609202A",
+    "tree_sha256": "90E3821945A3352A4E8767705128CB3659CDAEC04AEA317C008630101A70ADCF",
+    "ledger_sha256": "5E900796CEE2C4E196CF99D3F55CF377F1444A5AC207EB630C5E1B71BF6B65A5",
+    "inputs": [
+      "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\复验 样本\\docs\\market-execution",
+      "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\含空格 有差异",
+      "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\docs\\market-execution",
+      "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\drive-fixture"
+    ],
+    "real_files": 1095
+  },
+  "same_audit_bodies": {
+    "fixture": true,
+    "findings": true,
+    "real": true,
+    "five_explicit_forms_full_stdout": true,
+    "drive_parent_vs_candidate_full_stdout": true,
+    "parent_vs_candidate_absolute": true,
+    "tree_default_vs_explicit_real": true,
+    "ledger_default_vs_explicit_real": true
+  },
+  "cases": [
+    {
+      "name": "fixture-abs",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\复验 样本\\docs",
+      "time": "2026-11-22T22:52:03.042835+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\复验 样本\\docs\\market-execution'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        2,
+        0,
+        0,
+        ""
+      ],
+      "units": 2,
+      "findings": 0,
+      "exit": 0,
+      "error": "",
+      "matches": true
+    },
+    {
+      "name": "fixture-trailing",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\复验 样本\\docs",
+      "time": "2026-11-22T22:52:03.372238+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\复验 样本\\docs\\market-execution\\'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        2,
+        0,
+        0,
+        ""
+      ],
+      "units": 2,
+      "findings": 0,
+      "exit": 0,
+      "error": "",
+      "matches": true
+    },
+    {
+      "name": "fixture-rel",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\复验 样本\\docs",
+      "time": "2026-11-22T22:52:03.682279+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot 'market-execution'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        2,
+        0,
+        0,
+        ""
+      ],
+      "units": 2,
+      "findings": 0,
+      "exit": 0,
+      "error": "",
+      "matches": true
+    },
+    {
+      "name": "fixture-dot",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\复验 样本\\docs",
+      "time": "2026-11-22T22:52:04.016019+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot '.\\market-execution'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        2,
+        0,
+        0,
+        ""
+      ],
+      "units": 2,
+      "findings": 0,
+      "exit": 0,
+      "error": "",
+      "matches": true
+    },
+    {
+      "name": "fixture-dotdot",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\复验 样本\\docs\\other-cwd",
+      "time": "2026-11-22T22:52:04.345076+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot '..\\market-execution'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        2,
+        0,
+        0,
+        ""
+      ],
+      "units": 2,
+      "findings": 0,
+      "exit": 0,
+      "error": "",
+      "matches": true
+    },
+    {
+      "name": "findings-abs",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv",
+      "time": "2026-11-22T22:52:04.681904+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\含空格 有差异'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        2,
+        1,
+        1,
+        ""
+      ],
+      "units": 2,
+      "findings": 1,
+      "exit": 1,
+      "error": "",
+      "matches": true
+    },
+    {
+      "name": "findings-trailing",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv",
+      "time": "2026-11-22T22:52:04.996485+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\含空格 有差异\\'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        2,
+        1,
+        1,
+        ""
+      ],
+      "units": 2,
+      "findings": 1,
+      "exit": 1,
+      "error": "",
+      "matches": true
+    },
+    {
+      "name": "findings-rel",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv",
+      "time": "2026-11-22T22:52:05.310410+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot '含空格 有差异'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        2,
+        1,
+        1,
+        ""
+      ],
+      "units": 2,
+      "findings": 1,
+      "exit": 1,
+      "error": "",
+      "matches": true
+    },
+    {
+      "name": "findings-dot",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv",
+      "time": "2026-11-22T22:52:05.633854+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot '.\\含空格 有差异'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        2,
+        1,
+        1,
+        ""
+      ],
+      "units": 2,
+      "findings": 1,
+      "exit": 1,
+      "error": "",
+      "matches": true
+    },
+    {
+      "name": "findings-dotdot",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\复验 样本",
+      "time": "2026-11-22T22:52:05.965308+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot '..\\含空格 有差异'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        2,
+        1,
+        1,
+        ""
+      ],
+      "units": 2,
+      "findings": 1,
+      "exit": 1,
+      "error": "",
+      "matches": true
+    },
+    {
+      "name": "real-abs",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\docs",
+      "time": "2026-11-22T22:52:06.284496+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\docs\\market-execution'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        61,
+        609,
+        1,
+        ""
+      ],
+      "units": 61,
+      "findings": 609,
+      "exit": 1,
+      "error": "",
+      "matches": true
+    },
+    {
+      "name": "real-trailing",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\docs",
+      "time": "2026-11-22T22:52:07.422008+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\docs\\market-execution\\'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        61,
+        609,
+        1,
+        ""
+      ],
+      "units": 61,
+      "findings": 609,
+      "exit": 1,
+      "error": "",
+      "matches": true
+    },
+    {
+      "name": "real-rel",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\docs",
+      "time": "2026-11-22T22:52:08.566553+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot 'market-execution'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        61,
+        609,
+        1,
+        ""
+      ],
+      "units": 61,
+      "findings": 609,
+      "exit": 1,
+      "error": "",
+      "matches": true
+    },
+    {
+      "name": "real-dot",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\docs",
+      "time": "2026-11-22T22:52:09.701411+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot '.\\market-execution'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        61,
+        609,
+        1,
+        ""
+      ],
+      "units": 61,
+      "findings": 609,
+      "exit": 1,
+      "error": "",
+      "matches": true
+    },
+    {
+      "name": "real-dotdot",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\docs\\handoff",
+      "time": "2026-11-22T22:52:10.847917+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot '..\\market-execution'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        61,
+        609,
+        1,
+        ""
+      ],
+      "units": 61,
+      "findings": 609,
+      "exit": 1,
+      "error": "",
+      "matches": true
+    },
+    {
+      "name": "parent-abs",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\复验 样本\\docs",
+      "time": "2026-11-22T22:52:11.939332+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\parent-audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\复验 样本\\docs\\market-execution'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        2,
+        0,
+        0,
+        ""
+      ],
+      "units": 2,
+      "findings": 0,
+      "exit": 0,
+      "error": "",
+      "matches": true
+    },
+    {
+      "name": "parent-trailing",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\复验 样本\\docs",
+      "time": "2026-11-22T22:52:12.249508+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\parent-audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\复验 样本\\docs\\market-execution\\'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        2,
+        2,
+        1,
+        ""
+      ],
+      "units": 2,
+      "findings": 2,
+      "exit": 1,
+      "error": "",
+      "matches": true
+    },
+    {
+      "name": "parent-rel",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\复验 样本\\docs",
+      "time": "2026-11-22T22:52:12.566621+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\parent-audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot 'market-execution'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        2,
+        2,
+        1,
+        ""
+      ],
+      "units": 2,
+      "findings": 2,
+      "exit": 1,
+      "error": "",
+      "matches": true
+    },
+    {
+      "name": "parent-dot",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\复验 样本\\docs",
+      "time": "2026-11-22T22:52:12.880322+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\parent-audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot '.\\market-execution'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        2,
+        2,
+        1,
+        ""
+      ],
+      "units": 2,
+      "findings": 2,
+      "exit": 1,
+      "error": "",
+      "matches": true
+    },
+    {
+      "name": "parent-dotdot",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\复验 样本\\docs\\other-cwd",
+      "time": "2026-11-22T22:52:13.215046+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\parent-audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot '..\\market-execution'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        2,
+        2,
+        1,
+        ""
+      ],
+      "units": 2,
+      "findings": 2,
+      "exit": 1,
+      "error": "",
+      "matches": true
+    },
+    {
+      "name": "tree-default",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv",
+      "time": "2026-11-22T22:52:13.525580+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-evidence-tree.ps1' ; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        61,
+        609,
+        1,
+        ""
+      ],
+      "units": 61,
+      "findings": 609,
+      "exit": 1,
+      "error": "",
+      "matches": true
+    },
+    {
+      "name": "tree-default-cjk",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv",
+      "time": "2026-11-22T22:52:14.644388+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\复验 样本'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        2,
+        0,
+        0,
+        ""
+      ],
+      "units": 2,
+      "findings": 0,
+      "exit": 0,
+      "error": "",
+      "matches": true
+    },
+    {
+      "name": "tree-explicit-cjk",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv",
+      "time": "2026-11-22T22:52:14.954110+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\含空格 有差异'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        2,
+        1,
+        1,
+        ""
+      ],
+      "units": 2,
+      "findings": 1,
+      "exit": 1,
+      "error": "",
+      "matches": true
+    },
+    {
+      "name": "ledger-default",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv",
+      "time": "2026-11-22T22:52:15.265098+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-plan-ledger.ps1' ; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        31,
+        4,
+        1,
+        ""
+      ],
+      "units": 31,
+      "findings": 4,
+      "exit": 1,
+      "error": "",
+      "matches": true
+    },
+    {
+      "name": "ledger-absolute",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv",
+      "time": "2026-11-22T22:52:15.582537+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-plan-ledger.ps1' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\docs\\market-execution'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        31,
+        4,
+        1,
+        ""
+      ],
+      "units": 31,
+      "findings": 4,
+      "exit": 1,
+      "error": "",
+      "matches": true
+    },
+    {
+      "name": "ledger-default-cjk",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv",
+      "time": "2026-11-22T22:52:15.896110+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\复验 样本'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        2,
+        0,
+        0,
+        ""
+      ],
+      "units": 2,
+      "findings": 0,
+      "exit": 0,
+      "error": "",
+      "matches": true
+    },
+    {
+      "name": "ledger-explicit-cjk",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv",
+      "time": "2026-11-22T22:52:16.159938+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\复验 样本' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\复验 样本\\docs\\market-execution'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        2,
+        0,
+        0,
+        ""
+      ],
+      "units": 2,
+      "findings": 0,
+      "exit": 0,
+      "error": "",
+      "matches": true
+    },
+    {
+      "name": "tree-empty",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv",
+      "time": "2026-11-22T22:52:16.417539+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot ''; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        null,
+        null,
+        1,
+        "[EVIDENCE_ROOT_BLANK]"
+      ],
+      "units": null,
+      "findings": null,
+      "exit": 1,
+      "error": "[EVIDENCE_ROOT_BLANK]",
+      "matches": true
+    },
+    {
+      "name": "tree-blank",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv",
+      "time": "2026-11-22T22:52:16.605700+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot ' \t '; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        null,
+        null,
+        1,
+        "[EVIDENCE_ROOT_BLANK]"
+      ],
+      "units": null,
+      "findings": null,
+      "exit": 1,
+      "error": "[EVIDENCE_ROOT_BLANK]",
+      "matches": true
+    },
+    {
+      "name": "tree-missing",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv",
+      "time": "2026-11-22T22:52:16.795354+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\absent'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        null,
+        null,
+        1,
+        "[EVIDENCE_ROOT_MISSING]"
+      ],
+      "units": null,
+      "findings": null,
+      "exit": 1,
+      "error": "[EVIDENCE_ROOT_MISSING]",
+      "matches": true
+    },
+    {
+      "name": "tree-file",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv",
+      "time": "2026-11-22T22:52:16.983099+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\ordinary.txt'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        null,
+        null,
+        1,
+        "[EVIDENCE_ROOT_NOT_DIRECTORY]"
+      ],
+      "units": null,
+      "findings": null,
+      "exit": 1,
+      "error": "[EVIDENCE_ROOT_NOT_DIRECTORY]",
+      "matches": true
+    },
+    {
+      "name": "tree-missing-default",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv",
+      "time": "2026-11-22T22:52:17.172935+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\no-default'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        null,
+        null,
+        1,
+        "[DEFAULT_ROOT_MISSING]"
+      ],
+      "units": null,
+      "findings": null,
+      "exit": 1,
+      "error": "[DEFAULT_ROOT_MISSING]",
+      "matches": true
+    },
+    {
+      "name": "ledger-empty",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv",
+      "time": "2026-11-22T22:52:17.357204+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot ''; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        null,
+        null,
+        1,
+        "[EVIDENCE_ROOT_BLANK]"
+      ],
+      "units": null,
+      "findings": null,
+      "exit": 1,
+      "error": "[EVIDENCE_ROOT_BLANK]",
+      "matches": true
+    },
+    {
+      "name": "ledger-blank",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv",
+      "time": "2026-11-22T22:52:17.544926+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot ' \t '; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        null,
+        null,
+        1,
+        "[EVIDENCE_ROOT_BLANK]"
+      ],
+      "units": null,
+      "findings": null,
+      "exit": 1,
+      "error": "[EVIDENCE_ROOT_BLANK]",
+      "matches": true
+    },
+    {
+      "name": "ledger-missing",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv",
+      "time": "2026-11-22T22:52:17.730577+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\absent'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        null,
+        null,
+        1,
+        "[EVIDENCE_ROOT_MISSING]"
+      ],
+      "units": null,
+      "findings": null,
+      "exit": 1,
+      "error": "[EVIDENCE_ROOT_MISSING]",
+      "matches": true
+    },
+    {
+      "name": "ledger-file",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv",
+      "time": "2026-11-22T22:52:17.932240+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\ordinary.txt'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        null,
+        null,
+        1,
+        "[EVIDENCE_ROOT_NOT_DIRECTORY]"
+      ],
+      "units": null,
+      "findings": null,
+      "exit": 1,
+      "error": "[EVIDENCE_ROOT_NOT_DIRECTORY]",
+      "matches": true
+    },
+    {
+      "name": "ledger-missing-default",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv",
+      "time": "2026-11-22T22:52:18.125161+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\no-default'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        null,
+        null,
+        1,
+        "[DEFAULT_ROOT_MISSING]"
+      ],
+      "units": null,
+      "findings": null,
+      "exit": 1,
+      "error": "[DEFAULT_ROOT_MISSING]",
+      "matches": true
+    },
+    {
+      "name": "tree-splat-empty",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv",
+      "time": "2026-11-22T22:52:18.315880+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n$boundArgs = @{RepoRoot = 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122'; EvidenceRoot = ''}\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-evidence-tree.ps1' @boundArgs; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        null,
+        null,
+        1,
+        "[EVIDENCE_ROOT_BLANK]"
+      ],
+      "units": null,
+      "findings": null,
+      "exit": 1,
+      "error": "[EVIDENCE_ROOT_BLANK]",
+      "matches": true
+    },
+    {
+      "name": "drive-candidate",
+      "cwd": "Z:\\cwd",
+      "time": "2026-11-22T22:52:18.513347+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot 'Z:\\'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        2,
+        0,
+        0,
+        ""
+      ],
+      "units": 2,
+      "findings": 2,
+      "exit": 1,
+      "error": "",
+      "matches": false
+    },
+    {
+      "name": "drive-parent",
+      "cwd": "Z:\\cwd",
+      "time": "2026-11-22T22:52:18.844495+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\parent-audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot 'Z:\\'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        2,
+        0,
+        0,
+        ""
+      ],
+      "units": 2,
+      "findings": 2,
+      "exit": 1,
+      "error": "",
+      "matches": false
+    },
+    {
+      "name": "drive-folder-control",
+      "cwd": "D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv",
+      "time": "2026-11-22T22:52:19.167903+08:00",
+      "command": "[Console]::OutputEncoding = [Text.Encoding]::UTF8\ntry { & 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-review2-20261122\\_review-open05-87msfcnv\\drive-fixture'; exit $LASTEXITCODE }\ncatch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+      "launcher": "powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand",
+      "process_env": "PSExecutionPolicyPreference omitted",
+      "expected": [
+        2,
+        0,
+        0,
+        ""
+      ],
+      "units": 2,
+      "findings": 0,
+      "exit": 0,
+      "error": "",
+      "matches": true
+    }
+  ]
+}

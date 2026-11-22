@@ -1,0 +1,186 @@
+﻿time=2026-11-22T22:52:53.4250778+08:00
+cwd=C:\Users\Administrator\.t3\worktrees\松光启动器\t3-857f93cf-c98b7232fe8581a3
+PowerShell=5.1.26100.10068
+PSExecutionPolicyPreference present=False
+
+        Scope ExecutionPolicy
+        ----- ---------------
+MachinePolicy       Undefined
+   UserPolicy       Undefined
+      Process       Undefined
+  CurrentUser    RemoteSigned
+ LocalMachine       Undefined
+
+
+
+Call: Get-Location; git rev-parse --show-toplevel; git rev-parse HEAD; git status --short --untracked-files=all (initial T3 worktree before audit artifacts)
+C:\Users\Administrator\.t3\worktrees\松光启动器\t3-857f93cf-c98b7232fe8581a3
+C:/Users/Administrator/.t3/worktrees/松光启动器/t3-857f93cf-c98b7232fe8581a3
+932115c6651d86081491f8fa401d8534dbbd9485
+git status: empty
+Call: git -C <main repo> log -1 --stat 932115c
+commit 932115c6651d86081491f8fa401d8534dbbd9485
+Author: 松光启动器 <launcher@pineglow.local>
+Date:   Sun Nov 22 22:48:05 2026 +0800
+
+    fix(audit): 证据根规范为绝对前缀，路径写法不再改变审计结论（OPEN-05 r3）
+    
+    第 1 轮独立复验（Codex gpt-6.2-sol high）FAIL：audit-evidence-tree.ps1 用
+    $run.FullName.Substring($EvidenceRoot.Length + 1) 计算 run 相对路径，调用方传相对路径、
+    末尾多余反斜杠或 . / .. 段时前缀长度与实际绝对路径错位，$preConvention 白名单失效，
+    同一棵证据树会多报「缺 deliverable / manifest」（父提交 17318e6 亦复现）。
+    
+    修复：校验通过后先 Resolve-Path 规范成绝对前缀再扫描；盘符根保留尾反斜杠，
+    避免退化成 D: 改变扫描与显示语义。只改 8 行，审计检查项、白名单与退出码口径未动。
+    
+    回归与反证：
+    - 新增 5 档「同一树路径写法」用例（绝对 / 末尾 \ / 相对 / .\ / ..\），修复后全部自洽 exit 0。
+    - 父提交原脚本同样 5 档仅绝对路径自洽，其余 4 档各报 2 处不一致、exit 1。
+    - 参数矩阵扩到 29 例（补回普通文件、中文默认根、-RepoRoot '' 与 splat 空值），全部 PASS。
+    
+    本机真实树实测 61 run / 7 处，历史记录为 609 处；差异来自主工作区有 640 个被
+    .gitignore 忽略的 *.log 仍留在磁盘（git 仅跟踪 1095/1735 个文件），不是脚本行为差异。
+    
+    待第 2 轮独立复验，FormalPhaseApproval=NOT_GRANTED，未推送、未打 tag。
+
+ docs/evidence/2026-11-22-open05/README.md          | 157 ++++++++++++---------
+ docs/evidence/2026-11-22-open05/matrix-fixture.ps1 | 116 +++++++++------
+ .../patched/audit-evidence-tree.ps1                |   8 ++
+ .../raw/counterproof-P-abs.err.txt                 |   0
+ .../raw/counterproof-P-abs.out.txt                 |  13 ++
+ .../raw/counterproof-P-dotdot.err.txt              |   0
+ .../raw/counterproof-P-dotdot.out.txt              |  15 ++
+ .../raw/counterproof-P-rel-dot.err.txt             |   0
+ .../raw/counterproof-P-rel-dot.out.txt             |  15 ++
+ .../raw/counterproof-P-rel.err.txt                 |   0
+ .../raw/counterproof-P-rel.out.txt                 |  15 ++
+ .../raw/counterproof-P-trailing.err.txt            |   0
+ .../raw/counterproof-P-trailing.out.txt            |  15 ++
+ .../2026-11-22-open05/raw/ledger-blank.txt         |   3 +-
+ .../raw/ledger-cjk-default.err.txt                 |   2 +-
+ .../raw/ledger-cjk-default.out.txt                 |   5 +-
+ .../2026-11-22-open05/raw/ledger-cjk-default.txt   |   5 +-
+ .../2026-11-22-open05/raw/ledger-default.err.txt   |   2 +-
+ .../2026-11-22-open05/raw/ledger-default.txt       |   5 +-
+ .../raw/ledger-empty-tree.err.txt                  |   2 +-
+ .../2026-11-22-open05/raw/ledger-empty-tree.txt    |   7 +-
+ .../2026-11-22-open05/raw/ledger-empty.txt         |   3 +-
+ .../evidence/2026-11-22-open05/raw/ledger-file.txt |   3 +-
+ .../raw/ledger-missing-default.txt                 |   3 +-
+ .../2026-11-22-open05/raw/ledger-missing.txt       |   3 +-
+ .../raw/ledger-override-same.err.txt               |   2 +-
+ .../2026-11-22-open05/raw/ledger-override-same.txt |   5 +-
+ .../raw/ledger-pathform-rel.err.txt                |   2 +
+ .../raw/ledger-pathform-rel.out.txt                |  27 ++++
+ .../2026-11-22-open05/raw/ledger-pathform-rel.txt  |  15 ++
+ .../raw/ledger-pathform-trailing.err.txt           |   2 +
+ .../raw/ledger-pathform-trailing.out.txt           |  27 ++++
+ .../raw/ledger-pathform-trailing.txt               |  15 ++
+ .../raw/ledger-spaced-cjk.err.txt                  |   2 +-
+ .../raw/ledger-spaced-cjk.out.txt                  |   5 +-
+ .../2026-11-22-open05/raw/ledger-spaced-cjk.txt    |   5 +-
+ docs/evidence/2026-11-22-open05/raw/tree-blank.txt |   3 +-
+ .../2026-11-22-open05/raw/tree-cjk-default.err.txt |   2 +-
+ .../2026-11-22-open05/raw/tree-cjk-default.out.txt |   2 +-
+ .../2026-11-22-open05/raw/tree-cjk-default.txt     |   5 +-
+ .../2026-11-22-open05/raw/tree-default.err.txt     |   2 +-
+ .../2026-11-22-open05/raw/tree-default.txt         |   5 +-
+ .../2026-11-22-open05/raw/tree-empty-tree.err.txt  |   2 +-
+ .../2026-11-22-open05/raw/tree-empty-tree.txt      |   5 +-
+ docs/evidence/2026-11-22-open05/raw/tree-empty.txt |   3 +-
+ docs/evidence/2026-11-22-open05/raw/tree-file.txt  |   3 +-
+ .../2026-11-22-open05/raw/tree-missing-default.txt |   3 +-
+ .../2026-11-22-open05/raw/tree-missing.txt         |   3 +-
+ .../raw/tree-override-same.err.txt                 |   2 +-
+ .../2026-11-22-open05/raw/tree-override-same.txt   |   5 +-
+ .../raw/tree-pathform-abs.err.txt                  |   2 +
+ .../raw/tree-pathform-abs.out.txt                  |  14 ++
+ .../2026-11-22-open05/raw/tree-pathform-abs.txt    |  15 ++
+ .../raw/tree-pathform-dotdot.err.txt               |   2 +
+ .../raw/tree-pathform-dotdot.out.txt               |  14 ++
+ .../2026-11-22-open05/raw/tree-pathform-dotdot.txt |  15 ++
+ .../raw/tree-pathform-rel-dot.err.txt              |   2 +
+ .../raw/tree-pathform-rel-dot.out.txt              |  14 ++
+ .../raw/tree-pathform-rel-dot.txt                  |  15 ++
+ .../raw/tree-pathform-rel.err.txt                  |   2 +
+ .../raw/tree-pathform-rel.out.txt                  |  14 ++
+ .../2026-11-22-open05/raw/tree-pathform-rel.txt    |  15 ++
+ .../raw/tree-pathform-trailing.err.txt             |   2 +
+ .../raw/tree-pathform-trailing.out.txt             |  14 ++
+ .../raw/tree-pathform-trailing.txt                 |  15 ++
+ .../raw/tree-reporoot-empty.err.txt                |   3 +
+ .../raw/tree-reporoot-empty.out.txt                |   0
+ .../2026-11-22-open05/raw/tree-reporoot-empty.txt  |  15 ++
+ .../2026-11-22-open05/raw/tree-spaced-cjk.err.txt  |   2 +-
+ .../2026-11-22-open05/raw/tree-spaced-cjk.out.txt  |   2 +-
+ .../2026-11-22-open05/raw/tree-spaced-cjk.txt      |   5 +-
+ .../2026-11-22-open05/raw/tree-splat-empty.err.txt |   3 +
+ .../2026-11-22-open05/raw/tree-splat-empty.out.txt |   0
+ .../2026-11-22-open05/raw/tree-splat-empty.txt     |  15 ++
+ .../handoff/HANDOFF-2026-11-22-open05-execution.md |  59 ++++----
+ docs/open-items.md                                 |   6 +-
+ scripts/audit-evidence-tree.ps1                    |   8 ++
+ 77 files changed, 629 insertions(+), 193 deletions(-)
+exit=0
+Call: git -C <review worktree> diff --numstat ed2e92c 932115c -- scripts
+8	0	scripts/audit-evidence-tree.ps1
+exit=0
+Call: git -C <review worktree> diff --exit-code ed2e92c 932115c -- scripts/audit-plan-ledger.ps1
+exit=0
+Call: git -C <review worktree> diff --check ed2e92c 932115c
+exit=0
+Call: git -C <review worktree> rev-list --parents -n 2 HEAD
+932115c6651d86081491f8fa401d8534dbbd9485 ed2e92cbc9ced6ef9cb16d93d9b1474dceb62556
+ed2e92cbc9ced6ef9cb16d93d9b1474dceb62556 17318e664d7070cb10a93bb06f96efbb97d72607
+exit=0
+Call: git -C <review worktree> diff ed2e92c 932115c -- scripts/audit-evidence-tree.ps1
+diff --git a/scripts/audit-evidence-tree.ps1 b/scripts/audit-evidence-tree.ps1
+index 7dfd7b0..002905b 100644
+--- a/scripts/audit-evidence-tree.ps1
++++ b/scripts/audit-evidence-tree.ps1
+@@ -67,6 +67,14 @@ else {
+     }
+ }
+ 
++# 校验通过后统一规范成绝对前缀：下面用 Substring 计算 run 的相对路径，
++# 直接拿调用方传入的字符串当长度基准会被相对路径（'docs\market-execution'）、
++# 末尾多余反斜杠或 '.'/'..' 段打乱，导致 $preConvention 白名单匹配失效，
++# 同一棵树换个写法就多报“缺 deliverable/manifest”。规范一次即与写法无关。
++# 盘符根（'D:\'）要保留尾部反斜杠：去掉会退化成 'D:'，改变显示与扫描语义。
++$resolvedRoot = (Resolve-Path -LiteralPath $EvidenceRoot).ProviderPath
++$EvidenceRoot = if ($resolvedRoot -match '^[A-Za-z]:\\$') { $resolvedRoot } else { $resolvedRoot.TrimEnd('\', '/') }
++
+ Write-Host ''
+ Write-Host '== 证据树交叉一致性审计 ==' -ForegroundColor Cyan
+ Write-Host ("  证据树 = {0}" -f $EvidenceRoot)
+exit=0
+Call: git -C <review worktree> status --short --untracked-files=all
+exit=0
+Call: Get-FileHash for candidate audit scripts, frozen evidence scripts and executor matrix
+
+
+Algorithm : SHA256
+Hash      : 90E3821945A3352A4E8767705128CB3659CDAEC04AEA317C008630101A70ADCF
+Path      : D:\Projects\_worktrees\pg-open05-review2-20261122\scripts\audit-evidence-tree.ps1
+
+Algorithm : SHA256
+Hash      : 5E900796CEE2C4E196CF99D3F55CF377F1444A5AC207EB630C5E1B71BF6B65A5
+Path      : D:\Projects\_worktrees\pg-open05-review2-20261122\scripts\audit-plan-ledger.ps1
+
+Algorithm : SHA256
+Hash      : 90E3821945A3352A4E8767705128CB3659CDAEC04AEA317C008630101A70ADCF
+Path      : D:\Projects\_worktrees\pg-open05-review2-20261122\docs\evidence\2026-11-22-open05\patched\audit-evidence-tr
+            ee.ps1
+
+Algorithm : SHA256
+Hash      : 5E900796CEE2C4E196CF99D3F55CF377F1444A5AC207EB630C5E1B71BF6B65A5
+Path      : D:\Projects\_worktrees\pg-open05-review2-20261122\docs\evidence\2026-11-22-open05\patched\audit-plan-ledger
+            .ps1
+
+Algorithm : SHA256
+Hash      : E04B531BF92E4E2FBEFC7CB290A8351EFA60E0A3696054FDE2E80EA682D56EA9
+Path      : D:\Projects\_worktrees\pg-open05-review2-20261122\docs\evidence\2026-11-22-open05\matrix-fixture.ps1
+
+
+
+

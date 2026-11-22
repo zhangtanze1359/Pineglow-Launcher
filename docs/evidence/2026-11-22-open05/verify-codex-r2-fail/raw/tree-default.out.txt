@@ -1,0 +1,41 @@
+
+== 证据树交叉一致性审计 ==
+  证据树 = D:\Projects\_worktrees\pg-open05-review2-20261122\docs\market-execution
+  来源   = 默认（-RepoRoot\docs\market-execution）
+  扫描到 61 个 run 目录
+  [缺少 deliverable.md] 缺少 deliverable.md（2 项）
+      LONG-QUALITY-GOAL\20261003-092612Z-b4d896a8
+      LONG-QUALITY-REWORK\20261004-092504Z-dab448e2
+  [缺少 manifest.json] 缺少 manifest.json（2 项）
+      LONG-QUALITY-GOAL\20261003-092612Z-b4d896a8
+      LONG-QUALITY-REWORK\20261004-092504Z-dab448e2
+  [OK] manifest.json 无法解析
+  [OK] runId 与目录名不符
+  [manifest 文件哈希不符/文件缺失] manifest 文件哈希不符/文件缺失（603 项）
+      20261003-052200Z :: audit-all-manifests.py 记录的哈希与文件不符（manifest 过期？）
+      20261003-052200Z :: capture-baseline.ps1 记录的哈希与文件不符（manifest 过期？）
+      20261003-052200Z :: deliverable.md 记录的哈希与文件不符（manifest 过期？）
+      20261003-052200Z :: evidence-corrections.md 记录的哈希与文件不符（manifest 过期？）
+      20261003-052200Z :: 记录了但文件不存在：green/green-bisect-smoke.log
+      20261003-052200Z :: 记录了但文件不存在：green/green-comparable-full.log
+      20261003-052200Z :: 记录了但文件不存在：green/green-full-csharp.log
+      20261003-052200Z :: 记录了但文件不存在：green/green-full-csharp-final.log
+      20261003-052200Z :: 记录了但文件不存在：green/green-independent-probes.log
+      20261003-052200Z :: 记录了但文件不存在：green/green-node.log
+      20261003-052200Z :: 记录了但文件不存在：green/green-r0-secrets.log
+      20261003-052200Z :: 记录了但文件不存在：green/green-r1-r3-focused.log
+      20261003-052200Z :: 记录了但文件不存在：green/green-verifyhost-build.log
+      20261003-052200Z :: green/test-results/green-comparable-full.trx 记录的哈希与文件不符（manifest 过期？）
+      20261003-052200Z :: green/test-results/green-full-csharp.trx 记录的哈希与文件不符（manifest 过期？）
+      20261003-052200Z :: green/test-results/green-full-csharp-final.trx 记录的哈希与文件不符（manifest 过期？）
+      20261003-052200Z :: green/test-results/green-independent-probes.trx 记录的哈希与文件不符（manifest 过期？）
+      20261003-052200Z :: green/test-results/green-r0-secrets.trx 记录的哈希与文件不符（manifest 过期？）
+      20261003-052200Z :: green/test-results/green-r1-r3-focused.trx 记录的哈希与文件不符（manifest 过期？）
+      20261003-052200Z :: green-run.ps1 记录的哈希与文件不符（manifest 过期？）
+      … 另有 583 项
+  [目录里有文件未登记进 manifest] 目录里有文件未登记进 manifest（2 项）
+      20261003-052200Z :: manifest.sha256
+      20261003-071724Z :: manifest.sha256
+  [OK] changed-files 记录的路径不存在
+
+== 结论：发现 609 处不一致，需要逐项处理

@@ -1,0 +1,42 @@
+﻿name,units,findings,exit,error,matches,time,cwd
+fixture-abs,2,0,0,,True,2026-11-22T22:52:03.042835+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv\复验 样本\docs
+fixture-trailing,2,0,0,,True,2026-11-22T22:52:03.372238+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv\复验 样本\docs
+fixture-rel,2,0,0,,True,2026-11-22T22:52:03.682279+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv\复验 样本\docs
+fixture-dot,2,0,0,,True,2026-11-22T22:52:04.016019+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv\复验 样本\docs
+fixture-dotdot,2,0,0,,True,2026-11-22T22:52:04.345076+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv\复验 样本\docs\other-cwd
+findings-abs,2,1,1,,True,2026-11-22T22:52:04.681904+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv
+findings-trailing,2,1,1,,True,2026-11-22T22:52:04.996485+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv
+findings-rel,2,1,1,,True,2026-11-22T22:52:05.310410+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv
+findings-dot,2,1,1,,True,2026-11-22T22:52:05.633854+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv
+findings-dotdot,2,1,1,,True,2026-11-22T22:52:05.965308+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv\复验 样本
+real-abs,61,609,1,,True,2026-11-22T22:52:06.284496+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\docs
+real-trailing,61,609,1,,True,2026-11-22T22:52:07.422008+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\docs
+real-rel,61,609,1,,True,2026-11-22T22:52:08.566553+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\docs
+real-dot,61,609,1,,True,2026-11-22T22:52:09.701411+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\docs
+real-dotdot,61,609,1,,True,2026-11-22T22:52:10.847917+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\docs\handoff
+parent-abs,2,0,0,,True,2026-11-22T22:52:11.939332+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv\复验 样本\docs
+parent-trailing,2,2,1,,True,2026-11-22T22:52:12.249508+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv\复验 样本\docs
+parent-rel,2,2,1,,True,2026-11-22T22:52:12.566621+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv\复验 样本\docs
+parent-dot,2,2,1,,True,2026-11-22T22:52:12.880322+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv\复验 样本\docs
+parent-dotdot,2,2,1,,True,2026-11-22T22:52:13.215046+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv\复验 样本\docs\other-cwd
+tree-default,61,609,1,,True,2026-11-22T22:52:13.525580+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv
+tree-default-cjk,2,0,0,,True,2026-11-22T22:52:14.644388+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv
+tree-explicit-cjk,2,1,1,,True,2026-11-22T22:52:14.954110+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv
+ledger-default,31,4,1,,True,2026-11-22T22:52:15.265098+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv
+ledger-absolute,31,4,1,,True,2026-11-22T22:52:15.582537+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv
+ledger-default-cjk,2,0,0,,True,2026-11-22T22:52:15.896110+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv
+ledger-explicit-cjk,2,0,0,,True,2026-11-22T22:52:16.159938+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv
+tree-empty,,,1,[EVIDENCE_ROOT_BLANK],True,2026-11-22T22:52:16.417539+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv
+tree-blank,,,1,[EVIDENCE_ROOT_BLANK],True,2026-11-22T22:52:16.605700+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv
+tree-missing,,,1,[EVIDENCE_ROOT_MISSING],True,2026-11-22T22:52:16.795354+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv
+tree-file,,,1,[EVIDENCE_ROOT_NOT_DIRECTORY],True,2026-11-22T22:52:16.983099+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv
+tree-missing-default,,,1,[DEFAULT_ROOT_MISSING],True,2026-11-22T22:52:17.172935+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv
+ledger-empty,,,1,[EVIDENCE_ROOT_BLANK],True,2026-11-22T22:52:17.357204+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv
+ledger-blank,,,1,[EVIDENCE_ROOT_BLANK],True,2026-11-22T22:52:17.544926+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv
+ledger-missing,,,1,[EVIDENCE_ROOT_MISSING],True,2026-11-22T22:52:17.730577+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv
+ledger-file,,,1,[EVIDENCE_ROOT_NOT_DIRECTORY],True,2026-11-22T22:52:17.932240+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv
+ledger-missing-default,,,1,[DEFAULT_ROOT_MISSING],True,2026-11-22T22:52:18.125161+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv
+tree-splat-empty,,,1,[EVIDENCE_ROOT_BLANK],True,2026-11-22T22:52:18.315880+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv
+drive-candidate,2,2,1,,False,2026-11-22T22:52:18.513347+08:00,Z:\cwd
+drive-parent,2,2,1,,False,2026-11-22T22:52:18.844495+08:00,Z:\cwd
+drive-folder-control,2,0,0,,True,2026-11-22T22:52:19.167903+08:00,D:\Projects\_worktrees\pg-open05-review2-20261122\_review-open05-87msfcnv

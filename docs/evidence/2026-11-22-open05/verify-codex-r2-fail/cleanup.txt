@@ -1,0 +1,7 @@
+﻿time=2026-11-22T22:54:44.0520140+08:00
+verified_root=D:\Projects\_worktrees\pg-open05-review2-20261122
+verified_head=932115c6651d86081491f8fa401d8534dbbd9485
+git status --porcelain --untracked-files=all --ignored: empty
+Call: git -C <main repo> -c core.longpaths=true worktree remove <verified reviewer root>
+exit=0
+review_worktree_present=False
