@@ -95,7 +95,9 @@ dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release
 
 设计依据见 [`ANALYSIS.md`](ANALYSIS.md)：`UpdateApplyScriptPathTests` **未加入** `DisableParallelization` 集合，在全量运行时与其他测试类并行；两处夹具在 `WaitForExit(30000)` 超时后**忽略返回值、也不校验子进程退出码**。**注意**：该夹具**未预写 `applying`**，故「提前读到 `applying` 中间态」的推演**不成立**（详见本文件「结构性风险」一节）；历史失败是否由这条路径引发仍属假说。
 
-压力构成：8 个纯计算忙循环（16 逻辑核的一半）+ 1 个 8 MB 反复写读的 IO 循环，均在后台 Job 内，结束后停止并清理（复核 `0` 个残留 Job、`0` 个临时文件）。
+压力构成：**启动了** 8 个纯计算忙循环 + 1 个 8 MB 反复写读的 IO 循环，均在后台 Job 内。
+
+**清理情况（按原始日志口径）**：夹具 `finally` 依次执行 `Stop-Job` / `Remove-Job` / 删除 `.cache/stress` 下文件，随后追加固定文字 `stress jobs stopped and temp files removed`。**日志只记录清理动作被调用，没有执行事后盘点**（原脚本各步均带 `-ErrorAction SilentlyContinue`）。故此处**不能**给出残留 Job 或临时文件的最终数目——早期那处「复核为零」的表述已撤回。
 
 | 轮次 | 通过 | 失败 | 跳过 | 总计 | 耗时 |
 | --- | --- | --- | --- | --- | --- |
@@ -105,7 +107,7 @@ dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release
 
 无压力时每轮 72.3 / 73.9 / 72.2 s（均值 **72.80**），压力下 83.9 / 84.7 / 84.8 s（均值 **84.47**），增幅 **16.03%**（早前写「约 17%」系单轮近似）。
 
-**关于「压力是否真的生效」**：耗时差与额外负载相符，但**单凭耗时不足以确认两类负载全程持续运行**。本轮**未采集压力期间的 CPU/IO 遥测**，故该项为**未充分证明**——本批次只记录"起了 8 个忙循环 + 1 个 IO 循环、结束后清理"，**没有负载强度与持续时间的原始采样**。此点不可引用为已证事实。
+**关于「压力是否真的生效」**：耗时差与额外负载相符，但**单凭耗时不足以确认两类负载全程持续运行**。本轮**未采集压力期间的 CPU/IO 遥测**，故该项为**未充分证明**——本批次只记录"起了 8 个忙循环 + 1 个 IO 循环、结束后执行了清理动作"，**没有负载强度与持续时间的原始采样**。此点不可引用为已证事实。
 
 原始输出：[`raw/open04-layer4-stress.txt`](raw/open04-layer4-stress.txt)
 
@@ -166,6 +168,8 @@ ConfigPreservationTests.LoadAsync_IfItWritesBack_StillPreservesExistingFields
 
 **结论：RESULT: FAIL（暂不接受销项）**，但**技术结论得到支持**。
 
+> **第 5 轮前的补充修正（执行者自查）**：复核方的最小补齐流程第 2 条还要求「README:98 中残留项精确计数若没有原始盘点，改为旧日志记录结束时停止作业与清理文件」「SELF-AUDIT:57 的禁止用语改为历史负载强度与持续时间未核实」。第 4 轮交接只把这两条列为 A2 的观察项、未写进结论表，执行者在派第 5 轮前自行核对原始日志后确认**两条都成立并已补齐**——`raw/open04-layer4-stress.txt` 第 14 行只有固定文字 `stress jobs stopped and temp files removed`，`layer4-stress.ps1` 的 `finally` 各步均带 `-ErrorAction SilentlyContinue`，**没有任何事后盘点**。
+
 ### 独立重跑（19 轮，全部自带 TRX）
 
 | 条件 | 轮次 | 每轮通过/失败/跳过/总计 | 目标用例 `waited` |
@@ -185,6 +189,8 @@ ConfigPreservationTests.LoadAsync_IfItWritesBack_StillPreservesExistingFields
 | --- | --- | --- |
 | README:160 `.tmp` 失败归因 | 改为「观察到 `.tmp` 残留，根因未定」 | 已改（不再用陈述句断言并发写） |
 | README:177 / 交接:60 负载描述 | 旧批次只记录 worker 启动与清理，未采实际 CPU 核数 | 已改为「启动了 8 个计算作业 + 1 个 IO 作业，未采样核数或持续性」 |
+| README:98 零残留盘点 | 旧表述以「0 个残留」作结论，没有原始盘点支撑 | 已撤回，改为「日志只记录清理动作被调用，未做事后盘点」 |
+| SELF-AUDIT:57 禁止用语 | 旧行以禁止声称的语境保留了会造成歧义的字面 | 已改为「历史与本次的负载强度、持续时间均未核实」 |
 
 ### 它独立验证通过的六项自审结论
 
