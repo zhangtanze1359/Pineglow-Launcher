@@ -12,7 +12,7 @@
 
 | ID | 类型 / 建议顺序 | 状态 | 当前阶段 | 下一步与启动条件 |
 | --- | --- | --- | --- | --- |
-| [OPEN-04](#open-04--复跑更新替换脚本的历史偶发失败) | 稳定性复核 / 1 | 进行中 | 目标基线分层复跑**未复现**（6 轮全量、9107 次通过），已交付覆盖与风险说明，待第 2 轮独立复核 | 独立复核接受「未复现 + 风险说明」后销项 |
+| [OPEN-04](#open-04--复跑更新替换脚本的历史偶发失败) | 稳定性复核 / 1 | 进行中 | 4 次独立复核：技术结论一致支持「未复现」（最新一轮 19 轮 4567/4567）；剩余障碍仅为两处措辞，已修正待复核 | 下一轮复核核对文档与受测输入差异（输入一致时可复用既有 19 份 TRX）后销项 |
 | [OPEN-03](#open-03--准备-v110-候选的发布说明) | 候选发布准备 / 2 | 未处置 | 等待候选范围，不是立即可完成的文案任务 | 明确 v1.1.0 候选提交、版本及交付范围后启动 |
 
 ## 二、逐项执行与验收
@@ -25,7 +25,9 @@
 
 11 月 7 日合流记录定位到 `UpdateApplyScriptPathTests.ApplyScript_WaitsForRunningTargetThenReplaces`：当时首次全量 956/957，隔离组 7/7，之后五次全量通过。另一轮同名用例失败曾定位到 PATH 顺序。主线后来回灌了绝对系统工具路径、进程名处理、更新互斥相关修复，并增加并发请求守卫。这些均是历史记录，不代替目标基线复跑。
 
-**2026-11-23 复跑进展**：在 `367ab91` 隔离工作树分层复跑，**未复现**。① 单跑目标用例 10 次全过（每次约 5 s）；整类 `UpdateApplyScriptPathTests` 9/9 × 5 轮、`UpdateConcurrencyTests` 8/8 × 5 轮全过；全量 1502 条 × **3 轮**（各约 72 s）；全量 + 合成 CPU/IO 压力 × **3 轮**（各约 84 s，**+16.03%**）。**合计 6 轮全量（9012 次）+ 分层 95 次 = 9107 次通过，0 失败 0 跳过。** 另有 8 次时序采集运行因日志缺 xUnit 计数字段，只作时序证据、不计入。② 时序证据：目标用例 8 次均 `state=applied`、`waited` 4.7–4.9 s（均值 4.74，全部 ≥ 2 s），与占位进程生命周期（`ping -n 6` ≈ 5 s）吻合。③ 两个已知成因已在代码层消除：系统命令全部 `%SystemRoot%\System32\` 绝对化、`tasklist` 用 `/FO CSV /NH` 避免名截断、等待有上界 300 次、夹具显式固定 PATH。④ **结构风险（未修）**：两处夹具在 `WaitForExit(30000)` 超时后**忽略返回值且不校验子进程退出码**——`UpdateApplyScriptPathTests.cs:73`（6 个调用点）与 `UpdateRecoveryTests.cs:318`（5 个调用点），**合计 11 个用例**走该路径；本类未加入 `DisableParallelization` 集合。**推演更正**：两处都是先同步读完 stdout/stderr 再 `WaitForExit`，30 秒不覆盖读流；夹具未预写 `applying`，提前读到的是「缺失或不可解析」而非中间态，故历史成因仍属假说。⑤ **CI 覆盖更正**：Ubuntu 上本类 6 条真实 `.bat` 用例提前 `return`（xUnit 视为通过），3 条文本断言照常执行，故 Ubuntu 绿色结果不能为本轮 Windows 偶发问题增加样本。证据见 [OPEN-04 复跑证据](evidence/2026-11-23-open04/README.md)。**未修改任何产品代码或测试代码。** 另：第 3 次独立复核在首轮全量中观测到 `ConfigPreservationTests.LoadAsync_IfItWritesBack_StillPreservesExistingFields`（`:194` `.tmp` 残留断言）1 次失败，其隔离复跑与其余全量均通过、根因未定，**本执行者 6 轮全量从未出现**；该失败与 OPEN-04 目标用例不是同一条，建议单列跟踪。
+**2026-11-23 复跑进展**：在 `367ab91` 隔离工作树分层复跑，**未复现**。① 单跑目标用例 10 次全过（每次约 5 s）；整类 `UpdateApplyScriptPathTests` 9/9 × 5 轮、`UpdateConcurrencyTests` 8/8 × 5 轮全过；全量 1502 条 × **3 轮**（各约 72 s）；全量 + 合成 CPU/IO 压力 × **3 轮**（各约 84 s，**+16.03%**）。**合计 6 轮全量（9012 次）+ 分层 95 次 = 9107 次通过，0 失败 0 跳过。** 另有 8 次时序采集运行因日志缺 xUnit 计数字段，只作时序证据、不计入。② 时序证据：目标用例 8 次均 `state=applied`、`waited` 4.7–4.9 s（均值 4.74，全部 ≥ 2 s），与占位进程生命周期（`ping -n 6` ≈ 5 s）吻合。③ 两个已知成因已在代码层消除：系统命令全部 `%SystemRoot%\System32\` 绝对化、`tasklist` 用 `/FO CSV /NH` 避免名截断、等待有上界 300 次、夹具显式固定 PATH。④ **结构风险（未修）**：两处夹具在 `WaitForExit(30000)` 超时后**忽略返回值且不校验子进程退出码**——`UpdateApplyScriptPathTests.cs:73`（6 个调用点）与 `UpdateRecoveryTests.cs:318`（5 个调用点），**合计 11 个用例**走该路径；本类未加入 `DisableParallelization` 集合。**推演更正**：两处都是先同步读完 stdout/stderr 再 `WaitForExit`，30 秒不覆盖读流；夹具未预写 `applying`，提前读到的是「缺失或不可解析」而非中间态，故历史成因仍属假说。⑤ **CI 覆盖更正**：Ubuntu 上本类 6 条真实 `.bat` 用例提前 `return`（xUnit 视为通过），3 条文本断言照常执行，故 Ubuntu 绿色结果不能为本轮 Windows 偶发问题增加样本。证据见 [OPEN-04 复跑证据](evidence/2026-11-23-open04/README.md)。**未修改任何产品代码或测试代码。** 另：第 3 次独立复核在首轮全量中观测到 `ConfigPreservationTests.LoadAsync_IfItWritesBack_StillPreservesExistingFields`（`:194` `.tmp` 残留断言）1 次失败，其隔离复跑与其余全量均通过、**根因未定**（现有证据未确认并发写入），**本执行者 6 轮全量从未出现**；该断言覆盖配置持久化，与本项的「可执行文件替换」分属两条代码路径，建议单列跟踪。
+
+**独立复核历史**：① 第 1 次 FAIL（计数与说明不符）② 第 2 次网络中断无结论 ③ 第 3 次 FAIL（README 内部矛盾 + 不可追溯遥测引用）④ 第 4 次 FAIL（两处措辞：`.tmp` 归因写成结论、把 worker 数写成实际 CPU 核数），但第 4 次独立重跑 **19 轮 4567 通过 / 0 失败 / 0 跳过**，目标用例 16 次全 `applied`（`waited` 5.2–5.5 s），**技术结论获支持**。累计四轮复核独立复跑 60+ 轮全量、43+ 次目标用例执行，**从未复现**。
 
 ### 执行步骤
 
@@ -44,7 +46,7 @@
 
 **销项条件**：复现并修复后经独立复验确认，或未复现但由独立复核明确接受已有覆盖与风险说明。不得以历史五次通过或本轮少量通过自动销项。
 
-**证据入口**：[合流记录 R-1](handoff/合流记录-2026-11-07.md)、[历史 PATH 诊断](m0-3-release-blocker-closure-2026-11-06.md)、[脚本路径用例](../dev/PineglowLauncher.Tests/UpdateApplyScriptPathTests.cs)、[请求并发用例](../dev/PineglowLauncher.Tests/UpdateConcurrencyTests.cs)、[2026-11-23 复跑证据](evidence/2026-11-23-open04/README.md)、[执行交接](handoff/HANDOFF-2026-11-23-open04-execution.md)。
+**证据入口**：[合流记录 R-1](handoff/合流记录-2026-11-07.md)、[历史 PATH 诊断](m0-3-release-blocker-closure-2026-11-06.md)、[脚本路径用例](../dev/PineglowLauncher.Tests/UpdateApplyScriptPathTests.cs)、[请求并发用例](../dev/PineglowLauncher.Tests/UpdateConcurrencyTests.cs)、[2026-11-23 复跑证据](evidence/2026-11-23-open04/README.md)、[执行交接](handoff/HANDOFF-2026-11-23-open04-execution.md)、[第 4 次复核材料（含 19 份 TRX）](evidence/2026-11-23-open04/verify-codex-r4-fail-wording/README.md)。
 
 ## OPEN-03 · 准备 v1.1.0 候选的发布说明
 

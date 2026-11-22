@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="a8727e1d-73fb-4092-bf6b-dd092e78d9a2" name="Administrator@PC-20260705RBJQ 2026-11-23 03:27:33" runUser="PC-20260705RBJQ\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-23T03:27:33.2728105+08:00" queuing="2026-11-23T03:27:33.2728109+08:00" start="2026-11-23T03:27:29.0405623+08:00" finish="2026-11-23T03:27:33.7765105+08:00" />
+  <TestSettings name="default" id="c31149a6-68ae-4969-87e6-2c6d785b352e">
+    <Deployment runDeploymentRoot="Administrator_PC-20260705RBJQ_2026-11-23_03_27_33" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="fe3ba020-3a3f-404a-b3da-e1c0ac754456" testId="27c7a7c9-ab76-1cc1-e05a-71349036155c" testName="Pineglow.Launcher.Tests.UpdateConcurrencyTests.TwoApplyRequestsArrivingTogether_LaunchReplacementExactlyOnce" computerName="PC-20260705RBJQ" duration="00:00:00.1476425" startTime="2026-11-23T03:27:33.2567731+08:00" endTime="2026-11-23T03:27:33.3809162+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fe3ba020-3a3f-404a-b3da-e1c0ac754456">
+      <Output>
+        <StdOut>[r2][apply-concurrent] launchCount=1&#xD;
+[r2][apply-concurrent] 200 {"ok":true,"state":"applying","message":"\u66F4\u65B0\u5DF2\u542F\u52A8\uFF0C\u91CD\u542F\u540E\u751F\u6548\u3002"}&#xD;
+[r2][apply-concurrent] 200 {"ok":true,"state":"applying","message":"\u66F4\u65B0\u5DF2\u7ECF\u542F\u52A8\uFF0C\u91CD\u542F\u540E\u751F\u6548\u3002"}</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="5d892192-c60f-4476-9969-e916229f00ce" testId="3048ff9a-44fa-9fb2-ccdc-4031ffd21143" testName="Pineglow.Launcher.Tests.UpdateConcurrencyTests.ClaimedButHashMismatch_FailsWithoutLaunching" computerName="PC-20260705RBJQ" duration="00:00:00.0173228" startTime="2026-11-23T03:27:33.3939861+08:00" endTime="2026-11-23T03:27:33.4114065+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5d892192-c60f-4476-9969-e916229f00ce">
+      <Output>
+        <StdOut>[r2][apply-badsha] 400 {"ok":false,"state":"failed","message":"\u66F4\u65B0\u5305\u6821\u9A8C\u5931\u8D25\uFF1A\u78C1\u76D8\u4E0A\u7684\u6587\u4EF6\u4E0E\u6E05\u5355\u58F0\u660E\u7684 SHA256 \u4E0D\u7B26\uFF08\u53EF\u80FD\u5728\u4E0B\u8F7D\u540E\u88AB\u622A\u65AD\u6216\u66FF\u6362\uFF09\u3002\u8BF7\u5220\u9664\u540E\u91CD\u65B0\u4E0B\u8F7D\u3002","sha256Mismatch":true}</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="db78a528-c5a1-4e44-ba97-348a0f6e7761" testId="74d9b26f-17ca-1c62-0784-90009b696395" testName="Pineglow.Launcher.Tests.UpdateConcurrencyTests.ClaimedButPackageMissing_FailsWithoutLaunching" computerName="PC-20260705RBJQ" duration="00:00:00.0122696" startTime="2026-11-23T03:27:33.3819891+08:00" endTime="2026-11-23T03:27:33.3936400+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="db78a528-c5a1-4e44-ba97-348a0f6e7761">
+      <Output>
+        <StdOut>[r2][apply-missing] 400 {"ok":false,"state":"failed","message":"\u66F4\u65B0\u5305\u4E0D\u5B58\u5728\uFF0C\u8BF7\u91CD\u65B0\u4E0B\u8F7D\u3002"}</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="c03467b0-ffa1-4d53-b85b-5f586e661e0b" testId="43dd49ea-544e-205c-3e4e-696fcfc74f4f" testName="Pineglow.Launcher.Tests.UpdateConcurrencyTests.LaunchFailure_ReleasesClaimAndAllowsLegitimateRetry" computerName="PC-20260705RBJQ" duration="00:00:00.0295026" startTime="2026-11-23T03:27:33.6420584+08:00" endTime="2026-11-23T03:27:33.6717697+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c03467b0-ffa1-4d53-b85b-5f586e661e0b">
+      <Output>
+        <StdOut>[r2][apply-launchfail] 500 {"ok":false,"state":"failed","message":"simulated launch failure"}&#xD;
+[r2][apply-retry] 200 {"ok":true,"state":"applying","message":"\u66F4\u65B0\u5DF2\u542F\u52A8\uFF0C\u91CD\u542F\u540E\u751F\u6548\u3002"} launches=2</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="03efd351-7cc0-477a-b821-cbfef9a02fe6" testId="5ce4a4d2-1bd9-88e5-2d6f-f8015ba84463" testName="Pineglow.Launcher.Tests.UpdateConcurrencyTests.StaleStarterRequest_DoesNotOverwriteNewerClaim" computerName="PC-20260705RBJQ" duration="00:00:00.2151720" startTime="2026-11-23T03:27:33.4264471+08:00" endTime="2026-11-23T03:27:33.6418028+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="03efd351-7cc0-477a-b821-cbfef9a02fe6">
+      <Output>
+        <StdOut>[r2][stale-start] bumped epoch to 10&#xD;
+[r2][stale-start] A -&gt; 409 {"ok":false,"state":"superseded","message":"\u5DF2\u6709\u66F4\u65B0\u7684\u4E00\u6B21\u4E0B\u8F7D\uFF0C\u5DF2\u5FFD\u7565\u672C\u6B21\u7ED3\u679C\u3002"}&#xD;
+[r2][stale-start] final state=downloading epoch=10 downloads=0</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="500107ab-ffc6-43a9-8209-2e0541c9ab8b" testId="5df4a9a5-5e29-cc0f-5b28-c20cb51e1ad2" testName="Pineglow.Launcher.Tests.UpdateConcurrencyTests.ApplyAfterClaim_DoesNotLaunchAgain" computerName="PC-20260705RBJQ" duration="00:00:00.0143260" startTime="2026-11-23T03:27:33.4116938+08:00" endTime="2026-11-23T03:27:33.4262166+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="500107ab-ffc6-43a9-8209-2e0541c9ab8b">
+      <Output>
+        <StdOut>[r2][apply-twice] 200 then 200 launches=1</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="6cfe261f-e644-4191-910f-9f73c625ad72" testId="6d399b74-80bd-a647-f88d-74a16a332cc9" testName="Pineglow.Launcher.Tests.UpdateConcurrencyTests.ApplyingUpdate_RejectsDownloadRequestAndKeepsPackageState" computerName="PC-20260705RBJQ" duration="00:00:00.0112979" startTime="2026-11-23T03:27:33.6719703+08:00" endTime="2026-11-23T03:27:33.6834892+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6cfe261f-e644-4191-910f-9f73c625ad72">
+      <Output>
+        <StdOut>[r2][download-while-applying] 409 {"ok":false,"state":"applying","message":"\u66F4\u65B0\u6B63\u5728\u5E94\u7528\uFF0C\u5DF2\u5FFD\u7565\u91CD\u590D\u7684\u4E0B\u8F7D\u8BF7\u6C42\u3002"}</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="16685bc4-d9d5-4d4a-aea2-46bada01b185" testId="766045e9-1234-d8ef-056f-a361b971a8a0" testName="Pineglow.Launcher.Tests.UpdateConcurrencyTests.StaleDownloadWorker_DoesNotMarkStateCompleted" computerName="PC-20260705RBJQ" duration="00:00:03.2098218" startTime="2026-11-23T03:27:30.0058151+08:00" endTime="2026-11-23T03:27:33.2300164+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="16685bc4-d9d5-4d4a-aea2-46bada01b185">
+      <Output>
+        <StdOut>[r2][stale-worker] bumped epoch to 3&#xD;
+[r2][stale-worker] final state=downloading epoch=3</StdOut>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateConcurrencyTests.LaunchFailure_ReleasesClaimAndAllowsLegitimateRetry" storage="d:\projects\_worktrees\pineglow-open04-review-r4\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="43dd49ea-544e-205c-3e4e-696fcfc74f4f">
+      <Execution id="c03467b0-ffa1-4d53-b85b-5f586e661e0b" />
+      <TestMethod codeBase="D:\Projects\_worktrees\pineglow-open04-review-r4\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateConcurrencyTests" name="LaunchFailure_ReleasesClaimAndAllowsLegitimateRetry" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateConcurrencyTests.TwoApplyRequestsArrivingTogether_LaunchReplacementExactlyOnce" storage="d:\projects\_worktrees\pineglow-open04-review-r4\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="27c7a7c9-ab76-1cc1-e05a-71349036155c">
+      <Execution id="fe3ba020-3a3f-404a-b3da-e1c0ac754456" />
+      <TestMethod codeBase="D:\Projects\_worktrees\pineglow-open04-review-r4\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateConcurrencyTests" name="TwoApplyRequestsArrivingTogether_LaunchReplacementExactlyOnce" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateConcurrencyTests.ApplyingUpdate_RejectsDownloadRequestAndKeepsPackageState" storage="d:\projects\_worktrees\pineglow-open04-review-r4\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="6d399b74-80bd-a647-f88d-74a16a332cc9">
+      <Execution id="6cfe261f-e644-4191-910f-9f73c625ad72" />
+      <TestMethod codeBase="D:\Projects\_worktrees\pineglow-open04-review-r4\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateConcurrencyTests" name="ApplyingUpdate_RejectsDownloadRequestAndKeepsPackageState" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateConcurrencyTests.ClaimedButPackageMissing_FailsWithoutLaunching" storage="d:\projects\_worktrees\pineglow-open04-review-r4\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="74d9b26f-17ca-1c62-0784-90009b696395">
+      <Execution id="db78a528-c5a1-4e44-ba97-348a0f6e7761" />
+      <TestMethod codeBase="D:\Projects\_worktrees\pineglow-open04-review-r4\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateConcurrencyTests" name="ClaimedButPackageMissing_FailsWithoutLaunching" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateConcurrencyTests.StaleStarterRequest_DoesNotOverwriteNewerClaim" storage="d:\projects\_worktrees\pineglow-open04-review-r4\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="5ce4a4d2-1bd9-88e5-2d6f-f8015ba84463">
+      <Execution id="03efd351-7cc0-477a-b821-cbfef9a02fe6" />
+      <TestMethod codeBase="D:\Projects\_worktrees\pineglow-open04-review-r4\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateConcurrencyTests" name="StaleStarterRequest_DoesNotOverwriteNewerClaim" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateConcurrencyTests.StaleDownloadWorker_DoesNotMarkStateCompleted" storage="d:\projects\_worktrees\pineglow-open04-review-r4\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="766045e9-1234-d8ef-056f-a361b971a8a0">
+      <Execution id="16685bc4-d9d5-4d4a-aea2-46bada01b185" />
+      <TestMethod codeBase="D:\Projects\_worktrees\pineglow-open04-review-r4\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateConcurrencyTests" name="StaleDownloadWorker_DoesNotMarkStateCompleted" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateConcurrencyTests.ApplyAfterClaim_DoesNotLaunchAgain" storage="d:\projects\_worktrees\pineglow-open04-review-r4\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="5df4a9a5-5e29-cc0f-5b28-c20cb51e1ad2">
+      <Execution id="500107ab-ffc6-43a9-8209-2e0541c9ab8b" />
+      <TestMethod codeBase="D:\Projects\_worktrees\pineglow-open04-review-r4\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateConcurrencyTests" name="ApplyAfterClaim_DoesNotLaunchAgain" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateConcurrencyTests.ClaimedButHashMismatch_FailsWithoutLaunching" storage="d:\projects\_worktrees\pineglow-open04-review-r4\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="3048ff9a-44fa-9fb2-ccdc-4031ffd21143">
+      <Execution id="5d892192-c60f-4476-9969-e916229f00ce" />
+      <TestMethod codeBase="D:\Projects\_worktrees\pineglow-open04-review-r4\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateConcurrencyTests" name="ClaimedButHashMismatch_FailsWithoutLaunching" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="27c7a7c9-ab76-1cc1-e05a-71349036155c" executionId="fe3ba020-3a3f-404a-b3da-e1c0ac754456" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3048ff9a-44fa-9fb2-ccdc-4031ffd21143" executionId="5d892192-c60f-4476-9969-e916229f00ce" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="74d9b26f-17ca-1c62-0784-90009b696395" executionId="db78a528-c5a1-4e44-ba97-348a0f6e7761" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="43dd49ea-544e-205c-3e4e-696fcfc74f4f" executionId="c03467b0-ffa1-4d53-b85b-5f586e661e0b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5ce4a4d2-1bd9-88e5-2d6f-f8015ba84463" executionId="03efd351-7cc0-477a-b821-cbfef9a02fe6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5df4a9a5-5e29-cc0f-5b28-c20cb51e1ad2" executionId="500107ab-ffc6-43a9-8209-2e0541c9ab8b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6d399b74-80bd-a647-f88d-74a16a332cc9" executionId="6cfe261f-e644-4191-910f-9f73c625ad72" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="766045e9-1234-d8ef-056f-a361b971a8a0" executionId="16685bc4-d9d5-4d4a-aea2-46bada01b185" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="8" executed="8" passed="8" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.9)&#xD;
+[xUnit.net 00:00:00.15]   Discovering: Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.37]   Discovered:  Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.40]   Starting:    Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:04.12]   Finished:    Pineglow.Launcher.Tests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

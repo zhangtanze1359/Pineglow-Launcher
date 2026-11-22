@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="1f546a32-c38c-47c2-9174-bb1c116f8af8" name="Administrator@PC-20260705RBJQ 2026-11-23 03:27:06" runUser="PC-20260705RBJQ\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-23T03:27:06.1550416+08:00" queuing="2026-11-23T03:27:06.1550420+08:00" start="2026-11-23T03:27:04.0947367+08:00" finish="2026-11-23T03:27:12.5741484+08:00" />
+  <TestSettings name="default" id="463acba0-acc4-4123-b6b5-767433bb8512">
+    <Deployment runDeploymentRoot="Administrator_PC-20260705RBJQ_2026-11-23_03_27_06" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="2b156527-edab-4b60-adf2-030579134c83" testId="8564359b-39f5-f5a3-2f2d-1357ffc2b65e" testName="Pineglow.Launcher.Tests.UpdateApplyScriptPathTests.ApplyScript_WaitsForRunningTargetThenReplaces" computerName="PC-20260705RBJQ" duration="00:00:05.7406299" startTime="2026-11-23T03:27:05.4081369+08:00" endTime="2026-11-23T03:27:11.1435429+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2b156527-edab-4b60-adf2-030579134c83">
+      <Output>
+        <StdOut>[R06/upgrade-wait] state=applied waited=5.2s</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="366eaa7e-8d9f-4e37-adb8-74c77236c894" testId="92e3b949-6c0b-db83-52a2-d679b4b0875d" testName="Pineglow.Launcher.Tests.UpdateApplyScriptPathTests.ApplyScript_InChineseAndSpacePath_AppliesReplacesAndRecordsApplied" computerName="PC-20260705RBJQ" duration="00:00:00.3319215" startTime="2026-11-23T03:27:11.8104037+08:00" endTime="2026-11-23T03:27:12.1422987+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="366eaa7e-8d9f-4e37-adb8-74c77236c894">
+      <Output>
+        <StdOut>[R06/upgrade] dir=D:\Projects\_worktrees\pineglow-open04-review-r4\.review-temp\松光 更新 中文 路径 3e8650c6f8bc46b489735fccc6b762f6&#xD;
+[R06/upgrade] state=applied version=1.0.1 output=The batch file cannot be found.</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="fc0219ab-5df0-4b0c-b654-b65a1a21f12d" testId="ad4b6ecb-5181-8160-12b7-282f24544a11" testName="Pineglow.Launcher.Tests.UpdateApplyScriptPathTests.ApplyScript_WhenTargetHasExplicitDenyAce_KeepsRunnableOldVersion" computerName="PC-20260705RBJQ" duration="00:00:00.3440634" startTime="2026-11-23T03:27:11.4655792+08:00" endTime="2026-11-23T03:27:11.8095713+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fc0219ab-5df0-4b0c-b654-b65a1a21f12d">
+      <Output>
+        <StdOut>[R06/upgrade-deny-ace] state=replace_failed target=OLD-CONTENT output=Access is denied.&#xD;
+Access is denied.&#xD;
+The batch file cannot be found.</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="2818fa00-05aa-48eb-87b1-ddac8f1a7d28" testId="da76b11a-b41b-6047-b704-d483ded41a42" testName="Pineglow.Launcher.Tests.UpdateApplyScriptPathTests.ApplyScript_WhenTargetIsNotWritable_KeepsRunnableOldVersion" computerName="PC-20260705RBJQ" duration="00:00:00.3466728" startTime="2026-11-23T03:27:12.1427388+08:00" endTime="2026-11-23T03:27:12.4891317+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2818fa00-05aa-48eb-87b1-ddac8f1a7d28">
+      <Output>
+        <StdOut>[R06/upgrade-noperm] state=replace_failed target=OLD-CONTENT output=Access is denied.&#xD;
+Access is denied.&#xD;
+The batch file cannot be found.</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="917043d0-d7d2-4652-a46f-c3ed311c9520" testId="4380c0fe-917a-4817-2faf-82b4dfcdd722" testName="Pineglow.Launcher.Tests.UpdateApplyScriptPathTests.ApplyScript_DoesNotTruncateLongImageNames" computerName="PC-20260705RBJQ" duration="00:00:00.0089163" startTime="2026-11-23T03:27:05.4071582+08:00" endTime="2026-11-23T03:27:05.4072881+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="917043d0-d7d2-4652-a46f-c3ed311c9520" />
+    <UnitTestResult executionId="9f071e34-63d9-4cfd-a562-afe67412c126" testId="4183e156-f449-a35a-ce50-ca6bac22fe3d" testName="Pineglow.Launcher.Tests.UpdateApplyScriptPathTests.ApplyScript_DoesNotDependOnConsoleOnlyCommands" computerName="PC-20260705RBJQ" duration="00:00:00.0006073" startTime="2026-11-23T03:27:11.8097653+08:00" endTime="2026-11-23T03:27:11.8102901+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9f071e34-63d9-4cfd-a562-afe67412c126" />
+    <UnitTestResult executionId="4afdcb40-59ce-46a5-91d4-f5148ef074df" testId="112aafe2-cda7-17ba-e14d-bfa5538bd259" testName="Pineglow.Launcher.Tests.UpdateApplyScriptPathTests.ApplyScript_DoesNotDependOnPathResolution" computerName="PC-20260705RBJQ" duration="00:00:00.0009055" startTime="2026-11-23T03:27:11.4645646+08:00" endTime="2026-11-23T03:27:11.4653779+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4afdcb40-59ce-46a5-91d4-f5148ef074df" />
+    <UnitTestResult executionId="c8c68ade-338e-44c2-b48c-155d23f6395a" testId="f1b4f353-3027-4a22-c54a-0a1800eda5d7" testName="Pineglow.Launcher.Tests.UpdateApplyScriptPathTests.ApplyScript_InChineseAndSpacePath_ReplaceFailureRollsBackOldVersion" computerName="PC-20260705RBJQ" duration="00:00:00.3205823" startTime="2026-11-23T03:27:05.0646079+08:00" endTime="2026-11-23T03:27:05.3934829+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c8c68ade-338e-44c2-b48c-155d23f6395a">
+      <Output>
+        <StdOut>[R06/upgrade-rollback] state=replace_failed target=OLD-CONTENT</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="cc4e52a9-a66c-411a-9990-0533009a6cb2" testId="532feeaf-b486-ad02-9940-e8ec67a019a5" testName="Pineglow.Launcher.Tests.UpdateApplyScriptPathTests.ApplyScript_InChineseAndSpacePath_BackupFailureLeavesTargetUntouched" computerName="PC-20260705RBJQ" duration="00:00:00.3205885" startTime="2026-11-23T03:27:11.1452864+08:00" endTime="2026-11-23T03:27:11.4643311+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cc4e52a9-a66c-411a-9990-0533009a6cb2">
+      <Output>
+        <StdOut>[R06/upgrade-backupfail] state=backup_failed target=OLD-CONTENT</StdOut>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateApplyScriptPathTests.ApplyScript_WhenTargetHasExplicitDenyAce_KeepsRunnableOldVersion" storage="d:\projects\_worktrees\pineglow-open04-review-r4\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="ad4b6ecb-5181-8160-12b7-282f24544a11">
+      <Execution id="fc0219ab-5df0-4b0c-b654-b65a1a21f12d" />
+      <TestMethod codeBase="D:\Projects\_worktrees\pineglow-open04-review-r4\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateApplyScriptPathTests" name="ApplyScript_WhenTargetHasExplicitDenyAce_KeepsRunnableOldVersion" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateApplyScriptPathTests.ApplyScript_WaitsForRunningTargetThenReplaces" storage="d:\projects\_worktrees\pineglow-open04-review-r4\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="8564359b-39f5-f5a3-2f2d-1357ffc2b65e">
+      <Execution id="2b156527-edab-4b60-adf2-030579134c83" />
+      <TestMethod codeBase="D:\Projects\_worktrees\pineglow-open04-review-r4\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateApplyScriptPathTests" name="ApplyScript_WaitsForRunningTargetThenReplaces" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateApplyScriptPathTests.ApplyScript_DoesNotDependOnConsoleOnlyCommands" storage="d:\projects\_worktrees\pineglow-open04-review-r4\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="4183e156-f449-a35a-ce50-ca6bac22fe3d">
+      <Execution id="9f071e34-63d9-4cfd-a562-afe67412c126" />
+      <TestMethod codeBase="D:\Projects\_worktrees\pineglow-open04-review-r4\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateApplyScriptPathTests" name="ApplyScript_DoesNotDependOnConsoleOnlyCommands" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateApplyScriptPathTests.ApplyScript_DoesNotDependOnPathResolution" storage="d:\projects\_worktrees\pineglow-open04-review-r4\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="112aafe2-cda7-17ba-e14d-bfa5538bd259">
+      <Execution id="4afdcb40-59ce-46a5-91d4-f5148ef074df" />
+      <TestMethod codeBase="D:\Projects\_worktrees\pineglow-open04-review-r4\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateApplyScriptPathTests" name="ApplyScript_DoesNotDependOnPathResolution" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateApplyScriptPathTests.ApplyScript_DoesNotTruncateLongImageNames" storage="d:\projects\_worktrees\pineglow-open04-review-r4\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="4380c0fe-917a-4817-2faf-82b4dfcdd722">
+      <Execution id="917043d0-d7d2-4652-a46f-c3ed311c9520" />
+      <TestMethod codeBase="D:\Projects\_worktrees\pineglow-open04-review-r4\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateApplyScriptPathTests" name="ApplyScript_DoesNotTruncateLongImageNames" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateApplyScriptPathTests.ApplyScript_InChineseAndSpacePath_AppliesReplacesAndRecordsApplied" storage="d:\projects\_worktrees\pineglow-open04-review-r4\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="92e3b949-6c0b-db83-52a2-d679b4b0875d">
+      <Execution id="366eaa7e-8d9f-4e37-adb8-74c77236c894" />
+      <TestMethod codeBase="D:\Projects\_worktrees\pineglow-open04-review-r4\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateApplyScriptPathTests" name="ApplyScript_InChineseAndSpacePath_AppliesReplacesAndRecordsApplied" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateApplyScriptPathTests.ApplyScript_InChineseAndSpacePath_BackupFailureLeavesTargetUntouched" storage="d:\projects\_worktrees\pineglow-open04-review-r4\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="532feeaf-b486-ad02-9940-e8ec67a019a5">
+      <Execution id="cc4e52a9-a66c-411a-9990-0533009a6cb2" />
+      <TestMethod codeBase="D:\Projects\_worktrees\pineglow-open04-review-r4\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateApplyScriptPathTests" name="ApplyScript_InChineseAndSpacePath_BackupFailureLeavesTargetUntouched" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateApplyScriptPathTests.ApplyScript_WhenTargetIsNotWritable_KeepsRunnableOldVersion" storage="d:\projects\_worktrees\pineglow-open04-review-r4\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="da76b11a-b41b-6047-b704-d483ded41a42">
+      <Execution id="2818fa00-05aa-48eb-87b1-ddac8f1a7d28" />
+      <TestMethod codeBase="D:\Projects\_worktrees\pineglow-open04-review-r4\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateApplyScriptPathTests" name="ApplyScript_WhenTargetIsNotWritable_KeepsRunnableOldVersion" />
+    </UnitTest>
+    <UnitTest name="Pineglow.Launcher.Tests.UpdateApplyScriptPathTests.ApplyScript_InChineseAndSpacePath_ReplaceFailureRollsBackOldVersion" storage="d:\projects\_worktrees\pineglow-open04-review-r4\dev\pineglowlauncher.tests\bin\release\net10.0\pineglow.launcher.tests.dll" id="f1b4f353-3027-4a22-c54a-0a1800eda5d7">
+      <Execution id="c8c68ade-338e-44c2-b48c-155d23f6395a" />
+      <TestMethod codeBase="D:\Projects\_worktrees\pineglow-open04-review-r4\dev\PineglowLauncher.Tests\bin\Release\net10.0\Pineglow.Launcher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Pineglow.Launcher.Tests.UpdateApplyScriptPathTests" name="ApplyScript_InChineseAndSpacePath_ReplaceFailureRollsBackOldVersion" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="8564359b-39f5-f5a3-2f2d-1357ffc2b65e" executionId="2b156527-edab-4b60-adf2-030579134c83" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="92e3b949-6c0b-db83-52a2-d679b4b0875d" executionId="366eaa7e-8d9f-4e37-adb8-74c77236c894" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ad4b6ecb-5181-8160-12b7-282f24544a11" executionId="fc0219ab-5df0-4b0c-b654-b65a1a21f12d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="da76b11a-b41b-6047-b704-d483ded41a42" executionId="2818fa00-05aa-48eb-87b1-ddac8f1a7d28" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4380c0fe-917a-4817-2faf-82b4dfcdd722" executionId="917043d0-d7d2-4652-a46f-c3ed311c9520" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4183e156-f449-a35a-ce50-ca6bac22fe3d" executionId="9f071e34-63d9-4cfd-a562-afe67412c126" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="112aafe2-cda7-17ba-e14d-bfa5538bd259" executionId="4afdcb40-59ce-46a5-91d4-f5148ef074df" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f1b4f353-3027-4a22-c54a-0a1800eda5d7" executionId="c8c68ade-338e-44c2-b48c-155d23f6395a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="532feeaf-b486-ad02-9940-e8ec67a019a5" executionId="cc4e52a9-a66c-411a-9990-0533009a6cb2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="9" executed="9" passed="9" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.9)&#xD;
+[xUnit.net 00:00:00.15]   Discovering: Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.35]   Discovered:  Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:00.39]   Starting:    Pineglow.Launcher.Tests&#xD;
+[xUnit.net 00:00:07.85]   Finished:    Pineglow.Launcher.Tests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>
