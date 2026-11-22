@@ -1,0 +1,11 @@
+﻿time=2026-11-23T00:00:58.0354963+08:00 cwd=C:\Users\Administrator\.t3\worktrees\松光启动器\t3-b52b197b-fdd5b8648d3cdf7b
+verified_absolute_path=D:\Projects\_worktrees\pg-open05-close-b52b197b
+verified_absolute_path=D:\Projects\_worktrees\open05-review-input-b52b197b
+verified_absolute_path=D:\Projects\_worktrees\open05-review-input-b52b197b-rerun
+git -C 'D:\Projects\_worktrees\pg-open05-close-b52b197b' -c core.longpaths=true status --short --untracked-files=all exit=0 output=[]
+git -C 'D:\Projects\松光启动器' -c core.longpaths=true worktree remove 'D:\Projects\_worktrees\pg-open05-close-b52b197b' exit=0 output=[]
+Remove-Item -LiteralPath 'D:\Projects\_worktrees\open05-review-input-b52b197b' -Recurse -Force success=True exists=False
+Remove-Item -LiteralPath 'D:\Projects\_worktrees\open05-review-input-b52b197b-rerun' -Recurse -Force success=True exists=False
+git -C 'D:\Projects\松光启动器' worktree list --porcelain exit=0 matching=[] worktree_exists=False
+subst.exe exit=0 stdout=[] Z_root_exists=False
+cleanup_exit=0 time=2026-11-23T00:00:59.0297008+08:00

@@ -175,9 +175,10 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File D:/Projects/_worktrees/p
 **r3 遗留文件**（`tree-pathform-abs/trailing/rel/rel-dot/dotdot` 及相关）：来自 r3 夹具，r4 改为「三棵树 × 五种写法」的 `tree-form-{self,legacy,dirty}-*` 命名。按要求保留原文件，但**不作 r4 通过凭据**：r4 结论只看 `tree-form-*` 与 `tree-drive-*` 的元数据。
 | `verify-codex-r1-fail/` | 第 1 轮 FAIL 材料原样归档 | 234 个文件 |
 | `verify-codex-r2-fail/` | 第 2 轮 FAIL 材料原样归档（含卷根阻断原始输出与整改提示词） | 93 个文件 |
-| `verify-codex-r3-pass-behavior-fail-counts/` | 第 3 轮材料：**技术行为全部通过**（62/62、41/41），整轮 FAIL 仅因本 README 三处计数错误 | 391 个文件 |
+| `verify-codex-r3-pass-behavior-fail-counts/` | 第 3 轮材料：**技术行为全部通过**（62/62、41/41），整轮 FAIL 仅因本 README 三处计数错误 | 递归 **392** 个文件（其中归档说明 `README.md` 1 个、独立复验材料 **391** 个） |
 | `verify-codex-r4-pass/` | **第 4 轮 PASS**：三处计数逐项复核一致，确认仅改 README、脚本/raw/夹具无变更 | 3 个文件 |
 | `target-confirm/` | **目标分支参数行为确认**（`aa64a57` 干净检出，26/26 PASS；真实树默认 vs 显式 diff=0） | 80 个文件 |
+| `verify-codex-close-review-fail/` | **销项复核（Codex）FAIL**：技术 41/41 通过；阻断为归档计数 392≠391 与「合入早于批准」 | 182 个文件 |
 
 **历史探针文件**（`raw/probe-root-empty.*`、`raw/probe-splat-empty.*`，共 4 个）：来自 r2 阶段的一次性边界探针，结论已并入常驻用例（`tree-reporoot-empty`、`tree-splat-empty`）。按要求保留原文件，不作 r4 通过凭据。
 
@@ -199,3 +200,12 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File D:/Projects/_worktrees/p
 | 4 | `a5e9730` | **PASS** | 三处计数复核一致；补哈希口径 |
 
 **合入后目标分支确认已完成**：在 `aa64a57` 的干净工作树直接运行检出内脚本，26/26 PASS——入口参数、路径写法 × 两棵树、卷根与普通绝对路径对照、真实树默认 vs 显式根逐行 diff=0。详见 [`target-confirm/`](target-confirm/README.md)。第 4 轮未重跑的 41 例矩阵与卷根/splat 由此轮补齐。
+
+## 销项复核：FAIL（待编排方处理顺序偏差）
+
+第 5 关（销项复核，Codex）**技术复验 41/41 通过**，但判 FAIL，两条：
+
+1. **归档计数**：第 3 轮递归实为 **392**（含归档说明 `README.md`），本 README 与归档说明原写 391。已更正为「递归 392，其中归档说明 1 个、独立复验材料 391 个」。
+2. **合入早于批准**：补丁首次进入 `main` 为 `ed2e92c` @ **22:21:28**，最终脚本 `fe49b34` @ **23:05:20**，而编排方批准合入为 **23:29:00**。清单执行步骤要求「批准后方可合入」，事前批准缺证据。
+
+> 第 2 条属**审批顺序**问题，不是技术缺陷。按项目规则「执行者不为自己签字」，该偏差需由编排方留下正式决定后方可再复核；执行者不自行认定已获豁免。材料见 [`verify-codex-close-review-fail/`](verify-codex-close-review-fail/README.md)。

@@ -1,0 +1,57 @@
+{
+  "before": {
+    "command": [
+      "subst.exe"
+    ],
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "exit": 0,
+    "stdout": "",
+    "stderr": "",
+    "timestamp": "2026-11-22T23:46:53.171576+08:00"
+  },
+  "create": {
+    "command": [
+      "subst.exe",
+      "Z:",
+      "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库\\docs\\market-execution"
+    ],
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "exit": 0,
+    "stdout": "",
+    "stderr": "",
+    "timestamp": "2026-11-22T23:46:53.171576+08:00"
+  },
+  "active": {
+    "command": [
+      "subst.exe"
+    ],
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "exit": 0,
+    "stdout": "Z:\\: => D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库\\docs\\market-execution\r\n",
+    "stderr": "",
+    "timestamp": "2026-11-22T23:46:53.175303+08:00"
+  },
+  "remove": {
+    "command": [
+      "subst.exe",
+      "Z:",
+      "/D"
+    ],
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "exit": 0,
+    "stdout": "",
+    "stderr": "",
+    "timestamp": "2026-11-22T23:46:54.101755+08:00"
+  },
+  "after": {
+    "command": [
+      "subst.exe"
+    ],
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "exit": 0,
+    "stdout": "",
+    "stderr": "",
+    "timestamp": "2026-11-22T23:46:54.101755+08:00"
+  },
+  "root_exists_after": false
+}

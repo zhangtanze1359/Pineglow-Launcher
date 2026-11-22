@@ -1,0 +1,1185 @@
+{
+  "tree-default": {
+    "timestamp": "2026-11-22T23:46:43.709233+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAGUAdgBpAGQAZQBuAGMAZQAtAHQAcgBlAGUALgBwAHMAMQAnACAALQBSAGUAcABvAFIAbwBvAHQAIAAnAEQAOgBcAFAAcgBvAGoAZQBjAHQAcwBcAF8AdwBvAHIAawB0AHIAZQBlAHMAXABvAHAAZQBuADAANQAtAHIAZQB2AGkAZQB3AC0AaQBuAHAAdQB0AC0AYgA1ADIAYgAxADkANwBiAC0AcgBlAHIAdQBuAFwAoVuhiyAA006TXicACgBlAHgAaQB0ACAAJABMAEEAUwBUAEUAWABJAFQAQwBPAEQARQA="
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "expected_pattern": "(?s)扫描到 2 个 run 目录.*证据树内部自洽",
+    "expected_path": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库\\docs\\market-execution",
+    "expected_source": "默认（-RepoRoot\\docs\\market-execution）",
+    "expected_tag": null,
+    "same_body_as": null,
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-default.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-default.stderr.txt"
+  },
+  "tree-default-explicit": {
+    "timestamp": "2026-11-22T23:46:44.025471+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAGUAdgBpAGQAZQBuAGMAZQAtAHQAcgBlAGUALgBwAHMAMQAnACAALQBSAGUAcABvAFIAbwBvAHQAIAAnAEQAOgBcAFAAcgBvAGoAZQBjAHQAcwBcAF8AdwBvAHIAawB0AHIAZQBlAHMAXABvAHAAZQBuADAANQAtAHIAZQB2AGkAZQB3AC0AaQBuAHAAdQB0AC0AYgA1ADIAYgAxADkANwBiAC0AcgBlAHIAdQBuAFwAoVuhiyAA006TXicAIAAtAEUAdgBpAGQAZQBuAGMAZQBSAG8AbwB0ACAAJwBEADoAXABQAHIAbwBqAGUAYwB0AHMAXABfAHcAbwByAGsAdAByAGUAZQBzAFwAbwBwAGUAbgAwADUALQByAGUAdgBpAGUAdwAtAGkAbgBwAHUAdAAtAGIANQAyAGIAMQA5ADcAYgAtAHIAZQByAHUAbgBcAKFboYsgANNOk15cAGQAbwBjAHMAXABtAGEAcgBrAGUAdAAtAGUAeABlAGMAdQB0AGkAbwBuACcACgBlAHgAaQB0ACAAJABMAEEAUwBUAEUAWABJAFQAQwBPAEQARQA="
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库\\docs\\market-execution'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "expected_pattern": "(?s)扫描到 2 个 run 目录.*证据树内部自洽",
+    "expected_path": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库\\docs\\market-execution",
+    "expected_source": "显式 -EvidenceRoot",
+    "expected_tag": null,
+    "same_body_as": "tree-default",
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true,
+      "body_equal": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-default-explicit.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-default-explicit.stderr.txt"
+  },
+  "tree-cjk-precedence": {
+    "timestamp": "2026-11-22T23:46:44.334275+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAGUAdgBpAGQAZQBuAGMAZQAtAHQAcgBlAGUALgBwAHMAMQAnACAALQBSAGUAcABvAFIAbwBvAHQAIAAnAEQAOgBcAFAAcgBvAGoAZQBjAHQAcwBcAF8AdwBvAHIAawB0AHIAZQBlAHMAXABvAHAAZQBuADAANQAtAHIAZQB2AGkAZQB3AC0AaQBuAHAAdQB0AC0AYgA1ADIAYgAxADkANwBiAC0AcgBlAHIAdQBuAFwAoVuhiyAA006TXicAIAAtAEUAdgBpAGQAZQBuAGMAZQBSAG8AbwB0ACAAJwBEADoAXABQAHIAbwBqAGUAYwB0AHMAXABfAHcAbwByAGsAdAByAGUAZQBzAFwAbwBwAGUAbgAwADUALQByAGUAdgBpAGUAdwAtAGkAbgBwAHUAdAAtAGIANQAyAGIAMQA5ADcAYgAtAHIAZQByAHUAbgBcAD5mD18gAC1Oh2XBi25jJwAKAGUAeABpAHQAIAAkAEwAQQBTAFQARQBYAEkAVABDAE8ARABFAA=="
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\显式 中文证据'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "expected_pattern": "(?s)扫描到 3 个 run 目录.*20261122-112233Z.*发现 2 处不一致",
+    "expected_path": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\显式 中文证据",
+    "expected_source": "显式 -EvidenceRoot",
+    "expected_tag": null,
+    "same_body_as": null,
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-cjk-precedence.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-cjk-precedence.stderr.txt"
+  },
+  "tree-default-missing": {
+    "timestamp": "2026-11-22T23:46:44.644099+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAGUAdgBpAGQAZQBuAGMAZQAtAHQAcgBlAGUALgBwAHMAMQAnACAALQBSAGUAcABvAFIAbwBvAHQAIAAnAEQAOgBcAFAAcgBvAGoAZQBjAHQAcwBcAF8AdwBvAHIAawB0AHIAZQBlAHMAXABvAHAAZQBuADAANQAtAHIAZQB2AGkAZQB3AC0AaQBuAHAAdQB0AC0AYgA1ADIAYgAxADkANwBiAC0AcgBlAHIAdQBuAFwAZQBtAHAAdAB5AC0AcgBlAHAAbwAnAAoAZQB4AGkAdAAgACQATABBAFMAVABFAFgASQBUAEMATwBEAEUA"
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\empty-repo'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "expected_pattern": "",
+    "expected_path": null,
+    "expected_source": null,
+    "expected_tag": "DEFAULT_ROOT_MISSING",
+    "same_body_as": null,
+    "checks": {
+      "exit": true,
+      "tag": true,
+      "stdout_empty": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-default-missing.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-default-missing.stderr.txt"
+  },
+  "tree-blank": {
+    "timestamp": "2026-11-22T23:46:44.889413+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAGUAdgBpAGQAZQBuAGMAZQAtAHQAcgBlAGUALgBwAHMAMQAnACAALQBSAGUAcABvAFIAbwBvAHQAIAAnAEQAOgBcAFAAcgBvAGoAZQBjAHQAcwBcAF8AdwBvAHIAawB0AHIAZQBlAHMAXABvAHAAZQBuADAANQAtAHIAZQB2AGkAZQB3AC0AaQBuAHAAdQB0AC0AYgA1ADIAYgAxADkANwBiAC0AcgBlAHIAdQBuAFwAoVuhiyAA006TXicAIAAtAEUAdgBpAGQAZQBuAGMAZQBSAG8AbwB0ACAAJwAgAAkAIAAnAAoAZQB4AGkAdAAgACQATABBAFMAVABFAFgASQBUAEMATwBEAEUA"
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot ' \t '\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "expected_pattern": "",
+    "expected_path": null,
+    "expected_source": null,
+    "expected_tag": "EVIDENCE_ROOT_BLANK",
+    "same_body_as": null,
+    "checks": {
+      "exit": true,
+      "tag": true,
+      "stdout_empty": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-blank.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-blank.stderr.txt"
+  },
+  "tree-empty": {
+    "timestamp": "2026-11-22T23:46:45.132187+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAGUAdgBpAGQAZQBuAGMAZQAtAHQAcgBlAGUALgBwAHMAMQAnACAALQBSAGUAcABvAFIAbwBvAHQAIAAnAEQAOgBcAFAAcgBvAGoAZQBjAHQAcwBcAF8AdwBvAHIAawB0AHIAZQBlAHMAXABvAHAAZQBuADAANQAtAHIAZQB2AGkAZQB3AC0AaQBuAHAAdQB0AC0AYgA1ADIAYgAxADkANwBiAC0AcgBlAHIAdQBuAFwAoVuhiyAA006TXicAIAAtAEUAdgBpAGQAZQBuAGMAZQBSAG8AbwB0ACAAJwAnAAoAZQB4AGkAdAAgACQATABBAFMAVABFAFgASQBUAEMATwBEAEUA"
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot ''\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "expected_pattern": "",
+    "expected_path": null,
+    "expected_source": null,
+    "expected_tag": "EVIDENCE_ROOT_BLANK",
+    "same_body_as": null,
+    "checks": {
+      "exit": true,
+      "tag": true,
+      "stdout_empty": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-empty.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-empty.stderr.txt"
+  },
+  "tree-missing": {
+    "timestamp": "2026-11-22T23:46:45.377190+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAGUAdgBpAGQAZQBuAGMAZQAtAHQAcgBlAGUALgBwAHMAMQAnACAALQBSAGUAcABvAFIAbwBvAHQAIAAnAEQAOgBcAFAAcgBvAGoAZQBjAHQAcwBcAF8AdwBvAHIAawB0AHIAZQBlAHMAXABvAHAAZQBuADAANQAtAHIAZQB2AGkAZQB3AC0AaQBuAHAAdQB0AC0AYgA1ADIAYgAxADkANwBiAC0AcgBlAHIAdQBuAFwAoVuhiyAA006TXicAIAAtAEUAdgBpAGQAZQBuAGMAZQBSAG8AbwB0ACAAJwBEADoAXABQAHIAbwBqAGUAYwB0AHMAXABfAHcAbwByAGsAdAByAGUAZQBzAFwAbwBwAGUAbgAwADUALQByAGUAdgBpAGUAdwAtAGkAbgBwAHUAdAAtAGIANQAyAGIAMQA5ADcAYgAtAHIAZQByAHUAbgBcAG4AbwBuAGUAeABpAHMAdABlAG4AdAAnAAoAZQB4AGkAdAAgACQATABBAFMAVABFAFgASQBUAEMATwBEAEUA"
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\nonexistent'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "expected_pattern": "",
+    "expected_path": null,
+    "expected_source": null,
+    "expected_tag": "EVIDENCE_ROOT_MISSING",
+    "same_body_as": null,
+    "checks": {
+      "exit": true,
+      "tag": true,
+      "stdout_empty": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-missing.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-missing.stderr.txt"
+  },
+  "tree-file": {
+    "timestamp": "2026-11-22T23:46:45.620599+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAGUAdgBpAGQAZQBuAGMAZQAtAHQAcgBlAGUALgBwAHMAMQAnACAALQBSAGUAcABvAFIAbwBvAHQAIAAnAEQAOgBcAFAAcgBvAGoAZQBjAHQAcwBcAF8AdwBvAHIAawB0AHIAZQBlAHMAXABvAHAAZQBuADAANQAtAHIAZQB2AGkAZQB3AC0AaQBuAHAAdQB0AC0AYgA1ADIAYgAxADkANwBiAC0AcgBlAHIAdQBuAFwAoVuhiyAA006TXicAIAAtAEUAdgBpAGQAZQBuAGMAZQBSAG8AbwB0ACAAJwBEADoAXABQAHIAbwBqAGUAYwB0AHMAXABfAHcAbwByAGsAdAByAGUAZQBzAFwAbwBwAGUAbgAwADUALQByAGUAdgBpAGUAdwAtAGkAbgBwAHUAdAAtAGIANQAyAGIAMQA5ADcAYgAtAHIAZQByAHUAbgBcAHIAZQBnAHUAbABhAHIALgB0AHgAdAAnAAoAZQB4AGkAdAAgACQATABBAFMAVABFAFgASQBUAEMATwBEAEUA"
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\regular.txt'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "expected_pattern": "",
+    "expected_path": null,
+    "expected_source": null,
+    "expected_tag": "EVIDENCE_ROOT_NOT_DIRECTORY",
+    "same_body_as": null,
+    "checks": {
+      "exit": true,
+      "tag": true,
+      "stdout_empty": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-file.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-file.stderr.txt"
+  },
+  "tree-splat-empty": {
+    "timestamp": "2026-11-22T23:46:45.868730+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKACQAcAAgAD0AIABAAHsAIABSAGUAcABvAFIAbwBvAHQAIAA9ACAAJwBEADoAXABQAHIAbwBqAGUAYwB0AHMAXABfAHcAbwByAGsAdAByAGUAZQBzAFwAbwBwAGUAbgAwADUALQByAGUAdgBpAGUAdwAtAGkAbgBwAHUAdAAtAGIANQAyAGIAMQA5ADcAYgAtAHIAZQByAHUAbgBcAKFboYsgANNOk14nADsAIABFAHYAaQBkAGUAbgBjAGUAUgBvAG8AdAAgAD0AIAAnACcAIAB9AAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAGUAdgBpAGQAZQBuAGMAZQAtAHQAcgBlAGUALgBwAHMAMQAnACAAQABwAAoAZQB4AGkAdAAgACQATABBAFMAVABFAFgASQBUAEMATwBEAEUA"
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n$p = @{ RepoRoot = 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库'; EvidenceRoot = '' }\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-evidence-tree.ps1' @p\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "expected_pattern": "",
+    "expected_path": null,
+    "expected_source": null,
+    "expected_tag": "EVIDENCE_ROOT_BLANK",
+    "same_body_as": null,
+    "checks": {
+      "exit": true,
+      "tag": true,
+      "stdout_empty": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-splat-empty.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-splat-empty.stderr.txt"
+  },
+  "ledger-default": {
+    "timestamp": "2026-11-22T23:46:46.109491+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAHAAbABhAG4ALQBsAGUAZABnAGUAcgAuAHAAcwAxACcAIAAtAFIAZQBwAG8AUgBvAG8AdAAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAG8AcABlAG4AMAA1AC0AcgBlAHYAaQBlAHcALQBpAG4AcAB1AHQALQBiADUAMgBiADEAOQA3AGIALQByAGUAcgB1AG4AXAChW6GLIADTTpNeJwAKAGUAeABpAHQAIAAkAEwAQQBTAFQARQBYAEkAVABDAE8ARABFAA=="
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "expected_pattern": "(?s)解析到 2 个包行.*台账与磁盘证据一致",
+    "expected_path": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库\\docs\\market-execution",
+    "expected_source": "默认（-RepoRoot\\docs\\market-execution）",
+    "expected_tag": null,
+    "same_body_as": null,
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-default.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-default.stderr.txt"
+  },
+  "ledger-default-explicit": {
+    "timestamp": "2026-11-22T23:46:46.360646+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAHAAbABhAG4ALQBsAGUAZABnAGUAcgAuAHAAcwAxACcAIAAtAFIAZQBwAG8AUgBvAG8AdAAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAG8AcABlAG4AMAA1AC0AcgBlAHYAaQBlAHcALQBpAG4AcAB1AHQALQBiADUAMgBiADEAOQA3AGIALQByAGUAcgB1AG4AXAChW6GLIADTTpNeJwAgAC0ARQB2AGkAZABlAG4AYwBlAFIAbwBvAHQAIAAnAEQAOgBcAFAAcgBvAGoAZQBjAHQAcwBcAF8AdwBvAHIAawB0AHIAZQBlAHMAXABvAHAAZQBuADAANQAtAHIAZQB2AGkAZQB3AC0AaQBuAHAAdQB0AC0AYgA1ADIAYgAxADkANwBiAC0AcgBlAHIAdQBuAFwAoVuhiyAA006TXlwAZABvAGMAcwBcAG0AYQByAGsAZQB0AC0AZQB4AGUAYwB1AHQAaQBvAG4AJwAKAGUAeABpAHQAIAAkAEwAQQBTAFQARQBYAEkAVABDAE8ARABFAA=="
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库\\docs\\market-execution'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "expected_pattern": "(?s)解析到 2 个包行.*台账与磁盘证据一致",
+    "expected_path": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库\\docs\\market-execution",
+    "expected_source": "显式 -EvidenceRoot",
+    "expected_tag": null,
+    "same_body_as": "ledger-default",
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true,
+      "body_equal": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-default-explicit.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-default-explicit.stderr.txt"
+  },
+  "ledger-cjk-precedence": {
+    "timestamp": "2026-11-22T23:46:46.622668+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAHAAbABhAG4ALQBsAGUAZABnAGUAcgAuAHAAcwAxACcAIAAtAFIAZQBwAG8AUgBvAG8AdAAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAG8AcABlAG4AMAA1AC0AcgBlAHYAaQBlAHcALQBpAG4AcAB1AHQALQBiADUAMgBiADEAOQA3AGIALQByAGUAcgB1AG4AXAChW6GLIADTTpNeJwAgAC0ARQB2AGkAZABlAG4AYwBlAFIAbwBvAHQAIAAnAEQAOgBcAFAAcgBvAGoAZQBjAHQAcwBcAF8AdwBvAHIAawB0AHIAZQBlAHMAXABvAHAAZQBuADAANQAtAHIAZQB2AGkAZQB3AC0AaQBuAHAAdQB0AC0AYgA1ADIAYgAxADkANwBiAC0AcgBlAHIAdQBuAFwAPmYPXyAALU6HZcGLbmMnAAoAZQB4AGkAdAAgACQATABBAFMAVABFAFgASQBUAEMATwBEAEUA"
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\显式 中文证据'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "expected_pattern": "(?s)解析到 2 个包行.*台账与磁盘证据一致",
+    "expected_path": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\显式 中文证据",
+    "expected_source": "显式 -EvidenceRoot",
+    "expected_tag": null,
+    "same_body_as": null,
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-cjk-precedence.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-cjk-precedence.stderr.txt"
+  },
+  "ledger-default-missing": {
+    "timestamp": "2026-11-22T23:46:46.877844+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAHAAbABhAG4ALQBsAGUAZABnAGUAcgAuAHAAcwAxACcAIAAtAFIAZQBwAG8AUgBvAG8AdAAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAG8AcABlAG4AMAA1AC0AcgBlAHYAaQBlAHcALQBpAG4AcAB1AHQALQBiADUAMgBiADEAOQA3AGIALQByAGUAcgB1AG4AXABlAG0AcAB0AHkALQByAGUAcABvACcAIAAtAFAAbABhAG4AUABhAHQAaAAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAG8AcABlAG4AMAA1AC0AcgBlAHYAaQBlAHcALQBpAG4AcAB1AHQALQBiADUAMgBiADEAOQA3AGIALQByAGUAcgB1AG4AXABtAGkAcwBzAGkAbgBnAC0AcABsAGEAbgAuAG0AZAAnAAoAZQB4AGkAdAAgACQATABBAFMAVABFAFgASQBUAEMATwBEAEUA"
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\empty-repo' -PlanPath 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\missing-plan.md'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "expected_pattern": "",
+    "expected_path": null,
+    "expected_source": null,
+    "expected_tag": "DEFAULT_ROOT_MISSING",
+    "same_body_as": null,
+    "checks": {
+      "exit": true,
+      "tag": true,
+      "stdout_empty": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-default-missing.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-default-missing.stderr.txt"
+  },
+  "ledger-blank": {
+    "timestamp": "2026-11-22T23:46:47.128128+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAHAAbABhAG4ALQBsAGUAZABnAGUAcgAuAHAAcwAxACcAIAAtAFIAZQBwAG8AUgBvAG8AdAAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAG8AcABlAG4AMAA1AC0AcgBlAHYAaQBlAHcALQBpAG4AcAB1AHQALQBiADUAMgBiADEAOQA3AGIALQByAGUAcgB1AG4AXAChW6GLIADTTpNeJwAgAC0ARQB2AGkAZABlAG4AYwBlAFIAbwBvAHQAIAAnACAACQAgACcAIAAtAFAAbABhAG4AUABhAHQAaAAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAG8AcABlAG4AMAA1AC0AcgBlAHYAaQBlAHcALQBpAG4AcAB1AHQALQBiADUAMgBiADEAOQA3AGIALQByAGUAcgB1AG4AXABtAGkAcwBzAGkAbgBnAC0AcABsAGEAbgAuAG0AZAAnAAoAZQB4AGkAdAAgACQATABBAFMAVABFAFgASQBUAEMATwBEAEUA"
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot ' \t ' -PlanPath 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\missing-plan.md'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "expected_pattern": "",
+    "expected_path": null,
+    "expected_source": null,
+    "expected_tag": "EVIDENCE_ROOT_BLANK",
+    "same_body_as": null,
+    "checks": {
+      "exit": true,
+      "tag": true,
+      "stdout_empty": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-blank.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-blank.stderr.txt"
+  },
+  "ledger-empty": {
+    "timestamp": "2026-11-22T23:46:47.370914+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAHAAbABhAG4ALQBsAGUAZABnAGUAcgAuAHAAcwAxACcAIAAtAFIAZQBwAG8AUgBvAG8AdAAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAG8AcABlAG4AMAA1AC0AcgBlAHYAaQBlAHcALQBpAG4AcAB1AHQALQBiADUAMgBiADEAOQA3AGIALQByAGUAcgB1AG4AXAChW6GLIADTTpNeJwAgAC0ARQB2AGkAZABlAG4AYwBlAFIAbwBvAHQAIAAnACcAIAAtAFAAbABhAG4AUABhAHQAaAAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAG8AcABlAG4AMAA1AC0AcgBlAHYAaQBlAHcALQBpAG4AcAB1AHQALQBiADUAMgBiADEAOQA3AGIALQByAGUAcgB1AG4AXABtAGkAcwBzAGkAbgBnAC0AcABsAGEAbgAuAG0AZAAnAAoAZQB4AGkAdAAgACQATABBAFMAVABFAFgASQBUAEMATwBEAEUA"
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot '' -PlanPath 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\missing-plan.md'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "expected_pattern": "",
+    "expected_path": null,
+    "expected_source": null,
+    "expected_tag": "EVIDENCE_ROOT_BLANK",
+    "same_body_as": null,
+    "checks": {
+      "exit": true,
+      "tag": true,
+      "stdout_empty": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-empty.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-empty.stderr.txt"
+  },
+  "ledger-missing": {
+    "timestamp": "2026-11-22T23:46:47.620068+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAHAAbABhAG4ALQBsAGUAZABnAGUAcgAuAHAAcwAxACcAIAAtAFIAZQBwAG8AUgBvAG8AdAAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAG8AcABlAG4AMAA1AC0AcgBlAHYAaQBlAHcALQBpAG4AcAB1AHQALQBiADUAMgBiADEAOQA3AGIALQByAGUAcgB1AG4AXAChW6GLIADTTpNeJwAgAC0ARQB2AGkAZABlAG4AYwBlAFIAbwBvAHQAIAAnAEQAOgBcAFAAcgBvAGoAZQBjAHQAcwBcAF8AdwBvAHIAawB0AHIAZQBlAHMAXABvAHAAZQBuADAANQAtAHIAZQB2AGkAZQB3AC0AaQBuAHAAdQB0AC0AYgA1ADIAYgAxADkANwBiAC0AcgBlAHIAdQBuAFwAbgBvAG4AZQB4AGkAcwB0AGUAbgB0ACcAIAAtAFAAbABhAG4AUABhAHQAaAAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAG8AcABlAG4AMAA1AC0AcgBlAHYAaQBlAHcALQBpAG4AcAB1AHQALQBiADUAMgBiADEAOQA3AGIALQByAGUAcgB1AG4AXABtAGkAcwBzAGkAbgBnAC0AcABsAGEAbgAuAG0AZAAnAAoAZQB4AGkAdAAgACQATABBAFMAVABFAFgASQBUAEMATwBEAEUA"
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\nonexistent' -PlanPath 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\missing-plan.md'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "expected_pattern": "",
+    "expected_path": null,
+    "expected_source": null,
+    "expected_tag": "EVIDENCE_ROOT_MISSING",
+    "same_body_as": null,
+    "checks": {
+      "exit": true,
+      "tag": true,
+      "stdout_empty": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-missing.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-missing.stderr.txt"
+  },
+  "ledger-file": {
+    "timestamp": "2026-11-22T23:46:47.869938+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAHAAbABhAG4ALQBsAGUAZABnAGUAcgAuAHAAcwAxACcAIAAtAFIAZQBwAG8AUgBvAG8AdAAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAG8AcABlAG4AMAA1AC0AcgBlAHYAaQBlAHcALQBpAG4AcAB1AHQALQBiADUAMgBiADEAOQA3AGIALQByAGUAcgB1AG4AXAChW6GLIADTTpNeJwAgAC0ARQB2AGkAZABlAG4AYwBlAFIAbwBvAHQAIAAnAEQAOgBcAFAAcgBvAGoAZQBjAHQAcwBcAF8AdwBvAHIAawB0AHIAZQBlAHMAXABvAHAAZQBuADAANQAtAHIAZQB2AGkAZQB3AC0AaQBuAHAAdQB0AC0AYgA1ADIAYgAxADkANwBiAC0AcgBlAHIAdQBuAFwAcgBlAGcAdQBsAGEAcgAuAHQAeAB0ACcAIAAtAFAAbABhAG4AUABhAHQAaAAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAG8AcABlAG4AMAA1AC0AcgBlAHYAaQBlAHcALQBpAG4AcAB1AHQALQBiADUAMgBiADEAOQA3AGIALQByAGUAcgB1AG4AXABtAGkAcwBzAGkAbgBnAC0AcABsAGEAbgAuAG0AZAAnAAoAZQB4AGkAdAAgACQATABBAFMAVABFAFgASQBUAEMATwBEAEUA"
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\regular.txt' -PlanPath 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\missing-plan.md'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "expected_pattern": "",
+    "expected_path": null,
+    "expected_source": null,
+    "expected_tag": "EVIDENCE_ROOT_NOT_DIRECTORY",
+    "same_body_as": null,
+    "checks": {
+      "exit": true,
+      "tag": true,
+      "stdout_empty": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-file.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-file.stderr.txt"
+  },
+  "ledger-splat-empty": {
+    "timestamp": "2026-11-22T23:46:48.126304+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKACQAcAAgAD0AIABAAHsAIABSAGUAcABvAFIAbwBvAHQAIAA9ACAAJwBEADoAXABQAHIAbwBqAGUAYwB0AHMAXABfAHcAbwByAGsAdAByAGUAZQBzAFwAbwBwAGUAbgAwADUALQByAGUAdgBpAGUAdwAtAGkAbgBwAHUAdAAtAGIANQAyAGIAMQA5ADcAYgAtAHIAZQByAHUAbgBcAKFboYsgANNOk14nADsAIABFAHYAaQBkAGUAbgBjAGUAUgBvAG8AdAAgAD0AIAAnACcAIAB9AAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAHAAbABhAG4ALQBsAGUAZABnAGUAcgAuAHAAcwAxACcAIABAAHAAIAAtAFAAbABhAG4AUABhAHQAaAAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAG8AcABlAG4AMAA1AC0AcgBlAHYAaQBlAHcALQBpAG4AcAB1AHQALQBiADUAMgBiADEAOQA3AGIALQByAGUAcgB1AG4AXABtAGkAcwBzAGkAbgBnAC0AcABsAGEAbgAuAG0AZAAnAAoAZQB4AGkAdAAgACQATABBAFMAVABFAFgASQBUAEMATwBEAEUA"
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n$p = @{ RepoRoot = 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库'; EvidenceRoot = '' }\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-plan-ledger.ps1' @p -PlanPath 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\missing-plan.md'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "expected_pattern": "",
+    "expected_path": null,
+    "expected_source": null,
+    "expected_tag": "EVIDENCE_ROOT_BLANK",
+    "same_body_as": null,
+    "checks": {
+      "exit": true,
+      "tag": true,
+      "stdout_empty": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-splat-empty.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-splat-empty.stderr.txt"
+  },
+  "tree-path-abs": {
+    "timestamp": "2026-11-22T23:46:48.384319+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAGUAdgBpAGQAZQBuAGMAZQAtAHQAcgBlAGUALgBwAHMAMQAnACAALQBSAGUAcABvAFIAbwBvAHQAIAAnAEQAOgBcAFAAcgBvAGoAZQBjAHQAcwBcAF8AdwBvAHIAawB0AHIAZQBlAHMAXABvAHAAZQBuADAANQAtAHIAZQB2AGkAZQB3AC0AaQBuAHAAdQB0AC0AYgA1ADIAYgAxADkANwBiAC0AcgBlAHIAdQBuAFwAoVuhiyAA006TXicAIAAtAEUAdgBpAGQAZQBuAGMAZQBSAG8AbwB0ACAAJwBEADoAXABQAHIAbwBqAGUAYwB0AHMAXABfAHcAbwByAGsAdAByAGUAZQBzAFwAbwBwAGUAbgAwADUALQByAGUAdgBpAGUAdwAtAGkAbgBwAHUAdAAtAGIANQAyAGIAMQA5ADcAYgAtAHIAZQByAHUAbgBcAKFboYsgANNOk15cAGQAbwBjAHMAXABtAGEAcgBrAGUAdAAtAGUAeABlAGMAdQB0AGkAbwBuACcACgBlAHgAaQB0ACAAJABMAEEAUwBUAEUAWABJAFQAQwBPAEQARQA="
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库\\docs\\market-execution'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "expected_pattern": "(?s)扫描到 2 个 run 目录.*证据树内部自洽",
+    "expected_path": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库\\docs\\market-execution",
+    "expected_source": "显式 -EvidenceRoot",
+    "expected_tag": null,
+    "same_body_as": "tree-default",
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true,
+      "body_equal": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-path-abs.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-path-abs.stderr.txt"
+  },
+  "ledger-path-abs": {
+    "timestamp": "2026-11-22T23:46:48.721541+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAHAAbABhAG4ALQBsAGUAZABnAGUAcgAuAHAAcwAxACcAIAAtAFIAZQBwAG8AUgBvAG8AdAAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAG8AcABlAG4AMAA1AC0AcgBlAHYAaQBlAHcALQBpAG4AcAB1AHQALQBiADUAMgBiADEAOQA3AGIALQByAGUAcgB1AG4AXAChW6GLIADTTpNeJwAgAC0ARQB2AGkAZABlAG4AYwBlAFIAbwBvAHQAIAAnAEQAOgBcAFAAcgBvAGoAZQBjAHQAcwBcAF8AdwBvAHIAawB0AHIAZQBlAHMAXABvAHAAZQBuADAANQAtAHIAZQB2AGkAZQB3AC0AaQBuAHAAdQB0AC0AYgA1ADIAYgAxADkANwBiAC0AcgBlAHIAdQBuAFwAoVuhiyAA006TXlwAZABvAGMAcwBcAG0AYQByAGsAZQB0AC0AZQB4AGUAYwB1AHQAaQBvAG4AJwAKAGUAeABpAHQAIAAkAEwAQQBTAFQARQBYAEkAVABDAE8ARABFAA=="
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库\\docs\\market-execution'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "expected_pattern": "(?s)解析到 2 个包行.*台账与磁盘证据一致",
+    "expected_path": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库\\docs\\market-execution",
+    "expected_source": "显式 -EvidenceRoot",
+    "expected_tag": null,
+    "same_body_as": "ledger-default",
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true,
+      "body_equal": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-path-abs.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-path-abs.stderr.txt"
+  },
+  "parent-path-abs": {
+    "timestamp": "2026-11-22T23:46:48.996770+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAG8AcABlAG4AMAA1AC0AcgBlAHYAaQBlAHcALQBpAG4AcAB1AHQALQBiADUAMgBiADEAOQA3AGIALQByAGUAcgB1AG4AXABwAGEAcgBlAG4AdAAtAGUAZAAyAGUAOQAyAGMALgBwAHMAMQAnACAALQBSAGUAcABvAFIAbwBvAHQAIAAnAEQAOgBcAFAAcgBvAGoAZQBjAHQAcwBcAF8AdwBvAHIAawB0AHIAZQBlAHMAXABvAHAAZQBuADAANQAtAHIAZQB2AGkAZQB3AC0AaQBuAHAAdQB0AC0AYgA1ADIAYgAxADkANwBiAC0AcgBlAHIAdQBuAFwAoVuhiyAA006TXicAIAAtAEUAdgBpAGQAZQBuAGMAZQBSAG8AbwB0ACAAJwBEADoAXABQAHIAbwBqAGUAYwB0AHMAXABfAHcAbwByAGsAdAByAGUAZQBzAFwAbwBwAGUAbgAwADUALQByAGUAdgBpAGUAdwAtAGkAbgBwAHUAdAAtAGIANQAyAGIAMQA5ADcAYgAtAHIAZQByAHUAbgBcAKFboYsgANNOk15cAGQAbwBjAHMAXABtAGEAcgBrAGUAdAAtAGUAeABlAGMAdQB0AGkAbwBuACcACgBlAHgAaQB0ACAAJABMAEEAUwBUAEUAWABJAFQAQwBPAEQARQA="
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\parent-ed2e92c.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库\\docs\\market-execution'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "expected_pattern": "(?s)扫描到 2 个 run 目录.*证据树内部自洽",
+    "expected_path": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库\\docs\\market-execution",
+    "expected_source": "显式 -EvidenceRoot",
+    "expected_tag": null,
+    "same_body_as": "tree-default",
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true,
+      "body_equal": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\parent-path-abs.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\parent-path-abs.stderr.txt"
+  },
+  "tree-path-trail": {
+    "timestamp": "2026-11-22T23:46:49.312519+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAGUAdgBpAGQAZQBuAGMAZQAtAHQAcgBlAGUALgBwAHMAMQAnACAALQBSAGUAcABvAFIAbwBvAHQAIAAnAEQAOgBcAFAAcgBvAGoAZQBjAHQAcwBcAF8AdwBvAHIAawB0AHIAZQBlAHMAXABvAHAAZQBuADAANQAtAHIAZQB2AGkAZQB3AC0AaQBuAHAAdQB0AC0AYgA1ADIAYgAxADkANwBiAC0AcgBlAHIAdQBuAFwAoVuhiyAA006TXicAIAAtAEUAdgBpAGQAZQBuAGMAZQBSAG8AbwB0ACAAJwBEADoAXABQAHIAbwBqAGUAYwB0AHMAXABfAHcAbwByAGsAdAByAGUAZQBzAFwAbwBwAGUAbgAwADUALQByAGUAdgBpAGUAdwAtAGkAbgBwAHUAdAAtAGIANQAyAGIAMQA5ADcAYgAtAHIAZQByAHUAbgBcAKFboYsgANNOk15cAGQAbwBjAHMAXABtAGEAcgBrAGUAdAAtAGUAeABlAGMAdQB0AGkAbwBuAFwAJwAKAGUAeABpAHQAIAAkAEwAQQBTAFQARQBYAEkAVABDAE8ARABFAA=="
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库\\docs\\market-execution\\'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "expected_pattern": "(?s)扫描到 2 个 run 目录.*证据树内部自洽",
+    "expected_path": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库\\docs\\market-execution",
+    "expected_source": "显式 -EvidenceRoot",
+    "expected_tag": null,
+    "same_body_as": "tree-default",
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true,
+      "body_equal": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-path-trail.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-path-trail.stderr.txt"
+  },
+  "ledger-path-trail": {
+    "timestamp": "2026-11-22T23:46:49.753630+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAHAAbABhAG4ALQBsAGUAZABnAGUAcgAuAHAAcwAxACcAIAAtAFIAZQBwAG8AUgBvAG8AdAAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAG8AcABlAG4AMAA1AC0AcgBlAHYAaQBlAHcALQBpAG4AcAB1AHQALQBiADUAMgBiADEAOQA3AGIALQByAGUAcgB1AG4AXAChW6GLIADTTpNeJwAgAC0ARQB2AGkAZABlAG4AYwBlAFIAbwBvAHQAIAAnAEQAOgBcAFAAcgBvAGoAZQBjAHQAcwBcAF8AdwBvAHIAawB0AHIAZQBlAHMAXABvAHAAZQBuADAANQAtAHIAZQB2AGkAZQB3AC0AaQBuAHAAdQB0AC0AYgA1ADIAYgAxADkANwBiAC0AcgBlAHIAdQBuAFwAoVuhiyAA006TXlwAZABvAGMAcwBcAG0AYQByAGsAZQB0AC0AZQB4AGUAYwB1AHQAaQBvAG4AXAAnAAoAZQB4AGkAdAAgACQATABBAFMAVABFAFgASQBUAEMATwBEAEUA"
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库\\docs\\market-execution\\'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "expected_pattern": "(?s)解析到 2 个包行.*台账与磁盘证据一致",
+    "expected_path": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库\\docs\\market-execution\\",
+    "expected_source": "显式 -EvidenceRoot",
+    "expected_tag": null,
+    "same_body_as": "ledger-default",
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true,
+      "body_equal": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-path-trail.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-path-trail.stderr.txt"
+  },
+  "parent-path-trail": {
+    "timestamp": "2026-11-22T23:46:50.025717+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAG8AcABlAG4AMAA1AC0AcgBlAHYAaQBlAHcALQBpAG4AcAB1AHQALQBiADUAMgBiADEAOQA3AGIALQByAGUAcgB1AG4AXABwAGEAcgBlAG4AdAAtAGUAZAAyAGUAOQAyAGMALgBwAHMAMQAnACAALQBSAGUAcABvAFIAbwBvAHQAIAAnAEQAOgBcAFAAcgBvAGoAZQBjAHQAcwBcAF8AdwBvAHIAawB0AHIAZQBlAHMAXABvAHAAZQBuADAANQAtAHIAZQB2AGkAZQB3AC0AaQBuAHAAdQB0AC0AYgA1ADIAYgAxADkANwBiAC0AcgBlAHIAdQBuAFwAoVuhiyAA006TXicAIAAtAEUAdgBpAGQAZQBuAGMAZQBSAG8AbwB0ACAAJwBEADoAXABQAHIAbwBqAGUAYwB0AHMAXABfAHcAbwByAGsAdAByAGUAZQBzAFwAbwBwAGUAbgAwADUALQByAGUAdgBpAGUAdwAtAGkAbgBwAHUAdAAtAGIANQAyAGIAMQA5ADcAYgAtAHIAZQByAHUAbgBcAKFboYsgANNOk15cAGQAbwBjAHMAXABtAGEAcgBrAGUAdAAtAGUAeABlAGMAdQB0AGkAbwBuAFwAJwAKAGUAeABpAHQAIAAkAEwAQQBTAFQARQBYAEkAVABDAE8ARABFAA=="
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\parent-ed2e92c.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库\\docs\\market-execution\\'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "expected_pattern": "(?s)扫描到 2 个 run 目录.*\\[缺少 deliverable\\.md\\].*\\[缺少 manifest\\.json\\].*发现 2 处不一致",
+    "expected_path": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库\\docs\\market-execution\\",
+    "expected_source": "显式 -EvidenceRoot",
+    "expected_tag": null,
+    "same_body_as": null,
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\parent-path-trail.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\parent-path-trail.stderr.txt"
+  },
+  "tree-path-relative": {
+    "timestamp": "2026-11-22T23:46:50.391340+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAGUAdgBpAGQAZQBuAGMAZQAtAHQAcgBlAGUALgBwAHMAMQAnACAALQBSAGUAcABvAFIAbwBvAHQAIAAnAEQAOgBcAFAAcgBvAGoAZQBjAHQAcwBcAF8AdwBvAHIAawB0AHIAZQBlAHMAXABvAHAAZQBuADAANQAtAHIAZQB2AGkAZQB3AC0AaQBuAHAAdQB0AC0AYgA1ADIAYgAxADkANwBiAC0AcgBlAHIAdQBuAFwAoVuhiyAA006TXicAIAAtAEUAdgBpAGQAZQBuAGMAZQBSAG8AbwB0ACAAJwChW6GLIADTTpNeXABkAG8AYwBzAFwAbQBhAHIAawBlAHQALQBlAHgAZQBjAHUAdABpAG8AbgAnAAoAZQB4AGkAdAAgACQATABBAFMAVABFAFgASQBUAEMATwBEAEUA"
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot '审计 仓库\\docs\\market-execution'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "expected_pattern": "(?s)扫描到 2 个 run 目录.*证据树内部自洽",
+    "expected_path": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库\\docs\\market-execution",
+    "expected_source": "显式 -EvidenceRoot",
+    "expected_tag": null,
+    "same_body_as": "tree-default",
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true,
+      "body_equal": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-path-relative.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-path-relative.stderr.txt"
+  },
+  "ledger-path-relative": {
+    "timestamp": "2026-11-22T23:46:50.723078+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAHAAbABhAG4ALQBsAGUAZABnAGUAcgAuAHAAcwAxACcAIAAtAFIAZQBwAG8AUgBvAG8AdAAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAG8AcABlAG4AMAA1AC0AcgBlAHYAaQBlAHcALQBpAG4AcAB1AHQALQBiADUAMgBiADEAOQA3AGIALQByAGUAcgB1AG4AXAChW6GLIADTTpNeJwAgAC0ARQB2AGkAZABlAG4AYwBlAFIAbwBvAHQAIAAnAKFboYsgANNOk15cAGQAbwBjAHMAXABtAGEAcgBrAGUAdAAtAGUAeABlAGMAdQB0AGkAbwBuACcACgBlAHgAaQB0ACAAJABMAEEAUwBUAEUAWABJAFQAQwBPAEQARQA="
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot '审计 仓库\\docs\\market-execution'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "expected_pattern": "(?s)解析到 2 个包行.*台账与磁盘证据一致",
+    "expected_path": "审计 仓库\\docs\\market-execution",
+    "expected_source": "显式 -EvidenceRoot",
+    "expected_tag": null,
+    "same_body_as": "ledger-default",
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true,
+      "body_equal": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-path-relative.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-path-relative.stderr.txt"
+  },
+  "parent-path-relative": {
+    "timestamp": "2026-11-22T23:46:50.984565+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAG8AcABlAG4AMAA1AC0AcgBlAHYAaQBlAHcALQBpAG4AcAB1AHQALQBiADUAMgBiADEAOQA3AGIALQByAGUAcgB1AG4AXABwAGEAcgBlAG4AdAAtAGUAZAAyAGUAOQAyAGMALgBwAHMAMQAnACAALQBSAGUAcABvAFIAbwBvAHQAIAAnAEQAOgBcAFAAcgBvAGoAZQBjAHQAcwBcAF8AdwBvAHIAawB0AHIAZQBlAHMAXABvAHAAZQBuADAANQAtAHIAZQB2AGkAZQB3AC0AaQBuAHAAdQB0AC0AYgA1ADIAYgAxADkANwBiAC0AcgBlAHIAdQBuAFwAoVuhiyAA006TXicAIAAtAEUAdgBpAGQAZQBuAGMAZQBSAG8AbwB0ACAAJwChW6GLIADTTpNeXABkAG8AYwBzAFwAbQBhAHIAawBlAHQALQBlAHgAZQBjAHUAdABpAG8AbgAnAAoAZQB4AGkAdAAgACQATABBAFMAVABFAFgASQBUAEMATwBEAEUA"
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\parent-ed2e92c.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot '审计 仓库\\docs\\market-execution'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "expected_pattern": "(?s)扫描到 2 个 run 目录.*\\[缺少 deliverable\\.md\\].*\\[缺少 manifest\\.json\\].*发现 2 处不一致",
+    "expected_path": "审计 仓库\\docs\\market-execution",
+    "expected_source": "显式 -EvidenceRoot",
+    "expected_tag": null,
+    "same_body_as": null,
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\parent-path-relative.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\parent-path-relative.stderr.txt"
+  },
+  "tree-path-dot": {
+    "timestamp": "2026-11-22T23:46:51.330587+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAGUAdgBpAGQAZQBuAGMAZQAtAHQAcgBlAGUALgBwAHMAMQAnACAALQBSAGUAcABvAFIAbwBvAHQAIAAnAEQAOgBcAFAAcgBvAGoAZQBjAHQAcwBcAF8AdwBvAHIAawB0AHIAZQBlAHMAXABvAHAAZQBuADAANQAtAHIAZQB2AGkAZQB3AC0AaQBuAHAAdQB0AC0AYgA1ADIAYgAxADkANwBiAC0AcgBlAHIAdQBuAFwAoVuhiyAA006TXicAIAAtAEUAdgBpAGQAZQBuAGMAZQBSAG8AbwB0ACAAJwAuAFwAoVuhiyAA006TXlwAZABvAGMAcwBcAG0AYQByAGsAZQB0AC0AZQB4AGUAYwB1AHQAaQBvAG4AJwAKAGUAeABpAHQAIAAkAEwAQQBTAFQARQBYAEkAVABDAE8ARABFAA=="
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot '.\\审计 仓库\\docs\\market-execution'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "expected_pattern": "(?s)扫描到 2 个 run 目录.*证据树内部自洽",
+    "expected_path": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库\\docs\\market-execution",
+    "expected_source": "显式 -EvidenceRoot",
+    "expected_tag": null,
+    "same_body_as": "tree-default",
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true,
+      "body_equal": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-path-dot.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-path-dot.stderr.txt"
+  },
+  "ledger-path-dot": {
+    "timestamp": "2026-11-22T23:46:51.663649+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAHAAbABhAG4ALQBsAGUAZABnAGUAcgAuAHAAcwAxACcAIAAtAFIAZQBwAG8AUgBvAG8AdAAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAG8AcABlAG4AMAA1AC0AcgBlAHYAaQBlAHcALQBpAG4AcAB1AHQALQBiADUAMgBiADEAOQA3AGIALQByAGUAcgB1AG4AXAChW6GLIADTTpNeJwAgAC0ARQB2AGkAZABlAG4AYwBlAFIAbwBvAHQAIAAnAC4AXAChW6GLIADTTpNeXABkAG8AYwBzAFwAbQBhAHIAawBlAHQALQBlAHgAZQBjAHUAdABpAG8AbgAnAAoAZQB4AGkAdAAgACQATABBAFMAVABFAFgASQBUAEMATwBEAEUA"
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot '.\\审计 仓库\\docs\\market-execution'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "expected_pattern": "(?s)解析到 2 个包行.*台账与磁盘证据一致",
+    "expected_path": ".\\审计 仓库\\docs\\market-execution",
+    "expected_source": "显式 -EvidenceRoot",
+    "expected_tag": null,
+    "same_body_as": "ledger-default",
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true,
+      "body_equal": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-path-dot.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-path-dot.stderr.txt"
+  },
+  "parent-path-dot": {
+    "timestamp": "2026-11-22T23:46:51.925515+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAG8AcABlAG4AMAA1AC0AcgBlAHYAaQBlAHcALQBpAG4AcAB1AHQALQBiADUAMgBiADEAOQA3AGIALQByAGUAcgB1AG4AXABwAGEAcgBlAG4AdAAtAGUAZAAyAGUAOQAyAGMALgBwAHMAMQAnACAALQBSAGUAcABvAFIAbwBvAHQAIAAnAEQAOgBcAFAAcgBvAGoAZQBjAHQAcwBcAF8AdwBvAHIAawB0AHIAZQBlAHMAXABvAHAAZQBuADAANQAtAHIAZQB2AGkAZQB3AC0AaQBuAHAAdQB0AC0AYgA1ADIAYgAxADkANwBiAC0AcgBlAHIAdQBuAFwAoVuhiyAA006TXicAIAAtAEUAdgBpAGQAZQBuAGMAZQBSAG8AbwB0ACAAJwAuAFwAoVuhiyAA006TXlwAZABvAGMAcwBcAG0AYQByAGsAZQB0AC0AZQB4AGUAYwB1AHQAaQBvAG4AJwAKAGUAeABpAHQAIAAkAEwAQQBTAFQARQBYAEkAVABDAE8ARABFAA=="
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\parent-ed2e92c.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot '.\\审计 仓库\\docs\\market-execution'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "expected_pattern": "(?s)扫描到 2 个 run 目录.*\\[缺少 deliverable\\.md\\].*\\[缺少 manifest\\.json\\].*发现 2 处不一致",
+    "expected_path": ".\\审计 仓库\\docs\\market-execution",
+    "expected_source": "显式 -EvidenceRoot",
+    "expected_tag": null,
+    "same_body_as": null,
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\parent-path-dot.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\parent-path-dot.stderr.txt"
+  },
+  "tree-path-dotdot": {
+    "timestamp": "2026-11-22T23:46:52.246956+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAGUAdgBpAGQAZQBuAGMAZQAtAHQAcgBlAGUALgBwAHMAMQAnACAALQBSAGUAcABvAFIAbwBvAHQAIAAnAEQAOgBcAFAAcgBvAGoAZQBjAHQAcwBcAF8AdwBvAHIAawB0AHIAZQBlAHMAXABvAHAAZQBuADAANQAtAHIAZQB2AGkAZQB3AC0AaQBuAHAAdQB0AC0AYgA1ADIAYgAxADkANwBiAC0AcgBlAHIAdQBuAFwAoVuhiyAA006TXicAIAAtAEUAdgBpAGQAZQBuAGMAZQBSAG8AbwB0ACAAJwAuAC4AXAChW6GLIADTTpNeXABkAG8AYwBzAFwAbQBhAHIAawBlAHQALQBlAHgAZQBjAHUAdABpAG8AbgAnAAoAZQB4AGkAdAAgACQATABBAFMAVABFAFgASQBUAEMATwBEAEUA"
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot '..\\审计 仓库\\docs\\market-execution'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\other-cwd",
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "expected_pattern": "(?s)扫描到 2 个 run 目录.*证据树内部自洽",
+    "expected_path": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库\\docs\\market-execution",
+    "expected_source": "显式 -EvidenceRoot",
+    "expected_tag": null,
+    "same_body_as": "tree-default",
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true,
+      "body_equal": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-path-dotdot.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-path-dotdot.stderr.txt"
+  },
+  "ledger-path-dotdot": {
+    "timestamp": "2026-11-22T23:46:52.571769+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAHAAbABhAG4ALQBsAGUAZABnAGUAcgAuAHAAcwAxACcAIAAtAFIAZQBwAG8AUgBvAG8AdAAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAG8AcABlAG4AMAA1AC0AcgBlAHYAaQBlAHcALQBpAG4AcAB1AHQALQBiADUAMgBiADEAOQA3AGIALQByAGUAcgB1AG4AXAChW6GLIADTTpNeJwAgAC0ARQB2AGkAZABlAG4AYwBlAFIAbwBvAHQAIAAnAC4ALgBcAKFboYsgANNOk15cAGQAbwBjAHMAXABtAGEAcgBrAGUAdAAtAGUAeABlAGMAdQB0AGkAbwBuACcACgBlAHgAaQB0ACAAJABMAEEAUwBUAEUAWABJAFQAQwBPAEQARQA="
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot '..\\审计 仓库\\docs\\market-execution'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\other-cwd",
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "expected_pattern": "(?s)解析到 2 个包行.*台账与磁盘证据一致",
+    "expected_path": "..\\审计 仓库\\docs\\market-execution",
+    "expected_source": "显式 -EvidenceRoot",
+    "expected_tag": null,
+    "same_body_as": "ledger-default",
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true,
+      "body_equal": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-path-dotdot.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-path-dotdot.stderr.txt"
+  },
+  "parent-path-dotdot": {
+    "timestamp": "2026-11-22T23:46:52.841557+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAG8AcABlAG4AMAA1AC0AcgBlAHYAaQBlAHcALQBpAG4AcAB1AHQALQBiADUAMgBiADEAOQA3AGIALQByAGUAcgB1AG4AXABwAGEAcgBlAG4AdAAtAGUAZAAyAGUAOQAyAGMALgBwAHMAMQAnACAALQBSAGUAcABvAFIAbwBvAHQAIAAnAEQAOgBcAFAAcgBvAGoAZQBjAHQAcwBcAF8AdwBvAHIAawB0AHIAZQBlAHMAXABvAHAAZQBuADAANQAtAHIAZQB2AGkAZQB3AC0AaQBuAHAAdQB0AC0AYgA1ADIAYgAxADkANwBiAC0AcgBlAHIAdQBuAFwAoVuhiyAA006TXicAIAAtAEUAdgBpAGQAZQBuAGMAZQBSAG8AbwB0ACAAJwAuAC4AXAChW6GLIADTTpNeXABkAG8AYwBzAFwAbQBhAHIAawBlAHQALQBlAHgAZQBjAHUAdABpAG8AbgAnAAoAZQB4AGkAdAAgACQATABBAFMAVABFAFgASQBUAEMATwBEAEUA"
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\parent-ed2e92c.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot '..\\审计 仓库\\docs\\market-execution'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\other-cwd",
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "expected_pattern": "(?s)扫描到 2 个 run 目录.*\\[缺少 deliverable\\.md\\].*\\[缺少 manifest\\.json\\].*发现 2 处不一致",
+    "expected_path": "..\\审计 仓库\\docs\\market-execution",
+    "expected_source": "显式 -EvidenceRoot",
+    "expected_tag": null,
+    "same_body_as": null,
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\parent-path-dotdot.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\parent-path-dotdot.stderr.txt"
+  },
+  "tree-path-volume": {
+    "timestamp": "2026-11-22T23:46:53.176307+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAGUAdgBpAGQAZQBuAGMAZQAtAHQAcgBlAGUALgBwAHMAMQAnACAALQBSAGUAcABvAFIAbwBvAHQAIAAnAEQAOgBcAFAAcgBvAGoAZQBjAHQAcwBcAF8AdwBvAHIAawB0AHIAZQBlAHMAXABvAHAAZQBuADAANQAtAHIAZQB2AGkAZQB3AC0AaQBuAHAAdQB0AC0AYgA1ADIAYgAxADkANwBiAC0AcgBlAHIAdQBuAFwAoVuhiyAA006TXicAIAAtAEUAdgBpAGQAZQBuAGMAZQBSAG8AbwB0ACAAJwBaADoAXAAnAAoAZQB4AGkAdAAgACQATABBAFMAVABFAFgASQBUAEMATwBEAEUA"
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-evidence-tree.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot 'Z:\\'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "expected_pattern": "(?s)扫描到 2 个 run 目录.*证据树内部自洽",
+    "expected_path": "Z:\\",
+    "expected_source": "显式 -EvidenceRoot",
+    "expected_tag": null,
+    "same_body_as": "tree-default",
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true,
+      "body_equal": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-path-volume.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\tree-path-volume.stderr.txt"
+  },
+  "ledger-path-volume": {
+    "timestamp": "2026-11-22T23:46:53.502974+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAHAAbABhAG4ALQBsAGUAZABnAGUAcgAuAHAAcwAxACcAIAAtAFIAZQBwAG8AUgBvAG8AdAAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAG8AcABlAG4AMAA1AC0AcgBlAHYAaQBlAHcALQBpAG4AcAB1AHQALQBiADUAMgBiADEAOQA3AGIALQByAGUAcgB1AG4AXAChW6GLIADTTpNeJwAgAC0ARQB2AGkAZABlAG4AYwBlAFIAbwBvAHQAIAAnAFoAOgBcACcACgBlAHgAaQB0ACAAJABMAEEAUwBUAEUAWABJAFQAQwBPAEQARQA="
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-plan-ledger.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot 'Z:\\'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "expected_pattern": "(?s)解析到 2 个包行.*台账与磁盘证据一致",
+    "expected_path": "Z:\\",
+    "expected_source": "显式 -EvidenceRoot",
+    "expected_tag": null,
+    "same_body_as": "ledger-default",
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true,
+      "body_equal": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-path-volume.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\ledger-path-volume.stderr.txt"
+  },
+  "parent-path-volume": {
+    "timestamp": "2026-11-22T23:46:53.770103+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAG8AcABlAG4AMAA1AC0AcgBlAHYAaQBlAHcALQBpAG4AcAB1AHQALQBiADUAMgBiADEAOQA3AGIALQByAGUAcgB1AG4AXABwAGEAcgBlAG4AdAAtAGUAZAAyAGUAOQAyAGMALgBwAHMAMQAnACAALQBSAGUAcABvAFIAbwBvAHQAIAAnAEQAOgBcAFAAcgBvAGoAZQBjAHQAcwBcAF8AdwBvAHIAawB0AHIAZQBlAHMAXABvAHAAZQBuADAANQAtAHIAZQB2AGkAZQB3AC0AaQBuAHAAdQB0AC0AYgA1ADIAYgAxADkANwBiAC0AcgBlAHIAdQBuAFwAoVuhiyAA006TXicAIAAtAEUAdgBpAGQAZQBuAGMAZQBSAG8AbwB0ACAAJwBaADoAXAAnAAoAZQB4AGkAdAAgACQATABBAFMAVABFAFgASQBUAEMATwBEAEUA"
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\parent-ed2e92c.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\审计 仓库' -EvidenceRoot 'Z:\\'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun",
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "expected_pattern": "(?s)扫描到 2 个 run 目录.*\\[缺少 deliverable\\.md\\].*\\[缺少 manifest\\.json\\].*发现 2 处不一致",
+    "expected_path": "Z:\\",
+    "expected_source": "显式 -EvidenceRoot",
+    "expected_tag": null,
+    "same_body_as": null,
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\parent-path-volume.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\parent-path-volume.stderr.txt"
+  },
+  "real-tree-default": {
+    "timestamp": "2026-11-22T23:46:54.102858+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAGUAdgBpAGQAZQBuAGMAZQAtAHQAcgBlAGUALgBwAHMAMQAnACAACgBlAHgAaQB0ACAAJABMAEEAUwBUAEUAWABJAFQAQwBPAEQARQA="
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-evidence-tree.ps1' \nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-close-b52b197b",
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "expected_pattern": "(?s)扫描到 [1-9][0-9]* 个 run 目录.*发现 [1-9][0-9]* 处不一致",
+    "expected_path": "D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\docs\\market-execution",
+    "expected_source": "默认（-RepoRoot\\docs\\market-execution）",
+    "expected_tag": null,
+    "same_body_as": null,
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\real-tree-default.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\real-tree-default.stderr.txt"
+  },
+  "real-tree-explicit": {
+    "timestamp": "2026-11-22T23:46:55.270557+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAGUAdgBpAGQAZQBuAGMAZQAtAHQAcgBlAGUALgBwAHMAMQAnACAALQBFAHYAaQBkAGUAbgBjAGUAUgBvAG8AdAAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAZABvAGMAcwBcAG0AYQByAGsAZQB0AC0AZQB4AGUAYwB1AHQAaQBvAG4AJwAKAGUAeABpAHQAIAAkAEwAQQBTAFQARQBYAEkAVABDAE8ARABFAA=="
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-evidence-tree.ps1' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\docs\\market-execution'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-close-b52b197b",
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "expected_pattern": "(?s)扫描到 [1-9][0-9]* 个 run 目录.*发现 [1-9][0-9]* 处不一致",
+    "expected_path": "D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\docs\\market-execution",
+    "expected_source": "显式 -EvidenceRoot",
+    "expected_tag": null,
+    "same_body_as": "real-tree-default",
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true,
+      "body_equal": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\real-tree-explicit.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\real-tree-explicit.stderr.txt"
+  },
+  "real-ledger-default": {
+    "timestamp": "2026-11-22T23:46:56.385205+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAHAAbABhAG4ALQBsAGUAZABnAGUAcgAuAHAAcwAxACcAIAAKAGUAeABpAHQAIAAkAEwAQQBTAFQARQBYAEkAVABDAE8ARABFAA=="
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-plan-ledger.ps1' \nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-close-b52b197b",
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "expected_pattern": "(?s)解析到 [1-9][0-9]* 个包行.*发现 [1-9][0-9]* 处不一致",
+    "expected_path": "D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\docs\\market-execution",
+    "expected_source": "默认（-RepoRoot\\docs\\market-execution）",
+    "expected_tag": null,
+    "same_body_as": null,
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\real-ledger-default.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\real-ledger-default.stderr.txt"
+  },
+  "real-ledger-explicit": {
+    "timestamp": "2026-11-22T23:46:56.702522+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAcwBjAHIAaQBwAHQAcwBcAGEAdQBkAGkAdAAtAHAAbABhAG4ALQBsAGUAZABnAGUAcgAuAHAAcwAxACcAIAAtAEUAdgBpAGQAZQBuAGMAZQBSAG8AbwB0ACAAJwBEADoAXABQAHIAbwBqAGUAYwB0AHMAXABfAHcAbwByAGsAdAByAGUAZQBzAFwAcABnAC0AbwBwAGUAbgAwADUALQBjAGwAbwBzAGUALQBiADUAMgBiADEAOQA3AGIAXABkAG8AYwBzAFwAbQBhAHIAawBlAHQALQBlAHgAZQBjAHUAdABpAG8AbgAnAAoAZQB4AGkAdAAgACQATABBAFMAVABFAFgASQBUAEMATwBEAEUA"
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\scripts\\audit-plan-ledger.ps1' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\docs\\market-execution'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-close-b52b197b",
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "expected_pattern": "(?s)解析到 [1-9][0-9]* 个包行.*发现 [1-9][0-9]* 处不一致",
+    "expected_path": "D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\docs\\market-execution",
+    "expected_source": "显式 -EvidenceRoot",
+    "expected_tag": null,
+    "same_body_as": "real-ledger-default",
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true,
+      "body_equal": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\real-ledger-explicit.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\real-ledger-explicit.stderr.txt"
+  },
+  "parent-real-tree-abs": {
+    "timestamp": "2026-11-22T23:46:57.019318+08:00",
+    "command": [
+      "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand",
+      "WwBDAG8AbgBzAG8AbABlAF0AOgA6AE8AdQB0AHAAdQB0AEUAbgBjAG8AZABpAG4AZwAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AVQBUAEYAOABFAG4AYwBvAGQAaQBuAGcAKAAkAGYAYQBsAHMAZQApAAoAJABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQAgAD0AIAAnAFMAdABvAHAAJwAKAAoAJgAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAG8AcABlAG4AMAA1AC0AcgBlAHYAaQBlAHcALQBpAG4AcAB1AHQALQBiADUAMgBiADEAOQA3AGIALQByAGUAcgB1AG4AXABwAGEAcgBlAG4AdAAtAGUAZAAyAGUAOQAyAGMALgBwAHMAMQAnACAALQBSAGUAcABvAFIAbwBvAHQAIAAnAEQAOgBcAFAAcgBvAGoAZQBjAHQAcwBcAF8AdwBvAHIAawB0AHIAZQBlAHMAXABwAGcALQBvAHAAZQBuADAANQAtAGMAbABvAHMAZQAtAGIANQAyAGIAMQA5ADcAYgAnACAALQBFAHYAaQBkAGUAbgBjAGUAUgBvAG8AdAAgACcARAA6AFwAUAByAG8AagBlAGMAdABzAFwAXwB3AG8AcgBrAHQAcgBlAGUAcwBcAHAAZwAtAG8AcABlAG4AMAA1AC0AYwBsAG8AcwBlAC0AYgA1ADIAYgAxADkANwBiAFwAZABvAGMAcwBcAG0AYQByAGsAZQB0AC0AZQB4AGUAYwB1AHQAaQBvAG4AJwAKAGUAeABpAHQAIAAkAEwAQQBTAFQARQBYAEkAVABDAE8ARABFAA=="
+    ],
+    "decoded": "[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)\n$ErrorActionPreference = 'Stop'\n\n& 'D:\\Projects\\_worktrees\\open05-review-input-b52b197b-rerun\\parent-ed2e92c.ps1' -RepoRoot 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b' -EvidenceRoot 'D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\docs\\market-execution'\nexit $LASTEXITCODE",
+    "cwd": "D:\\Projects\\_worktrees\\pg-open05-close-b52b197b",
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "expected_pattern": "(?s)扫描到 [1-9][0-9]* 个 run 目录.*发现 [1-9][0-9]* 处不一致",
+    "expected_path": "D:\\Projects\\_worktrees\\pg-open05-close-b52b197b\\docs\\market-execution",
+    "expected_source": "显式 -EvidenceRoot",
+    "expected_tag": null,
+    "same_body_as": "real-tree-explicit",
+    "checks": {
+      "exit": true,
+      "audit_body": true,
+      "no_error_record": true,
+      "selected_root": true,
+      "root_source": true,
+      "body_equal": true
+    },
+    "passed": true,
+    "stdout": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\parent-real-tree-abs.stdout.txt",
+    "stderr": "C:\\Users\\Administrator\\.t3\\worktrees\\松光启动器\\t3-b52b197b-fdd5b8648d3cdf7b\\docs\\evidence\\2026-11-22-open05-close-review\\rerun\\raw\\parent-real-tree-abs.stderr.txt"
+  }
+}

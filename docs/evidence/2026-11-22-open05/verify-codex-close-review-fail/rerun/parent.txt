@@ -1,0 +1,4 @@
+cwd=D:\Projects\_worktrees\pg-open05-close-b52b197b
+command=['git', 'show', 'ed2e92c:scripts/audit-evidence-tree.ps1']
+exit=0
+sha256=649b9b1a22e398ce07b8a93440a3d1d4da833945bf9205e2d6dc31bc4609202a

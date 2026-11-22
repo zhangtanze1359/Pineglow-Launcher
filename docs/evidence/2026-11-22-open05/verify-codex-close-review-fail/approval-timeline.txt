@@ -1,0 +1,10 @@
+﻿timestamp=2026-11-23T00:03:35.1794173+08:00
+command=git reflog show --date=iso-strict refs/heads/main; cwd=D:/Projects/松光启动器
+1e6d4fd refs/heads/main@{2026-11-22T23:42:48+08:00}: commit: docs(open-items): 修正 OPEN-05 证据表中已过时的合入状态
+8586e92 refs/heads/main@{2026-11-22T23:37:06+08:00}: commit: docs(open05): 目标分支参数行为确认 26/26，补确认证据
+aa64a57 refs/heads/main@{2026-11-22T23:26:26+08:00}: commit: docs(open05): 记录第 4 轮复验 PASS，补哈希取样口径（OPEN-05 r6）
+a5e9730 refs/heads/main@{2026-11-22T23:18:09+08:00}: commit: docs(open05): 更正证据 README 三处数量明细（OPEN-05 r5）
+fe49b34 refs/heads/main@{2026-11-22T23:05:20+08:00}: commit: fix(audit): 卷根路径的 run 相对路径只跳一次分隔符（OPEN-05 r4）
+932115c refs/heads/main@{2026-11-22T22:48:05+08:00}: commit: fix(audit): 证据根规范为绝对前缀，路径写法不再改变审计结论（OPEN-05 r3）
+ed2e92c refs/heads/main@{2026-11-22T22:21:28+08:00}: commit: fix(audit): 接通审计脚本默认证据目录并区分显式空值（OPEN-05）
+exit=0; scope=selected OPEN-05 entries
