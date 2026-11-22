@@ -159,14 +159,14 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File D:/Projects/_worktrees/p
 | 类别 | 数量 | 说明 |
 | --- | --- | --- |
 | r4 用例元数据（`*.txt`） | 41 | 含 `call_body` 与 `decoded`，逐例判定依据 |
-| r4 用例 out/err | 81 | 41 例 × 2，其中部分 err 为 CLIXML 进度信息 |
-| 反证输出（`counterproof-*`） | 24 | 父版本与 r4 修复后各 7 组 × 2（部分无 err） |
+| r4 用例 out/err | 82 | 41 例 × 2（41 个 `.out.txt` + 41 个 `.err.txt`） |
+| 反证输出（`counterproof-*`） | 24 | **父版本 10 对（20 文件）+ 修复版 2 对（4 文件）** |
 | 历史探针（`probe-*`） | 4 | r2 阶段一次性探针，结论已并入常驻用例 |
 | r3 遗留（`tree-pathform-*`） | 15 | r3 的路径写法输出；**已由 r4 的 `tree-form-*` 用例取代**，保留仅为不销毁历史证据 |
 
 **r3 遗留文件**（`tree-pathform-abs/trailing/rel/rel-dot/dotdot` 及相关）：来自 r3 夹具，r4 改为「三棵树 × 五种写法」的 `tree-form-{self,legacy,dirty}-*` 命名。按要求保留原文件，但**不作 r4 通过凭据**：r4 结论只看 `tree-form-*` 与 `tree-drive-*` 的元数据。
 | `verify-codex-r1-fail/` | 第 1 轮 FAIL 材料原样归档 | 234 个文件 |
-| `verify-codex-r2-fail/` | 第 2 轮 FAIL 材料原样归档（含卷根阻断原始输出与整改提示词） | 92 个文件 |
+| `verify-codex-r2-fail/` | 第 2 轮 FAIL 材料原样归档（含卷根阻断原始输出与整改提示词） | 93 个文件 |
 
 **历史探针文件**（`raw/probe-root-empty.*`、`raw/probe-splat-empty.*`，共 4 个）：来自 r2 阶段的一次性边界探针，结论已并入常驻用例（`tree-reporoot-empty`、`tree-splat-empty`）。按要求保留原文件，不作 r4 通过凭据。
 
