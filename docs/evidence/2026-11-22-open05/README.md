@@ -177,6 +177,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File D:/Projects/_worktrees/p
 | `verify-codex-r2-fail/` | 第 2 轮 FAIL 材料原样归档（含卷根阻断原始输出与整改提示词） | 93 个文件 |
 | `verify-codex-r3-pass-behavior-fail-counts/` | 第 3 轮材料：**技术行为全部通过**（62/62、41/41），整轮 FAIL 仅因本 README 三处计数错误 | 391 个文件 |
 | `verify-codex-r4-pass/` | **第 4 轮 PASS**：三处计数逐项复核一致，确认仅改 README、脚本/raw/夹具无变更 | 3 个文件 |
+| `target-confirm/` | **目标分支参数行为确认**（`aa64a57` 干净检出，26/26 PASS；真实树默认 vs 显式 diff=0） | 80 个文件 |
 
 **历史探针文件**（`raw/probe-root-empty.*`、`raw/probe-splat-empty.*`，共 4 个）：来自 r2 阶段的一次性边界探针，结论已并入常驻用例（`tree-reporoot-empty`、`tree-splat-empty`）。按要求保留原文件，不作 r4 通过凭据。
 
@@ -197,4 +198,4 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File D:/Projects/_worktrees/p
 | 3 | `fe49b34` | FAIL（技术通过） | 62/62、41/41 全过；仅 README 计数不符 |
 | 4 | `a5e9730` | **PASS** | 三处计数复核一致；补哈希口径 |
 
-第 4 轮明确未重跑 41 例矩阵与卷根/splat（脚本无变更，以 diff 为空支撑）。合入后仍需在目标分支确认参数行为（销项条件）。
+**合入后目标分支确认已完成**：在 `aa64a57` 的干净工作树直接运行检出内脚本，26/26 PASS——入口参数、路径写法 × 两棵树、卷根与普通绝对路径对照、真实树默认 vs 显式根逐行 diff=0。详见 [`target-confirm/`](target-confirm/README.md)。第 4 轮未重跑的 41 例矩阵与卷根/splat 由此轮补齐。

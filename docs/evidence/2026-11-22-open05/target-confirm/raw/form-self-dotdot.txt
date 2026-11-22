@@ -1,0 +1,16 @@
+case=form-self-dotdot
+worktree=D:/Projects/_worktrees/pg-open05-targetconf-20261122
+cwd=D:\Projects\_worktrees\pg-open05-targetconf-20261122\_targetconf-fixture\empty-root
+time=2026-11-22T23:33:03.9512339+08:00
+checkout_HEAD=aa64a57596a068d89f802825fe16826f3ab639af
+call_body=& 'D:\Projects\_worktrees\pg-open05-targetconf-20261122\scripts\audit-evidence-tree.ps1' -RepoRoot 'D:\Projects\_worktrees\pg-open05-targetconf-20261122\_targetconf-fixture' -EvidenceRoot '..\tree-self'
+decoded=[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$ErrorActionPreference = 'Stop'
+try { & 'D:\Projects\_worktrees\pg-open05-targetconf-20261122\scripts\audit-evidence-tree.ps1' -RepoRoot 'D:\Projects\_worktrees\pg-open05-targetconf-20261122\_targetconf-fixture' -EvidenceRoot '..\tree-self'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }
+expect_exit=0
+expect_pattern=扫描到 1 个 run 目录.*证据树内部自洽
+expect_source=..相对
+actual_exit=0
+stdout_file=D:\Projects\松光启动器\docs\evidence\2026-11-22-open05\target-confirm\raw\form-self-dotdot.out.txt
+stderr_file=D:\Projects\松光启动器\docs\evidence\2026-11-22-open05\target-confirm\raw\form-self-dotdot.err.txt
+verdict=PASS

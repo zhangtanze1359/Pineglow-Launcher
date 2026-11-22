@@ -1,0 +1,16 @@
+case=entry-tree-file
+worktree=D:/Projects/_worktrees/pg-open05-targetconf-20261122
+cwd=D:/Projects/_worktrees/pg-open05-targetconf-20261122
+time=2026-11-22T23:33:00.4027041+08:00
+checkout_HEAD=aa64a57596a068d89f802825fe16826f3ab639af
+call_body=& 'D:\Projects\_worktrees\pg-open05-targetconf-20261122\scripts\audit-evidence-tree.ps1' -RepoRoot 'D:/Projects/_worktrees/pg-open05-targetconf-20261122' -EvidenceRoot 'D:\Projects\_worktrees\pg-open05-targetconf-20261122\_targetconf-fixture\plain-file.txt'
+decoded=[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$ErrorActionPreference = 'Stop'
+try { & 'D:\Projects\_worktrees\pg-open05-targetconf-20261122\scripts\audit-evidence-tree.ps1' -RepoRoot 'D:/Projects/_worktrees/pg-open05-targetconf-20261122' -EvidenceRoot 'D:\Projects\_worktrees\pg-open05-targetconf-20261122\_targetconf-fixture\plain-file.txt'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }
+expect_exit=1
+expect_pattern=\[EVIDENCE_ROOT_NOT_DIRECTORY\]
+expect_source=显式普通文件
+actual_exit=1
+stdout_file=D:\Projects\松光启动器\docs\evidence\2026-11-22-open05\target-confirm\raw\entry-tree-file.out.txt
+stderr_file=D:\Projects\松光启动器\docs\evidence\2026-11-22-open05\target-confirm\raw\entry-tree-file.err.txt
+verdict=PASS

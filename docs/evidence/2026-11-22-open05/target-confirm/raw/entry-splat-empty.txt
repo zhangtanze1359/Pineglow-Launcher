@@ -1,0 +1,16 @@
+case=entry-splat-empty
+worktree=D:/Projects/_worktrees/pg-open05-targetconf-20261122
+cwd=D:/Projects/_worktrees/pg-open05-targetconf-20261122
+time=2026-11-22T23:33:02.1611585+08:00
+checkout_HEAD=aa64a57596a068d89f802825fe16826f3ab639af
+call_body=$splatArgs = @{ RepoRoot = 'D:/Projects/_worktrees/pg-open05-targetconf-20261122'; EvidenceRoot = '' }; & 'D:\Projects\_worktrees\pg-open05-targetconf-20261122\scripts\audit-evidence-tree.ps1' @splatArgs
+decoded=[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$ErrorActionPreference = 'Stop'
+try { $splatArgs = @{ RepoRoot = 'D:/Projects/_worktrees/pg-open05-targetconf-20261122'; EvidenceRoot = '' }; & 'D:\Projects\_worktrees\pg-open05-targetconf-20261122\scripts\audit-evidence-tree.ps1' @splatArgs; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }
+expect_exit=1
+expect_pattern=\[EVIDENCE_ROOT_BLANK\]
+expect_source=哈希表 splat 显式空值
+actual_exit=1
+stdout_file=D:\Projects\松光启动器\docs\evidence\2026-11-22-open05\target-confirm\raw\entry-splat-empty.out.txt
+stderr_file=D:\Projects\松光启动器\docs\evidence\2026-11-22-open05\target-confirm\raw\entry-splat-empty.err.txt
+verdict=PASS

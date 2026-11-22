@@ -1,0 +1,3 @@
+#< CLIXML
+[EVIDENCE_ROOT_MISSING] 显式指定的证据树不存在：D:\Projects\_worktrees\pg-open05-targetconf-20261122\_targetconf-fixture\nope（显式路径不回退到默认根 D:\Projects\_worktrees\pg-open05-targetconf-20261122\docs\market-execution；要用默认值请省略 -EvidenceRoot）
+<Objs Version="1.1.0.1" xmlns="http://schemas.microsoft.com/powershell/2004/04"><Obj S="progress" RefId="0"><TN RefId="0"><T>System.Management.Automation.PSCustomObject</T><T>System.Object</T></TN><MS><I64 N="SourceId">1</I64><PR N="Record"><AV>正在准备首次使用模块。</AV><AI>0</AI><Nil /><PI>-1</PI><PC>-1</PC><T>Completed</T><SR>-1</SR><SD> </SD></PR></MS></Obj></Objs>
