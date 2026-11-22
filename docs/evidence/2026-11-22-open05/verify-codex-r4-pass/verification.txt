@@ -1,0 +1,165 @@
+PowerShell inspection exit code: 0
+Started=2026-11-22T23:21:11.2913357+08:00
+[pwd]
+C:\Users\Administrator\.t3\worktrees\松光启动器\t3-3640cdba-44c6bd9a8c050fee
+[git rev-parse --show-toplevel]
+C:/Users/Administrator/.t3/worktrees/松光启动器/t3-3640cdba-44c6bd9a8c050fee
+[git rev-parse HEAD]
+a5e97306d8251976ac11035dfb9ca6b8c41151d4
+[git status --short --untracked-files=all]
+[git -C <main> show --stat a5e9730]
+commit a5e97306d8251976ac11035dfb9ca6b8c41151d4
+Author: 松光启动器 <launcher@pineglow.local>
+Date:   Sun Nov 22 23:18:09 2026 +0800
+
+    docs(open05): 更正证据 README 三处数量明细（OPEN-05 r5）
+    
+    第 3 轮独立复验（Codex gpt-6.2-sol high）结论：卷根误报、相对路径误报、
+    splat 证据真实性均已通过（自建夹具 62/62、提交内夹具 41/41），失败仅因
+    README 三处数量与提交实物不符。三处均已独立核对并更正：
+    
+    - r4 用例 out/err：81 → 82（41 个 .out.txt + 41 个 .err.txt）
+    - 反证输出组成：原写「各 7 组」→ 父版本 10 对(20 文件) + 修复版 2 对(4 文件) = 24
+    - 第 2 轮复验归档：92 → 93
+    
+    复核方式：按 41 个用例名逐个 Test-Path，并做构成加总
+    41+41+41+24+4+15 = 166，与 raw/ 实测总数一致。
+    夹具哈希在 LF blob 与工作副本下同为 7D354D07…9214，无需注明 CRLF 口径。
+    
+    仅改文档，未触碰被测脚本与原始证据。未推送、未打 tag。
+
+ docs/evidence/2026-11-22-open05/README.md | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+main HEAD expected=[a5e97306d8251976ac11035dfb9ca6b8c41151d4] actual=[a5e97306d8251976ac11035dfb9ca6b8c41151d4]
+target parent expected=[fe49b34f15c3ca39207fc64bcde34aec73ead74e] actual=[fe49b34f15c3ca39207fc64bcde34aec73ead74e]
+changed path expected=[docs/evidence/2026-11-22-open05/README.md] actual=[docs/evidence/2026-11-22-open05/README.md]
+[git diff fe49b34 a5e9730 -- scripts/]
+git diff scripts exit=0
+[git diff --exit-code fe49b34 a5e9730 -- scripts/ raw/ patched/ matrix-fixture.ps1 verify-codex-r2-fail/]
+git diff protected paths exit=0
+git diff --check exit=0
+case names expected=[41] actual=[41]
+unique case names expected=[41] actual=[41]
+tree names expected=[29] actual=[29]
+ledger names expected=[12] actual=[12]
+[Test-Path -LiteralPath -PathType Leaf for metadata, stdout, stderr]
+ledger-blank meta=True out=True err=True
+ledger-cjk-default meta=True out=True err=True
+ledger-default meta=True out=True err=True
+ledger-empty meta=True out=True err=True
+ledger-empty-tree meta=True out=True err=True
+ledger-file meta=True out=True err=True
+ledger-missing meta=True out=True err=True
+ledger-missing-default meta=True out=True err=True
+ledger-override-same meta=True out=True err=True
+ledger-pathform-rel meta=True out=True err=True
+ledger-pathform-trailing meta=True out=True err=True
+ledger-spaced-cjk meta=True out=True err=True
+tree-blank meta=True out=True err=True
+tree-cjk-default meta=True out=True err=True
+tree-default meta=True out=True err=True
+tree-drive-root meta=True out=True err=True
+tree-drive-trail meta=True out=True err=True
+tree-empty meta=True out=True err=True
+tree-empty-tree meta=True out=True err=True
+tree-file meta=True out=True err=True
+tree-form-dirty-abs meta=True out=True err=True
+tree-form-dirty-dotdot meta=True out=True err=True
+tree-form-dirty-rel meta=True out=True err=True
+tree-form-dirty-rel-dot meta=True out=True err=True
+tree-form-dirty-trail meta=True out=True err=True
+tree-form-legacy-abs meta=True out=True err=True
+tree-form-legacy-dotdot meta=True out=True err=True
+tree-form-legacy-rel meta=True out=True err=True
+tree-form-legacy-rel-dot meta=True out=True err=True
+tree-form-legacy-trail meta=True out=True err=True
+tree-form-self-abs meta=True out=True err=True
+tree-form-self-dotdot meta=True out=True err=True
+tree-form-self-rel meta=True out=True err=True
+tree-form-self-rel-dot meta=True out=True err=True
+tree-form-self-trail meta=True out=True err=True
+tree-missing meta=True out=True err=True
+tree-missing-default meta=True out=True err=True
+tree-override-same meta=True out=True err=True
+tree-reporoot-empty meta=True out=True err=True
+tree-spaced-cjk meta=True out=True err=True
+tree-splat-empty meta=True out=True err=True
+case metadata expected=[41] actual=[41]
+case stdout expected=[41] actual=[41]
+case stderr expected=[41] actual=[41]
+case stdout and stderr expected=[82] actual=[82]
+[Get-ChildItem -LiteralPath <raw> -File -Force -Recurse]
+counterproof total expected=[24] actual=[24]
+counterproof P files expected=[20] actual=[20]
+counterproof P stems expected=[10] actual=[10]
+counterproof-P-abs expected=[counterproof-P-abs.err.txt,counterproof-P-abs.out.txt] actual=[counterproof-P-abs.err.txt,counterproof-P-abs.out.txt]
+counterproof-P-dotdot expected=[counterproof-P-dotdot.err.txt,counterproof-P-dotdot.out.txt] actual=[counterproof-P-dotdot.err.txt,counterproof-P-dotdot.out.txt]
+counterproof-P-drive-abs expected=[counterproof-P-drive-abs.err.txt,counterproof-P-drive-abs.out.txt] actual=[counterproof-P-drive-abs.err.txt,counterproof-P-drive-abs.out.txt]
+counterproof-P-drive-root expected=[counterproof-P-drive-root.err.txt,counterproof-P-drive-root.out.txt] actual=[counterproof-P-drive-root.err.txt,counterproof-P-drive-root.out.txt]
+counterproof-P-legacy-abs expected=[counterproof-P-legacy-abs.err.txt,counterproof-P-legacy-abs.out.txt] actual=[counterproof-P-legacy-abs.err.txt,counterproof-P-legacy-abs.out.txt]
+counterproof-P-legacy-rel expected=[counterproof-P-legacy-rel.err.txt,counterproof-P-legacy-rel.out.txt] actual=[counterproof-P-legacy-rel.err.txt,counterproof-P-legacy-rel.out.txt]
+counterproof-P-legacy-trail expected=[counterproof-P-legacy-trail.err.txt,counterproof-P-legacy-trail.out.txt] actual=[counterproof-P-legacy-trail.err.txt,counterproof-P-legacy-trail.out.txt]
+counterproof-P-rel-dot expected=[counterproof-P-rel-dot.err.txt,counterproof-P-rel-dot.out.txt] actual=[counterproof-P-rel-dot.err.txt,counterproof-P-rel-dot.out.txt]
+counterproof-P-rel expected=[counterproof-P-rel.err.txt,counterproof-P-rel.out.txt] actual=[counterproof-P-rel.err.txt,counterproof-P-rel.out.txt]
+counterproof-P-trailing expected=[counterproof-P-trailing.err.txt,counterproof-P-trailing.out.txt] actual=[counterproof-P-trailing.err.txt,counterproof-P-trailing.out.txt]
+counterproof F files expected=[4] actual=[4]
+counterproof F stems expected=[2] actual=[2]
+counterproof-F-drive-abs expected=[counterproof-F-drive-abs.err.txt,counterproof-F-drive-abs.out.txt] actual=[counterproof-F-drive-abs.err.txt,counterproof-F-drive-abs.out.txt]
+counterproof-F-drive-root expected=[counterproof-F-drive-root.err.txt,counterproof-F-drive-root.out.txt] actual=[counterproof-F-drive-root.err.txt,counterproof-F-drive-root.out.txt]
+probe files expected=[4] actual=[4]
+legacy files expected=[15] actual=[15]
+raw disk total expected=[166] actual=[166]
+raw tree total expected=[166] actual=[166]
+raw composition expected=[166] actual=[166]
+[Get-ChildItem -LiteralPath <r2 archive> -File -Force -Recurse; git ls-tree -r a5e9730]
+r2 archive disk total expected=[93] actual=[93]
+r2 archive tree total expected=[93] actual=[93]
+[git ls-tree -r 0fd28df / fe49b34 / a5e9730; git cat-file -t]
+baseline legacy tree paths expected=[15] actual=[15]
+baseline legacy counterproof files expected=[10] actual=[10]
+docs/evidence/2026-11-22-open05/raw/counterproof-P-abs.err.txt blob=e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 present and unchanged expected=[True] actual=[True]
+docs/evidence/2026-11-22-open05/raw/counterproof-P-abs.out.txt blob=9479a1c372b58525d2d7520938985cb496cd2af8 present and unchanged expected=[True] actual=[True]
+docs/evidence/2026-11-22-open05/raw/counterproof-P-dotdot.err.txt blob=e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 present and unchanged expected=[True] actual=[True]
+docs/evidence/2026-11-22-open05/raw/counterproof-P-dotdot.out.txt blob=3c556aab06450b1a85f8b98d28cd38c6df69f072 present and unchanged expected=[True] actual=[True]
+docs/evidence/2026-11-22-open05/raw/counterproof-P-rel-dot.err.txt blob=e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 present and unchanged expected=[True] actual=[True]
+docs/evidence/2026-11-22-open05/raw/counterproof-P-rel-dot.out.txt blob=f2001edf29467cedd279d52b4e1ad8f6f383e09d present and unchanged expected=[True] actual=[True]
+docs/evidence/2026-11-22-open05/raw/counterproof-P-rel.err.txt blob=e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 present and unchanged expected=[True] actual=[True]
+docs/evidence/2026-11-22-open05/raw/counterproof-P-rel.out.txt blob=b2a030fa3b15ceafe99ff1db90f9d4067f750895 present and unchanged expected=[True] actual=[True]
+docs/evidence/2026-11-22-open05/raw/counterproof-P-trailing.err.txt blob=e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 present and unchanged expected=[True] actual=[True]
+docs/evidence/2026-11-22-open05/raw/counterproof-P-trailing.out.txt blob=19e7ba9c3350235ef02de5bf3a38e7bdc0caa791 present and unchanged expected=[True] actual=[True]
+docs/evidence/2026-11-22-open05/raw/tree-pathform-abs.err.txt blob=49a29191c500c0e23f26a784fbe3a7983dd11fdd present and unchanged expected=[True] actual=[True]
+docs/evidence/2026-11-22-open05/raw/tree-pathform-abs.out.txt blob=a0badb82e08f604d9d274b79121a8d02e140af06 present and unchanged expected=[True] actual=[True]
+docs/evidence/2026-11-22-open05/raw/tree-pathform-abs.txt blob=b54954a08c249a938ddd42782a8b79b3623f89e4 present and unchanged expected=[True] actual=[True]
+docs/evidence/2026-11-22-open05/raw/tree-pathform-dotdot.err.txt blob=5fdee740a5d8e91eebc765d5aa67fa9b62c44d9c present and unchanged expected=[True] actual=[True]
+docs/evidence/2026-11-22-open05/raw/tree-pathform-dotdot.out.txt blob=a0badb82e08f604d9d274b79121a8d02e140af06 present and unchanged expected=[True] actual=[True]
+docs/evidence/2026-11-22-open05/raw/tree-pathform-dotdot.txt blob=5afba0a38fcaded9337d299fd784132b03f9ce3a present and unchanged expected=[True] actual=[True]
+docs/evidence/2026-11-22-open05/raw/tree-pathform-rel-dot.err.txt blob=7c62693e3d5d383166a1d333c5a45bd737eaed85 present and unchanged expected=[True] actual=[True]
+docs/evidence/2026-11-22-open05/raw/tree-pathform-rel-dot.out.txt blob=a0badb82e08f604d9d274b79121a8d02e140af06 present and unchanged expected=[True] actual=[True]
+docs/evidence/2026-11-22-open05/raw/tree-pathform-rel-dot.txt blob=640fde3621993863a6cad070bd5e167c3986f88a present and unchanged expected=[True] actual=[True]
+docs/evidence/2026-11-22-open05/raw/tree-pathform-rel.err.txt blob=09891ec31d1cce0ff9e67d5ca24f3e06134c94c9 present and unchanged expected=[True] actual=[True]
+docs/evidence/2026-11-22-open05/raw/tree-pathform-rel.out.txt blob=a0badb82e08f604d9d274b79121a8d02e140af06 present and unchanged expected=[True] actual=[True]
+docs/evidence/2026-11-22-open05/raw/tree-pathform-rel.txt blob=7fb6d39d3e4e932b906634625456ec53afdbbe17 present and unchanged expected=[True] actual=[True]
+docs/evidence/2026-11-22-open05/raw/tree-pathform-trailing.err.txt blob=1588858200efa8dabd28a02a8601c6b217b0a336 present and unchanged expected=[True] actual=[True]
+docs/evidence/2026-11-22-open05/raw/tree-pathform-trailing.out.txt blob=a0badb82e08f604d9d274b79121a8d02e140af06 present and unchanged expected=[True] actual=[True]
+docs/evidence/2026-11-22-open05/raw/tree-pathform-trailing.txt blob=5c80a21e15a4f6497da9be0e7f20373356d75324 present and unchanged expected=[True] actual=[True]
+[README lines from git show a5e9730:<evidence>/README.md]
+README:162 | r4 用例 out/err | 82 | 41 例 × 2（41 个 `.out.txt` + 41 个 `.err.txt`） |
+README match for \| r4 用例 out/err \| 82 \| expected=[1] actual=[1]
+README:163 | 反证输出（`counterproof-*`） | 24 | **父版本 10 对（20 文件）+ 修复版 2 对（4 文件）** |
+README match for 父版本 10 对（20 文件）\+ 修复版 2 对（4 文件） expected=[1] actual=[1]
+README:169 | `verify-codex-r2-fail/` | 第 2 轮 FAIL 材料原样归档（含卷根阻断原始输出与整改提示词） | 93 个文件 |
+README match for \| 93 个文件 \| expected=[1] actual=[1]
+[git ls-files --eol and Get-FileHash]
+i/lf    w/lf    attr/                 	docs/evidence/2026-11-22-open05/matrix-fixture.ps1
+i/lf    w/crlf  attr/                 	docs/evidence/2026-11-22-open05/matrix-fixture.ps1
+executor main fixture sha256 expected=[7D354D07BA25B76B92E77030959AA7BEA79546C735D4C269F4DD276449049214] actual=[7D354D07BA25B76B92E77030959AA7BEA79546C735D4C269F4DD276449049214]
+executor runner sha256 expected=[7D354D07BA25B76B92E77030959AA7BEA79546C735D4C269F4DD276449049214] actual=[7D354D07BA25B76B92E77030959AA7BEA79546C735D4C269F4DD276449049214]
+independent checkout fixture sha256 expected=[DF30F7319B1210824516755A5F0F97DA8CF78E6109E753E5C0EF589A0BDD5B3E] actual=[DF30F7319B1210824516755A5F0F97DA8CF78E6109E753E5C0EF589A0BDD5B3E]
+[git cat-file blob and Python SHA-256 over raw bytes]
+blob LF bytes=14591 CRLF=0 sha256=7D354D07BA25B76B92E77030959AA7BEA79546C735D4C269F4DD276449049214
+blob converted to CRLF bytes=14813 CRLF=222 sha256=DF30F7319B1210824516755A5F0F97DA8CF78E6109E753E5C0EF589A0BDD5B3E
+python exit expected=[0] actual=[0]
+blob sha256 expected=[7D354D07BA25B76B92E77030959AA7BEA79546C735D4C269F4DD276449049214] actual=[7D354D07BA25B76B92E77030959AA7BEA79546C735D4C269F4DD276449049214]
+converted blob sha256 expected=[DF30F7319B1210824516755A5F0F97DA8CF78E6109E753E5C0EF589A0BDD5B3E] actual=[DF30F7319B1210824516755A5F0F97DA8CF78E6109E753E5C0EF589A0BDD5B3E]
+Checks failed=0. Behavioral cases executed=0. Case file sets inspected=41.
+Finished=2026-11-22T23:21:12.4742858+08:00

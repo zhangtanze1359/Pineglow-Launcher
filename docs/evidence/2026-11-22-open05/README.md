@@ -1,13 +1,15 @@
-# OPEN-05 执行证据 · 2026-11-22（r4）
+# OPEN-05 执行证据 · 2026-11-22（r5）
 
 执行者记录。`FormalPhaseApproval=NOT_GRANTED`，未推送、未打 tag、未改机器签名策略。
 
-两轮独立复验（Codex `gpt-6.2-sol` high）均 FAIL，阻断项均为**既有缺陷**，均已修复并补反证：
+**独立复验：第 1、2、3 轮 FAIL，第 4 轮 PASS。** 前两轮阻断为**既有代码缺陷**，第三轮为**本 README 的计数错误**，均已修复：
 
 | 轮次 | 阻断项 | 修复 |
 | --- | --- | --- |
 | 第 1 轮 | 相对路径 / 末尾反斜杠 / `..` 段使 run 相对路径前缀错位，白名单失效，同树多报 | r3：校验后规范为绝对前缀 |
-| 第 2 轮 | **卷根**（`Z:\`）仍错位：根已带分隔符，`+1` 又多跳一个字符；另：`tree-splat-empty` 实为直接传参，不算 splat 覆盖 | r4：把截取下标集中计算一次；splat 改为真实哈希表 splat |
+| 第 2 轮 | **卷根**（`Z:\`）仍错位：根已带分隔符，`+1` 又多跳一个字符；另：`tree-splat-empty` 实为直接传参，不算 splat 覆盖 | r4：截取下标集中计算一次；splat 改为真实哈希表 splat |
+| 第 3 轮 | 技术行为**全部通过**（62/62、41/41）；整轮 FAIL 仅因本 README 三处计数与实物不符 | r5：更正为 82 / 24（P 10 对 + F 2 对）/ 93 |
+| 第 4 轮 | —（轻量核对） | **PASS**，并补充哈希口径澄清 |
 
 ## 结论摘要
 
@@ -51,7 +53,13 @@
 
 ## 参数与行为矩阵（41/41）
 
-夹具 `matrix-fixture.ps1`（SHA-256 `7D354D07…9214`）。每例独立子进程；每条元数据 `.txt` 里都含 `call_body`（**实际调用语句原文**）与 `decoded`（完整子进程脚本），便于逐字核对调用方式。
+夹具 `matrix-fixture.ps1`。每例独立子进程；每条元数据 `.txt` 里都含 `call_body`（**实际调用语句原文**）与 `decoded`（完整子进程脚本），便于逐字核对调用方式。
+
+> **哈希取样口径**：本仓库 `.gitattributes` 只对 `diagnostic-cases.json`、`.githooks/**`、`scripts/*.sh` 强制 LF，对 `.ps1` 无规则，而 `core.autocrlf=true`。因此同一夹具在不同检出下字节可能不同：
+> - **LF 原始字节**（Git blob 与本次执行者主工作区的实际内容）：`7D354D07BA25B76B92E77030959AA7BEA79546C735D4C269F4DD276449049214`（0 CRLF / 222 bare LF）
+> - **CRLF 检出**（第 3 轮复验方在其独立工作树实测）：`DF30F7319B1210824516755A5F0F97DA8CF78E6109E753E5C0EF589A0BDD5B3E`
+>
+> 两者内容等价（仅换行不同）。引用哈希时须同时注明口径，否则会误判为「文件被改动」。
 
 ### audit-evidence-tree.ps1（29 例）
 
@@ -168,6 +176,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File D:/Projects/_worktrees/p
 | `verify-codex-r1-fail/` | 第 1 轮 FAIL 材料原样归档 | 234 个文件 |
 | `verify-codex-r2-fail/` | 第 2 轮 FAIL 材料原样归档（含卷根阻断原始输出与整改提示词） | 93 个文件 |
 | `verify-codex-r3-pass-behavior-fail-counts/` | 第 3 轮材料：**技术行为全部通过**（62/62、41/41），整轮 FAIL 仅因本 README 三处计数错误 | 391 个文件 |
+| `verify-codex-r4-pass/` | **第 4 轮 PASS**：三处计数逐项复核一致，确认仅改 README、脚本/raw/夹具无变更 | 3 个文件 |
 
 **历史探针文件**（`raw/probe-root-empty.*`、`raw/probe-splat-empty.*`，共 4 个）：来自 r2 阶段的一次性边界探针，结论已并入常驻用例（`tree-reporoot-empty`、`tree-splat-empty`）。按要求保留原文件，不作 r4 通过凭据。
 
@@ -178,3 +187,14 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File D:/Projects/_worktrees/p
 - `-RepoRoot ''` 报 PowerShell 参数绑定错误（`无法将参数绑定到参数“Path”，因为该参数为空字符串。`），仍在扫描前失败，错误码不是 `[DEFAULT_ROOT_MISSING]`；属既有行为。
 - `audit-plan-ledger.ps1` 检查 3 的 `claimed` 白名单是脚本内硬编码（新增跨里程碑目录仍须手工登记），属既有设计。
 - 未覆盖执行者主工作区「含 640 个本地未跟踪日志」这一输入下的真实树计数作为验收数字（只作为差异说明）。
+
+## 独立复验状态
+
+| 轮次 | 对象 | 结论 | 关键依据 |
+| --- | --- | --- | --- |
+| 1 | `ed2e92c` | FAIL | 相对路径 / 末尾反斜杠 / `..` 同树多报 |
+| 2 | `932115c` | FAIL | 卷根误报；splat 实为直接传参 |
+| 3 | `fe49b34` | FAIL（技术通过） | 62/62、41/41 全过；仅 README 计数不符 |
+| 4 | `a5e9730` | **PASS** | 三处计数复核一致；补哈希口径 |
+
+第 4 轮明确未重跑 41 例矩阵与卷根/splat（脚本无变更，以 diff 为空支撑）。合入后仍需在目标分支确认参数行为（销项条件）。
