@@ -1,6 +1,7 @@
 case=ledger-missing
 worktree=D:/Projects/_worktrees/pg-open05-20261122
-time=2026-11-22T22:15:03.7086009+08:00
+cwd=D:/Projects/_worktrees/pg-open05-20261122
+time=2026-11-22T22:44:52.9778257+08:00
 command=powershell.exe -NoProfile -OutputFormat Text -EncodedCommand <base64>  (child env: PSExecutionPolicyPreference cleared)
 decoded=[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $ErrorActionPreference = 'Stop'

@@ -1,6 +1,7 @@
 case=tree-blank
 worktree=D:/Projects/_worktrees/pg-open05-20261122
-time=2026-11-22T22:15:00.6237250+08:00
+cwd=D:/Projects/_worktrees/pg-open05-20261122
+time=2026-11-22T22:44:48.0901078+08:00
 command=powershell.exe -NoProfile -OutputFormat Text -EncodedCommand <base64>  (child env: PSExecutionPolicyPreference cleared)
 decoded=[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $ErrorActionPreference = 'Stop'

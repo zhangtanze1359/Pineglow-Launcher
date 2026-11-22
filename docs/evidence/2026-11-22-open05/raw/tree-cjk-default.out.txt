@@ -2,7 +2,7 @@
 == 证据树交叉一致性审计 ==
   证据树 = D:\Projects\_worktrees\pg-open05-20261122\_fixture-open05\repo 中文 空格\docs\market-execution
   来源   = 默认（-RepoRoot\docs\market-execution）
-  扫描到 1 个 run 目录
+  扫描到 2 个 run 目录
   [OK] 缺少 deliverable.md
   [OK] 缺少 manifest.json
   [OK] manifest.json 无法解析

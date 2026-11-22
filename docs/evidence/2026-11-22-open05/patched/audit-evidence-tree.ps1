@@ -67,6 +67,14 @@ else {
     }
 }
 
+# 校验通过后统一规范成绝对前缀：下面用 Substring 计算 run 的相对路径，
+# 直接拿调用方传入的字符串当长度基准会被相对路径（'docs\market-execution'）、
+# 末尾多余反斜杠或 '.'/'..' 段打乱，导致 $preConvention 白名单匹配失效，
+# 同一棵树换个写法就多报“缺 deliverable/manifest”。规范一次即与写法无关。
+# 盘符根（'D:\'）要保留尾部反斜杠：去掉会退化成 'D:'，改变显示与扫描语义。
+$resolvedRoot = (Resolve-Path -LiteralPath $EvidenceRoot).ProviderPath
+$EvidenceRoot = if ($resolvedRoot -match '^[A-Za-z]:\\$') { $resolvedRoot } else { $resolvedRoot.TrimEnd('\', '/') }
+
 Write-Host ''
 Write-Host '== 证据树交叉一致性审计 ==' -ForegroundColor Cyan
 Write-Host ("  证据树 = {0}" -f $EvidenceRoot)

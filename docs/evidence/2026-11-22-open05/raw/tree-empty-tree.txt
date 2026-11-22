@@ -1,12 +1,13 @@
 case=tree-empty-tree
 worktree=D:/Projects/_worktrees/pg-open05-20261122
-time=2026-11-22T22:15:02.4064186+08:00
+cwd=D:/Projects/_worktrees/pg-open05-20261122
+time=2026-11-22T22:44:49.9179345+08:00
 command=powershell.exe -NoProfile -OutputFormat Text -EncodedCommand <base64>  (child env: PSExecutionPolicyPreference cleared)
 decoded=[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $ErrorActionPreference = 'Stop'
 try { & 'D:\Projects\_worktrees\pg-open05-20261122\scripts\audit-evidence-tree.ps1' -RepoRoot 'D:\Projects\_worktrees\pg-open05-20261122\_fixture-open05' -EvidenceRoot 'D:\Projects\_worktrees\pg-open05-20261122\_fixture-open05\empty-root'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }
 expect_exit=0
-expect_pattern=扫描到 0 个 run 目录.*结论：证据树内部自洽
+expect_pattern=扫描到 0 个 run 目录.*证据树内部自洽
 expect_source=空证据树
 actual_exit=0
 stdout_file=D:\Projects\松光启动器\docs\evidence\2026-11-22-open05\raw\tree-empty-tree.out.txt

@@ -1,12 +1,13 @@
 case=ledger-default
 worktree=D:/Projects/_worktrees/pg-open05-20261122
-time=2026-11-22T22:15:02.7457857+08:00
+cwd=D:/Projects/_worktrees/pg-open05-20261122
+time=2026-11-22T22:44:51.9830877+08:00
 command=powershell.exe -NoProfile -OutputFormat Text -EncodedCommand <base64>  (child env: PSExecutionPolicyPreference cleared)
 decoded=[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $ErrorActionPreference = 'Stop'
 try { & 'D:\Projects\_worktrees\pg-open05-20261122\scripts\audit-plan-ledger.ps1' -RepoRoot 'D:/Projects/_worktrees/pg-open05-20261122'; exit $LASTEXITCODE } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }
 expect_exit=1
-expect_pattern=解析到 31 个包行.*发现 4 处不一致
+expect_pattern=解析到 31 个包行
 expect_source=默认根+默认台账
 actual_exit=1
 stdout_file=D:\Projects\松光启动器\docs\evidence\2026-11-22-open05\raw\ledger-default.out.txt

@@ -1,87 +1,123 @@
-# OPEN-05 第二轮执行证据 · 2026-11-22
+# OPEN-05 执行证据 · 2026-11-22（r3，含第 1 轮复验阻断修复）
 
-执行者记录。目标：在目标基线 `main@17318e6` 的**隔离工作树**上复核 r2 补丁的身份、可应用性与参数矩阵行为，产出可独立复验的原始输出。`FormalPhaseApproval=NOT_GRANTED`，未推送、未打 tag、未改机器签名策略。
+执行者记录。目标：复核 r2 补丁身份、可应用性与参数行为，产出可独立复验的原始输出。`FormalPhaseApproval=NOT_GRANTED`，未推送、未打 tag、未改机器签名策略。
+
+**第 1 轮独立复验 FAIL**（Codex `gpt-6.2-sol` high），阻断项是**既有缺陷**：同一证据树换个 `-EvidenceRoot` 写法（相对路径 / 末尾多余反斜杠 / `..` 段）会多报「缺 deliverable / manifest」。r3 修复并补齐回归用例；本节以下全部为 r3 结果。
 
 ## 结论摘要
 
-- r2 补丁身份一致：SHA-256 `295CB84E581741AD23BA062226FE19CFF50C2771B176B906F29CF499CF6F53CE`，长度 9212 字节（副本 `open05-fix-r2.patch` 复算同值）。
-- 目标分支 `17318e6` **无等效改动**：两支脚本仍指向已不存在的 `ed41` 历史交付根，工作区 blob 为 `0fa604c` / `bee2aaa`，与补丁 `index` 行完全一致。
-- `git apply --check` exit 0 → `git apply` exit 0 → `git diff --check` exit 0；应用后哈希 `E8DFDB01…644B`（evidence-tree）/ `5E900796…65A5`（plan-ledger）。
-- **参数矩阵 20/20 PASS**：两脚本各 10 档，含省略参数取默认根、显式同树、空串/空白/不存在/普通文件/默认根缺失在扫描前拒绝、含空格与中文的合法路径、空证据树。
-- **同输入树对照**：默认目录与显式目录的输出在归一化「证据树 / 来源」两行后**逐行 diff = 0**（tree 41 行、ledger 27 行），差异计数与退出码一致。
-- 真实树审计结论是历史输入的真实发现（tree 61 run / 609 处不一致，ledger 31 包行 / 4 处不一致），本轮**未**通过改统计口径或删证据使其转绿。
+- r2 补丁身份一致：SHA-256 `295CB84E581741AD23BA062226FE19CFF50C2771B176B906F29CF499CF6F53CE`，长度 9212 字节。
+- 目标分支 `17318e6` 无等效改动；`git apply --check` → `apply` → `diff --check` 全部 exit 0。
+- **参数矩阵 29/29 PASS**：两脚本各覆盖默认根 / 显式同树 / 空串（含 splat 形式）/ 空白 / 不存在 / 普通文件 / 默认根缺失 / `-RepoRoot ''` / 空格中文路径（含省略参数走中文默认根）/ 空证据树，外加 5 档「同一树的路径写法」回归。
+- **路径写法回归（r3 新增）**：同一夹具树、同样 2 个 run，绝对路径、末尾反斜杠、相对路径、`.\` 相对、`..\` 相对五种写法全部 `证据树内部自洽`、exit 0。
+- **反证**：父提交原脚本在同样 5 档里只有绝对路径自洽；其余 4 档各报 2 处不一致、exit 1。说明回归用例确实能抓到缺陷，不是空洞断言。
+- 真实树审计结论如实保留，未通过改统计口径或删证据使其转绿。
+
+## 本机真实树计数与历史记录的差异（必读）
+
+历史记录（11-19 复验、任务计划）记的是 **61 run / 609 处**、台账 **31 包行 / 4 处**。本轮在本机主工作区实测为 **61 run / 7 处**、台账 **31 包行 / 4 处**。差异来源：
+
+- 主工作区 `docs/market-execution` 有 **1735** 个文件，但 `git` 只跟踪 **1095** 个；另外 **640** 个是被 `.gitignore` 的 `*.log` 规则忽略的证据日志（`git status --ignored` 可复核）。
+- 干净工作树里这 640 个文件不存在，因此 manifest 记录的 `green/*.log` 等条目缺失，报出大量「记录了但文件不存在」→ 合计 609 处。
+- 本机工作区保留了这些日志，只剩 1 处哈希不符 + 2 缺 deliverable + 2 缺 manifest + 2 未登记 = 7 处。
+
+**结论**：609 与 7 都是真实输入的审计结果，差别来自**输入树的文件集合**，不是脚本行为。两者都不能当作“补丁必须达到的固定数字”；验收看**同一输入树的对照一致性**（见 open-items 的结果解释）。
 
 ## 环境与输入
 
 | 项 | 值 |
 | --- | --- |
-| 主工作区 | `D:/Projects/松光启动器`，HEAD `17318e664d7070cb10a93bb06f96efbb97d72607`（`main`） |
-| 隔离工作树 | `D:/Projects/_worktrees/pg-open05-20261122`，detached HEAD 同 `17318e6` |
-| 补丁源 | `D:/Projects/_worktrees/pineglow-open05-worker-20261119/docs/evidence/2026-11-19-open05-worker/r2/open05-fix-r2.patch`（worker 树 HEAD `291c819`，两脚本仍为未提交 `M`） |
-| 工具 | Windows PowerShell 5.1（`powershell.exe`），Git `2.55.0.windows.4`，Windows 11 Pro for Workstations |
+| 主工作区 | `D:/Projects/松光启动器`，基线 `ed2e92c`（父 `17318e6`） |
+| 隔离工作树 | `D:/Projects/_worktrees/pg-open05-20261122`，detached HEAD `17318e6` |
+| 工具 | Windows PowerShell 5.1，Git `2.55.0.windows.4`，Windows 11 Pro for Workstations |
 | 时间 | 2026-11-22（UTC+08） |
-| 路径长度 | `docs/market-execution` 最深相对路径 205 字符；建工作树需 `-c core.longpaths=true`（否则 `Filename too long`） |
+| 路径长度 | `docs/market-execution` 最深相对路径 205 字符；建工作树需 `-c core.longpaths=true` |
 
-### 签名策略实测（解释旧记录“入口前被拦截”）
+### 签名策略实测
 
 | 场景 | 结果 |
 | --- | --- |
-| 主工作区路径 + 不设进程策略 | `SecurityError` / `UnauthorizedAccess`，exit 1，未进入审计 |
-| `_worktrees/` ASCII 路径 + 干净环境（`set PSExecutionPolicyPreference=`） | 进入审计逻辑，退出码由审计发现决定 |
-| 任意路径 + `-ExecutionPolicy Bypass`（脚本头部注释给出的用法） | 进入审计逻辑 |
+| 主工作区路径 + 无进程策略 | `SecurityError` / `UnauthorizedAccess`，exit 1，未进入审计 |
+| `_worktrees/` ASCII 路径 + 干净环境（清空 `PSExecutionPolicyPreference`） | 进入审计逻辑 |
+| 任意路径 + `-ExecutionPolicy Bypass`（脚本头部注释写法） | 进入审计逻辑 |
 
-`Get-ExecutionPolicy -List`：MachinePolicy / UserPolicy / Process 均 `Undefined`，CurrentUser `RemoteSigned`。三份脚本 `Get-AuthenticodeSignature = NotSigned`，无 `Zone.Identifier` 备用流。上述只描述本机观测，不归纳为通用规律；本轮未修改任何执行策略设置（`Bypass` 仅出现在单次进程命令行）。
+`Get-ExecutionPolicy -List`：MachinePolicy / UserPolicy / Process 均 `Undefined`，CurrentUser `RemoteSigned`。脚本均 `NotSigned`、无 `Zone.Identifier`。上述只描述本机；未修改任何执行策略设置。
 
-## 参数矩阵结果
+## 参数矩阵结果（29/29）
 
-矩阵脚本 `matrix-fixture.ps1`（SHA-256 `C33EA071…BA9B`）；每个用例独立起 `powershell.exe` 子进程，子进程环境显式清空 `PSExecutionPolicyPreference`，原始 stdout/stderr/元数据落在 `raw/`（每例 3 个文件，共 60 个）。
+夹具 `matrix-fixture.ps1`（SHA-256 `B1ACD7E2…95B7`）；每例独立子进程，原始 stdout/stderr/元数据在 `raw/`。
 
 ### audit-evidence-tree.ps1
 
 | 用例 | 输入 | 预期 | 实际 |
 | --- | --- | --- | --- |
-| `tree-default` | 省略 `-EvidenceRoot`，`-RepoRoot` = 真实检出 | 默认根 `docs\market-execution`，61 run / 609 处 / exit 1 | PASS |
-| `tree-override-same` | 显式 `-EvidenceRoot` = 同一真实树 | 与 default 同内容同计数，exit 1 | PASS（diff=0） |
-| `tree-blank` | `-EvidenceRoot ' '` | `[EVIDENCE_ROOT_BLANK]`，exit 1 | PASS |
-| `tree-empty` | `-EvidenceRoot ''` | `[EVIDENCE_ROOT_BLANK]`，exit 1 | PASS |
-| `tree-missing` | `-EvidenceRoot` 不存在路径 | `[EVIDENCE_ROOT_MISSING]`，不回退，exit 1 | PASS |
-| `tree-file` | `-EvidenceRoot` 普通文件 | `[EVIDENCE_ROOT_NOT_DIRECTORY]`，exit 1 | PASS |
-| `tree-missing-default` | 省略参数，`-RepoRoot` 无 `docs\market-execution` | `[DEFAULT_ROOT_MISSING]`，exit 1 | PASS |
-| `tree-spaced-cjk` | 显式含空格与中文的合法树（1 个自洽 run） | 正常审计，exit 0 | PASS |
-| `tree-cjk-default` | 省略参数，`-RepoRoot` 含空格与中文 | 正常审计，exit 0 | PASS |
-| `tree-empty-tree` | 显式空证据树 | 0 run，自洽，exit 0 | PASS |
+| `tree-default` | 省略 `-EvidenceRoot` | 默认根，61 run，exit 1 | PASS |
+| `tree-override-same` | 显式绝对路径 | 同默认，61 run，exit 1 | PASS |
+| `tree-blank` / `tree-empty` | `' '` / `''` | `[EVIDENCE_ROOT_BLANK]`，exit 1 | PASS |
+| `tree-splat-empty` | splat 传空值（与直接写等价） | `[EVIDENCE_ROOT_BLANK]`，exit 1 | PASS |
+| `tree-missing` | 不存在路径 | `[EVIDENCE_ROOT_MISSING]`，exit 1 | PASS |
+| `tree-file` | 普通文件 | `[EVIDENCE_ROOT_NOT_DIRECTORY]`，exit 1 | PASS |
+| `tree-reporoot-empty` | `-RepoRoot ''` | 参数绑定错误「为空字符串」，扫描前失败，exit 1 | PASS |
+| `tree-missing-default` | 默认根缺失 | `[DEFAULT_ROOT_MISSING]`，exit 1 | PASS |
+| `tree-cjk-default` | 省略参数 + 中文 `-RepoRoot` | 2 run，自洽，exit 0 | PASS |
+| `tree-spaced-cjk` | 含空格与中文目录 | 2 run，自洽，exit 0 | PASS |
+| `tree-pathform-abs` | 绝对路径 | 2 run，自洽，exit 0 | PASS |
+| `tree-pathform-trailing` | 末尾多 `\` | 同上 | PASS |
+| `tree-pathform-rel` | `tree 中文 空格` | 同上 | PASS |
+| `tree-pathform-rel-dot` | `.\tree 中文 空格` | 同上 | PASS |
+| `tree-pathform-dotdot` | `..\tree 中文 空格`（cwd 在别处） | 同上 | PASS |
+| `tree-empty-tree` | 空证据树 | 0 run，自洽，exit 0 | PASS |
 
 ### audit-plan-ledger.ps1
 
-| 用例 | 输入 | 预期 | 实际 |
-| --- | --- | --- | --- |
-| `ledger-default` | 省略 `-EvidenceRoot`，默认台账 | 31 包行 / 4 处 / exit 1 | PASS |
-| `ledger-override-same` | 显式同一真实树 | 与 default 同内容同计数，exit 1 | PASS（diff=0） |
-| `ledger-blank` | `-EvidenceRoot ' '` | `[EVIDENCE_ROOT_BLANK]`，exit 1 | PASS |
-| `ledger-empty` | `-EvidenceRoot ''` | `[EVIDENCE_ROOT_BLANK]`，exit 1 | PASS |
-| `ledger-missing` | 不存在路径 | `[EVIDENCE_ROOT_MISSING]`，exit 1 | PASS |
-| `ledger-file` | 普通文件 | `[EVIDENCE_ROOT_NOT_DIRECTORY]`，exit 1 | PASS |
-| `ledger-missing-default` | 省略参数，默认根缺失 | `[DEFAULT_ROOT_MISSING]`，exit 1 | PASS |
-| `ledger-spaced-cjk` | 显式含空格与中文的合法树 + 真实台账 | 正常审计，孤儿目录 PKG-A，exit 1 | PASS |
-| `ledger-cjk-default` | 省略参数，`-RepoRoot` 含空格与中文 | 同上，exit 1 | PASS |
-| `ledger-empty-tree` | 显式空证据树 + 真实台账 | 检查 2 报 20 处缺证据目录，exit 1 | PASS |
+| 用例 | 指标 | 结果 |
+| --- | --- | --- |
+| `ledger-default` / `ledger-override-same` | 31 包行 / 4 处，exit 1 | PASS |
+| `ledger-blank` / `ledger-empty` | `[EVIDENCE_ROOT_BLANK]`，exit 1 | PASS |
+| `ledger-missing` | `[EVIDENCE_ROOT_MISSING]`，exit 1 | PASS |
+| `ledger-missing-default` | `[DEFAULT_ROOT_MISSING]`，exit 1 | PASS |
+| `ledger-file` | `[EVIDENCE_ROOT_NOT_DIRECTORY]`，exit 1 | PASS |
+| `ledger-cjk-default` | 省略参数 + 中文 `-RepoRoot`，31 包行，exit 1 | PASS |
+| `ledger-spaced-cjk` | 31 包行，孤儿目录，exit 1 | PASS |
+| `ledger-empty-tree` | 31 包行，20 处缺证据目录，exit 1 | PASS |
+| `ledger-pathform-trailing` / `-rel` | 31 包行 / 4 处，exit 1 | PASS |
 
-合计 `fixtureRuns=2 cases=20 PASS=20 FAIL=0`，matrix exit 0。
+> 说明：`ledger-empty-tree` 首轮我把预期写成 exit 0，实际空树必然让检查 2 报缺证据目录并 exit 1——错的是**夹具预期**，不是断言口径；已改正且未放宽判定。
 
-> 说明：`ledger-empty-tree` 的预期在首轮被我写错（当成 exit 0）。空树必然让检查 2 找不到任何声称“证据就绪”的包目录，报 20 处不一致并 exit 1，这是被测脚本的正确行为；改的是**夹具预期**，不是断言口径，也未放宽任何判定。
+## r3 修复内容
+
+`scripts/audit-evidence-tree.ps1` 在校验成功后、进入扫描前，把 `-EvidenceRoot` 规范成绝对路径前缀：
+
+```powershell
+$resolvedRoot = (Resolve-Path -LiteralPath $EvidenceRoot).ProviderPath
+$EvidenceRoot = if ($resolvedRoot -match '^[A-Za-z]:\\$') { $resolvedRoot } else { $resolvedRoot.TrimEnd('\', '/') }
+```
+
+原因：后续用 `$run.FullName.Substring($EvidenceRoot.Length + 1)` 算相对路径；调用方传相对路径或末尾多余反斜杠时前缀长度错位，`$preConvention` 白名单（`MR00\20261002-072004Z` 等）匹配失效。盘符根（`D:\`）保留尾反斜杠，避免退化成 `D:` 改变扫描与显示语义。
+
+**只改这一处，8 行新增**；两支脚本的审计检查项、白名单、退出码口径均未动。`audit-plan-ledger.ps1` 内部不做同类截取，无需改动。
+
+## 反证（证明回归用例非空洞）
+
+把父提交 `17318e6` 的原脚本跑同样 5 档（输出在 `raw/counterproof-P-*.out.txt`）：
+
+| 写法 | 父提交原脚本 | r3 修复后 |
+| --- | --- | --- |
+| 绝对路径 | 自洽，exit 0 | 自洽，exit 0 |
+| 末尾反斜杠 | **2 处不一致，exit 1** | 自洽，exit 0 |
+| 相对路径 | **2 处不一致，exit 1** | 自洽，exit 0 |
+| `.\` 相对 | **2 处不一致，exit 1** | 自洽，exit 0 |
+| `..\` 相对 | **2 处不一致，exit 1** | 自洽，exit 0 |
+
+同一棵树上，父版本与修复版本在**绝对路径**下逐行输出一致（归一化「证据树 / 来源」两行后 diff=0），证明修复不改变既有正确行为。
 
 ## 复跑命令
 
 ```powershell
-# 建隔离工作树（需长路径支持）
 git -C D:/Projects/松光启动器 -c core.longpaths=true worktree add D:/Projects/_worktrees/pg-open05-20261122 17318e6
-
-# 应用 r2 补丁并核验
 git -C D:/Projects/_worktrees/pg-open05-20261122 apply --check -- <open05-fix-r2.patch>
 git -C D:/Projects/_worktrees/pg-open05-20261122 apply -- <open05-fix-r2.patch>
 git -C D:/Projects/_worktrees/pg-open05-20261122 diff --check
-
-# 参数矩阵（20 例，含原始输出落盘）
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File D:/Projects/_worktrees/pg-open05-20261122/_run-matrix.ps1
 ```
 
@@ -89,24 +125,15 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File D:/Projects/_worktrees/p
 
 | 路径 | 内容 | 哈希 |
 | --- | --- | --- |
-| `open05-fix-r2.patch` | r2 补丁副本 | `295CB84E…53CE`（与历史记录、矩阵输入一致） |
-| `patched/audit-evidence-tree.ps1` | 应用后脚本 | `E8DFDB01…644B` |
+| `open05-fix-r2.patch` | r2 补丁副本 | `295CB84E…53CE` |
+| `patched/audit-evidence-tree.ps1` | r3 应用后脚本 | `90E38219…ADCF` |
 | `patched/audit-plan-ledger.ps1` | 应用后脚本 | `5E900796…65A5` |
-| `matrix-fixture.ps1` | 矩阵夹具（含建树与逐例执行） | `C33EA071…BA9B` |
-| `raw/` | 20 例 × (out/err/meta) | — |
-
-## 补丁逐行审查要点（执行者自审，待独立复核）
-
-1. **判定依据是脚本级参数绑定状态**：`$PSBoundParameters.ContainsKey('EvidenceRoot')`。调用方用 splat（`@h`）显式传入空值也判定为「显式」——探针 `raw/probe-splat-empty.*` 得到 `[EVIDENCE_ROOT_BLANK]`，行为一致。
-2. **`-RepoRoot` 未做空白判定**：`-RepoRoot ''` 会在 `Join-Path` 处抛出 `Cannot bind argument to parameter 'Path' because it is an empty string.`（`raw/probe-root-empty.*`，exit 1）。这是**参数校验错误**、仍在扫描前失败，错误码不是约定的 `[DEFAULT_ROOT_MISSING]`；属既有行为，补丁未收窄。
-3. **`-RepoRoot` 省略时**由 `Resolve-Path (Join-Path $PSScriptRoot '..')` 解析，是 `$PSScriptRoot` 相对脚本位置，不依赖调用 cwd。
-4. **编码未变**：两支脚本 HEAD 与补丁后首 3 字节均为 `239,187,191`（UTF-8 BOM），补丁只增注释与入口判定块。
-5. **审计逻辑主体未改**：检查项、白名单与退出码口径保持原样，补丁不触碰统计语义。默认根与显式根的输出在归一化「证据树 / 来源」两行后逐行一致（diff=0）。
-6. **诊断行新增**：两脚本各新增一行 `来源 = …`，便于区分默认/显式；只影响展示，不影响退出码。
+| `matrix-fixture.ps1` | 29 例矩阵夹具 | `B1ACD7E2…95B7` |
+| `raw/` | 29 例 × (out/err/meta) + 5 组反证输出 | 101 个文件 |
 
 ## 未覆盖 / 边界
 
-- 未执行 `.NET` 单测、前端、CSS token、资源闭包等仓库门槛：本轮只验收审计脚本路径补丁，不含产品代码改动。
-- 真实 Avalonia/WebView2 宿主、发布包、CI 三平台运行均未触及。
+- 未执行 `.NET` 单测、前端、CSS token、资源闭包、CI、Avalonia/WebView2 宿主、发布包与发布一致性检查：本轮只改两支 PowerShell 审计脚本。
 - `audit-plan-ledger.ps1` 检查 3 的 `claimed` 白名单是脚本内硬编码（新增跨里程碑目录仍须手工登记），属既有设计，不在本补丁范围。
-- 历史 16/16 与 11-19 独立复验记录保留原处，未改动其日志。
+- `-RepoRoot ''` 报的是 PowerShell 参数绑定错误（`无法将参数绑定到参数“Path”，因为该参数为空字符串。`），仍在扫描前失败，错误码不是 `[DEFAULT_ROOT_MISSING]`；属既有行为，未收窄。
+- `raw/` 中 `tree-file.*`、`tree-cjk-default.*`、`ledger-file.*`、`ledger-cjk-default.*`、`probe-root-empty.*`、`probe-splat-empty.*` 早期版本文件已按用例名重新生成，不再有孤立历史文件。
