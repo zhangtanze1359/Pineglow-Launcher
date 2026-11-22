@@ -31,11 +31,11 @@
 | 位置 | 影响 |
 | --- | --- |
 | `UpdateApplyScriptPathTests.cs:73`（`RunApplyScript` 共享路径） | 本类 **6 个**执行脚本的用例走这条路径（调用点第 103、140、173、247、289、344 行） |
-| `UpdateRecoveryTests.cs:318`（`RunApplyScriptCore`） | 恢复类 **3 个**调用点（第 343、369、394 行） |
+| `UpdateRecoveryTests.cs:318`（`RunApplyScriptCore`） | 恢复类 **5 个**调用点：`RunApplyScript(` 3 处（343、369、394）+ `RunApplyScriptCore(` 直接调用 2 处（446、472） |
 
 历史记录只盯住了其中 1 条（`ApplyScript_WaitsForRunningTargetThenReplaces`），但超时后静默继续的模式是**共通**的。
 
-> 更正记录（2026-11-23）：本文件早前版本先写「9 个用例共享」（把 `[Fact]` 总数误当调用点数），后写「恢复类另有 5 个用例」，均不准确。实测 `RunApplyScript(` 调用点为 **6**（另 3 个 `[Fact]` 为纯脚本文本断言），`UpdateRecoveryTests` 的调用点为 **3**。同日第 2 次独立复核独立复算得到相同结果。
+> 更正记录（2026-11-23）：本文件此处经两次修订才准确。① 最初写「9 个用例共享」——把 `[Fact]` 总数误当调用点数。② 随后改为「恢复类 3 个调用点」——只统计了 `RunApplyScript(`，**漏掉 `RunApplyScriptCore(` 的 2 处直接调用**。③ 现值为 6（路径类）+ 5（恢复类）＝ **11 个用例**走该超时路径。第 1 次独立复核的「恢复类 5 个」是正确的。
 
 本用例的时序链（**已按第 2 次独立复核更正**）：
 

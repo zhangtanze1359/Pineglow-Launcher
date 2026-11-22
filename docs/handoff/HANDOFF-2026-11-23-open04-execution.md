@@ -38,7 +38,9 @@
 两处夹具在 `WaitForExit(30000)` 超时后**忽略返回值、也不校验子进程退出码**，直接读文件与状态：
 
 - `UpdateApplyScriptPathTests.cs:73`（`RunApplyScript`）—— **6 个**执行脚本的用例共享（调用点 103、140、173、247、289、344 行）
-- `UpdateRecoveryTests.cs:318`（`RunApplyScriptCore`）—— **3 个**调用点（343、369、394 行）
+- `UpdateRecoveryTests.cs:318`（`RunApplyScriptCore`）—— 恢复类 **5 个**（`RunApplyScript(` 3 处：343、369、394；`RunApplyScriptCore(` 直接调用 2 处：446、472）
+
+**合计 11 个用例**走该超时路径。
 
 且 `UpdateApplyScriptPathTests` **未加入** `DisableParallelization` 集合，全量运行时与其他类并行。历史只盯住 1 条用例，但该模式是共通的。
 

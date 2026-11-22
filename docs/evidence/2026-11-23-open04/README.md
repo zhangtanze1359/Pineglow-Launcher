@@ -163,7 +163,7 @@ dotnet test ... --filter "FullyQualifiedName~ApplyScript_WaitsForRunningTargetTh
 
 ## 结构性风险（未修，供独立复核判断）
 
-`UpdateApplyScriptPathTests` 未加入 `DisableParallelization` 集合（与 `UpdateConcurrencyTests` 不同，后者标注了 `[Collection("LocalApiService")]`）。两处夹具在 `WaitForExit(30000)` 超时后**忽略返回值、也不校验子进程退出码**，直接读文件与状态；该模式被路径类 **6 个执行脚本的用例**共享（`RunApplyScript(` 实测 6 个调用点），恢复类另有 **3 个**调用点。
+`UpdateApplyScriptPathTests` 未加入 `DisableParallelization` 集合（与 `UpdateConcurrencyTests` 不同，后者标注了 `[Collection("LocalApiService")]`）。两处夹具在 `WaitForExit(30000)` 超时后**忽略返回值、也不校验子进程退出码**，直接读文件与状态。走该路径的用例共 **11 个**：路径类 6 个（`RunApplyScript(` 调用点 103/140/173/247/289/344）+ 恢复类 5 个（`RunApplyScript(` 3 处 343/369/394 与 `RunApplyScriptCore(` 直接调用 2 处 446/472）。
 
 **注意**（按第 2 次独立复核更正）：该夹具**没有预写 `applying`**，所以「提前读到 `applying` 中间态」的推演**不成立**——若脚本未写完，读到的是**缺失或不可解析**的状态。超时静默继续这一结构缺陷确实存在，但**历史失败是否由这条路径引发仍属假说**，本轮未观测到该分支。残余风险表述为：同步管道阻塞、等待返回值被忽略、调度竞争。
 
