@@ -93,7 +93,7 @@ dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release
 
 ### 第 4 层：全量 + 合成 CPU/IO 压力 × 3（主动放大时序风险）
 
-设计依据见 [`ANALYSIS.md`](ANALYSIS.md)：`UpdateApplyScriptPathTests` **未加入** `DisableParallelization` 集合，在全量运行时与其他测试类并行；该用例的 `proc.WaitForExit(30000)` 超时后**不抛异常、不改退出码**，若高负载下 30 s 不足，可能读到 `applying` 中间态。
+设计依据见 [`ANALYSIS.md`](ANALYSIS.md)：`UpdateApplyScriptPathTests` **未加入** `DisableParallelization` 集合，在全量运行时与其他测试类并行；两处夹具在 `WaitForExit(30000)` 超时后**忽略返回值、也不校验子进程退出码**。**注意**：该夹具**未预写 `applying`**，故「提前读到 `applying` 中间态」的推演**不成立**（详见本文件「结构性风险」一节）；历史失败是否由这条路径引发仍属假说。
 
 压力构成：8 个纯计算忙循环（16 逻辑核的一半）+ 1 个 8 MB 反复写读的 IO 循环，均在后台 Job 内，结束后停止并清理（复核 `0` 个残留 Job、`0` 个临时文件）。
 
@@ -105,7 +105,7 @@ dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release
 
 无压力时每轮 72.3 / 73.9 / 72.2 s（均值 **72.80**），压力下 83.9 / 84.7 / 84.8 s（均值 **84.47**），增幅 **16.03%**（早前写「约 17%」系单轮近似）。
 
-**关于「压力是否真的生效」**：耗时差与额外负载相符，但**单凭耗时不足以确认两类负载全程持续运行**。本轮未采集压力期间的 CPU/IO 遥测，故该点列为**未充分证明**——第 2 次独立复核补充了该项遥测（8 个计算线程各累计约 77 s CPU、IO 线程完成 ≥19,839 轮 8 MiB 读写），可作外部佐证。
+**关于「压力是否真的生效」**：耗时差与额外负载相符，但**单凭耗时不足以确认两类负载全程持续运行**。本轮**未采集压力期间的 CPU/IO 遥测**，故该项为**未充分证明**——本批次只记录"起了 8 个忙循环 + 1 个 IO 循环、结束后清理"，**没有负载强度与持续时间的原始采样**。此点不可引用为已证事实。
 
 原始输出：[`raw/open04-layer4-stress.txt`](raw/open04-layer4-stress.txt)
 
@@ -144,6 +144,23 @@ dotnet test ... --filter "FullyQualifiedName~ApplyScript_WaitsForRunningTargetTh
 | API 请求互斥 | `UpdateConcurrencyTests` 8 条 × 5 轮 | 并发 `apply` 只认领一次、不启动第二次 | **不**证明「进程退出后才替换」 |
 
 两者未被合并成单一结论。
+
+## 独立复核观测到的额外失败（本轮未出现，单独记录）
+
+第 3 次独立复核（目标 `320963f`，23 轮合计 6071 通过 / **1 失败** / 0 跳过）在**首轮默认并行全量**中观测到：
+
+```text
+ConfigPreservationTests.LoadAsync_IfItWritesBack_StillPreservesExistingFields
+  → ConfigPreservationTests.cs:194
+  → Assert.False(File.Exists(ConfigPath + ".tmp"), "不应留下 .tmp 临时文件")
+```
+
+- 该用例在复核方的**隔离复跑 3 次**及**其余 3 轮全量**中均通过，根因未确定。
+- **本执行者的 6 轮全量中从未出现**此失败。
+- 与 OPEN-04 的历史目标用例（`ApplyScript_WaitsForRunningTargetThenReplaces`）**不是同一条**，属并发写 `config.json` → `.tmp` 残留的另一类偶发。
+- 可能的成因方向：`ConfigStore.WriteConfigFile` 先写 `.tmp` 再 `File.Move`；多个测试并行时若共用同一 `ConfigPath`，可能短暂观察到残留。**此为推测，未验证。**
+
+**处置建议**：单列为独立事项跟踪（不并入 OPEN-04 的销项依据，也不因它而否定本轮「未复现」的结论）。是否需要立项由编排方决定。
 
 ## 覆盖与局限
 
