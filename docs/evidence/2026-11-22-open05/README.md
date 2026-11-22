@@ -201,11 +201,22 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File D:/Projects/_worktrees/p
 
 **合入后目标分支确认已完成**：在 `aa64a57` 的干净工作树直接运行检出内脚本，26/26 PASS——入口参数、路径写法 × 两棵树、卷根与普通绝对路径对照、真实树默认 vs 显式根逐行 diff=0。详见 [`target-confirm/`](target-confirm/README.md)。第 4 轮未重跑的 41 例矩阵与卷根/splat 由此轮补齐。
 
-## 销项复核：FAIL（待编排方处理顺序偏差）
+## 销项复核：FAIL → 编排方追认后销项
 
 第 5 关（销项复核，Codex）**技术复验 41/41 通过**，但判 FAIL，两条：
 
 1. **归档计数**：第 3 轮递归实为 **392**（含归档说明 `README.md`），本 README 与归档说明原写 391。已更正为「递归 392，其中归档说明 1 个、独立复验材料 391 个」。
 2. **合入早于批准**：补丁首次进入 `main` 为 `ed2e92c` @ **22:21:28**，最终脚本 `fe49b34` @ **23:05:20**，而编排方批准合入为 **23:29:00**。清单执行步骤要求「批准后方可合入」，事前批准缺证据。
 
-> 第 2 条属**审批顺序**问题，不是技术缺陷。按项目规则「执行者不为自己签字」，该偏差需由编排方留下正式决定后方可再复核；执行者不自行认定已获豁免。材料见 [`verify-codex-close-review-fail/`](verify-codex-close-review-fail/README.md)。
+**第 2 条经编排方正式决定追认**（选项 A），记录见 [DECISION-2026-11-23-open05-approval-order.md](../../handoff/DECISION-2026-11-23-open05-approval-order.md)。追认依据：技术结论已多次独立验证（第 4 轮 PASS + 销项复核 41/41）；偏差是时点先后而非结果错误；全程未推送、未打 tag、`origin/main` 始终 `5f1bf8b`。追认**不**追溯授权推送/发布，也**不**构成流程放宽。
+
+**OPEN-05 已于 2026-11-23 按销项规则移出 `docs/open-items.md`**（清单 3 项 → 2 项：OPEN-04、OPEN-03）。销项材料见 [`verify-codex-close-review-fail/`](verify-codex-close-review-fail/README.md)。
+
+### OPEN-02 一并核查
+
+| 事项 | 独立复验 PASS | 合入 | 顺序 |
+| --- | --- | --- | --- |
+| OPEN-02 | 20:15:23 | `8827b71` @ 20:16:25 | **合规**（PASS 在前） |
+| OPEN-05 | 23:26:26 | `ed2e92c` @ 22:21:28 | 偏差（已追认） |
+
+OPEN-02 另有条件性事前授权依据：「让 Codex 独立复验，通过后合入」——「通过」为条件、「合入」已预先获准。故 **OPEN-02 无需追认**。
