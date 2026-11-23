@@ -80,6 +80,24 @@ open-items 原文：「复现并修复后经独立复验确认，或**未复现�
 
 **受测输入未变**：`git diff --exit-code 63dadf7 <本轮候选> -- dev/ scripts/test-inventory.txt .github/workflows/build.yml global.json` 为空，第 4 轮 19 份 TRX 可按复核方原话「输入一致时复用」。
 
+## 第 5 轮复核结果（2026-11-23，目标 `453f18f`）
+
+`gpt-6.2-sol` high 判 **FAIL（仍不接受销项）**，但本轮**未重跑任何产品测试**——它先自己验证受测输入未变（`git diff --exit-code 63dadf7 453f18f -- dev/ scripts/test-inventory.txt .github/workflows/build.yml global.json` 为 `exit=0`，变更 61 个路径全在 `docs/` 下），再按第 4 轮约定复用 19 份 TRX。
+
+**通过的部分**：4 处措辞全部 PASS（它还独立打开 `open04-layer4-stress.txt` 与 `layer4-stress.ps1` 核验了「日志无事后盘点」这条执行者自述，确认成立）；六项自审全部复核通过；证据边界四项中 CI、负载、未复现限定三项合规。
+
+**判 FAIL 的三条（均已修）**：
+
+| # | 问题 | 处置 |
+| --- | --- | --- |
+| 1 | README 覆盖表把时序用例的 `waited`/`applied` 当成「失败时保留可运行旧版」的证据（证据归属错误） | 拆为「占位进程替换时序 / 替换失败与备份 / API 请求互斥」三行，各自写明能证明与不能证明；点明用例名 `KeepsRunnableOldVersion` ≠ 已证真实二进制可运行 |
+| 2 | `open-items.md:30`「累计四轮复核独立复跑 60+ 轮全量、43+ 次目标用例」无逐轮汇总支撑（**执行者新引入的夸大**：把总轮次 19+23+19=61 误当全量轮次） | 改为逐轮表格；可逐轮核定的全量只有 **9 轮 / 13518 次**（执行者 6 + 第 4 轮 3） |
+| 3 | `open-items.md:15`「4 次独立复核：技术结论一致支持」与「第 2 轮无结论」自相矛盾 | 状态列改成分轮表述，不再用「一致」概括 |
+
+另：README:186、:201 的「两处」已统一为「四处」。
+
+材料归档：[`docs/evidence/2026-11-23-open04/verify-codex-r5-fail-coverage/`](../evidence/2026-11-23-open04/verify-codex-r5-fail-coverage/README.md)。
+
 ## 待编排方决定
 
 1. 是否派独立复核接受「未复现 + 风险说明」，从而销项。
