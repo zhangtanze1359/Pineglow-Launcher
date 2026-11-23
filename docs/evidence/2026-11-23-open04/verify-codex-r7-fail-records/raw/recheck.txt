@@ -1,0 +1,192 @@
+﻿2026-11-23T10:07:55.178729+08:00
+pwd C:\Users\Administrator\.t3\worktrees\松光启动器\t3-a7f4affd-204d2a4797602429
+git rev-parse --show-toplevel
+C:/Users/Administrator/.t3/worktrees/松光启动器/t3-a7f4affd-204d2a4797602429
+exit=0
+git rev-parse HEAD
+0bbc63ed006c1966cf8e4d62569fdb838ac6cf97
+exit=0
+git -C D:/Projects/松光启动器 rev-parse HEAD
+0bbc63ed006c1966cf8e4d62569fdb838ac6cf97
+exit=0
+git -C D:/Projects/松光启动器 diff --exit-code 63dadf7 0bbc63e -- dev/ scripts/test-inventory.txt .github/workflows/build.yml global.json
+<empty>
+exit=0
+git -C D:/Projects/松光启动器 diff --name-only 63dadf7 0bbc63e
+docs/evidence/2026-11-23-open04/README.md
+docs/evidence/2026-11-23-open04/SELF-AUDIT.md
+"docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/2026-11-23-\346\234\200\345\260\217\350\241\245\351\275\220\346\265\201\347\250\213.md"
+"docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/2026-11-23-\347\213\254\347\253\213\345\244\215\346\240\270\346\217\220\347\244\272\350\257\215.md"
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/HANDOFF-review-r4.md
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/README.md
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/audit-trx.py
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/build.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/cleanup.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/commands.jsonl
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/concurrency-1.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/concurrency-1.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/concurrency-2.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/concurrency-2.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/concurrency-3.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/concurrency-3.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/full-1.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/full-1.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/full-2.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/full-2.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/full-stress-1.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/full-stress-1.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/historical-recount.ps1
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/historical-recount.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/inventory-check.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/paths-1.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/paths-1.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/paths-2.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/paths-2.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/paths-3.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/paths-3.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/run-review.ps1
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/run-stress.ps1
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/runs.csv
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/source-review.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/stress-workers.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/synthetic-load.py
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-01.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-01.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-02.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-02.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-03.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-03.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-04.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-04.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-05.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-05.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-06.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-06.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-07.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-07.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-08.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-08.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-09.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-09.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-10.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-10.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/trx-audit-initial.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/trx-audit.txt
+"docs/evidence/2026-11-23-open04/verify-codex-r5-fail-coverage/2026-11-23-\346\234\200\345\260\217\350\241\245\351\275\220\346\265\201\347\250\213.md"
+"docs/evidence/2026-11-23-open04/verify-codex-r5-fail-coverage/2026-11-23-\347\213\254\347\253\213\345\244\215\346\240\270\346\217\220\347\244\272\350\257\215.md"
+docs/evidence/2026-11-23-open04/verify-codex-r5-fail-coverage/HANDOFF-2026-11-23-open04-review-r5-codex.md
+docs/evidence/2026-11-23-open04/verify-codex-r5-fail-coverage/README.md
+docs/evidence/2026-11-23-open04/verify-codex-r5-fail-coverage/raw/recheck.ps1
+docs/evidence/2026-11-23-open04/verify-codex-r5-fail-coverage/raw/recheck.txt
+"docs/evidence/2026-11-23-open04/verify-codex-r6-fail-counts/2026-11-23-\346\234\200\345\260\217\350\241\245\351\275\220\346\265\201\347\250\213.md"
+"docs/evidence/2026-11-23-open04/verify-codex-r6-fail-counts/2026-11-23-\347\213\254\347\253\213\345\244\215\346\240\270\346\217\220\347\244\272\350\257\215.md"
+docs/evidence/2026-11-23-open04/verify-codex-r6-fail-counts/HANDOFF-2026-11-23-open04-review-r6-codex.md
+docs/evidence/2026-11-23-open04/verify-codex-r6-fail-counts/README.md
+docs/evidence/2026-11-23-open04/verify-codex-r6-fail-counts/raw/recheck.py
+docs/evidence/2026-11-23-open04/verify-codex-r6-fail-counts/raw/recheck.txt
+docs/handoff/HANDOFF-2026-11-23-open04-execution.md
+docs/open-items.md
+exit=0
+changed path count 73
+git diff --exit-code 367ab91 63dadf7 -- dev/ scripts/test-inventory.txt .github/workflows/build.yml global.json
+<empty>
+exit=0
+dev\PineglowLauncher.Tests\UpdateApplyScriptPathTests.cs disk 9597a417dffc27b463e3b24603842391bcd5d19effec7e7eba251b583bac9a52 HEAD f9d52c27a05111eb03e601830943f3be80b0aa07f7d505a79b11f84a2a7dd9f4 LF f9d52c27a05111eb03e601830943f3be80b0aa07f7d505a79b11f84a2a7dd9f4 CRLF 9597a417dffc27b463e3b24603842391bcd5d19effec7e7eba251b583bac9a52
+dev\PineglowLauncher\Pineglow.Launcher.Services\UpdateService.cs disk f11c2d24da3a266f8bdf961b75e49e67a6810bab9d163eb5b22c18505749af77 HEAD 614da65993d09a9ace979e9a2ae632d5bf19593fcc83e9428c4c62aa91893553 LF 614da65993d09a9ace979e9a2ae632d5bf19593fcc83e9428c4c62aa91893553 CRLF f11c2d24da3a266f8bdf961b75e49e67a6810bab9d163eb5b22c18505749af77
+docs\evidence\2026-11-23-open04\layer4-stress.ps1 disk 5fbb916d94ad3a1203af93fb261053b927a4b901715a437f5cd6552b43cdbd30 HEAD 21ce9f505194ca6cf32b7e47f1530fbe54b8c489ba12eb9faa768563a850c365 LF 21ce9f505194ca6cf32b7e47f1530fbe54b8c489ba12eb9faa768563a850c365 CRLF 5fbb916d94ad3a1203af93fb261053b927a4b901715a437f5cd6552b43cdbd30
+open04-layer1.txt {'runs': 10, 'passed': 10, 'failed': 0, 'skipped': 0, 'total': 10} state/waited [] elapsed []
+open04-layer2.txt {'runs': 10, 'passed': 85, 'failed': 0, 'skipped': 0, 'total': 85} state/waited [] elapsed []
+open04-layer3-full.txt {'runs': 3, 'passed': 4506, 'failed': 0, 'skipped': 0, 'total': 4506} state/waited [] elapsed [72.3, 73.9, 72.2]
+open04-layer4-stress.txt {'runs': 3, 'passed': 4506, 'failed': 0, 'skipped': 0, 'total': 4506} state/waited [] elapsed [83.9, 84.7, 84.8]
+open04-timing-waited.txt {} state/waited [('applied', 4.7), ('applied', 4.7), ('applied', 4.7), ('applied', 4.7), ('applied', 4.7), ('applied', 4.7), ('applied', 4.9), ('applied', 4.8)] elapsed []
+waited mean 4.7375
+timing rows with empty result counts 8
+executor totals {'runs': 26, 'passed': 9107, 'failed': 0, 'skipped': 0, 'total': 9107} direct state 8
+ordinary=72.800000s loaded=84.466667s increase=16.025641%
+executor top-level raw TRX 0
+round 3 original summary flags {False: 18} console count fields 0
+
+round 1 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-0fc59f52-4e70cb11eb60f08e\docs\evidence\2026-11-23-open04-review\raw
+concurrency-01.trx exit=0 {'Passed': 8} [] sha256=2740193792d2905d5d7973f4ee239419dbd1b3cb5d176a950db1b9adfc8d2c8a
+concurrency-02.trx exit=0 {'Passed': 8} [] sha256=81146f29a8f2b6d49de4cd8eb8e448df900848d58168c3ba5ab16c960db4b059
+concurrency-03.trx exit=0 {'Passed': 8} [] sha256=a787f0e7968fe0bd919df099529c3e1c45429f58a32cd8553565f87dc3a8dd09
+diag-config-01.trx exit=0 {'Passed': 1} [] sha256=d7c42a7d7b2978781c0434ab36afff4fc63ca85373e7f2edff6f75403851b469
+diag-config-02.trx exit=0 {'Passed': 1} [] sha256=276004e0416b3c565be4084874a3d1962df27b645960debd4d590caf80c16bb5
+diag-config-03.trx exit=0 {'Passed': 1} [] sha256=c179a5c603a08b4537bb02e25e5c297e592ff067f1b44436cc8d3f54bd3ab306
+diag-full-03.trx exit=0 {'Passed': 1502} [('applied', 5.4)] sha256=23d6694e65ab2351c641e9f05542f877a94649a81a21966887b642ee92d628bc
+full-01.trx exit=1 {'Passed': 1501, 'Failed': 1} [('applied', 5.6)] sha256=1dc3085a53325bf912f475a2277c0cf331ca4ce0400380846bae38046396d156
+full-02.trx exit=0 {'Passed': 1502} [('applied', 5.7)] sha256=91e2202cec9a2818ec305b49f89a039fce90297412bddbd5fa5495d2bebdfdd6
+full-stress-01.trx exit=0 {'Passed': 1502} [('applied', 5.7)] sha256=305f51739e1634b942c1492369255522c40732e9edcf6579abc9002c5e61cdcf
+paths-01.trx exit=0 {'Passed': 9} [('applied', 5.5)] sha256=62120f7635411197cd11c6c81f36246c55b0c1721bc7b0ca3ed54b00d998226f
+paths-02.trx exit=0 {'Passed': 9} [('applied', 5.4)] sha256=cbd43bf1403f360f217e467669db266af948c1aa38eb84b93b14d124b75c5395
+paths-03.trx exit=0 {'Passed': 9} [('applied', 5.8)] sha256=6b8e73838016f3fd01245cb7a8cac4b4c3959384a60c4ffef9f95ffd91fb4cde
+target-01.trx exit=0 {'Passed': 1} [('applied', 5.6)] sha256=f0e6134077e089a4396e1cc322d6e12151e184941f57e8f30b35abcdd6792c78
+target-02.trx exit=0 {'Passed': 1} [('applied', 5.5)] sha256=2cb5de9357d47cb022c60fa2d1fbee179083dbce992e1ec29f8e2160d44f9764
+target-03.trx exit=0 {'Passed': 1} [('applied', 5.4)] sha256=d7d194b290df36dce55664fdea8554dd0c22f46b62d23931f5f320d33140603c
+target-04.trx exit=0 {'Passed': 1} [('applied', 5.3)] sha256=62210b80d4ad3df6887fb0cbe9c6d38d377f4fe748804096bdbcc0f4d2575de6
+target-05.trx exit=0 {'Passed': 1} [('applied', 5.3)] sha256=b4a0dff6725673a3dd288794b531c18a497b91cbd935a4f799a1a3b56fb4f9b8
+target-06.trx exit=0 {'Passed': 1} [('applied', 5.4)] sha256=8ff1818dd6fcae052f8b85cff54f008aada9bbb1e3064084f44f8beff3053959
+target-07.trx exit=0 {'Passed': 1} [('applied', 5.4)] sha256=4f5e310dbd30704595d9c690d1501d13b4f111ca3ced955bfb11e9b6fe847885
+target-08.trx exit=0 {'Passed': 1} [('applied', 5.6)] sha256=549494ceca1847f15e3d0dfdf4d39b68da3a4238bc6b3de83824b10acf761100
+target-09.trx exit=0 {'Passed': 1} [('applied', 5.6)] sha256=70894ee77f8dcf30f3d4b2b4010dedfd0ec37f79c277dadedfcfeabea8604670
+target-10.trx exit=0 {'Passed': 1} [('applied', 5.4)] sha256=387f21499bbe6a76911d910d209986cf842184a99118c72291e84cf1491bc1fc
+full TRX ['diag-full-03.trx', 'full-01.trx', 'full-02.trx', 'full-stress-01.trx']
+full test ID sets equal True
+summary {'Passed': 6071, 'Failed': 1} direct target states 17 ACE {'ran_script': 7}
+target filter matches [('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_WaitsForRunningTargetThenReplaces')]
+path class filter matches [('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_DoesNotDependOnConsoleOnlyCommands'), ('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_DoesNotDependOnPathResolution'), ('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_DoesNotTruncateLongImageNames'), ('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_InChineseAndSpacePath_AppliesReplacesAndRecordsApplied'), ('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_InChineseAndSpacePath_BackupFailureLeavesTargetUntouched'), ('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_InChineseAndSpacePath_ReplaceFailureRollsBackOldVersion'), ('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_WaitsForRunningTargetThenReplaces'), ('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_WhenTargetHasExplicitDenyAce_KeepsRunnableOldVersion'), ('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_WhenTargetIsNotWritable_KeepsRunnableOldVersion')]
+nonpasses [('full-01.trx', ('Pineglow.Launcher.Tests.ConfigPreservationTests', 'LoadAsync_IfItWritesBack_StillPreservesExistingFields'), 'Failed', '不应留下 .tmp 临时文件', '   at Pineglow.Launcher.Tests.ConfigPreservationTests.LoadAsync_IfItWritesBack_StillPreservesExistingFields() in D:\\Projects\\_worktrees\\open04-review-320963f\\dev\\PineglowLauncher.Tests\\ConfigPreservationTests.cs:line 194\r\n--- End of stack trace from previous location ---')]
+
+round 3 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-399f2fe4-9138d141e7975b6e\docs\evidence\2026-11-23-open04-review4
+concurrency-01.trx exit=0 {'Passed': 8} [] sha256=0b0e1f4b58e2f1e3a95321615d57f055076dbabdbc8a64b44f20fcc180ddfa79
+concurrency-02.trx exit=0 {'Passed': 8} [] sha256=569a2b8e9f42d566f58d5c878784080be0f892f294bae8ceafabdb7a720da543
+concurrency-03.trx exit=0 {'Passed': 8} [] sha256=30c1ab207c2939e17a2700fe44a1dd502a28016688ac7dc1e4463f96da2a3484
+full-01-default.trx exit=0 {'Passed': 1502} [('applied', 5.4)] sha256=aaff692f9bd24417b2df2ba39260e4c6436c4a41cab5244da89994f328a68e4b
+full-02-loaded.trx exit=0 {'Passed': 1502} [('applied', 5.7)] sha256=8f715dc779e5d37b83bec471e6fe8e644b4babb2acff0eda03810849143ff1c4
+path-01.trx exit=0 {'Passed': 9} [('applied', 5.4)] sha256=b26a353ee924bd96cd18bea930af91b096c9f9dbf494f42a08429bd760242859
+path-02.trx exit=0 {'Passed': 9} [('applied', 5.5)] sha256=47d675b9e8775c0895bdd7076b2e389555cbfbe3c35c097db9c3efc3c1e124d8
+path-03.trx exit=0 {'Passed': 9} [('applied', 5.5)] sha256=a1a2c474e72460583eb0a4e3a5eb1ff1a59b34d5247cf4729c50055c7b995b3e
+target-01.trx exit=0 {'Passed': 1} [('applied', 5.3)] sha256=34611e73c91d966059af7abd2b580b7ab4a65146fe7f4a45ee414ea50e397a70
+target-02.trx exit=0 {'Passed': 1} [('applied', 5.4)] sha256=0f93f92b97d475a7a558f34cbdf373ce8fdc96dbc50f015a60d07c8a9978576e
+target-03.trx exit=0 {'Passed': 1} [('applied', 5.4)] sha256=fe0bd151e79a1f208977762c7d8f6a4596ecb608f2b3d6d35406ad9b24fc8ff6
+target-04.trx exit=0 {'Passed': 1} [('applied', 5.3)] sha256=c3105650bfedbfbb7949554ac8d2257edce90ebecb85c155abd04946f93b626f
+target-05.trx exit=0 {'Passed': 1} [('applied', 5.4)] sha256=699ca1647d2caf0192a3bb19cba99afd4be584887b2e6b8505e7e6c7e0105e5d
+target-06.trx exit=0 {'Passed': 1} [('applied', 5.4)] sha256=7a730492e26fd46bb3e39acb5294c2d75d1476880d80bb27d70c6fa29c32375c
+target-07.trx exit=0 {'Passed': 1} [('applied', 5.3)] sha256=4cf07297b14066b1f86117f35daf8ef4ac6c1bf836433b79ce6366fc60afdd27
+target-08.trx exit=0 {'Passed': 1} [('applied', 5.3)] sha256=0285d979298ab1accdb7381905769109b38ec5f616916c4a6958f33ebc32a2db
+target-09.trx exit=0 {'Passed': 1} [('applied', 4.9)] sha256=29b6a07faef1114d51849ff77cce2eac98f5223d24baee530271710367947d8c
+target-10.trx exit=0 {'Passed': 1} [('applied', 5.5)] sha256=e5a5e8a4cef67870bfd7264741e7151b3043586c6c9eb90bc6c6f26ebbf3c23b
+full TRX ['full-01-default.trx', 'full-02-loaded.trx']
+full test ID sets equal True
+summary {'Passed': 3065} direct target states 15 ACE {'ran_script': 5}
+target filter matches [('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_WaitsForRunningTargetThenReplaces')]
+path class filter matches [('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_DoesNotDependOnConsoleOnlyCommands'), ('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_DoesNotDependOnPathResolution'), ('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_DoesNotTruncateLongImageNames'), ('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_InChineseAndSpacePath_AppliesReplacesAndRecordsApplied'), ('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_InChineseAndSpacePath_BackupFailureLeavesTargetUntouched'), ('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_InChineseAndSpacePath_ReplaceFailureRollsBackOldVersion'), ('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_WaitsForRunningTargetThenReplaces'), ('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_WhenTargetHasExplicitDenyAce_KeepsRunnableOldVersion'), ('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_WhenTargetIsNotWritable_KeepsRunnableOldVersion')]
+nonpasses []
+
+round 4 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-a7f4affd-204d2a4797602429\docs\evidence\2026-11-23-open04\verify-codex-r4-fail-wording\raw
+concurrency-1.trx exit=0 {'Passed': 8} [] sha256=9d0947b6604f7f69d238761927066d111a513eb1059a71253f76144c626d463d
+concurrency-2.trx exit=0 {'Passed': 8} [] sha256=2e7d51c8e79664468bb60cc8a1002696b500d9b1aa678e67412e0477e8a3ca7f
+concurrency-3.trx exit=0 {'Passed': 8} [] sha256=85c67394ea6672163e91a389013ede7d23daee707bf98812c1e9998403ae8d4e
+full-1.trx exit=0 {'Passed': 1502} [('applied', 5.3)] sha256=7874677eacebf4bbe63626d0c652fbe866ed177cb455fe5ff7d8e8f68009204f
+full-2.trx exit=0 {'Passed': 1502} [('applied', 5.3)] sha256=9422bbc7ff7ae7dbca4c7cea08d9567fe2167aa7e9df16fc8a74057e6e412069
+full-stress-1.trx exit=0 {'Passed': 1502} [('applied', 5.5)] sha256=2122d0b9477149a101850adfb6578f942227cacee72127c709f2baef8f4f806e
+paths-1.trx exit=0 {'Passed': 9} [('applied', 5.2)] sha256=789d72cd858b4e11dc30186ea7174809a4c7dca63d78c0a8203253af8ab1ee65
+paths-2.trx exit=0 {'Passed': 9} [('applied', 5.3)] sha256=ce2e7b2e3deb1fd6fc1e8b386a9e6684106040834a755234fb6cc46c89682bca
+paths-3.trx exit=0 {'Passed': 9} [('applied', 5.2)] sha256=c9c410666672d152be7e31a3b94957b70d2d060fe4d5c2f564f315c6d3da53f4
+target-01.trx exit=0 {'Passed': 1} [('applied', 5.3)] sha256=d68b0bbe30b97ec386191768f8c7fec840e97a86969e6e3b1f706a378e02a7c2
+target-02.trx exit=0 {'Passed': 1} [('applied', 5.2)] sha256=a514c80978393c9e2cb028faa4789d9dddac29d8bebcbbbd83da5e4be89a197e
+target-03.trx exit=0 {'Passed': 1} [('applied', 5.3)] sha256=9e010ac286da45b834a24b6191448f5d4f83e05626e602d67060138df0b146e5
+target-04.trx exit=0 {'Passed': 1} [('applied', 5.2)] sha256=71884e05d5ebeb69d1cb2c6beec09b233cfd6ee982c9ba8510d63fc19de2fefe
+target-05.trx exit=0 {'Passed': 1} [('applied', 5.2)] sha256=5dd822a0dd81a84cc67201dc1fd759a5862090b3a41a3c0683b46adf1f0a724e
+target-06.trx exit=0 {'Passed': 1} [('applied', 5.3)] sha256=c0556ffa75bdae79f3b35f1bbdaaa83d7d1c2b84f8f1978511efbbfe4e6e0cfb
+target-07.trx exit=0 {'Passed': 1} [('applied', 5.2)] sha256=2ad50f95eee8ee14598f05650a2b8f3375e4373fd686a9e89af15a77bbaee5cc
+target-08.trx exit=0 {'Passed': 1} [('applied', 5.2)] sha256=bfa6c690c2dc76f364d56c1280640fb1fcf689d23a59c8fb844bd725dd47334c
+target-09.trx exit=0 {'Passed': 1} [('applied', 5.2)] sha256=27251ec6af2d2dec83caaebe54ba5dad1f905003bd8a83c6488ca114f72d0d1e
+target-10.trx exit=0 {'Passed': 1} [('applied', 5.3)] sha256=f2317cd024a2102dfd9703a50809c63655b6e42dc03793b09262a1aefb55bcc2
+full TRX ['full-1.trx', 'full-2.trx', 'full-stress-1.trx']
+full test ID sets equal True
+summary {'Passed': 4567} direct target states 16 ACE {'ran_script': 6}
+target filter matches [('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_WaitsForRunningTargetThenReplaces')]
+path class filter matches [('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_DoesNotDependOnConsoleOnlyCommands'), ('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_DoesNotDependOnPathResolution'), ('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_DoesNotTruncateLongImageNames'), ('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_InChineseAndSpacePath_AppliesReplacesAndRecordsApplied'), ('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_InChineseAndSpacePath_BackupFailureLeavesTargetUntouched'), ('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_InChineseAndSpacePath_ReplaceFailureRollsBackOldVersion'), ('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_WaitsForRunningTargetThenReplaces'), ('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_WhenTargetHasExplicitDenyAce_KeepsRunnableOldVersion'), ('Pineglow.Launcher.Tests.UpdateApplyScriptPathTests', 'ApplyScript_WhenTargetIsNotWritable_KeepsRunnableOldVersion')]
+nonpasses []
+RecheckExit=0
