@@ -12,7 +12,8 @@
     <!-- 2026-11-20：主线长期停在 1.0.0，而发布线已到 v1.0.5。发布要打 tag 并切分支，
          但主线版本号落后会让「照主线版本号推理」再次踩坑（v1.0.4 就踩过：计划写 1.0.0→1.0.4，
          基座其实是 1.0.3）。这里对齐到已发布的最新版本，release-notes 也补齐到 v1.0.5。 -->
-    <Version>1.0.5</Version>
+    <!-- 2026-11-23：v1.0.6 候选。自 v1.0.5 起交付的新功能与修复见 release-notes/v1.0.6.md。 -->
+    <Version>1.0.6</Version>
     <!-- 保留现有可空注解并消除 CS8632；逐模块启用流分析。 -->
     <Nullable>annotations</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
