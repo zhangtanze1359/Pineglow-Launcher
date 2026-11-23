@@ -234,6 +234,18 @@ ConfigPreservationTests.LoadAsync_IfItWritesBack_StillPreservesExistingFields
 
 本节早前写过「执行者侧 18 次可逐条确认、两侧 34 次」，第 6 轮独立复算后**两项均被否定**，更正后的准确口径见下节与 `open-items.md` 的分层表。错误性质：为了区分「执行」与「批次通过」，临时构造了「第 1 层可逐条确认」这一分层，**却没回日志核对那 10 行有没有状态字段**。
 
+### 第 7 轮前的再精化：`applied` 可由 `passed` 推定，但有前提
+
+第 6 轮后我把口径收到「直接记录 24 次」。进一步核对源码后发现，**这个收法过严**：
+
+该用例含 `Assert.Equal("applied", outcome.State?.Result)`（`UpdateApplyScriptPathTests.cs:251`）。因此「在 Windows 上该用例 `passed`」⟹ `applied` 成立。
+
+**但前提两条，必须一起写**：
+1. **运行在 Windows**——`:216` 的 `if (!OperatingSystem.IsWindows()) { return; }` 会在非 Windows 上提前返回，xUnit 记作通过却不执行任何断言；
+2. **该用例确实在批次内**——第 1 层过滤器就是它本人；第 2 层过滤整类含它；第 3、4 层是无过滤器全量。
+
+所以准确的说法是分两档：**直记 24 次**（日志真的写了 `state`），**推定至 45 次全部 `applied`**（Windows + 在批次内 + `passed`）。**后者标为推定，不与直记混用。**
+
 ### 为什么这次 FAIL 反而有价值
 
 第 5 轮**没有重跑任何测试**（输入一致，按约定复用 TRX），却抓出了两处纯文档错误，其中一条（`60+ 轮全量`）是**我上一轮为了显得有分量而新加的**。这说明：**夸大汇总数字比措辞失当更危险**——措辞会被反复审查，而汇总数字如果不附逐轮来源，就会在没人核验的情况下流传下去。
@@ -256,6 +268,8 @@ ConfigPreservationTests.LoadAsync_IfItWritesBack_StillPreservesExistingFields
 | 两侧可逐条确认 **34 次** | **实际 24 次** |
 
 它的原话：「第 1 层十轮日志有单用例通过计数，但没有逐轮 `state` 或 `waited` 字段。执行者与第 4 轮合计只有 **24 条直接状态记录**，冻结版写的是 **34 条**。」
+
+> **第 7 轮前再精化**：24 条是「日志真的写了 `state`」的口径。若计入「Windows 上 `passed` ⟹ `applied`」这一推定（源码 `:251` 断言 + `:216` 平台守卫），**45 次全部可确认 `applied`**，但必须标为**推定**。详见下节。
 
 ### 它还纠正了两处轮次归属
 
