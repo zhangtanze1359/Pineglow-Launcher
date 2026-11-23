@@ -1,0 +1,13 @@
+﻿=== 实包验证 开始 2026-11-23T18:42:31.8322009+08:00 ===
+
+--- V2 产物自检 ---
+v1.0.6 exe: 51688754 bytes  SHA256=8CCB0D69E1715C229EBA77B2204975736193E8D5CE1C4A5F0EF3BFF9ABADCBD0
+v1.0.5 exe: 51619122 bytes  SHA256=FBE8CE65F4E456DDCC3BB10E976F84CAED53D3C74D19B4CEA1C9122BC4F2D537
+
+--- V3 启动本地清单服务 ---
+清单服务已启动: http://127.0.0.1:49123/
+update.json: {"sha256":"8ccb0d69e1715c229eba77b2204975736193e8d5ce1c4a5f0ef3bff9abadcbd0","version":"1.0.6","fallbackUrl":"","notes":"E2E 验证用清单","mandatory":false,"url":"http://127.0.0.1:49123/Pineglow-Launcher-1.0.6-win-x64-single-file.exe","size":51688754}
+
+--- V4 准备便携配置，指向本地清单 ---
+config.json: {"gameDirectory":"D:\\Projects\\_worktrees\\pg-e2e-sandbox-20261123\\run\\data\\.minecraft","updateUrl":"http://127.0.0.1:49123/update.json"}
+清单不可达: The operation has timed out.

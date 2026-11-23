@@ -1,0 +1,13 @@
+﻿=== 阶段一 开始 2026-11-23T18:43:19.5028266+08:00 ===
+
+--- V2 产物自检 ---
+v1.0.6 exe: 51688754 bytes  SHA256=8CCB0D69E1715C229EBA77B2204975736193E8D5CE1C4A5F0EF3BFF9ABADCBD0
+v1.0.5 exe: 51619122 bytes  SHA256=FBE8CE65F4E456DDCC3BB10E976F84CAED53D3C74D19B4CEA1C9122BC4F2D537
+
+--- V4 搭建沙盒 ---
+目标(旧版) = 真实 v1.0.5 二进制, SHA256=FBE8CE65F4E456DDCC3BB10E976F84CAED53D3C74D19B4CEA1C9122BC4F2D537
+portable.flag 已放置 -> 数据目录 = D:\Projects\_worktrees\pg-e2e-sandbox-20261123\run\data
+数据目录: D:\Projects\_worktrees\pg-e2e-sandbox-20261123\run\data
+新版本包: Pineglow-Launcher-1.0.6-win-x64-single-file.exe (51688754 bytes) SHA256=8CCB0D69E1715C229EBA77B2204975736193E8D5CE1C4A5F0EF3BFF9ABADCBD0
+清单: {"sha256":"8ccb0d69e1715c229eba77b2204975736193e8d5ce1c4a5f0ef3bff9abadcbd0","version":"1.0.6","fallbackUrl":"","notes":"E2E verification manifest","mandatory":false,"url":"http://127.0.0.1:49123/Pineglow-Launcher-1.0.6-win-x64-single-file.exe","size":51688754}
+config.json: {"gameDirectory":"D:\\Projects\\_worktrees\\pg-e2e-sandbox-20261123\\run\\data\\.minecraft","updateUrl":"http://127.0.0.1:49123/update.json"}
