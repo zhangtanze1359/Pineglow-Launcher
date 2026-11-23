@@ -1,0 +1,386 @@
+﻿time=2026-11-23T09:01:41.839548+08:00
+> pwd
+C:\Users\Administrator\.t3\worktrees\松光启动器\t3-273e3ece-7636d8970fd6e582
+
+> git rev-parse --show-toplevel
+C:/Users/Administrator/.t3/worktrees/松光启动器/t3-273e3ece-7636d8970fd6e582
+exit=0
+
+> git rev-parse HEAD
+327f8ff4d439ef3592dd8d37a6adbc6286eaf73d
+exit=0
+
+> git status --short --untracked-files=all
+?? docs/evidence/2026-11-23-open04-review-r6/raw/recheck.py
+?? docs/evidence/2026-11-23-open04-review-r6/raw/recheck.txt
+exit=0
+
+> git diff --stat
+exit=0
+
+> git diff --cached --stat
+exit=0
+
+> git -C D:/Projects/松光启动器 rev-parse HEAD refs/heads/main
+327f8ff4d439ef3592dd8d37a6adbc6286eaf73d
+327f8ff4d439ef3592dd8d37a6adbc6286eaf73d
+exit=0
+
+> git -C D:/Projects/松光启动器 diff --exit-code 63dadf7 327f8ff -- dev/ scripts/test-inventory.txt .github/workflows/build.yml global.json
+exit=0
+
+> git -C D:/Projects/松光启动器 -c core.quotepath=false diff --name-only 63dadf7 327f8ff
+docs/evidence/2026-11-23-open04/README.md
+docs/evidence/2026-11-23-open04/SELF-AUDIT.md
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/2026-11-23-最小补齐流程.md
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/2026-11-23-独立复核提示词.md
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/HANDOFF-review-r4.md
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/README.md
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/audit-trx.py
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/build.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/cleanup.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/commands.jsonl
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/concurrency-1.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/concurrency-1.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/concurrency-2.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/concurrency-2.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/concurrency-3.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/concurrency-3.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/full-1.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/full-1.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/full-2.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/full-2.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/full-stress-1.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/full-stress-1.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/historical-recount.ps1
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/historical-recount.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/inventory-check.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/paths-1.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/paths-1.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/paths-2.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/paths-2.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/paths-3.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/paths-3.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/run-review.ps1
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/run-stress.ps1
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/runs.csv
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/source-review.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/stress-workers.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/synthetic-load.py
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-01.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-01.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-02.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-02.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-03.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-03.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-04.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-04.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-05.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-05.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-06.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-06.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-07.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-07.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-08.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-08.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-09.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-09.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-10.trx
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/target-10.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/trx-audit-initial.txt
+docs/evidence/2026-11-23-open04/verify-codex-r4-fail-wording/raw/trx-audit.txt
+docs/evidence/2026-11-23-open04/verify-codex-r5-fail-coverage/2026-11-23-最小补齐流程.md
+docs/evidence/2026-11-23-open04/verify-codex-r5-fail-coverage/2026-11-23-独立复核提示词.md
+docs/evidence/2026-11-23-open04/verify-codex-r5-fail-coverage/HANDOFF-2026-11-23-open04-review-r5-codex.md
+docs/evidence/2026-11-23-open04/verify-codex-r5-fail-coverage/README.md
+docs/evidence/2026-11-23-open04/verify-codex-r5-fail-coverage/raw/recheck.ps1
+docs/evidence/2026-11-23-open04/verify-codex-r5-fail-coverage/raw/recheck.txt
+docs/handoff/HANDOFF-2026-11-23-open04-execution.md
+docs/open-items.md
+exit=0
+Changed paths: 67 total; 67 under docs/
+
+> git diff --exit-code 367ab91 327f8ff4d439ef3592dd8d37a6adbc6286eaf73d -- . :(exclude)docs/
+exit=0
+
+> git diff --exit-code 25c7e2b 327f8ff4d439ef3592dd8d37a6adbc6286eaf73d -- dev/ scripts/test-inventory.txt .github/workflows/build.yml global.json
+exit=0
+
+> git diff --exit-code 320963f 327f8ff4d439ef3592dd8d37a6adbc6286eaf73d -- dev/ scripts/test-inventory.txt .github/workflows/build.yml global.json
+exit=0
+
+> git show 453f18f:docs/open-items.md (relevant lines)
+15: | [OPEN-04](#open-04--复跑更新替换脚本的历史偶发失败) | 稳定性复核 / 1 | 进行中 | 4 次独立复核：技术结论一致支持「未复现」（最新一轮 19 轮 4567/4567）；复核方列出的措辞问题共 4 处，已全部修正 | 第 5 轮复核核对文档与受测输入差异（输入一致，可复用既有 19 份 TRX）后作销项判定 |
+30: **独立复核历史**：① 第 1 次 FAIL（计数与说明不符）② 第 2 次网络中断无结论 ③ 第 3 次 FAIL（README 内部矛盾 + 不可追溯遥测引用）④ 第 4 次 FAIL（措辞共 4 处：`.tmp` 归因写成结论、把 worker 数写成实际 CPU 核数、`0 残留` 无盘点支撑、负载强度与持续时间未核实），但第 4 次独立重跑 **19 轮 4567 通过 / 0 失败 / 0 跳过**，目标用例 16 次全 `applied`（`waited` 5.2–5.5 s），**技术结论获支持**。四轮措辞项已于 `2d650b8`、`eca2902` 全部修正，受测输入与第 4 轮目标 `63dadf7` 一致（`git diff --exit-code` 对 `dev/`、`scripts/test-inventory.txt`、`build.yml`、`globa
+
+> git show 0748c6d:docs/open-items.md (relevant lines)
+15: | [OPEN-04](#open-04--复跑更新替换脚本的历史偶发失败) | 稳定性复核 / 1 | 进行中 | 5 次独立复核，技术结论一致支持「未复现」；第 5 次复核确认 4 处措辞全部通过，但指出覆盖表证据归属错误与本页计数不可追溯，已修正待复核 | 第 6 轮核对修正结果后作销项判定 |
+35: | 第 2 次 | **无结论**（网络中断，复核未完成） | 0 |
+42: **未复现**是各轮一致的技术结论，但引用次数时必须区分「可逐轮核定」与「仅凭报告转述」。
+
+> git show 327f8ff4d439ef3592dd8d37a6adbc6286eaf73d:docs/open-items.md (relevant lines)
+15: | [OPEN-04](#open-04--复跑更新替换脚本的历史偶发失败) | 稳定性复核 / 1 | 进行中 | 5 次复核已完成：第 1、3、4、5 次 FAIL，第 2 次网络中断无结论；第 4 次独立重跑 19 轮 4567/4567 支持「未复现」。第 5 次指出的覆盖表证据归属与计数问题已修正 | 第 6 轮核对修正结果后作销项判定 |
+35: | 第 2 次 | **无结论**（网络中断，复核未完成） | 0 |
+57: **「未复现」的准确表述**：第 1、3、4、5 次复核均未推翻该结论（第 2 次无结论）；可逐轮核定的全量 9 轮、13518 条用例 0 失败、0 跳过。**目标用例本身可逐条确认 `applied` 的只有 34 次**；其余 11 次是「所在批次全部通过」，不等于逐条核对过状态字段。
+SHA256 9597a417dffc27b463e3b24603842391bcd5d19effec7e7eba251b583bac9a52 dev\PineglowLauncher.Tests\UpdateApplyScriptPathTests.cs
+SHA256 30d078b9fbff19ea5452b1f52ab0fa9fcce7f776880be75da5a69376c9f7c8d9 dev\PineglowLauncher.Tests\UpdateConcurrencyTests.cs
+SHA256 905dee66509cc98ad8ba6fd62a29494d273dad21edd9e50de28dc41b9504dfa0 dev\PineglowLauncher.Tests\UpdateRecoveryTests.cs
+SHA256 f11c2d24da3a266f8bdf961b75e49e67a6810bab9d163eb5b22c18505749af77 dev\PineglowLauncher\Pineglow.Launcher.Services\UpdateService.cs
+SHA256 4e2ccd36f0313ec89e965b1fe9e7962b3e7d297209be039b91c7010d89d7c1b4 .github\workflows\build.yml
+SHA256 c7d3557391c425fbeb23ba0539d9ed0762d59042aa8f6ccfc0c412256f22adbe scripts\test-inventory.txt
+SHA256 c1bd27e0fc3faf41502120e7387cff4c175dd555cf63365053d2260729ba922f global.json
+
+Executor raw directory: open04-layer1.txt, open04-layer2.txt, open04-layer3-full.txt, open04-layer4-stress.txt, open04-timing-waited.txt
+Executor raw TRX count: 0
+
+> read docs\evidence\2026-11-23-open04\raw\open04-layer1.txt
+SHA256 228e5cf70ccee18cb690655c4ef5b5eeb56379cbd1ef673423dbec4a795a7133 docs\evidence\2026-11-23-open04\raw\open04-layer1.txt
+ 1 # OPEN-04 layer 1: single case ApplyScript_WaitsForRunningTargetThenReplaces, 10 repeats
+ 2 # cwd=D:\Projects\_worktrees\pg-open04-20261123
+ 3 # time=2026-11-23T00:30:34.6875559+08:00
+ 4 # PATH prefix=C:\Windows\System32;C:\Windows  TEMP=D:\Projects\_worktrees\pg-open04-20261123\.cache\tmp
+ 5 # command: dotnet test dev/PineglowLauncher.Tests/Pineglow.Launcher.Tests.csproj -c Release --no-build --filter 'FullyQualifiedName~ApplyScript_WaitsForRunningTargetThenReplaces'
+ 6 
+ 7 run  1: exit=0 passed=1 failed=0 skipped=0 total=1 duration=5 s
+ 8 run  2: exit=0 passed=1 failed=0 skipped=0 total=1 duration=5 s
+ 9 run  3: exit=0 passed=1 failed=0 skipped=0 total=1 duration=5 s
+10 run  4: exit=0 passed=1 failed=0 skipped=0 total=1 duration=5 s
+11 run  5: exit=0 passed=1 failed=0 skipped=0 total=1 duration=5 s
+12 run  6: exit=0 passed=1 failed=0 skipped=0 total=1 duration=5 s
+13 run  7: exit=0 passed=1 failed=0 skipped=0 total=1 duration=5 s
+14 run  8: exit=0 passed=1 failed=0 skipped=0 total=1 duration=5 s
+15 run  9: exit=0 passed=1 failed=0 skipped=0 total=1 duration=5 s
+16 run 10: exit=0 passed=1 failed=0 skipped=0 total=1 duration=5 s
+17 
+18 summary: passes=10 fails=0
+
+> read docs\evidence\2026-11-23-open04\raw\open04-layer2.txt
+SHA256 cabf65c08e3984ed57947db0e7ec9b14834b564eef0ccaad9bd8efeeb84a64c2 docs\evidence\2026-11-23-open04\raw\open04-layer2.txt
+ 1 # OPEN-04 layer 2: UpdateApplyScriptPathTests + UpdateConcurrencyTests, 5 rounds each
+ 2 # cwd=D:\Projects\_worktrees\pg-open04-20261123
+ 3 # time=2026-11-23T00:31:57.9400302+08:00
+ 4 # PATH prefix=C:\Windows\System32;C:\Windows  TEMP=D:\Projects\_worktrees\pg-open04-20261123\.cache\tmp
+ 5 # serial execution (no parallelization)
+ 6 
+ 7 
+ 8 === filter: FullyQualifiedName~UpdateApplyScriptPathTests (5 rounds) ===
+ 9   round 1: exit=0 passed=9 failed=0 skipped=0 total=9 duration=6
+10   round 2: exit=0 passed=9 failed=0 skipped=0 total=9 duration=6
+11   round 3: exit=0 passed=9 failed=0 skipped=0 total=9 duration=6
+12   round 4: exit=0 passed=9 failed=0 skipped=0 total=9 duration=6
+13   round 5: exit=0 passed=9 failed=0 skipped=0 total=9 duration=6
+14   subtotal: pass=5 fail=0
+15 
+16 === filter: FullyQualifiedName~UpdateConcurrencyTests (5 rounds) ===
+17   round 1: exit=0 passed=8 failed=0 skipped=0 total=8 duration=3
+18   round 2: exit=0 passed=8 failed=0 skipped=0 total=8 duration=3
+19   round 3: exit=0 passed=8 failed=0 skipped=0 total=8 duration=3
+20   round 4: exit=0 passed=8 failed=0 skipped=0 total=8 duration=3
+21   round 5: exit=0 passed=8 failed=0 skipped=0 total=8 duration=3
+22   subtotal: pass=5 fail=0
+
+> read docs\evidence\2026-11-23-open04\raw\open04-layer3-full.txt
+SHA256 dd6a19783ac59ee6625c822783feb952b2c6f0b596dd8bec6d0d0f55a0c7b55c docs\evidence\2026-11-23-open04\raw\open04-layer3-full.txt
+ 1 # OPEN-04 layer 3: FULL test run (1502 tests), 3 rounds
+ 2 # cwd=D:\Projects\_worktrees\pg-open04-20261123
+ 3 # time=2026-11-23T00:33:59.9975940+08:00
+ 4 # PATH prefix=C:\Windows\System32;C:\Windows  TEMP=D:\Projects\_worktrees\pg-open04-20261123\.cache\tmp
+ 5 # default xunit parallelization (UpdateApplyScriptPathTests is NOT in a DisableParallelization collection)
+ 6 
+ 7 full run 1: exit=0 passed=1502 failed=0 skipped=0 total=1502 elapsed=72.3s
+ 8 full run 2: exit=0 passed=1502 failed=0 skipped=0 total=1502 elapsed=73.9s
+ 9 full run 3: exit=0 passed=1502 failed=0 skipped=0 total=1502 elapsed=72.2s
+10 
+11 summary: full-run passes=3 fails=0
+
+> read docs\evidence\2026-11-23-open04\raw\open04-layer4-stress.txt
+SHA256 7357b8395ecc2cb77fa92e39b1eb22d93b5e60293dd1a94f93a06af0377b9018 docs\evidence\2026-11-23-open04\raw\open04-layer4-stress.txt
+ 1 # OPEN-04 layer 4: FULL suite + synthetic CPU/IO stress, 3 rounds
+ 2 # cwd=D:/Projects/_worktrees/pg-open04-20261123
+ 3 # time=2026-11-23T00:38:12.5106816+08:00
+ 4 # cpuWorkers=8 (synthetic busy loops in background jobs)
+ 5 # IO stress: repeated write+read of 8MB temp file in .cache/stress
+ 6 # purpose: amplify the WaitForExit(30000) timing risk documented in ANALYSIS.md
+ 7 
+ 8 stress jobs started: cpu=8 io=1
+ 9 stress run 1: exit=0 passed=1502 failed=0 skipped=0 total=1502 elapsed=83.9s
+10 stress run 2: exit=0 passed=1502 failed=0 skipped=0 total=1502 elapsed=84.7s
+11 stress run 3: exit=0 passed=1502 failed=0 skipped=0 total=1502 elapsed=84.8s
+12 
+13 summary: stress passes=3 fails=0
+14 stress jobs stopped and temp files removed
+
+> read docs\evidence\2026-11-23-open04\raw\open04-timing-waited.txt
+SHA256 e12f9e68d67e3341673f224f772071d5d30a9e7a7944b89c88cac579150f9c62 docs\evidence\2026-11-23-open04\raw\open04-timing-waited.txt
+ 1 # OPEN-04 timing evidence: 'waited' distribution from the target case (execution step 3)
+ 2 # Each run executes the REAL product script via UpdateService.BuildApplyScript (test fixture), against a
+ 3 #   real long-running process occupying the target filename (ping.exe copy, ping -n 6 ~ 5s).
+ 4 # cwd=D:\Projects\_worktrees\pg-open04-20261123
+ 5 # time=2026-11-23T00:43:36.7106165+08:00
+ 6 # command: dotnet test ... --filter 'FullyQualifiedName~ApplyScript_WaitsForRunningTargetThenReplaces' --logger 'console;verbosity=detailed'
+ 7 # expectation: waited >= 2s proves replacement happened AFTER process exit
+ 8 
+ 9 run 1: exit=0 passed= failed= state=applied waited=4.7s
+10 run 2: exit=0 passed= failed= state=applied waited=4.7s
+11 run 3: exit=0 passed= failed= state=applied waited=4.7s
+12 run 4: exit=0 passed= failed= state=applied waited=4.7s
+13 run 5: exit=0 passed= failed= state=applied waited=4.7s
+14 run 6: exit=0 passed= failed= state=applied waited=4.7s
+15 run 7: exit=0 passed= failed= state=applied waited=4.9s
+16 run 8: exit=0 passed= failed= state=applied waited=4.8s
+17 
+18 waited samples (s): 4.7, 4.7, 4.7, 4.7, 4.7, 4.7, 4.8, 4.9
+19 min=4.7 max=4.9 mean=4.74 count=8
+20 all >= 2s : True
+Executor runs per group: {'open04-layer1': 10, 'UpdateApplyScriptPathTests': 5, 'UpdateConcurrencyTests': 5, 'open04-layer3-full': 3, 'open04-layer4-stress': 3, 'open04-timing-waited': 8}
+Executor timing lines per group: {'open04-timing-waited': 8}
+Executor xUnit summary totals: {'passed': 9107, 'failed': 0, 'skipped': 0, 'total': 9107}
+
+R4 TRX source: docs\evidence\2026-11-23-open04\verify-codex-r4-fail-wording\raw
+SHA256 9d0947b6604f7f69d238761927066d111a513eb1059a71253f76144c626d463d docs\evidence\2026-11-23-open04\verify-codex-r4-fail-wording\raw\concurrency-1.trx
+concurrency-1 passed/failed/skipped/total: 8 0 0 8 
+SHA256 2e7d51c8e79664468bb60cc8a1002696b500d9b1aa678e67412e0477e8a3ca7f docs\evidence\2026-11-23-open04\verify-codex-r4-fail-wording\raw\concurrency-2.trx
+concurrency-2 passed/failed/skipped/total: 8 0 0 8 
+SHA256 85c67394ea6672163e91a389013ede7d23daee707bf98812c1e9998403ae8d4e docs\evidence\2026-11-23-open04\verify-codex-r4-fail-wording\raw\concurrency-3.trx
+concurrency-3 passed/failed/skipped/total: 8 0 0 8 
+SHA256 7874677eacebf4bbe63626d0c652fbe866ed177cb455fe5ff7d8e8f68009204f docs\evidence\2026-11-23-open04\verify-codex-r4-fail-wording\raw\full-1.trx
+full-1 passed/failed/skipped/total: 1502 0 0 1502 [R06/upgrade-wait] state=applied waited=5.3s
+SHA256 9422bbc7ff7ae7dbca4c7cea08d9567fe2167aa7e9df16fc8a74057e6e412069 docs\evidence\2026-11-23-open04\verify-codex-r4-fail-wording\raw\full-2.trx
+full-2 passed/failed/skipped/total: 1502 0 0 1502 [R06/upgrade-wait] state=applied waited=5.3s
+SHA256 2122d0b9477149a101850adfb6578f942227cacee72127c709f2baef8f4f806e docs\evidence\2026-11-23-open04\verify-codex-r4-fail-wording\raw\full-stress-1.trx
+full-stress-1 passed/failed/skipped/total: 1502 0 0 1502 [R06/upgrade-wait] state=applied waited=5.5s
+SHA256 789d72cd858b4e11dc30186ea7174809a4c7dca63d78c0a8203253af8ab1ee65 docs\evidence\2026-11-23-open04\verify-codex-r4-fail-wording\raw\paths-1.trx
+paths-1 passed/failed/skipped/total: 9 0 0 9 [R06/upgrade-wait] state=applied waited=5.2s
+SHA256 ce2e7b2e3deb1fd6fc1e8b386a9e6684106040834a755234fb6cc46c89682bca docs\evidence\2026-11-23-open04\verify-codex-r4-fail-wording\raw\paths-2.trx
+paths-2 passed/failed/skipped/total: 9 0 0 9 [R06/upgrade-wait] state=applied waited=5.3s
+SHA256 c9c410666672d152be7e31a3b94957b70d2d060fe4d5c2f564f315c6d3da53f4 docs\evidence\2026-11-23-open04\verify-codex-r4-fail-wording\raw\paths-3.trx
+paths-3 passed/failed/skipped/total: 9 0 0 9 [R06/upgrade-wait] state=applied waited=5.2s
+SHA256 d68b0bbe30b97ec386191768f8c7fec840e97a86969e6e3b1f706a378e02a7c2 docs\evidence\2026-11-23-open04\verify-codex-r4-fail-wording\raw\target-01.trx
+target-01 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=5.3s
+SHA256 a514c80978393c9e2cb028faa4789d9dddac29d8bebcbbbd83da5e4be89a197e docs\evidence\2026-11-23-open04\verify-codex-r4-fail-wording\raw\target-02.trx
+target-02 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=5.2s
+SHA256 9e010ac286da45b834a24b6191448f5d4f83e05626e602d67060138df0b146e5 docs\evidence\2026-11-23-open04\verify-codex-r4-fail-wording\raw\target-03.trx
+target-03 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=5.3s
+SHA256 71884e05d5ebeb69d1cb2c6beec09b233cfd6ee982c9ba8510d63fc19de2fefe docs\evidence\2026-11-23-open04\verify-codex-r4-fail-wording\raw\target-04.trx
+target-04 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=5.2s
+SHA256 5dd822a0dd81a84cc67201dc1fd759a5862090b3a41a3c0683b46adf1f0a724e docs\evidence\2026-11-23-open04\verify-codex-r4-fail-wording\raw\target-05.trx
+target-05 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=5.2s
+SHA256 c0556ffa75bdae79f3b35f1bbdaaa83d7d1c2b84f8f1978511efbbfe4e6e0cfb docs\evidence\2026-11-23-open04\verify-codex-r4-fail-wording\raw\target-06.trx
+target-06 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=5.3s
+SHA256 2ad50f95eee8ee14598f05650a2b8f3375e4373fd686a9e89af15a77bbaee5cc docs\evidence\2026-11-23-open04\verify-codex-r4-fail-wording\raw\target-07.trx
+target-07 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=5.2s
+SHA256 bfa6c690c2dc76f364d56c1280640fb1fcf689d23a59c8fb844bd725dd47334c docs\evidence\2026-11-23-open04\verify-codex-r4-fail-wording\raw\target-08.trx
+target-08 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=5.2s
+SHA256 27251ec6af2d2dec83caaebe54ba5dad1f905003bd8a83c6488ca114f72d0d1e docs\evidence\2026-11-23-open04\verify-codex-r4-fail-wording\raw\target-09.trx
+target-09 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=5.2s
+SHA256 f2317cd024a2102dfd9703a50809c63655b6e42dc03793b09262a1aefb55bcc2 docs\evidence\2026-11-23-open04\verify-codex-r4-fail-wording\raw\target-10.trx
+target-10 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=5.3s
+R4: 19 runs, outcomes={'Passed': 4567}, full_runs=3 full_outcomes={'Passed': 4506}, target_applied=16 waited_range=5.2–5.5s
+R4 command/exit/TRX counters match: 19/19
+
+R1 TRX source: C:\Users\Administrator\.t3\worktrees\松光启动器\t3-e7793f14-84e84c6d5686f841\docs\evidence\2026-11-23-open04-review\raw
+SHA256 601be10243d0fd2ac6644a57b9e41fff7e5662df8eb4355c2d189f43790b9e54 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-e7793f14-84e84c6d5686f841\docs\evidence\2026-11-23-open04-review\raw\class-apply-1.trx
+class-apply-1 passed/failed/skipped/total: 9 0 0 9 [R06/upgrade-wait] state=applied waited=4.7s
+SHA256 0c300f5d18f0ba2d470993db73e6902702d41a7fb04deddaa68acc4af7fbd277 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-e7793f14-84e84c6d5686f841\docs\evidence\2026-11-23-open04-review\raw\class-apply-2.trx
+class-apply-2 passed/failed/skipped/total: 9 0 0 9 [R06/upgrade-wait] state=applied waited=4.7s
+SHA256 d4f62e11d4e394099cd41f7735757066b8245e90337c8141ef7901951a0993f7 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-e7793f14-84e84c6d5686f841\docs\evidence\2026-11-23-open04-review\raw\class-apply-3.trx
+class-apply-3 passed/failed/skipped/total: 9 0 0 9 [R06/upgrade-wait] state=applied waited=4.7s
+SHA256 2361c8360a7168b0462e5d26173ac38d7306391fff986316eed7addad7a8db9e C:\Users\Administrator\.t3\worktrees\松光启动器\t3-e7793f14-84e84c6d5686f841\docs\evidence\2026-11-23-open04-review\raw\class-concurrency-1.trx
+class-concurrency-1 passed/failed/skipped/total: 8 0 0 8 
+SHA256 7ef86c4ba092d33e6ef88ae8d6543a9b033198e7cfe36160c637781e882c1d59 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-e7793f14-84e84c6d5686f841\docs\evidence\2026-11-23-open04-review\raw\class-concurrency-2.trx
+class-concurrency-2 passed/failed/skipped/total: 8 0 0 8 
+SHA256 c2850eef90d7b18b5b0698fd9ae5c15b0a3f19ebe95012e1b32f46c162a6823f C:\Users\Administrator\.t3\worktrees\松光启动器\t3-e7793f14-84e84c6d5686f841\docs\evidence\2026-11-23-open04-review\raw\class-concurrency-3.trx
+class-concurrency-3 passed/failed/skipped/total: 8 0 0 8 
+SHA256 94ca89512857be05813c1a94fffd541e639a36ed0e115950085cdc6e6d28fba3 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-e7793f14-84e84c6d5686f841\docs\evidence\2026-11-23-open04-review\raw\full-1.trx
+full-1 passed/failed/skipped/total: 1502 0 0 1502 [R06/upgrade-wait] state=applied waited=4.8s
+SHA256 5d2f678da9102458d5cbb6160a8d728977860165fe93e9a0f325c66267720c10 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-e7793f14-84e84c6d5686f841\docs\evidence\2026-11-23-open04-review\raw\full-2.trx
+full-2 passed/failed/skipped/total: 1502 0 0 1502 [R06/upgrade-wait] state=applied waited=4.8s
+SHA256 d05b3dfdc0f66b6f1e198a01fc8691eef5f7fc090d7ff477c24b211ee8cf2e43 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-e7793f14-84e84c6d5686f841\docs\evidence\2026-11-23-open04-review\raw\single-01.trx
+single-01 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=4.7s
+SHA256 bc2d2bbed72b2c71a11ece16cd7bb33d4d40859682dd7da4443ea6d56817164b C:\Users\Administrator\.t3\worktrees\松光启动器\t3-e7793f14-84e84c6d5686f841\docs\evidence\2026-11-23-open04-review\raw\single-02.trx
+single-02 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=4.8s
+SHA256 4a3d667212a5775b08fde9919cf0275be2f1eab3490114efd61b290051731596 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-e7793f14-84e84c6d5686f841\docs\evidence\2026-11-23-open04-review\raw\single-03.trx
+single-03 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=4.7s
+SHA256 0780067a247ab4f414ba0c043a71454056f34ef499bf77328671ff5d7fcad45d C:\Users\Administrator\.t3\worktrees\松光启动器\t3-e7793f14-84e84c6d5686f841\docs\evidence\2026-11-23-open04-review\raw\single-04.trx
+single-04 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=4.7s
+SHA256 a808a440975fcae4046b1a49397c455caf29492c190c016de1ec5d914fde1b92 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-e7793f14-84e84c6d5686f841\docs\evidence\2026-11-23-open04-review\raw\single-05.trx
+single-05 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=4.7s
+SHA256 3d75b26603c709f52c2971eff774c46a9552111cf976a09dce3885d584ce7500 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-e7793f14-84e84c6d5686f841\docs\evidence\2026-11-23-open04-review\raw\single-06.trx
+single-06 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=4.7s
+SHA256 04496bb59d21c881d98d0d8ba7d6019da84f4775050af930d542cfbe0a77542e C:\Users\Administrator\.t3\worktrees\松光启动器\t3-e7793f14-84e84c6d5686f841\docs\evidence\2026-11-23-open04-review\raw\single-07.trx
+single-07 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=4.8s
+SHA256 26a2609fa5392a9ae02040f685d523bf07d4b4b357504f3fa5ecea4bf18efb3d C:\Users\Administrator\.t3\worktrees\松光启动器\t3-e7793f14-84e84c6d5686f841\docs\evidence\2026-11-23-open04-review\raw\single-08.trx
+single-08 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=4.8s
+SHA256 c350ab265ad226cebbb1c2ccc1e576b720b5619c55ca431169146914da332253 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-e7793f14-84e84c6d5686f841\docs\evidence\2026-11-23-open04-review\raw\single-09.trx
+single-09 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=4.7s
+SHA256 3eacba06035aef1595fbda615e7832445342a66a2dce1a66d8cceb4f345f656c C:\Users\Administrator\.t3\worktrees\松光启动器\t3-e7793f14-84e84c6d5686f841\docs\evidence\2026-11-23-open04-review\raw\single-10.trx
+single-10 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=4.7s
+SHA256 dab5d6406e0eed4ea1dfdd5c61156f069586c7bac2aee00d8cb8784ac38efc77 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-e7793f14-84e84c6d5686f841\docs\evidence\2026-11-23-open04-review\raw\stress-1.trx
+stress-1 passed/failed/skipped/total: 1502 0 0 1502 [R06/upgrade-wait] state=applied waited=5.1s
+R1: 19 runs, outcomes={'Passed': 4567}, full_runs=3 full_outcomes={'Passed': 4506}, target_applied=16 waited_range=4.7–5.1s
+
+R3 TRX source: C:\Users\Administrator\.t3\worktrees\松光启动器\t3-0fc59f52-4e70cb11eb60f08e\docs\evidence\2026-11-23-open04-review\raw
+SHA256 2740193792d2905d5d7973f4ee239419dbd1b3cb5d176a950db1b9adfc8d2c8a C:\Users\Administrator\.t3\worktrees\松光启动器\t3-0fc59f52-4e70cb11eb60f08e\docs\evidence\2026-11-23-open04-review\raw\concurrency-01.trx
+concurrency-01 passed/failed/skipped/total: 8 0 0 8 
+SHA256 81146f29a8f2b6d49de4cd8eb8e448df900848d58168c3ba5ab16c960db4b059 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-0fc59f52-4e70cb11eb60f08e\docs\evidence\2026-11-23-open04-review\raw\concurrency-02.trx
+concurrency-02 passed/failed/skipped/total: 8 0 0 8 
+SHA256 a787f0e7968fe0bd919df099529c3e1c45429f58a32cd8553565f87dc3a8dd09 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-0fc59f52-4e70cb11eb60f08e\docs\evidence\2026-11-23-open04-review\raw\concurrency-03.trx
+concurrency-03 passed/failed/skipped/total: 8 0 0 8 
+SHA256 d7c42a7d7b2978781c0434ab36afff4fc63ca85373e7f2edff6f75403851b469 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-0fc59f52-4e70cb11eb60f08e\docs\evidence\2026-11-23-open04-review\raw\diag-config-01.trx
+diag-config-01 passed/failed/skipped/total: 1 0 0 1 
+SHA256 276004e0416b3c565be4084874a3d1962df27b645960debd4d590caf80c16bb5 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-0fc59f52-4e70cb11eb60f08e\docs\evidence\2026-11-23-open04-review\raw\diag-config-02.trx
+diag-config-02 passed/failed/skipped/total: 1 0 0 1 
+SHA256 c179a5c603a08b4537bb02e25e5c297e592ff067f1b44436cc8d3f54bd3ab306 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-0fc59f52-4e70cb11eb60f08e\docs\evidence\2026-11-23-open04-review\raw\diag-config-03.trx
+diag-config-03 passed/failed/skipped/total: 1 0 0 1 
+SHA256 23d6694e65ab2351c641e9f05542f877a94649a81a21966887b642ee92d628bc C:\Users\Administrator\.t3\worktrees\松光启动器\t3-0fc59f52-4e70cb11eb60f08e\docs\evidence\2026-11-23-open04-review\raw\diag-full-03.trx
+diag-full-03 passed/failed/skipped/total: 1502 0 0 1502 [R06/upgrade-wait] state=applied waited=5.4s
+SHA256 1dc3085a53325bf912f475a2277c0cf331ca4ce0400380846bae38046396d156 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-0fc59f52-4e70cb11eb60f08e\docs\evidence\2026-11-23-open04-review\raw\full-01.trx
+FAILED Pineglow.Launcher.Tests.ConfigPreservationTests.LoadAsync_IfItWritesBack_StillPreservesExistingFields 不应留下 .tmp 临时文件
+full-01 passed/failed/skipped/total: 1501 1 0 1502 [R06/upgrade-wait] state=applied waited=5.6s
+SHA256 91e2202cec9a2818ec305b49f89a039fce90297412bddbd5fa5495d2bebdfdd6 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-0fc59f52-4e70cb11eb60f08e\docs\evidence\2026-11-23-open04-review\raw\full-02.trx
+full-02 passed/failed/skipped/total: 1502 0 0 1502 [R06/upgrade-wait] state=applied waited=5.7s
+SHA256 305f51739e1634b942c1492369255522c40732e9edcf6579abc9002c5e61cdcf C:\Users\Administrator\.t3\worktrees\松光启动器\t3-0fc59f52-4e70cb11eb60f08e\docs\evidence\2026-11-23-open04-review\raw\full-stress-01.trx
+full-stress-01 passed/failed/skipped/total: 1502 0 0 1502 [R06/upgrade-wait] state=applied waited=5.7s
+SHA256 62120f7635411197cd11c6c81f36246c55b0c1721bc7b0ca3ed54b00d998226f C:\Users\Administrator\.t3\worktrees\松光启动器\t3-0fc59f52-4e70cb11eb60f08e\docs\evidence\2026-11-23-open04-review\raw\paths-01.trx
+paths-01 passed/failed/skipped/total: 9 0 0 9 [R06/upgrade-wait] state=applied waited=5.5s
+SHA256 cbd43bf1403f360f217e467669db266af948c1aa38eb84b93b14d124b75c5395 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-0fc59f52-4e70cb11eb60f08e\docs\evidence\2026-11-23-open04-review\raw\paths-02.trx
+paths-02 passed/failed/skipped/total: 9 0 0 9 [R06/upgrade-wait] state=applied waited=5.4s
+SHA256 6b8e73838016f3fd01245cb7a8cac4b4c3959384a60c4ffef9f95ffd91fb4cde C:\Users\Administrator\.t3\worktrees\松光启动器\t3-0fc59f52-4e70cb11eb60f08e\docs\evidence\2026-11-23-open04-review\raw\paths-03.trx
+paths-03 passed/failed/skipped/total: 9 0 0 9 [R06/upgrade-wait] state=applied waited=5.8s
+SHA256 f0e6134077e089a4396e1cc322d6e12151e184941f57e8f30b35abcdd6792c78 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-0fc59f52-4e70cb11eb60f08e\docs\evidence\2026-11-23-open04-review\raw\target-01.trx
+target-01 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=5.6s
+SHA256 2cb5de9357d47cb022c60fa2d1fbee179083dbce992e1ec29f8e2160d44f9764 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-0fc59f52-4e70cb11eb60f08e\docs\evidence\2026-11-23-open04-review\raw\target-02.trx
+target-02 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=5.5s
+SHA256 d7d194b290df36dce55664fdea8554dd0c22f46b62d23931f5f320d33140603c C:\Users\Administrator\.t3\worktrees\松光启动器\t3-0fc59f52-4e70cb11eb60f08e\docs\evidence\2026-11-23-open04-review\raw\target-03.trx
+target-03 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=5.4s
+SHA256 62210b80d4ad3df6887fb0cbe9c6d38d377f4fe748804096bdbcc0f4d2575de6 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-0fc59f52-4e70cb11eb60f08e\docs\evidence\2026-11-23-open04-review\raw\target-04.trx
+target-04 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=5.3s
+SHA256 b4a0dff6725673a3dd288794b531c18a497b91cbd935a4f799a1a3b56fb4f9b8 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-0fc59f52-4e70cb11eb60f08e\docs\evidence\2026-11-23-open04-review\raw\target-05.trx
+target-05 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=5.3s
+SHA256 8ff1818dd6fcae052f8b85cff54f008aada9bbb1e3064084f44f8beff3053959 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-0fc59f52-4e70cb11eb60f08e\docs\evidence\2026-11-23-open04-review\raw\target-06.trx
+target-06 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=5.4s
+SHA256 4f5e310dbd30704595d9c690d1501d13b4f111ca3ced955bfb11e9b6fe847885 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-0fc59f52-4e70cb11eb60f08e\docs\evidence\2026-11-23-open04-review\raw\target-07.trx
+target-07 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=5.4s
+SHA256 549494ceca1847f15e3d0dfdf4d39b68da3a4238bc6b3de83824b10acf761100 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-0fc59f52-4e70cb11eb60f08e\docs\evidence\2026-11-23-open04-review\raw\target-08.trx
+target-08 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=5.6s
+SHA256 70894ee77f8dcf30f3d4b2b4010dedfd0ec37f79c277dadedfcfeabea8604670 C:\Users\Administrator\.t3\worktrees\松光启动器\t3-0fc59f52-4e70cb11eb60f08e\docs\evidence\2026-11-23-open04-review\raw\target-09.trx
+target-09 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=5.6s
+SHA256 387f21499bbe6a76911d910d209986cf842184a99118c72291e84cf1491bc1fc C:\Users\Administrator\.t3\worktrees\松光启动器\t3-0fc59f52-4e70cb11eb60f08e\docs\evidence\2026-11-23-open04-review\raw\target-10.trx
+target-10 passed/failed/skipped/total: 1 0 0 1 [R06/upgrade-wait] state=applied waited=5.4s
+R3: 23 runs, outcomes={'Passed': 6071, 'Failed': 1}, full_runs=4 full_outcomes={'Passed': 6007, 'Failed': 1}, target_applied=17 waited_range=5.3–5.8s
+
+R2 source: C:\Users\Administrator\.t3\worktrees\松光启动器\t3-b8e17a78-c244607ac2e04676\docs\evidence\2026-11-23-open04-review-r2
+R2 build tail: end=2026-11-23T01:26:18.1251175+08:00 exit=0
+R2 surviving TRX count: 0
+Frozen-target historical archive search:
+
+> git -c core.quotepath=false ls-tree -r --name-only 327f8ff4d439ef3592dd8d37a6adbc6286eaf73d docs/evidence/2026-11-23-open04-review docs/evidence/2026-11-23-open04-review-r2
+exit=0
+R1/R3 original evidence directories in frozen target: 0
+
+Frozen-target executor + R4 full rounds: 6 + 3 = 9; 9012 + 4506 = 13518 passed.
+Executor + R4 target appearances by the brief's method: 10 + 5 + 3 + 3 + 8 + 16 = 45.
+Executor + R4 directly recorded state=applied and waited: 0 + 0 + 0 + 0 + 8 + 16 = 24.
+Additional historical sources R1 + R3 (outside frozen target): 7 full rounds; 33 target state records.
+time=2026-11-23T09:01:42.943971+08:00
+python exit=0
