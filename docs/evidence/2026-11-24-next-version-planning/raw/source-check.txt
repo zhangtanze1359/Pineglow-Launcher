@@ -1,0 +1,74 @@
+松光启动器下一版本规划 · 静态核对记录
+时间范围：2026-11-24 02:34–02:40 UTC+08（Asia/Hong_Kong）
+目录：C:\Users\Administrator\.t3\worktrees\松光启动器\t3-28b7c963-4364fbeef2007652
+预期：固定输入并用源码、本地 Git 和历史原始记录核实规划事实。
+
+Get-Location（PowerShell 中的 pwd）
+Path
+----
+C:\Users\Administrator\.t3\worktrees\松光启动器\t3-28b7c963-4364fbeef2007652
+
+git rev-parse --show-toplevel
+C:/Users/Administrator/.t3/worktrees/松光启动器/t3-28b7c963-4364fbeef2007652
+
+git rev-parse HEAD
+d716740606cb58716a19011d831cf9a0298dc837
+
+git status --short --untracked-files=all
+（开工时空输出）
+
+git branch --show-current
+t3/next-version-planning
+
+git rev-parse main
+d716740606cb58716a19011d831cf9a0298dc837
+
+git rev-list -n 1 v1.0.5
+e1b77f19b542c191426a62f39a2ea6459161f056
+
+git rev-list -n 1 v1.0.6
+4b176b746fc9eefc5397f9822bed9e34bc3ebeef
+
+git diff --stat v1.0.6 HEAD -- dev ui scripts .github release-notes
+（空输出）
+
+git diff --name-status v1.0.6 HEAD
+A docs/evidence/2026-11-23-v106-release/README.md
+A docs/evidence/2026-11-23-v106-release/raw/postrelease-verify.txt
+A docs/evidence/2026-11-23-v106-release/verify-postrelease.ps1
+M docs/open-items.md
+
+git diff --quiet
+exit=0（开工取证，无已跟踪改动）
+git diff --cached --quiet
+exit=0
+
+历史文档取证：直接读取 HEAD 下两个文件均为 PathNotFound；以下本地 Git 命令读取成功。
+git show '94b707b:docs/项目规划进度核查-2026-11-19.md'
+git show '94b707b:docs/任务计划-2026-11-22.md'
+git show -s --format='%H %s' 94b707b
+94b707b2dc1151debec7a38f14010c6bf89fab25 t3 checkpoint
+未切换工作树或触碰主工作区。
+
+静态源码与历史交叉核对入口（rg，行号在计划中）：
+- SaveRecoveryService.cs:144–210、279–352、362–388、393–435。复制后递归清理失败路径、同卷改名回滚、跨卷恢复终态与指纹口径。
+- AutoBackupPlanner.cs:25–51、AutoBackupService.cs:43–85、LocalApiService.Instances.Launch.cs:145–225、SaveBackupService.cs:20–52。选择规则、结果传播、超时与归档路径。
+- LocalApiService.BatchUpdate.cs:35–96、BatchUpdateJob.cs:43–50、ui/js/launcher.js:633–788、2098–2189。双来源、批次生存期、批处理入口、预检查导航。
+- UpdateApplyScriptPathTests.cs:43–79、216–218、336–344、UpdateRecoveryTests.cs:302–324。两处等待夹具，6+5 个实际脚本调用。历史决定见 docs/handoff/DECISION-2026-11-23-open04-closeout.md。
+- CurseForgeKeyDefaults.cs:18–24、ModContentService.cs:516–532、SecretHygieneTests.cs:50–85。记录保留回退与过期标记，输出省略任何凭据字面量。该三文件 v1.0.6 与 HEAD 的 `git diff --quiet` exit=0。
+- UpdateService.cs:93–170、339、639–684、ConfigStore.cs:17–30。并行选优、HTTPS 资产、脚本等待上限、主备源。
+- scripts/check-release-consistency.cjs:113–168。脚本报告最新 tag，核对候选版本说明和各 tag 自带说明。exit 0 不等于候选 tag 已存在。
+
+历史原始记录：
+- docs/evidence/2026-11-23-v106-release/raw/postrelease-verify.txt。currentVersion=1.0.6，latestVersion=1.0.6，updateAvailable=False，usedFallback=True；随后单独调用了下载和应用。
+- docs/evidence/2026-11-23-open03-e2e/README.md「未完成的部分」。实际未升级到 v1.0.6。
+- docs/evidence/2026-11-16-d3-ui/验收报告.md、取消验收.md。Modrinth 真 WebView2 和夹具版本边界。
+- docs/evidence/2026-11-23-open04/README.md:166–174、369。一次 .tmp 观察、根因未定；另有 11 个脚本用例共用等待夹具。
+- git for-each-ref --format='%(refname:short) %(objectname:short)' refs/heads refs/remotes。wip/biome-theme-20261115 f366329，zhangtanze1359/theme-studio 5f1bf8b。
+- git show --stat --oneline f366329。7 文件，含 UI/CSS/SVG/测试与 .gitignore，无服务层。
+- git log --oneline HEAD..5f1bf8b -12。空输出，主题命名引用没有 HEAD 尚未包含的提交。
+
+规模枚举：PowerShell Get-ChildItem -File，服务层 *.cs 为 120；ui/js 递归 *.js 为 14；ui/tests 递归 *.test.cjs 为 30。
+测试：本轮新增执行 0 条，未运行 dotnet test、产品门槛、真机升级与外部请求。docs/baseline.md 的 1502/0、508、49 和闭包通过是 b3efc8a 历史值。
+发布：本轮无提交、推送、tag、Release 或凭据操作。
+FormalPhaseApproval=NOT_GRANTED
