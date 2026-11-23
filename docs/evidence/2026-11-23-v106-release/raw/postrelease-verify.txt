@@ -1,0 +1,57 @@
+﻿=== v1.0.6 发布产物自更新验证 2026-11-23T19:32:49.4312175+08:00 ===
+
+目标(初始) SHA256 = 43750657A75145CBC2F77A37B281C9E514A35CC16A6DB79E9B703BAC1C6361CD
+目标大小          = 51750369 bytes
+
+config.json（不设 updateUrl，走产品默认真实源）: {"gameDirectory":"D:\\Projects\\_worktrees\\pg-v106-postrelease-20261123\\run\\data\\.minecraft"}
+
+PID = 33140
+API 就绪 = True (等 0 s)
+
+session token = 已获取(64位)
+
+--- 检查更新（真实 GitHub 源）---
+currentVersion   = 1.0.6
+latestVersion    = 1.0.6
+updateAvailable  = False
+manifestSource   = https://github.com/zhangtanze1359/Pineglow-Launcher/releases/latest/download/manifest.json
+usedFallback     = True
+
+--- 下载更新 ---
+state=downloading version=1.0.6
+
+--- 轮询直到下载完成 ---
+
+--- 应用更新 ---
+ok=True state=applying message=更新已启动，重启后生效。
+
+--- 等待替换 ---
+进程已退出（1s）
+目标(替换后) SHA256 = 43750657A75145CBC2F77A37B281C9E514A35CC16A6DB79E9B703BAC1C6361CD
+目标大小            = 51750369 bytes
+与发布产物一致 = True
+备份存在       = True
+apply-state    = {"result":"applied","version":"1.0.6"} 
+
+updates 目录:
+  apply-state.json (41 bytes)
+  Pineglow-Launcher-1.0.6-win-x64-single-file.exe (51750369 bytes)
+
+--- 清理 ---
+产品日志:
+--- launcher-20261123.log
+2026-11-23 19:32:50.197 [INFO] === Pineglow Launcher 鍚姩 v1.0.6 ===
+2026-11-23 19:32:50.259 [INFO] [LocalApi] 鐩戝惉 127.0.0.1:48123, ui=D:\Projects\_worktrees\pg-v106-postrelease-20261123\run\data\UI\1.0.6-f0f6ec24dc2c
+2026-11-23 19:32:50.936 [INFO] [update] 娓呭崟婧愬け璐ワ紙HTTP 404锛堟竻鍗曚笉瀛樺湪锛夛級: https://gitee.com/ztz1359/pineglow-launcher/raw/master/update.json
+2026-11-23 19:32:53.826 [INFO] [update] 娓呭崟婧愬け璐ワ紙HTTP 404锛堟竻鍗曚笉瀛樺湪锛夛級: https://gitee.com/ztz1359/pineglow-launcher/raw/master/update.json
+2026-11-23 19:32:58.633 [INFO] [update] Release 浠嬬粛鏆備笉鍙敤锛屼娇鐢ㄦ竻鍗曚粙缁? TaskCanceledException
+2026-11-23 19:32:58.634 [INFO] [update] 妫€鏌ユ洿鏂帮細current=1.0.6 latest=1.0.6 available=False source=https://github.com/zhangtanze1359/Pineglow-Launcher/releases/latest/download/manifest.json fallback=True
+2026-11-23 19:32:58.699 [INFO] [update] 娓呭崟婧愬け璐ワ紙HTTP 404锛堟竻鍗曚笉瀛樺湪锛夛級: https://gitee.com/ztz1359/pineglow-launcher/raw/master/update.json
+2026-11-23 19:32:58.883 [INFO] [update] Release 浠嬬粛鏆備笉鍙敤锛屼娇鐢ㄦ竻鍗曚粙缁? TaskCanceledException
+2026-11-23 19:32:58.883 [INFO] [update] 妫€鏌ユ洿鏂帮細current=1.0.6 latest=1.0.6 available=False source=https://github.com/zhangtanze1359/Pineglow-Launcher/releases/latest/download/manifest.json fallback=True
+2026-11-23 19:33:02.713 [INFO] [update] 寮€濮嬩笅杞芥洿鏂?v1.0.6 鈫?https://github.com/zhangtanze1359/Pineglow-Launcher/releases/download/v1.0.6/Pineglow-Launcher-win-x64-single-file.exe
+2026-11-23 19:34:33.064 [INFO] [update] 涓嬭浇瀹屾垚: D:\Projects\_worktrees\pg-v106-postrelease-20261123\run\data\updates\Pineglow-Launcher-1.0.6-win-x64-single-file.exe
+2026-11-23 19:35:03.079 [INFO] [update] 姝ｅ湪搴旂敤鏇存柊 v1.0.6 鈫?D:\Projects\_worktrees\pg-v106-postrelease-20261123\run\data\updates\Pineglow-Launcher-1.0.6-win-x64-single-file.exe
+2026-11-23 19:35:05.133 [INFO] === Pineglow Launcher 鍚姩 v1.0.6 ===
+2026-11-23 19:35:05.191 [INFO] [LocalApi] 鐩戝惉 127.0.0.1:48123, ui=D:\Projects\_worktrees\pg-v106-postrelease-20261123\run\data\UI\1.0.6-f0f6ec24dc2c
+2026-11-23 19:35:08.797 [INFO] [update] 娓呭崟婧愬け璐ワ紙HTTP 404锛堟竻鍗曚笉瀛樺湪锛夛級: https://gitee.com/ztz1359/pineglow-launcher/raw/master/update.json
