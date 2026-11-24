@@ -133,52 +133,46 @@ jobs:
       # OPEN-08 门槛：正式发布包必须真的带上了 CurseForge Key。
       #
       # 由来（2026-11-24）：v1.0.6 的说明声称"已移除内嵌 Key"，实际仍在——说明与实际脱节。
-      # 现在 Key 改为构建期注入，若 CI secret 漏配，构建照样成功但产物没有 Key，
+      # 现在 Key 改为构建期注入；若 CI secret 漏配，构建照样成功但产物没有 Key，
       # 用户会发现 CurseForge 不可用，而发布流程一路绿灯。这条门槛就是堵这个洞。
       #
-      # 判定方式（2026-11-24 修正）：**读未压缩的中间程序集**，不是扫最终 EXE 外层。
-      # 上一版扫 EXE 明文字节是错的：publish 用了 /p:EnableCompressionInSingleFile=true，
-      # 主程序集在包内被压缩，明文扫描必然找不到键名，于是这条门槛**永远失败**——
-      # 要么挡住正确发布，要么被迫删掉，两种结果都坏。
+      # 判定方式（第三版，2026-11-24 第 2 轮复核后）：
+      #   **让将要上传的那份 EXE 自己回答**，而不是扫别的文件。
       #
-      # 现在读 bin/Release/.../Pineglow.Launcher.dll（正是 EXE 的来源），用反射取元数据：
-      # 既准确，又不用猜单文件包的内部布局。
-      # 同时断言 dist 下确有 EXE，避免"验证过了但没产物"。
+      # 为什么不再读中间 DLL（第二版做法）：复核方实测出两个洞——
+      #   (a) 带值 DLL 配上无值 EXE 时，门槛会放行一个实际没有 Key 的包（产物错配）；
+      #   (b) Key 只含空白时，门槛通过，但运行期 Trim 后为空，用户仍然不可用。
+      # 这两个洞的根因是"验的不是最终产物、也没验值是否有效"。
       #
-      # 日志只说"有/无"，**绝不打印 Key 值**（只打印键名与是否非空）。
-      - name: Assert CurseForge key is embedded
+      # 现在的做法：
+      #   以 `--print-curseforge-key-status` 调用 dist 下的 EXE，读它 stdout 的单行结果。
+      #   EXE 内部用 ProvidedAtBuildTime 判定（已 Trim），因此空值/空白会被正确判为 absent。
+      #   退出码 0=present、2=absent；任何其它非零按失败处理。
+      #
+      # 只读 "present|absent"，**EXE 从不打印 Key 的值或长度**。
+      - name: Assert CurseForge key is embedded in the final EXE
         shell: pwsh
         run: |
           $exe = Get-ChildItem dist -Filter *.exe -File -ErrorAction SilentlyContinue | Select-Object -First 1
           if (-not $exe) { throw "dist 下没有 EXE，无法校验 CurseForge Key" }
 
-          # Publish 的输入就是这份 DLL；它未被压缩，元数据可直接反射读取。
-          $dll = Get-ChildItem dev/PineglowLauncher/bin/Release -Recurse -Filter Pineglow.Launcher.dll -File |
-                 Sort-Object LastWriteTime -Descending | Select-Object -First 1
-          if (-not $dll) { throw "找不到未压缩的中间程序集，无法校验 CurseForge Key" }
+          $out = & $exe.FullName --print-curseforge-key-status 2>&1
+          $code = $LASTEXITCODE
+          $line = ($out | Where-Object { $_ -match '^curseforge-key=(present|absent)$' } | Select-Object -First 1)
 
-          # 用字节扫描而不是 Assembly.LoadFrom：
-          # 中间程序集是 net10.0，宿主 pwsh 可能是 .NET Framework 运行时，加载会失败。
-          # DLL 未压缩，元数据键名以明文存在于元数据表，按字节查找即可。
-          # **只查键名，不查值** —— 值绝不进日志。
-          $bytes = [IO.File]::ReadAllBytes($dll.FullName)
-          $needle = [Text.Encoding]::UTF8.GetBytes('PineglowCurseForgeApiKey')
-          $found = $false
-          for ($i = 0; $i -le $bytes.Length - $needle.Length; $i++) {
-            if ($bytes[$i] -eq $needle[0]) {
-              $ok = $true
-              for ($j = 1; $j -lt $needle.Length; $j++) {
-                if ($bytes[$i + $j] -ne $needle[$j]) { $ok = $false; break }
-              }
-              if ($ok) { $found = $true; break }
-            }
+          Write-Host "  自检输出: $line  (退出码 $code)"
+
+          if ($null -eq $line) {
+            throw "EXE 未按契约输出 curseforge-key=present|absent（退出码 $code）。产物可能缺少该诊断入口，见 Program.CurseForgeKeyStatusArg。"
+          }
+          if ($line -ne 'curseforge-key=present') {
+            throw "最终 EXE 报告无可用 CurseForge Key（$line）：secrets.PINEGLOW_CURSEFORGE_BUILD_KEY 未配置、为空、或只含空白。已终止发布，避免发出一个 CurseForge 不可用的包。"
+          }
+          if ($code -ne 0) {
+            throw "EXE 报告 present 但退出码为 $code（期望 0），契约不一致。"
           }
 
-          if (-not $found) {
-            throw "中间程序集缺少 CurseForge Key 元数据：secrets.PINEGLOW_CURSEFORGE_BUILD_KEY 未配置或注入失败。已终止发布，避免发出一个 CurseForge 不可用的包。"
-          }
-
-          Write-Host "OK: 中间程序集含 CurseForge Key 元数据键；产物 EXE=$($exe.Name) $($exe.Length) bytes"
+          Write-Host "OK: 最终 EXE 自带可用 CurseForge Key（$($exe.Name)  $($exe.Length) bytes）"
 
       # R01 门槛：发布目录必须只剩「可独立运行的那个 EXE」。
       # 修复前这里放着 UI/ 与原生 DLL（libSkiaSharp 等），而下面的附件只上传 EXE，

@@ -1,0 +1,29 @@
+=== OPEN-08 第3版门槛 · 五情形 ===
+
+--- 情形1：带 60 字符假值（合法）---
+    publish=0  自检输出=curseforge-key=present  退出码=0
+    门槛判定: PASS (ok)  [期望 PASS]
+
+--- 情形2：无 Key ---
+    publish=0  自检输出=curseforge-key=absent  退出码=2
+    门槛判定: FAIL (not present (curseforge-key=absent))  [期望 FAIL]
+
+--- 情形3：Key 只含 3 个空格 ---
+    publish=0  自检输出=curseforge-key=absent  退出码=2
+    门槛判定: FAIL (not present (curseforge-key=absent))  [期望 FAIL]
+
+--- 情形4：dist 放着无 Key 的 EXE（模拟错配）---
+    自检输出=curseforge-key=absent  退出码=2
+    门槛判定: FAIL (not present (curseforge-key=absent))  [期望 FAIL —— 这是第2轮指出的洞，现已堵]
+
+--- 情形5：dist 无 EXE ---
+    门槛第一行就 throw（Get-ChildItem 为空）→ 期望 FAIL
+
+=== 判定 ===
+  情形1 带合法值: OK
+  情形2 无值: OK
+  情形3 纯空白: OK
+  情形4 错配EXE: OK
+  情形5 无EXE: OK
+
+总判定: PASS

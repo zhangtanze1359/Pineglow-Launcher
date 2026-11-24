@@ -61,7 +61,7 @@ public sealed class SecretHygieneTests
 	/// </summary>
 	private static IEnumerable<string> BuildInputFiles()
 	{
-		foreach (string pattern in new[] { "*.csproj", "*.props", "*.targets", "*.json", "*.ps1", "*.cmd", "*.sh" })
+		foreach (string pattern in new[] { "*.csproj", "*.props", "*.targets", "*.json", "*.ps1", "*.cmd", "*.sh", "*.yml", "*.yaml" })
 		{
 			foreach (string file in Directory.EnumerateFiles(RepoRoot, pattern, SearchOption.AllDirectories))
 			{
