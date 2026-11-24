@@ -1,18 +1,54 @@
 # 遗留开放项
 
-本页是项目唯一的遗留事项清单，当前**无开放事项**；OPEN-02、OPEN-03、OPEN-04、OPEN-05、OPEN-07、OPEN-08 均已销项并移出。文档整理日期：**2026-11-24（UTC+08）**。
+本页是项目唯一的遗留事项清单，当前保留 **1 项**（OPEN-09 旧 Key 风险）；OPEN-02、OPEN-03、OPEN-04、OPEN-05、OPEN-07、OPEN-08 均已销项并移出。文档整理日期：**2026-11-24（UTC+08）**。
 
-> **证据边界**：OPEN-05 已于 2026-11-23 完成技术复验、合入、目标分支参数行为确认与销项复核（技术 41/41），其「合入早于批准」的顺序偏差经编排方[正式决定追认](handoff/DECISION-2026-11-23-open05-approval-order.md)后销项，证据见 [OPEN-05 执行证据](evidence/2026-11-22-open05/README.md)。OPEN-02 已于 2026-11-22 经 Codex 第 4 轮独立复验通过后合入 `main@8827b71`，按规则移出，证据见 [OPEN-02 执行证据](evidence/2026-11-22-open02/README.md)。**OPEN-04 已于 2026-11-23 经编排方签定销项**：技术复跑未复现，7 轮独立复核均未推翻该结论，接受其覆盖与风险说明，证据见 [OPEN-04 销项决定](handoff/DECISION-2026-11-23-open04-closeout.md) 与 [OPEN-04 复跑证据](evidence/2026-11-23-open04/README.md)。**OPEN-03 已于 2026-11-23 销项并已实际发布**：v1.0.6 已打 tag 并创建 Release，独立复核经编排方授权豁免（非独立复核结论），见 [OPEN-03 销项签定](handoff/DECISION-2026-11-23-open03-closeout.md) 与 [发布后验证](evidence/2026-11-23-v106-release/README.md)。**OPEN-08 已于 2026-11-24 销项**：内嵌 Key 改为构建期注入，源码树零字面量；3 轮复核累计 7 条问题全部修复并实测，**三轮均未给 PASS，由编排方裁定接受**，见 [OPEN-08 销项决定](handoff/DECISION-2026-11-24-open08-closeout.md)。**OPEN-07 已于 2026-11-24 销项**：Gitee 主源从 404 修复为 200（旧 token 失效所致，非「未做」），产品经默认链成功取到清单且 `usedFallback=False`，见 [OPEN-07 修复记录](evidence/2026-11-24-open07/README.md)。
+> **证据边界**：OPEN-05 已于 2026-11-23 完成技术复验、合入、目标分支参数行为确认与销项复核（技术 41/41），其「合入早于批准」的顺序偏差经编排方[正式决定追认](handoff/DECISION-2026-11-23-open05-approval-order.md)后销项，证据见 [OPEN-05 执行证据](evidence/2026-11-22-open05/README.md)。OPEN-02 已于 2026-11-22 经 Codex 第 4 轮独立复验通过后合入 `main@8827b71`，按规则移出，证据见 [OPEN-02 执行证据](evidence/2026-11-22-open02/README.md)。**OPEN-04 已于 2026-11-23 经编排方签定销项**：技术复跑未复现，7 轮独立复核均未推翻该结论，接受其覆盖与风险说明，证据见 [OPEN-04 销项决定](handoff/DECISION-2026-11-23-open04-closeout.md) 与 [OPEN-04 复跑证据](evidence/2026-11-23-open04/README.md)。**OPEN-03 已于 2026-11-23 销项并已实际发布**：v1.0.6 已打 tag 并创建 Release，独立复核经编排方授权豁免（非独立复核结论），见 [OPEN-03 销项签定](handoff/DECISION-2026-11-23-open03-closeout.md) 与 [发布后验证](evidence/2026-11-23-v106-release/README.md)。**OPEN-08 已于 2026-11-24 销项**：内嵌 Key 改为构建期注入，源码树零字面量；3 轮复核累计 7 条问题全部修复并实测，**三轮均未给 PASS，由编排方裁定接受**，见 [OPEN-08 销项决定](handoff/DECISION-2026-11-24-open08-closeout.md)。**OPEN-07 已于 2026-11-24 销项**：Gitee 主源从 404 修复为 200（旧 token 失效所致，非「未做」），产品经默认链成功取到清单且 `usedFallback=False`，见 [OPEN-07 修复记录](evidence/2026-11-24-open07/README.md)。**OPEN-09 已于 2026-11-24 登记**：旧 CurseForge Key 经评估**编排方决定接受其继续有效**（CurseForge 后台不提供删除入口），见 [决定记录](handoff/DECISION-2026-11-24-old-key-accepted.md)。
 >
-> 2026-11-23 实测：`node scripts/check-release-consistency.cjs` → `exit=0`（csproj `1.0.6` / 说明 `v1.0.6.md` / 最新 tag `v1.0.6` **三方一致**）。`FormalPhaseApproval=NOT_GRANTED`，技术通过不等于合入批准或发布批准。
+> 2026-11-24 实测：`node scripts/check-release-consistency.cjs` → `exit=0`（csproj `1.0.7` / 说明 `v1.0.7.md` / 最新 tag `v1.0.7` **三方一致**）。`FormalPhaseApproval=NOT_GRANTED`，技术通过不等于合入批准或发布批准。
 
 ## 一、优先级与执行总览
 
-**当前无开放事项。** 后续新增事项按 §三 顺延 ID 登记。
+建议顺序：**OPEN-09**（唯一开放项，风险接受型，无立即动作）。
+
+| ID | 类型 | 状态 | 当前阶段 | 下一步与启动条件 |
+| --- | --- | --- | --- | --- |
+| [OPEN-09](#open-09--旧-curseforge-key-继续有效编排方已接受风险) | 安全 / 风险接受 | **已接受风险** | 旧 Key 仍在公开历史与已发布二进制中，且 CurseForge 侧仍有效（平台无删除入口）。**编排方 2026-11-24 决定接受**，不再尝试吊销 | 仅在以下情况重新评估：配额异常消耗 / Key 被平台封禁 / 平台新增删除入口 / 用户规模显著增长 |
 
 ## 二、逐项执行与验收
 
-（无开放事项）
+## OPEN-09 · 旧 CurseForge Key 继续有效（编排方已接受风险）
+
+### 决定与依据
+
+**编排方 2026-11-24 决定：接受现状，不再尝试吊销旧 Key。**
+
+完整决定记录：[DECISION-2026-11-24-old-key-accepted.md](handoff/DECISION-2026-11-24-old-key-accepted.md)
+
+### 事实
+
+| 项 | 状态 |
+| --- | --- |
+| 旧 Key `$2a$10$G3lI…NWWjOCrG` | **仍在 CurseForge 侧有效**（三轮间隔测试均 200） |
+| 在 GitHub 历史 17 个提交中 | 🔴 无法清除 |
+| 在 v1.0.4 / v1.0.5 / v1.0.6 二进制中 | 🔴 无法撤回 |
+| 是否曾被滥用 | ⚪ 未核实，无法核实 |
+| v1.0.7 及更新版本 | ✅ 使用新 Key，与旧 Key 无关 |
+
+### 为什么无法吊销
+
+**CurseForge 后台不提供删除 API Key 的功能**——只有 `Regenerate`。
+实测 `Regenerate` 之后旧 Key **仍然有效**（3 轮间隔测试，新旧同时 200）。
+
+### 复查触发条件
+
+1. CurseForge 配额出现异常消耗
+2. 旧 Key 被平台封禁
+3. 平台新增删除/吊销入口
+4. 项目用户规模显著增长
+
+### 记录边界
+
+**这是「风险已接受」，不是「风险已消除」。** 引用时说「已知泄露、经评估接受」，不要写成「已修复」。
 
 ## 三、统一更新、验证与销项规则
 
