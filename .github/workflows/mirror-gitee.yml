@@ -1,0 +1,123 @@
+name: Mirror to Gitee
+
+# 把 GitHub 的 main 镜像到 Gitee 的 master，保持两边源码一致。
+#
+# 由来（2026-11-24）：Gitee 曾长期停在一条独立历史线（含 GitHub 没有的 CI 修复提交），
+# 源码与 GitHub 严重不同步。手工同步一次后（见 docs/evidence/2026-11-24-gitee-sync/），
+# 加了这个自动化，避免再次漂移。
+#
+# 设计取舍：
+#   * **只在 main 的 push 上触发**。PR、tag、其它分支不镜像——Gitee 是产品镜像，不需要开发历史。
+#   * **`--force`**：首次同步后 Gitee 历史已被覆盖，之后原则上可 fast-forward；
+#     保留 force 是为了容忍"有人直接在 Gitee 上改了东西"的情形。
+#     **代价**：Gitee 侧的直接改动会被静默覆盖。这是镜像仓库的预期行为。
+#   * **`continue-on-error: true`**：镜像失败不应让 GitHub 的构建变红。
+#     但失败会以 ::error:: 标注，并且在 job summary 里写明——**不再静默**。
+#     （2026-11-24 的教训：旧镜像链路因 continue-on-error 静默失效三个月。）
+#   * 不做 shallow。`--depth=1` 会让 Gitee 侧的 `git log` 残缺，
+#     而用户有时确实要翻历史。仓库 246 MiB 的 pack 全量推一次约 1–3 分钟，可接受。
+#
+# 安全：
+#   * token 只在 remote URL 里出现，写进 .git/config；步骤结束前 `git remote remove` 清除。
+#   * 不把 token 写进任何 artifact 或日志（GitHub Actions 会自动掩码 secrets 值）。
+#   * 与 release.yml 的 Gitee 镜像步骤是**两件事**：
+#     那边发 Release 附件 + 写 update.json；这边只同步源码树。
+
+on:
+  push:
+    branches: [main]
+  # 手动补同步用（例如 workflow 首次加入、或 Gitee 落后需要追赶）
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    # 全量推送可能要几分钟；给足但不无限。
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0      # 需要完整历史才能推给 Gitee
+
+      - name: Mirror main -> gitee master
+        id: mirror
+        continue-on-error: true
+        env:
+          GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
+        shell: bash
+        run: |
+          # 刻意不用 `set -e`：本脚本要在失败处**给出具体诊断**（例如分叉统计），
+          # 一遇错就退会丢掉那些信息。改为逐处显式检查退出码并 exit 1。
+          set -uo pipefail
+
+          if [ -z "${GITEE_TOKEN:-}" ]; then
+            echo "::error::[镜像失败] secrets.GITEE_TOKEN 未配置：未同步任何内容到 Gitee。"
+            exit 1
+          fi
+
+          # Gitee 账号与 GitHub 不同（ztz1359 vs zhangtanze1359），owner 硬编码。
+          # 用 https://<user>:<token>@host 形式：GitHub Actions 会对 secrets 值做掩码，
+          # 但仍避免把它放进任何 echo。
+          REMOTE_URL="https://ztz1359:${GITEE_TOKEN}@gitee.com/ztz1359/pineglow-launcher.git"
+
+          git remote add gitee "$REMOTE_URL"
+          # 确保退出时一定清除（含 token 的 remote URL 会写进 .git/config）
+          cleanup() { git remote remove gitee 2>/dev/null || true; }
+          trap cleanup EXIT
+
+          echo "本地 HEAD: $(git rev-parse HEAD)"
+          echo "本地 main: $(git rev-parse main)"
+
+          # 先 fetch，便于在失败时给出"差多少"的诊断信息
+          if git fetch --no-tags gitee master 2>&1; then
+            echo "gitee/master: $(git rev-parse gitee/master)"
+            echo "--- 分叉统计（左=gitee独有 右=本地独有）---"
+            git rev-list --left-right --count gitee/master...main || true
+          else
+            echo "::warning::fetch gitee/master 失败，将直接尝试推送"
+          fi
+
+          echo "--- 推送 ---"
+          if ! git push gitee HEAD:master --force 2>&1; then
+            echo "::error::[镜像失败] git push 未成功（见上方输出）"
+            exit 1
+          fi
+
+          echo "--- 校验 ---"
+          REMOTE_HEAD=$(git ls-remote gitee refs/heads/master | cut -f1)
+          LOCAL_HEAD=$(git rev-parse HEAD)
+          echo "远端 master: $REMOTE_HEAD"
+          echo "本地  HEAD: $LOCAL_HEAD"
+          if [ "$REMOTE_HEAD" != "$LOCAL_HEAD" ]; then
+            echo "::error::[镜像失败] 推送后远端 SHA 与本地不一致"
+            exit 1
+          fi
+          echo "OK: Gitee master 已与 GitHub main 一致"
+
+      - name: Write job summary
+        if: always()
+        shell: bash
+        env:
+          MIRROR_OUTCOME: ${{ steps.mirror.outcome }}
+        run: |
+          {
+            echo "## Gitee 镜像"
+            echo ""
+            echo "| 项 | 值 |"
+            echo "| --- | --- |"
+            echo "| 触发 | \`${{ github.event_name }}\` |"
+            echo "| 提交 | \`${GITHUB_SHA:0:8}\` |"
+            echo "| 结果 | ${MIRROR_OUTCOME} |"
+            echo ""
+            if [ "${{ steps.mirror.outcome }}" != "success" ]; then
+              echo "> **镜像未成功。** 检查上面「Mirror main -> gitee master」步骤的错误输出。"
+              echo "> 若 token 失效，请到 Gitee → 设置 → 私人令牌 重新生成，并更新 GitHub Secret \`GITEE_TOKEN\`。"
+            else
+              echo "> Gitee \`master\` 已与本次提交一致。"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
