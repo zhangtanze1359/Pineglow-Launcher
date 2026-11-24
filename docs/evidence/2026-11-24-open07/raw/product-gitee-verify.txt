@@ -1,19 +1,19 @@
-﻿=== OPEN-07 产品链路验证 2026-11-24T10:58:30.7677970+08:00 ===
+﻿=== OPEN-07 产品链路验证 2026-11-24T14:00:21.9624900+08:00 ===
 
 --- 被测产物 ---
-EXE: D:/Projects/_gitee_up/Pineglow-Launcher-win-x64-single-file.exe
+EXE: D:/Projects/_v107/Pineglow-Launcher-win-x64-single-file.exe
 大小: 51750369 bytes
-SHA-256: 43750657A75145CBC2F77A37B281C9E514A35CC16A6DB79E9B703BAC1C6361CD
+SHA-256: 19F4DE7C0DC482FEA22750BFF6566E9B5433891BA6B97565E6F8A8F98C7E6D1C
 
-config.json（**不含 updateUrl**，走产品默认链）: {"gameDirectory":"D:\\Projects\\_worktrees\\pg-o7-sandbox\\run\\data\\.minecraft"}
+config.json（**不含 updateUrl**，走产品默认链）: {"gameDirectory":"D:\\Projects\\_worktrees\\pg-o7v2-sb\\run\\data\\.minecraft"}
 
 --- 启动产物 ---
-PID = 4976
+PID = 37612
 API 就绪 = True
 
 --- GET /api/update/check（产品默认链）---
-  currentVersion  = 1.0.6
-  latestVersion   = 1.0.6
+  currentVersion  = 1.0.7
+  latestVersion   = 1.0.7
   manifestSource  = https://gitee.com/ztz1359/pineglow-launcher/raw/master/update.json
   usedFallback    = False
   manifestSources:
@@ -21,8 +21,8 @@ API 就绪 = True
   >>> 产品经 Gitee 主源成功取到清单，且未走备用源 —— OPEN-07 核心判据达成
 
 --- 产品日志 ---
-  2026-11-24 10:58:38.028 [INFO] [update] 妫€鏌ユ洿鏂帮細current=1.0.6 latest=1.0.6 available=False source=https://gitee.com/ztz1359/pineglow-launcher/raw/master/update.json fallback=False
+  2026-11-24 14:00:30.074 [INFO] [update] 妫€鏌ユ洿鏂帮細current=1.0.7 latest=1.0.7 available=False source=https://gitee.com/ztz1359/pineglow-launcher/raw/master/update.json fallback=False
 
-已终止 PID 4976
+已终止 PID 37612
 
-RESULT: PASS  (EXE=43750657A75145CBC2F77A37B281C9E514A35CC16A6DB79E9B703BAC1C6361CD)
+RESULT: PASS  (EXE=19F4DE7C0DC482FEA22750BFF6566E9B5433891BA6B97565E6F8A8F98C7E6D1C)
