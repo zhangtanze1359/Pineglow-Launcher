@@ -200,7 +200,7 @@ public static partial class LocalApiService
 		string javaError = string.Empty;
 		try
 		{
-			javaPath = ResolveJavaPath(config, instance, instance.MinecraftVersion ?? string.Empty);
+			javaPath = await ResolveJavaPathAsync(config, instance, instance.MinecraftVersion ?? string.Empty);
 			javaExists = File.Exists(javaPath);
 		}
 		catch (Exception ex)

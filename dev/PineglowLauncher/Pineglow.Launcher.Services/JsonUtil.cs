@@ -35,6 +35,22 @@ public static class JsonUtil
 		return null;
 	}
 
+	/// <summary>
+	/// 读一个整数字段；缺失或不是数字时返回 null。
+	/// 数字以 long 承接（JSON 的整数在 System.Text.Json 里默认可安全读到 long）。
+	/// </summary>
+	public static long? GetInt64(JsonElement element, string property)
+	{
+		if (element.ValueKind == JsonValueKind.Object && element.TryGetProperty(property, out var value))
+		{
+			if (value.ValueKind == JsonValueKind.Number && value.TryGetInt64(out long result))
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
 	public static Dictionary<string, string> BuildReplacements(Dictionary<string, string> values)
 	{
 		return values.ToDictionary<KeyValuePair<string, string>, string, string>((KeyValuePair<string, string> kv) => "${" + kv.Key + "}", (KeyValuePair<string, string> kv) => kv.Value);

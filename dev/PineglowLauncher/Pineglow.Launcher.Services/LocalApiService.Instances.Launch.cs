@@ -112,7 +112,7 @@ public static partial class LocalApiService
 			customJvmArgs = AppendJvmArgument(customJvmArgs, $"-Dhttp.proxyHost={config.ProxyHost} -Dhttp.proxyPort={config.ProxyPort} -Dhttps.proxyHost={config.ProxyHost} -Dhttps.proxyPort={config.ProxyPort}");
 		}
 
-		string javaPath = ResolveJavaPath(config, instance, instance.MinecraftVersion);
+		string javaPath = await ResolveJavaPathAsync(config, instance, instance.MinecraftVersion);
 		LaunchProfile profile = new LaunchProfile
 		{
 			GameDirectory = gameDir,
@@ -225,7 +225,7 @@ public static partial class LocalApiService
 		}
 	}
 
-	private static string ResolveJavaPath(AppConfig config, GameInstance instance, string minecraftVersion)
+	private static async Task<string> ResolveJavaPathAsync(AppConfig config, GameInstance instance, string minecraftVersion)
 	{
 		if (!string.IsNullOrWhiteSpace(instance.JavaPath))
 		{
@@ -259,12 +259,52 @@ public static partial class LocalApiService
 				return any.Path;
 			}
 
+			// 2026-11-24 用户反馈「Java 缺失不能自动配置」：
+			// 此前这里直接抛异常，提示"整合包导入会自动安装所需 Java"——
+			// 等于让用户为了装 Java 去导入一个整合包。而自动安装能力
+			//（JavaRuntimeService.InstallAsync，Adoptium API）早已存在，
+			// 只是没接进启动路径。现在接上：扫不到就自动下载。
+			try
+			{
+				JavaInstallation installed = await new JavaRuntimeService(Outbound.Api, _ => { })
+					.InstallAsync(requiredMajor);
+				if (installed != null && !string.IsNullOrWhiteSpace(installed.JavaPath))
+				{
+					return installed.JavaPath;
+				}
+			}
+			catch (OperationCanceledException) { throw; }
+			catch (Exception ex)
+			{
+				throw new InvalidOperationException(
+					$"该版本需要 Java {requiredMajor}，自动安装失败：{ex.Message}。"
+					+ $"请在设置中手动指定 Java {requiredMajor} 的路径。", ex);
+			}
+
 			throw new InvalidOperationException(
-				$"该版本需要 Java {requiredMajor}，但本机只找到 Java {(any.VersionMajor > 0 ? any.VersionMajor.ToString() : "未知版本")}（{any.Path}）。"
-				+ $"请在设置中指定 Java {requiredMajor} 的路径（整合包导入会自动安装所需 Java）。");
+				$"该版本需要 Java {requiredMajor}，自动安装未返回可用路径。请在设置中手动指定。");
 		}
 
-		throw new InvalidOperationException($"未找到可用的 Java 运行时（该版本需要 Java {requiredMajor}），请先在设置中指定 Java 路径");
+		// 完全没找到任何 Java：同样走自动安装。
+		try
+		{
+			JavaInstallation installed = await new JavaRuntimeService(Outbound.Api, _ => { })
+				.InstallAsync(requiredMajor);
+			if (installed != null && !string.IsNullOrWhiteSpace(installed.JavaPath))
+			{
+				return installed.JavaPath;
+			}
+		}
+		catch (OperationCanceledException) { throw; }
+		catch (Exception ex)
+		{
+			throw new InvalidOperationException(
+				$"未找到可用的 Java 运行时（该版本需要 Java {requiredMajor}），自动安装失败：{ex.Message}。"
+				+ $"请在设置中手动指定 Java 路径。", ex);
+		}
+
+		throw new InvalidOperationException(
+			$"未找到可用的 Java 运行时（该版本需要 Java {requiredMajor}），自动安装未返回可用路径，请先在设置中指定 Java 路径");
 	}
 
 	private static string AppendJvmArgument(string existing, string argument)

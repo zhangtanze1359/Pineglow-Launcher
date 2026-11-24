@@ -306,6 +306,18 @@ async function renderSettings() {
 				<div class="account-cards" id="accountCards">${renderAccountCards(accounts)}</div>
 			</div>
 		</div>
+		<div class="settings-section">
+			<div class="section-heading">${esc(t('set.feedbackSection'))}</div>
+			<div class="section-content">
+				<div class="setting-row">
+					<div class="setting-info">
+						<span class="setting-name">${esc(t('set.feedbackName'))}</span>
+						<span class="setting-desc">${esc(t('set.feedbackDesc'))}</span>
+					</div>
+					<button class="setting-btn" id="btnFeedback">${esc(t('set.feedbackOpen'))}</button>
+				</div>
+			</div>
+		</div>
 	</div>`;
 }
 // GENSETTINGS-RENDER-END
@@ -678,6 +690,48 @@ function bindSettings(el) {
 			} catch (err) { _toast(t('set.deleteFailed') + (err.message || '')); }
 		});
 	});	_addUpdateBindings(el);
+
+	// 反馈入口（2026-11-24）：模态收集文本，写本地 feedback/ 目录。
+	const feedbackBtn = el.querySelector('#btnFeedback');
+	if (feedbackBtn) {
+		feedbackBtn.onclick = () => {
+			_openModal(`
+				<div class="modal-box">
+					<h3>${esc(t('set.feedbackTitle'))}</h3>
+					<textarea id="fbText" rows="6" maxlength="20000"
+						placeholder="${esc(t('set.feedbackPlaceholder'))}"
+						style="width:100%;margin-top:8px;"></textarea>
+					<input id="fbContact" maxlength="200"
+						placeholder="${esc(t('set.feedbackContact'))}"
+						style="width:100%;margin-top:8px;"></input>
+					<div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px;">
+						<button class="setting-btn" id="fbCancel">${esc(t('common.cancel'))}</button>
+						<button class="setting-btn" id="fbSubmit">${esc(t('set.feedbackSubmit'))}</button>
+					</div>
+				</div>`);
+			const box = document.querySelector('.modal-box');
+			const close = () => { try { _closeModal(); } catch { } };
+			const cancelBtn = box && box.querySelector('#fbCancel');
+			if (cancelBtn) cancelBtn.onclick = close;
+			const submitBtn = box && box.querySelector('#fbSubmit');
+			if (submitBtn) {
+				submitBtn.onclick = async () => {
+					const text = (box.querySelector('#fbText') || {}).value || '';
+					const contact = (box.querySelector('#fbContact') || {}).value || '';
+					if (!text.trim()) { _toast(t('set.feedbackEmpty')); return; }
+					submitBtn.disabled = true;
+					try {
+						const r = await SG.api.submitFeedback(text, contact);
+						close();
+						_toast(t('set.feedbackSaved') + (r.path || ''));
+					} catch (err) {
+						submitBtn.disabled = false;
+						_toast(t('set.feedbackFailed') + (err.message || ''));
+					}
+				};
+			}
+		};
+	}
 }
 // GENSETTINGS-BIND-END
 

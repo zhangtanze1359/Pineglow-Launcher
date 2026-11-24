@@ -63,6 +63,12 @@ public static partial class LocalApiService
 		r.Add(ApiRoute.Exact("GET", 3, "实例详情", (ctx, s) => HandleInstanceDetailAsync(ctx.Response, s[2]), (1, "instances")));
 		r.Add(ApiRoute.Exact("POST", 3, "导入整合包", (ctx, _) => HandleImportInstanceAsync(ctx.Request, ctx.Response), (1, "instances"), (2, "import")));
 		r.Add(ApiRoute.Exact("POST", 4, "取消导入", (ctx, _) => HandleCancelImportAsync(ctx.Request, ctx.Response), (1, "instances"), (2, "import"), (3, "cancel")));
+		// 分块上传（2026-11-24 用户反馈：>24 MiB 的整合包走 base64-JSON 会被 32 MiB 请求体上限拒绝）。
+		// begin/chunk/finish 三段：chunk 每块自身仍走 JSON+base64，但单块远小于 32 MiB，
+		// 服务端边收边落盘，最终 zip 不再受整包 base64 膨胀的影响。
+		r.Add(ApiRoute.Exact("POST", 4, "开始分块导入", (ctx, _) => HandleImportUploadBeginAsync(ctx.Request, ctx.Response), (1, "instances"), (2, "import"), (3, "upload-begin")));
+		r.Add(ApiRoute.Exact("POST", 4, "追加分块", (ctx, _) => HandleImportUploadChunkAsync(ctx.Request, ctx.Response), (1, "instances"), (2, "import"), (3, "upload-chunk")));
+		r.Add(ApiRoute.Exact("POST", 4, "完成分块导入", (ctx, _) => HandleImportUploadFinishAsync(ctx.Request, ctx.Response), (1, "instances"), (2, "import"), (3, "upload-finish")));
 		r.Add(ApiRoute.Exact("POST", 3, "重新挂回磁盘上的游戏目录", (ctx, _) => HandleRegisterInstanceAsync(ctx.Request, ctx.Response), (1, "instances"), (2, "register")));
 		// D3②：实例级设置（目前只有「退出后自动备份」一个字段）。
 		r.Add(ApiRoute.Exact("POST", 3, "更新实例设置", (ctx, s) => HandleUpdateInstanceSettingsAsync(ctx.Request, ctx.Response, s[2]), (1, "instances"), (2, "settings")));
@@ -170,6 +176,9 @@ public static partial class LocalApiService
 		/* ---------- 环境 / 统计 / 下载源 / 服务器 ---------- */
 
 		r.Add(ApiRoute.Exact("GET", 2, "Java 检测", (ctx, _) => HandleListJavaAsync(ctx.Response), (1, "java")));
+		// 反馈入口（2026-11-24）：写到本地数据目录，用户把生成的 .md 发给开发者。
+		r.Add(ApiRoute.Exact("POST", 2, "提交反馈", (ctx, _) => HandleSubmitFeedbackAsync(ctx.Request, ctx.Response), (1, "feedback")));
+		r.Add(ApiRoute.Exact("GET", 3, "最近一条反馈", (ctx, _) => HandleLastFeedbackAsync(ctx.Response), (1, "feedback"), (2, "last")));
 		r.Add(ApiRoute.Exact("GET", 2, "游玩统计", (ctx, _) => HandleGetStatsAsync(ctx.Response), (1, "stats")));
 		r.Add(ApiRoute.Exact("GET", 2, "下载源列表", (ctx, _) => HandleListSourcesAsync(ctx.Response), (1, "sources")));
 		r.Add(ApiRoute.Exact("POST", 3, "选择下载源", (ctx, _) => HandleSelectSourceAsync(ctx.Request, ctx.Response), (1, "sources"), (2, "select")));

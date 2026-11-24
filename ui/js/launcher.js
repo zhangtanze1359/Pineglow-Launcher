@@ -411,6 +411,7 @@ function getActiveAiProviderInfo() {
 	}
 }
 SG.closeModal = closeModal;
+SG.openModal = openModal;
 
 /* ================================================================
    AI 提供商管理（多提供商预设）
@@ -2859,8 +2860,21 @@ async function handleImportFiles(files) {
 		};
 	}
 	try {
-		const b64 = await readFileAsBase64(file);
-		const res = await SG.api.importInstance(file.name, b64, operationId);
+		// 2026-11-24 用户反馈：>24 MiB 的整合包走整包 base64 会被 32 MiB 请求体上限拒绝，
+		// 用户看到的是莫名其妙的「fileBase64 不能为空」。base64 膨胀 4/3，
+		// 所以阈值定在 24 MiB（24 × 4/3 = 32，恰好顶到上限）。
+		// 大于等于 18 MiB 就改走分块（留出余量）；更小的包仍走原单请求路径（少 2 次往返）。
+		const CHUNK_THRESHOLD = 18 * 1024 * 1024;
+		let res;
+		if (file.size >= CHUNK_THRESHOLD) {
+			const pct = document.getElementById('impProgress');
+			res = await SG.api.importInstanceChunked(file, operationId, (received, total) => {
+				if (pct) { pct.textContent = Math.round((received / total) * 100) + '%'; }
+			});
+		} else {
+			const b64 = await readFileAsBase64(file);
+			res = await SG.api.importInstance(file.name, b64, operationId);
+		}
 		toast(t('import.done', { name: res.name || file.name }));
 		closeModal();
 		await loadState(true);

@@ -777,6 +777,16 @@ SG.api = (() => {
 			if (!res || !res.ok) throw new Error((res && res.message) || (res && res.error) || '添加失败');
 			return { ok: true, instance: res.instance || null };
 		},
+		// 反馈入口（2026-11-24）：写到本地数据目录，界面提示文件位置。
+		async submitFeedback(message, contact) {
+			const res = await _post('/api/feedback', { message: message || '', contact: contact || '' });
+			if (!res || !res.ok) throw new Error((res && res.error) || '提交失败');
+			return { ok: true, path: res.path || '' };
+		},
+		async lastFeedback() {
+			const res = await _req('/api/feedback/last');
+			return { ok: !!(res && res.ok), path: (res && res.path) || '' };
+		},
 		async importInstance(fileName, fileBase64, operationId) {
 			try {
 				const res = await _post('/api/instances/import', { fileName, fileBase64, operationId: operationId || '' });
@@ -795,6 +805,49 @@ SG.api = (() => {
 				}
 				throw err;
 			}
+		},
+		// 分块导入（2026-11-24）：>24 MiB 的整合包走整包 base64 会被请求体上限拒绝。
+		// begin 拿 uploadId → 逐块发（每块 ≤ chunkBytes）→ finish 触发服务端导入。
+		// onProgress(received, total) 可选，用于把进度反馈给界面。
+		async importInstanceChunked(file, operationId, onProgress) {
+			const buf = await file.arrayBuffer();
+			const bytes = new Uint8Array(buf);
+			// base64 膨胀 4/3；超过上限的包必须走分块。
+			const begin = await _post('/api/instances/import/upload-begin', {
+				fileName: file.name,
+				sizeBytes: bytes.length,
+			});
+			if (!begin || !begin.ok) throw new Error((begin && begin.error) || '无法开始上传');
+			const uploadId = begin.uploadId;
+			const chunkBytes = begin.chunkBytes || (2 * 1024 * 1024);
+
+			const toB64 = (u8) => {
+				let s = '';
+				const step = 0x8000; // 分段拼接，避免 apply 参数个数上限
+				for (let i = 0; i < u8.length; i += step) {
+					s += String.fromCharCode.apply(null, u8.subarray(i, i + step));
+				}
+				return btoa(s);
+			};
+
+			for (let offset = 0; offset < bytes.length; offset += chunkBytes) {
+				const slice = bytes.subarray(offset, Math.min(offset + chunkBytes, bytes.length));
+				const r = await _post('/api/instances/import/upload-chunk', {
+					uploadId,
+					offset,
+					dataBase64: toB64(slice),
+				});
+				if (!r || !r.ok) throw new Error((r && r.error) || '分块上传失败');
+				if (onProgress) { try { onProgress(r.received, bytes.length); } catch { /* 进度回调失败不影响上传 */ } }
+			}
+
+			const fin = await _post('/api/instances/import/upload-finish', { uploadId });
+			if (!fin || !fin.ok) {
+				const err = new Error((fin && fin.error) || '导入失败');
+				err.cancelled = !!(fin && fin.cancelled);
+				throw err;
+			}
+			return { ok: true, instanceId: fin.instanceId || '', name: fin.name || '' };
 		},
 		// MR11：取消进行中的导入。必须总是调用（服务端也靠它登记"取消先到"的墓碑）。
 		async cancelImport(operationId) {

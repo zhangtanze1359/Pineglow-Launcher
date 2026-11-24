@@ -2,8 +2,8 @@
 
 <!-- 由 node scripts/gates.cjs --baseline 生成；手改会在下次生成时被覆盖。 -->
 
-- 分支：`HEAD` @ `7582701`
-- 生成时间：2026-11-24T05:23:06.371Z
+- 分支：`HEAD` @ `99f0f33`
+- 生成时间：2026-11-24T09:44:51.021Z
 - 命令：`node scripts/gates.cjs --baseline`
 
 | 门槛 | 结果 |

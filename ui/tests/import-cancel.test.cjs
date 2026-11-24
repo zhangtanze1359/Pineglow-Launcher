@@ -161,13 +161,21 @@ test('MR11: cancelImport 走 POST /api/instances/import/cancel 并透出 pending
 test('MR11 static scan: 上传前生成 operationId、有取消按钮、取消后提示"未生成实例"', () => {
 	const start = LAUNCHER_JS.indexOf('async function handleImportFiles(');
 	assert.ok(start >= 0, '必须存在 handleImportFiles');
-	const block = LAUNCHER_JS.slice(start, start + 3200);
+	// 2026-11-24：导入路径加了分块分支（≥18 MiB 走 upload-begin/chunk/finish），
+	// 函数体变长，窗口从 3200 扩到 5600，否则尾部断言（outcomeUnconfirmed 等）会被挤出窗口。
+	const block = LAUNCHER_JS.slice(start, start + 5600);
 
 	assert.ok(block.includes('const operationId = '), '上传前必须生成 operationId');
 	assert.ok(block.includes('crypto.randomUUID'), 'operationId 应当用 crypto.randomUUID 生成');
 	assert.ok(block.includes('id="impCancel"'), '导入弹窗必须有取消按钮');
 	assert.ok(block.includes('SG.api.cancelImport(operationId)'), '取消必须走 cancelImport');
-	assert.ok(block.includes('SG.api.importInstance(file.name, b64, operationId)'), '导入必须把 operationId 传给服务端');
+	// 2026-11-24：导入分两条路径 —— 小包走单请求 importInstance(file.name, b64, operationId)，
+	// 大包（≥18 MiB）走分块 importInstanceChunked(file, operationId, ...)。
+	// 两条路径都必须把 operationId 传给服务端（MR11 的取消契约不因路径而失效）。
+	assert.ok(
+		block.includes('SG.api.importInstance(file.name, b64, operationId)')
+		|| block.includes('SG.api.importInstanceChunked(file, operationId'),
+		'导入必须把 operationId 传给服务端（单请求或分块任一路径）');
 	assert.ok(block.includes('err.cancelled'), '界面必须识别"被取消"并区别于导入失败');
 	assert.ok(block.includes("t('import.cancelledHint')"), '取消后必须提示"未生成实例"');
 	// LQ-01：点击取消只是意图。终态必须由「服务端确认取消」决定，不能由 cancelRequested 决定。

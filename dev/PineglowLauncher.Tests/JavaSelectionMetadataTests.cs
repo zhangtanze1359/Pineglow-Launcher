@@ -93,18 +93,21 @@ public sealed class JavaSelectionMetadataTests : IDisposable
 		};
 		var config = new AppConfig { JavaPath = string.Empty, Instances = new List<GameInstance> { instance } };
 
-		MethodInfo method = typeof(LocalApiService).GetMethod("ResolveJavaPath", BindingFlags.NonPublic | BindingFlags.Static)
-			?? throw new InvalidOperationException("找不到 LocalApiService.ResolveJavaPath");
+		// 2026-11-24：ResolveJavaPath 改名为 ResolveJavaPathAsync（启动路径接入自动安装 Java，
+		// 方法变成 async）。本测试**只改查找的名字与调用方式**，断言保持原样。
+		MethodInfo method = typeof(LocalApiService).GetMethod("ResolveJavaPathAsync", BindingFlags.NonPublic | BindingFlags.Static)
+			?? throw new InvalidOperationException("找不到 LocalApiService.ResolveJavaPathAsync");
 
 		string? returned = null;
 		Exception? thrown = null;
 		try
 		{
-			returned = (string?)method.Invoke(null, new object[] { config, instance, instance.MinecraftVersion });
+			var task = (Task<string>)method.Invoke(null, new object[] { config, instance, instance.MinecraftVersion })!;
+			returned = await task;
 		}
-		catch (TargetInvocationException ex) when (ex.InnerException != null)
+		catch (Exception ex) when (ex is not OperationCanceledException)
 		{
-			thrown = ex.InnerException;
+			thrown = ex;
 		}
 
 		if (thrown != null)
