@@ -8,18 +8,27 @@ using Xunit;
 namespace Pineglow.Launcher.Tests;
 
 /// <summary>
-/// S9 验收的可执行部分：**「CurseForge 第三方 Key 不进分发程序」**。
+/// S9 验收的可执行部分：**「CurseForge 第三方 Key 不进源码树」**。
 ///
-/// 2026-11-16 编排方决定**本版本暂不轮换**（还没有真实用户），所以当前是"有截止日期的临时豁免"：
-///   * 字面量只允许出现在 <c>CurseForgeKeyDefaults.cs</c> 这一个文件里；
-///   * 该文件必须带 `RemovalDeadline` 标记（下个版本删它时，这两条测试会强制提醒）；
-///   * 解析顺序仍是 调用方传入 → 环境变量 → 内置回退。
+/// 历史（重要，别把它当旧账删掉）：
+///   2026-11-16 曾以「有截止日期的临时豁免」形式把 Key 硬编码在
+///   <c>CurseForgeKeyDefaults.cs</c>，豁免期限标为 <c>v1.0.5</c>。
+///   截至 v1.0.6 仍未移除，且发布说明错误声称"已移除"（见 OPEN-08）。
+///
+/// 现行约定（2026-11-24 起，OPEN-08 修复）：
+///   * **源码树内任何 .cs 文件都不得出现 CurseForge Key 字面量** —— 豁免已取消，不再有白名单文件；
+///   * Key 由构建期从环境变量 `PINEGLOW_CURSEFORGE_BUILD_KEY` 注入，生成到 <c>obj/</c>（不在源码树内）；
+///   * 构建机未提供 Key 时产物不含内置 Key，此时产品走"缺 Key 引导"（不是故障）。
+///
+/// 本测试**不读 obj/ 下的生成文件**：那正是我们要允许 Key 存在的地方。
 /// </summary>
 [Collection("LocalApiService")]
 public sealed class SecretHygieneTests
 {
 	private const string SourceRoot = "dev/PineglowLauncher";
-	private const string ExemptFileName = "CurseForgeKeyDefaults.cs";
+
+	/// <summary>CurseForge Key 的固定前缀。Key 形如 $2a$10$&lt;60 字符&gt;。</summary>
+	private const string KeyLiteralPrefix = "$2a$10$";
 
 	private static string RepoRoot => Path.GetFullPath(Path.Combine(
 		AppContext.BaseDirectory, "..", "..", "..", "..", ".."));
@@ -30,31 +39,60 @@ public sealed class SecretHygieneTests
 		Assert.True(Directory.Exists(root), "找不到源码目录：" + root);
 		return Directory
 			.EnumerateFiles(root, "*.cs", SearchOption.AllDirectories)
+			// 排除构建产物：obj/ 下就有我们**故意生成**的 Key 文件。
 			.Where(path => !path.Contains("/bin/", StringComparison.Ordinal) && !path.Contains("/obj/", StringComparison.Ordinal));
 	}
 
 	[Fact]
-	public void KeyLiteral_AppearsOnlyInTheExemptFile()
+	public void KeyLiteral_DoesNotAppearAnywhereInSourceTree()
 	{
+		// 不再有豁免文件。任何 .cs 出现该字面量即为失败。
 		List<string> offenders = SourceFiles()
-			.Where(path => !string.Equals(Path.GetFileName(path), ExemptFileName, StringComparison.Ordinal))
-			.Where(path => File.ReadAllText(path).Contains("$2a$10$", StringComparison.Ordinal))
-			.Select(Path.GetFileName)
+			.Where(path => File.ReadAllText(path).Contains(KeyLiteralPrefix, StringComparison.Ordinal))
+			.Select(path => Path.GetFileName(path))
 			.ToList();
 
 		Assert.True(offenders.Count == 0,
-			"内置 Key 只允许出现在 " + ExemptFileName + "，但这些文件里也出现了：" + string.Join("、", offenders));
+			"CurseForge Key 字面量不得出现在源码树内（Key 应由构建期注入到 obj/）。"
+			+ "以下文件含有 " + KeyLiteralPrefix + "：" + string.Join("、", offenders));
 	}
 
 	[Fact]
-	public void ExemptFile_HasRemovalDeadlineMarker()
+	public void NoSourceFile_IsWhitelistedForCurseForgeKey()
 	{
-		// 豁免是"有期限的例外"，不是"忘了删"。没有截止版本标记就不算豁免。
-		Assert.False(string.IsNullOrWhiteSpace(CurseForgeKeyDefaults.RemovalDeadline));
-		Assert.StartsWith("v", CurseForgeKeyDefaults.RemovalDeadline);
+		// 防止有人以"豁免文件"的形式把白名单偷偷加回来。
+		// 判据：源码树内不得存在名为 CurseForgeKeyDefaults 且含 Key 字面量的文件。
+		string legacyPath = Path.Combine(RepoRoot, SourceRoot, "Pineglow.Launcher.Services", "CurseForgeKeyDefaults.cs");
+		if (!File.Exists(legacyPath))
+		{
+			return;
+		}
 
-		string path = Path.Combine(RepoRoot, SourceRoot, "Pineglow.Launcher.Services", ExemptFileName);
-		Assert.True(File.Exists(path), "豁免文件不存在：" + path);
+		string content = File.ReadAllText(legacyPath);
+		Assert.False(content.Contains(KeyLiteralPrefix, StringComparison.Ordinal),
+			"CurseForgeKeyDefaults.cs 不得再内联 Key 字面量；它现在只负责转发构建期注入的值。");
+	}
+
+	[Fact]
+	public void EmbeddedKey_ComeFromBuildEnvironment_NotFromSource()
+	{
+		// 断言"默认值的来源是构建期注入"，而不是源码常量。
+		// 无法直接读取生成文件（那在 obj/），退而验证运行期行为：
+		// 在没有任何运行期来源时，解析结果必须等于编译进程序集的值（可能是空串）。
+		string? before = Environment.GetEnvironmentVariable(ModContentService.CurseForgeApiKeyEnvironmentVariable);
+		try
+		{
+			ModContentService.EmbeddedKeyFallbackForTest = null;
+			Environment.SetEnvironmentVariable(ModContentService.CurseForgeApiKeyEnvironmentVariable, null);
+
+			string resolved = ModContentService.ResolveCurseForgeApiKey(null);
+
+			Assert.Equal(CurseForgeKeyDefaults.Embedded, resolved);
+		}
+		finally
+		{
+			Environment.SetEnvironmentVariable(ModContentService.CurseForgeApiKeyEnvironmentVariable, before);
+		}
 	}
 
 	[Fact]
@@ -80,9 +118,9 @@ public sealed class SecretHygieneTests
 	}
 
 	[Fact]
-	public void MissingKeyError_IsStillActionable_WhenFallbackIsDisabled()
+	public void MissingKeyError_IsStillActionable_WhenNoKeyAvailable()
 	{
-		// 下个版本删掉豁免文件后，这条就是用户看到的提示；断言产品里的同一个字符串。
+		// 构建机没注入 Key、用户也没配置时，这条就是用户看到的提示；断言产品里的同一个字符串。
 		string message = ModContentService.MissingKeyMessage;
 
 		Assert.Contains("设置页", message);

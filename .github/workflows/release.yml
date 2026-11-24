@@ -112,6 +112,14 @@ jobs:
         # 刻意不加锁定还原：RID 发布会改变包图（引入 Microsoft.NET.ILLink.Tasks），
         # 现有 packages.lock.json 不含 win-x64 RID 段，锁定还原必然 NU1004。
         # 锁定一致性已由上面的「Verify lock file (non-RID)」步骤把关。
+        #
+        # OPEN-08（2026-11-24）：CurseForge Key 不再硬编码在源码树，改为构建期注入。
+        # csproj 读环境变量 PINEGLOW_CURSEFORGE_BUILD_KEY，以 AssemblyMetadata 写入程序集。
+        # 走 env 而不是 -p:，避免 Key 出现在进程命令行（可被 ps / CI 日志捕获）。
+        # 若该 secret 未配置，构建仍会成功，但产物不含内置 Key——发布前请确认本步日志不出现
+        # "[curseforge-key] 构建机未提供 …"。
+        env:
+          PINEGLOW_CURSEFORGE_BUILD_KEY: ${{ secrets.PINEGLOW_CURSEFORGE_BUILD_KEY }}
         run: dotnet publish dev/PineglowLauncher/Pineglow.Launcher.csproj -c Release -r win-x64 --self-contained /p:PublishSingleFile=true /p:EnableCompressionInSingleFile=true /p:DebugType=None /p:DebugSymbols=false /p:PublishDir=../../dist /p:Version=${{ steps.version.outputs.version }}
 
       - name: Verify assembly version matches tag
@@ -121,6 +129,26 @@ jobs:
           $dll = "dev/PineglowLauncher/bin/Release/net10.0/win-x64/Pineglow.Launcher.dll"
           $actual = [Reflection.AssemblyName]::GetAssemblyName((Resolve-Path $dll)).Version.ToString(3)
           if ($actual -ne $expected) { throw "Assembly version $actual does not match tag version $expected" }
+
+      # OPEN-08 门槛：正式发布包必须真的带上了 CurseForge Key。
+      #
+      # 由来（2026-11-24）：v1.0.6 的说明声称"已移除内嵌 Key"，实际仍在——说明与实际脱节。
+      # 现在 Key 改为构建期注入，若 CI secret 漏配，构建照样成功但产物没有 Key，
+      # 用户会发现 CurseForge 不可用，而发布流程一路绿灯。这条门槛就是堵这个洞。
+      #
+      # 判定：扫描发布产物二进制里是否含元数据键名。**只查键名，不查值**，
+      # 避免把 Key 本身打印到 CI 日志。
+      - name: Assert CurseForge key is embedded
+        shell: pwsh
+        run: |
+          $exe = Get-ChildItem dist -Filter *.exe -File | Select-Object -First 1
+          if (-not $exe) { throw "dist 下没有 EXE，无法校验 CurseForge Key" }
+          $bytes = [IO.File]::ReadAllBytes($exe.FullName)
+          $text = [Text.Encoding]::UTF8.GetString($bytes)
+          if (-not $text.Contains('PineglowCurseForgeApiKey')) {
+            throw "发布包缺少 CurseForge Key 元数据：secrets.PINEGLOW_CURSEFORGE_BUILD_KEY 未配置或注入失败。已终止发布，避免发出一个 CurseForge 不可用的包。"
+          }
+          Write-Host "OK: 发布包已包含 CurseForge Key 元数据（$($exe.Name)  $($exe.Length) bytes）"
 
       # R01 门槛：发布目录必须只剩「可独立运行的那个 EXE」。
       # 修复前这里放着 UI/ 与原生 DLL（libSkiaSharp 等），而下面的附件只上传 EXE，

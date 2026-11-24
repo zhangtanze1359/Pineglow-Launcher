@@ -157,6 +157,11 @@ jobs:
       # 副作用提示：普通 publish 的隐式还原会就地更新 checkout 里的 packages.lock.json，
       # 该文件在 CI 中是一次性检出，不影响仓库中的版本。
       - name: Publish (${{ matrix.rid }})
+        # OPEN-08（2026-11-24）：CurseForge Key 改为构建期注入，不再硬编码在源码树。
+        # 走 env 而不是 -p:，避免 Key 出现在进程命令行。secret 未配置时构建仍成功，
+        # 只是产物不含内置 Key（日志会打印 "[curseforge-key] 构建机未提供 …"）。
+        env:
+          PINEGLOW_CURSEFORGE_BUILD_KEY: ${{ secrets.PINEGLOW_CURSEFORGE_BUILD_KEY }}
         run: dotnet publish dev/PineglowLauncher/Pineglow.Launcher.csproj -c Release -r ${{ matrix.rid }} --self-contained /p:PublishSingleFile=true /p:EnableCompressionInSingleFile=true /p:DebugType=None /p:DebugSymbols=false
 
       - name: Upload artifact

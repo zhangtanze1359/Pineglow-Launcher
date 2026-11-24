@@ -1,0 +1,20 @@
+﻿=== OPEN-08 构建期注入验证 2026-11-24T08:46:24.8880473+08:00 ===
+
+--- 场景 1：构建机未提供 Key ---
+[curseforge-key] 构建机未提供 PINEGLOW_CURSEFORGE_BUILD_KEY：产物不含内置 Key，CurseForge 需用户自行配置。
+构建退出码: 0
+程序集含 Key 元数据: False  (期望 False)
+
+--- 场景 2：构建机提供 Key ---
+[curseforge-key] 已注入构建期 Key（长度 25），作为 AssemblyMetadata 写入程序集。
+构建退出码: 0
+程序集含 Key 元数据键: True  (期望 True)
+程序集含 Key 值:       True  (期望 True)
+
+--- 场景 3：带 Key 时跑守卫测试 ---
+已通过! - 失败:     0，通过:     5，已跳过:     0，总计:     5，持续时间: 37 ms - Pineglow.Launcher.Tests.dll (net10.0)
+测试退出码: 0
+
+--- 场景 4：源码树零 Key 字面量 ---
+命中文件数: 0  (期望 0)
+

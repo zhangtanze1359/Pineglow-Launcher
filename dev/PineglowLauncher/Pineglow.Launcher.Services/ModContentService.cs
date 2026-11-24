@@ -510,8 +510,8 @@ public sealed class ModContentService
 		"CurseForge 需要 API Key：请在设置页填写，或设置环境变量 " + CurseForgeApiKeyEnvironmentVariable + "。";
 
 	/// <summary>
-	/// 纯解析：调用方传入 → 环境变量 → **本版本临时内置的 Key**（见 <see cref="CurseForgeKeyDefaults"/>）。
-	/// 返回空串表示确实没有可用 Key（只有测试把回退关掉时才会出现）。
+	/// 纯解析：调用方传入 → 环境变量 → **构建期注入的 Key**（见 <see cref="CurseForgeKeyDefaults"/>）。
+	/// 返回空串表示确实没有可用 Key（构建机未注入、且用户与本机环境都没提供）。
 	/// </summary>
 	public static string ResolveCurseForgeApiKey(string? configured)
 	{

@@ -74,4 +74,57 @@
     <Error Condition="'@(EmbeddedResource)' == ''" Text="单文件发行要求把 UI 嵌入程序集，但 EmbeddedResource 为空。" />
     <Message Importance="high" Text="R01: 单文件发行已嵌入 @(EmbeddedResource->Count()) 项 UI 资源（由 UiBundle 解包）。" />
   </Target>
+
+  <!-- CurseForge API Key：构建期注入（OPEN-08，2026-11-24）
+       ============================================================
+       由来：此前 Key 以字面量硬编码在 CurseForgeKeyDefaults.cs，随源码公开分发。
+       编排方要求「移除内嵌 Key」但不轮换、且不能让 CurseForge 下载失效。
+
+       社区通例（已核对 Prism / basalt-launcher / OneLauncher 的源码）：
+         - Prism：默认值写死在 CMakeLists.txt，编译进 BuildConfig，运行时可被用户覆盖
+         - basalt-launcher：构建期从环境变量 BASALT_CURSEFORGE_API_KEY 读，cargo 注入
+         - OneLauncher：编译期常量
+       三家都把 Key 编进二进制（用户零配置），**没有一家改用代理服务**。
+       其中 basalt 的做法最干净：**源码树里没有字面量，Key 只在构建环境里**。
+
+       本项目采用 basalt 模式：
+         - Key 来源：构建机环境变量 PINEGLOW_CURSEFORGE_BUILD_KEY（CI 在 Secrets 里配置）
+         - 生成位置：$(IntermediateOutputPath) —— 即 obj/，不进源码树、不进版本库
+         - Key 缺失时仍可编译：生成的常量为空串，运行期走"缺 Key 引导"
+
+       代价（如实记录，不隐藏）：
+         - 未配置该环境变量的本地构建，产物没有内置 Key，CurseForge 需用户自行配置
+         - 正式发布必须在 CI 里配置该 secret，否则发布包同样缺 Key
+       ============================================================ -->
+  <PropertyGroup>
+    <!-- 构建期 Key；空值合法（表示"这次构建不带内置 Key"）。
+         直接读环境变量，而不是让 CI 再传 -p:，避免 Key 出现在进程命令行里（可被 ps/日志捕获）。 -->
+    <CurseForgeBuildKey Condition="'$(CurseForgeBuildKey)' == ''">$(PINEGLOW_CURSEFORGE_BUILD_KEY)</CurseForgeBuildKey>
+  </PropertyGroup>
+
+  <!--
+    把 Key 作为 AssemblyMetadata 注入程序集。
+
+    为什么选这条路（而不是生成 .cs 文件）：
+      WriteLinesToFile 在 .NET Framework 版 MSBuild 上不支持 WritingEncoding 参数，
+      且它把分号当列表分隔符，生成 C# 时 `;` 会被吞掉（本轮实测踩过两次）。
+      AssemblyMetadata 由 MSBuild 原生产生，字符串参数无需手工转义，也没有分号问题。
+
+    读取方式见 CurseForgeKeyDefaults：通过 Assembly.GetCustomAttributes 取回。
+  -->
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute"
+                       Condition="'$(CurseForgeBuildKey)' != ''">
+      <_Parameter1>PineglowCurseForgeApiKey</_Parameter1>
+      <_Parameter2>$(CurseForgeBuildKey)</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <Target Name="ReportCurseForgeKey" BeforeTargets="CoreCompile">
+    <!-- 日志只说"有/无"，绝不打印 Key 本身。 -->
+    <Message Importance="high" Condition="'$(CurseForgeBuildKey)' == ''"
+             Text="[curseforge-key] 构建机未提供 PINEGLOW_CURSEFORGE_BUILD_KEY：产物不含内置 Key，CurseForge 需用户自行配置。" />
+    <Message Importance="high" Condition="'$(CurseForgeBuildKey)' != ''"
+             Text="[curseforge-key] 已注入构建期 Key（长度 $(CurseForgeBuildKey.Length)），作为 AssemblyMetadata 写入程序集。" />
+  </Target>
 </Project>

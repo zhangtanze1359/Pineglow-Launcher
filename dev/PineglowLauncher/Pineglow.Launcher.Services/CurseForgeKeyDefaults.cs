@@ -1,25 +1,63 @@
 using System;
+using System.Linq;
+using System.Reflection;
 
 namespace Pineglow.Launcher.Services;
 
 /// <summary>
-/// ⚠️ 临时豁免（有明确截止版本）：本版本继续内置 CurseForge API Key。
+/// CurseForge API Key 的**运行期**默认值来源。
 ///
-/// 背景（2026-11-16 编排方决定）：现在还没有真实用户，吊销/轮换这把 Key 的收益为零，
-/// 因此**本版本不轮换**，下个版本（<see cref="RemovalDeadline"/>）再做三件事：
-///   1. 去 CurseForge 后台吊销这把 Key 并换新；
-///   2. 删除本文件（届时 <c>SecretHygieneTests</c> 会因为找不到豁免文件而强制提醒）；
-///   3. 全量改为"用户自带 Key / 环境变量"（<c>ModContentService</c> 的解析逻辑已经支持，只是这里还留了回退）。
+/// ⚠️ 本文件不包含任何 Key 字面量（OPEN-08，2026-11-24）。
 ///
-/// 为什么仍然集中放在一个文件里：S9 的验收要求是"第三方 Key 不进分发程序"，
-/// 本轮是**明确的、有截止日期的例外**，不是遗忘——所以只允许这一个文件出现字面量，
-/// 其他任何文件出现都会让守卫测试变红。
+/// 历史（别把它当旧账删掉）：
+///   2026-11-16 曾以「有截止日期的临时豁免」形式把 Key 硬编码在这里，
+///   标注的移除期限是 v1.0.5，但直到 v1.0.6 仍未移除，且发布说明错误地声称"已移除"。
+///   2026-11-24 编排方决定：**移除内嵌 Key，但不轮换，且不能让 CurseForge 下载失效**。
+///
+/// 现行机制（社区通例，2026-11-24 核对 Prism / basalt-launcher / OneLauncher 源码确认）：
+///   三家都把 Key 编译进二进制让用户零配置，其中 basalt-launcher 最干净——
+///   Key 只存在于构建环境，源码树里没有字面量。本项目采用同一模式。
+///
+///   构建期：<c>Pineglow.Launcher.csproj</c> 读环境变量 <c>PINEGLOW_CURSEFORGE_BUILD_KEY</c>，
+///           通过 <c>AssemblyMetadata</c> 把它写进程序集（不生成 .cs 文件、不进源码树）。
+///   运行期：解析顺序仍是 调用方传入 → 环境变量 → 构建期注入值。
+///
+/// 为什么用 AssemblyMetadata 而不是生成常量：
+///   MSBuild 的 <c>WriteLinesToFile</c> 在本工具链上会把分号当列表分隔符吞掉，
+///   生成 C# 不可靠；<c>AssemblyMetadata</c> 由 MSBuild 原生产生，字符串无需手工转义。
 /// </summary>
 internal static class CurseForgeKeyDefaults
 {
-	/// <summary>本版本暂用的内置 Key。**不要在别处引用或打印它。**</summary>
-	internal const string Embedded = "$2a$10$G3lIsqa0DNZIE2lKFnLy4O7EhQdaEnPynwI8rDWFI38zPNWWjOCrG";
+	/// <summary>构建期写入程序集的元数据键名。改名会静默丢 Key，故由测试钉住。</summary>
+	internal const string MetadataKey = "PineglowCurseForgeApiKey";
 
-	/// <summary>必须移除本文件的发布线（用于守卫测试与发布检查表）。</summary>
-	internal const string RemovalDeadline = "v1.0.5";
+	/// <summary>
+	/// 构建期注入的 Key；**空串表示构建机未提供**（例如本地开发构建）。
+	/// 空串不是故障——运行期会走"缺 Key 引导"路径。
+	/// </summary>
+	internal static readonly string Embedded = ReadFromAssemblyMetadata();
+
+	private static string ReadFromAssemblyMetadata()
+	{
+		try
+		{
+			var metas = typeof(CurseForgeKeyDefaults).Assembly
+				.GetCustomAttributes<AssemblyMetadataAttribute>();
+
+			string? value = metas
+				.FirstOrDefault(m => string.Equals(m.Key, MetadataKey, StringComparison.Ordinal))?.Value;
+
+			return value?.Trim() ?? string.Empty;
+		}
+		catch
+		{
+			// 读元数据失败不应让产品不可用：降级为"没有内置 Key"，走缺 Key 引导。
+			return string.Empty;
+		}
+	}
+
+	/// <summary>
+	/// 本次构建是否真的注入了 Key。供测试与诊断区分「产品故意不带」与「构建漏配」。
+	/// </summary>
+	internal static bool ProvidedAtBuildTime => Embedded.Length > 0;
 }
