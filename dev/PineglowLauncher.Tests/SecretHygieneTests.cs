@@ -37,10 +37,43 @@ public sealed class SecretHygieneTests
 	{
 		string root = Path.Combine(RepoRoot, SourceRoot);
 		Assert.True(Directory.Exists(root), "找不到源码目录：" + root);
+
+		// 排除构建产物：obj/ 下就有我们**故意生成**的 Key（SDK 生成的 AssemblyInfo.cs）。
+		// 必须同时匹配两种分隔符：Windows 的 EnumerateFiles 返回反斜杠，
+		// 只写 "/obj/" 会让生成物被误报成源码字面量（2026-11-24 复核实测到该缺陷）。
 		return Directory
 			.EnumerateFiles(root, "*.cs", SearchOption.AllDirectories)
-			// 排除构建产物：obj/ 下就有我们**故意生成**的 Key 文件。
-			.Where(path => !path.Contains("/bin/", StringComparison.Ordinal) && !path.Contains("/obj/", StringComparison.Ordinal));
+			.Where(path => !IsUnderBuildOutput(path));
+	}
+
+	/// <summary>路径是否位于 bin/ 或 obj/ 之下。按路径段判断，不依赖具体分隔符。</summary>
+	private static bool IsUnderBuildOutput(string path)
+	{
+		char[] seps = new[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar };
+		string[] segments = path.Split(seps, StringSplitOptions.RemoveEmptyEntries);
+		return segments.Any(s => string.Equals(s, "bin", StringComparison.OrdinalIgnoreCase)
+			|| string.Equals(s, "obj", StringComparison.OrdinalIgnoreCase));
+	}
+
+	/// <summary>
+	/// 受版本管理的构建配置/脚本输入。这些文件同样会进构建，必须一起扫。
+	/// 只扫 .cs 会漏掉把 Key 塞进 .props / .targets / .csproj / .json 的路径。
+	/// </summary>
+	private static IEnumerable<string> BuildInputFiles()
+	{
+		foreach (string pattern in new[] { "*.csproj", "*.props", "*.targets", "*.json", "*.ps1", "*.cmd", "*.sh" })
+		{
+			foreach (string file in Directory.EnumerateFiles(RepoRoot, pattern, SearchOption.AllDirectories))
+			{
+				string rel = file.Substring(RepoRoot.Length).Replace('\\', '/');
+				// 跳过构建产物、归档与 vendor。
+				if (IsUnderBuildOutput(file)) { continue; }
+				if (rel.Contains("/_archive/", StringComparison.Ordinal)) { continue; }
+				if (rel.Contains("/node_modules/", StringComparison.Ordinal)) { continue; }
+				if (rel.Contains("/.git/", StringComparison.Ordinal)) { continue; }
+				yield return file;
+			}
+		}
 	}
 
 	[Fact]
@@ -55,6 +88,21 @@ public sealed class SecretHygieneTests
 		Assert.True(offenders.Count == 0,
 			"CurseForge Key 字面量不得出现在源码树内（Key 应由构建期注入到 obj/）。"
 			+ "以下文件含有 " + KeyLiteralPrefix + "：" + string.Join("、", offenders));
+	}
+
+	[Fact]
+	public void KeyLiteral_DoesNotAppearInBuildInputs()
+	{
+		// 只扫 .cs 会漏掉「把 Key 塞进 .props / .targets / .csproj / .json」这类路径。
+		// 2026-11-24 复核指出该缺口，本测试补上。
+		List<string> offenders = BuildInputFiles()
+			.Where(path => File.ReadAllText(path).Contains(KeyLiteralPrefix, StringComparison.Ordinal))
+			.Select(path => path.Substring(RepoRoot.Length).TrimStart('\\', '/'))
+			.ToList();
+
+		Assert.True(offenders.Count == 0,
+			"CurseForge Key 字面量不得出现在构建配置/脚本输入中。以下文件含有 " + KeyLiteralPrefix + "："
+			+ string.Join("、", offenders));
 	}
 
 	[Fact]

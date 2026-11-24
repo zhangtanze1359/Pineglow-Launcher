@@ -58,7 +58,7 @@ Log "命中文件数: $($offenders.Count)  (期望 0)"
 if ($offenders) { $offenders | ForEach-Object { Log "  $($_.FullName)" } }
 Log ""
 
-$out = 'D:/Projects/松光启动器/docs/evidence/2026-11-24-open08/raw/build-injection-verify.txt'
+$out = Join-Path $PSScriptRoot 'raw/build-injection-verify.txt'
 New-Item -ItemType Directory -Path (Split-Path $out) -Force | Out-Null
 $log | Set-Content -Path $out -Encoding utf8
 Log "=== 完成，产物 $out ==="
