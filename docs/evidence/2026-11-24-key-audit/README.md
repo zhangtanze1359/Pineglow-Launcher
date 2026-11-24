@@ -109,12 +109,23 @@ v1.0.4 / v1.0.5 / v1.0.6 的 exe 里都有。**除非删除 Release，否则无�
 > 注意：**吊销后，v1.1 之前的旧版本用户若未升级，CurseForge 功能会失效**（它们内置的是被吊销的旧 Key）。
 > 这是轮换的代价，需接受。
 
-## 另一个发现：本机还有副本
+## 本机副本：已清理
 
-`.cindy-worktrees/curious-liskov/` 是另一个 AI 的工作树（被 `.git/info/exclude` 排除，不在版本控制内），
-里面有 5 个文件含完整 Key。**它不会进仓库，但在本机磁盘上。**
+`.cindy-worktrees/curious-liskov/` 是另一个 AI 的 git worktree（分支 `cindy/curious-liskov`，
+被 `.git/info/exclude` 排除，不在版本控制内），里面有 5 个文件含完整 Key。
 
-未处理——需要编排方决定是否清理该工作树。
+**2026-11-24 已清理**，清理前先确认安全：
+
+| 检查 | 结果 |
+| --- | --- |
+| 工作树是否有未提交改动 | **0**（`git status --porcelain` 为空） |
+| 是否有未跟踪文件 | **0** |
+| 分支 `cindy/curious-liskov` 是否有未合并提交 | **0**（`main..cindy/curious-liskov` 为空） |
+
+处置：`git worktree remove --force`，随后删除空壳目录 `.cindy-worktrees/`。
+**分支本身保留**（无内容可丢，删除工作树不影响它）。
+
+清理后全仓库扫描：**0 命中**。
 
 ## 产物
 
