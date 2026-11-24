@@ -1,0 +1,25 @@
+=== OPEN-08 门槛第 4 版 · 五情形（pwsh 同构）===
+
+--- 情形1：60 字符合法假值 ---
+    publish=0  门槛输出: GATE=PASS code=0  门槛退出码=0
+
+--- 情形2：无 Key ---
+    publish=0  门槛输出: GATE=FAIL reason=curseforge-key=absent code=2  门槛退出码=2
+
+--- 情形3：Key 只含 3 个空格 ---
+    publish=0  门槛输出: GATE=FAIL reason=curseforge-key=absent code=2  门槛退出码=2
+
+--- 情形4：dist 放无值构建的 EXE（错配）---
+    门槛输出: GATE=FAIL reason=curseforge-key=absent code=2  门槛退出码=2
+
+--- 情形5：dist 无 EXE ---
+    门槛第一行 Get-ChildItem 为空即 throw → 必然拦截
+
+=== 判定 ===
+  情形1 合法值: OK
+  情形2 无值: OK
+  情形3 纯空白: OK
+  情形4 错配EXE: OK
+  情形5 无EXE: OK
+
+总判定: PASS

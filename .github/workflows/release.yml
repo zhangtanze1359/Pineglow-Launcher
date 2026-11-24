@@ -156,14 +156,34 @@ jobs:
           $exe = Get-ChildItem dist -Filter *.exe -File -ErrorAction SilentlyContinue | Select-Object -First 1
           if (-not $exe) { throw "dist 下没有 EXE，无法校验 CurseForge Key" }
 
-          $out = & $exe.FullName --print-curseforge-key-status 2>&1
-          $code = $LASTEXITCODE
-          $line = ($out | Where-Object { $_ -match '^curseforge-key=(present|absent)$' } | Select-Object -First 1)
+          # 为什么不用 `& $exe --print-curseforge-key-status` 直接取 $LASTEXITCODE：
+          # 本程序是 OutputType=WinExe（GUI 子系统）。PowerShell 在 Windows 上对这类进程
+          # **不等待**，也拿不到它的 stdout 与退出码（2026-11-24 第 3 轮复核实测：
+          # 输出 0 行、$LASTEXITCODE 为空 → 门槛把带 Key 的正确产物判成失败）。
+          # 必须用 Start-Process -Wait 显式等待，并把流重定向到文件再读。
+          #
+          # 只读 "present|absent"，EXE 从不打印 Key 的值或长度。
+          $stdoutFile = Join-Path $env:RUNNER_TEMP ("cfstatus-" + [guid]::NewGuid().ToString('N') + '.txt')
+          $stderrFile = Join-Path $env:RUNNER_TEMP ("cfstatus-err-" + [guid]::NewGuid().ToString('N') + '.txt')
 
-          Write-Host "  自检输出: $line  (退出码 $code)"
+          $proc = Start-Process -FilePath $exe.FullName `
+            -ArgumentList '--print-curseforge-key-status' `
+            -NoNewWindow -Wait -PassThru `
+            -RedirectStandardOutput $stdoutFile `
+            -RedirectStandardError $stderrFile
+          $code = $proc.ExitCode
+
+          $raw = if (Test-Path $stdoutFile) { Get-Content $stdoutFile -Raw } else { '' }
+          $err = if (Test-Path $stderrFile) { Get-Content $stderrFile -Raw } else { '' }
+          Remove-Item $stdoutFile, $stderrFile -Force -ErrorAction SilentlyContinue
+
+          $line = ($raw -split "`r?`n" | Where-Object { $_ -match '^curseforge-key=(present|absent)$' } | Select-Object -First 1)
+
+          Write-Host "  自检输出: [$line]  退出码: $code"
+          if ($err) { Write-Host "  stderr: $err" }
 
           if ($null -eq $line) {
-            throw "EXE 未按契约输出 curseforge-key=present|absent（退出码 $code）。产物可能缺少该诊断入口，见 Program.CurseForgeKeyStatusArg。"
+            throw "EXE 未按契约输出 curseforge-key=present|absent（退出码 $code，stdout 长度 $($raw.Length)）。产物可能缺少该诊断入口，见 Program.CurseForgeKeyStatusArg。"
           }
           if ($line -ne 'curseforge-key=present') {
             throw "最终 EXE 报告无可用 CurseForge Key（$line）：secrets.PINEGLOW_CURSEFORGE_BUILD_KEY 未配置、为空、或只含空白。已终止发布，避免发出一个 CurseForge 不可用的包。"

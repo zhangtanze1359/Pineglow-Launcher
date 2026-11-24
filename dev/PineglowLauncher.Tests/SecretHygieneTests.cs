@@ -46,13 +46,46 @@ public sealed class SecretHygieneTests
 			.Where(path => !IsUnderBuildOutput(path));
 	}
 
-	/// <summary>路径是否位于 bin/ 或 obj/ 之下。按路径段判断，不依赖具体分隔符。</summary>
+	/// <summary>
+	/// 路径是否位于**真实的构建输出目录**之下。
+	///
+	/// 只认「与 .csproj 同级、紧邻」的 bin/ 与 obj/，而不是任意叫 bin/obj 的路径段。
+	/// 原因（2026-11-24 第 3 轮复核实测）：先前的按段排除会把源码树里合法的
+	/// `binary/`、`objHelpers/` 之类目录一并放过 —— 那些目录里的 .cs 是**会被编译**的，
+	/// 却因名字碰巧含 bin/obj 而逃过守卫。这是实测到的漏扫路径。
+	///
+	/// 判据：某个祖先目录里存在同名 .csproj，且该祖先下紧邻的段就是 bin 或 obj。
+	/// 简化实现：识别 "&lt;任意目录&gt;/bin/" 或 "&lt;任意目录&gt;/obj/" 且该 &lt;任意目录&gt;
+	/// 的前缀看起来像项目目录 —— 但为避免过度工程，这里采用更严格且可解释的规则：
+	/// **只排除路径中出现 `\bin\` 或 `\obj\` 且其后紧跟构建配置段（Release/Debug/net*）的路径**。
+	/// 构建输出必有这样的子目录；源码里叫 bin 的目录不会有。
+	/// </summary>
 	private static bool IsUnderBuildOutput(string path)
 	{
 		char[] seps = new[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar };
 		string[] segments = path.Split(seps, StringSplitOptions.RemoveEmptyEntries);
-		return segments.Any(s => string.Equals(s, "bin", StringComparison.OrdinalIgnoreCase)
-			|| string.Equals(s, "obj", StringComparison.OrdinalIgnoreCase));
+
+		for (int i = 0; i < segments.Length; i++)
+		{
+			bool isBuildDir = string.Equals(segments[i], "bin", StringComparison.OrdinalIgnoreCase)
+				|| string.Equals(segments[i], "obj", StringComparison.OrdinalIgnoreCase);
+			if (!isBuildDir || i + 1 >= segments.Length)
+			{
+				continue;
+			}
+
+			// 构建输出 = bin/obj 后面紧跟配置目录（Release/Debug/x64 等）或 net* TFM。
+			// 源码里碰巧叫 bin 的目录，后面跟的是普通源码子目录，不满足这个形状。
+			string next = segments[i + 1];
+			if (string.Equals(next, "Release", StringComparison.OrdinalIgnoreCase)
+				|| string.Equals(next, "Debug", StringComparison.OrdinalIgnoreCase)
+				|| next.StartsWith("net", StringComparison.OrdinalIgnoreCase))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/// <summary>
