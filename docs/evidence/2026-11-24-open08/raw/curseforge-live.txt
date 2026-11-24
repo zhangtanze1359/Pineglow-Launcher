@@ -1,0 +1,24 @@
+=== OPEN-08 验收项 1：真实 CurseForge 调用 ===
+
+Key 状态: 已提供（长度 60，值不打印）
+
+--- 1. GET /mods/search（搜索公开 Mod）---
+    HTTP 200
+    返回条目数: 3
+    选中 Mod: id=238222  name='Just Enough Items (JEI)'
+
+--- 2. GET /mods/{id}/files（列出可用文件）---
+    HTTP 200
+    返回文件数: 3
+    选中文件: id=9773637  name='jei-1.21.1-neoforge-19.76.1.481.jar'
+
+--- 3. GET /mods/{id}/files/{fileId}/download-url ---
+    HTTP 200
+    下载地址: 已获取（域名 edge.forgecdn.net）
+
+--- 4. 真实下载 jar 到临时目录 ---
+    HTTP 200  大小 7103608 bytes
+    SHA-256: 0614F0A6A6EF9D7E0A313B1D71561A561E8AF4936E557710034507CFC356908F
+
+RESULT: PASS —— 真实 Key 可完成搜索 → 列文件 → 取下载地址 → 实际下载全链。
+（下载内容只在内存中校验，未写入磁盘。）
