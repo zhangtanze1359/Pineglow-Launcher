@@ -287,6 +287,15 @@ jobs:
       # 注意：if 条件不能引用 secrets（Actions 限制），故在脚本内判断。
       # continue-on-error：跨国上传大文件可能超时，Gitee 镜像失败不阻断 GitHub 发布
       # （GitHub Release 仍会创建，manifest 保持 GitHub 直链可用）。
+      #
+      # 2026-11-24（OPEN-07 修源）：这个 continue-on-error 曾经把一条**长期失效**的链路
+      # 藏了三个月——v1.0.4/1.0.5/1.0.6 的 Gitee release 全都没创建成功（Gitee 上只有 v1.0.0），
+      # 而工作流每次都显示 success（token 早已失效）。实际原因是 secrets.GITEE_TOKEN 过期。
+      #
+      # 因此保留 continue-on-error（不阻断发布）的同时，把所有失败分支的注解
+      # 从 ::warning:: 升级为 ::error:: —— 在 Actions 里会标红，一眼能看见。
+      # 结构化结果仍写入 dist/mirror-status.json 并作为 artifact 上传。
+      # **发布后请检查该 artifact 的 attachmentUploaded / updateJsonUpdated 是否为 true。**
       - name: Mirror to Gitee (optional)
         continue-on-error: true
         shell: pwsh
@@ -312,7 +321,7 @@ jobs:
             $status.note = "GITEE_TOKEN 未配置：未上传 Gitee、未更新固定 update.json。客户端将依赖备用源（GitHub Release manifest.json）。"
             Save-MirrorStatus
             Write-Host $status.note
-            Write-Host "::warning::默认更新源（Gitee raw update.json）本轮未更新，客户端检查更新需依赖备用源。"
+            Write-Host "::error::[镜像失败] 默认更新源（Gitee raw update.json）本轮未更新，客户端检查更新将依赖备用源。"
             exit 0
           }
           $status.tokenPresent = $true
@@ -343,7 +352,7 @@ jobs:
               $status.note = "Gitee API 不可达或鉴权失败：未上传附件、未改写 manifest、未更新固定 update.json；客户端将依赖备用源。原因：$_"
               Save-MirrorStatus
               Write-Host $status.note
-              Write-Host "::warning::$($status.note)"
+              Write-Host "::error::[镜像失败] $($status.note)"
               throw "Gitee release 创建/查询失败: $_"
             }
           }
@@ -367,7 +376,17 @@ jobs:
           while ($attempt -lt 2 -and $null -eq $uploaded) {
             $attempt++
             Write-Host "上传附件尝试 #$attempt ..."
-            $resp = & curl.exe -sS -X POST "$api/releases/$($release.id)/attach_files" -F "access_token=$token" -F "file=@$exePath" --max-time 120
+            # 安全：token 不再出现在 curl 命令行（进程列表/CI 日志可捕获）。
+            # 写进临时 curl 配置文件，curl -K 读取，用完立即删除。
+            $curlCfg = Join-Path $env:RUNNER_TEMP ("gitee-curl-" + [guid]::NewGuid().ToString('N') + ".conf")
+            try {
+              # curl config 里转义双引号与反斜杠，避免 token 内容破坏配置语法
+              $escaped = $token.Replace('', '\').Replace('"', '\"')
+              Set-Content -Path $curlCfg -Value ('header = "Authorization: token ' + $escaped + '"') -Encoding ascii
+              $resp = & curl.exe -sS -K $curlCfg -X POST "$api/releases/$($release.id)/attach_files" -F "file=@$exePath" --max-time 300
+            } finally {
+              Remove-Item $curlCfg -Force -ErrorAction SilentlyContinue
+            }
             if ($LASTEXITCODE -eq 0) {
               try { $uploaded = $resp | ConvertFrom-Json } catch { Write-Host "响应解析失败，重试" }
             } else {
@@ -379,7 +398,7 @@ jobs:
             $status.note = "Gitee 附件上传失败：未改写 manifest、未更新固定 update.json。manifest 保持 GitHub 直链。"
             Save-MirrorStatus
             Write-Host $status.note
-            Write-Host "::warning::$($status.note)"
+            Write-Host "::error::[镜像失败] $($status.note)"
             exit 0
           }
           $giteeUrl = $uploaded.browser_download_url
@@ -387,7 +406,7 @@ jobs:
             $status.note = "Gitee 附件返回的下载地址无效（'$giteeUrl'）：拒绝把它写进 manifest。"
             Save-MirrorStatus
             Write-Host $status.note
-            Write-Host "::warning::$($status.note)"
+            Write-Host "::error::[镜像失败] $($status.note)"
             exit 0
           }
           $status.attachmentUploaded = $true
@@ -431,7 +450,7 @@ jobs:
           } catch {
             $status.note = "update.json 更新失败（$($_.Exception.Message)）：默认更新源仍是旧内容或缺文件，客户端将依赖备用源。"
             Write-Host $status.note
-            Write-Host "::warning::$($status.note)"
+            Write-Host "::error::[镜像失败] $($status.note)"
           }
           Save-MirrorStatus
 
