@@ -117,11 +117,23 @@ if ($Mode -eq 'restore') {
   if (Test-Path $shaPath) { $sha = (Get-Content $shaPath -Raw).Trim() }
 
   $body = @{ access_token = $Token; content = $b64; message = 'mirror: restore update.json' }
-  if ($sha) {
-    $body['sha'] = $sha
+  # 关键：force push 之后远端这个文件已被删除。
+  # 此时带旧 sha 去 PUT 会得到 HTTP 404（目标不存在），必须用 POST 重新创建。
+  # 2026-11-24 实测：用 PUT + 旧 sha 恢复失败（404），改为 POST 后成功。
+  #
+  # 只有在"文件仍存在"的场景（例如推送未真正删除它）才需要 PUT + sha，
+  # 那时先探测一次当前是否存在。
+  $probe = Invoke-GiteeGet "$RepoApi/contents/update.json?ref=master&access_token=$Token"
+  $existsNow = $probe.Ok -and ($probe.Body -match '"sha"')
+
+  if ($existsNow) {
+    $cur = $probe.Body | ConvertFrom-Json
+    $body['sha'] = $cur.sha
     $method = 'PUT'
+    Write-Host "  目标仍存在（sha=$($cur.sha.Substring(0, [Math]::Min(12, $cur.sha.Length)))），用 PUT 更新"
   } else {
     $method = 'POST'
+    Write-Host '  目标已被推送删除，用 POST 重建'
   }
 
   $res = Invoke-GiteeWrite "$RepoApi/contents/update.json" $method ($body | ConvertTo-Json -Compress)
