@@ -23,7 +23,7 @@ public sealed class ModContentService
 	/// 由 CurseForge 官方正式签发给 Pineglow Launcher（2026-07-15 审批通过），
 	/// 用户未配置自己的 Key 时使用；可在设置页填写个人 Key 覆盖。
 	/// </summary>
-	private const string DefaultCurseForgeApiKey = "$2a$10$G3lIsqa0DNZIE2lKFnLy4O7EhQdaEnPynwI8rDWFI38zPNWWjOCrG";
+	private const string DefaultCurseForgeApiKey = "$2a$10$<REDACTED-2026-11-24-SEE-docs/evidence/2026-11-24-key-audit/>";
 
 	private readonly HttpClient _http;
 

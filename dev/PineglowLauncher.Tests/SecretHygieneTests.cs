@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Pineglow.Launcher.Services;
 using Xunit;
 
@@ -89,6 +90,59 @@ public sealed class SecretHygieneTests
 	}
 
 	/// <summary>
+	/// CurseForge Key 的**完整形态**正则：`$2a$10$` + 50 个以上合法字符（真值共 60）。
+	///
+	/// 与 <see cref="KeyLiteralPrefix"/> 分开的原因（2026-11-24 审计发现）：
+	/// 前缀只说明"这里提到了 Key"，而文档里`$2a$10$G3lIsq…WjOCrG`这类**截断引用**是允许的；
+	/// 真正的泄露是完整值。守卫必须按完整形态判定，否则会把合规的说明文字也判红。
+	/// </summary>
+	private static readonly Regex FullKeyPattern =
+		new Regex(@"\$2a\$10\$[A-Za-z0-9+/.]{50,}", RegexOptions.Compiled);
+
+	/// <summary>
+	/// **全仓库**文本文件枚举（2026-11-24 审计后新增）。
+	///
+	/// 为什么需要它：此前的守卫只扫 `dev/PineglowLauncher/**/*.cs`，
+	/// 而审计发现 `docs/market-execution/` 下 4 个历史快照副本、`docs/evidence/` 的验收文档
+	/// 都含完整 Key ——**守卫一个都没覆盖到，等于给了虚假的安全感**。
+	/// 现在改为扫仓库内除以下位置外的全部文本文件：
+	///   - `.git/`、构建输出（bin/obj）、`node_modules/`：不是仓库内容或已排除
+	///   - `_archive/`：历史归档，按项目约定不修改
+	///   - 二进制扩展名：无法按文本判定
+	///   - **本测试文件自身**：它必须含 `$2a$10$` 前缀常量才能做判定
+	/// </summary>
+	private static IEnumerable<string> AllTextFiles()
+	{
+		var binaryExt = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+		{
+			".exe", ".dll", ".pdb", ".png", ".jpg", ".jpeg", ".gif", ".ico", ".zip",
+			".trx", ".jar", ".mrpack", ".woff2", ".ttf", ".snap",
+		};
+
+		foreach (string file in Directory.EnumerateFiles(RepoRoot, "*", SearchOption.AllDirectories))
+		{
+			string rel = file.Substring(RepoRoot.Length).Replace('\\', '/');
+
+			if (IsUnderBuildOutput(file)) { continue; }
+			if (rel.Contains("/.git/", StringComparison.Ordinal)) { continue; }
+			if (rel.Contains("/node_modules/", StringComparison.Ordinal)) { continue; }
+			if (rel.Contains("/_archive/", StringComparison.Ordinal)) { continue; }
+			if (rel.Contains("/.cindy-worktrees/", StringComparison.Ordinal)) { continue; }
+
+			if (binaryExt.Contains(Path.GetExtension(file))) { continue; }
+
+			// 本测试文件自己必须含前缀常量，跳过。
+			if (string.Equals(Path.GetFileName(file), "SecretHygieneTests.cs", StringComparison.Ordinal)) { continue; }
+
+			FileInfo fi;
+			try { fi = new FileInfo(file); } catch { continue; }
+			if (fi.Length > 50L * 1024 * 1024) { continue; }
+
+			yield return file;
+		}
+	}
+
+	/// <summary>
 	/// 受版本管理的构建配置/脚本输入。这些文件同样会进构建，必须一起扫。
 	/// 只扫 .cs 会漏掉把 Key 塞进 .props / .targets / .csproj / .json 的路径。
 	/// </summary>
@@ -135,6 +189,36 @@ public sealed class SecretHygieneTests
 
 		Assert.True(offenders.Count == 0,
 			"CurseForge Key 字面量不得出现在构建配置/脚本输入中。以下文件含有 " + KeyLiteralPrefix + "："
+			+ string.Join("、", offenders));
+	}
+
+	[Fact]
+	public void FullKeyValue_DoesNotAppearAnywhereInRepository()
+	{
+		// 2026-11-24 审计的直接结论：此前的守卫只扫 dev/PineglowLauncher/**/*.cs，
+		// 而实际含**完整 Key** 的文件还有：
+		//   - docs/market-execution/ 下 4 个历史快照副本
+		//   - docs/evidence/2026-11-16-s9/验收.md
+		// 那些一个都没被覆盖 —— 守卫给了虚假的安全感。
+		// 本测试改为扫**仓库内全部文本文件**，判定条件是**完整 60 字符值**（见 FullKeyPattern），
+		// 因此文档里的 `$2a$10$G3lIsq…WjOCrG` 这类截断引用不会被误判。
+		List<string> offenders = AllTextFiles()
+			.Where(path =>
+			{
+				try
+				{
+					return FullKeyPattern.IsMatch(File.ReadAllText(path));
+				}
+				catch
+				{
+					return false;   // 读不了的（锁定/权限）跳过，不误报
+				}
+			})
+			.Select(path => path.Substring(RepoRoot.Length).TrimStart('\\', '/'))
+			.ToList();
+
+		Assert.True(offenders.Count == 0,
+			"仓库内任何文本文件都不得含完整 CurseForge Key（应走构建期注入）。以下文件命中："
 			+ string.Join("、", offenders));
 	}
 
