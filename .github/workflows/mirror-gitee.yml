@@ -82,10 +82,24 @@ jobs:
             echo "::warning::fetch gitee/master 失败，将直接尝试推送"
           fi
 
+          # ---- 备份房客清单 update.json ----
+          # 整分支 force push 会删掉远端未跟踪的 update.json（2026-11-24 事故：
+          # 一次镜像用旧清单覆盖了新清单）。故推送前先备份、推送后恢复。
+          MANIFEST_BACKUP="$RUNNER_TEMP/gitee-update-json-backup"
+          rm -f "$MANIFEST_BACKUP" "$MANIFEST_BACKUP.sha"
+          pwsh -NoProfile -ExecutionPolicy Bypass             -File scripts/mirror-gitee-manifest.ps1             -Mode backup -Token "$GITEE_TOKEN" -BackupPath "$MANIFEST_BACKUP" || true
+
           echo "--- 推送 ---"
           if ! git push gitee HEAD:master --force 2>&1; then
             echo "::error::[镜像失败] git push 未成功（见上方输出）"
             exit 1
+          fi
+
+          # ---- 恢复房客清单 ----
+          if [ -f "$MANIFEST_BACKUP" ]; then
+            if ! pwsh -NoProfile -ExecutionPolicy Bypass               -File scripts/mirror-gitee-manifest.ps1               -Mode restore -Token "$GITEE_TOKEN" -BackupPath "$MANIFEST_BACKUP"; then
+              echo "::error::[镜像失败] update.json 未能恢复——更新主源可能缺失"
+            fi
           fi
 
           echo "--- 校验 ---"

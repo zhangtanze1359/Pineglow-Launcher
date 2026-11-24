@@ -77,3 +77,8 @@ docs/ui-fix-2026-10-15/native-final/
 
 # Alma workspace plan state (.alma/plan)
 .alma/
+
+# update.json 是 Gitee 的发布清单，由 release.yml 通过 Gitee contents API 写入。
+# 不能进版本控制：否则 mirror-gitee.yml 的整分支强制推送会用仓库里的旧版本
+# 覆盖 Gitee 上已更新的清单（2026-11-24 实测发生过：v1.0.7 被退回 1.0.6）。
+/update.json
