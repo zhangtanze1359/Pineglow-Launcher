@@ -37,6 +37,8 @@ ui/assets/*
 !ui/assets/app-icon.png
 !ui/assets/pine-forest.svg
 !ui/assets/pine-forest-night.svg
+!ui/assets/hero-mascot.png
+!ui/assets/mascot-sticker.png
 松光启动器*.md
 新界面预览-首页.png
 验收截图-live/

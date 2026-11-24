@@ -1,4 +1,6 @@
 using System;
+using System.Text.RegularExpressions;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -242,5 +244,65 @@ public class ApiRouteInventoryTests
 		Assert.NotNull(diagnose);
 		Assert.Equal(5, cancel!.MaxSegments);
 		Assert.Equal(4, diagnose!.MaxSegments);
+	}
+
+	[Fact]
+	public void Inventory_CoversEveryStaticPathTheFrontendCalls()
+	{
+		// 2026-11-24（前后端对应审计发现的真实 404）：
+		// 前端 openLogDirectory() 调 POST /api/logs/open（3 段），后端只注册了
+		// POST /api/logs（2 段）——上面那组「每条路由命中自己」的测试防不住这种
+		// 「前端调了、后端没有」的缺口。本测试从磁盘读 ui/js/api.js，
+		// 抽出所有静态调用的 (method, path)，逐条断言 ResolveRoute 能命中。
+		//
+		// 范围说明：只覆盖 path 是**完整字面量**的调用（不含运行期拼接的动态段——
+		// 那类调用的路径在源码里是 '/api/instances/' + id + '/...'，无法静态还原）。
+		string repoRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", ".."));
+		string apiJs = File.ReadAllText(Path.Combine(repoRoot, "ui", "js", "api.js"));
+
+		var calls = new List<(string Method, string Path)>();
+		foreach (Match m in Regex.Matches(apiJs, @"\b(_req|_post|_delete)\(\s*'([^']+)'"))
+		{
+			string method = m.Groups[1].Value switch
+			{
+				"_post" => "POST",
+				"_delete" => "DELETE",
+				_ => "GET",
+			};
+			// _req 的第二参数若含 method: 'POST'，实际方法以它为准（如 openNewsLink）。
+			if (method == "GET")
+			{
+				string tail = apiJs.Substring(m.Index, Math.Min(200, apiJs.Length - m.Index));
+				if (tail.Contains("method: 'POST'") || tail.Contains("method: \"POST\""))
+				{
+					method = "POST";
+				}
+			}
+			calls.Add((method, m.Groups[2].Value));
+		}
+
+		Assert.True(calls.Count >= 40, $"从 api.js 只抽到 {calls.Count} 个调用，正则可能失效");
+
+		List<string> unmatched = new List<string>();
+		foreach ((string method, string rawPath) in calls)
+		{
+			// 查询串不是路由的一部分（?refresh=1 之类）——剥掉再比对。
+			string path = rawPath.Split('?')[0];
+			string[] seg = path.Trim('/').Split('/');
+			// 动态段（含 ${}、拼接痕迹或非路由字符）跳过——它们无法静态还原。
+			if (seg.Any(s => s.Contains("${") || s.Contains("'") || s.Contains("+")))
+			{
+				continue;
+			}
+
+			ApiRoute? route = LocalApiService.ResolveRoute(method, seg);
+			if (route == null)
+			{
+				unmatched.Add($"{method} {rawPath}");
+			}
+		}
+
+		Assert.True(unmatched.Count == 0,
+			"前端调用了后端不存在的接口（这些点击在用户那里就是 404）：" + string.Join("; ", unmatched));
 	}
 }

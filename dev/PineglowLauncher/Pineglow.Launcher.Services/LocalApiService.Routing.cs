@@ -55,6 +55,14 @@ public static partial class LocalApiService
 			HandleOpenLogDirectory(ctx.Response);
 			return Task.CompletedTask;
 		}, (1, "logs")));
+		// 2026-11-24（前后端对应审计发现的真实 404）：前端 openLogDirectory() 调的是
+		// POST /api/logs/open（3 段），而这里只注册了 2 段的 /api/logs —— 无 Range 兜底，
+		// 该端点必然 404。补上 3 段路由指向同一处理器（两个路径都接受，向后兼容）。
+		r.Add(ApiRoute.Exact("POST", 3, "打开日志目录（带 open 段）", (ctx, _) =>
+		{
+			HandleOpenLogDirectory(ctx.Response);
+			return Task.CompletedTask;
+		}, (1, "logs"), (2, "open")));
 
 		/* ---------- 实例 ---------- */
 

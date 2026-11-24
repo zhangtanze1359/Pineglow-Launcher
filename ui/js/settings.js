@@ -697,16 +697,14 @@ function bindSettings(el) {
 		feedbackBtn.onclick = () => {
 			_openModal(`
 				<div class="modal-box">
-					<h3>${esc(t('set.feedbackTitle'))}</h3>
-					<textarea id="fbText" rows="6" maxlength="20000"
-						placeholder="${esc(t('set.feedbackPlaceholder'))}"
-						style="width:100%;margin-top:8px;"></textarea>
-					<input id="fbContact" maxlength="200"
-						placeholder="${esc(t('set.feedbackContact'))}"
-						style="width:100%;margin-top:8px;"></input>
-					<div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px;">
-						<button class="setting-btn" id="fbCancel">${esc(t('common.cancel'))}</button>
-						<button class="setting-btn" id="fbSubmit">${esc(t('set.feedbackSubmit'))}</button>
+					<h3 class="modal-title">${esc(t('set.feedbackTitle'))}</h3>
+					<textarea id="fbText" class="modal-textarea" rows="6" maxlength="20000"
+						placeholder="${esc(t('set.feedbackPlaceholder'))}"></textarea>
+					<input id="fbContact" class="modal-input" maxlength="200"
+						placeholder="${esc(t('set.feedbackContact'))}" />
+					<div class="modal-actions">
+						<button class="modal-btn setting-btn" id="fbCancel">${esc(t('common.cancel'))}</button>
+						<button class="modal-btn primary setting-btn" id="fbSubmit">${esc(t('set.feedbackSubmit'))}</button>
 					</div>
 				</div>`);
 			const box = document.querySelector('.modal-box');

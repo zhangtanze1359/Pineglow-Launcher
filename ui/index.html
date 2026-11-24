@@ -20,6 +20,7 @@
 			<img class="brand-pixel" src="assets/app-icon.png" alt="">
 			<span class="brand-name">PINEGLOW</span>
 			<span class="brand-sub" data-i18n="brand.subtitle">松光启动器</span>
+			<span class="brand-sticker" aria-hidden="true">STARLIGHT // 02</span>
 		</div>
 		<div class="window-controls">
 			<button class="wc wc-min" id="btnMinimize" aria-label="最小化"><svg viewBox="0 0 12 12"><path d="M2 6h8"/></svg></button>
@@ -33,6 +34,10 @@
 		<!-- 侧边栏 -->
 		<aside class="sidebar">
 			<button class="profile" id="btnProfile" type="button" aria-label="账户 / Accounts">
+				<div class="profile-mascot-wrap" aria-hidden="true">
+					<img class="profile-mascot" src="assets/mascot-sticker.png" alt="">
+					<span class="profile-spark">★</span>
+				</div>
 				<div class="avatar" id="profileAvatar"></div>
 				<div class="profile-info">
 					<span class="profile-name" id="profileName" data-i18n="shell.notSignedIn">未登录</span>
@@ -96,7 +101,14 @@
 		<!-- 内容面板 -->
 		<main class="workspace-main">
 			<header class="workspace-topbar">
-				<div><h1 id="workspaceTitle" data-i18n="nav.home">开始游戏</h1><p id="workspaceSubtitle"></p></div>
+				<div class="topbar-title-group">
+					<div class="topbar-headline">
+						<h1 id="workspaceTitle" data-i18n="nav.home">开始游戏</h1>
+						<span class="topbar-slash" aria-hidden="true">//</span>
+						<span class="topbar-edition" aria-hidden="true">STARLIGHT ZINE</span>
+					</div>
+					<p id="workspaceSubtitle"></p>
+				</div>
 				<div class="workspace-actions"><button class="quick-open" id="btnQuickOpen" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg><span data-i18n="shell.quick">快速操作</span><kbd>Ctrl</kbd><kbd>K</kbd></button><button class="ui-button refresh-view" id="btnRefreshView" type="button" aria-label="刷新 / Refresh"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6 7a7 7 0 0 1 12 0M18 17a7 7 0 0 1-12 0"/></svg></button></div>
 			</header>
 		<section class="content-panel" id="contentPanel" tabindex="-1" aria-labelledby="workspaceTitle">
