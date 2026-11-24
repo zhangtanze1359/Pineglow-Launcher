@@ -12,7 +12,7 @@
 
 | ID | 类型 / 建议顺序 | 状态 | 当前阶段 | 下一步与启动条件 |
 | --- | --- | --- | --- | --- |
-| [OPEN-08](#open-08--内嵌-curseforge-api-key-逾期未移除且发布说明误述) | 安全 / 1 | 未处置 | **已发布的 v1.0.6 说明称「已移除内嵌 Key」，实际仍在**。`CurseForgeKeyDefaults.cs` 保留 60 字符内嵌 Key 作第三级回退，其 `RemovalDeadline` 标的是 `v1.0.5`，已逾一个版本 | 需编排方决定：**移除回退**（改代码）还是**续期**（改 deadline）；发布说明需同步更正 |
+| [OPEN-08](#open-08--内嵌-curseforge-api-key-逾期未移除且发布说明误述) | 安全 / 1 | **已修复待复核** | **已发布的 v1.0.6 说明称「已移除内嵌 Key」，实际仍在**。`CurseForgeKeyDefaults.cs` 保留 60 字符内嵌 Key 作第三级回退，其 `RemovalDeadline` 标的是 `v1.0.5`，已逾一个版本 | 需编排方决定：**移除回退**（改代码）还是**续期**（改 deadline）；发布说明需同步更正 |
 | [OPEN-07](#open-07--更新主源gitee-updatejson-持续-404) | 基础设施 / 2 | 未处置 | 已实测确认：产品默认更新链第一站 `gitee.com/.../update.json` **返回 404**，每次检查更新都先吃一次失败再降级 | 需编排方决定：**修复源（需 Gitee 侧权限）** 还是 **调整默认链（改产品代码）**；两者都未获授权 |
 
 ## 二、逐项执行与验收
@@ -38,35 +38,67 @@
 
 **发现方式**：2026-11-24 由任务规划方（Codex）在核实「v1.0.6 实际交付」时指出，执行者随后逐条回源码确认。**这不是规划方的推断错误，是执行者的发布说明错误。**
 
-### 已完成的临时处置
+### 编排方决定（2026-11-24）
 
-- 仓库内 `release-notes/v1.0.6.md` 已加入更正段，明确写出「该表述不属实」与实际情况。
-- **GitHub Release v1.0.6 的正文已同步更正**（`gh release edit`）。
+> **移除内嵌 Key，但不轮换、且不能让 CurseForge 下载失效。** 该 Key 未泄露，无需轮换。
 
-### 为什么不自行修复代码
+这**改变了** `CurseForgeKeyDefaults.cs` 注释里记录的 2026-11-16 原始决定（原计划是「吊销并换新 → 删文件 → 全量改为用户自带」）。本次改为「保留同一把 Key，只换注入位置」。
 
-移除回退属**产品代码改动**，且涉及产品行为选择：
+### 社区通例（先查证，再决定方案）
 
-1. **移除** —— 用户在既无配置、又无环境变量时将拿不到 CurseForge 内容，需产品侧接受这个体验退化（Current 已有缺 Key 引导，可能可接受）。
-2. **续期** —— 若该 Key 仍被计划使用，应把 `RemovalDeadline` 更新为真实目标版本并记录持有人与轮换计划。
+按编排方要求，实施前先核对了其他开源启动器「用户零配置直接用 CurseForge」的做法：
 
-两者都不是执行者能单方面决定的。**且该 Key 是否已泄漏、是否需轮换，取决于持有人判断。**
+| 启动器 | 做法 | 关键源码 |
+| --- | --- | --- |
+| **Prism Launcher** | 默认值硬编码在构建脚本，编译进 `BuildConfig`，运行时可被用户覆盖 | `CMakeLists.txt:280` `set(Launcher_CURSEFORGE_API_KEY …)` → `BuildConfig.cpp.in:114` → `Application.cpp:1933` `return BuildConfig.FLAME_API_KEY` |
+| **basalt-launcher** | **构建期从环境变量读，cargo 注入**（源码树无字面量） | `src-tauri/build.rs`：`std::env::var("BASALT_CURSEFORGE_API_KEY")` → `cargo:rustc-env` |
+| **OneLauncher** | 编译期常量 | `oneclient_net/src/config.rs:18` `constants::CURSEFORGE_API_KEY.to_string()` |
 
-### 执行步骤
+**结论：没有一家采用「代理服务」或「让用户自己配」。全部把 Key 编进二进制**，其中 **basalt 的做法最干净**（Key 只在构建环境）。本项目采用 basalt 模式。
 
-1. 编排方确认该 Key 的**持有人**与**是否仍有效**，决定吊销/轮换时点。
-2. 在 [1] 移除 与 [2] 续期 之间二选一。
-3. 若移除：删 `CurseForgeKeyDefaults.cs`、改 `ResolveCurseForgeApiKey` 移除第三级回退、同步改 `SecretHygieneTests`（**不得放宽为「允许字面量存在」**，应改为「源码树零该字面量」）、更新 `RemovalDeadline` 相关断言为「文件已不存在」。
-4. 若续期：更新 `RemovalDeadline` 到真实版本，并在文件注释写明持有人与轮换计划；`SecretHygieneTests` 增加「deadline 不得早于当前版本」的断言，防止再次逾期。
-5. 无论哪条，更正 `release-notes/v1.0.6.md` 与 GitHub Release 正文（本轮已完成），并在下一次发布说明中如实披露。
+### 实施记录（提交 `016d89f`）
+
+| 项 | 做法 |
+| --- | --- |
+| Key 来源 | 构建机环境变量 `PINEGLOW_CURSEFORGE_BUILD_KEY`（GitHub Secret 已配置，2026-11-24） |
+| 注入方式 | MSBuild `AssemblyMetadata` 写入程序集；**不生成 .cs 文件** |
+| 读取 | `CurseForgeKeyDefaults` 通过 `Assembly.GetCustomAttributes<AssemblyMetadataAttribute>()` 取回 |
+| 解析顺序 | 不变：调用方传入 → 环境变量 → 构建期注入值 |
+| 守卫 | `SecretHygieneTests` **取消豁免文件**，改为「源码树任何 .cs 出现 Key 字面量即失败」 |
+| CI | `build.yml` / `release.yml` 用 `env:` 传 secret（**不走 `-p:`**，避免 Key 进进程命令行） |
+| 发布门槛 | `release.yml` 新增「发布包必须含 Key 元数据」检查，secret 漏配时终止发布 |
+
+**为什么不用 `WriteLinesToFile` 生成 .cs**：该任务在本工具链（.NET Framework 版 MSBuild）上不支持 `WritingEncoding`，且把分号当列表分隔符导致生成的 C# 语法错误——**实测踩过两次**，故改用 `AssemblyMetadata`。
+
+### 验证结果
+
+在隔离工作树 `pg-open08-20261124` 实测：
+
+| 场景 | 结果 |
+| --- | --- |
+| 构建机未提供 Key | 构建成功，程序集**不含** Key 元数据，日志打印「未提供」 |
+| 构建机提供 Key | 构建成功，程序集**含** Key 元数据键与值，日志打印「已注入（长度 60）」 |
+| 守卫测试（带 Key） | **5/5 通过** |
+| 源码树字面量扫描 | **命中 0 个文件** |
+| 全量 C# 测试 | **1503 通过 / 0 失败 / 0 跳过**（较修复前 +1，新增守卫） |
+| GitHub Actions（`45300189396`） | **success**；三个平台的 Publish 步骤均显示「已注入构建期 Key（长度 60）」 |
+
+原始输出：[构建期注入验证](evidence/2026-11-24-open08/raw/build-injection-verify.txt)
+
+### 遗留说明（如实记录）
+
+1. **已发布的 v1.0.6 包里仍含旧的内嵌 Key**。本次只改了源码与后续构建；v1.0.6 的附件未变（哈希仍为 `43750657…`）。按编排方判断「未泄露、不轮换」，故不重发该版本。
+2. **测试步骤与发布步骤的 Key 状态不一致**：CI 里 `dotnet test` 不读该 secret（只有 Publish 步骤配了 `env`），所以测试构建的产物不含 Key。这不影响任何测试（`SecretHygieneTests:90` 只断言行解析自洽，Key 为空也成立），但属于「测试环境 ≠ 发布环境」的已知差异。
+3. **Secret 是唯一副本**。Key 现在只存在于 GitHub Secret 与 CurseForge 后台；若 secret 丢失需回后台取回。建议另存一份到仓库外的密码管理器。
 
 ### 验收清单
 
-- [ ] 该 Key 的持有人与有效性已确认并记录。
-- [ ] 移除或续期二选一已执行，且 `CurseForgeKeyDefaults.cs` 的状态与 `RemovalDeadline` 一致。
-- [ ] `SecretHygieneTests` 具备防止再次逾期的断言（不是仅「标记存在」）。
-- [ ] 已发布版本的说明与实际行为一致；若历史说明有误，已在仓库与 GitHub Release 两处更正。
-- [ ] 若判定该 Key 曾随公开发布物分发，已评估轮换必要性并记录结论。
+- [x] 该 Key 的持有人与有效性已确认并记录 —— 编排方 2026-11-24 确认「未泄露、不轮换」。
+- [x] 移除或续期二选一已执行 —— 采取「移除源码内嵌」，Key 改由构建期注入。
+- [x] `SecretHygieneTests` 具备防止再次逾期的断言 —— 已取消豁免文件，改为源码树零字面量。
+- [x] 已发布版本的说明与实际行为一致；历史说明有误已在仓库与 GitHub Release 两处更正。
+- [x] 若判定该 Key 曾随公开发布物分发，已评估轮换必要性并记录结论 —— 编排方判定不轮换。
+- [ ] **独立复核**：以上改动尚未经独立复核（按 Codex 用量规划，可由编排方决定是否派一轮）。
 
 **销项条件**：Key 状态（移除或续期）已确定并落地，守卫测试能阻止再次逾期，对外说明与实际一致；经独立复核确认。
 
