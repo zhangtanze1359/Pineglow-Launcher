@@ -423,4 +423,109 @@ public sealed class SaveRecoveryServiceTests : IDisposable
 		Assert.Equal("restored", restored.Status);
 		Assert.Equal(before.Sha256, SaveRecoveryService.ComputeManifest(saveDir).Sha256);
 	}
+
+	/* ===================== S1：删源半途失败时，最后一份完整副本必须保留 ===================== */
+
+	[Fact]
+	public async Task DeleteAsync_WhenSourceDeletionFailsMidway_KeepsVerifiedCopyInRecovery()
+	{
+		// 2026-11-24（S1 数据丢失风险）：
+		// 修复前，跨卷路径「复制→校验→删源」在删源半途抛错时，外层 catch 会
+		// **无条件清掉恢复区副本**——源已残缺、副本又被删，两边都丢。
+		// 修复后：只有「删源已开始」的失败（SourceDeletionStartedException）才保留副本。
+		//
+		// 故障注入用两个 seam 串联：
+		//   MoveOverrideForTest        → 让快路径改名失败，迫使流程走进跨卷退化路径
+		//   DeleteSourceOverrideForTest → 在「复制+校验都真实成功之后」的删源步强制失败
+		// 复制与校验**不做任何 mock**——这样恢复区副本的真实完整性才可断言。
+		string saveDir = CreateSave("LockedWorld", regionFiles: 3);
+		SaveManifest before = SaveRecoveryService.ComputeManifest(saveDir);
+		Assert.NotEqual(string.Empty, before.Sha256);
+
+		SaveRecoveryService svc = Service();
+
+		Exception? thrown = null;
+		try
+		{
+			SaveRecoveryService.MoveOverrideForTest = _ =>
+				new IOException("injected: force cross-volume fallback (S1 test)");
+			SaveRecoveryService.DeleteSourceOverrideForTest = _ =>
+				new IOException("injected: delete failed midway (S1 regression test)");
+			try
+			{
+				await svc.DeleteAsync("inst-1", _gameDir, "LockedWorld");
+			}
+			finally
+			{
+				SaveRecoveryService.MoveOverrideForTest = null;
+				SaveRecoveryService.DeleteSourceOverrideForTest = null;
+			}
+		}
+		catch (Exception ex)
+		{
+			thrown = ex;
+		}
+
+		Assert.NotNull(thrown);
+		// 报错必须指向恢复区（不是误导性的"原存档已保留在原处"——源此时已残缺）。
+		Assert.Contains("恢复区", thrown.Message);
+
+		// **核心断言**：恢复区里必须有一份**内容完整**的副本（清单哈希一致）。
+		string recRoot = Path.Combine(_recoveryRoot, "saves", "inst-1");   // 布局：<root>/saves/<instId>/<opId>/
+		Assert.True(Directory.Exists(recRoot), "恢复区目录不存在");
+		string opDir = Directory.GetDirectories(recRoot).Single();
+		string storedPath = Path.Combine(opDir, "data", "LockedWorld");
+		Assert.True(Directory.Exists(storedPath), "恢复区里没有存档副本");
+
+		SaveManifest copy = SaveRecoveryService.ComputeManifest(storedPath);
+		Assert.Equal(before.Sha256, copy.Sha256);
+
+		// 记录状态必须是 failed，Error 指向"副本已保留"。
+		string recordJson = File.ReadAllText(Path.Combine(opDir, "record.json"));
+		Assert.Contains("failed", recordJson);
+	}
+
+	[Fact]
+	public async Task DeleteAsync_WhenFailureHappensBeforeDeletion_ReportsSourceIntact()
+	{
+		// 对照组：**删源之前**的失败（这里注入快路径 Move 失败 + 让恢复区只读，
+		// 复制必然失败）——源目录从未被动过。
+		// 这条路径上：① 报错必须说"原存档已保留在原处"；② 清掉残缺副本是**正确**行为。
+		string saveDir = CreateSave("EarlyFailWorld", regionFiles: 3);
+		SaveManifest before = SaveRecoveryService.ComputeManifest(saveDir);
+
+		SaveRecoveryService svc = Service();
+
+		// 注入：Move 失败（强制走退化路径）+ Copy 失败（复制阶段失败，删源从未开始）。
+		// 之前用"只读属性"试图让复制失败——Windows 上目录只读属性**不挡创建/写入**，注入无效。
+		Exception? thrown = null;
+		try
+		{
+			SaveRecoveryService.MoveOverrideForTest = _ =>
+				new IOException("injected: force cross-volume fallback (S1 control test)");
+			SaveRecoveryService.CopyOverrideForTest = (_, _) =>
+				new IOException("injected: copy failed before deletion (S1 control test)");
+			try
+			{
+				await svc.DeleteAsync("inst-1", _gameDir, "EarlyFailWorld");
+			}
+			finally
+			{
+				SaveRecoveryService.MoveOverrideForTest = null;
+				SaveRecoveryService.CopyOverrideForTest = null;
+			}
+		}
+		catch (Exception ex)
+		{
+			thrown = ex;
+		}
+
+		Assert.NotNull(thrown);
+		// 源完好：报错必须明确说"原存档已保留在原处"，且**不**引导用户去恢复区。
+		Assert.Contains("原存档已保留", thrown.Message);
+		Assert.DoesNotContain("恢复区找回", thrown.Message);
+
+		// 源存档必须原样。
+		Assert.Equal(before.Sha256, SaveRecoveryService.ComputeManifest(saveDir).Sha256);
+	}
 }

@@ -11,6 +11,22 @@ using Pineglow.Launcher.Models;
 namespace Pineglow.Launcher.Services;
 
 /// <summary>
+/// S1 专用（2026-11-24）：标记「恢复区副本已校验完整，但源目录删除已开始且失败」。
+///
+/// 外层 catch（DeleteAsync）只对这个异常**跳过副本清理**——因为此时副本是
+/// 最后一份完整数据。其他异常仍按「源完好」处理、清掉残缺副本。
+///
+/// 为什么不用 bool 返回值：bool 表达不了「失败发生在哪一步」；
+/// 未来若有人在 MoveDirectory 里加新的失败分支，忘了设置 bool 就会
+/// 悄悄退化成"无条件清副本"。异常类型是显式的、可被 catch 精确匹配的契约。
+/// </summary>
+public sealed class SourceDeletionStartedException : IOException
+{
+	public SourceDeletionStartedException(string message, Exception inner) : base(message, inner) { }
+}
+
+
+/// <summary>
 /// M2-1①：存档（**目录**）级的可恢复删除。
 ///
 /// 为什么不在 <see cref="FileRecoveryService"/> 上加目录支持：
@@ -42,6 +58,23 @@ public sealed class SaveRecoveryService
 	};
 
 	private readonly string _recoveryRoot;
+
+	/// <summary>
+	/// 仅测试用：替换「删源」这一步（2026-11-24 S1）。
+	///
+	/// 为什么需要它：「删源半途失败」在纯单元测试里无法用文件系统状态制造——
+	/// 复制+校验都成功之后，要让 Directory.Delete 恰好失败，需要在校验与删除之间
+	/// 改变世界状态（文件锁在快路径上不生效、同卷 Move 根本不删除）。
+	/// 与 AiDiagnoseService.SendWithRetryOverrideForTest 同一模式。
+	/// </summary>
+	/// <summary>注入「快路径 Directory.Move 失败」——迫使流程走跨卷退化路径（复制→校验→删源）。</summary>
+	internal static Func<string, Exception>? MoveOverrideForTest;
+
+	/// <summary>注入「删源 Directory.Delete 失败」——只在跨卷退化路径的删源步生效。</summary>
+	internal static Func<string, Exception>? DeleteSourceOverrideForTest;
+
+	/// <summary>注入「复制 CopyDirectory 失败」——发生在复制阶段（删源之前，源完好）。</summary>
+	internal static Func<string, string, Exception>? CopyOverrideForTest;
 
 	public SaveRecoveryService(string recoveryRoot)
 	{
@@ -145,16 +178,27 @@ public sealed class SaveRecoveryService
 			{
 				MoveDirectory(sourcePath, storedPath, manifest);
 			}
+			catch (SourceDeletionStartedException ex)
+			{
+				// S1（2026-11-24）：删源已开始且失败——源残缺，恢复区副本是**最后一份完整数据**。
+				// **绝不清副本**（修复前这里无条件清，造成"两边都丢"的数据丢失路径）。
+				record.Status = "failed";
+				record.Error = "源目录在删除过程中部分丢失，完整副本已保留在恢复区：" + ex.Message;
+				record.OriginalPath = storedPath;   // 唯一完整副本的位置
+				await WriteRecordAsync(operationDir, record).ConfigureAwait(false);
+				throw new InvalidOperationException(
+					"存档删除失败：原目录已不完整，但完整副本已保留在恢复区（可在恢复区找回）。", ex);
+			}
 			catch (Exception ex)
 			{
-				// 回滚到"源目录完好"：MoveDirectory 内部已保证失败时不动源目录，
-				// 但恢复区里可能留了半份副本，这里清掉，避免出现"两处都不完整"。
+				// 其他一切失败（复制失败、快路径校验失败、无法创建目录……）都发生在
+				// **删源之前**——源目录从未被动过，仍是完好的。此时清掉恢复区里的
+				// 半份副本是正确行为（修复前后的分界：只有这条路径允许清）。
 				TryDeleteDirectory(dataDir);
 
 				record.Status = "failed";
 				record.Error = ex.Message;
 				await WriteRecordAsync(operationDir, record).ConfigureAwait(false);
-
 				throw new InvalidOperationException("存档删除失败，原存档已保留在原处：" + ex.Message, ex);
 			}
 
@@ -165,28 +209,63 @@ public sealed class SaveRecoveryService
 	}
 
 	/// <summary>
-	/// 移动目录并校验。**失败时源目录必须完好**，因此先复制校验、成功后才删源；
-	/// 同卷且能原子改名时走 <see cref="Directory.Move(string, string)"/> 的快路径。
+	/// 移动目录并校验。返回值 = **源目录是否仍完好**（外层据此决定失败时清不清恢复区副本）。
+	///
+	/// 2026-11-24（S1）：原签名是 void，注释声称"失败时源目录必须完好"，但跨卷路径上
+	/// 「复制→校验→删源」的**删源半途失败**会让源残缺——外层若按"源完好"处理就会
+	/// 清掉副本，造成两边都丢。现在把真实情况返回给外层。
+	///
+	/// 安全顺序（跨卷）：先复制 → 校验副本 → **才**开始删源；
+	/// 删源失败时副本已校验过，是最后一份完整数据。
 	/// </summary>
-	private static void MoveDirectory(string sourcePath, string storedPath, SaveManifest expected)
+	private static bool MoveDirectory(string sourcePath, string storedPath, SaveManifest expected)
 	{
 		try
 		{
+			if (MoveOverrideForTest != null)
+			{
+				Exception? forced = MoveOverrideForTest(sourcePath);
+				if (forced != null) throw forced;
+			}
 			Directory.Move(sourcePath, storedPath);
 		}
 		catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException)
 		{
 			// 常见原因：跨卷。退化为「复制 → 校验 → 删源」。
+			if (CopyOverrideForTest != null)
+			{
+				Exception? forced = CopyOverrideForTest(sourcePath, storedPath);
+				if (forced != null) throw forced;
+			}
 			CopyDirectory(sourcePath, storedPath);
 			SaveManifest actual = ComputeManifest(storedPath);
 			if (!string.Equals(actual.Sha256, expected.Sha256, StringComparison.OrdinalIgnoreCase))
 			{
+				// 副本不完整 → 源目录从未被动过，仍是完好的，可以放心清副本。
 				TryDeleteDirectory(storedPath);
 				throw new IOException("复制到恢复区后校验不通过，已放弃本次删除：" + ex.Message, ex);
 			}
 
-			Directory.Delete(sourcePath, recursive: true);
-			return;
+			// 副本已校验完整。此刻开始删源：任何失败都意味着源残缺、副本是最后一份。
+			try
+			{
+				if (DeleteSourceOverrideForTest != null)
+				{
+					Exception? forced = DeleteSourceOverrideForTest(sourcePath);
+					if (forced != null) throw forced;
+				}
+				else
+				{
+					Directory.Delete(sourcePath, recursive: true);
+				}
+			}
+			catch (Exception delEx) when (delEx is IOException || delEx is UnauthorizedAccessException)
+			{
+				// 源已残缺。抛专用类型：外层只对它**跳过副本清理**（副本是最后一份）。
+				throw new SourceDeletionStartedException(
+					"恢复区副本已校验完整，但删除原目录时失败（原目录可能已不完整）：" + delEx.Message, delEx);
+			}
+			return true;
 		}
 
 		// 快路径也要复核：Directory.Move 在同一卷上几乎不会出错，但恢复区可能在别的卷且被重定向，
@@ -209,6 +288,10 @@ public sealed class SaveRecoveryService
 
 			throw new IOException("移动到恢复区后内容校验不一致，已回滚到原位置。");
 		}
+
+		// 快路径成功（同卷原子改名 + 校验通过）：源位置已空，数据完整地在恢复区。
+		// "源是否完好"按 DeleteSave 的语义问的是"用户的数据是否还安全"——答案是安全的。
+		return true;
 	}
 
 	/* ===================== 查询 ===================== */

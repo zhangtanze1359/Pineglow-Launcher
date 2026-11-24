@@ -164,19 +164,28 @@ public static partial class LocalApiService
 				//
 				// 与"退出后自动关闭"的时序：**先备份，再关窗**，备份给 20 秒上限，超时放弃本次备份照常退出。
 				// 反过来（先关窗再备份）会被下面的 Environment.Exit(0) 直接截断，开关就等于形同虚设。
-				await TryRunAutoBackupOnExitAsync(instanceId);
+				AutoBackupExitResult backup = await TryRunAutoBackupOnExitAsync(instanceId);
 				if (autoCloseOnExit)
 				{
-					Avalonia.Threading.Dispatcher.UIThread.Post(() =>
+					if (!backup.ShouldClose)
 					{
-						try
+						// S2：备份失败/超时 → 保留窗口，让用户看到原因、手动决定。
+						// （写一条能被用户看到的日志；界面提示交由后续版本接入状态条。）
+						Debug.WriteLine("[auto-close] 备份未成功完成，已按设置保留窗口：" + backup.Summary);
+					}
+					else
+					{
+						Avalonia.Threading.Dispatcher.UIThread.Post(() =>
 						{
-							Environment.Exit(0);
-						}
-						catch
-						{
-						}
-					});
+							try
+							{
+								Environment.Exit(0);
+							}
+							catch
+							{
+							}
+						});
+					}
 				}
 			}
 			catch
@@ -195,7 +204,16 @@ public static partial class LocalApiService
 	/// D3②：游戏进程退出后跑一次自动备份。**永不抛异常**——它跑在退出监听里，
 	/// 一旦抛出去会让"记录游玩时长 / 清理运行态 / 自动关窗"全部跳过。
 	/// </summary>
-	private static async Task TryRunAutoBackupOnExitAsync(string instanceId)
+	/// <summary>退出后备份的结果摘要，供「自动关窗」判断要不要留下窗口。</summary>
+	private sealed record AutoBackupExitResult(bool ShouldClose, string Summary);
+
+	/// <summary>
+	/// D3② + 2026-11-24（S2，用户数据保护）：
+	/// 此版本前，备份失败/超时**照样自动关窗**——用户以为数据已备份，实际可能没有。
+	/// 现在：失败 / 部分失败 / 超时 / 扫描异常都会**保留窗口**并把原因写进日志，
+	/// 只有「备份成功」或「本来就没开启/没有存档」才按设置关窗。
+	/// </summary>
+	private static async Task<AutoBackupExitResult> TryRunAutoBackupOnExitAsync(string instanceId)
 	{
 		try
 		{
@@ -203,7 +221,7 @@ public static partial class LocalApiService
 			GameInstance? instance = latest.Instances.FirstOrDefault(x => x.Id == instanceId);
 			if (instance == null || !instance.AutoBackupOnExit)
 			{
-				return;
+				return new AutoBackupExitResult(true, "备份未开启或实例不存在");
 			}
 
 			string gameDirectory = ResolveGameDirectory(latest, instance);
@@ -213,15 +231,29 @@ public static partial class LocalApiService
 			Task completed = await Task.WhenAny(run, Task.Delay(TimeSpan.FromSeconds(20)));
 			if (completed != run)
 			{
-				Debug.WriteLine("[auto-backup] 超过 20 秒未完成，放弃本次备份（不阻塞退出）");
-				return;
+				// 超时：**不能**确定备份已完成。关窗会截断仍在写的备份任务。
+				// 保留窗口，让后台任务自然收尾；用户可以看到并自行决定。
+				Debug.WriteLine("[auto-backup] 超过 20 秒未完成：保留窗口等待备份收尾（不再自动关窗）");
+				return new AutoBackupExitResult(false, "自动备份超过 20 秒未完成，已保留窗口等待其结束");
 			}
 
-			await run;
+			AutoBackupOutcome outcome = await run;
+			if (outcome.FailedFolders.Count > 0)
+			{
+				Debug.WriteLine($"[auto-backup] 部分存档备份失败（{outcome.FailedFolders.Count} 个）：保留窗口");
+				return new AutoBackupExitResult(false,
+					"自动备份有 " + outcome.FailedFolders.Count + " 个存档失败，已保留窗口："
+					+ string.Join(", ", outcome.FailedFolders.Take(3)));
+			}
+
+			Debug.WriteLine("[auto-backup] 完成：已备份 " + outcome.BackedUpPaths.Count + " 个存档");
+			return new AutoBackupExitResult(true, "备份完成（" + outcome.BackedUpPaths.Count + " 个存档）");
 		}
 		catch (Exception ex)
 		{
-			Debug.WriteLine("[auto-backup] 未预期异常（已吞掉，不影响退出）：" + ex.Message);
+			// 连"结果"都拿不到时，同样不能假装成功去关窗。
+			Debug.WriteLine("[auto-backup] 未预期异常：保留窗口。" + ex.Message);
+			return new AutoBackupExitResult(false, "自动备份出现未预期异常，已保留窗口：" + ex.Message);
 		}
 	}
 
