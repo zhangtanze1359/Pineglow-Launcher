@@ -70,6 +70,9 @@ jobs:
   release:
     needs: verify
     runs-on: windows-latest
+    # 附件上传最坏 2 × 900s = 30 分钟；加上构建与验证，给 60 分钟显式上限
+    # （GitHub 默认 360 分钟太宽，真挂住时白白占 runner）。
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
 
@@ -370,7 +373,10 @@ jobs:
 
           # 用 curl 上传（runner 自带 curl.exe，大文件上传比 Invoke-RestMethod -Form 稳定）
           # Gitee attach_files API：POST multipart，字段 access_token + file
-          # 跨国传输慢，120s 快速失败重试 2 次；失败由 continue-on-error 兜底不阻断发布
+          # 跨国传输慢。超时历史：120s（从未够过）→ 300s（v1.0.8 实测 2×5 分钟仍传不完
+          # 53 MB，2026-11-24）→ 900s（当前）。单次 15 分钟 × 2 次尝试最坏 30 分钟；
+          # job 整体 timeout-minutes 必须大于它（见下）。
+          # 本地实测同文件 46 秒传完——瓶颈是 runner 出口带宽，不是 Gitee。
           $attempt = 0
           $uploaded = $null
           while ($attempt -lt 2 -and $null -eq $uploaded) {
@@ -380,14 +386,13 @@ jobs:
             # 写进临时 curl 配置文件，curl -K 读取，用完立即删除。
             $curlCfg = Join-Path $env:RUNNER_TEMP ("gitee-curl-" + [guid]::NewGuid().ToString('N') + ".conf")
             try {
-              # curl config 里转义双引号与反斜杠，避免 token 内容破坏配置语法
               # curl config 里转义反斜杠与双引号，避免 token 内容破坏配置语法。
               # 注意：PowerShell 单引号字符串里 '\\' 就是两个反斜杠，对应 C# 的 "\\\\"。
               # 此前误写成 Replace('', '\')（空字符串查找），会让 String.Replace 抛 ArgumentException，
               # 表现为"上传附件尝试 #1"后 2 秒内 exit 1、镜像静默失败（2026-11-24 v1.0.7 实测）。
               $escaped = $token.Replace('\', '\\').Replace('"', '\"')
               Set-Content -Path $curlCfg -Value ('header = "Authorization: token ' + $escaped + '"') -Encoding ascii
-              $resp = & curl.exe -sS -K $curlCfg -X POST "$api/releases/$($release.id)/attach_files" -F "file=@$exePath" --max-time 300
+              $resp = & curl.exe -sS -K $curlCfg -X POST "$api/releases/$($release.id)/attach_files" -F "file=@$exePath" --max-time 900
             } finally {
               Remove-Item $curlCfg -Force -ErrorAction SilentlyContinue
             }
