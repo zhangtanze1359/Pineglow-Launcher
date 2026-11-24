@@ -1,0 +1,38 @@
+﻿=== OPEN-08 产品入口验证 2026-11-24T10:33:20.4913497+08:00 ===
+
+--- 候选产物 ---
+EXE: D:/Projects/_worktrees/pg-o8auth/dev/PineglowLauncher/bin/Release/net10.0/win-x64/publish/Pineglow.Launcher.exe
+大小: 51688754 bytes
+SHA-256: 51E1492DF03097375D381842EC538804EDFAC900F7B8E7406B635BDA300DCB79
+
+config.json（**故意不含 CurseForgeApiKey**）: {"gameDirectory":"D:\\Projects\\_worktrees\\pg-o8-auth\\run\\data\\.minecraft"}
+
+--- 启动产品产物 ---
+PID = 31536
+API 就绪 = True (等 0 s)
+
+session token = 已获取
+
+--- 1. GET /api/content/search?source=curseforge（产品入口，零配置）---
+  响应: {"results":[{"id":"238222","title":"Just Enough Items (JEI)","desc":"View Items and Recipes","author":"mezz","downloads":650812313,"category":"mod","source":"curseforge","versions":[],"loaders":[],"websiteUrl":"https://www.curseforge.com/minecraft/mc-mods/jei","iconUrl":"/api/content/icon?source=curseforge\u0026category=mod\u0026projectId=238222"},{"id":"240630","title":"Just Enough Resources (JER
+  返回条目数: 24
+  首条: id=238222 name= source=curseforge
+
+--- 2. POST /api/content/install（真实下载）---
+  响应: {"ok":true,"id":"ct1795487604961","category":"mod","status":"queued"}
+
+--- 3. 观察落盘（轮询 mods 目录）---
+  落盘: mezz_config-26.3-neoforge-0.7.1-standalone.jar (347265 bytes) SHA256=D4BD20B9424859BD11F4E7C3F6A46A5060B104AE732FDB2F6B2492ACE0FBECC4
+
+--- 产品日志（如有）---
+--- launcher-20261124.log
+2026-11-24 10:33:21.353 [INFO] === Pineglow Launcher 鍚姩 v1.0.6 ===
+2026-11-24 10:33:21.423 [INFO] [LocalApi] 鐩戝惉 127.0.0.1:48123, ui=D:\Projects\_worktrees\pg-o8-auth\run\data\UI\1.0.6-f0f6ec24dc2c
+2026-11-24 10:33:25.239 [INFO] [update] 娓呭崟婧愬け璐ワ紙HTTP 404锛堟竻鍗曚笉瀛樺湪锛夛級: https://gitee.com/ztz1359/pineglow-launcher/raw/master/update.json
+2026-11-24 10:33:30.871 [INFO] [update] 妫€鏌ユ洿鏂帮細current=1.0.6 latest=1.0.6 available=False source=https://github.com/zhangtanze1359/Pineglow-Launcher/releases/latest/download/manifest.json fallback=True
+
+--- 清理 ---
+已终止 PID 31536
+
+RESULT: PASS
+（本验证：EXE=51E1492DF03097375D381842EC538804EDFAC900F7B8E7406B635BDA300DCB79；产品零配置 CurseForgeApiKey）

@@ -179,11 +179,16 @@
 
 ### 验收清单
 
-- [x] 该 Key 的**持有人**与**当前有效性**已确认并记录 ——
-      **2026-11-24 已补齐**，见 [授权证明（脱敏）](evidence/2026-11-24-open08/AUTHORIZATION.md)：
-      ① 持有人 = **Zhang Tanze**（CurseForge 官方邮件收件人，2026-07-15 批准 "Pineglow Launcher" 的 3rd Party API）；
-      ② 当前有效性 = **实测通过**——用该 Key 跑通 `search → files → download-url → 实际下载`，
-      下载 JEI 7,103,608 bytes（[原始输出](evidence/2026-11-24-open08/raw/curseforge-live.txt)）。
+- [x] 该 Key 的**持有人**与**当前有效性**已确认并记录 —— **2026-11-24 已补齐**，分两部分：
+      ① **授权来源**：CurseForge 官方邮件（2026-07-15 批准 "Pineglow Launcher" 的 3rd Party API），
+      持有人 Zhang Tanze。见 [授权证明（脱敏）](evidence/2026-11-24-open08/AUTHORIZATION.md)。
+      ② **当前有效性 + 产品可用性**：**通过产品自身入口实测**（非直调 API）——
+      在注入真实 Key 构建的候选 EXE（SHA-256 `51E1492D…DCB79`）上，
+      `GET /api/content/search?source=curseforge` 返回 24 条，
+      `POST /api/content/install` 真实落盘 `mezz_config-26.3-neoforge-0.7.1-standalone.jar`（347,265 bytes）。
+      **config.json 故意不含 CurseForgeApiKey**，证明"用户零配置也能用"。
+      见 [产品入口验证](evidence/2026-11-24-open08/raw/product-entry-curseforge.txt)。
+      > 第 3 轮复核指出旧证据的缺陷（Python 直调、未绑定候选 SHA）——本条已按该要求重做。
 - [x] 移除源码内嵌已执行 —— Key 改由构建期注入，源码树零字面量（守卫反证过）。
 - [x] `SecretHygieneTests` 能防回归 —— 已取消豁免文件；`.cs` 与构建配置输入（含 `.yml`）均扫；
       Windows 生成物不再误报；`obj` 路径按段判断；**探针反证：加字面量 → 红，删除 → 绿**。
@@ -191,10 +196,13 @@
       链接已修正为 `../docs/open-items.md`。
 - [x] 若判定该 Key 曾随公开发布物分发，已记录轮换决定 —— 编排方判定**不轮换**。
       「是否曾被未经授权使用」**无法核实**，已如实记录为剩余风险。
-- [ ] **独立复核**：已派 **2 轮**，均 FAIL。
-      第 1 轮两条阻断已修（门槛扫压缩 EXE、Windows 守卫误报）；
-      第 2 轮两个放行口已修（错配 EXE、纯空白值），五情形实测全对；
-      **验收项 1 的证据也已补齐 → 待第 3 轮复核确认**。
+- [ ] **独立复核**：已派 **3 轮**，均 FAIL。三轮指出的问题均已修复并实测：
+      ① 第 1 轮：门槛扫压缩 EXE 外层（永远失败）、Windows 守卫误报 `obj` 生成物；
+      ② 第 2 轮：错配 EXE 放行、纯空白值放行；
+      ③ 第 3 轮：**PowerShell 对 WinExe 不等待**（拿不到输出与退出码）、
+         守卫按任意路径段排除 `bin`/`obj`（放过源码里的 `binary/` 等）。
+      第 3 轮还指出验收项 1 的旧证据不合格（Python 直调、未绑定候选）——**已按产品入口重做**。
+      **按 Codex 用量规划，本事项已达 3 轮上限，后续由编排方裁定。**
 
 **销项条件**：Key 状态（移除或续期）已确定并落地，守卫测试能阻止再次逾期，对外说明与实际一致；经独立复核确认。
 
