@@ -1,0 +1,6 @@
+fe5a20c2d46ff76aaaa140273d0fcefbca6a801c4e01d1c18db59641ff7ddce6 *gh-v109.exe
+fe5a20c2d46ff76aaaa140273d0fcefbca6a801c4e01d1c18db59641ff7ddce6 *gitee-v109.exe
+downloaded via curl 2026-11-27 12:0x
+gh  bytes=53495265 sha256=fe5a20c2d46ff76aaaa140273d0fcefbca6a801c4e01d1c18db59641ff7ddce6
+gitee bytes=53495265 sha256=fe5a20c2d46ff76aaaa140273d0fcefbca6a801c4e01d1c18db59641ff7ddce6
+face=both match manifest.json sha256

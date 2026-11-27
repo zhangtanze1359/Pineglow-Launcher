@@ -1,0 +1,11 @@
+﻿step=1 merge r10 + 1.0.9 metadata into main (worktree)
+time=2026-11-27T11:00:57.2020743+08:00
+baseline=49b371bb39806fdc6796abc42784e09ba2af8dce
+patch=docs/evidence/2026-11-27-n09-r10/n09-start-download-r10-v109.patch
+patchSha256=45AA130D825819DD077150BB1A656204A9DB58EF216D9494A064A10F86B233BD
+applyExit=0
+trackedModified=20
+untrackedAddedFiles=5
+exitWatchGenHits=6
+runningCountHits=1
+versionLine=3

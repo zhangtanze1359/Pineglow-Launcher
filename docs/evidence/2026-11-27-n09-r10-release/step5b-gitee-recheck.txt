@@ -1,0 +1,12 @@
+step=5b gitee post-mirror recheck (local egress blocked)
+time=2026-11-27T12:20:01+0800
+local_direct_and_proxy_tls_to_gitee=failed (schannel handshake error via 127.0.0.1:7890 and direct; github reachable)
+authoritative_record: mirror-gitee workflow run 45938488765 (push f68e7c2)
+  - backup: version=1.0.9 sha=55bc1932767d
+  - push: 0be7a67...f68e7c2 HEAD -> master (forced update)
+  - restore: version=1.0.9 HTTP 201
+  - final step reported: 推送后远端 SHA 与本地不一致 (exit 1) -> tag/SHA compare guard tripped, update.json itself restored
+last successful direct read (before block, 2026-11-27T12:07):
+  update.json version=1.0.9 size=53495265 sha256=fe5a20c2d46ff76aaaa140273d0fcefbca6a801c4e01d1c18db59641ff7ddce6
+  gitee asset bytes=53495265 sha256=fe5a20c2d46ff76aaaa140273d0fcefbca6a801c4e01d1c18db59641ff7ddce6
+sta=deferred (post-publish recheck to be completed by 测试与审查工程师 from a network path that can reach gitee)

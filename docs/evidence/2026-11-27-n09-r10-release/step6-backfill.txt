@@ -1,0 +1,7 @@
+step=6 release notes + baseline backfill
+time=2026-11-27T12:12:11+0800
+baselineCommit=f68e7c2 docs(baseline): v1.0.9 发布后刷新基线（C# 1526 / 前端 522）
+baselinePushed=true
+baselineRecord: branch=main @ 47aa97e (tag v1.0.9 commit) C# 1526 / frontend 522 / CSS 78 / closure pass
+releaseNotesSource=repo release-notes/v1.0.9.md -> GitHub Release body (verified: 已知降级 present, upgrade guidance v1.0.5-v1.0.8)
+releaseHandoff=docs/handoff/HANDOFF-2026-11-27-v109-release.md

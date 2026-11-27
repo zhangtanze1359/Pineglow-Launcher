@@ -1,0 +1,8 @@
+﻿step=3 tag
+time=2026-11-27T11:08:39.7149258+08:00
+tag=v1.0.9
+tagObject=1b6cc31472a40efbd48ac45908b45ccd7a3f7840
+tagPeeledCommit=47aa97e17bd82d37fbf79984631a065f93d85772
+tagType=annotated
+assemblyVersionAssertion=1.0.9
+fileVersion=1.0.9.0
