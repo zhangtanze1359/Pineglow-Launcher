@@ -36,12 +36,13 @@ public static partial class LocalApiService
 		AppConfig config = LoadConfig();
 		string gameDir = ResolveGameDirectory(config, null);
 		using CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-		List<VersionEntry> online = await new MinecraftDownloader(Outbound.Api, _ => { }).FetchOnlineVersionsAsync(cts.Token);
-		List<string> local = VersionResolver.ListLocalVersions(gameDir);
+		List<VersionEntry> online = await new MinecraftDownloader(Outbound.Api, message => LauncherLog.Info("[versions] " + message))
+			.FetchOnlineVersionsAsync(cts.Token, perSourceTimeout: TimeSpan.FromSeconds(12));
+		var installed = new HashSet<string>(VersionResolver.ListLocalVersions(gameDir), StringComparer.Ordinal);
 		await WriteJsonAsync(response, 200, new
 		{
 			gameDir,
-			versions = online.Select(v => new { v.Id, v.Type, v.ReleaseTime, installed = local.Contains(v.Id) })
+			versions = online.Select(v => new { v.Id, v.Type, v.ReleaseTime, installed = installed.Contains(v.Id) })
 		});
 	}
 

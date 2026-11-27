@@ -52,6 +52,10 @@ public static partial class LocalApiService
 
 	private static async Task LaunchBodyAsync(HttpListenerResponse response, string instanceId)
 	{
+		// N09-09（退出归属，第六轮修复）：在进程拉起之前先读一次退出事件号，
+		// 随成功响应回传给界面作为「历史分界」——分界之后的退出才可能属于本次启动。
+		// 归属由服务端时序决定，前端不做任何历史读取（第四~六轮的漏报都来自读取时序）。
+		long launchExitBase = RunningInstanceRegistry.CurrentExitEventSeq;
 		RequestScope scope = BeginReadScope(instanceId);
 		AppConfig config = scope.Config;
 		GameInstance instance = scope.Instance!;
@@ -149,6 +153,11 @@ public static partial class LocalApiService
 			try
 			{
 				await process.WaitForExitAsync();
+				// N09-09 补充（游戏退出显式提示）：登记本次退出（退出码 + 运行时长）。
+				// 界面观察窗口按事件号去重后，对「秒退 / 退出码非 0」给一条持久提示。
+				int? gameExitCode;
+				try { gameExitCode = process.ExitCode; } catch { gameExitCode = null; }
+				RunningInstanceRegistry.RecordGameExit(instanceId, gameExitCode, playStartedAt, DateTimeOffset.Now);
 				lock (ConfigGate)
 				{
 					AppConfig latest = LoadConfig();
@@ -197,7 +206,59 @@ public static partial class LocalApiService
 				RunningInstanceRegistry.MarkExited(instanceId);
 			}
 		});
-		await WriteJsonAsync(response, 200, new { ok = true, pid = process.Id, minimizeOnLaunch });
+		await WriteJsonAsync(response, 200, new { ok = true, pid = process.Id, minimizeOnLaunch, exitEventBase = launchExitBase });
+	}
+
+	/// <summary>
+	/// N09-09 补充（游戏退出显式提示）：轻量游戏状态查询。
+	/// 只读运行注册表——不加载配置、不扫描 Java / 存档 / Mod，
+	/// 供前端在启动后的观察窗口里轮询「最近一次退出」，不给首屏性能添负担。
+	/// </summary>
+	private static async Task HandleGameStatusAsync(HttpListenerRequest request, HttpListenerResponse response)
+	{
+		long since = 0;
+		string? sinceRaw = request.QueryString["since"];
+		if (!string.IsNullOrEmpty(sinceRaw) && long.TryParse(sinceRaw, out long parsed))
+		{
+			since = parsed;
+		}
+
+		List<object> exits = new List<object>();
+		foreach (RunningInstanceRegistry.GameExitInfo exit in RunningInstanceRegistry.GetExitsAfter(since))
+		{
+			exits.Add(new
+			{
+				eventId = exit.EventId,
+				instanceId = exit.InstanceId,
+				exitCode = exit.ExitCode,
+				durationMs = exit.DurationMs,
+				quickExit = exit.QuickExit,
+				needsNotice = exit.NeedsNotice
+			});
+		}
+
+		RunningInstanceRegistry.GameExitInfo? last = RunningInstanceRegistry.LastGameExit;
+		object? lastGameExit = last == null
+			? null
+			: new
+			{
+				eventId = last.EventId,
+				instanceId = last.InstanceId,
+				exitCode = last.ExitCode,
+				durationMs = last.DurationMs,
+				quickExit = last.QuickExit,
+				needsNotice = last.NeedsNotice
+			};
+
+		await WriteJsonAsync(response, 200, new
+		{
+			lastGameExit,
+			exits,
+			lastEventId = RunningInstanceRegistry.CurrentExitEventSeq,
+			// 第九轮（架构审查反例）：观察窗口按「是否还有游戏在跑」收摊——
+			// 双开时 A 的退出提示后不能停表，B 的秒退还要接着报。
+			runningCount = RunningInstanceRegistry.Count
+		});
 	}
 
 	/// <summary>
@@ -257,86 +318,49 @@ public static partial class LocalApiService
 		}
 	}
 
+	private static async Task<(string? Path, int RequiredMajor)> FindLaunchJavaAsync(AppConfig config, GameInstance instance, string minecraftVersion)
+	{
+		string gameDir = ResolveGameDirectory(config, instance);
+		int requiredMajor = JavaVersionMatcher.GetRequiredJavaMajor(minecraftVersion, gameDir);
+		string configured = !string.IsNullOrWhiteSpace(instance.JavaPath) ? instance.JavaPath : config.JavaPath;
+		if (!string.IsNullOrWhiteSpace(configured))
+		{
+			// javaw.exe can omit console version output. Verify its sibling from the same installation.
+			string probePath = configured;
+			if (OperatingSystem.IsWindows() && File.Exists(configured)
+				&& Path.GetFileName(configured).Equals("javaw.exe", StringComparison.OrdinalIgnoreCase))
+			{
+				string consoleJava = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(configured))!, "java.exe");
+				if (File.Exists(consoleJava)) probePath = consoleJava;
+			}
+			JavaInstallation? pinned = await JavaLocator.ValidateInstallationAsync(probePath);
+			if (pinned == null || !JavaVersionMatcher.IsCompatible(pinned.VersionMajor, requiredMajor))
+			{
+				string actual = pinned == null ? "无法运行或识别版本" : $"实际为 Java {pinned.VersionMajor}";
+				throw new InvalidOperationException($"已指定的 Java {actual}。该实例需要 Java {requiredMajor}，请在设置中重新选择或清除该路径以启用自动安装。");
+			}
+			return (probePath == configured ? pinned.JavaPath : configured, requiredMajor);
+		}
+
+		List<JavaInstallation> found = await JavaLocator.ScanAsync();
+		JavaInstallation? match = JavaLocator.MatchForMinecraftVersion(found, minecraftVersion, gameDir);
+		return (match?.JavaPath, requiredMajor);
+	}
+
 	private static async Task<string> ResolveJavaPathAsync(AppConfig config, GameInstance instance, string minecraftVersion)
 	{
-		if (!string.IsNullOrWhiteSpace(instance.JavaPath))
-		{
-			return instance.JavaPath;
-		}
-
-		if (!string.IsNullOrWhiteSpace(config.JavaPath))
-		{
-			return config.JavaPath;
-		}
-
-		List<JavaInstallation> found = JavaLocator.ScanAsync(null).GetAwaiter().GetResult();
-		// 关键：把**游戏目录**一起传进去，让匹配走版本 JSON 里的 `javaVersion.majorVersion`（并可沿 inheritsFrom 上溯）。
-		// 只传版本字符串时，`neoforge-21.1.230` / `1.20.1-forge-47.4.3` 这类**加载器版本 id** 解析不出主版本，
-		// 会默认成 Java 17 ⇒ MC 1.21+ 实例的 JVM 立刻退出：
-		//   java.lang.module.InvalidModuleDescriptorException: Unsupported major.minor version 65.0
-		string javaGameDir = ResolveGameDirectory(config, instance);
-		JavaInstallation match = JavaLocator.MatchForMinecraftVersion(found, minecraftVersion, javaGameDir);
-		if (match != null)
-		{
-			return match.JavaPath;
-		}
-
-		int requiredMajor = JavaVersionMatcher.GetRequiredJavaMajor(minecraftVersion, javaGameDir);
-		JavaInfo any = JavaLocator.FindAsync().GetAwaiter().GetResult();
-		if (any != null)
-		{
-			// 只有"任意 Java"确实满足要求时才用它；主版本未知（<=0）也**不**视为兼容。
-			if (any.VersionMajor > 0 && JavaVersionMatcher.IsCompatible(any.VersionMajor, requiredMajor))
-			{
-				return any.Path;
-			}
-
-			// 2026-11-24 用户反馈「Java 缺失不能自动配置」：
-			// 此前这里直接抛异常，提示"整合包导入会自动安装所需 Java"——
-			// 等于让用户为了装 Java 去导入一个整合包。而自动安装能力
-			//（JavaRuntimeService.InstallAsync，Adoptium API）早已存在，
-			// 只是没接进启动路径。现在接上：扫不到就自动下载。
-			try
-			{
-				JavaInstallation installed = await new JavaRuntimeService(Outbound.Api, _ => { })
-					.InstallAsync(requiredMajor);
-				if (installed != null && !string.IsNullOrWhiteSpace(installed.JavaPath))
-				{
-					return installed.JavaPath;
-				}
-			}
-			catch (OperationCanceledException) { throw; }
-			catch (Exception ex)
-			{
-				throw new InvalidOperationException(
-					$"该版本需要 Java {requiredMajor}，自动安装失败：{ex.Message}。"
-					+ $"请在设置中手动指定 Java {requiredMajor} 的路径。", ex);
-			}
-
-			throw new InvalidOperationException(
-				$"该版本需要 Java {requiredMajor}，自动安装未返回可用路径。请在设置中手动指定。");
-		}
-
-		// 完全没找到任何 Java：同样走自动安装。
+		var (path, requiredMajor) = await FindLaunchJavaAsync(config, instance, minecraftVersion);
+		if (path != null) return path;
 		try
 		{
-			JavaInstallation installed = await new JavaRuntimeService(Outbound.Api, _ => { })
-				.InstallAsync(requiredMajor);
-			if (installed != null && !string.IsNullOrWhiteSpace(installed.JavaPath))
-			{
-				return installed.JavaPath;
-			}
+			JavaInstallation installed = await new JavaRuntimeService(Outbound.Api, _ => { }).InstallAsync(requiredMajor);
+			return installed.JavaPath;
 		}
-		catch (OperationCanceledException) { throw; }
-		catch (Exception ex)
+		catch (Exception ex) when (ex is not OperationCanceledException)
 		{
 			throw new InvalidOperationException(
-				$"未找到可用的 Java 运行时（该版本需要 Java {requiredMajor}），自动安装失败：{ex.Message}。"
-				+ $"请在设置中手动指定 Java 路径。", ex);
+				$"该实例需要 Java {requiredMajor}，自动安装失败：{ex.Message}。请重试或在设置中选择兼容的 Java。", ex);
 		}
-
-		throw new InvalidOperationException(
-			$"未找到可用的 Java 运行时（该版本需要 Java {requiredMajor}），自动安装未返回可用路径，请先在设置中指定 Java 路径");
 	}
 
 	private static string AppendJvmArgument(string existing, string argument)

@@ -198,16 +198,27 @@ public static partial class LocalApiService
 		string javaPath = string.Empty;
 		bool javaExists = false;
 		string javaError = string.Empty;
-		try
+		int javaInstallMajor = 0;
+		if (!string.IsNullOrWhiteSpace(instance.MinecraftVersion))
 		{
-			javaPath = await ResolveJavaPathAsync(config, instance, instance.MinecraftVersion ?? string.Empty);
-			javaExists = File.Exists(javaPath);
-		}
-		catch (Exception ex)
-		{
-			// 解析抛异常是"该去重新选 Java"，与"路径存在但文件没了"不是一回事，
-			// 所以单独记在 JavaResolveError 上，由判定层给出不同的问题码。
-			javaError = ex.Message;
+			try
+			{
+				var (path, requiredMajor) = await FindLaunchJavaAsync(config, instance, instance.MinecraftVersion);
+				javaPath = path ?? string.Empty;
+				javaExists = path != null && File.Exists(path);
+				if (path == null && JavaRuntimeService.SupportsAutomaticInstall(requiredMajor))
+				{
+					javaInstallMajor = requiredMajor;
+				}
+				else if (path == null)
+				{
+					javaError = $"未找到兼容的 Java {requiredMajor}，请在设置中手动指定。";
+				}
+			}
+			catch (Exception ex)
+			{
+				javaError = ex.Message;
+			}
 		}
 
 		// ---- 采集：游戏目录 ----
@@ -254,9 +265,15 @@ public static partial class LocalApiService
 			gameDirExists,
 			driveFree,
 			availableBytes,
-			maxMemoryMb);
+			maxMemoryMb) { JavaInstallMajor = javaInstallMajor };
 
 		List<PrelaunchIssue> issues = PrelaunchCheckEvaluator.Evaluate(facts);
+
+		if (string.IsNullOrWhiteSpace(instance.MinecraftVersion))
+		{
+			// Java detection was deferred until a game version is selected.
+			issues.RemoveAll(issue => issue.Code == PrelaunchIssueCodes.JavaMissing);
+		}
 
 		// 由 issues 派生旧字段，保证两套口径**不可能**互相矛盾。
 		List<string> errors = issues.Where(x => x.IsError).Select(x => x.Message).ToList();
@@ -268,6 +285,7 @@ public static partial class LocalApiService
 			errors,
 			warnings,
 			issues,
+			javaInstallMajor = errors.Count == 0 ? javaInstallMajor : 0,
 			maxMemoryMb,
 			gameDir
 		});

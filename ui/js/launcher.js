@@ -17,13 +17,15 @@ function sendNative(msg) {
 
 /* ---------------- toast ---------------- */
 let toastTimer;
-function toast(msg) {
+function toast(msg, durationMs) {
 	const el = document.getElementById('toast');
 	if (!el) return;
 	el.textContent = msg;
 	el.classList.add('show');
 	clearTimeout(toastTimer);
-	toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+	// durationMs 可选：退出提示这类需要读完的消息用更长停留，其余沿用 2.2 秒
+	const ms = Number.isFinite(durationMs) && durationMs > 0 ? durationMs : 2200;
+	toastTimer = setTimeout(() => el.classList.remove('show'), ms);
 }
 window.SG = window.SG || {};
 SG.toast = toast;
@@ -2008,6 +2010,10 @@ async function goTo(nav) {
 	if (nav === 'content' && currentView !== 'content') {
 		contentPageGen = myseq;
 	}
+	if (currentView === 'downloads' && nav !== 'downloads') {
+		SG.downloads.leave();
+		invalidate('downloads');
+	}
 	if (currentView === 'skins' && nav !== 'skins') SG.skins.dispose();
 	if (currentView === 'playtime' && nav !== 'playtime' && SG.playtime) SG.playtime.dispose();
 	document.querySelectorAll('.view').forEach(v => { v.hidden = true; });
@@ -2017,7 +2023,11 @@ async function goTo(nav) {
 	// 关键（v5）：进入 content 时记录本次 goTo 的 pageGen。提交结果前再校验，
 	// 避免"旧 renderContent 写空 innerHTML + 设置 rendered + 绑定事件"。
 	let expectedPageGen = (nav === 'content') ? contentPageGen : null;
-	if (!el.dataset.rendered) {
+	const mountDownloads = nav === 'downloads' && !el.dataset.rendered;
+	if (mountDownloads) {
+		SG.downloads.mount(el);
+		el.dataset.rendered = '1';
+	} else if (!el.dataset.rendered) {
 		el.innerHTML = '<div style="padding:40px;color:var(--muted,#8b91a1);font-size:13px">' + esc(t('common.loading')) + '</div>';
 		// 关键：把 render 结果存到局部变量，提交 DOM 前再检查 navSeq。
 		// 否则过期请求的 render() 结果（可能为空字符串）会先写入 el.innerHTML，
@@ -2057,6 +2067,7 @@ async function goTo(nav) {
 	updateShell(nav);
 	currentView = nav;
 	try { if (('#' + nav) !== location.hash) history.replaceState(null, '', '#' + nav); } catch (e) { /* file:// 下忽略 */ }
+	if (mountDownloads) await SG.downloads.refresh(el);
 }
 SG.goTo = goTo;
 
@@ -2123,9 +2134,12 @@ async function doLaunch(instanceId, label) {
 	try {
 	// 启动前环境检查
 	let check;
+	toast(t('launch.checking'));
+	setPlayLaunching(true, false, t('launch.checking'));
 	try {
 		check = await SG.api.prelaunchCheck(instanceId);
 	} catch (e) { check = null; }
+	finally { setPlayLaunching(false); }
 	if (!check || typeof check.ok !== 'boolean') {
 		openModal(`<div class="modal-title">${esc(t('launch.checkIncompleteTitle'))}</div>
 			<p>${esc(t('launch.checkIncompleteDesc'))}</p>
@@ -2181,12 +2195,12 @@ async function doLaunch(instanceId, label) {
 		document.getElementById('pcOk').onclick = async () => {
 			if (launchInFlight) return;
 			launchInFlight = true;
-			try { closeModal(); await doLaunchInternal(instanceId, label); }
+			try { closeModal(); await doLaunchInternal(instanceId, label, check.javaInstallMajor); }
 			finally { launchInFlight = false; }
 		};
 		return;
 	}
-	await doLaunchInternal(instanceId, label);
+	await doLaunchInternal(instanceId, label, check.javaInstallMajor);
 	} finally { launchInFlight = false; }
 }
 
@@ -2199,7 +2213,7 @@ const PLAY_DONE_MS = 1500;        // 成功对勾停留时长，之后按钮展�
 const PLAY_MORPH_MS = 500;        // 与 CSS 中宽度过渡时长保持一致
 // 形变链：宽按钮 → 圆形加载 → (成功)圆形对勾 → 宽按钮
 // 宽度必须在两个像素值之间过渡（auto 无法过渡），因此收缩前记录实际宽度，展开后再清除内联宽度
-function setPlayLaunching(on, ok) {
+function setPlayLaunching(on, ok, label = t('home.play')) {
 	clearTimeout(playLaunchTimer);
 	clearTimeout(playDoneTimer);
 	clearTimeout(playSettleTimer);
@@ -2218,7 +2232,7 @@ function setPlayLaunching(on, ok) {
 		btn.style.width = '44px';
 		// 文字在加载/完成态被隐藏，这里保留可访问名称并标记忙碌状态
 		btn.setAttribute('aria-busy', 'true');
-		btn.setAttribute('aria-label', t('home.play'));
+		btn.setAttribute('aria-label', label);
 		return;
 	}
 	const wait = Math.max(0, PLAY_LAUNCH_MIN_MS - (Date.now() - playLaunchStartedAt));
@@ -2242,14 +2256,20 @@ function expandPlayBtn() {
 	playSettleTimer = setTimeout(() => { btn.style.width = ''; }, PLAY_MORPH_MS);
 }
 
-function doLaunchInternal(instanceId, label) {
-	toast(t('launch.starting', { name: label || t('launch.game') }));
-	setPlayLaunching(true);
+function doLaunchInternal(instanceId, label, javaInstallMajor) {
+	const message = Number.isInteger(javaInstallMajor) && javaInstallMajor > 0
+		? t('launch.preparingJava', { major: javaInstallMajor })
+		: t('launch.starting', { name: label || t('launch.game') });
+	toast(message);
+	setPlayLaunching(true, false, message);
 	return SG.api.launchInstance(instanceId)
 		.then(r => {
 			setPlayLaunching(false, !!(r && r.ok));
 			if (r && r.ok) {
+				// 退出归属：先采纳服务端给的历史分界（只采纳一次），再开观察窗口
+				setLaunchExitHorizon(r.exitEventBase);
 				toast(t('launch.sent'));
+				startGameExitWatch();
 				// 快捷操作：启动后最小化启动器
 				const cfg = STATE.config || {};
 				if (cfg.minimizeOnLaunch) {
@@ -2259,6 +2279,132 @@ function doLaunchInternal(instanceId, label) {
 			} else toast((r && r.message) || t('launch.failed'));
 		})
 		.catch(err => { setPlayLaunching(false); toast(t('launch.failedPrefix') + ((err && err.message) || t('common.unknownError'))); });
+}
+
+/* ---------------- 游戏退出显式提示（N09-09 补充） ----------------
+ * 背景：用户反馈「启动不了游戏、点了没反应」——游戏秒退时退出码只进日志，
+ * 界面无任何提示。现在启动成功后开一个观察窗口轮询轻量端点 /api/game-status，
+ * 发现「秒退（<15 秒）或退出码非 0」的退出就给一条持久 toast；
+ * 正常长会话结束不打扰。同一退出事件只提示一次（按事件号去重）。 */
+const EXIT_NOTICE_MS = 10000;           // 退出提示停留时长：比普通 toast 持久，足够读完
+const EXIT_WATCH_FAST_MS = 2000;        // 启动后快轮询：秒退发生在头几秒
+const EXIT_WATCH_SLOW_MS = 10000;       // 一分钟后降频：覆盖运行中崩溃
+const EXIT_WATCH_FAST_WINDOW_MS = 60000;
+let exitWatchBaselineId = 0;   // 历史分界 + 已处理事件号；更早的退出不再提示
+let exitWatchHorizonSet = false;  // 历史分界是否已采纳（本会话只采纳一次）
+let exitWatchTimer = null;
+let exitWatchFastUntil = 0;
+let exitWatchGen = 0;  // 观察窗口纪元：每次启动开窗/收摊都递增，在途查询按纪元判断归属
+
+// 判定（纯逻辑）：一批退出事件 → 要显示的提示文案与新基线。升序逐条处理，
+// 两次退出都发生在两次轮询之间时两条各提示一次、一条都不丢
+// （第七轮独立复验反例：旧实现只看最近一条，第一条的提示会丢）。
+// 事件号不大于基线 = 已见过；needsNotice=false（正常长会话结束）只静默推进基线。
+function planGameExitNotices(status, baselineId) {
+	let baseline = Number(baselineId) || 0;
+	const raw = status && Array.isArray(status.exits)
+		? status.exits
+		: (status && status.lastGameExit ? [status.lastGameExit] : []);
+	const sorted = raw.slice().sort((a, b) => (Number(a && a.eventId) || 0) - (Number(b && b.eventId) || 0));
+	const notices = [];
+	for (const exit of sorted) {
+		const eventId = Number(exit && exit.eventId) || 0;
+		if (!exit || eventId <= baseline) continue;
+		baseline = eventId;
+		if (exit.needsNotice) notices.push(gameExitNoticeText(exit));
+	}
+	return { notices, baseline };
+}
+
+// 退出提示队列：一批多条退出逐条各显示 EXIT_NOTICE_MS，一条都不丢。
+const exitNoticeQueue = [];
+let exitNoticeActive = false;
+
+function pumpExitNotices() {
+	if (exitNoticeActive || exitNoticeQueue.length === 0) return;
+	exitNoticeActive = true;
+	toast(exitNoticeQueue.shift(), EXIT_NOTICE_MS);
+	const timer = setTimeout(() => { exitNoticeActive = false; pumpExitNotices(); }, EXIT_NOTICE_MS);
+	// node 测试夹具里不要让提示计时器吊住进程；浏览器里 setTimeout 返回数字，无 unref
+	if (timer && typeof timer.unref === 'function') timer.unref();
+}
+
+function handleGameExitStatus(status) {
+	const { notices, baseline } = planGameExitNotices(status, exitWatchBaselineId);
+	const advanced = baseline > Number(exitWatchBaselineId || 0);
+	exitWatchBaselineId = baseline;
+	if (notices.length === 0) return advanced ? 'seen' : 'none';
+	for (const text of notices) exitNoticeQueue.push(text);
+	pumpExitNotices();
+	return 'notified';
+}
+
+// 文案（纯函数）：退出码 + 运行时长，并把用户引到日志入口。
+function gameExitNoticeText(exit) {
+	const code = (exit.exitCode === null || exit.exitCode === undefined)
+		? t('launch.exitUnknownCode')
+		: String(exit.exitCode);
+	const seconds = Math.max(0, Math.round((Number(exit.durationMs) || 0) / 1000));
+	return t('launch.exitNotice', { code, seconds });
+}
+
+function stopGameExitWatch() {
+	exitWatchGen++;
+	clearTimeout(exitWatchTimer);
+	exitWatchTimer = null;
+}
+
+function scheduleGameExitTick(delayMs) {
+	clearTimeout(exitWatchTimer);
+	exitWatchTimer = setTimeout(gameExitTick, delayMs);
+	// node 测试夹具里不要让观察窗口的定时器吊住进程；浏览器里 setTimeout 返回数字，无 unref
+	if (exitWatchTimer && typeof exitWatchTimer.unref === 'function') exitWatchTimer.unref();
+}
+
+async function gameExitTick() {
+	const gen = exitWatchGen;
+	let result = 'none';
+	try {
+		const status = await SG.api.getGameStatus(Number(exitWatchBaselineId || 0));
+		result = handleGameExitStatus(status);
+		// 第十轮（复验在途反例）：旧响应不许取消新启动的观察窗口——
+		// A 退出后的旧快照（runningCount=0）晚于 B 的启动成功到达时，
+		// 收摊/改排只允许当前纪元执行；事件照常处理（全局去重，不丢提示）。
+		if (gen !== exitWatchGen) return result;
+		// 第九轮（架构审查反例）：只有「没有任何游戏在跑」才收摊观察窗口。
+		// 双开时 A 的退出提示显示后不能停表——B 的秒退还要接着报；
+		// 旧实现一见任何退出（含正常退出）就停，第二个实例的退出永远没人读。
+		// 无 runningCount 字段（旧服务端/旧夹具）时退回旧语义：见过退出即收摊。
+		const rc = status ? status.runningCount : undefined;
+		const idle = (rc === null || rc === undefined) ? result !== 'none' : Number(rc) === 0;
+		if (idle) { stopGameExitWatch(); return result; }
+	} catch (e) {
+		// 查询失败不打断观察窗口：下次轮询再试（纪元已更替则不接管排程）
+		if (gen !== exitWatchGen) return result;
+	}
+	scheduleGameExitTick(Date.now() < exitWatchFastUntil ? EXIT_WATCH_FAST_MS : EXIT_WATCH_SLOW_MS);
+	return result;
+}
+
+// 退出归属（第七轮，决定性方案）：历史分界来自**服务端启动预约时刻**的退出事件号
+// （启动成功响应携带的 exitEventBase），本会话**只采纳一次**。分界之后记录的退出
+// 才可能属于本次启动或更晚，之前的一律是历史。前端**不做任何历史读取**——
+// 第四~六轮的漏报（响应后才读、双读取重叠、读取失败后重试再吞）全部源于读取时序，
+// 改为服务端分界后从结构上消失；后来的启动也不许抬高分界，尚未提示的秒退不会被吞。
+function setLaunchExitHorizon(exitEventBase) {
+	if (exitWatchHorizonSet) return;
+	const base = Number(exitEventBase);
+	if (!Number.isFinite(base)) return;
+	exitWatchBaselineId = Math.max(Number(exitWatchBaselineId || 0), base);
+	exitWatchHorizonSet = true;
+}
+
+// 启动成功后调用：开启新纪元的观察窗口；没有任何游戏在跑才收摊，下次启动重新开窗。
+function startGameExitWatch() {
+	if (!SG.api || typeof SG.api.getGameStatus !== 'function') return;
+	exitWatchGen++;
+	exitWatchFastUntil = Date.now() + EXIT_WATCH_FAST_WINDOW_MS;
+	scheduleGameExitTick(EXIT_WATCH_FAST_MS);
 }
 
 /* ---------------- Play 页 ---------------- */
@@ -2771,7 +2917,8 @@ async function init() {
 	if (startNav === 'content') {
 		try { await loadState(); } catch (e) { /* loadState 内部已降级 */ }
 	}
-	await goTo(VIEWS[startNav] ? startNav : 'home');
+	if (startNav === 'downloads') void goTo(startNav);
+	else await goTo(VIEWS[startNav] ? startNav : 'home');
 	window.addEventListener('hashchange', () => {
 		const nav = (location.hash || '').replace('#', '');
 		if (VIEWS[nav] && nav !== currentView) goTo(nav);
@@ -3096,6 +3243,21 @@ SG.__test__ = {
 	renderUpdateReady,
 	renderInstallations,
 	openInstanceMenu,
+	// N09-09 补充（游戏退出显式提示）：判定与文案是纯逻辑，直测防字错；
+	// 观察窗口生命周期供行为测试驱动。生产路径不引用 SG.__test__。
+	handleGameExitStatus,
+	gameExitNoticeText,
+	planGameExitNotices,
+	getExitNoticeQueue() { return exitNoticeQueue.slice(); },
+	finishExitNotice() { exitNoticeActive = false; pumpExitNotices(); },
+	getExitWatchActive() { return exitWatchTimer !== null; },
+	startGameExitWatch,
+	stopGameExitWatch,
+	setLaunchExitHorizon,
+	gameExitTick,
+	doLaunchInternal,
+	getExitWatchBaseline() { return exitWatchBaselineId; },
+	setExitWatchBaseline(v) { exitWatchBaselineId = Number(v) || 0; },
 };
 
 /* ---------------- Gate R2 测试导出（仅在测试环境暴露） ----------------

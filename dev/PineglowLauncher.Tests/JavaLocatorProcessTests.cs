@@ -25,6 +25,44 @@ public sealed class JavaLocatorProcessTests : IDisposable
         Assert.Single(found);
     }
 
+    [Theory]
+    [InlineData("invalid", "1.21.1", false)]
+    [InlineData("normal", "1.20.4", false)]
+    [InlineData("normal", "1.21.1", true)]
+    public async Task Prelaunch_ValidatesPinnedJavaBeforeReportingSuccess(string mode, string version, bool expected)
+    {
+        string probe = Probe(mode);
+        var instance = new GameInstance { Id = "pinned", Name = "pinned", JavaPath = probe, GameDirectory = root, MinecraftVersion = version };
+        var config = new AppConfig { GameDirectory = root, Instances = new() { instance }, SelectedInstanceId = instance.Id };
+        await using var harness = await LocalApiTestHarness.StartAsync(config);
+        var (status, body) = await harness.SendAsync(HttpMethod.Get, "/api/instances/pinned/prelaunch-check");
+        Assert.Equal(200, status);
+        using var json = JsonDocument.Parse(body);
+        Assert.Equal(expected, json.RootElement.GetProperty("ok").GetBoolean());
+        if (!expected)
+        {
+            var issue = Assert.Single(json.RootElement.GetProperty("issues").EnumerateArray(), value => value.GetProperty("severity").GetString() == "error");
+            Assert.Equal("select-java", issue.GetProperty("action").GetString());
+        }
+    }
+
+    [Fact]
+    public async Task Prelaunch_WithoutGameVersionDoesNotReportAnUncheckedJava()
+    {
+        var instance = new GameInstance { Id = "no-version", Name = "no-version", GameDirectory = root };
+        Directory.CreateDirectory(root);
+        var config = new AppConfig { GameDirectory = root, Instances = new() { instance }, SelectedInstanceId = instance.Id };
+        await using var harness = await LocalApiTestHarness.StartAsync(config);
+        var (status, body) = await harness.SendAsync(HttpMethod.Get, "/api/instances/no-version/prelaunch-check");
+        Assert.Equal(200, status);
+        using var json = JsonDocument.Parse(body);
+        var result = json.RootElement;
+        Assert.False(result.GetProperty("ok").GetBoolean());
+        Assert.Equal(0, result.GetProperty("javaInstallMajor").GetInt32());
+        var error = Assert.Single(result.GetProperty("issues").EnumerateArray(), value => value.GetProperty("severity").GetString() == "error");
+        Assert.Equal("install-version", error.GetProperty("action").GetString());
+    }
+
     private string Probe(string mode)
     {
         Directory.CreateDirectory(root);

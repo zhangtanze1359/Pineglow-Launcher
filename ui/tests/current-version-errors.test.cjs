@@ -102,6 +102,108 @@ function launchHarness(check) {
 	return { ctx, host, calls, document };
 }
 
+test('N09-09: prelaunch API preserves structured remediation and rejects malformed success', async () => {
+	const ctx = {
+		SG: {}, location: { protocol: 'http:' }, document: { querySelector() { return null; } },
+		setTimeout, URL, URLSearchParams,
+	};
+	ctx.window = ctx;
+	let data = {
+		ok: false, errors: ['invalid Java'], warnings: [],
+		issues: [{ code: 'java.resolve-failed', severity: 'error', message: 'invalid Java', action: 'select-java' }],
+	};
+	ctx.fetch = async () => ({ ok: true, json: async () => data });
+	vm.createContext(ctx);
+	vm.runInContext(API_JS, ctx);
+	assert.equal((await ctx.SG.api.prelaunchCheck('test')).issues?.[0]?.action, 'select-java');
+	data = { ok: 'false' };
+	assert.equal((await ctx.SG.api.prelaunchCheck('test'))?.ok === true, false);
+});
+
+test('N09-09: the Play button shows busy during preflight and launches once', async () => {
+	const check = deferred();
+	const h = launchHarness(() => check.p);
+	const button = h.document.createElement('button');
+	button.id = 'btnPlay';
+	h.host.appendChild(button);
+	const pending = h.ctx.doLaunch('fixture');
+	const busyWhileChecking = button.getAttribute('aria-busy');
+	check.resolve({ ok: true });
+	await pending;
+	assert.equal(busyWhileChecking, 'true');
+	assert.equal(h.calls.launches, 1);
+});
+
+test('N09-10: a pending version list never hides the download shell or the returned queue', async () => {
+	const delayed = deferred();
+	const h = loadLauncher({
+		versions: () => delayed.p,
+		tasks: () => [{ name: 'pending-versions-visible-queue', status: 'downloading' }],
+	});
+	await h.T.goTo('home');
+	const opening = h.T.goTo('downloads');
+	await flush();
+	const shellVisible = !h.viewDownloads.hidden;
+	const queueVisible = h.viewDownloads.querySelector('#dlTasks')?.innerHTML.includes('pending-versions-visible-queue');
+	delayed.reject(new Error('controlled timeout'));
+	await opening;
+	assert.equal(shellVisible, true);
+	assert.equal(queueVisible, true);
+	assert.ok(h.viewDownloads.querySelector('[data-dl-retry]'));
+});
+
+test('N09-10: a pending queue cannot hide the returned version list', async () => {
+	const delayed = deferred();
+	const h = loadLauncher({
+		versions: () => [{ id: 'ready-version', type: 'release' }],
+		tasks: () => delayed.p,
+	});
+	const opening = h.T.goTo('downloads');
+	await flush();
+	const visible = !h.viewDownloads.hidden && !!h.viewDownloads.querySelector('[data-dlver="ready-version"]');
+	delayed.reject(new Error('controlled queue failure'));
+	await opening;
+	assert.equal(visible, true);
+	assert.ok(h.viewDownloads.querySelector('[data-dl-tasks-retry]'));
+});
+
+test('N09-10: leaving and reopening downloads discards the old pending response', async () => {
+	const old = deferred();
+	const h = loadLauncher({
+		versions: n => n === 1 ? old.p : [{ id: 'new-open', type: 'release' }],
+		tasks: () => [],
+	});
+	const first = h.T.goTo('downloads');
+	await flush();
+	await h.T.goTo('home');
+	await h.T.goTo('downloads');
+	old.resolve([{ id: 'old-open', type: 'release' }]);
+	await first;
+	assert.ok(h.viewDownloads.querySelector('[data-dlver="new-open"]'));
+	assert.equal(h.viewDownloads.querySelector('[data-dlver="old-open"]'), null);
+});
+
+test('N09-11: the download page can use remote installed flags without a redundant local list', async () => {
+	const calls = [];
+	const ctx = {
+		SG: {}, location: { protocol: 'http:' }, document: { querySelector() { return null; } },
+		setTimeout, URL, URLSearchParams,
+	};
+	ctx.window = ctx;
+	ctx.fetch = async url => {
+		calls.push(url);
+		const data = url.endsWith('/remote')
+			? { versions: [{ id: 'installed-version', type: 'release', installed: true }] }
+			: { local: ['installed-version'] };
+		return { ok: true, json: async () => data };
+	};
+	vm.createContext(ctx);
+	vm.runInContext(API_JS, ctx);
+	const versions = await ctx.SG.api.getRemoteVersions({ preferRemote: true, throwOnRemoteError: true });
+	assert.equal(versions[0].installed, true);
+	assert.deepEqual(calls, ['/api/versions/remote']);
+});
+
 test('CV-08: thrown/null/malformed checks fail closed; failed retry never launches', async () => {
 	for (const result of [null, {}, { ok: 'true' }]) {
 		const h = launchHarness(() => result); await h.ctx.doLaunch('i1');
@@ -469,24 +571,24 @@ test('CV-04: 失败 → 重试仍失败 → 重试成功（错误块消失，列
 		tasks: () => [],
 	});
 	await T.goTo('downloads');
-	assert.match(viewDownloads.innerHTML, /data-error="1"/, '首次进入即为失败态');
-	assert.match(viewDownloads.innerHTML, /第一次失败/, '首次失败的技术详情应落地');
+	assert.match(viewDownloads.querySelector('#versionList').innerHTML, /data-error="1"/, '首次进入即为失败态');
+	assert.match(viewDownloads.querySelector('#versionList').innerHTML, /第一次失败/, '首次失败的技术详情应落地');
 
 	// 第一次重试：仍然失败，必须还能再重试（失败后重试按钮仍可用）
 	let btn = viewDownloads.querySelector('[data-dl-retry]');
 	assert.ok(btn, '应有重试按钮');
 	btn.dispatchEvent('click', {});
 	await flush();
-	assert.match(viewDownloads.innerHTML, /data-error="1"/, '重试仍失败时必须继续显示错误块');
-	assert.match(viewDownloads.innerHTML, /第二次仍失败/, '更新后的技术详情应替换旧错误');
+	assert.match(viewDownloads.querySelector('#versionList').innerHTML, /data-error="1"/, '重试仍失败时必须继续显示错误块');
+	assert.match(viewDownloads.querySelector('#versionList').innerHTML, /第二次仍失败/, '更新后的技术详情应替换旧错误');
 	btn = viewDownloads.querySelector('[data-dl-retry]');
 	assert.ok(btn, '第二次失败后重试按钮仍必须存在');
 
 	// 第二次重试：成功 → 错误块消失，列表恢复
 	btn.dispatchEvent('click', {});
 	await flush();
-	assert.doesNotMatch(viewDownloads.innerHTML, /data-error="1"/, '恢复后必须移除错误块');
-	assert.match(viewDownloads.innerHTML, /1\.21\.4/, '恢复后应显示版本列表');
+	assert.doesNotMatch(viewDownloads.querySelector('#versionList').innerHTML, /data-error="1"/, '恢复后必须移除错误块');
+	assert.match(viewDownloads.querySelector('#versionList').innerHTML, /1\.21\.4/, '恢复后应显示版本列表');
 	assert.equal(T.getDownloadsState().versions.status, 'ready');
 	assert.equal(T.getDownloadsState().versions.error, null);
 	assert.equal(T.getDownloadsState().tasks.status, 'ready', '任务区独立：不应被版本源的失败/恢复影响');
@@ -572,20 +674,20 @@ test('CV-04: 恢复后移除错误并保留版本筛选', async () => {
 		tasks: () => [],
 	});
 	await T.goTo('downloads');
-	assert.match(viewDownloads.innerHTML, /1\.20\.1/, '默认 release 筛选应显示正式版');
+	assert.match(viewDownloads.querySelector('#versionList').innerHTML, /1\.20\.1/, '默认 release 筛选应显示正式版');
 
 	// 切到快照筛选（失败前设置的筛选状态必须在重试后保留）
 	viewDownloads.querySelector('[data-vfilter="snapshot"]').dispatchEvent('click', {});
 	await flush();
-	assert.match(viewDownloads.innerHTML, /data-error="1"/, '该次请求失败应显示错误块');
-	assert.match(viewDownloads.innerHTML, /class="filter active" data-vfilter="snapshot"/, '错误态下筛选仍应保持为快照');
+	assert.match(viewDownloads.querySelector('#versionList').innerHTML, /data-error="1"/, '该次请求失败应显示错误块');
+	assert.equal(viewDownloads.querySelector('[data-vfilter="snapshot"]').classList.contains('active'), true, '错误态下筛选仍应保持为快照');
 
 	viewDownloads.querySelector('[data-dl-retry]').dispatchEvent('click', {});
 	await flush();
-	assert.doesNotMatch(viewDownloads.innerHTML, /data-error="1"/, '恢复后错误块必须移除');
-	assert.match(viewDownloads.innerHTML, /24w20a/, '恢复后应显示快照版本');
-	assert.doesNotMatch(viewDownloads.innerHTML, /1\.21\.4/, '恢复后仍应保留快照筛选（正式版被过滤）');
-	assert.match(viewDownloads.innerHTML, /class="filter active" data-vfilter="snapshot"/, '恢复后筛选必须保留');
+	assert.doesNotMatch(viewDownloads.querySelector('#versionList').innerHTML, /data-error="1"/, '恢复后错误块必须移除');
+	assert.match(viewDownloads.querySelector('#versionList').innerHTML, /24w20a/, '恢复后应显示快照版本');
+	assert.doesNotMatch(viewDownloads.querySelector('#versionList').innerHTML, /1\.21\.4/, '恢复后仍应保留快照筛选（正式版被过滤）');
+	assert.equal(viewDownloads.querySelector('[data-vfilter="snapshot"]').classList.contains('active'), true, '恢复后筛选必须保留');
 	assert.equal(T.getDownloadsState().versions.status, 'ready');
 });
 
@@ -615,7 +717,7 @@ test('CV-04: 页面已切走时，旧请求结束不写 DOM', async () => {
 		tasks: () => [],
 	});
 	await T.goTo('downloads');
-	const before = viewDownloads.innerHTML;
+	const before = viewDownloads.querySelector('#versionList').innerHTML;
 	assert.match(before, /data-error="1"/);
 
 	await T.goTo('home');
@@ -623,7 +725,7 @@ test('CV-04: 页面已切走时，旧请求结束不写 DOM', async () => {
 	const btn = viewDownloads.querySelector('[data-dl-retry]');
 	btn.dispatchEvent('click', {});
 	await flush();
-	assert.equal(viewDownloads.innerHTML, before, '页面已切走：旧请求结束后不得改写该页 DOM');
+	assert.equal(viewDownloads.querySelector('#versionList').innerHTML, before, '页面已切走：旧请求结束后不得改写该页 DOM');
 });
 
 /* ============================================================================

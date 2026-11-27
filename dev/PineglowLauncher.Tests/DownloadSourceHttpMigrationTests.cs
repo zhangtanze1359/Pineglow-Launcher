@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Threading;
 using System.Threading.Tasks;
 using Pineglow.Launcher.Models;
 using Pineglow.Launcher.Services;
@@ -16,6 +17,101 @@ namespace Pineglow.Launcher.Tests;
 [Collection("LocalApiService")]
 public sealed class DownloadSourceHttpMigrationTests
 {
+	[Theory]
+	[InlineData("""{"unexpected":[]}""")]
+	[InlineData("""{"versions":[{}]}""")]
+	[InlineData("""{"versions":[null,false,18,"bad record",[]]}""")]
+	[InlineData("""{"versions":[{"id":" "},{"id":42},{"id":null}]}""")]
+	public async Task VersionList_MalformedManifestFallsBackToNextSource(string mirrorJson)
+	{
+		string previousSource = MirrorHelper.SelectedKey;
+		MirrorHelper.SelectedKey = "bmclapi";
+		try
+		{
+			using var handler = new VersionManifestHandler((url, _) => Task.FromResult(new HttpResponseMessage(System.Net.HttpStatusCode.OK)
+			{
+				Content = new StringContent(url.Host.StartsWith("bmclapi", StringComparison.Ordinal)
+					? mirrorJson
+					: """{"versions":[{"id":"1.21.1","type":"release"}]}""")
+			}));
+			using var http = new HttpClient(handler);
+			var versions = await new MinecraftDownloader(http, _ => { }).FetchOnlineVersionsAsync();
+			Assert.Equal("1.21.1", Assert.Single(versions).Id);
+			Assert.Equal(new[] { "bmclapi2.bangbang93.com", "piston-meta.mojang.com" }, handler.Hosts);
+		}
+		finally
+		{
+			MirrorHelper.SelectedKey = previousSource;
+		}
+	}
+
+	[Theory]
+	[InlineData("""{"versions":[]}""", "")]
+	[InlineData("""{"versions":[{},{"id":" "},{"id":8},{"id":"1.21.1"}]}""", "1.21.1")]
+	[InlineData("""{"versions":[null,{"id":"1.21.1"}]}""", "1.21.1")]
+	[InlineData("""{"versions":[{"id":"1.21.2"},"bad record",9,false,[],{"id":"1.21.1"}]}""", "1.21.2,1.21.1")]
+	public async Task VersionList_ValidEmptyAndMixedManifestsPreserveBehavior(string json, string expectedIds)
+	{
+		string previousSource = MirrorHelper.SelectedKey;
+		MirrorHelper.SelectedKey = "bmclapi";
+		try
+		{
+			using var handler = new VersionManifestHandler((_, _) => Task.FromResult(new HttpResponseMessage(System.Net.HttpStatusCode.OK)
+			{
+				Content = new StringContent(json)
+			}));
+			using var http = new HttpClient(handler);
+			var versions = await new MinecraftDownloader(http, _ => { }).FetchOnlineVersionsAsync();
+			Assert.Equal(expectedIds, string.Join(",", versions.Select(version => version.Id)));
+			Assert.Equal("bmclapi2.bangbang93.com", Assert.Single(handler.Hosts));
+		}
+		finally
+		{
+			MirrorHelper.SelectedKey = previousSource;
+		}
+	}
+
+	[Fact]
+	public async Task VersionList_PerSourceTimeoutLeavesTimeForFallback()
+	{
+		string previousSource = MirrorHelper.SelectedKey;
+		MirrorHelper.SelectedKey = "bmclapi";
+		try
+		{
+			using var handler = new VersionManifestHandler(async (url, token) =>
+			{
+				if (url.Host.StartsWith("bmclapi", StringComparison.Ordinal))
+					await Task.Delay(Timeout.InfiniteTimeSpan, token);
+				return new HttpResponseMessage(System.Net.HttpStatusCode.OK)
+				{
+					Content = new StringContent("""{"versions":[{"id":"1.21.1","type":"release"}]}""")
+				};
+			});
+			using var http = new HttpClient(handler);
+			using var overall = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+			var versions = await new MinecraftDownloader(http, _ => { })
+				.FetchOnlineVersionsAsync(overall.Token, TimeSpan.FromMilliseconds(50));
+			Assert.Equal("1.21.1", Assert.Single(versions).Id);
+			Assert.Equal(new[] { "bmclapi2.bangbang93.com", "piston-meta.mojang.com" }, handler.Hosts);
+		}
+		finally
+		{
+			MirrorHelper.SelectedKey = previousSource;
+		}
+	}
+
+	private sealed class VersionManifestHandler(Func<Uri, CancellationToken, Task<HttpResponseMessage>> respond) : HttpMessageHandler
+	{
+		public List<string> Hosts { get; } = new();
+
+		protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+		{
+			Uri url = request.RequestUri!;
+			Hosts.Add(url.Host);
+			return respond(url, cancellationToken);
+		}
+	}
+
 	[Theory]
 	[InlineData("mcbbs", "bmclapi", 1)]
 	[InlineData("MCBBS", "bmclapi", 1)]

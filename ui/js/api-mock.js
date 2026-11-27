@@ -180,6 +180,10 @@ SG.createMockApi = function (delay) {
 		async getState() {
 			return this._mock({ config: SG.mock.settings, memory: SG.mock.memoryRecommendation, instances: SG.mock.instances, accounts: SG.mock.accounts, java: SG.mock.java });
 		},
+		async getGameStatus() {
+			// N09-09 补充（游戏退出显式提示）：mock 世界里没有游戏在跑，也没有退出记录。
+			return this._mock({ lastGameExit: null, exits: [], lastEventId: 0 });
+		},
 		async updateConfig(patch) {
 			Object.assign(SG.mock.settings, patch);
 			return this._mock({ ok: true, config: SG.mock.settings });

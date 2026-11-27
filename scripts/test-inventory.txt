@@ -32,6 +32,7 @@ node ui/tests/current-version-errors.test.cjs
 node ui/tests/diagnostic-history.test.cjs
 node ui/tests/file-recovery.test.cjs
 node ui/tests/feature-state-regression.test.cjs
+node ui/tests/game-exit-notice.test.cjs
 node ui/tests/goal-core-flow.test.cjs
 node ui/tests/import-cancel.test.cjs
 node ui/tests/instance-removal.test.cjs

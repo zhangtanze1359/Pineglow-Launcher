@@ -88,7 +88,9 @@ function sourceLabel(key) {
 	const names = { official: t('set.sourceOfficial'), bmclapi: 'BMCLAPI' };
 	return names[key] || key || t('set.sourceOfficial');
 }
+let sourceSaving = false;
 async function openSourcePicker() {
+	if (sourceSaving) return;
 	const host = _openModal(`<div class="modal-title">${esc(t('set.sourceName'))}</div>
 		<div class="source-list"><div class="loading-state">${esc(t('common.loading'))}</div></div>
 		<div class="modal-actions"><button class="modal-btn" id="scClose">${esc(t('common.close'))}</button></div>`);
@@ -107,11 +109,10 @@ async function openSourcePicker() {
 			return `<button class="source-option" data-source="${esc(s.key)}"><span class="source-name">${esc(sourceLabel(s.key))}</span>
 				<span class="source-lat">${esc(latency)}</span>${s.key === selected ? '<span class="source-check">✓</span>' : ''}</button>`;
 		}).join('');
-		let saving = false;
 		const sourceEls = host.querySelectorAll('.source-option');
 		sourceEls.forEach(opt => opt.addEventListener('click', async () => {
-			if (saving || !isCurrent()) return;
-			saving = true;
+			if (sourceSaving || !isCurrent()) return;
+			sourceSaving = true;
 			sourceEls.forEach(button => { button.disabled = true; });
 			try {
 				const result = await SG.api.selectSource(opt.dataset.source);
@@ -120,11 +121,11 @@ async function openSourcePicker() {
 				_getState().config.useMirror = result.useMirror;
 				_toast(t('set.sourceSwitched', { name: sourceLabel(result.selected) }));
 				if (isCurrent()) _closeModal();
-				invalidate('settings');
+				_invalidate('settings');
 				const button = document.getElementById('btnSourceChange');
 				if (button) button.textContent = t('set.sourceCurrent', { name: sourceLabel(result.selected) });
 			} catch (error) { _toast(t('set.sourceSwitchFailed') + (error.message || t('common.unknownError'))); }
-			finally { saving = false; sourceEls.forEach(button => { button.disabled = false; }); }
+			finally { sourceSaving = false; sourceEls.forEach(button => { button.disabled = false; }); }
 		}));
 	} catch (error) {
 		if (!isCurrent()) return;

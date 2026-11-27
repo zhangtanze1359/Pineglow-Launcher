@@ -15,7 +15,9 @@
     <!-- 2026-11-23：v1.0.6 候选。自 v1.0.5 起交付的新功能与修复见 release-notes/v1.0.6.md。 -->
     <!-- 2026-11-24：v1.0.8。用户反馈三连修 + S1/S2 数据安全 + 二次元 UI 焕新。
          详见 release-notes/v1.0.8.md。 -->
-    <Version>1.0.8</Version>
+    <!-- 2026-11-26：v1.0.9 维护版。启动失败/下载页打不开/下载页慢三项 P0 + 游戏秒退显式提示。
+         详见 release-notes/v1.0.9.md。 -->
+    <Version>1.0.9</Version>
     <!-- 保留现有可空注解并消除 CS8632；逐模块启用流分析。 -->
     <Nullable>annotations</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>

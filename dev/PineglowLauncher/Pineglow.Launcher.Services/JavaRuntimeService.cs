@@ -27,23 +27,11 @@ public sealed class JavaRuntimeService
 		_log = log;
 	}
 
+	internal static bool SupportsAutomaticInstall(int majorVersion) => majorVersion is 8 or 16 or 17 or 21 or 25;
+
 	public async Task<JavaInstallation> InstallAsync(int majorVersion, IProgress<JavaRuntimeProgress>? progress = null, CancellationToken ct = default(CancellationToken))
 	{
-		bool flag;
-		switch (majorVersion)
-		{
-		case 8:
-		case 16:
-		case 17:
-		case 21:
-		case 25:
-			flag = true;
-			break;
-		default:
-			flag = false;
-			break;
-		}
-		if (!flag)
+		if (!SupportsAutomaticInstall(majorVersion))
 		{
 			throw new InvalidOperationException($"暂不支持自动下载 Java {majorVersion}。");
 		}
@@ -91,7 +79,7 @@ public sealed class JavaRuntimeService
 			try
 			{
 				await DownloadAsync(text, archivePath, majorVersion, progress, ct);
-				flag = !string.IsNullOrWhiteSpace(checksum);
+				bool flag = !string.IsNullOrWhiteSpace(checksum);
 				if (flag)
 				{
 					flag = !(await Sha256MatchesAsync(archivePath, checksum, ct));

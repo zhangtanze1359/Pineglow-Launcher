@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Pineglow.Launcher.Services;
@@ -186,6 +187,104 @@ public static bool IsRunning(string instanceId) => IsRunning(instanceId, out _);
 
 	/// <summary>测试缝：直接登记一个 PID（通常用测试进程自己的 PID，保证"活着"）。</summary>
 	internal static void MarkRunningForTest(string instanceId, int pid) => MarkRunningPid(instanceId, pid);
+
+	/* ================= 游戏退出记录（N09-09 补充：秒退/异常退出显式提示） =================
+	 * 背景：游戏秒退时「ExitCode=…」只写启动器日志，界面无任何提示，
+	 * 用户体感是「点了开始游戏没反应」。退出监听把最近一次退出登记在这里，
+	 * 前端观察窗口经轻量端点轮询，按事件号去重后给一条持久提示。
+	 */
+
+	/// <summary>一次游戏退出记录。<see cref="EventId"/> 单调递增，供界面按事件去重。</summary>
+	public sealed record GameExitInfo(long EventId, string InstanceId, int? ExitCode, double DurationMs, DateTimeOffset StartedAt, DateTimeOffset ExitedAt)
+	{
+		/// <summary>秒退阈值：从拉起进程到退出不足 15 秒视为秒退。</summary>
+		public const double QuickExitThresholdMs = 15000;
+
+		/// <summary>秒退：进程存活不足 <see cref="QuickExitThresholdMs"/>。</summary>
+		public bool QuickExit => DurationMs < QuickExitThresholdMs;
+
+		/// <summary>需要显式提示用户：秒退，或退出码非 0（运行中崩溃）。</summary>
+		public bool NeedsNotice => QuickExit || ExitCode != 0;
+	}
+
+	private static readonly object ExitGate = new object();
+	private static long _exitEventSeq;
+	private static GameExitInfo? _lastGameExit;
+
+	/// <summary>退出记录环形缓冲容量。够覆盖「观测窗口单次轮询间隔内的多次退出」。</summary>
+	private const int RecentExitCapacity = 32;
+
+	/// <summary>最近的退出记录，按事件号递增排列；超过容量丢最旧的。</summary>
+	private static readonly List<GameExitInfo> _recentExits = new List<GameExitInfo>();
+
+	/// <summary>最近一次游戏退出记录；尚无退出则为 null。线程安全。</summary>
+	public static GameExitInfo? LastGameExit
+	{
+		get { lock (ExitGate) { return _lastGameExit; } }
+	}
+
+	/// <summary>
+	/// 当前退出事件号。启动预约时读取一次，作为该次启动的「退出归属分界」：
+	/// 分界之后记录的退出才可能属于该次启动，之前的一律是历史。
+	/// </summary>
+	public static long CurrentExitEventSeq
+	{
+		get { lock (ExitGate) { return _exitEventSeq; } }
+	}
+
+	/// <summary>
+	/// 退出监听里调用：登记一次游戏退出并返回该记录。
+	/// 事件号在锁内自增，保证界面「先见 A、后见 B」的去重不会倒序。
+	/// </summary>
+	public static GameExitInfo RecordGameExit(string instanceId, int? exitCode, DateTimeOffset startedAt, DateTimeOffset exitedAt)
+	{
+		double durationMs = Math.Max(0, (exitedAt - startedAt).TotalMilliseconds);
+		lock (ExitGate)
+		{
+			_exitEventSeq++;
+			GameExitInfo info = (_lastGameExit = new GameExitInfo(_exitEventSeq, instanceId ?? string.Empty, exitCode, durationMs, startedAt, exitedAt));
+			_recentExits.Add(info);
+			if (_recentExits.Count > RecentExitCapacity)
+			{
+				_recentExits.RemoveRange(0, _recentExits.Count - RecentExitCapacity);
+			}
+			return info;
+		}
+	}
+
+	/// <summary>
+	/// 取事件号大于 <paramref name="eventId"/> 的退出记录（按事件号递增）。
+	/// 界面用 <paramref name="since"/> 拉取批次，避免「两次退出都发生在轮询之前」时只看到最后一条。
+	/// </summary>
+	/// <param name="eventId">只返回 EventId 大于该值的记录；0 表示从头取本缓冲区。</param>
+	/// <param name="max">最多返回多少条（从旧到新截断前的上限）。</param>
+	public static IReadOnlyList<GameExitInfo> GetExitsAfter(long eventId, int max = RecentExitCapacity)
+	{
+		lock (ExitGate)
+		{
+			List<GameExitInfo> result = new List<GameExitInfo>();
+			for (int i = _recentExits.Count - 1; i >= 0 && result.Count < max; i--)
+			{
+				if (_recentExits[i].EventId > eventId)
+				{
+					result.Add(_recentExits[i]);
+				}
+			}
+			result.Reverse();
+			return result;
+		}
+	}
+
+	/// <summary>测试缝：清空退出记录与事件号。</summary>
+	internal static void ResetGameExitForTest()
+	{
+		lock (ExitGate)
+		{
+			_lastGameExit = null;
+			_exitEventSeq = 0;
+			_recentExits.Clear();
+		}
+	}
 
 	/// <summary>测试缝：清空注册表。</summary>
 	internal static void ResetForTest() => Running.Clear();

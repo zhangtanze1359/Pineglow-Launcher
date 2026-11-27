@@ -38,6 +38,18 @@ test('FA03_SourcePickerLoadsSelectsAndRetries', async () => {
 	assert.equal(h.document.querySelectorAll('.source-option').length, 2);
 });
 
+test('N09-11: saving BMCLAPI updates the label and only reports success', async () => {
+	const h = liveLauncher({ config: { downloadSource: 'official', useMirror: false } });
+	await h.go('settings');
+	await h.click(h.get('btnSourceChange'));
+	await h.click(h.document.querySelector('[data-source="bmclapi"]'));
+	assert.equal(h.raw.config.downloadSource, 'bmclapi');
+	assert.equal(h.get('btnSourceChange').textContent, h.ctx.SG.t('set.sourceCurrent', { name: 'BMCLAPI' }));
+	assert.equal(h.get('toast').textContent, h.ctx.SG.t('set.sourceSwitched', { name: 'BMCLAPI' }));
+	await h.click(h.get('btnSourceChange'));
+	assert.ok(h.document.querySelector('[data-source="bmclapi"]').querySelector('.source-check'));
+});
+
 test('FA04_AiToggleSynchronizesAndRollsBack', async () => {
 	const h = liveLauncher(); await h.go('settings');
 	let toggle = h.document.querySelector('[data-toggle="aiDiag"]');

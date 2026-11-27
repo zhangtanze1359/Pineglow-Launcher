@@ -53,13 +53,13 @@ function wire(deps) {
  *   tasks.status: 'loading' | 'ready' | 'error'
  *     error → 显式任务错误块，**不能**假装"暂无下载任务"。
  *   两者互不影响：版本源失败时，已有任务来自独立数据源，照常显示。
- *   dlReqGen 请求代际：迟到的旧响应（成功或失败）都不得覆盖较新的状态或已切走的页面。 */
+ *   各分区请求代际：迟到的旧响应（成功或失败）都不得覆盖较新的状态或已切走的页面。 */
 let dlVersionFilter = 'release';
-let dlPollTimer = null;
-let dlVersions = { status: 'loading', error: null, items: [] };
-let dlTasks = { status: 'loading', error: null, items: [] };
-let dlReqGen = 0;
-let dlReloadInFlight = false;   // 重试防连发：按钮 disabled + 逻辑门双保险
+const emptySection = () => ({ status: 'loading', error: null, items: [] });
+let dlVersions = emptySection();
+let dlTasks = emptySection();
+const dlRequests = { versions: 0, tasks: 0 };
+const dlPending = { versions: null, tasks: null };
 
 function versionRowHtml(v) {
 	const installed = v.installed;
@@ -117,60 +117,81 @@ function dlTasksErrorHtml(errText) {
 	</div>`;
 }
 
+async function loadSection(section, view = null) {
+	const generation = ++dlRequests[section];
+	const isVersions = section === 'versions';
+	let state;
+	try {
+		const items = isVersions
+			? await SG.api.getRemoteVersions({ throwOnRemoteError: true, preferRemote: true })
+			: await SG.api.getDownloads();
+		state = { status: 'ready', error: null, items: Array.isArray(items) ? items : [] };
+	} catch (error) {
+		state = {
+			status: 'error',
+			error: error?.message || String(error),
+			items: isVersions && Array.isArray(error?.localVersions) ? error.localVersions : [],
+		};
+	}
+	if (generation !== dlRequests[section] || (view && _currentView() !== 'downloads')) return false;
+	if (isVersions) dlVersions = state;
+	else dlTasks = state;
+	if (view) paintSection(view, section);
+	return true;
+}
+
 async function renderDownloads() {
-	const gen = ++dlReqGen;
-	// 两个请求并发且彼此独立：任一失败都不影响另一个的结果落地（版本失败仍保留任务）。
-	const versionsPromise = Promise.resolve()
-		.then(() => SG.api.getRemoteVersions({ throwOnRemoteError: true }))
-		.then(items => ({ ok: true, items: Array.isArray(items) ? items : [] }))
-		.catch(e => ({ ok: false, error: (e && e.message) ? e.message : String(e), items: e && Array.isArray(e.localVersions) ? e.localVersions : [] }));
-	const tasksPromise = Promise.resolve()
-		.then(() => SG.api.getDownloads())
-		.then(items => ({ ok: true, items: Array.isArray(items) ? items : [] }))
-		.catch(e => ({ ok: false, error: (e && e.message) ? e.message : String(e) }));
-	const results = await Promise.all([versionsPromise, tasksPromise]);
-	// 关键：代际校验。迟到的旧请求（无论成功还是失败）都不得覆盖较新的状态。
-	if (gen !== dlReqGen) return '';
-	const vRes = results[0], tRes = results[1];
-	dlVersions = vRes.ok
-		? { status: 'ready', error: null, items: vRes.items }
-		: { status: 'error', error: vRes.error, items: vRes.items };
-	dlTasks = tRes.ok
-		? { status: 'ready', error: null, items: tRes.items }
-		: { status: 'error', error: tRes.error, items: [] };
-	return downloadsPageHtml();
+	const applied = await Promise.all([loadSection('versions'), loadSection('tasks')]);
+	return applied.every(Boolean) ? downloadsPageHtml() : '';
+}
+
+function mountDownloads(view) {
+	leaveDownloads();
+	dlVersions = emptySection();
+	dlTasks = emptySection();
+	view.innerHTML = downloadsPageHtml();
+	bindDownloads(view);
+}
+
+function refreshDownloads(view) {
+	return Promise.all([reloadSection(view, 'versions'), reloadSection(view, 'tasks')]);
+}
+
+function leaveDownloads() {
+	dlRequests.versions++;
+	dlRequests.tasks++;
+	dlPending.versions = null;
+	dlPending.tasks = null;
 }
 
 /* 纯呈现层：只读 dlVersions / dlTasks / dlVersionFilter，不发请求。
  * 这样"失败"与"成功空态"是同一次状态判定的两个分支，不可能再退化成一个。 */
-function downloadsPageHtml() {
+function versionsHtml() {
 	const versions = dlVersions.items;
+	const filtered = versions.filter(v => dlVersionFilter === 'all' || v.type === dlVersionFilter);
+	const rows = filtered.slice(0, 60).map(versionRowHtml).join('');
+	if (dlVersions.status === 'error') return dlSourceErrorHtml(dlVersions.error) + rows;
+	if (dlVersions.status === 'loading') return `<div class="loading-state">${esc(t('common.loading'))}</div>`;
+	if (rows) return rows;
+	return versions.length
+		? `<div class="empty-state" data-empty="filter">${esc(t('dl.noVersionsForFilter'))}</div>`
+		: `<div class="empty-state" data-empty="source">${esc(t('dl.noVersions'))}</div>`;
+}
+
+function tasksHtml() {
 	const tasks = dlTasks.items;
-	if (dlTasks.status === 'ready' && _navigationCounts) _navigationCounts.downloads = tasks.filter(x => x.status === 'queued' || x.status === 'downloading').length;
-	const filtered = versions.filter(v => dlVersionFilter === 'all' ? true : v.type === dlVersionFilter);
-	let vlist;
-	if (dlVersions.status === 'error') {
-		vlist = dlSourceErrorHtml(dlVersions.error) + filtered.slice(0, 60).map(versionRowHtml).join('');
-	} else if (dlVersions.status === 'loading') {
-		vlist = `<div class="loading-state">${esc(t('common.loading'))}</div>`;
-	} else if (filtered.length) {
-		vlist = filtered.slice(0, 60).map(versionRowHtml).join('');
-	} else {
-		// 成功空态：区分"源里一个都没有"与"当前筛选没命中"。
-		vlist = versions.length
-			? `<div class="empty-state" data-empty="filter">${esc(t('dl.noVersionsForFilter'))}</div>`
-			: `<div class="empty-state" data-empty="source">${esc(t('dl.noVersions'))}</div>`;
+	if (dlTasks.status === 'ready' && _navigationCounts) {
+		_navigationCounts.downloads = tasks.filter(x => x.status === 'queued' || x.status === 'downloading').length;
 	}
-	let tlist;
-	if (dlTasks.status === 'error') {
-		tlist = dlTasksErrorHtml(dlTasks.error);
-	} else if (dlTasks.status === 'loading') {
-		tlist = `<div class="loading-state">${esc(t('common.loading'))}</div>`;
-	} else if (tasks.length) {
-		tlist = tasks.map(dlTaskHtml).join('');
-	} else {
-		tlist = `<div class="empty-state" style="padding:32px" data-empty="tasks"><div class="es-icon">📥</div>${esc(t('dl.noTasks'))}</div>`;
-	}
+	if (dlTasks.status === 'error') return dlTasksErrorHtml(dlTasks.error);
+	if (dlTasks.status === 'loading') return `<div class="loading-state">${esc(t('common.loading'))}</div>`;
+	if (tasks.length) return tasks.map(dlTaskHtml).join('');
+	return `<div class="empty-state" style="padding:32px" data-empty="tasks"><div class="es-icon">📥</div>${esc(t('dl.noTasks'))}</div>`;
+}
+
+function downloadsPageHtml() {
+	const vlist = versionsHtml();
+	const tlist = tasksHtml();
 	return `
 	<div class="content-view">
 		<div class="page-head">
@@ -199,76 +220,92 @@ function downloadsPageHtml() {
 	</div>`;
 }
 
-/* CV-04：重载下载页（筛选切换 / 下载排队 / 重试都走这里）。
- * - 防连发：dlReloadInFlight 逻辑门 + 触发按钮 disabled，进行中的重复点击不产生并发请求；
- * - 页面已切走（currentView !== 'downloads'）时不写 DOM，旧请求结束不会覆盖较新状态；
- * - 重渲染后错误块自然消失（恢复），dlVersionFilter 是模块级状态 → 版本筛选被保留。 */
-async function reloadDownloadsView(el, triggerBtn) {
-	if (dlReloadInFlight) return false;
-	dlReloadInFlight = true;
-	if (triggerBtn && typeof triggerBtn === 'object') triggerBtn.disabled = true;
-	let rendered = false;
-	try {
-		const html = await renderDownloads();
-		if (!html) return false;                        // 代际已过期：更新的请求已接管
-		if (_currentView() !== 'downloads') return false;  // 页面已切走：绝不写 DOM
-		const view = document.getElementById('view-downloads') || el;
-		if (!view) return false;
-		view.innerHTML = html;
-		bindDownloads(view);
-		rendered = true;
-		return true;
-	} finally {
-		dlReloadInFlight = false;
-		// 没有重渲染（页面已切走 / 代际过期）时把按钮恢复可用。
-		// 否则用户切走再回来会看到一个永远禁用的重试按钮（DOM 没被替换，disabled 就留在原地）。
-		if (!rendered && triggerBtn && typeof triggerBtn === 'object') triggerBtn.disabled = false;
+function paintSection(view, section) {
+	if (section === 'versions') {
+		const list = view.querySelector('#versionList');
+		if (!list) return;
+		list.innerHTML = versionsHtml();
+		bindVersionList(view, list);
+	} else {
+		const list = view.querySelector('#dlTasks');
+		if (!list) return;
+		list.innerHTML = tasksHtml();
+		bindTaskList(view, list);
 	}
 }
 
-function bindDownloads(el) {
-	el.querySelectorAll('[data-vfilter]').forEach(b => b.addEventListener('click', async () => {
-		dlVersionFilter = b.dataset.vfilter;   // 筛选是模块级状态：重试/重渲染后保持
-		await reloadDownloadsView(el);
+async function reloadSection(view, section, button) {
+	if (_currentView() !== 'downloads' || dlPending[section]) return false;
+	if (button) button.disabled = true;
+	const request = loadSection(section, view);
+	dlPending[section] = request;
+	try {
+		return await request;
+	} finally {
+		if (dlPending[section] === request) dlPending[section] = null;
+		if (button) button.disabled = false;
+	}
+}
+
+function bindDownloads(view) {
+	view.querySelectorAll('[data-vfilter]').forEach(button => button.addEventListener('click', () => {
+		dlVersionFilter = button.dataset.vfilter;
+		view.querySelectorAll('[data-vfilter]').forEach(item => {
+			item.classList.toggle('active', item.dataset.vfilter === dlVersionFilter);
+		});
+		paintSection(view, 'versions');
+		return reloadSection(view, 'versions');
 	}));
-	el.querySelectorAll('[data-dlver]').forEach(b => b.addEventListener('click', async () => {
-		const id = b.dataset.dlver;
-		const original = b.textContent;
-		// 与 Play 按钮相同的形变：先固定当前宽度，再收缩为圆形加载
-		const full = b.offsetWidth;
-		b.style.width = full + 'px';
-		void b.offsetWidth;
-		b.classList.add('is-queuing');
-		b.style.width = '28px';
-		b.setAttribute('aria-label', t('dl.queuing'));
-		// 动效完整播完（约 0.9 秒）后再刷新列表，即使请求很快返回也不截断动画
-		const minWait = new Promise(res => setTimeout(res, 900));
+	bindVersionList(view, view.querySelector('#versionList') || view);
+	bindTaskList(view, view.querySelector('#dlTasks') || view);
+}
+
+function bindVersionList(view, list) {
+	list.querySelectorAll('[data-dl-retry]').forEach(button => button.addEventListener('click', () => {
+		return reloadSection(view, 'versions', button);
+	}));
+	list.querySelectorAll('[data-dlver]').forEach(button => button.addEventListener('click', async () => {
+		if (button.disabled) return;
+		button.disabled = true;
+		const id = button.dataset.dlver;
+		const full = button.offsetWidth;
+		button.style.width = full + 'px';
+		void button.offsetWidth;
+		button.classList.add('is-queuing');
+		button.style.width = '28px';
+		button.setAttribute('aria-label', t('dl.queuing'));
+		const minWait = new Promise(resolve => setTimeout(resolve, 900));
 		try {
 			await SG.api.downloadVersion(id);
 			await minWait;
 			_toast(t('dl.queued', { id }));
-			await reloadDownloadsView(el);
-		} catch (e) {
+			await reloadSection(view, 'tasks');
+		} catch (error) {
 			await minWait;
-			// 失败时展开回原按钮，避免一直停在加载状态
-			b.classList.remove('is-queuing');
-			b.removeAttribute('aria-label');
-			b.style.width = full + 'px';
-			setTimeout(() => { b.style.width = ''; }, 900);
-			b.textContent = original;
-			_toast(t('dl.downloadFailed') + (e.message || t('common.unknownError')));
+			_toast(t('dl.downloadFailed') + (error.message || t('common.unknownError')));
+		} finally {
+			button.disabled = false;
+			button.classList.remove('is-queuing');
+			button.removeAttribute('aria-label');
+			button.style.width = full + 'px';
+			setTimeout(() => { button.style.width = ''; }, 900);
 		}
 	}));
-	// CV-04：真实的"重试"入口（版本源与下载任务各自独立）。
-	el.querySelectorAll('[data-dl-retry]').forEach(b => b.addEventListener('click', () => { reloadDownloadsView(el, b); }));
-	el.querySelectorAll('[data-dl-tasks-retry]').forEach(b => b.addEventListener('click', () => { reloadDownloadsView(el, b); }));
+}
+
+function bindTaskList(view, list) {
+	list.querySelectorAll('[data-dl-tasks-retry]').forEach(button => button.addEventListener('click', () => {
+		return reloadSection(view, 'tasks', button);
+	}));
 }
 
 /* ---------------- 对外表面（launcher.js / 测试经 SG.downloads 调用） ---------------- */
 SG.downloads = {
 	render: renderDownloads,
 	bind: bindDownloads,
-	reload: reloadDownloadsView,
+	mount: mountDownloads,
+	refresh: refreshDownloads,
+	leave: leaveDownloads,
 	getState() {
 		return {
 			versions: { status: dlVersions.status, error: dlVersions.error },
@@ -277,11 +314,9 @@ SG.downloads = {
 	},
 	reset() {
 		dlVersionFilter = 'release';
-		dlPollTimer = null;
-		dlVersions = { status: 'loading', error: null, items: [] };
-		dlTasks = { status: 'loading', error: null, items: [] };
-		dlReqGen = 0;
-		dlReloadInFlight = false;
+		leaveDownloads();
+		dlVersions = emptySection();
+		dlTasks = emptySection();
 	},
 	// launcher.js 启动时注入基础设施（toast / currentView / navigationCounts），单向
 	__wire: wire,

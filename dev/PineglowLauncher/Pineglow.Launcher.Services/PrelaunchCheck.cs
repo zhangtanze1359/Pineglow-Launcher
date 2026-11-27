@@ -103,6 +103,8 @@ public sealed record PrelaunchFacts(
 	long AvailableMemoryBytes,
 	int MaxMemoryMb)
 {
+	public int JavaInstallMajor { get; init; }
+
 	public const long LowDiskThresholdBytes = 512L * 1024 * 1024;
 
 	/// <summary>可用内存占比达到该值时提示（不是错误，只是可能卡顿）。</summary>
@@ -140,7 +142,7 @@ public static class PrelaunchCheckEvaluator
 				PrelaunchActions.SelectJava,
 				"选择 Java"));
 		}
-		else if (!facts.JavaPathExists)
+		else if (!facts.JavaPathExists && facts.JavaInstallMajor == 0)
 		{
 			issues.Add(PrelaunchIssue.Error(
 				PrelaunchIssueCodes.JavaMissing,

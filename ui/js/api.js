@@ -265,6 +265,29 @@ SG.api = (() => {
 				java: (data.java || []).map(j => ({ path: j.javaPath, versionMajor: j.versionMajor, versionText: j.versionText, vendor: j.vendor, valid: !!j.isValid })),
 			};
 		},
+		/** N09-09 补充（游戏退出显式提示）：轻量「退出事件」状态。
+		 *  只读运行注册表，不含配置与 Java 扫描。since 之后的退出按批次逐条返回，
+		 *  两次退出都发生在两次轮询之间时一条都不丢（第七轮反例）。 */
+		async getGameStatus(since) {
+			const path = '/api/game-status';
+			const data = await _req(Number.isFinite(since) ? path + '?since=' + Math.floor(since) : path);
+			const mapExit = e => ({
+				eventId: Number(e.eventId) || 0,
+				instanceId: e.instanceId || '',
+				exitCode: (e.exitCode === null || e.exitCode === undefined) ? null : Number(e.exitCode),
+				durationMs: Number(e.durationMs) || 0,
+				quickExit: !!e.quickExit,
+				needsNotice: !!e.needsNotice,
+			});
+			const exits = Array.isArray(data.exits) ? data.exits.map(mapExit) : [];
+			const e = data && data.lastGameExit;
+			return {
+				lastGameExit: e ? mapExit(e) : null,
+				exits,
+				lastEventId: Number(data.lastEventId) || 0,
+				runningCount: (data.runningCount === null || data.runningCount === undefined) ? null : Number(data.runningCount),
+			};
+		},
 		async updateConfig(patch) {
 			await _post('/api/config', patch);
 			const s = await this.getState();
@@ -517,13 +540,18 @@ SG.api = (() => {
 			return { ok: !!res.ok, selected: res.selected || '', useMirror: !!res.useMirror };
 		},
 		async getRemoteVersions(options) {
-			const data = await _req('/api/versions');
+			let local = options?.preferRemote ? null : (await _req('/api/versions')).local || [];
 			try {
-				const r = await _req('/api/versions/remote');
-				return (r.versions || []).map(v => mapVersion(v, data.local));
+				const remote = await _req('/api/versions/remote');
+				const versions = remote.versions || [];
+				if (!local && versions.some(version => version.installed === undefined)) {
+					local = (await _req('/api/versions')).local || [];
+				}
+				return versions.map(version => mapVersion(version, local));
 			} catch (e) {
-				const localVersions = (data.local || []).map(id => ({ id, type: 'release', releaseTime: '', sizeText: '已安装', installed: true }));
-				if (options && options.throwOnRemoteError) {
+				local ??= await _req('/api/versions').then(data => data.local || [], () => []);
+				const localVersions = local.map(id => ({ id, type: 'release', releaseTime: '', sizeText: '已安装', installed: true }));
+				if (options?.throwOnRemoteError) {
 					const error = new Error((e && e.message) || String(e));
 					error.localVersions = localVersions;
 					throw error;
@@ -662,7 +690,14 @@ SG.api = (() => {
 		},
 		async launchInstance(instanceId) {
 			const res = await _post('/api/instances/' + encodeURIComponent(instanceId) + '/launch', {});
-			return { ok: !!res.ok, launched: !!res.ok, pid: res.pid || 0, message: res.error || '' };
+			return {
+				ok: !!res.ok,
+				launched: !!res.ok,
+				pid: res.pid || 0,
+				message: res.error || '',
+				// N09-09（退出归属）：服务端启动预约时刻的退出事件号，用作界面的历史分界
+				exitEventBase: (res.exitEventBase === null || res.exitEventBase === undefined) ? null : Number(res.exitEventBase),
+			};
 		},
 		async diagnoseInstance(instanceId, options) {
 			const opts = options || {};
@@ -861,8 +896,11 @@ SG.api = (() => {
 		},
 		async prelaunchCheck(instanceId) {
 			const data = await _req('/api/instances/' + encodeURIComponent(instanceId) + '/prelaunch-check');
+			if (!data || typeof data.ok !== 'boolean') return null;
 			return {
-				ok: !!data.ok,
+				ok: data.ok,
+				issues: Array.isArray(data.issues) ? data.issues : [],
+				javaInstallMajor: data.javaInstallMajor || 0,
 				errors: data.errors || [],
 				warnings: data.warnings || [],
 				maxMemoryMb: data.maxMemoryMb || 0,

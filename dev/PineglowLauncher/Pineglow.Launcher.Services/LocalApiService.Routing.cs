@@ -50,6 +50,10 @@ public static partial class LocalApiService
 		// 存活检查：原条件为 seg.Length >= 2，保持"前缀匹配"语义不变。
 		r.Add(ApiRoute.Range("GET", 2, Any, "存活检查", (ctx, _) => WriteHealthAsync(ctx.Response), (1, "health")));
 		r.Add(ApiRoute.Exact("GET", 2, "全局状态", (ctx, _) => HandleGetStateAsync(ctx.Response), (1, "state")));
+		// N09-09 补充（游戏退出显式提示）：轻量「最近一次游戏退出」状态。
+		// 与 /api/state 分开：state 要扫 Java/存档/Mod，本端点只读运行注册表，
+		// 供前端启动后观察窗口低频轮询，不给已知的首屏瓶颈加负担。
+		r.Add(ApiRoute.Exact("GET", 2, "游戏运行状态", (ctx, _) => HandleGameStatusAsync(ctx.Request, ctx.Response), (1, "game-status")));
 		r.Add(ApiRoute.Exact("POST", 2, "打开日志目录", (ctx, _) =>
 		{
 			HandleOpenLogDirectory(ctx.Response);

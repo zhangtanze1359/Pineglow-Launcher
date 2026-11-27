@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -30,51 +31,64 @@ public sealed class MinecraftDownloader
 		_progress = progress;
 	}
 
-	public async Task<List<VersionEntry>> FetchOnlineVersionsAsync(CancellationToken ct = default(CancellationToken))
+	public Task<List<VersionEntry>> FetchOnlineVersionsAsync(CancellationToken ct = default) =>
+		FetchOnlineVersionsAsync(ct, perSourceTimeout: null);
+
+	internal async Task<List<VersionEntry>> FetchOnlineVersionsAsync(CancellationToken ct, TimeSpan? perSourceTimeout)
 	{
-		Exception lastError = null;
-		JsonDocument doc = null;
-		foreach (string url in MirrorHelper.GetCandidates("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json"))
+		Exception? lastError = null;
+		IReadOnlyList<string> sources = MirrorHelper.GetCandidates(ManifestUrl);
+		foreach (string url in sources)
 		{
+			using var attempt = CancellationTokenSource.CreateLinkedTokenSource(ct);
+			if (sources.Count > 1 && perSourceTimeout.HasValue) attempt.CancelAfter(perSourceTimeout.Value);
+			string host = new Uri(url).Host;
+			var timer = Stopwatch.StartNew();
 			try
 			{
-				using HttpResponseMessage response = await _http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, ct);
+				using HttpResponseMessage response = await _http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, attempt.Token);
+				long headersMs = timer.ElapsedMilliseconds;
 				response.EnsureSuccessStatusCode();
-				await using Stream stream = await response.Content.ReadAsStreamAsync(ct);
-				CancellationToken cancellationToken = ct;
-				doc = await JsonDocument.ParseAsync(stream, default(JsonDocumentOptions), cancellationToken);
-			}
-			catch (OperationCanceledException) when (ct.IsCancellationRequested)
-			{
-				throw;
-			}
-			catch (Exception ex2) when (((ex2 is HttpRequestException || ex2 is TaskCanceledException || ex2 is IOException || ex2 is JsonException) ? 1 : 0) != 0)
-			{
-				lastError = ex2;
-				_log("版本列表来源不可用，正在尝试备用下载源：" + new Uri(url).Host);
-				continue;
-			}
-			break;
-		}
-		if (doc == null)
-		{
-			throw new HttpRequestException("无法连接 Minecraft 版本下载源，已自动尝试官方和镜像地址。请检查网络后重试。", lastError);
-		}
-		using (doc)
-		{
-			List<VersionEntry> list = new List<VersionEntry>();
-			foreach (JsonElement item in doc.RootElement.GetProperty("versions").EnumerateArray())
-			{
-				list.Add(new VersionEntry
+				await using Stream stream = await response.Content.ReadAsStreamAsync(attempt.Token);
+				using JsonDocument document = await JsonDocument.ParseAsync(stream, cancellationToken: attempt.Token);
+				if (document.RootElement.ValueKind != JsonValueKind.Object
+					|| !document.RootElement.TryGetProperty("versions", out JsonElement versions)
+					|| versions.ValueKind != JsonValueKind.Array)
 				{
-					Id = (JsonUtil.GetString(item, "id") ?? string.Empty),
-					Type = (JsonUtil.GetString(item, "type") ?? string.Empty),
-					Url = (JsonUtil.GetString(item, "url") ?? string.Empty),
-					ReleaseTime = (JsonUtil.GetString(item, "releaseTime") ?? string.Empty)
-				});
+					throw new JsonException("版本清单缺少 versions 数组。");
+				}
+
+				var entries = new List<VersionEntry>();
+				foreach (JsonElement item in versions.EnumerateArray())
+				{
+					if (item.ValueKind != JsonValueKind.Object) continue;
+					if (!item.TryGetProperty("id", out JsonElement idValue) || idValue.ValueKind != JsonValueKind.String) continue;
+					string? id = idValue.GetString();
+					if (string.IsNullOrWhiteSpace(id)) continue;
+					entries.Add(new VersionEntry
+					{
+						Id = id,
+						Type = JsonUtil.GetString(item, "type") ?? string.Empty,
+						Url = JsonUtil.GetString(item, "url") ?? string.Empty,
+						ReleaseTime = JsonUtil.GetString(item, "releaseTime") ?? string.Empty
+					});
+				}
+				if (versions.GetArrayLength() > 0 && entries.Count == 0)
+				{
+					throw new JsonException("版本清单中没有带有效 id 的版本记录。");
+				}
+				_log($"版本清单来源 {host}：响应头 {headersMs} ms，读取与解析 {timer.ElapsedMilliseconds - headersMs} ms。");
+				return entries;
 			}
-			return list.Where((VersionEntry v) => !string.IsNullOrWhiteSpace(v.Id)).ToList();
+			catch (Exception ex) when (!ct.IsCancellationRequested
+				&& ex is HttpRequestException or OperationCanceledException or IOException or JsonException)
+			{
+				lastError = ex;
+				_log($"版本清单来源 {host} 失败（{ex.GetType().Name}，{timer.ElapsedMilliseconds} ms），尝试可用的备用源。");
+			}
 		}
+		ct.ThrowIfCancellationRequested();
+		throw new HttpRequestException("无法连接 Minecraft 版本下载源。请检查网络、代理或下载源设置后重试。", lastError);
 	}
 
 	public async Task InstallVersionAsync(string gameDirectory, string versionId, CancellationToken ct = default(CancellationToken))
